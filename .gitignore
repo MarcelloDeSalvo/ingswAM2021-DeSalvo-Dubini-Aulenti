@@ -1,0 +1,6 @@
+# Maven
+log/
+target/
+
+#intellij
+.idea/
