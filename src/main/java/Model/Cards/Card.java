@@ -1,4 +1,5 @@
 package Model.Cards;
 
-public class Card {
+abstract class Card {
+
 }
