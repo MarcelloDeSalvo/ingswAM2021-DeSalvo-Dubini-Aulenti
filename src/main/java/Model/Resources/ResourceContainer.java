@@ -8,6 +8,11 @@ public class ResourceContainer {
      */
     private int qta;
 
+    public ResourceContainer(ResourceType resourceType, int qta) {
+        this.resourceType = resourceType;
+        this.qta = qta;
+    }
+
     public ResourceType getResourceType() {
         return resourceType;
     }
