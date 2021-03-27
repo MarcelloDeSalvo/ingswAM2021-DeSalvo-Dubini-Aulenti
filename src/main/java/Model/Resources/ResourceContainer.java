@@ -28,4 +28,12 @@ public class ResourceContainer {
     public void setQta(int qta) {
         this.qta = qta;
     }
+
+    public void addQta(int n) {
+        this.qta = this.qta + n;
+    }
+
+    public boolean canRemove(ResourceContainer container){
+        return this.qta >= container.getQta() && this.resourceType.equals(container.getResourceType());
+    }
 }
