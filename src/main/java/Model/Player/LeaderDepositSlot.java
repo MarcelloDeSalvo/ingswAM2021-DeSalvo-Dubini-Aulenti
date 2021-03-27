@@ -17,6 +17,35 @@ public class LeaderDepositSlot extends DepositSlot {
         System.out.println("You cannot modify the resource type on a LeaderDeposit");
     }
 
+
+    @Override
+    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException {
+        int quantityInsideTheSlot = this.getStorageArea().getQta();
+        int quantityThatIwantToAdd = inputContainer.getQta();
+
+        if (!sameResType(inputContainer.getResourceType())) {
+            throw new IOException("Not the same type");
+        }else if (canAdd(quantityThatIwantToAdd)) {
+            return true;
+        }else{
+            throw new ArithmeticException("Maximum dimension exceeded");
+        }
+    }
+
+    @Override
+    public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws IOException {
+        int quantityInsideTheSlot = this.getStorageArea().getQta();
+        int quantityThatIwantToRemove = inputContainer.getQta();
+
+        if (!sameResType(inputContainer.getResourceType())) {
+            throw new IOException("Not the same type");
+        }else if (canRemove(quantityThatIwantToRemove)) {
+            return true;
+        }else {
+            throw new ArithmeticException("Negative result");
+        }
+    }
+
     /**
      * adds the quantity from a resourceContainer
      * @param inputContainer
