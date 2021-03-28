@@ -56,17 +56,42 @@ public class Deposit {
      * @param depositSlot
      * @return false if there is an argument exception (NoSuchElementException)
      */
-    public Boolean removeDepositSlot(DepositSlot depositSlot){
-        try{
+    public Boolean removeDepositSlot(DepositSlot depositSlot) {
+        try {
             storage.remove(depositSlot);
 
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             System.out.println("The objects does not exist");
             return false;
         }
         return true;
     }
 
+
     //public Boolean manageDeposit();
 
+
+    public ArrayList<DepositSlot> getStorage() {
+        return storage;
+    }
+
+    public void setStorage(ArrayList<DepositSlot> storage) {
+        this.storage = storage;
+    }
+
+    public int getDefaultDepositNumber() {
+        return defaultDepositNumber;
+    }
+
+    public void setDefaultDepositNumber(int defaultDepositNumber) {
+        this.defaultDepositNumber = defaultDepositNumber;
+    }
+
+    public int getPiramidMaxCells() {
+        return piramidMaxCells;
+    }
+
+    public void setPiramidMaxCells(int piramidMaxCells) {
+        this.piramidMaxCells = piramidMaxCells;
+    }
 }

@@ -1,6 +1,5 @@
 package Model.Player;
 
-import Model.Resources.Resource;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -20,7 +19,6 @@ public abstract class DepositSlot {
         this.maxDim = maxDim;
         this.depositResourceType = null;
     }
-
 
 
     public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException;

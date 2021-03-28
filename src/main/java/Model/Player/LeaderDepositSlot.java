@@ -58,6 +58,13 @@ public class LeaderDepositSlot extends DepositSlot {
         int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToAdd = inputContainer.getQta();
 
+        if(canAddtoDepositSlot(inputContainer)){
+            this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToAdd);
+            return true;
+        }
+        return false;
+
+        /*
         if (!sameResType(inputContainer.getResourceType())) {
             throw new IOException("Not the same type");
         }else if (canAdd(quantityThatIwantToAdd)) {
@@ -65,7 +72,7 @@ public class LeaderDepositSlot extends DepositSlot {
                 return true;
         }else{
             throw new ArithmeticException("Maximum dimension exceeded");
-        }
+        }*/
     }
 
 
@@ -77,10 +84,18 @@ public class LeaderDepositSlot extends DepositSlot {
      * @throws IOException when there is a ResourceType mismatch
      */
     @Override
-    public Boolean removeFromDepositSlot(ResourceContainer inputContainer) throws ArithmeticException, IOException{
+    public Boolean removeFromDepositSlot(ResourceContainer inputContainer) throws ArithmeticException, IOException {
         int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToRemove = inputContainer.getQta();
 
+        if (canRemoveFromDepositSlot(inputContainer)) {
+            this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToRemove);
+            return true;
+        } else {
+            return false;
+        }
+
+        /*
         if (!sameResType(inputContainer.getResourceType())) {
             throw new IOException("Not the same type");
         }else if (canRemove(quantityThatIwantToRemove)) {
@@ -89,5 +104,10 @@ public class LeaderDepositSlot extends DepositSlot {
         }else {
             throw new ArithmeticException("Negative result");
         }
+            */
     }
+
+
+
+
 }
