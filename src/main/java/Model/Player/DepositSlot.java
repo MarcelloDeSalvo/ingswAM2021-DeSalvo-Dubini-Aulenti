@@ -1,5 +1,7 @@
 package Model.Player;
 
+import Model.Exceptions.DifferentResourceType;
+import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -13,16 +15,17 @@ public abstract class  DepositSlot {
     public DepositSlot(int maxDim, ResourceType depositResourceType) {
         this.maxDim = maxDim;
         this.depositResourceType = depositResourceType;
+        this.storageArea = new ResourceContainer(depositResourceType,0);
     }
 
     public DepositSlot(int maxDim) {
         this.maxDim = maxDim;
-        this.depositResourceType = null;
+        this.storageArea = new ResourceContainer(null,0);
     }
 
 
-    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException, ArithmeticException;
-    public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws IOException, ArithmeticException;
+    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
+    public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
     public abstract Boolean addToDepositSlot(ResourceContainer inputContainer);
     public abstract Boolean removeFromDepositSlot(ResourceContainer inputContainer);
     //public abstract Boolean switchFromAnother();
@@ -37,9 +40,6 @@ public abstract class  DepositSlot {
         return (storageArea.getQta() - input < 0);
     }
 
-    public boolean sameResType(ResourceType res){
-        return (res.equals(depositResourceType));
-    }
 
     //Getter and Setter
     public int getMaxDim() {

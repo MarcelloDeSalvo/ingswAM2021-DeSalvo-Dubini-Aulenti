@@ -1,13 +1,15 @@
 package Model.Player;
 
+import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Resources.ResourceContainer;
+import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Deposit {
     private ArrayList<DepositSlot> storage;
-    private ArrayList<ResourceContainer> switchBuffer;
+    private ResourceContainer switchBuffer;
 
     /**
      * Player's deposit number.
@@ -24,6 +26,7 @@ public class Deposit {
         this.storage = new ArrayList<DepositSlot>();
         this.defaultDepositNumber = num;
         this.piramidMaxCells = num;
+        this.switchBuffer = new ResourceContainer(null, 0);
 
         for(int i=0; i<num; i++){
             storage.add(new DefaultDepositSlot(piramidMaxCells,null));
@@ -38,12 +41,12 @@ public class Deposit {
      * @throws NullPointerException if the input object does not exist
      */
     public Boolean addDepositSlot(LeaderDepositSlot lds) throws NullPointerException{
-
         if(storage.add(lds)){
             return true;
         }else{
             throw new NullPointerException("The object does not exist");
         }
+
     }
 
     /**
@@ -53,34 +56,46 @@ public class Deposit {
      * @throws NullPointerException if the input object does not exist
      */
     public Boolean removeDepositSlot(DepositSlot depositSlot) throws NullPointerException{
-
         if(storage.remove(depositSlot)){
             return true;
         } else {
             throw new NullPointerException("The object does not exist");
         }
+
     }
 
 
-    public Boolean manageDeposit(DepositSlot origin, DepositSlot target){
+    public Boolean switchDeposit(DepositSlot target){
+        target.addToDepositSlot(switchBuffer);
         return true;
     }
 
-    public Boolean addToBuffer(ResourceContainer selctedContainer) throws NullPointerException{
-        if(switchBuffer.add(selctedContainer)){
-            return true;
-        }else{
-            throw new NullPointerException("The object does not exist");
+    public Boolean addToBuffer(DepositSlot selectedDeposit, int  selectedQta) throws DepositSlotMaxDimExceeded{
+        ResourceType selectedResourceType = selectedDeposit.getDepositResourceType();
+
+        if( selectedQta < selectedDeposit.getStorageArea().getQta() ) {
+
+            if (switchBuffer.getResourceType().equals(null)) {
+                switchBuffer.setResourceType(selectedResourceType);
+                return true;
+            } else if (switchBuffer.getResourceType().equals(selectedResourceType)) {
+                switchBuffer.addQta(selectedQta);
+                return true;
+            } else {
+                switchBuffer.setResourceType(selectedDeposit.getDepositResourceType());
+                switchBuffer.setQta(selectedQta);
+                return true;
+            }
+        }else {
+            throw new DepositSlotMaxDimExceeded("Select the right quantity");
         }
 
     }
 
     public Boolean removeFromBuffer(ResourceContainer selctedContainer) throws NullPointerException{
-        if(switchBuffer.add(selctedContainer)){
-            return true;
-        }else{
-            throw new NullPointerException("The object does not exist");
-        }
+        switchBuffer.setResourceType(null);
+        switchBuffer.setQta(0);
+        return true;
     }
 
 
@@ -109,11 +124,11 @@ public class Deposit {
         this.piramidMaxCells = piramidMaxCells;
     }
 
-    public ArrayList<ResourceContainer> getSwitchBuffer() {
+    public ResourceContainer getSwitchBuffer() {
         return switchBuffer;
     }
 
-    public void setSwitchBuffer(ArrayList<ResourceContainer> switchBuffer) {
+    public void setSwitchBuffer(ResourceContainer switchBuffer) {
         this.switchBuffer = switchBuffer;
     }
 }
