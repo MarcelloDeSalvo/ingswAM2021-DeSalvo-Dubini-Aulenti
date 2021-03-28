@@ -8,9 +8,13 @@ public class ResourceContainer {
      */
     private int qta;
 
-    public ResourceContainer(ResourceType resourceType, int qta) {
-        this.resourceType = resourceType;
-        this.qta = qta;
+    public ResourceContainer(ResourceType resourceType, int qta) throws ArithmeticException {
+        if(qta < 0)
+            throw new ArithmeticException("ResourceContainer can't have a negative qta!");
+        else{
+            this.resourceType = resourceType;
+            this.qta = qta;
+        }
     }
 
     public ResourceType getResourceType() {
@@ -25,8 +29,11 @@ public class ResourceContainer {
         return qta;
     }
 
-    public void setQta(int qta) {
-        this.qta = qta;
+    public void setQta(int qta) throws ArithmeticException {
+            if(qta < 0)
+                throw new ArithmeticException("ResourceContainer can't have a negative qta!");
+            else
+                this.qta = qta;
     }
 
     public void addQta(int n) {
