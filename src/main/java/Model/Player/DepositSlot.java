@@ -13,11 +13,12 @@ public abstract class  DepositSlot {
     public DepositSlot(int maxDim, ResourceType depositResourceType) {
         this.maxDim = maxDim;
         this.depositResourceType = depositResourceType;
+        this.storageArea = new ResourceContainer(depositResourceType,0);
     }
 
     public DepositSlot(int maxDim) {
         this.maxDim = maxDim;
-        this.depositResourceType = null;
+        this.storageArea = new ResourceContainer(null,0);
     }
 
 
@@ -33,13 +34,13 @@ public abstract class  DepositSlot {
         return (input+storageArea.getQta()>maxDim);
     }
 
-    public boolean canRemove(int input){
+    /*public boolean canRemove(int input){
         return (storageArea.getQta() - input < 0);
     }
 
     public boolean sameResType(ResourceType res){
         return (res.equals(depositResourceType));
-    }
+    }*/
 
     //Getter and Setter
     public int getMaxDim() {
