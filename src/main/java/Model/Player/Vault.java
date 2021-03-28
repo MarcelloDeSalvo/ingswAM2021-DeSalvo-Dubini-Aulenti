@@ -17,6 +17,21 @@ public class Vault {
     }
 
     /**
+     * for each element of in inputArr it calls the method that adds a single ResourceContainer
+     * to the HashMap
+     * @param inputArr is an ArrayList of ResourceContainer
+     * @return true
+     */
+    public boolean addToVault(ArrayList<ResourceContainer> inputArr) {
+        Iterator<ResourceContainer> iter = inputArr.iterator();
+
+        while(iter.hasNext())
+            addToVault(iter.next());
+
+        return true;
+    }
+
+    /**
      * if a container for a specific ResourceType already exists, the method simply adds the quantity to it
      * otherwise it creates the relative ResourceType key element in the HashMap
      * @param container

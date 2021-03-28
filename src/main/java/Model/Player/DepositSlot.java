@@ -1,6 +1,5 @@
 package Model.Player;
 
-import Model.Resources.Resource;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
