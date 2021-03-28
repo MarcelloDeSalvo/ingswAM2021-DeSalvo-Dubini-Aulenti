@@ -1,8 +1,5 @@
 package Model.Resources;
 
-import Model.Exceptions.DifferentResourceType;
-import Model.Exceptions.NotEnoughResources;
-
 public class ResourceContainer {
     private ResourceType resourceType;
 
@@ -43,28 +40,15 @@ public class ResourceContainer {
         this.qta = this.qta + n;
     }
 
-    public boolean canRemove(ResourceContainer container) throws DifferentResourceType, NotEnoughResources {
-        if(!this.resourceType.equals(container.getResourceType()))
-            throw new DifferentResourceType("Not the same type");
-        else if(this.getQta() < container.getQta())
-            throw new NotEnoughResources("Not enough resources");
-        else
-            return true;
+    public boolean canRemove(ResourceContainer container) {
+        return this.isTheSameType(container) && this.hasEnough(container);
     }
 
-    public boolean isTheSameType(ResourceContainer container) throws DifferentResourceType
-    {
-        if(!this.resourceType.equals(container.getResourceType()))
-            throw new DifferentResourceType("Not the same type");
-        else
-            return true;
+    public boolean isTheSameType(ResourceContainer container) {
+        return this.resourceType.equals(container.getResourceType());
     }
 
-    public boolean hasEnough(ResourceContainer container) throws NotEnoughResources
-    {
-        if(this.getQta() < container.getQta())
-            throw new NotEnoughResources("Not enough resources");
-        else
-            return true;
+    public boolean hasEnough(ResourceContainer container) {
+        return this.getQta() >= container.getQta();
     }
 }
