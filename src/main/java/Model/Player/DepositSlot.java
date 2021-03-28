@@ -6,16 +6,12 @@ import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
-import java.io.IOException;
-
 public abstract class  DepositSlot {
     private int maxDim;
     private ResourceContainer storageArea;
-    private ResourceType depositResourceType;
 
-    public DepositSlot(int maxDim, ResourceType depositResourceType) {
+    public DepositSlot(ResourceType depositResourceType, int maxDim) {
         this.maxDim = maxDim;
-        this.depositResourceType = depositResourceType;
         this.storageArea = new ResourceContainer(depositResourceType,0);
     }
 
@@ -34,7 +30,7 @@ public abstract class  DepositSlot {
 
 
     public boolean canAdd(int input) {
-        return (input+storageArea.getQta()>maxDim);
+        return (input+storageArea.getQta()<=maxDim);
     }
 
     public boolean canRemove(int input){
@@ -60,10 +56,10 @@ public abstract class  DepositSlot {
     }
 
     public ResourceType getDepositResourceType() {
-        return depositResourceType;
+        return storageArea.getResourceType();
     }
 
     public void setDepositResourceType(ResourceType depositResourceType) {
-        this.depositResourceType = depositResourceType;
+        this.storageArea.setResourceType(depositResourceType);
     }
 }

@@ -1,6 +1,8 @@
 package Model.Player;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
+import Model.Exceptions.DifferentResourceType;
+import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -9,7 +11,6 @@ import java.util.NoSuchElementException;
 
 public class Deposit {
     private ArrayList<DepositSlot> storage;
-    private ResourceContainer switchBuffer;
 
     /**
      * Player's deposit number.
@@ -26,10 +27,9 @@ public class Deposit {
         this.storage = new ArrayList<DepositSlot>();
         this.defaultDepositNumber = num;
         this.pyramidMaxCells = num;
-        this.switchBuffer = new ResourceContainer(null, 0);
 
         for(int i=0; i<num; i++){
-            storage.add(new DefaultDepositSlot(pyramidMaxCells,null));
+            storage.add(new DefaultDepositSlot(null,pyramidMaxCells));
             pyramidMaxCells--;
         }
     }
@@ -65,11 +65,28 @@ public class Deposit {
     }
 
 
-    public Boolean switchDeposit(DepositSlot target){
-        target.addToDepositSlot(switchBuffer);
+    public Boolean switchDeposit(DepositSlot target, DepositSlot selected, int selectedQta){
+        target.getStorageArea().addQta(selectedQta);
+        selected.getStorageArea().addQta(-selectedQta);
         return true;
     }
 
+    public Boolean canSwitchDeposit(DepositSlot target, DepositSlot selected, int selectedQta) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
+        if(target.getStorageArea().getQta()<selectedQta) {
+            throw new NotEnoughResources("Not enough resources");
+        }else if( target.getDepositResourceType().equals(selected.getDepositResourceType())) {
+            if( selectedQta + target.getStorageArea().getQta() <= target.getMaxDim() ) {
+                return true;
+            }else {
+                throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
+            }
+
+        }else{
+            throw new DifferentResourceType("Not the same type");
+        }
+    }
+
+    /*
     public Boolean addToBuffer(DepositSlot selectedDeposit, int  selectedQta) throws DepositSlotMaxDimExceeded{
         ResourceType selectedResourceType = selectedDeposit.getDepositResourceType();
 
@@ -96,7 +113,7 @@ public class Deposit {
         switchBuffer.setResourceType(null);
         switchBuffer.setQta(0);
         return true;
-    }
+    }*/
 
 
     //getter and setter
@@ -124,11 +141,4 @@ public class Deposit {
         this.pyramidMaxCells = piramidMaxCells;
     }
 
-    public ResourceContainer getSwitchBuffer() {
-        return switchBuffer;
-    }
-
-    public void setSwitchBuffer(ResourceContainer switchBuffer) {
-        this.switchBuffer = switchBuffer;
-    }
 }

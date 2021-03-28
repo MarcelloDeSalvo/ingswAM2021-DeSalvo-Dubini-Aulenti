@@ -9,8 +9,8 @@ import Model.Resources.ResourceType;
 
 public class DefaultDepositSlot extends DepositSlot {
 
-    public DefaultDepositSlot(int maxDim, ResourceType depositResourceType) {
-        super(maxDim,  depositResourceType);
+    public DefaultDepositSlot(ResourceType depositResourceType, int maxDim) {
+        super(depositResourceType, maxDim);
     }
 
     /**
@@ -72,7 +72,7 @@ public class DefaultDepositSlot extends DepositSlot {
     public Boolean addToDepositSlot(ResourceContainer inputContainer)  {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        this.getStorageArea().setQta(quantityThatIwantToAdd);
+        this.getStorageArea().addQta(quantityThatIwantToAdd);
         this.getStorageArea().setResourceType(inputContainer.getResourceType());
         return true;
 
@@ -86,10 +86,9 @@ public class DefaultDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer){
-        int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToRemove = inputContainer.getQta();
 
-        this.getStorageArea().setQta(quantityInsideTheSlot- quantityThatIwantToRemove);
+        this.getStorageArea().addQta(-quantityThatIwantToRemove);
         return true;
     }
 

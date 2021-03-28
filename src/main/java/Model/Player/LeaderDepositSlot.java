@@ -9,8 +9,8 @@ import Model.Resources.ResourceType;
 
 public class LeaderDepositSlot extends DepositSlot {
 
-    public LeaderDepositSlot(int maxDim, ResourceType depositResourceType) {
-        super(maxDim, depositResourceType);
+    public LeaderDepositSlot(ResourceType depositResourceType, int maxDim) {
+        super(depositResourceType, maxDim);
     }
 
 
@@ -48,7 +48,6 @@ public class LeaderDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
-        int quantityThatIwantToRemove = inputContainer.getQta();
 
         if (!this.getStorageArea().isTheSameType(inputContainer)) {
             throw new DifferentResourceType("Not the same type");
@@ -69,10 +68,11 @@ public class LeaderDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean addToDepositSlot(ResourceContainer inputContainer) {
-        int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToAdd);
+        this.getStorageArea().addQta(quantityThatIwantToAdd);
+        this.getStorageArea().setResourceType(inputContainer.getResourceType());
+
         return true;
     }
 
@@ -85,10 +85,9 @@ public class LeaderDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer) {
-        int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToRemove = inputContainer.getQta();
 
-        this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToRemove);
+        this.getStorageArea().addQta(-quantityThatIwantToRemove);
         return true;
 
     }

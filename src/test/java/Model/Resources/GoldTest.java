@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GoldTest {
     @Test
     void testAdd1(){
-        DepositSlot tempDeposit= new DefaultDepositSlot(2,ResourceType.BLANK);
+        DepositSlot tempDeposit= new DefaultDepositSlot(ResourceType.BLANK,2);
         Gold tempGold=new Gold();
         tempGold.addToDeposit(tempDeposit);
         assertTrue(tempDeposit.getDepositResourceType()==ResourceType.GOLD);
@@ -18,11 +18,12 @@ class GoldTest {
     }
     @Test
     void testMultipleAdd(){
-        DepositSlot tempDeposit= new DefaultDepositSlot(7,ResourceType.GOLD);
+        DepositSlot tempDeposit= new DefaultDepositSlot(ResourceType.GOLD,7);
         Gold tempGold=new Gold();
         for (int i = 0; i <5; i++) {
             tempGold.addToDeposit(tempDeposit);
         }
+        assertTrue(tempDeposit.getDepositResourceType()==ResourceType.GOLD);
         assertTrue(tempDeposit.getStorageArea().getQta()==5);
     }
 
