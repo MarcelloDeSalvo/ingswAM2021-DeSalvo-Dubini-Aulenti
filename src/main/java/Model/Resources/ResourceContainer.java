@@ -11,7 +11,7 @@ public class ResourceContainer {
     public ResourceContainer(ResourceType resourceType, int qta) throws ArithmeticException {
         if(qta < 0)
             throw new ArithmeticException("ResourceContainer can't have a negative qta!");
-        else{
+        else {
             this.resourceType = resourceType;
             this.qta = qta;
         }
@@ -31,14 +31,21 @@ public class ResourceContainer {
 
     public void setQta(int qta) throws ArithmeticException {
             if(qta < 0)
-                throw new ArithmeticException("ResourceContainer can't have a negative qta!");
+                throw new ArithmeticException("ResourceContainer can't have a negative qta");
             else
                 this.qta = qta;
     }
 
     public void addQta(int n) {
-        this.qta = this.qta + n;
+        setQta(this.qta + n);
     }
+
+    /*public void subQta(int n) {
+        if(this.qta < n)
+            throw new ArithmeticException("ResourceContainer can't have a negative qta");
+        else
+            this.qta = this.qta - n;
+    }*/
 
     public boolean canRemove(ResourceContainer container) {
         return this.isTheSameType(container) && this.hasEnough(container);

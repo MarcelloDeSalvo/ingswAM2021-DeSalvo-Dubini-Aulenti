@@ -1,5 +1,6 @@
 package Model.Player;
 
+import Model.Exceptions.NotEnoughResources;
 import Model.Resources.*;
 
 import java.util.ArrayList;
@@ -17,8 +18,16 @@ public class Vault {
     }
 
     /**
-     * for each element of in inputArr it calls the method that adds a single ResourceContainer
-     * to the HashMap
+     * checks if a specific ResourceType is present in the HashMap
+     * @param type is the key that will be used to check in the HashMap
+     * @return true if present, false otherwise
+     */
+    private boolean isPresent(ResourceType type){
+        return vaultMap.containsKey(type);
+    }
+
+    /**
+     * for each element of inputArr it calls the method that adds a single ResourceContainer to the HashMap
      * @param inputArr is an ArrayList of ResourceContainer
      * @return true
      */
@@ -38,9 +47,8 @@ public class Vault {
      * @return true
      */
     public boolean addToVault(ResourceContainer container) {
-        if(isPresent(container.getResourceType())){
+        if(isPresent(container.getResourceType()))
             vaultMap.get(container.getResourceType()).addQta(container.getQta());
-        }
         else
             vaultMap.put(container.getResourceType(), container);
 
@@ -48,66 +56,48 @@ public class Vault {
     }
 
     /**
-     * The method removes a series of different Resources from the HashMap
+     * for each element of inputArr it calls the method that remove a single ResourceContainer to the HashMap
+     * this method needs to be called after canRemoveFrom Vault
      * @param inputArr is an ArrayList of ResourceContainer
-     * @return true if it successfully removes the resources, false otherwise
+     * @return true
      */
     public boolean removeFromVault(ArrayList<ResourceContainer> inputArr){
-        if(checkVault(inputArr))
-        {
-            Iterator<ResourceContainer> iter = inputArr.iterator();
+        Iterator<ResourceContainer> iter = inputArr.iterator();
 
-            while(iter.hasNext()){
-                if(!removeFromVault(iter.next()))
-                    return false;
-            }
-            return true;
-        }
-        else
-            return false;
+        while(iter.hasNext())
+            removeFromVault(iter.next());
+
+        return true;
     }
 
     /**
      * The method removes a specific quantity of a specific resource type from the HashMap
+     * this method needs to be called after canRemoveFrom Vault
      * @param inputcontainer is a single ResourceContainer
-     * @return true if it successfully removes the resources, false otherwise
+     * @return true
      */
     public boolean removeFromVault(ResourceContainer inputcontainer){
-        ResourceType currType = inputcontainer.getResourceType();
-
-        if(isPresent(currType)){
-            if(vaultMap.get(currType).canRemove(inputcontainer)){
-                vaultMap.get(currType).addQta(-inputcontainer.getQta());
-                return true;
-            }
-            else
-                return false;
-        }
-        else
-            return false;
-    }
-
-    /**
-     * checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    public boolean isPresent(ResourceType type){
-        return vaultMap.containsKey(type);
+        vaultMap.get(inputcontainer.getResourceType()).addQta(-inputcontainer.getQta());
+        return true;
     }
 
     /**
      * checks if a series of elements inside of inputArr is present in the HashMap
-     * @param inputArr is an array of ResourceContainer that contains a list of elements that
-     * @return true if the elements in inputArr are present in the HashMap, false otherwise
+     * @param inputArr is an array of ResourceContainer. It contains a list of elements
+     * (they must be different from each other) and we need to check if they are in the Vault
+     * @return true if the elements in inputArr are present in the HashMap
+     * @throws NotEnoughResources if it doesn't contain a specific ResourceType OR if it doesn't contain enough resources of that specific ResourceType
      */
-    public boolean checkVault(ArrayList<ResourceContainer> inputArr){
+    public boolean canRemoveFromVault(ArrayList<ResourceContainer> inputArr) throws NotEnoughResources {
         Iterator<ResourceContainer> iter = inputArr.iterator();
 
         while(iter.hasNext()){
-            if(!vaultMap.get(iter.next().getResourceType()).canRemove(iter.next()))
-                return false;
+            if(!isPresent(iter.next().getResourceType()))
+                throw new NotEnoughResources("There are currently 0 " + iter.next().getResourceType() + " in the Vault!");
+            else if(!vaultMap.get(iter.next().getResourceType()).hasEnough(iter.next()))
+                throw new NotEnoughResources("Not enough resources");
         }
+
         return true;
     }
 }
