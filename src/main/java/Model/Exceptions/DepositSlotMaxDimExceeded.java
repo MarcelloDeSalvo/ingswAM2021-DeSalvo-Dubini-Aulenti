@@ -2,7 +2,7 @@ package Model.Exceptions;
 
 public class DepositSlotMaxDimExceeded extends Exception {
 
-    public DepositSlotMaxDimExceeded(){
-        super();
+    public DepositSlotMaxDimExceeded(String s){
+        super(s);
     }
 }

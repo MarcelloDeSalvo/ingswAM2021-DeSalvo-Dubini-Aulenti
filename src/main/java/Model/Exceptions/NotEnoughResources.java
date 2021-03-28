@@ -2,7 +2,7 @@ package Model.Exceptions;
 
 public class NotEnoughResources extends Exception{
 
-    public NotEnoughResources(){
-        super ();
+    public NotEnoughResources(String s){
+        super (s);
     }
 }
