@@ -20,17 +20,17 @@ public class Deposit {
     /**
      * It is used to instantiate the DefaultDepositSlots with a piramid quantity
      */
-    private int piramidMaxCells;
+    private int pyramidMaxCells;
 
     public Deposit(int num) {
         this.storage = new ArrayList<DepositSlot>();
         this.defaultDepositNumber = num;
-        this.piramidMaxCells = num;
+        this.pyramidMaxCells = num;
         this.switchBuffer = new ResourceContainer(null, 0);
 
         for(int i=0; i<num; i++){
-            storage.add(new DefaultDepositSlot(piramidMaxCells,null));
-            piramidMaxCells--;
+            storage.add(new DefaultDepositSlot(pyramidMaxCells,null));
+            pyramidMaxCells--;
         }
     }
 
@@ -117,11 +117,11 @@ public class Deposit {
     }
 
     public int getPiramidMaxCells() {
-        return piramidMaxCells;
+        return pyramidMaxCells;
     }
 
     public void setPiramidMaxCells(int piramidMaxCells) {
-        this.piramidMaxCells = piramidMaxCells;
+        this.pyramidMaxCells = piramidMaxCells;
     }
 
     public ResourceContainer getSwitchBuffer() {
