@@ -1,5 +1,6 @@
 package Model.Player;
 
+import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
@@ -24,7 +25,7 @@ public abstract class  DepositSlot {
     }
 
 
-    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
+    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded;
     public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
     public abstract Boolean addToDepositSlot(ResourceContainer inputContainer);
     public abstract Boolean removeFromDepositSlot(ResourceContainer inputContainer);

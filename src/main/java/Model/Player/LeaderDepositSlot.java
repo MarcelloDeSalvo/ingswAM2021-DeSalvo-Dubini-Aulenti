@@ -1,5 +1,6 @@
 package Model.Player;
 
+import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
@@ -21,40 +22,42 @@ public class LeaderDepositSlot extends DepositSlot {
     /**
      * It's the function that gives the permission to add or not to the Controller
      * @param inputContainer
-     * @return
-     * @throws DifferentResourceType
-     * @throws NotEnoughResources
+     * @return true if he can add the resources
+     * @throws DifferentResourceType when there is a ResourceType mismatch
+     * @throws DepositSlotMaxDimExceeded when it would add too many resources
      */
     @Override
-    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
+    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        if (this.getStorageArea().equals(inputContainer)) {
+        if (!this.getStorageArea().isTheSameType(inputContainer)) {
             throw new DifferentResourceType("Not the same type");
         }else if (canAdd(quantityThatIwantToAdd)) {
             return true;
         }else{
-            throw new NotEnoughResources("Maximum dimension exceeded");
+            throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
         }
     }
 
     /**
      * It's the function that gives the permission to remove or not to the Controller
      * @param inputContainer
-     * @return
-     * @throws DifferentResourceType
-     * @throws NotEnoughResources
+     * @return true if he can
+     * @throws DifferentResourceType when there is a ResourceType mismatch
+     * @throws NotEnoughResources when the resources are insufficient
      */
     @Override
     public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
         int quantityThatIwantToRemove = inputContainer.getQta();
 
-        if (this.getStorageArea().equals(inputContainer)) {
+        if (!this.getStorageArea().isTheSameType(inputContainer)) {
             throw new DifferentResourceType("Not the same type");
-        }else if (canRemove(quantityThatIwantToRemove)) {
-            return true;
-        }else {
+
+        }else if (!this.getStorageArea().hasEnough(inputContainer)) {
             throw new NotEnoughResources("Not enough resources");
+
+        }else {
+            return true;
         }
     }
 

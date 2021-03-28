@@ -1,5 +1,6 @@
 package Model.Player;
 
+import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
@@ -15,44 +16,51 @@ public class DefaultDepositSlot extends DepositSlot {
     /**
      * It's the function that gives the permission to add or not to the Controller
      * @param inputContainer
-     * @return
-     * @throws DifferentResourceType
-     * @throws NotEnoughResources
+     * @return true if he can add the resources
+     * @throws DifferentResourceType when there is a ResourceType mismatch
+     * @throws DepositSlotMaxDimExceeded when it would add too many resources
      */
     @Override
-    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
+    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        try {
-            if(this.getStorageArea().isTheSameType(inputContainer)) {
-                if(quantityInsideTheSlot == 0) {
-                    return true;
-                }else {
-                    return false;
-                }
-            }else {
-                if(canAdd(quantityThatIwantToAdd)){
+        if(!inputContainer.isTheSameType(this.getStorageArea())) {
+            if(quantityInsideTheSlot == 0) {
+                if(canAdd(quantityThatIwantToAdd)) {
                     return true;
                 }else{
-                    throw new NotEnoughResources("Not enough space");
+                    throw new DepositSlotMaxDimExceeded("Not enough space");
                 }
+            }else {
+                throw new DifferentResourceType("Not the same type");
             }
-        }catch (DifferentResourceType e){
-            throw e;
-        }
 
-    }
-
-    public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
-        try{
-            this.getStorageArea().canRemove(inputContainer);
+        }else if(canAdd(quantityThatIwantToAdd)){
             return true;
-        }catch (DifferentResourceType | NotEnoughResources e){
-            throw  e;
+        }else {
+            throw new DepositSlotMaxDimExceeded("Not enough space");
         }
     }
 
+    /**
+     * It's the function that gives the permission to remove or not to the Controller
+     * @param inputContainer
+     * @return true if he can
+     * @throws DifferentResourceType when there is a ResourceType mismatch
+     * @throws NotEnoughResources when the resources are insufficient
+     */
+    public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
+        if(!this.getStorageArea().isTheSameType(inputContainer) ) {
+            throw new DifferentResourceType("Not the same type");
+
+        }else if (!this.getStorageArea().hasEnough(inputContainer)) {
+            throw new NotEnoughResources("Not enough resources");
+
+        }else {
+            return true;
+        }
+    }
 
     /**
      * Adds the resources in any case.
@@ -84,20 +92,6 @@ public class DefaultDepositSlot extends DepositSlot {
         this.getStorageArea().setQta(quantityInsideTheSlot- quantityThatIwantToRemove);
         return true;
     }
-
-    /*
-    default = new DefaultDeposit(2, pietre)
-
-    -- utente decide di usare il suo turno per comprare
-    -- utente seleziona carta
-    -- controller riceve la carta (5 pietre)
-    -- chiede a utente come vuole pagare (deposito e/o vault)
-    -- [1 from DefaultDeposit1 | 3 Vault | 1 LeaderDeposit] -> Deposit
-    --
-    chiama canRemove(prezzo)
-    -- se può chiama RemoveFromDepositSlot
-     */
-
 
 }
 
