@@ -1,32 +1,31 @@
 package Model.Resources;
 
 import Model.FaithPath;
-import Model.Player.Deposit;
 import Model.Player.DepositSlot;
 
-
-import java.io.IOException;
 
 abstract class Resource {
 
     private ResourceType resourceType;
 
+    public Resource(ResourceType resourceType) {
+        this.resourceType = resourceType;
+    }
+
     /**
      * This method adds a single resource to a Deposit Slot
      * @param depositslot
-     * @return
      */
-    public boolean addToDeposit (DepositSlot depositslot) {
-            if (depositslot.addToDepositSlot(new ResourceContainer(this.resourceType, 1)))
-                return true;
-            else
-                return false;
+    public boolean addToDeposit (DepositSlot depositslot){
+        return false;
     }
 
-
-
+    /**
+     * This method moves the current player's position on the faithpath by one
+     * @param faithPath
+     */
     public boolean addToFaithPath (FaithPath faithPath){
-        return true;
+        return false;
     }
 
 

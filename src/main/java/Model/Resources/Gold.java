@@ -2,9 +2,13 @@ package Model.Resources;
 
 import Model.Player.DepositSlot;
 
-public class Gold {
+public class Gold extends Resource{
     ResourceType resourceType;
 
+    public Gold() {
+        super (ResourceType.GOLD);
+    }
+    @Override
     public boolean addToDeposit (DepositSlot depositslot) {
         if (depositslot.addToDepositSlot(new ResourceContainer(this.resourceType, 1)))
             return true;
@@ -12,9 +16,5 @@ public class Gold {
             return false;
     }
 
-
-    public Gold(ResourceType resourceType) {
-        this.resourceType = ResourceType.GOLD;
-    }
 }
 
