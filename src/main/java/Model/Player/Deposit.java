@@ -1,10 +1,13 @@
 package Model.Player;
 
+import Model.Resources.ResourceContainer;
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Deposit {
     private ArrayList<DepositSlot> storage;
+    private ArrayList<ResourceContainer> switchBuffer;
 
     /**
      * Player's deposit number.
@@ -32,45 +35,56 @@ public class Deposit {
      * adds a LeaderDepositSlot to the storage
      * @param lds
      * @return false if there is an argument exception (NoSuchElementException)
+     * @throws NullPointerException if the input object does not exist
      */
-    public Boolean addDepositSlot(LeaderDepositSlot lds){
-        try{
-            storage.add(lds);
-        }catch (NoSuchElementException e){
-            System.out.println("The objects does not exist");
-            return false;
-        }
-        return true;
+    public Boolean addDepositSlot(LeaderDepositSlot lds) throws NullPointerException{
 
-        /*altro modo
         if(storage.add(lds)){
             return true;
         }else{
-            return false;
+            throw new NullPointerException("The object does not exist");
         }
-         */
     }
 
     /**
      * removes a DepostiSlot from the storage
      * @param depositSlot
      * @return false if there is an argument exception (NoSuchElementException)
+     * @throws NullPointerException if the input object does not exist
      */
-    public Boolean removeDepositSlot(DepositSlot depositSlot) {
-        try {
-            storage.remove(depositSlot);
+    public Boolean removeDepositSlot(DepositSlot depositSlot) throws NullPointerException{
 
-        } catch (NoSuchElementException e) {
-            System.out.println("The objects does not exist");
-            return false;
+        if(storage.remove(depositSlot)){
+            return true;
+        } else {
+            throw new NullPointerException("The object does not exist");
         }
-        return true;
     }
 
 
-    //public Boolean manageDeposit();
+    public Boolean manageDeposit(DepositSlot origin, DepositSlot target){
+        return true;
+    }
+
+    public Boolean addToBuffer(ResourceContainer selctedContainer) throws NullPointerException{
+        if(switchBuffer.add(selctedContainer)){
+            return true;
+        }else{
+            throw new NullPointerException("The object does not exist");
+        }
+
+    }
+
+    public Boolean removeFromBuffer(ResourceContainer selctedContainer) throws NullPointerException{
+        if(switchBuffer.add(selctedContainer)){
+            return true;
+        }else{
+            throw new NullPointerException("The object does not exist");
+        }
+    }
 
 
+    //getter and setter
     public ArrayList<DepositSlot> getStorage() {
         return storage;
     }
@@ -93,5 +107,13 @@ public class Deposit {
 
     public void setPiramidMaxCells(int piramidMaxCells) {
         this.piramidMaxCells = piramidMaxCells;
+    }
+
+    public ArrayList<ResourceContainer> getSwitchBuffer() {
+        return switchBuffer;
+    }
+
+    public void setSwitchBuffer(ArrayList<ResourceContainer> switchBuffer) {
+        this.switchBuffer = switchBuffer;
     }
 }
