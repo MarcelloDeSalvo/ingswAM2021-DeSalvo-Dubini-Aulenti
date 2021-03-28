@@ -13,7 +13,8 @@ abstract class Resource {
     }
 
     /**
-     * This method adds a single resource to a Deposit Slot
+     * This method adds a single resource to a Deposit Slot. Both this method and addToFaithPath return false by default
+     * since they will be later overridden.
      * @param depositslot
      */
     public boolean addToDeposit (DepositSlot depositslot){
