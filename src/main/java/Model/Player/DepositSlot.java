@@ -5,7 +5,7 @@ import Model.Resources.ResourceType;
 
 import java.io.IOException;
 
-public abstract class DepositSlot {
+public abstract class  DepositSlot {
     private int maxDim;
     private ResourceContainer storageArea;
     private ResourceType depositResourceType;
