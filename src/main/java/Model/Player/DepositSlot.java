@@ -21,10 +21,10 @@ public abstract class DepositSlot {
     }
 
 
-    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException;
-    public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws IOException;
-    public abstract Boolean addToDepositSlot(ResourceContainer inputContainer) throws IOException;
-    public abstract Boolean removeFromDepositSlot(ResourceContainer inputContainer) throws IOException;
+    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException, ArithmeticException;
+    public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws IOException, ArithmeticException;
+    public abstract Boolean addToDepositSlot(ResourceContainer inputContainer);
+    public abstract Boolean removeFromDepositSlot(ResourceContainer inputContainer);
     //public abstract Boolean switchFromAnother();
 
 

@@ -17,10 +17,15 @@ public class LeaderDepositSlot extends DepositSlot {
         System.out.println("You cannot modify the resource type on a LeaderDeposit");
     }
 
-
+    /**
+     * It's the function that gives the permission to add or not to the Controller
+     * @param inputContainer
+     * @return true if you can add the Resources
+     * @throws IOException when there is a ResourceType mismatch
+     * @throws ArithmeticException when the maximum dimension is exceeded
+     */
     @Override
-    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException {
-        int quantityInsideTheSlot = this.getStorageArea().getQta();
+    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws IOException, ArithmeticException{
         int quantityThatIwantToAdd = inputContainer.getQta();
 
         if (!sameResType(inputContainer.getResourceType())) {
@@ -32,9 +37,15 @@ public class LeaderDepositSlot extends DepositSlot {
         }
     }
 
+    /**
+     * It's the function that gives the permission to remove or not to the Controller
+     * @param inputContainer
+     * @return true if you can add the Resources
+     * @throws IOException when there is a ResourceType mismatch
+     * @throws ArithmeticException when there are not enough resources
+     */
     @Override
-    public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws IOException {
-        int quantityInsideTheSlot = this.getStorageArea().getQta();
+    public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws IOException, ArithmeticException {
         int quantityThatIwantToRemove = inputContainer.getQta();
 
         if (!sameResType(inputContainer.getResourceType())) {
@@ -42,72 +53,40 @@ public class LeaderDepositSlot extends DepositSlot {
         }else if (canRemove(quantityThatIwantToRemove)) {
             return true;
         }else {
-            throw new ArithmeticException("Negative result");
+            throw new ArithmeticException("Not enough resources");
         }
     }
 
     /**
-     * adds the quantity from a resourceContainer
+     * adds the quantity from a resourceContainer in any case.
+     * It needs to be called after CanAddToDepositSlot if the user wants to follow the rules
      * @param inputContainer
      * @return true if there were no exceptions
-     * @throws ArithmeticException when the sum exceeds the max. dimension
-     * @throws IOException  when there is a ResourceType mismatch
      */
     @Override
-    public Boolean addToDepositSlot(ResourceContainer inputContainer) throws ArithmeticException, IOException {
+    public Boolean addToDepositSlot(ResourceContainer inputContainer) {
         int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        if(canAddtoDepositSlot(inputContainer)){
-            this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToAdd);
-            return true;
-        }
-        return false;
-
-        /*
-        if (!sameResType(inputContainer.getResourceType())) {
-            throw new IOException("Not the same type");
-        }else if (canAdd(quantityThatIwantToAdd)) {
-                this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToAdd);
-                return true;
-        }else{
-            throw new ArithmeticException("Maximum dimension exceeded");
-        }*/
+        this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToAdd);
+        return true;
     }
 
 
     /**
      * removes the quantity from a resourceContainer
+     * It needs to be called after CanRemoveFromDepositSlot if the user wants to follow the rules
      * @param inputContainer
      * @return true if there were no exceptions
-     * @throws ArithmeticException when the subtraction returns a negative value
-     * @throws IOException when there is a ResourceType mismatch
      */
     @Override
-    public Boolean removeFromDepositSlot(ResourceContainer inputContainer) throws ArithmeticException, IOException {
+    public Boolean removeFromDepositSlot(ResourceContainer inputContainer) {
         int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToRemove = inputContainer.getQta();
 
-        if (canRemoveFromDepositSlot(inputContainer)) {
-            this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToRemove);
-            return true;
-        } else {
-            return false;
-        }
+        this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToRemove);
+        return true;
 
-        /*
-        if (!sameResType(inputContainer.getResourceType())) {
-            throw new IOException("Not the same type");
-        }else if (canRemove(quantityThatIwantToRemove)) {
-            this.getStorageArea().setQta(quantityInsideTheSlot + quantityThatIwantToRemove);
-            return true;
-        }else {
-            throw new ArithmeticException("Negative result");
-        }
-            */
     }
-
-
-
 
 }
