@@ -9,14 +9,14 @@ class ResourceContainerTest {
     void addQta() {
         ResourceContainer  container = new ResourceContainer(ResourceType.STONE, 4);
         container.addQta(3);
-        assertTrue(container.getQta() == 7);
+        assertEquals(container.getQta(), 7);
     }
 
     @Test
     void addNegativeQta() {
         ResourceContainer  container = new ResourceContainer(ResourceType.MINION, 5);
         container.addQta(-2);
-        assertTrue(container.getQta() == 3);
+        assertEquals(container.getQta(), 3);
     }
 
     @Test
