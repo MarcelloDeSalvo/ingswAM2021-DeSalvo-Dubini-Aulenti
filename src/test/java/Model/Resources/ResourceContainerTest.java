@@ -1,5 +1,6 @@
 package Model.Resources;
 
+import Model.Player.LeaderDepositSlot;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,6 +74,27 @@ class ResourceContainerTest {
         container.addQta(2);
         assertFalse(container.isEmpty());
     }
+
+    @Test
+    void isNull(){
+        ResourceContainer container = new ResourceContainer(null, 10);
+        container.addQta(-1);
+        assertEquals(container.getQta(), 9);
+
+        container.setResourceType(ResourceType.GOLD);
+        assertEquals(container.getResourceType(), ResourceType.GOLD);
+    }
+
+    @Test
+    void isNull_2(){
+        ResourceContainer container = new ResourceContainer(null, 10);
+        container.setResourceType(ResourceType.GOLD);
+        assertEquals(container.getResourceType(), ResourceType.GOLD);
+
+        assertThrows(ArithmeticException.class, () -> container.addQta(-11));
+        assertEquals(container.getQta(), 10);
+    }
+
 
     
     /*
