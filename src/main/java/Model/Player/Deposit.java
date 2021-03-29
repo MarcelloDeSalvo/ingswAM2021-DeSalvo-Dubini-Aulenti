@@ -26,11 +26,11 @@ public class Deposit {
     public Deposit(int num) {
         this.storage = new ArrayList<DepositSlot>();
         this.defaultDepositNumber = num;
-        this.pyramidMaxCells = num;
+        this.pyramidMaxCells = 1;
 
         for(int i=0; i<num; i++){
             storage.add(new DefaultDepositSlot(null,pyramidMaxCells));
-            pyramidMaxCells--;
+            pyramidMaxCells++;
         }
     }
 
@@ -65,13 +65,13 @@ public class Deposit {
     }
 
 
-    public Boolean switchDeposit(DepositSlot target, DepositSlot selected, int selectedQta){
+    public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot target){
         target.getStorageArea().addQta(selectedQta);
         selected.getStorageArea().addQta(-selectedQta);
         return true;
     }
 
-    public Boolean canSwitchDeposit(DepositSlot target, DepositSlot selected, int selectedQta) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
+    public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
         if(target.getStorageArea().getQta()<selectedQta) {
             throw new NotEnoughResources("Not enough resources");
         }else if( target.getDepositResourceType().equals(selected.getDepositResourceType())) {
@@ -140,5 +140,7 @@ public class Deposit {
     public void setPiramidMaxCells(int piramidMaxCells) {
         this.pyramidMaxCells = piramidMaxCells;
     }
+
+
 
 }
