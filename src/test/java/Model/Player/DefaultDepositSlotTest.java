@@ -104,11 +104,14 @@ class DefaultDepositSlotTest {
     @Test
     void addToDepositSlot() {
         DefaultDepositSlot slot = new DefaultDepositSlot(2);
-        ResourceContainer container = new ResourceContainer(ResourceType.GOLD, 3);
+        ResourceContainer container = new ResourceContainer(ResourceType.GOLD, 1);
 
         assertTrue(slot.addToDepositSlot(container));
-
         assertEquals(container, slot.getStorageArea());
+
+        assertTrue(slot.addToDepositSlot(container));
+        assertEquals(slot.getStorageArea(), new ResourceContainer(ResourceType.GOLD, 2));
+
     }
 
     @Test

@@ -33,7 +33,7 @@ public abstract class  DepositSlot {
         return (input+storageArea.getQta()<=maxDim);
     }
     public boolean canRemove(int input){
-        return (storageArea.getQta() - input < 0);
+        return (storageArea.getQta() - input >= 0);
     }
 
     public boolean isNullAndEmpty(){

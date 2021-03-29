@@ -71,7 +71,6 @@ public class LeaderDepositSlot extends DepositSlot {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
         this.getStorageArea().addQta(quantityThatIwantToAdd);
-        this.getStorageArea().setResourceType(inputContainer.getResourceType());
 
         return true;
     }
