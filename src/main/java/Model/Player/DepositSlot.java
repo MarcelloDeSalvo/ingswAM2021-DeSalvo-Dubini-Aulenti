@@ -36,8 +36,12 @@ public abstract class  DepositSlot {
         return (storageArea.getQta() - input < 0);
     }
 
-    public boolean isEmpty(){
+    public boolean isInitialized(){
         return (this.getDepositResourceType().equals(null) && this.getStorageArea().getQta() == 0);
+    }
+
+    public boolean isEmpty(){
+        return (this.getStorageArea().getQta() == 0);
     }
 
 
