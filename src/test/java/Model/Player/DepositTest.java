@@ -5,64 +5,13 @@ import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepositTest {
-
-    @Test
-    void switchDeposit() {
-        Deposit deposit = new Deposit(3);
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.STONE,2);
-
-        deposit.addDepositSlot(lds);
-        assertTrue(deposit.getStorage().contains(lds));
-        int indexOfLds = deposit.getStorage().indexOf(lds);
-        ResourceContainer r_max = new ResourceContainer(ResourceType.STONE, 3);
-        ResourceContainer r = new ResourceContainer(ResourceType.STONE, 2);
-
-        try {
-            if(lds.canAddtoDepositSlot(r_max)){
-                deposit.getStorage().get(indexOfLds).addToDepositSlot(r_max);
-
-            }
-        }catch (DepositSlotMaxDimExceeded d){
-            assertEquals("Maximum dimension exceeded", d.getMessage());
-        }catch (DifferentResourceType diff){
-            assertEquals("Not the same type", diff.getMessage());
-        }finally {
-            assertTrue(deposit.getStorage().get(indexOfLds).getDepositResourceType().equals(ResourceType.STONE));
-        }
-
-        try {
-            if(lds.canAddtoDepositSlot(r)){
-                assertTrue(deposit.getStorage().get(indexOfLds).addToDepositSlot(r));
-            }
-        }catch (DepositSlotMaxDimExceeded d){
-            assertEquals("Maximum dimension exceeded", d.getMessage());
-        }catch (DifferentResourceType diff){
-            assertEquals("Not the same type", diff.getMessage());
-        }finally {
-            assertTrue(deposit.getStorage().get(indexOfLds).getDepositResourceType().equals(ResourceType.STONE));
-        }
-
-        try {
-            if(deposit.canSwitchDeposit(lds,1, deposit.getStorage().get(0))) {
-                assertTrue(deposit.switchDeposit(lds, 1, deposit.getStorage().get(0)));
-            }
-        }catch (DepositSlotMaxDimExceeded d){
-            assertEquals("Maximum dimension exceeded", d.getMessage());
-        }catch (DifferentResourceType differentResourceType){
-            assertEquals(differentResourceType.getMessage(),"Not the same type");
-
-        }catch (NotEnoughResources notEnoughResources){
-            assertEquals(notEnoughResources.getMessage(),"Not enough resources");
-        }
-
-
-
-    }
 
     @Test
     void pyramid3() {
@@ -87,4 +36,35 @@ class DepositTest {
     }
 
 
+    @Test
+    void addDepositSlot() {
+        Deposit deposit = new Deposit(3);
+
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.STONE,2);
+        assertTrue(deposit.addDepositSlot(lds));
+        assertTrue(deposit.getStorage().contains(lds));
+    }
+
+    @Test
+    void removeDepositSlot() {
+    }
+
+    @Test
+    void canSwitchDeposit() {
+        Deposit deposit = new Deposit(3);
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
+
+        lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+
+        assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canSwitchDeposit(lds,2, deposit.getStorage().get(0)));
+        assertAll( ()-> deposit.canSwitchDeposit(lds,2, deposit.getStorage().get(1)));
+
+    }
+
+
+    @Test
+    void switchDeposit() {
+        
+
+    }
 }

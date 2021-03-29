@@ -32,9 +32,12 @@ public abstract class  DepositSlot {
     public boolean canAdd(int input) {
         return (input+storageArea.getQta()<=maxDim);
     }
-
     public boolean canRemove(int input){
         return (storageArea.getQta() - input < 0);
+    }
+
+    public boolean isEmpty(){
+        return (this.getDepositResourceType().equals(null) && this.getStorageArea().getQta() == 0);
     }
 
 
@@ -62,4 +65,5 @@ public abstract class  DepositSlot {
     public void setDepositResourceType(ResourceType depositResourceType) {
         this.storageArea.setResourceType(depositResourceType);
     }
+
 }
