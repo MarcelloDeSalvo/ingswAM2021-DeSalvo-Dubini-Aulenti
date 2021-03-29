@@ -100,4 +100,15 @@ public class Vault {
 
         return true;
     }
+
+    public HashMap<ResourceType, ResourceContainer> getVaultMap() {
+        return vaultMap;
+    }
+
+    public ResourceContainer getResourceQuantity(ResourceType type) throws NotEnoughResources{
+        if(isPresent(type))
+            return vaultMap.get(type);
+        else
+            throw new NotEnoughResources("There are currently 0 " + type + " in the Vault!");
+    }
 }

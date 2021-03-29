@@ -62,4 +62,13 @@ public class ResourceContainer {
     public boolean isEmpty(){
         return this.qta == 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ResourceContainer)) return false;
+        ResourceContainer container = (ResourceContainer) o;
+        return qta == container.qta && resourceType == container.resourceType;
+    }
+
 }

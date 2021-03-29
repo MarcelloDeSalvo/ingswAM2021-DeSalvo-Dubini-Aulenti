@@ -10,7 +10,7 @@ import Model.Resources.ResourceType;
 public class DefaultDepositSlot extends DepositSlot {
 
     public DefaultDepositSlot(int maxDim) {
-        super( maxDim);
+        super(maxDim);
     }
 
 
