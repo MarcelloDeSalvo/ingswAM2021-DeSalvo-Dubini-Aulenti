@@ -51,7 +51,9 @@ public class DefaultDepositSlot extends DepositSlot {
      * @throws NotEnoughResources when the resources are insufficient
      */
     public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
-        if(!this.getStorageArea().isTheSameType(inputContainer) ) {
+        if(this.isNullAndEmpty())
+            throw new NotEnoughResources("Not enough resources");
+        else if(!this.getStorageArea().isTheSameType(inputContainer) ) {
             throw new DifferentResourceType("Not the same type");
 
         }else if (!this.getStorageArea().hasEnough(inputContainer)) {

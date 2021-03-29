@@ -75,7 +75,7 @@ public class Deposit {
     public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
         if(selected.getStorageArea().getQta()<selectedQta) {
             throw new NotEnoughResources("Not enough resources");
-        }else if( !target.isInitialized()){
+        }else if(!target.isNullAndEmpty()){
             if ((target.getDepositResourceType().equals(selected.getDepositResourceType()))){
                 if( selectedQta + target.getStorageArea().getQta() <= target.getMaxDim() ) {
                     return true;
