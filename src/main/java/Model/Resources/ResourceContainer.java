@@ -58,4 +58,8 @@ public class ResourceContainer {
     public boolean hasEnough(ResourceContainer container) {
         return this.getQta() >= container.getQta();
     }
+
+    public boolean isEmpty(){
+        return this.qta == 0;
+    }
 }
