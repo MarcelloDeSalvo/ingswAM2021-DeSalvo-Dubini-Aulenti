@@ -29,7 +29,7 @@ public class Deposit {
         this.pyramidMaxCells = 1;
 
         for(int i=0; i<num; i++){
-            storage.add(new DefaultDepositSlot(null,pyramidMaxCells));
+            storage.add(new DefaultDepositSlot(pyramidMaxCells));
             pyramidMaxCells++;
         }
     }
@@ -75,46 +75,24 @@ public class Deposit {
     public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
         if(selected.getStorageArea().getQta()<selectedQta) {
             throw new NotEnoughResources("Not enough resources");
-        }else if( (target.getDepositResourceType().equals(selected.getDepositResourceType()) || (target.getDepositResourceType().equals(null)))) {
-            if( selectedQta + target.getStorageArea().getQta() <= target.getMaxDim() ) {
+        }else if( !target.isInitialized()){
+            if ((target.getDepositResourceType().equals(selected.getDepositResourceType()))){
+                if( selectedQta + target.getStorageArea().getQta() <= target.getMaxDim() ) {
+                    return true;
+                }else {
+                    throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
+                }
+            }else{
+                throw new DifferentResourceType("Not the same type");
+            }
+        }else{
+            if( selectedQta <= target.getMaxDim() ) {
                 return true;
             }else {
                 throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
             }
-
-        }else{
-            throw new DifferentResourceType("Not the same type");
         }
     }
-
-    /*
-    public Boolean addToBuffer(DepositSlot selectedDeposit, int  selectedQta) throws DepositSlotMaxDimExceeded{
-        ResourceType selectedResourceType = selectedDeposit.getDepositResourceType();
-
-        if( selectedQta < selectedDeposit.getStorageArea().getQta() ) {
-
-            if (switchBuffer.getResourceType().equals(null)) {
-                switchBuffer.setResourceType(selectedResourceType);
-                return true;
-            } else if (switchBuffer.getResourceType().equals(selectedResourceType)) {
-                switchBuffer.addQta(selectedQta);
-                return true;
-            } else {
-                switchBuffer.setResourceType(selectedDeposit.getDepositResourceType());
-                switchBuffer.setQta(selectedQta);
-                return true;
-            }
-        }else {
-            throw new DepositSlotMaxDimExceeded("Select the right quantity");
-        }
-
-    }
-
-    public Boolean removeFromBuffer(ResourceContainer selctedContainer) throws NullPointerException{
-        switchBuffer.setResourceType(null);
-        switchBuffer.setQta(0);
-        return true;
-    }*/
 
 
     //getter and setter

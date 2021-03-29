@@ -50,21 +50,30 @@ class DepositTest {
     }
 
     @Test
-    void canSwitchDeposit() {
+    void canSwitchDeposit_1() {
         Deposit deposit = new Deposit(3);
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
 
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
-
+        assertTrue(deposit.getStorage().get(0).isInitialized());
+        assertTrue(deposit.getStorage().get(0).isEmpty());
         assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canSwitchDeposit(lds,2, deposit.getStorage().get(0)));
         assertAll( ()-> deposit.canSwitchDeposit(lds,2, deposit.getStorage().get(1)));
+    }
 
+    @Test
+    void canSwitchDeposit_2() {
+        Deposit deposit = new Deposit(3);
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
+        lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+
+        assertThrows(NotEnoughResources.class, ()-> deposit.canSwitchDeposit(lds,3, deposit.getStorage().get(0)));
     }
 
 
     @Test
     void switchDeposit() {
-        
+
 
     }
 }

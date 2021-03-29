@@ -9,9 +9,10 @@ import Model.Resources.ResourceType;
 
 public class DefaultDepositSlot extends DepositSlot {
 
-    public DefaultDepositSlot(ResourceType depositResourceType, int maxDim) {
-        super(depositResourceType, maxDim);
+    public DefaultDepositSlot(int maxDim) {
+        super( maxDim);
     }
+
 
     /**
      * It's the function that gives the permission to add or not to the Controller
@@ -22,15 +23,14 @@ public class DefaultDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
-        int quantityInsideTheSlot = this.getStorageArea().getQta();
         int quantityThatIwantToAdd = inputContainer.getQta();
 
         if(!inputContainer.isTheSameType(this.getStorageArea())) {
-            if(quantityInsideTheSlot == 0) {
+            if(this.isEmpty()) {
                 if(canAdd(quantityThatIwantToAdd)) {
                     return true;
                 }else{
-                    throw new DepositSlotMaxDimExceeded("Not enough space");
+                    throw new DepositSlotMaxDimExceeded("Max dimension Exceeded");
                 }
             }else {
                 throw new DifferentResourceType("Not the same type");

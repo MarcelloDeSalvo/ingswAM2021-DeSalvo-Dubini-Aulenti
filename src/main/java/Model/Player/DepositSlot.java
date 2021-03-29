@@ -37,7 +37,7 @@ public abstract class  DepositSlot {
     }
 
     public boolean isInitialized(){
-        return (this.getDepositResourceType().equals(null) && this.getStorageArea().getQta() == 0);
+        return (this.getDepositResourceType() == null && this.getStorageArea().getQta() == 0);
     }
 
     public boolean isEmpty(){
