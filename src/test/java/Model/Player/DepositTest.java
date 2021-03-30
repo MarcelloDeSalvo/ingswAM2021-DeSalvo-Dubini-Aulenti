@@ -3,6 +3,7 @@ package Model.Player;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Resources.Gold;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.BeforeAll;
@@ -72,8 +73,10 @@ class DepositTest {
 
 
     @Test
-    void switchDeposit() {
-
+    void switchDeposit_3() {
+        Deposit deposit = new Deposit(3);
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
+        //deposit.getStorage().get(2) how do i do this
 
     }
 }
