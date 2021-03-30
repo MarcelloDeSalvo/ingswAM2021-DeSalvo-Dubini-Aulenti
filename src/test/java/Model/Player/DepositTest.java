@@ -77,7 +77,7 @@ class DepositTest {
         Deposit deposit = new Deposit(3);
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
-        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getStorage().get(deposit.getStorage().indexOf(lds)));
+        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getStorage().get(deposit.getStorage().indexOf(lds))));
 
 
     }
