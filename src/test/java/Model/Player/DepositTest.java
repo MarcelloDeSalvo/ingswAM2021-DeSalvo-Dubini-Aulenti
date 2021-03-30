@@ -77,7 +77,7 @@ class DepositTest {
         assertEquals(lds.getResourceQty(),2);
         assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(),0);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,1));
-        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
+        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),1, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
 
     }
 }
