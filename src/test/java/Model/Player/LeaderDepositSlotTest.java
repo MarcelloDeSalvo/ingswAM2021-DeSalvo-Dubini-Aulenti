@@ -31,16 +31,10 @@ class LeaderDepositSlotTest {
     void canRemoveFromDepositSlotTest (ResourceContainer inputCont){
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,5);
         inputCont.setResourceType(ResourceType.GOLD);
-        inputCont.setQta(3);
+        inputCont.setQty(3);
         assertAll(()->lds.canRemoveFromDepositSlot(inputCont));
 
-
-
-
-
-
-
     }
 
-    }
+}
 

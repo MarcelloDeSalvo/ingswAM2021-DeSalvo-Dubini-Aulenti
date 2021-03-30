@@ -28,15 +28,15 @@ public abstract class  DepositSlot {
 
 
     public boolean canAdd(int input) {
-        return (input+depositContainer.getQta()<=maxDim);
+        return (input+depositContainer.getQty()<=maxDim);
     }
     public boolean canRemove(int input){
-        return (depositContainer.getQta() - input >= 0);
+        return (depositContainer.getQty() - input >= 0);
     }
 
     public boolean isNull(){ return this.getDepositResourceType() == null; }
     public boolean isEmpty(){
-        return (this.getDepositContainer().getQta() == 0);
+        return (this.getDepositContainer().getQty() == 0);
     }
 
 
@@ -61,7 +61,7 @@ public abstract class  DepositSlot {
         this.depositContainer = depositContainer;
     }
 
-    public int getResourceQta(){ return this.depositContainer.getQta(); }
+    public int getResourceQta(){ return this.depositContainer.getQty(); }
 
     public ResourceType getDepositResourceType() {
         return depositContainer.getResourceType();

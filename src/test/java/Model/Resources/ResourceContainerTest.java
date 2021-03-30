@@ -10,14 +10,14 @@ class ResourceContainerTest {
     void addQta() {
         ResourceContainer container = new ResourceContainer(ResourceType.STONE, 4);
         container.addQta(3);
-        assertEquals(container.getQta(), 7);
+        assertEquals(container.getQty(), 7);
     }
 
     @Test
     void addNegativeQta() {
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 5);
         container.addQta(-2);
-        assertEquals(container.getQta(), 3);
+        assertEquals(container.getQty(), 3);
     }
     
     @Test
@@ -32,7 +32,7 @@ class ResourceContainerTest {
 
     @Test
     public void testSetNegativeQta() {
-        assertThrows(ArithmeticException.class, () -> new ResourceContainer(ResourceType.GOLD, 3).setQta(-3));
+        assertThrows(ArithmeticException.class, () -> new ResourceContainer(ResourceType.GOLD, 3).setQty(-3));
     }    
     
     @Test
@@ -79,7 +79,7 @@ class ResourceContainerTest {
     void isNull(){
         ResourceContainer container = new ResourceContainer(null, 10);
         container.addQta(-1);
-        assertEquals(container.getQta(), 9);
+        assertEquals(container.getQty(), 9);
 
         container.setResourceType(ResourceType.GOLD);
         assertEquals(container.getResourceType(), ResourceType.GOLD);
@@ -92,7 +92,7 @@ class ResourceContainerTest {
         assertEquals(container.getResourceType(), ResourceType.GOLD);
 
         assertThrows(ArithmeticException.class, () -> container.addQta(-11));
-        assertEquals(container.getQta(), 10);
+        assertEquals(container.getQty(), 10);
     }
 
 
@@ -103,7 +103,7 @@ class ResourceContainerTest {
         Throwable exception = assertThrows(
                 ArithmeticException.class, () -> {
                     ResourceContainer container = new ResourceContainer(ResourceType.GOLD, 2);
-                    container.setQta(-1);
+                    container.setQty(-1);
                 }
         );
         assertEquals("ResourceContainer can't have a negative qty!", exception.getMessage());

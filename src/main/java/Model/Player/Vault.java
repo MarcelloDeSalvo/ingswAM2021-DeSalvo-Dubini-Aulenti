@@ -48,7 +48,7 @@ public class Vault {
      */
     public boolean addToVault(ResourceContainer container) {
         if(isPresent(container.getResourceType()))
-            vaultMap.get(container.getResourceType()).addQta(container.getQta());
+            vaultMap.get(container.getResourceType()).addQta(container.getQty());
         else
             vaultMap.put(container.getResourceType(), container);
 
@@ -77,7 +77,7 @@ public class Vault {
      * @return true
      */
     public boolean removeFromVault(ResourceContainer inputcontainer){
-        vaultMap.get(inputcontainer.getResourceType()).addQta(-inputcontainer.getQta());
+        vaultMap.get(inputcontainer.getResourceType()).addQta(-inputcontainer.getQty());
         return true;
     }
 
@@ -124,7 +124,7 @@ public class Vault {
 
     public int getResourceQuantity(ResourceType type){
         if(isPresent(type))
-            return vaultMap.get(type).getQta();
+            return vaultMap.get(type).getQty();
         else
             return 0;
     }

@@ -23,7 +23,7 @@ public class DefaultDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
-        int quantityThatIwantToAdd = inputContainer.getQta();
+        int quantityThatIwantToAdd = inputContainer.getQty();
 
         if(this.isEmpty() || inputContainer.isTheSameType(this.getDepositContainer())){
             if(canAdd(quantityThatIwantToAdd))
@@ -63,7 +63,7 @@ public class DefaultDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean addToDepositSlot(ResourceContainer inputContainer)  {
-        int quantityThatIwantToAdd = inputContainer.getQta();
+        int quantityThatIwantToAdd = inputContainer.getQty();
 
         this.getDepositContainer().addQta(quantityThatIwantToAdd);
         this.getDepositContainer().setResourceType(inputContainer.getResourceType());
@@ -78,7 +78,7 @@ public class DefaultDepositSlot extends DepositSlot {
      */
     @Override
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer){
-        int quantityThatIwantToRemove = inputContainer.getQta();
+        int quantityThatIwantToRemove = inputContainer.getQty();
 
         this.getDepositContainer().addQta(-quantityThatIwantToRemove);
         return true;
