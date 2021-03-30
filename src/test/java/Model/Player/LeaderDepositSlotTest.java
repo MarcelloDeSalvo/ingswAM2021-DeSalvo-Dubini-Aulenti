@@ -36,6 +36,8 @@ class LeaderDepositSlotTest {
         assertThrows(DepositSlotMaxDimExceeded.class, ()->lds.canAddToDepositSlot(aCoin));
         aShield.addQty(5);
         assertThrows(DifferentResourceType.class, ()->lds.canAddToDepositSlot(aShield));
+        assertThrows(DifferentResourceType.class, ()->lds.canAddToDepositSlot(new ResourceContainer(ResourceType.BLANK,0)));
+
     }
 
     @Test
@@ -74,6 +76,7 @@ class LeaderDepositSlotTest {
         assertTrue(lds.getResourceQty()==3);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.BLANK, 0));     //Adding empty blank containers doesn't crash
         assertTrue(lds.getResourceQty()==3);
+
     }
 
     @Test
