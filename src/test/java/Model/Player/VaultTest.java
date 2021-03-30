@@ -19,7 +19,7 @@ class VaultTest {
         ResourceContainer container3 = new ResourceContainer(ResourceType.GOLD, 2);
 
         vault.addToVault(container1);
-        assertEquals(vault.getVaultMap().get(ResourceType.GOLD).getQta(), 5 );
+        assertEquals(vault.getVaultMap().get(ResourceType.GOLD).getQty(), 5 );
 
         vault.addToVault(container2);
         assertEquals(vault.getResourceQuantity(ResourceType.STONE),5);
@@ -32,7 +32,7 @@ class VaultTest {
     @Test
     void getNotExistingResourceFromVolt(){
         Vault vault = new Vault();
-        assertThrows(NullPointerException.class, ()-> vault.getVaultMap().get(ResourceType.SHIELD).getQta());
+        assertThrows(NullPointerException.class, ()-> vault.getVaultMap().get(ResourceType.SHIELD).getQty());
         assertEquals(vault.getResourceQuantity(ResourceType.SHIELD),0 );
 
     }

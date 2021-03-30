@@ -14,7 +14,7 @@ class GoldTest {
         Gold tempGold=new Gold();
         tempGold.addToDeposit(tempDeposit);
         assertTrue(tempDeposit.getDepositResourceType()==ResourceType.GOLD);
-        assertTrue(tempDeposit.getDepositContainer().getQta()==1);
+        assertTrue(tempDeposit.getDepositContainer().getQty()==1);
     }
     @Test
     void testMultipleAdd(){
@@ -24,7 +24,7 @@ class GoldTest {
             tempGold.addToDeposit(tempDeposit);
         }
         assertTrue(tempDeposit.getDepositResourceType()==ResourceType.GOLD);
-        assertTrue(tempDeposit.getDepositContainer().getQta()==5);
+        assertTrue(tempDeposit.getDepositContainer().getQty()==5);
     }
 
 }

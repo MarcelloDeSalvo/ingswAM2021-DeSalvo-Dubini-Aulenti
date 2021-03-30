@@ -19,7 +19,7 @@ public class ResourceContainer {
 
 
     public void addQta(int n) {
-        setQta(this.qty + n);
+        setQty(this.qty + n);
     }
 
     /*public void subQta(int n) {
@@ -39,7 +39,7 @@ public class ResourceContainer {
     }
 
     public boolean hasEnough(ResourceContainer container) {
-        return this.getQta() >= container.getQta();
+        return this.getQty() >= container.getQty();
     }
 
     public boolean isEmpty(){
@@ -57,11 +57,11 @@ public class ResourceContainer {
         this.resourceType = resourceType;
     }
 
-    public int getQta() {
+    public int getQty() {
         return qty;
     }
 
-    public void setQta(int qty) throws ArithmeticException {
+    public void setQty(int qty) throws ArithmeticException {
         if(qty < 0)
             throw new ArithmeticException("ResourceContainer can't have a negative qty");
         else

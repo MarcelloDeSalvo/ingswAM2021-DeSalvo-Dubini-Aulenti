@@ -91,7 +91,7 @@ public class Deposit {
      * @throws NotEnoughResources
      */
     public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
-        if(selected.getDepositContainer().getQta()<selectedQta) {
+        if(selected.getDepositContainer().getQty()<selectedQta) {
             throw new NotEnoughResources("Not enough resources");
         }
 
