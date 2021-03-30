@@ -93,26 +93,28 @@ class DepositSlotTest {
     void isNullAndEmpty() {
         DefaultDepositSlot slot = new DefaultDepositSlot(2);
 
-        assertTrue(slot.isNullAndEmpty());
+        assertTrue(slot.isNull());
 
         slot.addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 3));
 
-        assertFalse((slot.isNullAndEmpty()));
+        assertFalse((slot.isNull()));
+        assertFalse(slot.isEmpty());
 
         slot.removeFromDepositSlot(new ResourceContainer(ResourceType.GOLD, 3));
 
-        assertFalse(slot.isNullAndEmpty());
+        assertFalse((slot.isNull()));
+        assertTrue(slot.isEmpty());
     }
 
     @Test
     void isNullAndEmptyLeader() {
         LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
 
-        assertFalse(slot.isNullAndEmpty());
+        assertFalse(slot.isNull());
 
         slot.addToDepositSlot(new ResourceContainer(ResourceType.MINION, 1));
 
-        assertFalse((slot.isNullAndEmpty()));
+        assertFalse((slot.isEmpty()));
     }
 
     @Test

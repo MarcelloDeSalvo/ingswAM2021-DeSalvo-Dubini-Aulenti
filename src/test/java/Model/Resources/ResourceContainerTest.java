@@ -106,6 +106,6 @@ class ResourceContainerTest {
                     container.setQta(-1);
                 }
         );
-        assertEquals("ResourceContainer can't have a negative qta!", exception.getMessage());
+        assertEquals("ResourceContainer can't have a negative qty!", exception.getMessage());
     }*/
 }

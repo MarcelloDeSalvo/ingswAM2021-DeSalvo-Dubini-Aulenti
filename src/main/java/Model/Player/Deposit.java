@@ -13,7 +13,7 @@ public class Deposit {
     /**
      * It's the list of the user's deposits
      */
-    private ArrayList<DepositSlot> storage;
+    private ArrayList<DepositSlot> depositList;
 
     /**
      * Player's deposit number.
@@ -27,23 +27,23 @@ public class Deposit {
     private int pyramidMaxCells;
 
     public Deposit(int num) {
-        this.storage = new ArrayList<DepositSlot>();
+        this.depositList = new ArrayList<DepositSlot>();
         this.defaultDepositNumber = num;
         this.pyramidMaxCells = 1;
 
         for(int i=0; i<num; i++){
-            storage.add(new DefaultDepositSlot(pyramidMaxCells));
+            depositList.add(new DefaultDepositSlot(pyramidMaxCells));
             pyramidMaxCells++;
         }
     }
 
     /**
-     * adds a LeaderDepositSlot to the storage
+     * adds a LeaderDepositSlot to the depositList
      * @param lds
      * @return false if there is an argument exception (NoSuchElementException)
      */
     public Boolean addDepositSlot(LeaderDepositSlot lds) {
-        if(lds != null && storage.add(lds)){
+        if(lds != null && depositList.add(lds)){
             return true;
         }else {
             return false;
@@ -52,12 +52,12 @@ public class Deposit {
     }
 
     /**
-     * removes a DepostiSlot from the storage
+     * removes a DepostiSlot from the depositList
      * @param depositSlot
      * @return false if there is an argument exception (NoSuchElementException)
      */
     public Boolean removeDepositSlot(DepositSlot depositSlot){
-        if(depositSlot != null && storage.remove(depositSlot)){
+        if(depositSlot != null && depositList.remove(depositSlot)){
             return true;
         } else{
             return false;
@@ -73,9 +73,9 @@ public class Deposit {
      * @return true
      */
     public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot target){
-        target.getStorageArea().addQta(selectedQta);
+        target.getDepositContainer().addQta(selectedQta);
         target.setDepositResourceType(selected.getDepositResourceType());
-        selected.getStorageArea().addQta(-selectedQta);
+        selected.getDepositContainer().addQta(-selectedQta);
         return true;
     }
 
@@ -91,7 +91,7 @@ public class Deposit {
      * @throws NotEnoughResources
      */
     public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
-        if(selected.getStorageArea().getQta()<selectedQta) {
+        if(selected.getDepositContainer().getQta()<selectedQta) {
             throw new NotEnoughResources("Not enough resources");
         }
 
@@ -106,11 +106,11 @@ public class Deposit {
                 throw new DifferentResourceType("Not the same type");
             }
         }else{
-            if( selectedQta <= target.getMaxDim() ) {
+            if( selectedQta <= target.getMaxDim() )
                 return true;
-            }else {
+            else
                 throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
-            }
+
         }
     }
 
@@ -124,17 +124,17 @@ public class Deposit {
      */
     public DepositSlot getDefaultSlot_WithDim(int i){
         if (i>0){
-            return (this.getStorage().get(i-1));
+            return (this.getDepositList().get(i-1));
         }
-        else return (this.getStorage().get(0));
+        else return (this.getDepositList().get(0));
     }
 
-    public ArrayList<DepositSlot> getStorage() {
-        return storage;
+    public ArrayList<DepositSlot> getDepositList() {
+        return depositList;
     }
 
-    public void setStorage(ArrayList<DepositSlot> storage) {
-        this.storage = storage;
+    public void setDepositList(ArrayList<DepositSlot> depositList) {
+        this.depositList = depositList;
     }
 
     public int getDefaultDepositNumber() {

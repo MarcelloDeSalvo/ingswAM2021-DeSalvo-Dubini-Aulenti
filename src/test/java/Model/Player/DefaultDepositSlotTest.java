@@ -12,50 +12,50 @@ import static org.junit.jupiter.api.Assertions.*;
 class DefaultDepositSlotTest {
 
     @Test
-    void canAddtoDepositSlot() {
+    void canAddToDepositSlot() {
         DefaultDepositSlot slot = new DefaultDepositSlot(3);
         ResourceContainer container = new ResourceContainer(ResourceType.STONE, 1);
 
-        assertAll(() -> slot.canAddtoDepositSlot(container));
+        assertAll(() -> slot.canAddToDepositSlot(container));
     }
 
     @Test
-    void canAddtoDepositSlot2() {
+    void canAddToDepositSlot2() {
         DefaultDepositSlot slot = new DefaultDepositSlot(3);
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.MINION, 2);
 
-        assertAll(() -> slot.canAddtoDepositSlot(container));
-        assertAll(() -> slot.canAddtoDepositSlot(container2));
+        assertAll(() -> slot.canAddToDepositSlot(container));
+        assertAll(() -> slot.canAddToDepositSlot(container2));
     }
 
     @Test
-    void canAddtoDepositSlot3() {
+    void canAddToDepositSlot3() {
         DefaultDepositSlot slot = new DefaultDepositSlot(3);
         ResourceContainer container = new ResourceContainer(ResourceType.STONE, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
         slot.addToDepositSlot(container);
 
-        assertThrows(DifferentResourceType.class, () -> slot.canAddtoDepositSlot(container2));
+        assertThrows(DifferentResourceType.class, () -> slot.canAddToDepositSlot(container2));
     }
 
     @Test
-    void canAddtoDepositSlot4() {
+    void canAddToDepositSlot4() {
         DefaultDepositSlot slot = new DefaultDepositSlot(3);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 2);
         ResourceContainer container2 = new ResourceContainer(ResourceType.SHIELD, 2);
         slot.addToDepositSlot(container);
 
-        assertThrows(DepositSlotMaxDimExceeded.class, () -> slot.canAddtoDepositSlot(container2));
+        assertThrows(DepositSlotMaxDimExceeded.class, () -> slot.canAddToDepositSlot(container2));
     }
 
     @Test
-    void canAddtoDepositSlot5() {
+    void canAddToDepositSlot5() {
         DefaultDepositSlot slot = new DefaultDepositSlot(2);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 5);
         slot.addToDepositSlot(container);
 
-        assertThrows(DepositSlotMaxDimExceeded.class, () -> slot.canAddtoDepositSlot(container));
+        assertThrows(DepositSlotMaxDimExceeded.class, () -> slot.canAddToDepositSlot(container));
     }
 
 
@@ -107,10 +107,10 @@ class DefaultDepositSlotTest {
         ResourceContainer container = new ResourceContainer(ResourceType.GOLD, 1);
 
         assertTrue(slot.addToDepositSlot(container));
-        assertEquals(container, slot.getStorageArea());
+        assertEquals(container, slot.getDepositContainer());
 
         assertTrue(slot.addToDepositSlot(container));
-        assertEquals(slot.getStorageArea(), new ResourceContainer(ResourceType.GOLD, 2));
+        assertEquals(slot.getDepositContainer(), new ResourceContainer(ResourceType.GOLD, 2));
 
     }
 
@@ -123,6 +123,6 @@ class DefaultDepositSlotTest {
         assertTrue(slot.addToDepositSlot(addContainer));
         assertTrue(slot.removeFromDepositSlot(removeContainer));
 
-        assertEquals(slot.getStorageArea(), new ResourceContainer(ResourceType.MINION, 1));
+        assertEquals(slot.getDepositContainer(), new ResourceContainer(ResourceType.MINION, 1));
     }
 }

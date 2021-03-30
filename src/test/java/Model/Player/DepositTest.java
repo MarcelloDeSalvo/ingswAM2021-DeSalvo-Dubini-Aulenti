@@ -18,22 +18,22 @@ class DepositTest {
     void pyramid3() {
         Deposit deposit = new Deposit(3);
 
-        assertEquals(deposit.getStorage().get(0).getMaxDim(), 1);
-        assertEquals(deposit.getStorage().get(1).getMaxDim(), 2);
-        assertEquals(deposit.getStorage().get(2).getMaxDim(), 3);
-        assertEquals(deposit.getStorage().size(), 3);
+        assertEquals(deposit.getDepositList().get(0).getMaxDim(), 1);
+        assertEquals(deposit.getDepositList().get(1).getMaxDim(), 2);
+        assertEquals(deposit.getDepositList().get(2).getMaxDim(), 3);
+        assertEquals(deposit.getDepositList().size(), 3);
     }
 
     @Test
     void pyramid5() {
         Deposit deposit = new Deposit(5);
 
-        assertEquals(deposit.getStorage().get(0).getMaxDim(), 1);
-        assertEquals(deposit.getStorage().get(1).getMaxDim(), 2);
-        assertEquals(deposit.getStorage().get(2).getMaxDim(), 3);
-        assertEquals(deposit.getStorage().get(3).getMaxDim(), 4);
-        assertEquals(deposit.getStorage().get(4).getMaxDim(), 5);
-        assertEquals(deposit.getStorage().size(), 5);
+        assertEquals(deposit.getDepositList().get(0).getMaxDim(), 1);
+        assertEquals(deposit.getDepositList().get(1).getMaxDim(), 2);
+        assertEquals(deposit.getDepositList().get(2).getMaxDim(), 3);
+        assertEquals(deposit.getDepositList().get(3).getMaxDim(), 4);
+        assertEquals(deposit.getDepositList().get(4).getMaxDim(), 5);
+        assertEquals(deposit.getDepositList().size(), 5);
     }
 
 
@@ -43,7 +43,7 @@ class DepositTest {
 
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.STONE,2);
         assertTrue(deposit.addDepositSlot(lds));
-        assertTrue(deposit.getStorage().contains(lds));
+        assertTrue(deposit.getDepositList().contains(lds));
     }
 
     @Test
@@ -56,10 +56,9 @@ class DepositTest {
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
 
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
-        assertTrue(deposit.getStorage().get(0).isNullAndEmpty());
-        assertTrue(deposit.getStorage().get(0).isEmpty());
-        assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canSwitchDeposit(lds,2, deposit.getStorage().get(0)));
-        assertAll( ()-> deposit.canSwitchDeposit(lds,2, deposit.getStorage().get(1)));
+        assertTrue(deposit.getDepositList().get(0).isEmpty());
+        assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canSwitchDeposit(lds,2, deposit.getDepositList().get(0)));
+        assertAll( ()-> deposit.canSwitchDeposit(lds,2, deposit.getDepositList().get(1)));
     }
 
     @Test
@@ -68,7 +67,7 @@ class DepositTest {
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
 
-        assertThrows(NotEnoughResources.class, ()-> deposit.canSwitchDeposit(lds,3, deposit.getStorage().get(0)));
+        assertThrows(NotEnoughResources.class, ()-> deposit.canSwitchDeposit(lds,3, deposit.getDepositList().get(0)));
     }
 
 
@@ -77,7 +76,7 @@ class DepositTest {
         Deposit deposit = new Deposit(3);
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
-        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getStorage().get(deposit.getStorage().indexOf(lds))));
+        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
 
 
     }

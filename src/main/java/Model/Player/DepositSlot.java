@@ -8,45 +8,40 @@ import Model.Resources.ResourceType;
 
 public abstract class  DepositSlot {
     private int maxDim;
-    private ResourceContainer storageArea;
+    private ResourceContainer depositContainer;
 
     public DepositSlot(ResourceType depositResourceType, int maxDim) {
         this.maxDim = maxDim;
-        this.storageArea = new ResourceContainer(depositResourceType,0);
+        this.depositContainer = new ResourceContainer(depositResourceType,0);
     }
 
     public DepositSlot(int maxDim) {
         this.maxDim = maxDim;
-        this.storageArea = new ResourceContainer(null,0);
+        this.depositContainer = new ResourceContainer(null,0);
     }
 
 
-    public abstract Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded;
+    public abstract Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded;
     public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
     public abstract Boolean addToDepositSlot(ResourceContainer inputContainer);
     public abstract Boolean removeFromDepositSlot(ResourceContainer inputContainer);
-    //public abstract Boolean switchFromAnother();
-
 
 
     public boolean canAdd(int input) {
-        return (input+storageArea.getQta()<=maxDim);
+        return (input+depositContainer.getQta()<=maxDim);
     }
     public boolean canRemove(int input){
-        return (storageArea.getQta() - input >= 0);
+        return (depositContainer.getQta() - input >= 0);
     }
 
-    public boolean isNullAndEmpty(){
-        return (this.getDepositResourceType() == null && this.getStorageArea().getQta() == 0);
-    }
-
+    public boolean isNull(){ return this.getDepositResourceType() == null; }
     public boolean isEmpty(){
-        return (this.getStorageArea().getQta() == 0);
+        return (this.getDepositContainer().getQta() == 0);
     }
 
 
     public boolean hasSameTypeAs(DepositSlot depositSlot){
-        return this.getDepositResourceType().equals(depositSlot.getDepositResourceType());
+        return this.getDepositResourceType() == depositSlot.getDepositResourceType();
     }
 
     //Getter and Setter
@@ -58,24 +53,22 @@ public abstract class  DepositSlot {
         this.maxDim = maxDim;
     }
 
-    public ResourceContainer getStorageArea() {
-        return storageArea;
+    public ResourceContainer getDepositContainer() {
+        return depositContainer;
     }
 
-    public void setStorageArea(ResourceContainer storageArea) {
-        this.storageArea = storageArea;
+    public void setDepositContainer(ResourceContainer depositContainer) {
+        this.depositContainer = depositContainer;
     }
 
-    public int getResourceQta(){
-        return this.storageArea.getQta();
-    }
+    public int getResourceQta(){ return this.depositContainer.getQta(); }
 
     public ResourceType getDepositResourceType() {
-        return storageArea.getResourceType();
+        return depositContainer.getResourceType();
     }
 
     public void setDepositResourceType(ResourceType depositResourceType) {
-        this.storageArea.setResourceType(depositResourceType);
+        this.depositContainer.setResourceType(depositResourceType);
     }
 
 }

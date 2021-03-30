@@ -22,25 +22,17 @@ public class DefaultDepositSlot extends DepositSlot {
      * @throws DepositSlotMaxDimExceeded when it would add too many resources
      */
     @Override
-    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
+    public Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        if(!inputContainer.isTheSameType(this.getStorageArea())) {
-            if(this.isEmpty()) {
-                if(canAdd(quantityThatIwantToAdd)) {
-                    return true;
-                }else{
-                    throw new DepositSlotMaxDimExceeded("Max dimension Exceeded");
-                }
-            }else {
-                throw new DifferentResourceType("Not the same type");
-            }
-
-        }else if(canAdd(quantityThatIwantToAdd)){
-            return true;
-        }else {
-            throw new DepositSlotMaxDimExceeded("Not enough space");
+        if(this.isEmpty() || inputContainer.isTheSameType(this.getDepositContainer())){
+            if(canAdd(quantityThatIwantToAdd))
+                return true;
+            else
+                throw new DepositSlotMaxDimExceeded("Max dimension Exceeded");
         }
+
+        throw new DifferentResourceType("Not the same type");
     }
 
     /**
@@ -51,22 +43,21 @@ public class DefaultDepositSlot extends DepositSlot {
      * @throws NotEnoughResources when the resources are insufficient
      */
     public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
-        if(this.isNullAndEmpty())
+        if(this.isEmpty())
             throw new NotEnoughResources("Not enough resources");
-        else if(!this.getStorageArea().isTheSameType(inputContainer) ) {
+
+        if(!this.getDepositContainer().isTheSameType(inputContainer) )
             throw new DifferentResourceType("Not the same type");
 
-        }else if (!this.getStorageArea().hasEnough(inputContainer)) {
+        if(!this.getDepositContainer().hasEnough(inputContainer))
             throw new NotEnoughResources("Not enough resources");
 
-        }else {
-            return true;
-        }
+        return true;
     }
 
     /**
      * Adds the resources in any case.
-     * It needs to be called after CanAddToDepositSlot if the user wants to follow the rules
+     * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
      * @param inputContainer
      * @return true
      */
@@ -74,10 +65,9 @@ public class DefaultDepositSlot extends DepositSlot {
     public Boolean addToDepositSlot(ResourceContainer inputContainer)  {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        this.getStorageArea().addQta(quantityThatIwantToAdd);
-        this.getStorageArea().setResourceType(inputContainer.getResourceType());
+        this.getDepositContainer().addQta(quantityThatIwantToAdd);
+        this.getDepositContainer().setResourceType(inputContainer.getResourceType());
         return true;
-
     }
 
     /**
@@ -90,7 +80,7 @@ public class DefaultDepositSlot extends DepositSlot {
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer){
         int quantityThatIwantToRemove = inputContainer.getQta();
 
-        this.getStorageArea().addQta(-quantityThatIwantToRemove);
+        this.getDepositContainer().addQta(-quantityThatIwantToRemove);
         return true;
     }
 
