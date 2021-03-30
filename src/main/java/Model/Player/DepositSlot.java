@@ -45,6 +45,10 @@ public abstract class  DepositSlot {
     }
 
 
+    public boolean hasSameTypeAs(DepositSlot depositSlot){
+        return this.getDepositResourceType().equals(depositSlot.getDepositResourceType());
+    }
+
     //Getter and Setter
     public int getMaxDim() {
         return maxDim;
@@ -60,6 +64,10 @@ public abstract class  DepositSlot {
 
     public void setStorageArea(ResourceContainer storageArea) {
         this.storageArea = storageArea;
+    }
+
+    public int getResourceQta(){
+        return this.storageArea.getQta();
     }
 
     public ResourceType getDepositResourceType() {

@@ -42,7 +42,7 @@ public class Deposit {
      * @param lds
      * @return false if there is an argument exception (NoSuchElementException)
      */
-    public Boolean addDepositSlot(LeaderDepositSlot lds){
+    public Boolean addDepositSlot(LeaderDepositSlot lds) {
         if(lds != null && storage.add(lds)){
             return true;
         }else {
@@ -93,9 +93,11 @@ public class Deposit {
     public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
         if(selected.getStorageArea().getQta()<selectedQta) {
             throw new NotEnoughResources("Not enough resources");
-        }else if(!target.isNullAndEmpty()){
-            if ((target.getDepositResourceType().equals(selected.getDepositResourceType()))){
-                if( selectedQta + target.getStorageArea().getQta() <= target.getMaxDim() ) {
+        }
+
+        if(!target.isNullAndEmpty()){
+            if ((target.hasSameTypeAs(selected))){
+                if( selectedQta + target.getResourceQta()<= target.getMaxDim() ) {
                     return true;
                 }else {
                     throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
