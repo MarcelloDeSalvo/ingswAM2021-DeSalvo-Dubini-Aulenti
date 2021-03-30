@@ -3,11 +3,10 @@ package Model.Player;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;
-
-import java.sql.PreparedStatement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,6 +35,8 @@ class LeaderDepositSlotTest {
         assertThrows(DepositSlotMaxDimExceeded.class, ()->lds.canAddToDepositSlot(aCoin));
         aShield.addQty(5);
         assertThrows(DifferentResourceType.class, ()->lds.canAddToDepositSlot(aShield));
+        assertThrows(DifferentResourceType.class, ()->lds.canAddToDepositSlot(new ResourceContainer(ResourceType.BLANK,0)));
+
     }
 
     @Test
@@ -74,6 +75,7 @@ class LeaderDepositSlotTest {
         assertTrue(lds.getResourceQty()==3);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.BLANK, 0));     //Adding empty blank containers doesn't crash
         assertTrue(lds.getResourceQty()==3);
+
     }
 
     @Test

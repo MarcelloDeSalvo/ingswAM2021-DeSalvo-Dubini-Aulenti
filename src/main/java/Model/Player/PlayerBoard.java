@@ -1,5 +1,8 @@
 package Model.Player;
 
+import Model.Player.Deposit.Deposit;
+import Model.Player.Production.ProductionSite;
+
 public class PlayerBoard {
 
     private Deposit deposit;

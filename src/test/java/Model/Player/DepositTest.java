@@ -1,13 +1,11 @@
 package Model.Player;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
-import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
-import Model.Resources.Gold;
+import Model.Player.Deposit.Deposit;
+import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,7 +33,6 @@ class DepositTest {
         assertEquals(deposit.getDepositList().get(4).getMaxDim(), 5);
         assertEquals(deposit.getDepositList().size(), 5);
     }
-
 
     @Test
     void addDepositSlot() {
@@ -70,7 +67,6 @@ class DepositTest {
         assertThrows(NotEnoughResources.class, ()-> deposit.canSwitchDeposit(lds,3, deposit.getDepositList().get(0)));
     }
 
-
     @Test
     void switchDeposit_3() {
         Deposit deposit = new Deposit(3);
@@ -78,7 +74,10 @@ class DepositTest {
         deposit.addDepositSlot(lds);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
         assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
-
+        assertEquals(lds.getResourceQty(),2);
+        assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(),0);
+        deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,1));
+        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
 
     }
 }

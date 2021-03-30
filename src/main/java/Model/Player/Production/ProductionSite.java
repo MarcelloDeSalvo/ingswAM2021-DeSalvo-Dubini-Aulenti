@@ -1,4 +1,4 @@
-package Model.Player;
+package Model.Player.Production;
 
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -18,8 +18,8 @@ public class ProductionSite {
             productionSlots.add(new DevelopmentCardProduction());
         }
 
-        this.bufferInputMap= new HashMap<ResourceType, ResourceContainer>();
-        this.bufferOutputMap= new HashMap<ResourceType, ResourceContainer>();
+        this.bufferInputMap = new HashMap<ResourceType, ResourceContainer>();
+        this.bufferOutputMap = new HashMap<ResourceType, ResourceContainer>();
     }
 
     //Per aggiungere LeaderCardProduction useremo una funz addProductionSlot

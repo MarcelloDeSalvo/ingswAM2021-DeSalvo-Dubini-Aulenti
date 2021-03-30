@@ -1,4 +1,4 @@
-package Model.Player;
+package Model.Player.Production;
 
 public interface ProductionSlot {
 

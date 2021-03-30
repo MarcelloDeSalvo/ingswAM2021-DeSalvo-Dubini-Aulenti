@@ -1,5 +1,7 @@
 package Model.Player;
 
+import Model.Player.Deposit.DefaultDepositSlot;
+import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;

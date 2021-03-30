@@ -1,10 +1,9 @@
-package Model.Player;
+package Model.Player.Deposit;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.ResourceContainer;
-import Model.Resources.ResourceType;
 
 
 public class DefaultDepositSlot extends DepositSlot {

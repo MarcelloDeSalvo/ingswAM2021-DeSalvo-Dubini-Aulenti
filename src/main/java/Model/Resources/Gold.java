@@ -1,6 +1,6 @@
 package Model.Resources;
 
-import Model.Player.DepositSlot;
+import Model.Player.Deposit.DepositSlot;
 
 public class Gold extends Resource{
    // ResourceType resourceType; -> Lo eredita da Resource
