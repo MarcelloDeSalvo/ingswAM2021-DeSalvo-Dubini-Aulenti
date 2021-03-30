@@ -1,6 +1,6 @@
 package Model.Resources;
 
-import Model.Player.DepositSlot;
+import Model.Player.Deposit.DepositSlot;
 
 public class Minion extends Resource{
 

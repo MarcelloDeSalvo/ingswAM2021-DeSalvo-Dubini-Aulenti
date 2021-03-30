@@ -1,7 +1,7 @@
 package Model.Resources;
 
 import Model.FaithPath;
-import Model.Player.DepositSlot;
+import Model.Player.Deposit.DepositSlot;
 
 
 abstract class Resource {

@@ -1,13 +1,11 @@
 package Model.Player;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
-import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
-import Model.Resources.Gold;
+import Model.Player.Deposit.Deposit;
+import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

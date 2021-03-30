@@ -1,5 +1,4 @@
 package Model.Cards;
 
-public interface Requirement
-{
+public interface Requirement {
 }

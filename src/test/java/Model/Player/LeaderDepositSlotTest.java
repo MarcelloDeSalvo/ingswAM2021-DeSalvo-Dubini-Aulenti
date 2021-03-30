@@ -3,11 +3,10 @@ package Model.Player;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;
-
-import java.sql.PreparedStatement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
