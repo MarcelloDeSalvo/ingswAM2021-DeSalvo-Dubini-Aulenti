@@ -19,13 +19,13 @@ class LeaderDepositSlotTest {
         ResourceContainer aCoin= new ResourceContainer(ResourceType.GOLD, 1);
         ResourceContainer aShield= new ResourceContainer(ResourceType.SHIELD, 1);
 
-        assertAll(()->lds.canAddtoDepositSlot(aCoin));
+        assertAll(()->lds.canAddToDepositSlot(aCoin));
 
-        assertThrows(DifferentResourceType.class, ()-> lds.canAddtoDepositSlot(aShield));
+        assertThrows(DifferentResourceType.class, ()-> lds.canAddToDepositSlot(aShield));
         aCoin.addQta(4);
-        assertThrows(DepositSlotMaxDimExceeded.class, ()->lds.canAddtoDepositSlot(aCoin));
+        assertThrows(DepositSlotMaxDimExceeded.class, ()->lds.canAddToDepositSlot(aCoin));
         aShield.addQta(5);
-        assertThrows(DifferentResourceType.class, ()->lds.canAddtoDepositSlot(aShield));
+        assertThrows(DifferentResourceType.class, ()->lds.canAddToDepositSlot(aShield));
     }
     @Test
     void canRemoveFromDepositSlotTest (ResourceContainer inputCont){

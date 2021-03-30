@@ -27,16 +27,17 @@ public class LeaderDepositSlot extends DepositSlot {
      * @throws DepositSlotMaxDimExceeded when it would add too many resources
      */
     @Override
-    public Boolean canAddtoDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
+    public Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        if (!this.getStorageArea().isTheSameType(inputContainer)) {
+        if (!this.getDepositContainer().isTheSameType(inputContainer))
             throw new DifferentResourceType("Not the same type");
-        }else if (canAdd(quantityThatIwantToAdd)) {
+
+        if (canAdd(quantityThatIwantToAdd))
             return true;
-        }else{
+        else
             throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
-        }
+
     }
 
     /**
@@ -49,20 +50,18 @@ public class LeaderDepositSlot extends DepositSlot {
     @Override
     public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
 
-        if (!this.getStorageArea().isTheSameType(inputContainer)) {
+        if (!this.getDepositContainer().isTheSameType(inputContainer))
             throw new DifferentResourceType("Not the same type");
 
-        }else if (!this.getStorageArea().hasEnough(inputContainer)) {
+        if (!this.getDepositContainer().hasEnough(inputContainer))
             throw new NotEnoughResources("Not enough resources");
 
-        }else {
-            return true;
-        }
+        return true;
     }
 
     /**
      * adds the quantity from a resourceContainer in any case.
-     * It needs to be called after CanAddToDepositSlot if the user wants to follow the rules
+     * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
      * @param inputContainer
      * @return true if there were no exceptions
      */
@@ -70,7 +69,7 @@ public class LeaderDepositSlot extends DepositSlot {
     public Boolean addToDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToAdd = inputContainer.getQta();
 
-        this.getStorageArea().addQta(quantityThatIwantToAdd);
+        this.getDepositContainer().addQta(quantityThatIwantToAdd);
 
         return true;
     }
@@ -86,7 +85,7 @@ public class LeaderDepositSlot extends DepositSlot {
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToRemove = inputContainer.getQta();
 
-        this.getStorageArea().addQta(-quantityThatIwantToRemove);
+        this.getDepositContainer().addQta(-quantityThatIwantToRemove);
         return true;
 
     }
