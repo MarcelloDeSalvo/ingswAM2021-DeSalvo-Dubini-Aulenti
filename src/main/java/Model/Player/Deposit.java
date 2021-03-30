@@ -95,7 +95,7 @@ public class Deposit {
             throw new NotEnoughResources("Not enough resources");
         }
 
-        if(!target.isNullAndEmpty()){
+        if(!target.isEmpty()){
             if ((target.hasSameTypeAs(selected))){
                 if( selectedQta + target.getResourceQta()<= target.getMaxDim() ) {
                     return true;
@@ -152,6 +152,4 @@ public class Deposit {
     public void setPiramidMaxCells(int piramidMaxCells) {
         this.pyramidMaxCells = piramidMaxCells;
     }
-
-
 }
