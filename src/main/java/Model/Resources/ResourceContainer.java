@@ -18,11 +18,11 @@ public class ResourceContainer {
     }
 
 
-    public void addQta(int n) {
+    public void addQty(int n) {
         setQty(this.qty + n);
     }
 
-    /*public void subQta(int n) {
+    /*public void subQty(int n) {
         if(this.qty < n)
             throw new ArithmeticException("ResourceContainer can't have a negative qty");
         else

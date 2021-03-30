@@ -61,7 +61,7 @@ public abstract class  DepositSlot {
         this.depositContainer = depositContainer;
     }
 
-    public int getResourceQta(){ return this.depositContainer.getQty(); }
+    public int getResourceQty(){ return this.depositContainer.getQty(); }
 
     public ResourceType getDepositResourceType() {
         return depositContainer.getResourceType();

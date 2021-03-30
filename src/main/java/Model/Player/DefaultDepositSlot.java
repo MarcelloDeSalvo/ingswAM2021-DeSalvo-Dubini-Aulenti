@@ -65,7 +65,7 @@ public class DefaultDepositSlot extends DepositSlot {
     public Boolean addToDepositSlot(ResourceContainer inputContainer)  {
         int quantityThatIwantToAdd = inputContainer.getQty();
 
-        this.getDepositContainer().addQta(quantityThatIwantToAdd);
+        this.getDepositContainer().addQty(quantityThatIwantToAdd);
         this.getDepositContainer().setResourceType(inputContainer.getResourceType());
         return true;
     }
@@ -80,7 +80,7 @@ public class DefaultDepositSlot extends DepositSlot {
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer){
         int quantityThatIwantToRemove = inputContainer.getQty();
 
-        this.getDepositContainer().addQta(-quantityThatIwantToRemove);
+        this.getDepositContainer().addQty(-quantityThatIwantToRemove);
         return true;
     }
 

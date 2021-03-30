@@ -41,6 +41,21 @@ public class LeaderDepositSlot extends DepositSlot {
     }
 
     /**
+     * adds the quantity from a resourceContainer in any case.
+     * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
+     * @param inputContainer
+     * @return true if there were no errors
+     */
+    @Override
+    public Boolean addToDepositSlot(ResourceContainer inputContainer) {
+        int quantityThatIwantToAdd = inputContainer.getQty();
+
+        this.getDepositContainer().addQty(quantityThatIwantToAdd);
+
+        return true;
+    }
+
+    /**
      * It's the function that gives the permission to remove or not to the Controller
      * @param inputContainer
      * @return true if he can
@@ -59,21 +74,6 @@ public class LeaderDepositSlot extends DepositSlot {
         return true;
     }
 
-    /**
-     * adds the quantity from a resourceContainer in any case.
-     * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
-     * @param inputContainer
-     * @return true if there were no exceptions
-     */
-    @Override
-    public Boolean addToDepositSlot(ResourceContainer inputContainer) {
-        int quantityThatIwantToAdd = inputContainer.getQty();
-
-        this.getDepositContainer().addQta(quantityThatIwantToAdd);
-
-        return true;
-    }
-
 
     /**
      * removes the quantity from a resourceContainer
@@ -85,7 +85,7 @@ public class LeaderDepositSlot extends DepositSlot {
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToRemove = inputContainer.getQty();
 
-        this.getDepositContainer().addQta(-quantityThatIwantToRemove);
+        this.getDepositContainer().addQty(-quantityThatIwantToRemove);
         return true;
 
     }

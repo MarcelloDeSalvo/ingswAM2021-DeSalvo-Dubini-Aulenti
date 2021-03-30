@@ -9,20 +9,20 @@ class ResourceContainerTest {
     @Test
     void addQta() {
         ResourceContainer container = new ResourceContainer(ResourceType.STONE, 4);
-        container.addQta(3);
+        container.addQty(3);
         assertEquals(container.getQty(), 7);
     }
 
     @Test
     void addNegativeQta() {
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 5);
-        container.addQta(-2);
+        container.addQty(-2);
         assertEquals(container.getQty(), 3);
     }
     
     @Test
     void testAddQtaWithNegativeOutput() {
-        assertThrows(ArithmeticException.class, () -> new ResourceContainer(ResourceType.STONE, 2).addQta(-10));
+        assertThrows(ArithmeticException.class, () -> new ResourceContainer(ResourceType.STONE, 2).addQty(-10));
     }
 
     @Test
@@ -60,7 +60,7 @@ class ResourceContainerTest {
     void hasEnough() {
         ResourceContainer container1 = new ResourceContainer(ResourceType.MINION, 5);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 2);
-        container1.addQta(3);
+        container1.addQty(3);
 
         assertTrue(container1.hasEnough(container2));
         assertFalse(container2.hasEnough(container1));
@@ -71,14 +71,14 @@ class ResourceContainerTest {
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 0);
 
         assertTrue(container.isEmpty());
-        container.addQta(2);
+        container.addQty(2);
         assertFalse(container.isEmpty());
     }
 
     @Test
     void isNull(){
         ResourceContainer container = new ResourceContainer(null, 10);
-        container.addQta(-1);
+        container.addQty(-1);
         assertEquals(container.getQty(), 9);
 
         container.setResourceType(ResourceType.GOLD);
@@ -91,7 +91,7 @@ class ResourceContainerTest {
         container.setResourceType(ResourceType.GOLD);
         assertEquals(container.getResourceType(), ResourceType.GOLD);
 
-        assertThrows(ArithmeticException.class, () -> container.addQta(-11));
+        assertThrows(ArithmeticException.class, () -> container.addQty(-11));
         assertEquals(container.getQty(), 10);
     }
 

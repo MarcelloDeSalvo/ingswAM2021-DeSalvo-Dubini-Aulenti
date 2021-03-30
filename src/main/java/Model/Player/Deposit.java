@@ -73,9 +73,9 @@ public class Deposit {
      * @return true
      */
     public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot target){
-        target.getDepositContainer().addQta(selectedQta);
+        target.getDepositContainer().addQty(selectedQta);
         target.setDepositResourceType(selected.getDepositResourceType());
-        selected.getDepositContainer().addQta(-selectedQta);
+        selected.getDepositContainer().addQty(-selectedQta);
         return true;
     }
 
@@ -97,7 +97,7 @@ public class Deposit {
 
         if(!target.isEmpty()){
             if ((target.hasSameTypeAs(selected))){
-                if( selectedQta + target.getResourceQta()<= target.getMaxDim() ) {
+                if( selectedQta + target.getResourceQty()<= target.getMaxDim() ) {
                     return true;
                 }else {
                     throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
