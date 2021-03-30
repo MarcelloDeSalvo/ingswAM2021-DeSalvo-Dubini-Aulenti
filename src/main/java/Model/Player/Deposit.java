@@ -65,20 +65,6 @@ public class Deposit {
     }
 
 
-    /**
-     * Switch a selected number of resources from one deposit to another (target)
-     * @param selected is the one selected by the user
-     * @param selectedQta is the resource quantity that the user wants to move
-     * @param target is the deposit where the user wants the resources to be placed
-     * @return true
-     */
-    public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot target){
-        target.getDepositContainer().addQty(selectedQta);
-        target.setDepositResourceType(selected.getDepositResourceType());
-        selected.getDepositContainer().addQty(-selectedQta);
-        return true;
-    }
-
 
     /**
      * Chacks if the controller can call switchDeposit() in order to switch some number of resources from one deposit(selected) to another(target)
@@ -113,6 +99,21 @@ public class Deposit {
 
         }
     }
+
+    /**
+     * Switch a selected number of resources from one deposit to another (target)
+     * @param selected is the one selected by the user
+     * @param selectedQta is the resource quantity that the user wants to move
+     * @param target is the deposit where the user wants the resources to be placed
+     * @return true
+     */
+    public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot target){
+        target.getDepositContainer().addQty(selectedQta);
+        target.setDepositResourceType(selected.getDepositResourceType());
+        selected.getDepositContainer().addQty(-selectedQta);
+        return true;
+    }
+
 
 
     //getter and setter
