@@ -1,6 +1,6 @@
 package Model.Player;
 
-import Model.Exceptions.DepositSlotMaxDimExceeded;
+ import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.Gold;
