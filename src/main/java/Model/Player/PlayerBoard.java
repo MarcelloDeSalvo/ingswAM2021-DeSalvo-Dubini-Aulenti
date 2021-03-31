@@ -19,7 +19,25 @@ public class PlayerBoard {
         this.discountSite = new DiscountSite();
     }
 
+    public Deposit getDeposit() {
+        return deposit;
+    }
 
+    public Vault getVault() {
+        return vault;
+    }
+
+    public ProductionSite getProductionSite() {
+        return productionSite;
+    }
+
+    public ConvertionSite getConvertionSite() {
+        return convertionSite;
+    }
+
+    public DiscountSite getDiscountSite() {
+        return discountSite;
+    }
 }
 
 
