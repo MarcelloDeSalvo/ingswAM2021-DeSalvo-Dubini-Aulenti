@@ -1,6 +1,8 @@
 package Model.Player;
 
+import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Player.Deposit.DefaultDepositSlot;
+import Model.Player.Deposit.Deposit;
 import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -149,6 +151,32 @@ class DepositSlotTest {
 
         assertTrue(slot.isEmpty());
     }
+
+    @Test
+    void canSwitchWithTest1() {
+        Deposit deposit = new Deposit(5);
+        deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+        deposit.getDefaultSlot_WithDim(4).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 2));
+        assertEquals(2,deposit.getDefaultSlot_WithDim(2).getResourceQty());
+        assertEquals(2,deposit.getDefaultSlot_WithDim(4).getResourceQty());
+        assertAll(()->deposit.canSwitchDeposit(deposit.getDefaultSlot_WithDim(2), deposit.getDefaultSlot_WithDim(4)));
+        deposit.getDefaultSlot_WithDim(4).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 2));
+        assertThrows(DepositSlotMaxDimExceeded.class, ()->deposit.canSwitchDeposit(deposit.getDefaultSlot_WithDim(2),deposit.getDefaultSlot_WithDim(4) ));
+        deposit.getDefaultSlot_WithDim(4).removeFromDepositSlot(new ResourceContainer(ResourceType.MINION, 2));
+        deposit.switchToDeposit(deposit.getDefaultSlot_WithDim(2), deposit.getDefaultSlot_WithDim(4) );
+        assertEquals(2,deposit.getDefaultSlot_WithDim(2).getResourceQty());
+        assertEquals(2,deposit.getDefaultSlot_WithDim(4).getResourceQty());
+        assertEquals(ResourceType.GOLD,deposit.getDefaultSlot_WithDim(4).getDepositResourceType());
+    }
+
+    @Test
+    void canSwitchWithTest2(){
+        Deposit deposit = new Deposit(5);
+        deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+        deposit.getDefaultSlot_WithDim(4).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 2));
+
+    }
+
 
 
     /*@Test

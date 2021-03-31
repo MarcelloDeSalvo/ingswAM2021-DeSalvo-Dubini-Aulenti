@@ -47,6 +47,18 @@ class DepositTest {
     void removeDepositSlot() {
     }
 
+
+    @Test
+    void canSwitchDeposit_1(){
+        Deposit deposit= new Deposit(4);
+
+
+
+
+
+    }
+
+
     /*
     @Test
     void canSwitchDeposit_1() {
