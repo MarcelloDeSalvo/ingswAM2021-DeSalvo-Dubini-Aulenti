@@ -1,5 +1,7 @@
 package Model.Cards;
 
-public interface Requirement
-{
+import Model.Player.PlayerBoard;
+
+public interface Requirement {
+    public boolean checkRequirements (PlayerBoard playerBoard);
 }

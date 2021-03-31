@@ -1,4 +1,4 @@
-package Model.Player;
+package Model.Player.Deposit;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
@@ -65,54 +65,38 @@ public class Deposit {
     }
 
 
-    /**
-     * Switch a selected number of resources from one deposit to another (target)
-     * @param selected is the one selected by the user
-     * @param selectedQta is the resource quantity that the user wants to move
-     * @param target is the deposit where the user wants the resources to be placed
-     * @return true
-     */
-    public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot target){
-        target.getDepositContainer().addQty(selectedQta);
-        target.setDepositResourceType(selected.getDepositResourceType());
-        selected.getDepositContainer().addQty(-selectedQta);
-        return true;
-    }
-
 
     /**
      * Chacks if the controller can call switchDeposit() in order to switch some number of resources from one deposit(selected) to another(target)
      * @param selected is the one selected by the user
      * @param selectedQta is the resource quantity that the user wants to move
-     * @param target is the deposit where the user wants the resources to be placed
+     * @param destination is the deposit where the user wants the resources to be placed
      * @return true if the user chose a legit quantity from the selected deposit that can fits in the target deposit
      * @throws DepositSlotMaxDimExceeded
      * @throws DifferentResourceType
      * @throws NotEnoughResources
      */
-    public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot target) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
-        if(selected.getDepositContainer().getQty()<selectedQta) {
-            throw new NotEnoughResources("Not enough resources");
-        }
-
-        if(!target.isEmpty()){
-            if ((target.hasSameTypeAs(selected))){
-                if( selectedQta + target.getResourceQty()<= target.getMaxDim() ) {
-                    return true;
-                }else {
-                    throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
-                }
-            }else{
-                throw new DifferentResourceType("Not the same type");
-            }
-        }else{
-            if( selectedQta <= target.getMaxDim() )
-                return true;
-            else
-                throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
-
-        }
+    public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
+        if (selected.canSwitchWith(destination, selectedQta) && destination.canSwitchWith(selected, destination.getResourceQty()))
+            return true;
+        return false;
     }
+
+    /**
+     * Switch a selected number of resources from one deposit to another (destination)
+     * @param selected is the one selected by the user
+     * @param selectedQta is the resource quantity that the user wants to move
+     * @param destination is the deposit where the user wants the resources to be placed
+     * @return true
+     */
+    public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot destination){
+        int initialDestinationQuantity =  destination.getResourceQty();
+
+        selected.switchWith(destination, selectedQta);
+        destination.switchWith(selected, initialDestinationQuantity);
+        return true;
+    }
+
 
 
     //getter and setter
