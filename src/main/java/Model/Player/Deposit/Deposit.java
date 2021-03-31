@@ -4,6 +4,7 @@ import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Exceptions.ResourceTypeAlreadyStored;
+import Model.Resources.ResourceType;
 
 
 import java.util.ArrayList;
@@ -112,19 +113,14 @@ public class Deposit {
     }
 
     /**
-     * Transfer a selected number of resources from one deposit to another (destination)
+     * Switch resources from one deposit to another (destination)
      * @param selected is the one selected by the user
-     * @param selectedQta is the resource quantity that the user wants to move
-     * @param destination is the deposit where the user wants the resources to be placed
+     * @param destination is the deposit that will switch resources with the selected one
      * @return true
      */
-    public boolean switchToDeposit(DepositSlot selected, int selectedQta, DepositSlot destination){
-        int initialDestinationQuantity =  destination.getResourceQty();
-
-        selected.transferTo(destination, selectedQta);
-        destination.transferTo(selected, initialDestinationQuantity);
+    public boolean switchToDeposit(DepositSlot selected, DepositSlot destination){
+        selected.switchTo(destination);
         return true;
-
     }
 
 
