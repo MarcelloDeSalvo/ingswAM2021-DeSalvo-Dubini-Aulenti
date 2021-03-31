@@ -96,8 +96,9 @@ public class DefaultDepositSlot extends DepositSlot {
 
     @Override
     public boolean transferTo(DepositSlot destination, int quantityThatIwantToSwitch) {
-        super.transferTo(destination, quantityThatIwantToSwitch);
         remakeTypeAvailableIfEmpty();
+
+        super.transferTo(destination, quantityThatIwantToSwitch);
         return true;
     }
 
@@ -123,22 +124,19 @@ public class DefaultDepositSlot extends DepositSlot {
         return true;
     }
 
-
-    private boolean isTheResourceTypeAlreadyTaken(ResourceType inputResType){
-
-        if(this.getDepositResourceType() == null)
-            return false;
-
-        if(inputResType == this.getDepositResourceType())
-            return false;
-
-        if(!getNotAvailableResourceType().contains(inputResType))
-            return false;
-
-        return true;
+    public void clearSet(){
+        notAvailableResourceType.clear();
     }
 
+
+
     //getter and setter
+    public void getHashSetData(){
+        for (ResourceType rs: notAvailableResourceType) {
+            System.out.println(rs.toString());
+        }
+    }
+
     public static HashSet<ResourceType> getNotAvailableResourceType() {
         return notAvailableResourceType;
     }
@@ -148,9 +146,24 @@ public class DefaultDepositSlot extends DepositSlot {
     }
 
     //private methods
+    private boolean isTheResourceTypeAlreadyTaken(ResourceType inputResType){
+
+        if(inputResType == this.getDepositResourceType())
+            return false;
+
+        if(!getNotAvailableResourceType().contains(inputResType))
+            return false;
+
+        getHashSetData();
+
+        return true;
+    }
+
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());
+        getHashSetData();
+
     }
 
 }

@@ -80,12 +80,14 @@ public abstract class  DepositSlot {
      * Transfer a desired quantity from one deposit to another one
      * Sets the target deposit's ResourceType equal as this ResourceType
      * @param destination is the deposit where the user wants the resources to be placed
-     * @param quantityThatIwantToSwitch
+     * @param quantityThatIwantToTransfer
      * @return true
      */
-    public boolean transferTo(DepositSlot destination, int quantityThatIwantToSwitch){
-        this.getDepositContainer().addQty(-quantityThatIwantToSwitch);
-        destination.getDepositContainer().addQty(quantityThatIwantToSwitch);
+    public boolean transferTo(DepositSlot destination, int quantityThatIwantToTransfer){
+        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIwantToTransfer);
+        this.removeFromDepositSlot(send);
+        destination.addToDepositSlot(send);
+
         destination.setDepositResourceType(this.getDepositResourceType());
         return true;
     }
