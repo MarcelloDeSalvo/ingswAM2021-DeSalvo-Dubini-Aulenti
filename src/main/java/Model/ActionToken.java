@@ -3,7 +3,7 @@ package Model;
 import Model.Player.Player;
 
 interface Action{
-    Boolean doAction(Game g);
+    boolean doAction(Game g);
 }
 
 public class ActionToken {

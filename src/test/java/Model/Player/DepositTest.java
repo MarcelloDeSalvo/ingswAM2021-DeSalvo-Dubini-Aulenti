@@ -47,6 +47,7 @@ class DepositTest {
     void removeDepositSlot() {
     }
 
+    /*
     @Test
     void canSwitchDeposit_1() {
         Deposit deposit = new Deposit(3);
@@ -69,16 +70,34 @@ class DepositTest {
     }
 
     @Test
-    void switchDeposit_3() {
+    void canSwitchDeposit_3() {
+        Deposit deposit = new Deposit(3);
+
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
+        lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+
+        deposit.getDefaultSlot_WithDim(3).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
+        assertEquals(deposit.getDefaultSlot_WithDim(3).getResourceQty(), 2);
+
+        assertAll(()-> deposit.canSwitchDeposit(lds,1,deposit.getDefaultSlot_WithDim(3)));
+        assertTrue(deposit.transferToDeposit(lds,1,deposit.getDefaultSlot_WithDim(3)));
+
+        assertEquals(lds.getResourceQty(), 1);
+        assertEquals(deposit.getDefaultSlot_WithDim(3).getResourceQty(), 3);
+    }
+
+    @Test
+    void switchDeposit() {
         Deposit deposit = new Deposit(3);
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         deposit.addDepositSlot(lds);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
-        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
+        assertTrue(deposit.transferToDeposit(deposit.getDefaultSlot_WithDim(2),2, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
         assertEquals(lds.getResourceQty(),2);
         assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(),0);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,1));
-        assertTrue(deposit.switchDeposit(deposit.getDefaultSlot_WithDim(2),1, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
+        assertTrue(deposit.transferToDeposit(deposit.getDefaultSlot_WithDim(2),1, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
 
     }
+*/
 }

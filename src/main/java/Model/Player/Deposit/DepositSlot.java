@@ -3,6 +3,7 @@ package Model.Player.Deposit;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Exceptions.ResourceTypeAlreadyStored;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -27,7 +28,7 @@ public abstract class  DepositSlot {
      * @throws DifferentResourceType when there is a ResourceType mismatch
      * @throws DepositSlotMaxDimExceeded when it would add too many resources
      */
-    public abstract Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded;
+    public abstract boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
      * adds the quantity from a resourceContainer in any case.
@@ -35,7 +36,7 @@ public abstract class  DepositSlot {
      * @param inputContainer
      * @return true if there were no errors
      */
-    public abstract Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
+    public abstract boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
 
     /**
      * It's the function that gives the permission to remove or not to the Controller
@@ -44,7 +45,7 @@ public abstract class  DepositSlot {
      * @throws DifferentResourceType when there is a ResourceType mismatch
      * @throws NotEnoughResources when the resources are insufficient
      */
-    public abstract Boolean addToDepositSlot(ResourceContainer inputContainer);
+    public abstract boolean addToDepositSlot(ResourceContainer inputContainer);
 
     /**
      * removes the quantity from a resourceContainer
@@ -52,28 +53,40 @@ public abstract class  DepositSlot {
      * @param inputContainer
      * @return true if there were no exceptions
      */
-    public abstract Boolean removeFromDepositSlot(ResourceContainer inputContainer);
+    public abstract boolean removeFromDepositSlot(ResourceContainer inputContainer);
 
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
      * @param quantityThatIwantToSwitch
-     * @return true if the selected deposit can transfer his resources with another generic deposit
+     * @return true if the selected deposit can transfer his resources to another generic deposit
+     * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
+     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
+     * @throws DifferentResourceType if the selected slot has some Resourcetype restrictions
+     */
+    public abstract boolean canTransferTo(DepositSlot destination, int quantityThatIwantToSwitch) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
+
+    /**
+     * Used when the Deposit's type allows the storage of different ResourceType
+     * Gives the controller the permission to switch a desired quantity from one deposit to another
+     * @param destination is the deposit that will switch resources with the selected one
+     * @return true if the Deposit's type can switch his resources with another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
-    public abstract boolean canSwitchWith(DepositSlot destination, int quantityThatIwantToSwitch) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded;
-
+    public abstract boolean canSwitchWith(DepositSlot destination) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
-     * Switches the resources between two deposits
-     * @param destination is the deposit where the user wants the resources to be moved
+     * Transfer a desired quantity from one deposit to another one
+     * Sets the target deposit's ResourceType equal as this ResourceType
+     * @param destination is the deposit where the user wants the resources to be placed
      * @param quantityThatIwantToSwitch
      * @return true
      */
-    public boolean switchWith(DepositSlot destination, int quantityThatIwantToSwitch){
+    public boolean transferTo(DepositSlot destination, int quantityThatIwantToSwitch){
         this.getDepositContainer().addQty(-quantityThatIwantToSwitch);
         destination.getDepositContainer().addQty(quantityThatIwantToSwitch);
+        destination.setDepositResourceType(this.getDepositResourceType());
         return true;
     }
 
