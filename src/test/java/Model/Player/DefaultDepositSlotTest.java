@@ -3,6 +3,7 @@ package Model.Player;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Exceptions.ResourceTypeAlreadyStored;
 import Model.Player.Deposit.DefaultDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -37,7 +38,7 @@ class DefaultDepositSlotTest {
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
         slot.addToDepositSlot(container);
 
-        assertThrows(DifferentResourceType.class, () -> slot.canAddToDepositSlot(container2));
+        assertThrows(ResourceTypeAlreadyStored.class, () -> slot.canAddToDepositSlot(container2));
     }
 
     @Test
@@ -126,4 +127,5 @@ class DefaultDepositSlotTest {
 
         assertEquals(slot.getDepositContainer(), new ResourceContainer(ResourceType.MINION, 1));
     }
+
 }

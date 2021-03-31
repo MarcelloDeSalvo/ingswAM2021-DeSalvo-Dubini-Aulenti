@@ -3,6 +3,7 @@ package Model.Player.Deposit;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Exceptions.ResourceTypeAlreadyStored;
 import Model.Player.Deposit.DepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -22,7 +23,7 @@ public class LeaderDepositSlot extends DepositSlot {
 
 
     @Override
-    public Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
+    public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityThatIwantToAdd = inputContainer.getQty();
 
         if (!this.getDepositContainer().isTheSameType(inputContainer))
@@ -37,7 +38,7 @@ public class LeaderDepositSlot extends DepositSlot {
 
 
     @Override
-    public Boolean addToDepositSlot(ResourceContainer inputContainer) {
+    public boolean addToDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToAdd = inputContainer.getQty();
 
         this.getDepositContainer().addQty(quantityThatIwantToAdd);
@@ -47,7 +48,7 @@ public class LeaderDepositSlot extends DepositSlot {
 
 
     @Override
-    public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
+    public boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
 
         if (!this.getDepositContainer().isTheSameType(inputContainer))
             throw new DifferentResourceType("Not the same type");
@@ -61,7 +62,7 @@ public class LeaderDepositSlot extends DepositSlot {
 
 
     @Override
-    public Boolean removeFromDepositSlot(ResourceContainer inputContainer) {
+    public boolean removeFromDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToRemove = inputContainer.getQty();
 
         this.getDepositContainer().addQty(-quantityThatIwantToRemove);
@@ -72,23 +73,32 @@ public class LeaderDepositSlot extends DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIwantToSwitch
+     * @param quantityThatIwantToTransfer
      * @return true if the LeaderDeposit can transfer his resources with another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
     @Override
-    public boolean canSwitchWith(DepositSlot destination, int quantityThatIwantToSwitch) throws DifferentResourceType, NotEnoughResources, DepositSlotMaxDimExceeded{
-        if(!this.canRemove(quantityThatIwantToSwitch))
+    public boolean canTransferTo(DepositSlot destination, int quantityThatIwantToTransfer) throws DifferentResourceType, NotEnoughResources, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
+        if(!this.canRemove(quantityThatIwantToTransfer))
             throw  new NotEnoughResources("Not enough resources");
 
         if(!destination.isTheSameType(this) && !destination.isEmpty())
             throw new DifferentResourceType("Not the same type");
 
-        if (quantityThatIwantToSwitch > destination.getMaxDim())
-            throw new DepositSlotMaxDimExceeded("Maximum dimension excedeed");
+        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIwantToTransfer);
+        if (destination.canAddToDepositSlot(send))
+            return true;
 
-        return true;
+        return false;
+    }
+
+    /**
+     * @return false because the LeaderDeposit (by default) can only store one ResourceType
+     */
+    @Override
+    public boolean canSwitchWith(DepositSlot destination) throws NotEnoughResources, DepositSlotMaxDimExceeded, DifferentResourceType{
+        return false;
     }
 
 

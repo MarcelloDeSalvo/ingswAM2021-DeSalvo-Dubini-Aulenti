@@ -3,6 +3,7 @@ package Model.Player.Deposit;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
+import Model.Exceptions.ResourceTypeAlreadyStored;
 
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class Deposit {
      * @param lds
      * @return false if there is an argument exception (NoSuchElementException)
      */
-    public Boolean addDepositSlot(LeaderDepositSlot lds) {
+    public boolean addDepositSlot(LeaderDepositSlot lds) {
         if(lds != null && depositList.add(lds)){
             return true;
         }else {
@@ -56,7 +57,7 @@ public class Deposit {
      * @param depositSlot
      * @return false if there is an argument exception (NoSuchElementException)
      */
-    public Boolean removeDepositSlot(DepositSlot depositSlot){
+    public boolean removeDepositSlot(DepositSlot depositSlot){
         if(depositSlot != null && depositList.remove(depositSlot)){
             return true;
         } else{
@@ -65,9 +66,8 @@ public class Deposit {
     }
 
 
-
     /**
-     * Chacks if the controller can call switchDeposit() in order to switch some number of resources from one deposit(selected) to another(target)
+     * Chacks if the controller can transfer some number of resources from one deposit(selected) to another(destination)
      * @param selected is the one selected by the user
      * @param selectedQta is the resource quantity that the user wants to move
      * @param destination is the deposit where the user wants the resources to be placed
@@ -76,27 +76,56 @@ public class Deposit {
      * @throws DifferentResourceType
      * @throws NotEnoughResources
      */
-    public Boolean canSwitchDeposit(DepositSlot selected, int selectedQta, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources {
-        if (selected.canSwitchWith(destination, selectedQta) && destination.canSwitchWith(selected, destination.getResourceQty()))
+    public boolean canTransferDeposit(DepositSlot selected, int selectedQta, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
+        if (selected.canTransferTo(destination, selectedQta))
             return true;
         return false;
     }
 
     /**
-     * Switch a selected number of resources from one deposit to another (destination)
+     * Chacks if the controller can call switchDeposit() in order to switch some number of resources of different kinds from one deposit(selected) to another(destination)
+     * @param selected is the one selected by the user
+     * @param destination is the deposit that will switch resources with the selected one
+     * @return true if the Deposit's type can switch his resources with another generic deposit
+     * @throws DepositSlotMaxDimExceeded
+     * @throws DifferentResourceType
+     * @throws NotEnoughResources
+     */
+    public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored {
+        if (selected.canSwitchWith(destination) && destination.canSwitchWith(selected))
+            return true;
+        return false;
+    }
+
+
+    /**
+     * Transfer a selected number of resources from one deposit to another (destination)
      * @param selected is the one selected by the user
      * @param selectedQta is the resource quantity that the user wants to move
      * @param destination is the deposit where the user wants the resources to be placed
      * @return true
      */
-    public Boolean switchDeposit(DepositSlot selected, int selectedQta, DepositSlot destination){
-        int initialDestinationQuantity =  destination.getResourceQty();
-
-        selected.switchWith(destination, selectedQta);
-        destination.switchWith(selected, initialDestinationQuantity);
+    public boolean transferToDeposit(DepositSlot selected, int selectedQta, DepositSlot destination){
+        selected.transferTo(destination, selectedQta);
         return true;
+
     }
 
+    /**
+     * Transfer a selected number of resources from one deposit to another (destination)
+     * @param selected is the one selected by the user
+     * @param selectedQta is the resource quantity that the user wants to move
+     * @param destination is the deposit where the user wants the resources to be placed
+     * @return true
+     */
+    public boolean switchToDeposit(DepositSlot selected, int selectedQta, DepositSlot destination){
+        int initialDestinationQuantity =  destination.getResourceQty();
+
+        selected.transferTo(destination, selectedQta);
+        destination.transferTo(selected, initialDestinationQuantity);
+        return true;
+
+    }
 
 
     //getter and setter
