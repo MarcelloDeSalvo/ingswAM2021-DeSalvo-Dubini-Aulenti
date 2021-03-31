@@ -7,11 +7,18 @@ import Model.Exceptions.ResourceTypeAlreadyStored;
 import Model.Player.Deposit.DefaultDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DefaultDepositSlotTest {
+
+    @BeforeEach
+    void clearStaticSet(){
+        DefaultDepositSlot clear = new DefaultDepositSlot(1);
+        clear.clearSet();
+    }
 
     @Test
     void canAddToDepositSlot() {
@@ -38,7 +45,7 @@ class DefaultDepositSlotTest {
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
         slot.addToDepositSlot(container);
 
-        assertThrows(ResourceTypeAlreadyStored.class, () -> slot.canAddToDepositSlot(container2));
+        assertThrows(DifferentResourceType.class, () -> slot.canAddToDepositSlot(container2));
     }
 
     @Test

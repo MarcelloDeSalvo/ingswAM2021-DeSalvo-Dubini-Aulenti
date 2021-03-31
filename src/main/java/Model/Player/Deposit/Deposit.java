@@ -54,6 +54,7 @@ public class Deposit {
     }
 
     /**
+     * warning: this feature should not be used according to the rules of the base game
      * removes a DepostiSlot from the depositList
      * @param depositSlot
      * @return false if there is an argument exception (NoSuchElementException)
@@ -68,7 +69,33 @@ public class Deposit {
 
 
     /**
-     * Chacks if the controller can transfer some number of resources from one deposit(selected) to another(destination)
+     * Integrates switchToDeposit() and transferToDeposit() for an automated selection between the two methods
+     * @param selected is the one selected by the user
+     * @param selectedQty is the resource quantity that the user wants to move
+     * @param destination is the deposit where the user wants the resources to be placed
+     * @return true if transfer or switch deposit ends without exceptions
+     * @throws DepositSlotMaxDimExceeded
+     * @throws DifferentResourceType
+     * @throws NotEnoughResources
+     * @throws ResourceTypeAlreadyStored
+     */
+    public boolean moveTo(DepositSlot selected, int selectedQty, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
+
+        if(!selected.isTheSameType(destination))
+            if(selected.getResourceQty()==selectedQty)
+                if (canSwitchDeposit(selected, destination))
+                    return switchToDeposit(selected, destination);
+
+        if(selected.canTransferTo(destination, selectedQty))
+            return selected.transferTo(destination,selectedQty);
+
+        return false;
+    }
+
+
+
+    /**
+     * Checks if the controller can transfer some number of resources from one deposit(selected) to another(destination)
      * @param selected is the one selected by the user
      * @param selectedQta is the resource quantity that the user wants to move
      * @param destination is the deposit where the user wants the resources to be placed
@@ -92,7 +119,7 @@ public class Deposit {
      * @throws DifferentResourceType
      * @throws NotEnoughResources
      */
-    public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored {
+    public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
         if (selected.canSwitchWith(destination) && destination.canSwitchWith(selected))
             return true;
         return false;
