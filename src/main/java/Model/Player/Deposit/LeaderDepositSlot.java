@@ -97,7 +97,7 @@ public class LeaderDepositSlot extends DepositSlot {
      * @return false because the LeaderDeposit (by default) can only store one ResourceType
      */
     @Override
-    public boolean canSwitchWith(DepositSlot destination) throws NotEnoughResources, DepositSlotMaxDimExceeded, DifferentResourceType{
+    public boolean canSwitchWith(DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored{
         return false;
     }
 

@@ -71,10 +71,10 @@ public abstract class  DepositSlot {
      * Gives the controller the permission to switch a desired quantity from one deposit to another
      * @param destination is the deposit that will switch resources with the selected one
      * @return true if the Deposit's type can switch his resources with another generic deposit
-     * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
+     * @throws ResourceTypeAlreadyStored if the user wants to move already stored ResourceTypes
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
-    public abstract boolean canSwitchWith(DepositSlot destination) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
+    public abstract boolean canSwitchWith(DepositSlot destination) throws  DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
      * Transfer a desired quantity from one deposit to another one
