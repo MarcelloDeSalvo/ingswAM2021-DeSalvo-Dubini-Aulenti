@@ -116,8 +116,8 @@ public class DefaultDepositSlot extends DepositSlot {
         if(allResources> destination.getMaxDim())
             throw new DepositSlotMaxDimExceeded("They don't have enough available space");
 
-        if(isTheResourceTypeAlreadyTaken(destination.getDepositResourceType()))
-            throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type");
+        //if(isTheResourceTypeAlreadyTaken(destination.getDepositResourceType()))   Pensare a come farlo bene tra due default
+            //throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type");
 
 
         return true;

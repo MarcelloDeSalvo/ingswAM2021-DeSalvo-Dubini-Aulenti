@@ -90,6 +90,22 @@ public abstract class  DepositSlot {
         return true;
     }
 
+    public boolean switchTo(DepositSlot destination){  //works only between defaults deposits
+        int myQty = this.getResourceQty();
+        int hisQty = destination.getResourceQty();
+        ResourceType myResType = this.getDepositResourceType();
+        ResourceType hisResType = destination.getDepositResourceType();
+
+        this.getDepositContainer().addQty(-myQty);
+        destination.getDepositContainer().addQty(myQty);
+        destination.setDepositResourceType(myResType);
+
+        destination.getDepositContainer().addQty(-hisQty);
+        this.getDepositContainer().addQty(hisQty);
+        this.setDepositResourceType(hisResType);
+        return true;
+    }
+
 
     public boolean canAdd(int input) {
         return (input+depositContainer.getQty()<=maxDim);
