@@ -50,9 +50,10 @@ class DepositTest {
     @Test
     void canSwitchDeposit_1() {
         Deposit deposit = new Deposit(3);
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
 
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+
         assertTrue(deposit.getDepositList().get(0).isEmpty());
         assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canSwitchDeposit(lds,2, deposit.getDepositList().get(0)));
         assertAll( ()-> deposit.canSwitchDeposit(lds,2, deposit.getDepositList().get(1)));

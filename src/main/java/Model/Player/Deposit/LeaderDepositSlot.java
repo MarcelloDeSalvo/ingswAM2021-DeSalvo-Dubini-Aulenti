@@ -20,13 +20,7 @@ public class LeaderDepositSlot extends DepositSlot {
         System.out.println("You cannot modify the resource type on a LeaderDeposit");
     }
 
-    /**
-     * It's the function that gives the permission to add or not to the Controller
-     * @param inputContainer
-     * @return true if he can add the resources
-     * @throws DifferentResourceType when there is a ResourceType mismatch
-     * @throws DepositSlotMaxDimExceeded when it would add too many resources
-     */
+
     @Override
     public Boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityThatIwantToAdd = inputContainer.getQty();
@@ -41,12 +35,7 @@ public class LeaderDepositSlot extends DepositSlot {
 
     }
 
-    /**
-     * adds the quantity from a resourceContainer in any case.
-     * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
-     * @param inputContainer
-     * @return true if there were no errors
-     */
+
     @Override
     public Boolean addToDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToAdd = inputContainer.getQty();
@@ -56,13 +45,7 @@ public class LeaderDepositSlot extends DepositSlot {
         return true;
     }
 
-    /**
-     * It's the function that gives the permission to remove or not to the Controller
-     * @param inputContainer
-     * @return true if he can
-     * @throws DifferentResourceType when there is a ResourceType mismatch
-     * @throws NotEnoughResources when the resources are insufficient
-     */
+
     @Override
     public Boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
 
@@ -76,12 +59,7 @@ public class LeaderDepositSlot extends DepositSlot {
     }
 
 
-    /**
-     * removes the quantity from a resourceContainer
-     * It needs to be called after CanRemoveFromDepositSlot if the user wants to follow the rules
-     * @param inputContainer
-     * @return true if there were no exceptions
-     */
+
     @Override
     public Boolean removeFromDepositSlot(ResourceContainer inputContainer) {
         int quantityThatIwantToRemove = inputContainer.getQty();
@@ -89,6 +67,28 @@ public class LeaderDepositSlot extends DepositSlot {
         this.getDepositContainer().addQty(-quantityThatIwantToRemove);
         return true;
 
+    }
+
+    /**
+     * gives the controller the permission to move a desired quantity from one deposit to another
+     * @param destination is the deposit where the user wants the resources to be moved
+     * @param quantityThatIwantToSwitch
+     * @return true if the LeaderDeposit can transfer his resources with another generic deposit
+     * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
+     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
+     */
+    @Override
+    public boolean canSwitchWith(DepositSlot destination, int quantityThatIwantToSwitch) throws DifferentResourceType, NotEnoughResources, DepositSlotMaxDimExceeded{
+        if(!this.canRemove(quantityThatIwantToSwitch))
+            throw  new NotEnoughResources("Not enough resources");
+
+        if(!destination.isTheSameType(this) && !destination.isEmpty())
+            throw new DifferentResourceType("Not the same type");
+
+        if (quantityThatIwantToSwitch > destination.getMaxDim())
+            throw new DepositSlotMaxDimExceeded("Maximum dimension excedeed");
+
+        return true;
     }
 
 
