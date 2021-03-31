@@ -105,16 +105,13 @@ public class DefaultDepositSlot extends DepositSlot {
      * Used when the Deposit's type allows the storage of different ResourceType
      * Gives the controller the permission to switch a desired quantity from one deposit to another
      * @param destination is the deposit that will switch resources with the selected one
-     * @return true if the Default Deposit can switch his resources with another generic deposit, for example when they contain different resource types
-     * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
+     * @return true if the Default Deposit can switch his resources with another generic deposit
+     * @throws ResourceTypeAlreadyStored if the user wants to move already stored ResourceTypes
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
     @Override
-    public boolean canSwitchWith(DepositSlot destination) throws NotEnoughResources, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored{
+    public boolean canSwitchWith(DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored{
         int allResources = this.getResourceQty();
-
-        if(!this.canRemove(allResources))
-            throw  new NotEnoughResources("Not enough resources");
 
         if(allResources> destination.getMaxDim())
             throw new DepositSlotMaxDimExceeded("They don't have enough available space");
