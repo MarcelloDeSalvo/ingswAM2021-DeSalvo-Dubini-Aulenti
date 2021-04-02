@@ -45,6 +45,7 @@ public class DiscountSite {
         return true;
     }
 
-
-
+    public HashMap<ResourceType, Integer> getDiscountMap() {
+        return discountMap;
+    }
 }
