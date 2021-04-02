@@ -4,10 +4,12 @@ import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
 public class PriceRequirement implements Requirement{
-    private ResourceContainer price;
+    private ResourceContainer priceContainer;
+    private int discountedPrice;
 
     public PriceRequirement(ResourceContainer price) {
-        this.price = price;
+        this.priceContainer = price;
+        this.discountedPrice = price.getQty();
     }
 
     /**
@@ -17,18 +19,28 @@ public class PriceRequirement implements Requirement{
      */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
-        int discountQty = playerBoard.getDiscountSite().getDiscount(this.price.getResourceType());
-        int discountedPrice = this.price.getQty() - discountQty;
+        int discountQty = playerBoard.getDiscountSite().getDiscount(this.priceContainer.getResourceType());
+        this.discountedPrice = this.priceContainer.getQty() - discountQty;
         return true;
     }
 
 
     //getter and setter
-    public ResourceContainer getPrice() {
-        return price;
+
+    public ResourceContainer getPriceContainer() {
+        return priceContainer;
     }
 
-    public void setPrice(ResourceContainer price) {
-        this.price = price;
+    public void setPriceContainer(ResourceContainer priceContainer) {
+        this.priceContainer = priceContainer;
     }
+
+    public int getDiscountedPrice() {
+        return discountedPrice;
+    }
+
+    public void setDiscountedPrice(int discountedPrice) {
+        this.discountedPrice = discountedPrice;
+    }
+
 }
