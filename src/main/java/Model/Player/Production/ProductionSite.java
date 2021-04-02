@@ -28,7 +28,7 @@ public class ProductionSite {
 
     //Per aggiungere LeaderCardProduction useremo una funz addProductionSlot
 
-    public boolean hasEnoughDevelopementCardsWith(int numberRequired, int level, Colour colour){
+    public boolean hasEnoughDevelopmentCardsWith(int numberRequired, int level, Colour colour){
         int cardNumber = 0;
         for(ProductionSlot ps : productionSlots){
             cardNumber += ps.countCardsWith(level, colour);
