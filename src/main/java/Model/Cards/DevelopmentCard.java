@@ -34,14 +34,23 @@ public class DevelopmentCard extends Card{
         this.output.add(resourceContainer);
     }
 
+
     @Override
     public boolean changeStatus (Status status) {
         setStatus(status);
         return true;
     }
 
+    /**
+     * check if this card has the level and colour required
+     * @param l is the level required [Level = 0 means any level]
+     * @param c is the colour required
+     * @return true if the inputs are equal to the card attributes
+     */
     public boolean isSameLevelandColour(int l, Colour c){
-        return this.getColour() == c && this.getLevel() == l;
+        if(this.getColour() == c && (this.getLevel() == l || l==0))
+            return true;
+        return false;
     }
 
     public int getLevel() {

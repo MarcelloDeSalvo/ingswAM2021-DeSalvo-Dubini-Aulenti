@@ -10,6 +10,11 @@ public class PriceRequirement implements Requirement{
         this.price = price;
     }
 
+    /**
+     * Check if the player has some active discount for one specific ResourceType
+     * @param playerBoard is the current player's PlayerBoard
+     * @return the discounted price or the original price
+     */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
         int discountQty = playerBoard.getDiscountSite().getDiscount(this.price.getResourceType());
@@ -17,6 +22,8 @@ public class PriceRequirement implements Requirement{
         return true;
     }
 
+
+    //getter and setter
     public ResourceContainer getPrice() {
         return price;
     }

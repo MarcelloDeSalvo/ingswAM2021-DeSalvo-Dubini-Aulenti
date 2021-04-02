@@ -13,6 +13,17 @@ public class DevelopmentRequirement implements Requirement {
         this.level = level;
     }
 
+    public DevelopmentRequirement(int number, Colour colour) {
+        this.number = number;
+        this.colour = colour;
+        this.level = 0;
+    }
+
+    /**
+     * Check if the current player has enough cards with a specific Level (that can also be any level), a specific colour and a specific amount of this kind of card
+     * @param playerBoard is the current player's PlayerBoard
+     * @return
+     */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
         return playerBoard.getProductionSite().hasEnoughDevelopementCardsWith(this.number, this.level, this.colour);

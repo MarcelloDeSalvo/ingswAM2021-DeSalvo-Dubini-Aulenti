@@ -19,6 +19,11 @@ abstract class Card {
         this.requirements = new ArrayList<Requirement>();
     }
 
+    /**
+     * Adds a requirement to the list
+     * @param requirement
+     * @return
+     */
     public boolean addRequirement(Requirement requirement) {
         this.requirements.add(requirement);
         return true;
