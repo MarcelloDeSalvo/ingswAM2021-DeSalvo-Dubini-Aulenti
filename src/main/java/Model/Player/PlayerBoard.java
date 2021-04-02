@@ -25,7 +25,7 @@ public class PlayerBoard {
      * @return
      */
     public int checkResources(ResourceType requested){
-        return(deposit.checkDeposit(requested)+vault.getResourceQuantity(requested));
+        return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
     }
 
     public Deposit getDeposit() {

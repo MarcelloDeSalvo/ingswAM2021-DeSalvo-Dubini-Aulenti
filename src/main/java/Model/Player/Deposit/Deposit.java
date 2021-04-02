@@ -172,13 +172,13 @@ public class Deposit {
      * @return
      */
     public int checkDeposit (ResourceType requested){
-        int num =0;
+        int num = 0;
         Iterator<DepositSlot> iter = depositList.iterator();
         DepositSlot current;
         while(iter.hasNext()){
-            current= iter.next();
-            if(current.getDepositResourceType()==requested)
-                num=num+current.getResourceQty();
+            current = iter.next();
+            if(current.getDepositResourceType() == requested)
+                num = num + current.getResourceQty();
         }
         return num;
     }

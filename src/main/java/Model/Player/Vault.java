@@ -122,7 +122,7 @@ public class Vault {
         return vaultMap;
     }
 
-    public int getResourceQuantity(ResourceType type){
+    public int getResourceQuantity(ResourceType type) {
         if(isPresent(type))
             return vaultMap.get(type).getQty();
         else

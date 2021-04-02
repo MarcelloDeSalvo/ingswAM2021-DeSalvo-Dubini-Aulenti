@@ -17,10 +17,8 @@ public class ResourceRequirement implements Requirement{
      */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
-        int amount=playerBoard.checkResources(resourceContainer.getResourceType());
-        if(amount>=resourceContainer.getQty())
-            return true;
-        else
-            return false;
+        int amount = playerBoard.checkResources(resourceContainer.getResourceType());
+
+        return amount >= resourceContainer.getQty();
     }
 }
