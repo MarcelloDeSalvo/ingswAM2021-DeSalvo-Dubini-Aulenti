@@ -8,14 +8,14 @@ public class PlayerBoard {
     private Deposit deposit;
     private Vault vault;
     private ProductionSite productionSite;
-    private ConvertionSite convertionSite;
+    private ConversionSite conversionSite;
     private DiscountSite discountSite;
 
     public PlayerBoard(int PyramidNum, int ProdSlotNum) {
         this.deposit = new Deposit(PyramidNum);
         this.vault = new Vault();
         this.productionSite = new ProductionSite(ProdSlotNum);
-        this.convertionSite = new ConvertionSite();
+        this.conversionSite = new ConversionSite();
         this.discountSite = new DiscountSite();
     }
 
@@ -31,8 +31,8 @@ public class PlayerBoard {
         return productionSite;
     }
 
-    public ConvertionSite getConvertionSite() {
-        return convertionSite;
+    public ConversionSite getConvertionSite() {
+        return conversionSite;
     }
 
     public DiscountSite getDiscountSite() {

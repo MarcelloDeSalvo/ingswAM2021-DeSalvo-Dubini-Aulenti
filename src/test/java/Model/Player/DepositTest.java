@@ -104,30 +104,31 @@ class DepositTest {
 
     }
 
-    /*
+
     @Test
-    void canSwitchDeposit_1() {
+    void canTransferDeposit_1() {
         Deposit deposit = new Deposit(3);
 
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
 
         assertTrue(deposit.getDepositList().get(0).isEmpty());
-        assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canSwitchDeposit(lds,2, deposit.getDepositList().get(0)));
-        assertAll( ()-> deposit.canSwitchDeposit(lds,2, deposit.getDepositList().get(1)));
+        assertThrows(DepositSlotMaxDimExceeded.class, ()-> deposit.canTransferDeposit(lds,2, deposit.getDepositList().get(0)));
+        assertAll( ()-> deposit.canTransferDeposit(lds,2, deposit.getDepositList().get(1)));
     }
 
     @Test
-    void canSwitchDeposit_2() {
+    void canTransferDeposit_2() {
         Deposit deposit = new Deposit(3);
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
 
-        assertThrows(NotEnoughResources.class, ()-> deposit.canSwitchDeposit(lds,3, deposit.getDepositList().get(0)));
+        assertThrows(NotEnoughResources.class, ()-> deposit.canTransferDeposit(lds,3, deposit.getDepositList().get(0)));
     }
 
+
     @Test
-    void canSwitchDeposit_3() {
+    void canTransferDeposit_3() {
         Deposit deposit = new Deposit(3);
 
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
@@ -136,12 +137,13 @@ class DepositTest {
         deposit.getDefaultSlot_WithDim(3).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
         assertEquals(deposit.getDefaultSlot_WithDim(3).getResourceQty(), 2);
 
-        assertAll(()-> deposit.canSwitchDeposit(lds,1,deposit.getDefaultSlot_WithDim(3)));
+        assertAll(()-> deposit.canTransferDeposit(lds,1,deposit.getDefaultSlot_WithDim(3)));
         assertTrue(deposit.transferToDeposit(lds,1,deposit.getDefaultSlot_WithDim(3)));
 
         assertEquals(lds.getResourceQty(), 1);
         assertEquals(deposit.getDefaultSlot_WithDim(3).getResourceQty(), 3);
     }
+
 
     @Test
     void switchDeposit() {
@@ -154,7 +156,6 @@ class DepositTest {
         assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(),0);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,1));
         assertTrue(deposit.transferToDeposit(deposit.getDefaultSlot_WithDim(2),1, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
-
     }
-*/
+
 }
