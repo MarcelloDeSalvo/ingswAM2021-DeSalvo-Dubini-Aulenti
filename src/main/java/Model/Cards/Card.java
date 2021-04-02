@@ -13,9 +13,20 @@ abstract class Card {
         this.requirements = new ArrayList<Requirement>(req);
     }
 
+    public Card(int victorypoints, Status status) {
+        this.victorypoints = victorypoints;
+        this.status = status;
+        this.requirements = new ArrayList<Requirement>();
+    }
+
+    public boolean addRequirement(Requirement requirement) {
+        this.requirements.add(requirement);
+        return true;
+    }
+
     public abstract boolean changeStatus(Status status);
 
-    public int getVictorypoints() {
+    public int getVictoryPoints() {
         return victorypoints;
     }
 

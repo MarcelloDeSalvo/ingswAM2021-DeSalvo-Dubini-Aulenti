@@ -10,9 +10,18 @@ import java.util.Iterator;
 public class LeaderCard extends Card{
     private ArrayList<Ability> abilities;
 
-    public LeaderCard (int vpoints, ArrayList<Requirement> req, ArrayList<Ability> abilities) {
-        super(vpoints, req, Status.HAND);
+    public LeaderCard (int victorypoints, ArrayList<Requirement> req, ArrayList<Ability> abilities) {
+        super(victorypoints, req, Status.HAND);
         this.abilities = new ArrayList<Ability>(abilities);
+    }
+
+    public LeaderCard (int victorypoints) {
+        super(victorypoints, Status.HAND);
+        this.abilities = new ArrayList<Ability>();
+    }
+
+    public void addAbility (Ability ability) {
+        this.abilities.add(ability);
     }
 
     @Override

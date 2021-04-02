@@ -10,12 +10,28 @@ public class DevelopmentCard extends Card{
     private ArrayList<ResourceContainer> input;
     private ArrayList<ResourceContainer> output;
 
-    public DevelopmentCard(int vpoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
-        super(vpoints, req, Status.PURCHASABLE);
+    public DevelopmentCard (int victorypoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
+        super(victorypoints, req, Status.PURCHASABLE);
         this.level = level;
         this.colour = colour;
         this.input = new ArrayList<ResourceContainer>(input);
         this.output = new ArrayList<ResourceContainer>(output);
+    }
+
+    public DevelopmentCard (int victorypoints, int level, Colour colour) {
+        super(victorypoints, Status.PURCHASABLE);
+        this.level = level;
+        this.colour = colour;
+        this.input = new ArrayList<ResourceContainer>();
+        this.output = new ArrayList<ResourceContainer>();
+    }
+
+    public void addInput (ResourceContainer resourceContainer) {
+        this.input.add(resourceContainer);
+    }
+
+    public void addOutput (ResourceContainer resourceContainer) {
+        this.output.add(resourceContainer);
     }
 
     @Override
