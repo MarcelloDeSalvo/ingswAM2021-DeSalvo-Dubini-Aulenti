@@ -15,4 +15,19 @@ public class Player {
         this.playerBoard = new PlayerBoard(3,3);
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public PlayerBoard getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public void setPlayerBoard(PlayerBoard playerBoard) {
+        this.playerBoard = playerBoard;
+    }
 }

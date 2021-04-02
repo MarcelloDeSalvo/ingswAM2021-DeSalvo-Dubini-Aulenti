@@ -23,4 +23,20 @@ public class DiscountAbility implements Ability{
         playerBoard.getDiscountSite().addDiscount(new ResourceContainer(resourceType, discount));
         return true;
     }
+
+    public ResourceType getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
 }
