@@ -40,6 +40,10 @@ public class DevelopmentCard extends Card{
         return true;
     }
 
+    public boolean isSameLevelandColour(int l, Colour c){
+        return this.getColour() == c && this.getLevel() == l;
+    }
+
     public int getLevel() {
         return level;
     }

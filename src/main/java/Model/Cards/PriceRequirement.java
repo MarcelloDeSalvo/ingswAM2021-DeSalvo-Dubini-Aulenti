@@ -12,6 +12,16 @@ public class PriceRequirement implements Requirement{
 
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
-        return false;
+        int discountQty = playerBoard.getDiscountSite().getDiscount(this.price.getResourceType());
+        int discountedPrice = this.price.getQty() - discountQty;
+        return true;
+    }
+
+    public ResourceContainer getPrice() {
+        return price;
+    }
+
+    public void setPrice(ResourceContainer price) {
+        this.price = price;
     }
 }

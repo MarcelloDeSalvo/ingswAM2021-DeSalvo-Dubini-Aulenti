@@ -146,7 +146,7 @@ class DepositTest {
 
 
     @Test
-    void switchDeposit() {
+    void canTransferDeposit_4() {
         Deposit deposit = new Deposit(3);
         LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
         deposit.addDepositSlot(lds);
@@ -155,7 +155,44 @@ class DepositTest {
         assertEquals(lds.getResourceQty(),2);
         assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(),0);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,1));
-        assertTrue(deposit.transferToDeposit(deposit.getDefaultSlot_WithDim(2),1, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
+        assertThrows(DepositSlotMaxDimExceeded.class,()->deposit.canTransferDeposit(deposit.getDefaultSlot_WithDim(2),1, deposit.getDepositList().get(deposit.getDepositList().indexOf(lds))));
+    }
+
+    @Test
+    void canSwitchDeposit(){
+        Deposit deposit = new Deposit(3);
+
+        ResourceContainer container1 = new ResourceContainer(ResourceType.STONE, 1);
+        ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
+        deposit.getDefaultSlot_WithDim(1).addToDepositSlot(container1);
+        deposit.getDefaultSlot_WithDim(2).addToDepositSlot(container2);
+
+        assertAll(()->deposit.canSwitchDeposit( deposit.getDefaultSlot_WithDim(1),  deposit.getDefaultSlot_WithDim(2)));
+        assertAll(()->deposit.moveTo(deposit.getDefaultSlot_WithDim(1),1, deposit.getDefaultSlot_WithDim(2)));
+        assertAll(()->deposit.switchToDeposit(deposit.getDefaultSlot_WithDim(1), deposit.getDefaultSlot_WithDim(2)));
+
+    }
+
+    @Test
+    void TypeAlreadyStored_1(){
+        Deposit deposit = new Deposit(3);
+
+        ResourceContainer container1 = new ResourceContainer(ResourceType.GOLD, 1);
+        ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 2);
+        assertAll(()->deposit.getDefaultSlot_WithDim(1).canAddToDepositSlot(container1));
+        assertAll(()->deposit.getDefaultSlot_WithDim(2).addToDepositSlot(container2));
+        assertThrows(ResourceTypeAlreadyStored.class, ()->deposit.getDefaultSlot_WithDim(1).canAddToDepositSlot(container1));
+    }
+
+    @Test
+    void TypeAlreadyStored_2(){
+        Deposit deposit = new Deposit(3);
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD, 1);
+        ResourceContainer container1 = new ResourceContainer(ResourceType.GOLD, 1);
+        ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 2);
+        lds.addToDepositSlot(container1);
+        assertAll(()->deposit.getDefaultSlot_WithDim(2).addToDepositSlot(container2));
+        assertThrows(ResourceTypeAlreadyStored.class, ()->deposit.moveTo(lds,1,deposit.getDefaultSlot_WithDim(1)));
     }
 
 }
