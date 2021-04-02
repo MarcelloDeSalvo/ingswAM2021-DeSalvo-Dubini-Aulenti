@@ -4,10 +4,12 @@ import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Exceptions.ResourceTypeAlreadyStored;
+import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Deposit {
@@ -163,6 +165,22 @@ public class Deposit {
             return (this.getDepositList().get(i-1));
         }
         else return (this.getDepositList().get(0));
+    }
+
+    /**
+     * Check deposit returns the quantity of a chosen resourceType present in the deposit
+     * @return
+     */
+    public int checkDeposit (ResourceType requested){
+        int num =0;
+        Iterator<DepositSlot> iter = depositList.iterator();
+        DepositSlot current;
+        while(iter.hasNext()){
+            current= iter.next();
+            if(current.getDepositResourceType()==requested)
+                num=num+current.getResourceQty();
+        }
+        return num;
     }
 
     public ArrayList<DepositSlot> getDepositList() {

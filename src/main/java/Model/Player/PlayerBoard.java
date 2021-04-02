@@ -2,6 +2,7 @@ package Model.Player;
 
 import Model.Player.Deposit.Deposit;
 import Model.Player.Production.ProductionSite;
+import Model.Resources.ResourceType;
 
 public class PlayerBoard {
 
@@ -17,6 +18,14 @@ public class PlayerBoard {
         this.productionSite = new ProductionSite(ProdSlotNum);
         this.conversionSite = new ConversionSite();
         this.discountSite = new DiscountSite();
+    }
+
+    /**
+     * Returns the  current quantity of the requested ResourceType ( sum of deposit and vault)
+     * @return
+     */
+    public int checkResources(ResourceType requested){
+        return(deposit.checkDeposit(requested)+vault.getResourceQuantity(requested));
     }
 
     public Deposit getDeposit() {

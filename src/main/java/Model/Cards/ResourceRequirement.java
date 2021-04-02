@@ -10,8 +10,17 @@ public class ResourceRequirement implements Requirement{
         this.resourceContainer = resourceContainer;
     }
 
+    /**
+     * Checks if the player has enough resources to satisfy the requirement
+     * @param playerBoard
+     * @return true if he has enough resources, false if he doesn't
+     */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
-        return false;
+        int amount=playerBoard.checkResources(resourceContainer.getResourceType());
+        if(amount>=resourceContainer.getQty())
+            return true;
+        else
+            return false;
     }
 }

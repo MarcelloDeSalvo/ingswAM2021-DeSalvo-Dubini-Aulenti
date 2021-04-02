@@ -194,5 +194,15 @@ class DepositTest {
         assertAll(()->deposit.getDefaultSlot_WithDim(2).addToDepositSlot(container2));
         assertThrows(ResourceTypeAlreadyStored.class, ()->deposit.moveTo(lds,1,deposit.getDefaultSlot_WithDim(1)));
     }
+    @Test
+    void checkDeposit(){
+        Deposit deposit = new Deposit(2);
+        deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+        assertEquals(deposit.checkDeposit(ResourceType.GOLD),2);
+        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD, 2);
+        lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+        deposit.addDepositSlot(lds);
+        assertEquals(deposit.checkDeposit(ResourceType.GOLD),4);
+    }
 
 }
