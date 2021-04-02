@@ -1,6 +1,6 @@
-package Model.Player;
+/*package Model.Player;
 
 public  interface ConvertSlot {
 
 
-}
+}*/

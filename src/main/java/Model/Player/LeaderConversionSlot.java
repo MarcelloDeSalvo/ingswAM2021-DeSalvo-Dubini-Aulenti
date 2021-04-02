@@ -1,4 +1,4 @@
-package Model.Player;
+/*package Model.Player;
 
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -13,7 +13,7 @@ public class LeaderConversionSlot implements ConvertSlot{
     //getter
     /*public ArrayList<ResourceContainer> getInputContainer() {
         return InputContainer;
-    }*/
+    }
 
     public ArrayList<ResourceContainer> getOutputContainer() {
         return OutputContainer;
@@ -21,9 +21,10 @@ public class LeaderConversionSlot implements ConvertSlot{
     //setter
     /*public void setInputContainer(ArrayList<ResourceContainer> inputContainer) {
         InputContainer = inputContainer;
-    }*/
+    }
 
     public void setOutputContainer(ArrayList<ResourceContainer> outputContainer) {
         OutputContainer = outputContainer;
     }
 }
+*/
