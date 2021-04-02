@@ -12,6 +12,11 @@ public class DiscountSite {
         this.discountMap = new HashMap<ResourceType, Integer>();
     }
 
+    /**
+     * this method is used to know the discount relating to a specific ResourceType
+     * @param resourceType is the ResourceType that i'm interested to know the discount of
+     * @return 0 if the element is absent, the correct value otherwise
+     */
     public int getDiscount(ResourceType resourceType) {
         if(!isPresent(resourceType))
             return 0;
@@ -23,6 +28,12 @@ public class DiscountSite {
         return discountMap.containsKey(type);
     }
 
+    /**
+     * if a ResourceType is present the method simply adds the qty of the HashMap to the qty of ResourceContainer
+     * otherwise, when a ResourceType is absent, the method put a new element in the HashMap
+     * @param resourceContainer is the element to add in the HashMap
+     * @return true
+     */
     public boolean addDiscount(ResourceContainer resourceContainer) {
         ResourceType currType = resourceContainer.getResourceType();
 
