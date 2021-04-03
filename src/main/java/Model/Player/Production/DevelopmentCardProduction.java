@@ -3,6 +3,7 @@ package Model.Player.Production;
 import Model.Cards.*;
 import Model.Deck;
 import Model.Resources.ResourceContainer;
+import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 
@@ -49,8 +50,51 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return i;
     }
 
+
+    //implemented methods ------------------------------------
     @Override
-    public boolean hasQuestionMarks() {
+    public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
+        //if(definedInput!=null && inputBuffer.add(new ResourceContainer(definedInput, 1)))
+        //    return true;
         return false;
     }
+
+
+    @Override
+    public boolean fillQuestionMarkOutput(ResourceType definedOutput) throws NullPointerException, IllegalArgumentException{
+       // if(definedOutput!=null && inputBuffer.add((new ResourceContainer(definedOutput, 1))))
+       //     return true;
+        return false;
+    }
+
+    /**
+     * clears the current buffer and then sets them to the original input/otuput's data
+     * @return true if the add executes without errors
+     */
+    @Override
+    public boolean clearCurrentBuffer() {
+      /*  inputBuffer.clear();
+        outputBuffer.clear();
+
+        for (ResourceContainer rs: input) {
+            if(!inputBuffer.add(rs))
+                return false;
+        }
+
+        for (ResourceContainer rs: output) {
+            if(!outputBuffer.add(rs))
+                return false;
+        }*/
+
+        return true;
+    }
+
+
+    @Override
+    public boolean hasQuestionMarks(){
+       // return (questionMarkOnInput>0 || questionMarkOnOut >0);
+        return false;
+    }
+
+    //---------------------------------------------------------------------------------
 }

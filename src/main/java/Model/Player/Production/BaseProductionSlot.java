@@ -71,5 +71,7 @@ public class BaseProductionSlot implements ProductionSlot {
         return true;
 
     }
+
+
 }
 
