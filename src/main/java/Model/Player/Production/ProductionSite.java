@@ -11,6 +11,7 @@ public class ProductionSite {
     private ArrayList<ProductionSlot> productionSlots;
     private HashMap<ResourceType, ResourceContainer> bufferInputMap;
     private HashMap<ResourceType, ResourceContainer> bufferOutputMap;
+
     int defaultNum;
 
     public ProductionSite(int defaultNum) {
@@ -18,6 +19,7 @@ public class ProductionSite {
         this.productionSlots = new ArrayList<ProductionSlot>();
 
         productionSlots.add(new BaseProductionSlot());
+
         for(int i=0; i<defaultNum; i++){
             productionSlots.add(new DevelopmentCardProduction());
         }
@@ -37,6 +39,14 @@ public class ProductionSite {
         return cardNumber >= numberRequired;
     }
 
+    public boolean addProductionSlot(ProductionSlot productionSlot){
+        if(productionSlot != null && productionSlots.add(productionSlot))
+            return true;
+        return false;
+    }
+
+
+    //getter and setter
     public ArrayList<ProductionSlot> getProductionSlots() {
         return productionSlots;
     }
