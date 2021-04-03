@@ -46,6 +46,8 @@ public class ResourceContainer {
         return this.qty == 0;
     }
 
+    public boolean isEditable(){ return this.resourceType == null; }
+
 
     //getter and setter
 
