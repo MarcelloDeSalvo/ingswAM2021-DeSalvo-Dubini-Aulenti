@@ -72,7 +72,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType definedOutput) throws NullPointerException, IllegalArgumentException{
-       // if(definedOutput!=null && inputBuffer.add((new ResourceContainer(definedOutput, 1))))
+       // if(definedOutput!=null && outputBuffer.add((new ResourceContainer(definedOutput, 1))))
        //     return true;
         return false;
     }

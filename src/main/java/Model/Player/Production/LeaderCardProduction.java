@@ -1,7 +1,6 @@
 package Model.Player.Production;
 
 import Model.Cards.Colour;
-import Model.Exceptions.MaterialChoiceRequired;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -19,8 +18,8 @@ public class LeaderCardProduction implements ProductionSlot {
     ArrayList<ResourceContainer> outputBuffer;
 
     public LeaderCardProduction(ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, int QMI, int QMO) {
-        this.input = input;
-        this.output = output;
+        this.input = new ArrayList<ResourceContainer>(input);
+        this.output = new ArrayList<ResourceContainer>(output);
         this.inputBuffer = input;
         this.outputBuffer = output;
 
@@ -55,7 +54,7 @@ public class LeaderCardProduction implements ProductionSlot {
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType definedOutput) throws NullPointerException, IllegalArgumentException{
-        if(definedOutput!=null && inputBuffer.add((new ResourceContainer(definedOutput, 1))))
+        if(definedOutput!=null && outputBuffer.add((new ResourceContainer(definedOutput, 1))))
             return true;
         return false;
     }
@@ -81,8 +80,6 @@ public class LeaderCardProduction implements ProductionSlot {
 
         return true;
     }
-
-
 
     @Override
     public boolean hasQuestionMarks(){
