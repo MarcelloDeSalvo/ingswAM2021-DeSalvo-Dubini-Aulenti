@@ -28,7 +28,6 @@ public class ProductionSite {
         this.bufferOutputMap = new HashMap<ResourceType, ResourceContainer>();
     }
 
-    //Per aggiungere LeaderCardProduction useremo una funz addProductionSlot
 
     public boolean hasEnoughDevelopmentCardsWith(int numberRequired, int level, Colour colour){
         int cardNumber = 0;
