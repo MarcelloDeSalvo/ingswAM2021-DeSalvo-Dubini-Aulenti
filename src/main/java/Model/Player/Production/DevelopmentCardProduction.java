@@ -32,7 +32,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
     }
 
     @Override
-    public ArrayList<ResourceContainer> getProducionOutput() {
+    public ArrayList<ResourceContainer> getProductionOutput() {
         if(dev.getDeck().peek() != null)
             return dev.getDeck().element().getOutput();
         else
@@ -47,5 +47,10 @@ public class DevelopmentCardProduction implements ProductionSlot {
                 i++;
         }
         return i;
+    }
+
+    @Override
+    public boolean hasQuestionMarks() {
+        return false;
     }
 }
