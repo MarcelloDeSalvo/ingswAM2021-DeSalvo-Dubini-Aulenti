@@ -4,7 +4,7 @@ import Model.Resources.ResourceContainer;
 
 import java.util.ArrayList;
 
-public class DevelopmentCard extends Card{
+public class  DevelopmentCard extends Card{
     private int level;
     private Colour colour;
     private ArrayList<ResourceContainer> input;
