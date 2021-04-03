@@ -113,7 +113,7 @@ public class ProductionSite {
     }
 
     public boolean produce(HashMap<ResourceType,ResourceContainer> bufferOutputMap, Vault vault){
-        for (ResourceType key : bufferInputMap.keySet()){
+        for (ResourceType key : bufferOutputMap.keySet()){
             if(!vault.addToVault(bufferOutputMap.get(key)))
                 return false;
         }

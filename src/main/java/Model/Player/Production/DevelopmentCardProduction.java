@@ -14,12 +14,22 @@ public class DevelopmentCardProduction implements ProductionSlot {
         dev = new Deck();
     }
 
-    public boolean insertOnTop (DevelopmentCard developmentCard) {
-        if(dev.getDeck().peek() != null)
-            dev.getDeck().element().changeStatus(Status.ACTIVE);
+    /**
+     * if the queue is empty it simply sets the new card status to "ON_TOP" and adds the new card in the queue
+     * if the queue already has elements in it, the method sets the first element of the queue to "ACTIVE" and then adds the new one
+     * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
+     * @return true
+     */
+    public boolean insertOnTop (DevelopmentCard newDevelopmentCard) {
+        if(dev.getDeck().peek() != null) {
+            if(dev.getDeck().element().getLevel()+1 == newDevelopmentCard.getLevel())
+                dev.getDeck().element().changeStatus(Status.ACTIVE);
+            else
+                return false;
+        }
 
-        developmentCard.changeStatus(Status.ON_TOP);
-        dev.getDeck().add(developmentCard);
+        newDevelopmentCard.changeStatus(Status.ON_TOP);
+        dev.getDeck().add(newDevelopmentCard);
 
         return true;
     }
