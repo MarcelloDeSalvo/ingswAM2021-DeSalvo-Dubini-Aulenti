@@ -22,7 +22,6 @@ public class DevelopmentCardProduction implements ProductionSlot {
                 i++;
         }
 
-
         return i;
     }
 }
