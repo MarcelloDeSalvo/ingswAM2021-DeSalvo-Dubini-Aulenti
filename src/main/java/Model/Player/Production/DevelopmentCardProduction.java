@@ -16,7 +16,8 @@ public class DevelopmentCardProduction implements ProductionSlot {
 
     /**
      * if the queue is empty it simply sets the new card status to "ON_TOP" and adds the new card in the queue
-     * if the queue already has elements in it, the method sets the first element of the queue to "ACTIVE" and then adds the new one
+     * if the queue already has elements in it and if level+1 of the element on top == new card level
+     * the method sets the first element of the queue to "ACTIVE" and then adds the new one
      * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
      * @return true
      */

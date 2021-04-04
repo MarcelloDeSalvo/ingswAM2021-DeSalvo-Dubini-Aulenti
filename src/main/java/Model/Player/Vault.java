@@ -12,6 +12,7 @@ public class Vault {
      * vaultMap is an HashMap used to store ResourceContainers (Resources and their quantity) using ResourceType as key
      */
     private HashMap<ResourceType, ResourceContainer> vaultMap;
+    private ArrayList<ResourceContainer> bufferArr;
 
     public Vault() {
         vaultMap = new HashMap<ResourceType, ResourceContainer>();
@@ -56,13 +57,12 @@ public class Vault {
     }
 
     /**
-     * for each element of inputArr it calls the method that remove a single ResourceContainer to the HashMap
+     * for each element of bufferArr it calls the method that remove a single ResourceContainer to the HashMap
      * this method needs to be called after canRemoveFrom Vault
-     * @param inputArr is an ArrayList of ResourceContainer
      * @return true
      */
-    public boolean removeFromVault(ArrayList<ResourceContainer> inputArr){
-        Iterator<ResourceContainer> iter = inputArr.iterator();
+    public boolean removeFromVault(){
+        Iterator<ResourceContainer> iter = bufferArr.iterator();
 
         while(iter.hasNext())
             removeFromVault(iter.next());
@@ -83,6 +83,7 @@ public class Vault {
 
     /**
      * checks if a series of elements inside of inputArr is present in the HashMap and if they can be subtracted
+     * if everything goes right bufferArr is put "=" to inputArr
      * @param inputArr is an array of ResourceContainer. It contains a list of elements
      * (they must be different from each other) and we need to check if they are in the Vault
      * @return true if the elements in inputArr are present in the HashMap
@@ -100,11 +101,13 @@ public class Vault {
                 throw new NotEnoughResources("Not enough resources");
         }
 
+        bufferArr = new ArrayList<ResourceContainer>(inputArr);
         return true;
     }
 
     /**
-     * checks if a series of elements inside of inputArr is present in the HashMap and if they can be subtracted
+     * checks if a specific element inside of inputArr is present in the HashMap and if they can be subtracted
+     * If everything goes right the element is added bufferArr
      * @return true if the ResourceType of inputcontainer is present as a Key and if the quantity can be removed
      * @throws NotEnoughResources if it doesn't contain a specific ResourceType OR if it doesn't contain enough resources of that specific ResourceType
      */
@@ -115,6 +118,16 @@ public class Vault {
         else if(!vaultMap.get(inputcontainer.getResourceType()).hasEnough(inputcontainer))
             throw new NotEnoughResources("Not enough resources");
 
+        bufferArr.add(inputcontainer);
+        return true;
+    }
+
+    /**
+     * clears the buffer containing elements that needs to be removed
+     * @return true
+     */
+    public boolean clearBuffer() {
+        bufferArr.clear();
         return true;
     }
 
