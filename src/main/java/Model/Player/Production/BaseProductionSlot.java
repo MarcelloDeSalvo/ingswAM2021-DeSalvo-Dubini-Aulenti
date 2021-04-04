@@ -37,12 +37,12 @@ public class BaseProductionSlot implements ProductionSlot {
 
     @Override
     public ArrayList<ResourceContainer> getProductionInput() {
-        return null;
+        return input;
     }
 
     @Override
     public ArrayList<ResourceContainer> getProductionOutput() {
-        return null;
+        return output;
     }
 
     @Override
