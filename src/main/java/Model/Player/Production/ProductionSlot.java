@@ -1,6 +1,7 @@
 package Model.Player.Production;
 
 import Model.Cards.Colour;
+import Model.Cards.DevelopmentCard;
 import Model.Exceptions.MaterialChoiceRequired;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -52,5 +53,15 @@ public interface ProductionSlot {
      * @return
      */
     public boolean clearCurrentBuffer();
+
+    /**
+     * Used only for slots that have queues
+     * if the queue is empty it simply sets the new card status to "ON_TOP" and adds the new card in the queue
+     * if the queue already has elements in it and if level+1 of the element on top == new card level
+     * the method sets the first element of the queue to "ACTIVE" and then adds the new one
+     * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
+     * @return true
+     */
+    public boolean insertOnTop(DevelopmentCard newDevelopmentCard);
 
 }

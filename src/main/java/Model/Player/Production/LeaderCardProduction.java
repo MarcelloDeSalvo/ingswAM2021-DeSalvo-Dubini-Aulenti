@@ -1,6 +1,7 @@
 package Model.Player.Production;
 
 import Model.Cards.Colour;
+import Model.Cards.DevelopmentCard;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -86,6 +87,10 @@ public class LeaderCardProduction implements ProductionSlot {
         return (questionMarkOnInput>0 || questionMarkOnOut >0);
     }
 
+    @Override
+    public boolean insertOnTop(DevelopmentCard newDevelopmentCard) {
+        return false;
+    }
 
     //-----------------
 

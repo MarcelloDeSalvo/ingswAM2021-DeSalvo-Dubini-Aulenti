@@ -1,10 +1,12 @@
 package Model.Player;
 
+import Model.Cards.DevelopmentCard;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
 import Model.Player.Deposit.Deposit;
 import Model.Player.Deposit.DepositSlot;
 import Model.Player.Production.ProductionSite;
+import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -69,6 +71,19 @@ public class PlayerBoard {
         selectedResourcesMap = arrayliistToMap(selectedResources);
 
         return selectedResourcesMap.equals(bufferMap);
+    }
+
+    public boolean buy(){
+        return deposit.removeAllBuffers() && vault.removeFromVault();
+    }
+
+    public boolean insertBoughtCard(ProductionSlot productionSlot, DevelopmentCard boughtCard){
+        int index =0;
+        if(productionSlot != null && productionSite.getProductionSlots().indexOf(productionSlot) != -1) {
+            index = productionSite.getProductionSlots().indexOf(productionSlot);
+            return productionSite.getProductionSlots().get(index).insertOnTop(boughtCard);
+        }
+        return false;
     }
 
     public Map<ResourceType, ResourceContainer> convertListAfterJava8(ArrayList<ResourceContainer> list) {

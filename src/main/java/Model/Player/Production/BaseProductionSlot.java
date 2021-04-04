@@ -1,6 +1,7 @@
 package Model.Player.Production;
 
 import Model.Cards.Colour;
+import Model.Cards.DevelopmentCard;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -72,6 +73,9 @@ public class BaseProductionSlot implements ProductionSlot {
 
     }
 
-
+    @Override
+    public boolean insertOnTop(DevelopmentCard newDevelopmentCard) {
+        return false;
+    }
 }
 
