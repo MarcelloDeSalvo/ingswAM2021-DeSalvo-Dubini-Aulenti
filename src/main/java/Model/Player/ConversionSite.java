@@ -51,38 +51,19 @@ public class ConversionSite {
         }
     }
 
- /*     this part of the conversion has been moved to the Controller as a choice from the user is required if MultipleConversionsActive is thrown.
- public boolean convertMarketArray(ArrayList<ResourceContainer> marketOutput) throws NoConversionActive, MultipleConversionsActive {
+
+    public boolean convert(ArrayList<ResourceContainer> marketOutput){
         Iterator<ResourceContainer> iter = marketOutput.iterator();
         ResourceContainer current;
-        while(iter.hasNext()){
-            current=iter.next();
-            if(current.getResourceType()==ResourceType.BLANK){
-                convertSingleBlank(current,conversionsAvailable.get(1));
+        while (iter.hasNext()) {
+            current = iter.next();
+            if (current.getResourceType() == this.defaultConverted) {
+                convertSingleBlank(current, conversionsAvailable.get(0));
             }
         }
 
         return true;
-
-
-                /*Iterator<ResourceContainer> iter = marketInput.iterator();
-        ResourceContainer current;
-        while(iter.hasNext()){
-            try{
-                current= iter.next();
-                if(conversionSite.canConvert() &&  (current.getResourceType()==conversionSite.getDefaultConverted()))
-                    System.out.println("Pippo !");
-                    System.out.println(current.getResourceType());
-                    conversionSite.convertSingleBlank(current,conversionSite.getConversionsAvailable().get(0));
-
-
-            }
-            catch (NoConversionActive noConversionActive){
-            }
-            catch (MultipleConversionsActive multipleConversionsActive){
-            }
-
-        }*/
+    }
 
 
     /**

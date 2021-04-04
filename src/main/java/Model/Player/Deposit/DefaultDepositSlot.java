@@ -161,7 +161,7 @@ public class DefaultDepositSlot extends DepositSlot {
         if(!getNotAvailableResourceType().contains(inputResType))
             return false;
 
-        getHashSetData();
+        getHashSetData(); // -------------> Da rimuovere, solo per testing
 
         return true;
     }
@@ -174,7 +174,7 @@ public class DefaultDepositSlot extends DepositSlot {
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());
-        getHashSetData();
+        getHashSetData(); // -------------> Da rimuovere, solo per testing
 
     }
 
