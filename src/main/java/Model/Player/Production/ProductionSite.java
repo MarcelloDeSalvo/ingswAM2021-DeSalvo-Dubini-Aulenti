@@ -1,6 +1,8 @@
 package Model.Player.Production;
 
 import Model.Cards.Colour;
+import Model.Exceptions.DepositSlotMaxDimExceeded;
+import Model.Exceptions.NotEnoughResources;
 import Model.Player.PlayerBoard;
 import Model.Player.Vault;
 import Model.Resources.ResourceContainer;
@@ -13,6 +15,7 @@ import java.util.Iterator;
 
 public class ProductionSite {
     private ArrayList<ProductionSlot> productionSlots;
+    private HashMap<ResourceType, ResourceContainer> bufferSelectedResources;
     private HashMap<ResourceType, ResourceContainer> bufferInputMap;
     private HashMap<ResourceType, ResourceContainer> bufferOutputMap;
 
@@ -34,24 +37,17 @@ public class ProductionSite {
 
         this.bufferInputMap = new HashMap<ResourceType, ResourceContainer>();
         this.bufferOutputMap = new HashMap<ResourceType, ResourceContainer>();
+        this.bufferSelectedResources = new HashMap<ResourceType, ResourceContainer>();
     }
 
-    //Per aggiungere LeaderCardProduction useremo una funz addProductionSlot
+
     /**
      * checks if a specific ResourceType is present in the HashMap
      * @param type is the key that will be used to check in the HashMap
      * @return true if present, false otherwise
      */
-    private boolean isInputPresent(ResourceType type){
-        return bufferInputMap.containsKey(type);
-    }
-    /**
-     * checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    private boolean isOutputPresent(ResourceType type){
-        return bufferOutputMap.containsKey(type);
+    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
+        return map.containsKey(type);
     }
 
     public boolean hasEnoughDevelopmentCardsWith(int numberRequired, int level, Colour colour){
@@ -69,33 +65,20 @@ public class ProductionSite {
         return false;
     }
 
-    public boolean addToInputMap (ArrayList<ResourceContainer> tempProductionInput){
+    public boolean addToMap (ArrayList<ResourceContainer> tempProductionInput, HashMap<ResourceType, ResourceContainer> map){
         Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
         ResourceContainer current;
         while(iterator.hasNext()){
             current=iterator.next();
-            if(isInputPresent(current.getResourceType())){
-                bufferInputMap.get(current.getResourceType()).addQty(current.getQty());
+            if(isPresent(current.getResourceType(), map)){
+                map.get(current.getResourceType()).addQty(current.getQty());
             }
             else
-                bufferInputMap.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
+                map.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
         }
         return true;
     }
 
-    public boolean addToOutputMap (ArrayList<ResourceContainer> tempProductionOutput){
-        Iterator<ResourceContainer> iterator= tempProductionOutput.iterator();
-        ResourceContainer current;
-        while(iterator.hasNext()){
-            current=iterator.next();
-            if(isOutputPresent(current.getResourceType())){
-                bufferOutputMap.get(current.getResourceType()).addQty(current.getQty());
-            }
-            else
-                bufferOutputMap.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
-        }
-        return true;
-    }
 
     public  boolean hasEnoughInputResources(HashMap<ResourceType,ResourceContainer> bufferInputMap, PlayerBoard playerBoard){
         for (ResourceType key : bufferInputMap.keySet())
@@ -112,16 +95,29 @@ public class ProductionSite {
         return true;
     }
 
-    public boolean produce(HashMap<ResourceType,ResourceContainer> bufferOutputMap, Vault vault){
+    public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
+        addToMap(selectedResources, this.bufferSelectedResources);
+        for (ResourceType key: bufferInputMap.keySet()) {
+
+            if(!bufferOutputMap.containsKey(key))
+                throw new NotEnoughResources ("You miss one ResourceType");
+            if(bufferInputMap.get(key).getQty() > bufferSelectedResources.get(key).getQty())
+                throw new NotEnoughResources ("You need more resources");
+            if(bufferInputMap.get(key).getQty() < bufferSelectedResources.get(key).getQty())
+                throw new DepositSlotMaxDimExceeded("You selected too many resources");
+        }
+
+        return true;
+    }
+
+
+    public boolean produce(Vault vault){
         for (ResourceType key : bufferOutputMap.keySet()){
             if(!vault.addToVault(bufferOutputMap.get(key)))
                 return false;
         }
         return true;
     }
-
-
-
 
 
     //getter and setter
@@ -149,8 +145,21 @@ public class ProductionSite {
         this.bufferOutputMap = bufferOutputMap;
     }
 
+    public HashMap<ResourceType, ResourceContainer> getBufferSelectedResources() {
+        return bufferSelectedResources;
+    }
 
+    public void setBufferSelectedResources(HashMap<ResourceType, ResourceContainer> bufferSelectedResources) {
+        this.bufferSelectedResources = bufferSelectedResources;
+    }
 
+    public int getDefaultNum() {
+        return defaultNum;
+    }
+
+    public void setDefaultNum(int defaultNum) {
+        this.defaultNum = defaultNum;
+    }
 }
 
 

@@ -1,8 +1,14 @@
 package Model.Player;
 
+import Model.Exceptions.DepositSlotMaxDimExceeded;
+import Model.Exceptions.NotEnoughResources;
 import Model.Player.Deposit.Deposit;
 import Model.Player.Production.ProductionSite;
+import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PlayerBoard {
 
@@ -27,6 +33,17 @@ public class PlayerBoard {
     public int checkResources(ResourceType requested){
         return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
     }
+
+    public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
+        return productionSite.canProduce(selectedResources);
+    }
+
+    public boolean produce(){
+        return productionSite.produce(vault);
+    }
+
+
+
 
     public Deposit getDeposit() {
         return deposit;
