@@ -78,4 +78,11 @@ public class ResourceContainer {
         return qty == container.qty && resourceType == container.resourceType;
     }
 
+    @Override
+    public String toString() {
+        return "ResourceContainer{" +
+                "resourceType=" + resourceType +
+                ", qty=" + qty +
+                '}';
+    }
 }

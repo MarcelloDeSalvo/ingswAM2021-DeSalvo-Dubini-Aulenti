@@ -1,5 +1,7 @@
 package Model;
 
+import Model.Exceptions.InvalidColumnNumber;
+import Model.Exceptions.InvalidRowNumber;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,9 +46,63 @@ class MarketTest {
         System.out.println("Il vacant è: "+market.vacant.getResourceType());
     }
 
+    @Test
+    void getRowTest(){
+        Market market=new Market(marblesMarket);
+        market.stampaMarket();
+
+        assertThrows(InvalidRowNumber.class,()->market.getRow(-1));
+        assertThrows(InvalidRowNumber.class,()->market.getRow(4));
+        ArrayList<ResourceContainer> marketOut=new ArrayList<>();
+        System.out.println();
+        System.out.println();
+
+        assertAll(()->System.out.println(market.getRow(1)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getRow(2)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getRow(1)));
+        market.stampaMarket();
+
+
+    }
+
+    @Test
+    void getColumnTest(){
+        Market market=new Market(marblesMarket);
+        market.stampaMarket();
+
+        assertThrows(InvalidColumnNumber.class,()->market.getColumn(-1));
+        assertThrows(InvalidColumnNumber.class,()->market.getColumn(5));
+        ArrayList<ResourceContainer> marketOut=new ArrayList<>();
+        System.out.println();
+        System.out.println();
+
+        assertAll(()->System.out.println(market.getColumn(1)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getColumn(2)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getColumn(1)));
+        market.stampaMarket();
+
+
+    }
+
 }
 
-/*
+/*      Easter update
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣧⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣧⠀⠀⠀⢰⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⡟⡆⠀⠀⣿⡇⢻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
