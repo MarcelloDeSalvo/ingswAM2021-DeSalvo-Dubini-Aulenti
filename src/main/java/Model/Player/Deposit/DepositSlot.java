@@ -10,15 +10,19 @@ import Model.Resources.ResourceType;
 public abstract class  DepositSlot {
     private int maxDim;
     private ResourceContainer depositContainer;
+    private ResourceContainer bufferContainer;
 
     public DepositSlot(ResourceType depositResourceType, int maxDim) {
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(depositResourceType,0);
+        this.bufferContainer = new ResourceContainer(null,0);
+
     }
 
     public DepositSlot(int maxDim) {
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(null,0);
+        this.bufferContainer = new ResourceContainer(null,0);
     }
 
     /**
@@ -92,6 +96,10 @@ public abstract class  DepositSlot {
         return true;
     }
 
+    /**
+     * Switches two deposit's resources if they can store different ResourceType
+     * @param destination it's the deposit that will switch the resources with This
+     */
     public boolean switchTo(DepositSlot destination){  //works only between defaults deposits
         int myQty = this.getResourceQty();
         int hisQty = destination.getResourceQty();
@@ -105,6 +113,33 @@ public abstract class  DepositSlot {
         destination.getDepositContainer().addQty(-hisQty);
         this.getDepositContainer().addQty(hisQty);
         this.setDepositResourceType(hisResType);
+        return true;
+    }
+
+    /**
+     * Adds an input to the buffer that handles one transaction
+     * It is called when the user decides to buy one card or to produce:
+     * it adds the price or the input requirement for the production to the buffer after the canRemove(price/productionInput)
+     * @param inputContainer
+     * @return
+     */
+    public boolean addToBuffer(ResourceContainer inputContainer){
+        int quantityThatIwantToAdd = inputContainer.getQty();
+        ResourceType inputType = inputContainer.getResourceType();
+
+        this.getBufferContainer().addQty(quantityThatIwantToAdd);
+        this.getBufferContainer().setResourceType(inputType);
+        return true;
+    }
+
+    public boolean removeTheBuffer(){
+        this.removeFromDepositSlot(this.bufferContainer);
+        return true;
+    }
+
+    public boolean clearCurrentBuffer(){
+        bufferContainer.setResourceType(null);
+        bufferContainer.setQty(0);
         return true;
     }
 
@@ -153,4 +188,11 @@ public abstract class  DepositSlot {
         this.depositContainer.setResourceType(depositResourceType);
     }
 
+    public ResourceContainer getBufferContainer() {
+        return bufferContainer;
+    }
+
+    public void setBufferContainer(ResourceContainer bufferContainer) {
+        this.bufferContainer = bufferContainer;
+    }
 }

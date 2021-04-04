@@ -56,6 +56,7 @@ public class LeaderDepositSlot extends DepositSlot {
         if (!this.getDepositContainer().hasEnough(inputContainer))
             throw new NotEnoughResources("Not enough resources");
 
+        addToBuffer(inputContainer);
         return true;
     }
 
@@ -94,6 +95,8 @@ public class LeaderDepositSlot extends DepositSlot {
     }
 
     /**
+     * Used when the Deposit's type allows the storage of different ResourceType
+     * Gives the controller the permission to switch a desired quantity from one deposit to another
      * @return false because the LeaderDeposit (by default) can only store one ResourceType
      */
     @Override

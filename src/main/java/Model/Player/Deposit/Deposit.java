@@ -183,6 +183,31 @@ public class Deposit {
         return num;
     }
 
+    /**
+     * Called when a transaction (buy or produce) can be completed without problems
+     * Ends a transaction
+     * @return
+     */
+    public boolean removeAllBuffers(){
+        for (DepositSlot ds: depositList) {
+            ds.removeTheBuffer();
+        }
+
+        return true;
+    }
+
+    /**
+     * Clears all the buffers
+     * @return
+     */
+    public boolean clearBuffer(){
+        for (DepositSlot ds: depositList) {
+            ds.clearCurrentBuffer();
+        }
+
+        return true;
+    }
+
     public ArrayList<DepositSlot> getDepositList() {
         return depositList;
     }

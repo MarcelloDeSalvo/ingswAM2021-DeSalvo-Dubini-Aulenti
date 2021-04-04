@@ -48,6 +48,7 @@ public class DefaultDepositSlot extends DepositSlot {
         if(!this.getDepositContainer().hasEnough(inputContainer))
             throw new NotEnoughResources("Not enough resources");
 
+        addToBuffer(inputContainer);
         return true;
     }
 
