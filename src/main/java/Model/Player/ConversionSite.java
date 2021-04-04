@@ -51,13 +51,17 @@ public class ConversionSite {
         }
     }
 
-
+    /**
+     * Method called for conversion when there's only one a single conversion available, thus no choice by the user is needed.
+     * @param marketOutput
+     * @return The converted input array
+     */
     public boolean convert(ArrayList<ResourceContainer> marketOutput){
         Iterator<ResourceContainer> iter = marketOutput.iterator();
         ResourceContainer current;
         while (iter.hasNext()) {
             current = iter.next();
-            if (current.getResourceType() == this.defaultConverted) {
+            if (current.getResourceType() == defaultConverted) {
                 convertSingleBlank(current, conversionsAvailable.get(0));
             }
         }

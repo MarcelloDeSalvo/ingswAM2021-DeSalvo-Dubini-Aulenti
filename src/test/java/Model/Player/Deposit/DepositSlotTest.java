@@ -1,4 +1,4 @@
-package Model.Player;
+package Model.Player.Deposit;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Player.Deposit.DefaultDepositSlot;

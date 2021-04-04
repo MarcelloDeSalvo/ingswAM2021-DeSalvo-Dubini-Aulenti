@@ -99,6 +99,38 @@ class MarketTest {
 
 
     }
+    @Test
+    void marketComprehensiveTest(){
+        Market market=new Market(marblesMarket);
+        market.stampaMarket();
+
+        assertThrows(InvalidColumnNumber.class,()->market.getColumn(-1));
+        assertThrows(InvalidRowNumber.class,()->market.getRow(1999));
+        ArrayList<ResourceContainer> marketOut=new ArrayList<>();
+        System.out.println();
+        System.out.println();
+
+        assertAll(()->System.out.println(market.getColumn(1)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getRow(1)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getColumn(4)));
+        market.stampaMarket();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        assertAll(()->System.out.println(market.getRow(3)));
+        market.stampaMarket();
+
+    }
+
+
 
 }
 
