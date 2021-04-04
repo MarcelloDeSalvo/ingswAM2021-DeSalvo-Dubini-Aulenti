@@ -11,6 +11,7 @@ import Model.Resources.ResourceType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PlayerBoard {
@@ -70,11 +71,11 @@ public class PlayerBoard {
         return selectedResourcesMap.equals(bufferMap);
     }
 
-    /*public HashMap<ResourceType, ResourceContainer> convertListAfterJava8(ArrayList<ResourceContainer> list) {
-        HashMap<ResourceType, ResourceContainer>  map = list.stream()
-                .collect(Collectors.toMap(ResourceContainer::getResourceType, type -> type));
+    public Map<ResourceType, ResourceContainer> convertListAfterJava8(ArrayList<ResourceContainer> list) {
+        Map<ResourceType, ResourceContainer> map = list.stream()
+                .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
         return map;
-    }*/
+    }
 
     public HashMap<ResourceType, ResourceContainer> arrayliistToMap (ArrayList<ResourceContainer> tempProductionInput){
         HashMap<ResourceType, ResourceContainer> map = new HashMap<ResourceType, ResourceContainer>();
