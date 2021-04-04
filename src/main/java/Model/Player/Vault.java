@@ -62,6 +62,9 @@ public class Vault {
      * @return true
      */
     public boolean removeFromVault(){
+        if(bufferArr == null)
+            return false;
+
         Iterator<ResourceContainer> iter = bufferArr.iterator();
 
         while(iter.hasNext())
@@ -140,6 +143,10 @@ public class Vault {
             return vaultMap.get(type).getQty();
         else
             return 0;
+    }
+
+    public ArrayList<ResourceContainer> getBufferArr() {
+        return bufferArr;
     }
 
     public void setVaultMap(HashMap<ResourceType, ResourceContainer> vaultMap) {
