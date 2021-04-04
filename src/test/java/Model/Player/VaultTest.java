@@ -113,7 +113,7 @@ class  VaultTest {
         selectedResources.add(resourceContainer3);
 
         assertAll(()->vault.canRemoveFromVault(selectedResources));
-        assertAll(()->vault.removeFromVault(selectedResources));
+        assertAll(()->vault.removeFromVault());
 
         assertEquals(vault.getResourceQuantity(ResourceType.GOLD), 0);
         assertEquals(vault.getResourceQuantity(ResourceType.STONE), 0);
