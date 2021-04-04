@@ -146,6 +146,12 @@ public class DefaultDepositSlot extends DepositSlot {
     }
 
     //private methods
+
+    /**
+     * Checks if the input ResourceType is already stored inside some other Default Deposit
+     * @param inputResType
+     * @return true if it is
+     */
     private boolean isTheResourceTypeAlreadyTaken(ResourceType inputResType){
 
         if(inputResType == this.getDepositResourceType())
@@ -159,6 +165,11 @@ public class DefaultDepositSlot extends DepositSlot {
         return true;
     }
 
+
+    /**
+     * Removes the deposit's Resourcetype from the notAvailable Set
+     * Called when the deposit's quantity reaches zero
+     */
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());

@@ -11,6 +11,11 @@ public class ConversionAbility implements Ability {
         this.output = output;
     }
 
+    /**
+     * Adds an available conversion to the current player
+     * @param playerBoard is the current Player's playerBoard
+     * @return
+     */
     @Override
     public boolean useAbility(PlayerBoard playerBoard) {
         playerBoard.getConvertionSite().addConversion(new ResourceContainer(output, 1));

@@ -43,12 +43,22 @@ abstract class Card {
         return false;
     }
 
+    /**
+     * Adds a ResourceContainer to the price List
+     * @param priceContainer is the added price
+     * @return true if the insert ends without exception
+     */
     public boolean addPrice(ResourceContainer priceContainer){
         if(priceContainer!= null && this.price.add(priceContainer))
             return true;
         return false;
     }
 
+    /**
+     * Checks if the current users has some active discount and return the card's discounted price
+     * @param playerBoard
+     * @return
+     */
     public ArrayList<ResourceContainer> getDiscountedPrice(PlayerBoard playerBoard){
         ArrayList<ResourceContainer> discountedPrice = new ArrayList<ResourceContainer>();
 
@@ -62,6 +72,11 @@ abstract class Card {
     }
 
 
+    /**
+     * changes the current card's status
+     * @param status
+     * @return
+     */
     public abstract boolean changeStatus(Status status);
 
 

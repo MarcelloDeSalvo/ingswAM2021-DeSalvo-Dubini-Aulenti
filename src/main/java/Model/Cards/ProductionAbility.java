@@ -20,11 +20,16 @@ public class ProductionAbility implements Ability {
         this.questionMarkOnOutput = QMO;
     }
 
+    /**
+     * Adds ana available production (creating a LeaderProductionSlot) to the current player
+     * @param playerBoard is the current Player's playerBoard
+     * @return
+     */
     @Override
     public boolean useAbility(PlayerBoard playerBoard) {
         LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, questionMarkOnInput, questionMarkOnOutput);
         playerBoard.getProductionSite().addProductionSlot(leaderCardProduction);
-        return false;
+        return true;
     }
 
     public ArrayList<ResourceContainer> getInput() {

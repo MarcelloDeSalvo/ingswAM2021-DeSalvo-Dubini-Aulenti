@@ -34,6 +34,11 @@ public class LeaderCard extends Card{
         return false;
     }
 
+    /**
+     * Executes all the Leader's ability, scrolling through them one by one
+     * @param playerBoard
+     * @return
+     */
     public boolean executeAbility (PlayerBoard playerBoard) {
         Iterator<Ability> iter = abilities.iterator();
 
