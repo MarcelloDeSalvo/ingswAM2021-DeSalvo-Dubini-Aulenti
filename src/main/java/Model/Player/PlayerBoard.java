@@ -36,7 +36,7 @@ public class PlayerBoard {
 
     /**
      * Returns the  current quantity of the requested ArrayList ( sum of deposit and vault)
-     * @return
+     * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
         HashMap<ResourceType, ResourceContainer> resourceMap = arraylistToMap(requested);
@@ -50,7 +50,7 @@ public class PlayerBoard {
 
     /**
      * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer>( sum of deposit and vault)
-     * @return
+     * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
 
@@ -63,8 +63,8 @@ public class PlayerBoard {
     }
 
     /**
-     * Returns the  current quantity of the requested ResourceType ( sum of deposit and vault)
-     * @return
+     * Returns the  current quantity of the requested ResourceType
+     * @return the sum of the ResourceType's quantity inside the vault and all the deposits
      */
     public int checkResources(ResourceType requested){
         return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
@@ -152,7 +152,7 @@ public class PlayerBoard {
     /**
      * Converts a list to a Map
      * @param tempProductionInput
-     * @return
+     * @return true if the conversion ends successfully
      */
     public HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> tempProductionInput){
         HashMap<ResourceType, ResourceContainer> map = new HashMap<ResourceType, ResourceContainer>();
@@ -169,15 +169,6 @@ public class PlayerBoard {
         return map;
     }
 
-    /**
-     * Checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
-        return map.containsKey(type);
-    }
-
     /*/**
      * Converts a list to a map
      * @param list
@@ -187,6 +178,16 @@ public class PlayerBoard {
                 .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
         return map;
     }*/
+
+    /**
+     * Checks if a specific ResourceType is present in the HashMap
+     * @param type is the key that will be used to check in the HashMap
+     * @return true if present, false otherwise
+     */
+    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
+        return map.containsKey(type);
+    }
+
 
     /**
      * Inserts the just bought card into the selected production slot

@@ -39,6 +39,11 @@ public class ProductionSite {
         this.bufferSelectedResources = new HashMap<ResourceType, ResourceContainer>();
     }
 
+    /**
+     * inserts the production inputs and outputs of the selected cards into the relative buffer maps
+     * @param productionSlots are the selected slot
+     * @return true if the add() finish without errors
+     */
     public boolean activateProduction(ArrayList<ProductionSlot> productionSlots){
         for (ProductionSlot ps: productionSlots) {
             if(!addToMap(ps.getProductionInput(),bufferInputMap))
@@ -60,6 +65,14 @@ public class ProductionSite {
         return map.containsKey(type);
     }
 
+
+    /**
+     * counts the active Development Cards with specific attributes
+     * @param numberRequired is the total amount of cards that must have a specific level and colour
+     * @param level is the level required
+     * @param colour is the color required
+     * @return true if the card's count is greater or equal compared to the numberRequired
+     */
     public boolean hasEnoughDevelopmentCardsWith(int numberRequired, int level, Colour colour){
         int cardNumber = 0;
         for(ProductionSlot ps : productionSlots){
@@ -69,12 +82,23 @@ public class ProductionSite {
         return cardNumber >= numberRequired;
     }
 
+    /**
+     * adds a production slot to the list
+     * @param productionSlot
+     * @return
+     */
     public boolean addProductionSlot(ProductionSlot productionSlot){
         if(productionSlot != null && productionSlots.add(productionSlot))
             return true;
         return false;
     }
 
+    /**
+     * Converts a list into a map
+     * @param tempProductionInput
+     * @param map
+     * @return
+     */
     public boolean addToMap (ArrayList<ResourceContainer> tempProductionInput, HashMap<ResourceType, ResourceContainer> map){
         Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
         ResourceContainer current;
@@ -89,7 +113,12 @@ public class ProductionSite {
         return true;
     }
 
-
+    /**
+     * checks if the user has enough input resources in order to activate the production
+     * @param bufferInputMap
+     * @param playerBoard
+     * @return
+     */
     public  boolean hasEnoughInputResources(HashMap<ResourceType,ResourceContainer> bufferInputMap, PlayerBoard playerBoard){
         for (ResourceType key : bufferInputMap.keySet())
         {
@@ -99,12 +128,23 @@ public class ProductionSite {
         return true;
     }
 
+    /**
+     * clears the current buffers
+     * @return
+     */
     public boolean clearBuffers(){
         bufferInputMap.clear();
         bufferOutputMap.clear();
         return true;
     }
 
+    /**
+     * checks if the user can produce by checking if the selected resources match the inputs of the activated production cards
+     * @param selectedResources
+     * @return
+     * @throws NotEnoughResources
+     * @throws DepositSlotMaxDimExceeded
+     */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
         addToMap(selectedResources, bufferSelectedResources);
         for (ResourceType key: bufferSelectedResources.keySet()) {
@@ -121,6 +161,11 @@ public class ProductionSite {
     }
 
 
+    /**
+     * Sends the production output to the current player's vault
+     * @param vault
+     * @return
+     */
     public boolean produce(Vault vault){
         for (ResourceType key : bufferOutputMap.keySet()){
             if(!vault.addToVault(bufferOutputMap.get(key)))

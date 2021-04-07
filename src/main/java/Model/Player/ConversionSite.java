@@ -17,7 +17,7 @@ public class ConversionSite {
 
     public ConversionSite() {
         this.defaultConverted = ResourceType.BLANK;
-        this.conversionsAvailable=new ArrayList<ResourceContainer>();
+        this.conversionsAvailable=new ArrayList<>();
     }
 
     /**

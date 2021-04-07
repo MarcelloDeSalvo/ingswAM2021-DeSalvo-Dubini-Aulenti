@@ -131,7 +131,7 @@ public abstract class  DepositSlot {
     }
 
     public boolean removeTheBuffer(){
-        this.removeFromDepositSlot(this.bufferContainer);
+        this.removeFromDepositSlot(bufferContainer);
         return true;
     }
 

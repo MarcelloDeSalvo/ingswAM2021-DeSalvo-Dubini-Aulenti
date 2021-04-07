@@ -135,6 +135,8 @@ public class Vault {
         return true;
     }
 
+
+    //getter and setter
     public HashMap<ResourceType, ResourceContainer> getVaultMap() {
         return vaultMap;
     }

@@ -9,7 +9,7 @@ public class DiscountSite {
     private HashMap<ResourceType, Integer> discountMap;
 
     public DiscountSite() {
-        this.discountMap = new HashMap<ResourceType, Integer>();
+        this.discountMap = new HashMap<>();
     }
 
     /**

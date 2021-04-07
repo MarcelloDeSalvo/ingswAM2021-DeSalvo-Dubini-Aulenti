@@ -65,10 +65,8 @@ public class DefaultDepositSlot extends DepositSlot {
     @Override
     public boolean removeFromDepositSlot(ResourceContainer inputContainer){
         int quantityThatIwantToRemove = inputContainer.getQty();
-        ResourceType inputType = inputContainer.getResourceType();
 
         this.getDepositContainer().addQty(-quantityThatIwantToRemove);
-
         remakeTypeAvailableIfEmpty();
 
         return true;
@@ -145,8 +143,8 @@ public class DefaultDepositSlot extends DepositSlot {
         DefaultDepositSlot.notAvailableResourceType = notAvailableResourceType;
     }
 
-    //private methods
 
+    //private methods
     /**
      * Checks if the input ResourceType is already stored inside some other Default Deposit
      * @param inputResType

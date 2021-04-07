@@ -92,8 +92,8 @@ public class LeaderCardProduction implements ProductionSlot {
         return false;
     }
 
-    //-----------------
 
+    //getter and setter
 
     public int getQuestionMarkOnInput() {
         return questionMarkOnInput;
