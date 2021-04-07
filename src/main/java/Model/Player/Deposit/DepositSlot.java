@@ -127,8 +127,8 @@ public abstract class  DepositSlot {
         int quantityThatIwantToAdd = inputContainer.getQty();
         ResourceType inputType = inputContainer.getResourceType();
 
-        this.getBufferContainer().addQty(quantityThatIwantToAdd);
-        this.getBufferContainer().setResourceType(inputType);
+        bufferContainer.addQty(quantityThatIwantToAdd);
+        bufferContainer.setResourceType(inputType);
         return true;
     }
 

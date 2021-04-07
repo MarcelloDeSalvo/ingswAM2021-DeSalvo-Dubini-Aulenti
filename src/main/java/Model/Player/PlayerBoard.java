@@ -124,10 +124,13 @@ public class PlayerBoard {
     private void addDepositBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
         for (DepositSlot ds: deposit.getDepositList()) {
             ResourceType key = ds.getDepositResourceType();
-            if(!bufferMap.containsKey(key))
-                bufferMap.put(key, new ResourceContainer(key, ds.getBufferContainer().getQty()));
-            else
-                bufferMap.get(key).addQty(ds.getBufferContainer().getQty());
+            if(key != null) {
+                if(!bufferMap.containsKey(key))
+                    bufferMap.put(key, new ResourceContainer(key, ds.getBufferContainer().getQty()));
+                else
+                    bufferMap.get(key).addQty(ds.getBufferContainer().getQty());
+            }
+
         }
     }
 

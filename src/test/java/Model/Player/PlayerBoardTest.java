@@ -1,5 +1,8 @@
 package Model.Player;
 
+import Model.Player.Deposit.DefaultDepositSlot;
+import Model.Resources.ResourceContainer;
+import Model.Resources.ResourceType;
 import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
 import Model.Player.Deposit.DefaultDepositSlot;
@@ -10,6 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,10 +94,62 @@ class PlayerBoardTest {
 
     @Test
     void canBuy() {
+        Player player = new Player("Paolo Brosio");
+
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.SHIELD, 1));
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(3).addToDepositSlot(new ResourceContainer(ResourceType.STONE, 2));
+
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 3));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 1));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 2));
+
+        assertAll(() -> player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(1).canRemoveFromDepositSlot(new ResourceContainer(ResourceType.SHIELD, 1)));
+        assertAll(() -> player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(3).canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 1)));
+        assertAll(() -> player.getPlayerBoard().getVault().canRemoveFromVault(new ResourceContainer(ResourceType.GOLD, 2)));
+        assertAll(() -> player.getPlayerBoard().getVault().canRemoveFromVault(new ResourceContainer(ResourceType.SHIELD, 2)));
+
+        ArrayList<ResourceContainer> inputList = new ArrayList<>();
+        inputList.add(new ResourceContainer(ResourceType.GOLD, 2));
+        inputList.add(new ResourceContainer(ResourceType.SHIELD, 2));
+        inputList.add(new ResourceContainer(ResourceType.STONE, 1));
+        inputList.add(new ResourceContainer(ResourceType.SHIELD, 1));
+
+        assertTrue(player.getPlayerBoard().canBuy(inputList));
+
+        inputList.add(new ResourceContainer(ResourceType.GOLD, 1));
+
+        assertFalse(player.getPlayerBoard().canBuy(inputList));
     }
 
     @Test
     void arraylistToMap() {
+        PlayerBoard playerBoard = new PlayerBoard(3, 3);
+
+        ArrayList<ResourceContainer> list = new ArrayList<>();
+
+        list.add(new ResourceContainer(ResourceType.STONE, 2));
+        list.add(new ResourceContainer(ResourceType.GOLD, 1));
+        list.add(new ResourceContainer(ResourceType.MINION, 3));
+        list.add(new ResourceContainer(ResourceType.GOLD, 2));
+        list.add(new ResourceContainer(ResourceType.STONE, 3));
+
+
+        HashMap<ResourceType, ResourceContainer> controlMap = new HashMap<>();
+
+        controlMap.put(ResourceType.STONE, new ResourceContainer(ResourceType.STONE, 5));
+        controlMap.put(ResourceType.GOLD, new ResourceContainer(ResourceType.GOLD, 3));
+        controlMap.put(ResourceType.MINION, new ResourceContainer(ResourceType.MINION, 3));
+
+
+        HashMap<ResourceType, ResourceContainer> map = playerBoard.arraylistToMap(list);
+
+        assertEquals(controlMap, map);
+
+
+        controlMap.put(ResourceType.SHIELD, new ResourceContainer(ResourceType.SHIELD, 3));
+
+        assertNotEquals(controlMap, map);
+
     }
 
     @Test

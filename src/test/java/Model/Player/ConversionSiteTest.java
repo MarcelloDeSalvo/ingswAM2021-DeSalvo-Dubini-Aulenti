@@ -20,7 +20,6 @@ class ConversionSiteTest {
         marketInput.add(new ResourceContainer(ResourceType.BLANK,1));
         marketInput.add(new ResourceContainer(ResourceType.MINION,1));
         marketInput.add(new ResourceContainer(ResourceType.BLANK,1));
-        System.out.println(conversionSite.getConversionsAvailable().size());
 
 
         assertAll(()->conversionSite.canConvert());
