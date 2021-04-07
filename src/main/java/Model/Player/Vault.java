@@ -12,7 +12,7 @@ public class Vault {
      * vaultMap is an HashMap used to store ResourceContainers (Resources and their quantity) using ResourceType as key
      */
     private HashMap<ResourceType, ResourceContainer> vaultMap;
-    private ArrayList<ResourceContainer> bufferArr;
+    private ArrayList<ResourceContainer> bufferList;
 
     public Vault() {
         vaultMap = new HashMap<ResourceType, ResourceContainer>();
@@ -62,10 +62,10 @@ public class Vault {
      * @return true
      */
     public boolean removeFromVault(){
-        if(bufferArr == null)
+        if(bufferList == null)
             return false;
 
-        Iterator<ResourceContainer> iter = bufferArr.iterator();
+        Iterator<ResourceContainer> iter = bufferList.iterator();
 
         while(iter.hasNext())
             removeFromVault(iter.next());
@@ -104,7 +104,7 @@ public class Vault {
                 throw new NotEnoughResources("Not enough resources");
         }
 
-        bufferArr = new ArrayList<ResourceContainer>(inputArr);
+        bufferList = new ArrayList<ResourceContainer>(inputArr);
         return true;
     }
 
@@ -121,7 +121,7 @@ public class Vault {
         else if(!vaultMap.get(inputcontainer.getResourceType()).hasEnough(inputcontainer))
             throw new NotEnoughResources("Not enough resources");
 
-        bufferArr.add(inputcontainer);
+        bufferList.add(inputcontainer);
         return true;
     }
 
@@ -130,7 +130,7 @@ public class Vault {
      * @return true
      */
     public boolean clearBuffer() {
-        bufferArr.clear();
+        bufferList.clear();
         return true;
     }
 
@@ -145,8 +145,8 @@ public class Vault {
             return 0;
     }
 
-    public ArrayList<ResourceContainer> getBufferArr() {
-        return bufferArr;
+    public ArrayList<ResourceContainer> getBufferList() {
+        return bufferList;
     }
 
     public void setVaultMap(HashMap<ResourceType, ResourceContainer> vaultMap) {

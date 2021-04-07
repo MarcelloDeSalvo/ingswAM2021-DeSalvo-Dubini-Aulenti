@@ -49,9 +49,23 @@ public class PlayerBoard {
     }
 
     public boolean canBuy(ArrayList<ResourceContainer> selectedResources) {
-        HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<ResourceType, ResourceContainer>();
-        HashMap<ResourceType, ResourceContainer> selectedResourcesMap = new HashMap<ResourceType, ResourceContainer>();
+        HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<>();
+        Map<ResourceType, ResourceContainer> selectedResourcesMap = new HashMap<>();
 
+        addDepositBuffer(bufferMap);
+        addVaultBuffer(bufferMap);
+
+        arraylistToMap(selectedResources);
+
+        return selectedResourcesMap.equals(bufferMap);
+    }
+
+    /**
+     * the method adds the buffers from each DepositSlot in Deposit
+     * if the element is already present in the HashMap it simply adds the qty, otherwise it creates a new element in the HashMap
+     * @param bufferMap
+     */
+    private void addDepositBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
         for (DepositSlot ds: deposit.getDepositList()) {
             ResourceType key = ds.getDepositResourceType();
             if(!bufferMap.containsKey(key))
@@ -59,18 +73,26 @@ public class PlayerBoard {
             else
                 bufferMap.get(key).addQty(ds.getBufferContainer().getQty());
         }
+    }
 
-        for (ResourceContainer rc: vault.getBufferArr()) {
+    /**
+     * the method adds the buffers from Vault
+     * if the element is already present in the HashMap it simply adds the qty, otherwise it creates a new element in the HashMap
+     * @param bufferMap
+     */
+    private void addVaultBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
+        for (ResourceContainer rc: vault.getBufferList()) {
             ResourceType key = rc.getResourceType();
             if(!bufferMap.containsKey(key))
                 bufferMap.put(key, new ResourceContainer(key, rc.getQty()));
             else
                 bufferMap.get(key).addQty(rc.getQty());
         }
+    }
 
-        selectedResourcesMap = arrayliistToMap(selectedResources);
-
-        return selectedResourcesMap.equals(bufferMap);
+    public void arraylistToMap (ArrayList<ResourceContainer> list) {
+        Map<ResourceType, ResourceContainer> map = list.stream()
+                .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
     }
 
     public boolean buy(){
@@ -79,20 +101,16 @@ public class PlayerBoard {
 
     public boolean insertBoughtCard(ProductionSlot productionSlot, DevelopmentCard boughtCard){
         int index =0;
-        if(productionSlot != null && productionSite.getProductionSlots().indexOf(productionSlot) != -1) {
+        if(productionSlot != null && productionSite.getProductionSlots().contains(productionSlot)) {
             index = productionSite.getProductionSlots().indexOf(productionSlot);
             return productionSite.getProductionSlots().get(index).insertOnTop(boughtCard);
         }
         return false;
     }
 
-    public Map<ResourceType, ResourceContainer> convertListAfterJava8(ArrayList<ResourceContainer> list) {
-        Map<ResourceType, ResourceContainer> map = list.stream()
-                .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
-        return map;
-    }
 
-    public HashMap<ResourceType, ResourceContainer> arrayliistToMap (ArrayList<ResourceContainer> tempProductionInput){
+
+    /*public HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> tempProductionInput){
         HashMap<ResourceType, ResourceContainer> map = new HashMap<ResourceType, ResourceContainer>();
         Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
         ResourceContainer current;
@@ -105,7 +123,7 @@ public class PlayerBoard {
                 map.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
         }
         return map;
-    }
+    }*/
 
     /**
      * checks if a specific ResourceType is present in the HashMap
