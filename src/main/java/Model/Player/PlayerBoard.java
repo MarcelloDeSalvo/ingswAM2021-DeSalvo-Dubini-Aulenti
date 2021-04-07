@@ -40,14 +40,31 @@ public class PlayerBoard {
         return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
     }
 
+    /**
+     * Tells the controller if the user has selected the right quantity of resources in order to produce the activated production cards
+     * @param selectedResources contains all the selected resources by the user (i.e. 3 Stones from Vault, 1 Gold from Deposit 1)
+     * @return true if the selected resources are equals to the input resources needed to produce
+     * @throws NotEnoughResources if there are missing resources
+     * @throws DepositSlotMaxDimExceeded if the user selected too many resources
+     */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
         return productionSite.canProduce(selectedResources);
     }
 
+    /**
+     * Execute the production of the selected cards
+     * Adds to the current player's vault the output resources
+     * @return true if the production is completed without problems
+     */
     public boolean produce(){
         return productionSite.produce(vault);
     }
 
+    /**
+     * Tells the controller if the user has selected the right quantity of resources in order to buy one development card
+     * @param selectedResources contains all the selected resources by the user (i.e. 3 Stones from Vault, 1 Gold from Deposit 1)
+     * @return true if the selected resources are equals to the card's price
+     */
     public boolean canBuy(ArrayList<ResourceContainer> selectedResources) {
         HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<>();
         Map<ResourceType, ResourceContainer> selectedResourcesMap = new HashMap<>();
@@ -90,15 +107,31 @@ public class PlayerBoard {
         }
     }
 
+    /**
+     * Converts a list to a map
+     * @param list
+     */
     public void arraylistToMap (ArrayList<ResourceContainer> list) {
         Map<ResourceType, ResourceContainer> map = list.stream()
                 .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
     }
 
+    /**
+     * called when canBuy() returns true
+     * subtracts all buffers from all the deposits and the vault in order to buy one development card
+     * @return true if the subtraction is successful
+     */
     public boolean buy(){
         return deposit.removeAllBuffers() && vault.removeFromVault();
     }
 
+
+    /**
+     * Inserts the just bought card into the selected production slot
+     * @param productionSlot is selected by the user
+     * @param boughtCard is the card bought by the user
+     * @return true if the isnert is successful
+     */
     public boolean insertBoughtCard(ProductionSlot productionSlot, DevelopmentCard boughtCard){
         int index =0;
         if(productionSlot != null && productionSite.getProductionSlots().contains(productionSlot)) {
