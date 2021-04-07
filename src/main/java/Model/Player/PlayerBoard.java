@@ -12,7 +12,6 @@ import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -67,18 +66,18 @@ public class PlayerBoard {
      */
     public boolean canBuy(ArrayList<ResourceContainer> selectedResources) {
         HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<>();
-        Map<ResourceType, ResourceContainer> selectedResourcesMap = new HashMap<>();
+        Map<ResourceType, ResourceContainer> selectedResourcesMap;
 
         addDepositBuffer(bufferMap);
         addVaultBuffer(bufferMap);
 
-        arraylistToMap(selectedResources);
+        selectedResourcesMap = arraylistToMap(selectedResources);
 
         return selectedResourcesMap.equals(bufferMap);
     }
 
     /**
-     * the method adds the buffers from each DepositSlot in Deposit
+     * The method adds the buffers from each DepositSlot in Deposit
      * if the element is already present in the HashMap it simply adds the qty, otherwise it creates a new element in the HashMap
      * @param bufferMap
      */
@@ -93,7 +92,7 @@ public class PlayerBoard {
     }
 
     /**
-     * the method adds the buffers from Vault
+     * The method adds the buffers from Vault
      * if the element is already present in the HashMap it simply adds the qty, otherwise it creates a new element in the HashMap
      * @param bufferMap
      */
@@ -111,13 +110,14 @@ public class PlayerBoard {
      * Converts a list to a map
      * @param list
      */
-    public void arraylistToMap (ArrayList<ResourceContainer> list) {
+    public Map<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> list) {
         Map<ResourceType, ResourceContainer> map = list.stream()
                 .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
+        return map;
     }
 
     /**
-     * called when canBuy() returns true
+     * Called when canBuy() returns true
      * subtracts all buffers from all the deposits and the vault in order to buy one development card
      * @return true if the subtraction is successful
      */
@@ -159,7 +159,7 @@ public class PlayerBoard {
     }*/
 
     /**
-     * checks if a specific ResourceType is present in the HashMap
+     * Checks if a specific ResourceType is present in the HashMap
      * @param type is the key that will be used to check in the HashMap
      * @return true if present, false otherwise
      */
