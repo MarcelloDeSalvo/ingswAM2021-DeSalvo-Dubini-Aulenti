@@ -12,6 +12,7 @@ import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -66,7 +67,7 @@ public class PlayerBoard {
      */
     public boolean canBuy(ArrayList<ResourceContainer> selectedResources) {
         HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<>();
-        Map<ResourceType, ResourceContainer> selectedResourcesMap;
+        HashMap<ResourceType, ResourceContainer> selectedResourcesMap;
 
         addDepositBuffer(bufferMap);
         addVaultBuffer(bufferMap);
@@ -107,14 +108,43 @@ public class PlayerBoard {
     }
 
     /**
+     * Converts a list to a Map
+     * @param tempProductionInput
+     * @return
+     */
+    public HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> tempProductionInput){
+        HashMap<ResourceType, ResourceContainer> map = new HashMap<ResourceType, ResourceContainer>();
+        Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
+        ResourceContainer current;
+        while(iterator.hasNext()){
+            current=iterator.next();
+            if(isPresent(current.getResourceType(), map)){
+                map.get(current.getResourceType()).addQty(current.getQty());
+            }
+            else
+                map.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
+        }
+        return map;
+    }
+
+    /**
+     * Checks if a specific ResourceType is present in the HashMap
+     * @param type is the key that will be used to check in the HashMap
+     * @return true if present, false otherwise
+     */
+    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
+        return map.containsKey(type);
+    }
+
+    /*/**
      * Converts a list to a map
      * @param list
-     */
+
     public Map<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> list) {
         Map<ResourceType, ResourceContainer> map = list.stream()
                 .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
         return map;
-    }
+    }*/
 
     /**
      * Called when canBuy() returns true
@@ -124,7 +154,6 @@ public class PlayerBoard {
     public boolean buy(){
         return deposit.removeAllBuffers() && vault.removeFromVault();
     }
-
 
     /**
      * Inserts the just bought card into the selected production slot
@@ -139,32 +168,6 @@ public class PlayerBoard {
             return productionSite.getProductionSlots().get(index).insertOnTop(boughtCard);
         }
         return false;
-    }
-
-
-
-    /*public HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> tempProductionInput){
-        HashMap<ResourceType, ResourceContainer> map = new HashMap<ResourceType, ResourceContainer>();
-        Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
-        ResourceContainer current;
-        while(iterator.hasNext()){
-            current=iterator.next();
-            if(isPresent(current.getResourceType(), map)){
-                map.get(current.getResourceType()).addQty(current.getQty());
-            }
-            else
-                map.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
-        }
-        return map;
-    }*/
-
-    /**
-     * Checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
-        return map.containsKey(type);
     }
 
     public ProductionSlot getProductionSlotByID(int n){
