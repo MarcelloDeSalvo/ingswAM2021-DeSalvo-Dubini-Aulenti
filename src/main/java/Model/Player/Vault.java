@@ -16,6 +16,7 @@ public class Vault {
 
     public Vault() {
         vaultMap = new HashMap<ResourceType, ResourceContainer>();
+        bufferList = new ArrayList<>();
     }
 
     /**
@@ -23,7 +24,7 @@ public class Vault {
      * @param type is the key that will be used to check in the HashMap
      * @return true if present, false otherwise
      */
-    private boolean isPresent(ResourceType type){
+    public boolean isPresent(ResourceType type){
         return vaultMap.containsKey(type);
     }
 
@@ -104,7 +105,7 @@ public class Vault {
                 throw new NotEnoughResources("Not enough resources");
         }
 
-        bufferList = new ArrayList<ResourceContainer>(inputArr);
+        bufferList = inputArr;
         return true;
     }
 

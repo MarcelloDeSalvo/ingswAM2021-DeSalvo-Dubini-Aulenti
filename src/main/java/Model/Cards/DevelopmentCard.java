@@ -18,6 +18,14 @@ public class  DevelopmentCard extends Card{
         this.output = new ArrayList<ResourceContainer>(output);
     }
 
+    public DevelopmentCard (int victorypoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
+        super(victorypoints, Status.PURCHASABLE);
+        this.level = level;
+        this.colour = colour;
+        this.input = new ArrayList<ResourceContainer>(input);
+        this.output = new ArrayList<ResourceContainer>(output);
+    }
+
     public DevelopmentCard (int victorypoints, int level, Colour colour) {
         super(victorypoints, Status.PURCHASABLE);
         this.level = level;

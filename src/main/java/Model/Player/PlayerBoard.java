@@ -56,7 +56,7 @@ public class PlayerBoard {
      * @return true if the production is completed without problems
      */
     public boolean produce(){
-        return productionSite.produce(vault);
+        return deposit.removeAllBuffers() && vault.removeFromVault() && productionSite.produce(vault);
     }
 
     /**

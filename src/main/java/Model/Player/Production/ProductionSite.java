@@ -40,6 +40,17 @@ public class ProductionSite {
         this.bufferSelectedResources = new HashMap<ResourceType, ResourceContainer>();
     }
 
+    public boolean activateProduction(ArrayList<ProductionSlot> productionSlots){
+        for (ProductionSlot ps: productionSlots) {
+            if(!addToMap(ps.getProductionInput(),bufferInputMap))
+                return false;
+
+            if(!addToMap(ps.getProductionOutput(),bufferOutputMap))
+                return false;
+        }
+        return true;
+    }
+
 
     /**
      * checks if a specific ResourceType is present in the HashMap
@@ -99,7 +110,7 @@ public class ProductionSite {
         addToMap(selectedResources, this.bufferSelectedResources);
         for (ResourceType key: bufferInputMap.keySet()) {
 
-            if(!bufferOutputMap.containsKey(key))
+            if(!bufferInputMap.containsKey(key))
                 throw new NotEnoughResources ("You miss one ResourceType");
             if(bufferInputMap.get(key).getQty() > bufferSelectedResources.get(key).getQty())
                 throw new NotEnoughResources ("You need more resources");
