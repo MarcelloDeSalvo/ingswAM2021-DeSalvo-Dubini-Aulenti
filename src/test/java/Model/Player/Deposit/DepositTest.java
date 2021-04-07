@@ -78,10 +78,6 @@ class DepositTest {
         assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(), 0);
         assertEquals(deposit.getDefaultSlot_WithDim(3).getResourceQty(), 2);
 
-        System.out.println(deposit.getDefaultSlot_WithDim(1).getDepositResourceType());
-        System.out.println(deposit.getDefaultSlot_WithDim(2).getDepositResourceType());
-        System.out.println(deposit.getDefaultSlot_WithDim(3).getDepositResourceType());
-
         assertThrows(ResourceTypeAlreadyStored.class,()->deposit.getDefaultSlot_WithDim(2).canAddToDepositSlot(new ResourceContainer(ResourceType.STONE,2)));
         assertAll(()->deposit.moveTo(deposit.getDefaultSlot_WithDim(1), 1, deposit.getDefaultSlot_WithDim(2)));
         assertEquals(deposit.getDefaultSlot_WithDim(2).getResourceQty(), 1);

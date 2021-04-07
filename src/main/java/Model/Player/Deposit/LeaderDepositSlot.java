@@ -18,7 +18,7 @@ public class LeaderDepositSlot extends DepositSlot {
 
     @Override
     public void setDepositResourceType(ResourceType depositResourceType) {
-        System.out.println("You cannot modify the resource type on a LeaderDeposit");
+        //System.out.println("You cannot modify the resource type on a LeaderDeposit");
     }
 
 
