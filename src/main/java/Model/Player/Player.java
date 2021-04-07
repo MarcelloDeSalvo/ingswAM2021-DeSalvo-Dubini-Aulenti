@@ -37,6 +37,10 @@ public class Player {
     }
 
     //getter and setter
+    public ProductionSlot getProductionSlotByID(int n){
+        return playerBoard.getProductionSlotByID(n);
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -53,7 +57,4 @@ public class Player {
         this.playerBoard = playerBoard;
     }
 
-    public ProductionSlot getProductionSlotByID(int n){
-        return playerBoard.getProductionSite().getProductionSlotByID(n);
-    }
 }

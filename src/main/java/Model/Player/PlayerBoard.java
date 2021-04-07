@@ -167,6 +167,10 @@ public class PlayerBoard {
         return map.containsKey(type);
     }
 
+    public ProductionSlot getProductionSlotByID(int n){
+        return productionSite.getProductionSlotByID(n);
+    }
+
     public Deposit getDeposit() {
         return deposit;
     }

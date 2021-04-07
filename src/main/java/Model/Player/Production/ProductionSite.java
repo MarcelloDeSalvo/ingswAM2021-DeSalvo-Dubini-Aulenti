@@ -132,6 +132,17 @@ public class ProductionSite {
 
 
     //getter and setter
+    public int getBufferInputResourceQty(ResourceType resourceType){
+       if (bufferInputMap.containsKey(resourceType))
+           return bufferInputMap.get(resourceType).getQty();
+       return 0;
+    }
+    public int getBufferOutputResourceQty(ResourceType resourceType){
+        if (bufferOutputMap.containsKey(resourceType))
+            return bufferOutputMap.get(resourceType).getQty();
+        return 0;
+    }
+
     public ProductionSlot getProductionSlotByID(int id){
         return productionSlots.get(id);
     }
