@@ -39,14 +39,14 @@ class PlayerBoardTest {
         p.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 1));
 
         DevelopmentCard dc = new DevelopmentCard(8, 1, Colour.BLUE, productionInput, productionOutput );
-        assertTrue(p.getPlayerBoard().insertBoughtCard(p.getPlayerBoard().getProductionSite().getProductionSlots().get(1),dc));
+        assertTrue(p.insertBoughtCardOn(1,dc));
         ArrayList<ProductionSlot> selectedSlot = new ArrayList<>();
-        selectedSlot.add(p.getPlayerBoard().getProductionSite().getProductionSlots().get(1));
+        selectedSlot.add(p.getProductionSlotByID(1));
 
         //User's turn
         //He activates the production and selects the only card available (dc)
         //He selects the input needed to produce
-        p.getPlayerBoard().getProductionSite().activateProduction(selectedSlot);
+        p.activateProduction(selectedSlot);
 
         ArrayList<ResourceContainer> selectedInput = new ArrayList<>();
         assertAll(()->p.getPlayerBoard().getVault().canRemoveFromVault(new ResourceContainer(ResourceType.GOLD, 1)));

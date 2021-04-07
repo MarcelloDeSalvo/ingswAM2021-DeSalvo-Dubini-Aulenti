@@ -132,6 +132,10 @@ public class ProductionSite {
 
 
     //getter and setter
+    public ProductionSlot getProductionSlotByID(int id){
+        return productionSlots.get(id);
+    }
+
     public ArrayList<ProductionSlot> getProductionSlots() {
         return productionSlots;
     }

@@ -1,10 +1,14 @@
 package Model.Player;
 
+import Model.Cards.DevelopmentCard;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
+import Model.Exceptions.NotEnoughResources;
+import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Player {
     private String nickname;
@@ -15,6 +19,24 @@ public class Player {
         this.playerBoard = new PlayerBoard(3,3);
     }
 
+
+    public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
+        return playerBoard.getProductionSite().activateProduction(selectedProductionCard);
+    }
+
+    public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
+        return playerBoard.canProduce(selectedResources);
+    }
+
+    public boolean produce(){
+       return playerBoard.produce();
+    }
+
+    public boolean insertBoughtCardOn(int id, DevelopmentCard developmentCard){
+        return playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard);
+    }
+
+    //getter and setter
     public String getNickname() {
         return nickname;
     }
@@ -29,5 +51,9 @@ public class Player {
 
     public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
+    }
+
+    public ProductionSlot getProductionSlotByID(int n){
+        return playerBoard.getProductionSite().getProductionSlotByID(n);
     }
 }
