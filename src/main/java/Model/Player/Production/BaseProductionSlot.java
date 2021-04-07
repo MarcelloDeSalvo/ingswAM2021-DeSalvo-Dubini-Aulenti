@@ -70,7 +70,6 @@ public class BaseProductionSlot implements ProductionSlot {
         input.clear();
         output.clear();
         return true;
-
     }
 
     @Override

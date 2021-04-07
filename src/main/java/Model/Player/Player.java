@@ -5,10 +5,8 @@ import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
-import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Player {
     private String nickname;

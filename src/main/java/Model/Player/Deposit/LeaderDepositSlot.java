@@ -4,7 +4,6 @@ import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Exceptions.ResourceTypeAlreadyStored;
-import Model.Player.Deposit.DepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 

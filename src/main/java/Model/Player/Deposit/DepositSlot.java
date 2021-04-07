@@ -46,8 +46,6 @@ public abstract class  DepositSlot {
      * It's the function that gives the permission to remove or not to the Controller
      * @param inputContainer
      * @return true if he can
-     * @throws DifferentResourceType when there is a ResourceType mismatch
-     * @throws NotEnoughResources when the resources are insufficient
      */
     public abstract boolean addToDepositSlot(ResourceContainer inputContainer);
 

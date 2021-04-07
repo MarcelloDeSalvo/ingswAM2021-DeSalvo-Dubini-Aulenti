@@ -4,7 +4,6 @@ import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
 import Model.Exceptions.ResourceTypeAlreadyStored;
-import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
 
@@ -94,8 +93,6 @@ public class Deposit {
         return false;
     }
 
-
-
     /**
      * Checks if the controller can transfer some number of resources from one deposit(selected) to another(destination)
      * @param selected is the one selected by the user
@@ -127,7 +124,6 @@ public class Deposit {
         return false;
     }
 
-
     /**
      * Transfer a selected number of resources from one deposit to another (destination)
      * @param selected is the one selected by the user
@@ -152,8 +148,6 @@ public class Deposit {
         return true;
     }
 
-
-    //getter and setter
     /**
      * get method to retrieve the DefaultDeposit's slots indexes
      * @param i is the index related to the default slot with max_dim = i

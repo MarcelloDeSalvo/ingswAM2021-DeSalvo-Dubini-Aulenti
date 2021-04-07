@@ -122,6 +122,10 @@ class PlayerBoardTest {
     }
 
     @Test
+    void buy() {
+    }
+
+    @Test
     void arraylistToMap() {
         PlayerBoard playerBoard = new PlayerBoard(3, 3);
 
@@ -150,10 +154,6 @@ class PlayerBoardTest {
 
         assertNotEquals(controlMap, map);
 
-    }
-
-    @Test
-    void buy() {
     }
 
     @Test

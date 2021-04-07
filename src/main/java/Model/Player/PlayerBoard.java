@@ -188,8 +188,6 @@ public class PlayerBoard {
         return map;
     }*/
 
-
-
     /**
      * Inserts the just bought card into the selected production slot
      * @param productionSlot is selected by the user

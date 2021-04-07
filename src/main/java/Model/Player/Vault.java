@@ -15,7 +15,7 @@ public class Vault {
     private ArrayList<ResourceContainer> bufferList;
 
     public Vault() {
-        vaultMap = new HashMap<ResourceType, ResourceContainer>();
+        vaultMap = new HashMap<>();
         bufferList = new ArrayList<>();
     }
 
