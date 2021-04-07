@@ -15,44 +15,45 @@ public interface ProductionSlot {
      * @param c
      * @return the number of cards with level "level" and colour "c"
      */
-    public int countCardsWith(int level, Colour c);
+     int countCardsWith(int level, Colour c);
 
     /**
      * Returns to the caller the list of all the required resources
      * @return
      */
-    public ArrayList<ResourceContainer> getProductionInput();
+     ArrayList<ResourceContainer> getProductionInput();
 
     /**
      * Returns to the caller the list of all the production outputs
      * @return
      */
-    public ArrayList<ResourceContainer> getProductionOutput();
+     ArrayList<ResourceContainer> getProductionOutput();
 
     /**
      * Checks if the ProductionSlot has question marks in its production pattern
      * @return
      */
-    public boolean hasQuestionMarks();
+     boolean hasQuestionMarks();
 
     /**
      * This method is used by the controller to insert the user's requested resources instead of the question marks  (Production input only)
      * @param resourceType is the user's selected resourceType
      * @return
      */
-    public boolean fillQuestionMarkInput(ResourceType resourceType);
+     boolean fillQuestionMarkInput(ResourceType resourceType);
+
     /**
      * This method is used by the controller to insert the user's requested resources instead of the question marks  (Production output only)
      * @param resourceType is the user's selected resourceType
      * @return
      */
-    public boolean fillQuestionMarkOutput(ResourceType resourceType);
+     boolean fillQuestionMarkOutput(ResourceType resourceType);
 
     /**
      * Replaces back the questionMarks in the depositSlot
      * @return
      */
-    public boolean clearCurrentBuffer();
+     boolean clearCurrentBuffer();
 
     /**
      * Used only for slots that have queues
@@ -62,6 +63,6 @@ public interface ProductionSlot {
      * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
      * @return true
      */
-    public boolean insertOnTop(DevelopmentCard newDevelopmentCard);
+     boolean insertOnTop(DevelopmentCard newDevelopmentCard);
 
 }

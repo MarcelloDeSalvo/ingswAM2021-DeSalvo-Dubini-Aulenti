@@ -19,8 +19,8 @@ public class LeaderCardProduction implements ProductionSlot {
     ArrayList<ResourceContainer> outputBuffer;
 
     public LeaderCardProduction(ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, int QMI, int QMO) {
-        this.input = new ArrayList<ResourceContainer>(input);
-        this.output = new ArrayList<ResourceContainer>(output);
+        this.input = new ArrayList<>(input);
+        this.output = new ArrayList<>(output);
         this.inputBuffer = input;
         this.outputBuffer = output;
 

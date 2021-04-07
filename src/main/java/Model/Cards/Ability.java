@@ -8,5 +8,5 @@ interface Ability {
      * @param playerBoard is the current Player's playerBoard
      * @return true if the ability can be done and finishes without errors
      */
-    public boolean useAbility(PlayerBoard playerBoard);
+     boolean useAbility(PlayerBoard playerBoard);
 }

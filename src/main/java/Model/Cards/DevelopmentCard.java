@@ -14,32 +14,24 @@ public class  DevelopmentCard extends Card{
         super(victorypoints, req, Status.PURCHASABLE);
         this.level = level;
         this.colour = colour;
-        this.input = new ArrayList<ResourceContainer>(input);
-        this.output = new ArrayList<ResourceContainer>(output);
+        this.input = new ArrayList<>(input);
+        this.output = new ArrayList<>(output);
     }
 
     public DevelopmentCard (int victorypoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
         super(victorypoints, Status.PURCHASABLE);
         this.level = level;
         this.colour = colour;
-        this.input = new ArrayList<ResourceContainer>(input);
-        this.output = new ArrayList<ResourceContainer>(output);
+        this.input = new ArrayList<>(input);
+        this.output = new ArrayList<>(output);
     }
 
     public DevelopmentCard (int victorypoints, int level, Colour colour) {
         super(victorypoints, Status.PURCHASABLE);
         this.level = level;
         this.colour = colour;
-        this.input = new ArrayList<ResourceContainer>();
-        this.output = new ArrayList<ResourceContainer>();
-    }
-
-    public void addInput (ResourceContainer resourceContainer) {
-        this.input.add(resourceContainer);
-    }
-
-    public void addOutput (ResourceContainer resourceContainer) {
-        this.output.add(resourceContainer);
+        this.input = new ArrayList<>();
+        this.output = new ArrayList<>();
     }
 
 
@@ -48,6 +40,28 @@ public class  DevelopmentCard extends Card{
         setStatus(status);
         return true;
     }
+
+    /**
+     * Adds a production input to the list
+     * @param resourceContainer
+     */
+    public boolean addInput (ResourceContainer resourceContainer) throws NullPointerException, IllegalArgumentException{
+        if(resourceContainer!= null && input.add(resourceContainer))
+            return true;
+        return false;
+
+    }
+
+    /**
+     * Adds a production output to the list
+     * @param resourceContainer
+     */
+    public boolean addOutput (ResourceContainer resourceContainer)throws NullPointerException, IllegalArgumentException {
+        if(resourceContainer!= null && output.add(resourceContainer))
+            return true;
+        return false;
+    }
+
 
     /**
      * check if this card has the level and colour required

@@ -62,7 +62,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
     }
 
 
-    //implemented methods ------------------------------------
+    //implemented methods (to code if we want to make it extendible [Development Cards with question marks]) ------------------------------------
     @Override
     public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
         //if(definedInput!=null && inputBuffer.add(new ResourceContainer(definedInput, 1)))

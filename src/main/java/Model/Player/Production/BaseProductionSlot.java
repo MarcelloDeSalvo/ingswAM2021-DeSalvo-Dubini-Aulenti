@@ -16,15 +16,15 @@ public class BaseProductionSlot implements ProductionSlot {
 
 
     public BaseProductionSlot() {
-        this.input = new ArrayList<ResourceContainer>();
-        this.output = new ArrayList<ResourceContainer>();
+        this.input = new ArrayList<>();
+        this.output = new ArrayList<>();
         this.QMI = 2;
         this.QMO = 1;
     }
 
     public BaseProductionSlot(int defaultQtyIn , int defaultQtyOut) {
-        this.input = new ArrayList<ResourceContainer>();
-        this.output = new ArrayList<ResourceContainer>();
+        this.input = new ArrayList<>();
+        this.output = new ArrayList<>();
         this.QMI = defaultQtyIn;
         this.QMO = defaultQtyOut;
     }

@@ -20,8 +20,17 @@ public class LeaderCard extends Card{
         this.abilities = new ArrayList<Ability>();
     }
 
-    public void addAbility (Ability ability) {
-        this.abilities.add(ability);
+    /**
+     * adds an ability to the list
+     * @param ability
+     * @return false if it can't be added
+     * @throws NullPointerException
+     * @throws IllegalArgumentException
+     */
+    public boolean addAbility (Ability ability) throws NullPointerException, IllegalArgumentException {
+        if(ability != null && abilities.add(ability))
+            return true;
+        return false;
     }
 
     @Override

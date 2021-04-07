@@ -14,8 +14,8 @@ public class ProductionAbility implements Ability {
     private int questionMarkOnOutput;
 
     public ProductionAbility(ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, int QMI, int QMO) {
-        this.input = new ArrayList<ResourceContainer>(input);
-        this.output = new ArrayList<ResourceContainer>(output);
+        this.input = new ArrayList<>(input);
+        this.output = new ArrayList<>(output);
         this.questionMarkOnInput = QMI;
         this.questionMarkOnOutput = QMO;
     }

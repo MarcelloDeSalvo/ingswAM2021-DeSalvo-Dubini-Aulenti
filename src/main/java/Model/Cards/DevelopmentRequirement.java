@@ -26,7 +26,7 @@ public class DevelopmentRequirement implements Requirement {
      */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
-        return playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(this.number, this.level, this.colour);
+        return playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(number, level, colour);
     }
 
     public int getNumber() {
