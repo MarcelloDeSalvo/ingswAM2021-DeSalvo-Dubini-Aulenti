@@ -48,7 +48,9 @@ class PlayerBoardTest {
         //Nick's decides to produce. He selects the previous dev. card
         ArrayList<ProductionSlot> selectedSlot = new ArrayList<>();
         selectedSlot.add(p.getProductionSlotByID(1));
+
         p.activateProduction(selectedSlot);
+        assertTrue(p.getPlayerBoard().hasEnoughResources(p.getPlayerBoard().getProductionSite().getBufferInputMap()));
 
         //Nick's selects all the resources he needs to validate the production
         ArrayList<ResourceContainer> selectedInput = new ArrayList<>();

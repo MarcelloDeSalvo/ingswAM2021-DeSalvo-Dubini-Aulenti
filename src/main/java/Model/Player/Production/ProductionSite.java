@@ -107,8 +107,8 @@ public class ProductionSite {
     }
 
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
-        addToMap(selectedResources, this.bufferSelectedResources);
-        for (ResourceType key: bufferInputMap.keySet()) {
+        addToMap(selectedResources, bufferSelectedResources);
+        for (ResourceType key: bufferSelectedResources.keySet()) {
 
             if(!bufferInputMap.containsKey(key))
                 throw new NotEnoughResources ("You miss one ResourceType");

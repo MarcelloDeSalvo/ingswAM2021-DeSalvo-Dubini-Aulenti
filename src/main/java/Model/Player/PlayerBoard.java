@@ -10,6 +10,7 @@ import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,35 @@ public class PlayerBoard {
         this.productionSite = new ProductionSite(ProdSlotNum);
         this.conversionSite = new ConversionSite();
         this.discountSite = new DiscountSite();
+    }
+
+
+    /**
+     * Returns the  current quantity of the requested ArrayList ( sum of deposit and vault)
+     * @return
+     */
+    public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
+        HashMap<ResourceType, ResourceContainer> resourceMap = arraylistToMap(requested);
+        for (ResourceType key : resourceMap.keySet()) {
+            if( resourceMap.get(key).getQty() > checkResources(key) )
+                return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer>( sum of deposit and vault)
+     * @return
+     */
+    public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
+
+        for (ResourceType key : requested.keySet()) {
+            if( requested.get(key).getQty() > checkResources(key) )
+                return false;
+        }
+
+        return true;
     }
 
     /**
@@ -62,19 +92,28 @@ public class PlayerBoard {
 
     /**
      * Tells the controller if the user has selected the right quantity of resources in order to buy one development card
-     * @param selectedResources contains all the selected resources by the user (i.e. 3 Stones from Vault, 1 Gold from Deposit 1)
+     * @param cardPrice contains the card's price (it's a list of resourceContainer)
      * @return true if the selected resources are equals to the card's price
      */
-    public boolean canBuy(ArrayList<ResourceContainer> selectedResources) {
+    public boolean canBuy(ArrayList<ResourceContainer> cardPrice) {
         HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<>();
-        HashMap<ResourceType, ResourceContainer> selectedResourcesMap;
+        HashMap<ResourceType, ResourceContainer> cardPriceMap;
 
         addDepositBuffer(bufferMap);
         addVaultBuffer(bufferMap);
 
-        selectedResourcesMap = arraylistToMap(selectedResources);
+        cardPriceMap = arraylistToMap(cardPrice);
 
-        return selectedResourcesMap.equals(bufferMap);
+        return cardPriceMap.equals(bufferMap);
+    }
+
+    /**
+     * Called when canBuy() returns true
+     * subtracts all buffers from all the deposits and the vault in order to buy one development card
+     * @return true if the subtraction is successful
+     */
+    public boolean buy(){
+        return deposit.removeAllBuffers() && vault.removeFromVault();
     }
 
     /**
@@ -146,14 +185,7 @@ public class PlayerBoard {
         return map;
     }*/
 
-    /**
-     * Called when canBuy() returns true
-     * subtracts all buffers from all the deposits and the vault in order to buy one development card
-     * @return true if the subtraction is successful
-     */
-    public boolean buy(){
-        return deposit.removeAllBuffers() && vault.removeFromVault();
-    }
+
 
     /**
      * Inserts the just bought card into the selected production slot
