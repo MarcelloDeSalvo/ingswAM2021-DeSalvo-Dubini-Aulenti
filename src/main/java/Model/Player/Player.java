@@ -16,8 +16,6 @@ public class Player {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
     }
-
-
     public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
         return playerBoard.getProductionSite().activateProduction(selectedProductionCard);
     }
