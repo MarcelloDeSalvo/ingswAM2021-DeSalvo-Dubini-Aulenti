@@ -130,11 +130,19 @@ public abstract class  DepositSlot {
         return true;
     }
 
+    /**
+     * Subtracts the quantity value of the buffer from the original container
+     * @return
+     */
     public boolean removeTheBuffer(){
         this.removeFromDepositSlot(bufferContainer);
         return true;
     }
 
+    /**
+     * Clears all the buffers
+     * @return
+     */
     public boolean clearCurrentBuffer(){
         bufferContainer.setResourceType(null);
         bufferContainer.setQty(0);
