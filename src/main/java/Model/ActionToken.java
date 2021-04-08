@@ -11,5 +11,4 @@ public class ActionToken {
     private int randomNumber;
     //Genera un numero a caso che poi serve a mettere in action l'abilità casuale
 
-
 }
