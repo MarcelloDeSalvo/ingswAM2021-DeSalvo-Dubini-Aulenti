@@ -193,7 +193,7 @@ public class PlayerBoard {
      * Inserts the just bought card into the selected production slot
      * @param productionSlot is selected by the user
      * @param boughtCard is the card bought by the user
-     * @return true if the isnert is successful
+     * @return true if the insert is successful
      */
     public boolean insertBoughtCard(ProductionSlot productionSlot, DevelopmentCard boughtCard){
         int index =0;

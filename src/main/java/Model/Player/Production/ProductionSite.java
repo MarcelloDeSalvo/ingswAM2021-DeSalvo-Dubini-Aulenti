@@ -26,7 +26,7 @@ public class ProductionSite {
      */
     public ProductionSite(int defaultNum) {
         this.defaultNum = defaultNum;
-        this.productionSlots = new ArrayList<ProductionSlot>();
+        this.productionSlots = new ArrayList<>();
 
         productionSlots.add(new BaseProductionSlot());
 
@@ -34,9 +34,9 @@ public class ProductionSite {
             productionSlots.add(new DevelopmentCardProduction());
         }
 
-        this.bufferInputMap = new HashMap<ResourceType, ResourceContainer>();
-        this.bufferOutputMap = new HashMap<ResourceType, ResourceContainer>();
-        this.bufferSelectedResources = new HashMap<ResourceType, ResourceContainer>();
+        this.bufferInputMap = new HashMap<>();
+        this.bufferOutputMap = new HashMap<>();
+        this.bufferSelectedResources = new HashMap<>();
     }
 
     /**
