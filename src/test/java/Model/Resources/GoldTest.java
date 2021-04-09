@@ -23,6 +23,7 @@ class GoldTest {
         }
         assertTrue(tempDeposit.getDepositResourceType()==ResourceType.GOLD);
         assertTrue(tempDeposit.getDepositContainer().getQty()==5);
+
     }
 
 }

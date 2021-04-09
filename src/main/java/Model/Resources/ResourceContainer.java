@@ -1,6 +1,9 @@
 package Model.Resources;
 
+import javax.print.DocFlavor;
+
 public class ResourceContainer {
+
     private ResourceType resourceType;
 
     /**
@@ -9,6 +12,7 @@ public class ResourceContainer {
     private int qty;
 
     public ResourceContainer(ResourceType resourceType, int qty) throws ArithmeticException {
+
         if(qty < 0)
             throw new ArithmeticException("ResourceContainer can't have a negative qty!");
         else {

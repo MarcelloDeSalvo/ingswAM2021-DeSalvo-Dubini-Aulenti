@@ -3,6 +3,7 @@ package Model.Player.Production;
 import Model.Cards.Colour;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
+import Model.FaithPath;
 import Model.Player.PlayerBoard;
 import Model.Player.Vault;
 import Model.Resources.ResourceContainer;
@@ -168,8 +169,10 @@ public class ProductionSite {
      */
     public boolean produce(Vault vault){
         for (ResourceType key : bufferOutputMap.keySet()){
-            if(!vault.addToVault(bufferOutputMap.get(key)))
-                return false;
+
+
+            key.addToVault(bufferOutputMap.get(key), vault);
+            key.addToFaithPath(bufferOutputMap.get(key));
         }
         return true;
     }
