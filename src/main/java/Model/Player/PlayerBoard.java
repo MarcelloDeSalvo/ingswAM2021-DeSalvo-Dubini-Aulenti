@@ -204,8 +204,17 @@ public class PlayerBoard {
         return false;
     }
 
-    public ProductionSlot getProductionSlotByID(int n){
+
+
+    public ProductionSlot getProductionSlotByID(int n) throws IndexOutOfBoundsException{
         return productionSite.getProductionSlotByID(n);
+
+    }
+
+    public DepositSlot getDepositSlotByID(int n){
+        if (n>=0 && n< deposit.getDepositList().size())
+            return deposit.getDepositList().get(n);
+        return null;
     }
 
     public Deposit getDeposit() {

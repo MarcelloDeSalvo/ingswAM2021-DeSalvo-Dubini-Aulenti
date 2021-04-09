@@ -190,8 +190,10 @@ public class ProductionSite {
         return 0;
     }
 
-    public ProductionSlot getProductionSlotByID(int id){
-        return productionSlots.get(id);
+    public ProductionSlot getProductionSlotByID(int id) throws IndexOutOfBoundsException{
+        if(id>=0 && id<productionSlots.size())
+            return productionSlots.get(id);
+        return null;
     }
 
     public ArrayList<ProductionSlot> getProductionSlots() {
