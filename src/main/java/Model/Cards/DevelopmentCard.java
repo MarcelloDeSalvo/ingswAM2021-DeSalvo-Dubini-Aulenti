@@ -109,6 +109,6 @@ public class  DevelopmentCard extends Card{
                 ", colour=" + colour +
                 ", input=" + input +
                 ", output=" + output +
-                '}';
+                '}'+ '\n';
     }
 }

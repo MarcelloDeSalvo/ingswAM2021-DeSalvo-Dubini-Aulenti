@@ -20,7 +20,7 @@ public class DevelopmentCardParser {
 
     /**
      * Reads the JSON file containing the development cards infos
-     * @return the list containig all the cards
+     * @return the list containing all the cards
      * @throws FileNotFoundException
      */
     public static ArrayList<DevelopmentCard> deserializeDevelopmentList() throws FileNotFoundException {
