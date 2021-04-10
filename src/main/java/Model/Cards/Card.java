@@ -64,7 +64,13 @@ abstract class Card {
 
         for (ResourceContainer rs: price) {
             int discountAmount = playerBoard.getDiscountSite().getDiscount(rs.getResourceType());
-            int discountPrice= rs.getQty() - discountAmount;
+            int discountPrice;
+
+            if(discountAmount > rs.getQty())
+                discountPrice = 0;
+            else
+                discountPrice = rs.getQty() - discountAmount;
+
             discountedPrice.add(new ResourceContainer(rs.getResourceType(), discountPrice));
         }
 
