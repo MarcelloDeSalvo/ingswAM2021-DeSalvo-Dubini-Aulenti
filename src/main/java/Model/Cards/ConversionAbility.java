@@ -21,4 +21,11 @@ public class ConversionAbility implements Ability {
         playerBoard.getConvertionSite().addConversion(new ResourceContainer(output, 1));
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "ConversionAbility{" +
+                "output=" + output +
+                '}';
+    }
 }

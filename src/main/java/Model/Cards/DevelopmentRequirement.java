@@ -52,4 +52,13 @@ public class DevelopmentRequirement implements Requirement {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    @Override
+    public String toString() {
+        return "DevelopmentRequirement{" +
+                "number=" + number +
+                ", colour=" + colour +
+                ", level=" + level +
+                '}';
+    }
 }

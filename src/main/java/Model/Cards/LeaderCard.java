@@ -10,11 +10,24 @@ import java.util.Iterator;
 public class LeaderCard extends Card{
     private ArrayList<Ability> abilities;
 
+    //main constructor
+    public LeaderCard(int vpoints, ArrayList<Requirement> req, ArrayList<Ability> abilities) {
+        super(vpoints, req, Status.HAND);
+        this.abilities = abilities;
+    }
 
+    //constructor used for a few tests
     public LeaderCard (int victoryPoints) {
         super(victoryPoints, Status.HAND);
         this.abilities = new ArrayList<>();
     }
+
+    //constructor with extensibility for "price"
+    public LeaderCard(int vpoints, ArrayList<Requirement> req, ArrayList<ResourceContainer> price, ArrayList<Ability> abilities) {
+        super(vpoints, Status.HAND, req, price);
+        this.abilities = abilities;
+    }
+
 
     /**
      * adds an ability to the list
@@ -53,4 +66,10 @@ public class LeaderCard extends Card{
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "LeaderCard{" +
+                "abilities=" + abilities +
+                "} " + super.toString();
+    }
 }

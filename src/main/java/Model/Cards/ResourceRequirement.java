@@ -21,4 +21,11 @@ public class ResourceRequirement implements Requirement{
 
         return amount >= resourceContainer.getQty();
     }
+
+    @Override
+    public String toString() {
+        return "ResourceRequirement{" +
+                "resourceContainer=" + resourceContainer +
+                '}';
+    }
 }

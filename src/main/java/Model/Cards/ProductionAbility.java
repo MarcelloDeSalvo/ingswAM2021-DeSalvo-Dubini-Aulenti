@@ -47,4 +47,14 @@ public class ProductionAbility implements Ability {
     public void setOutput(ArrayList<ResourceContainer> output) {
         this.output = output;
     }
+
+    @Override
+    public String toString() {
+        return "ProductionAbility{" +
+                "input=" + input +
+                ", questionMarkOnInput=" + questionMarkOnInput +
+                ", output=" + output +
+                ", questionMarkOnOutput=" + questionMarkOnOutput +
+                '}';
+    }
 }

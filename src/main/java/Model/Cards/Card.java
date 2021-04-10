@@ -121,4 +121,14 @@ abstract class Card {
     public void setPrice(ArrayList<ResourceContainer> price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "victoryPoints=" + victoryPoints +
+                ", status=" + status +
+                ", requirements=" + requirements +
+                ", price=" + price +
+                '}';
+    }
 }

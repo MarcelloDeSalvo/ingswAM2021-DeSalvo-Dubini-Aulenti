@@ -1,0 +1,26 @@
+[
+  {
+    "victoryPoints": 2,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "YELLOW",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "GREEN",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "DiscountAbility",
+        "resourceType" : "MINION",
+        "discount" : 1
+      }
+    ]
+  }
+]

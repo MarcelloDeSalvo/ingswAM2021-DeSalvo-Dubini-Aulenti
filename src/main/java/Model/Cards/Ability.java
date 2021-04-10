@@ -2,7 +2,7 @@ package Model.Cards;
 
 import Model.Player.PlayerBoard;
 
-interface Ability {
+public interface Ability {
     /**
      * Calls the Leader's ability with a Strategy pattern
      * @param playerBoard is the current Player's playerBoard

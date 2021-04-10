@@ -23,4 +23,12 @@ public class StoreAbility implements Ability {
         playerBoard.getDeposit().addDepositSlot(new LeaderDepositSlot(resourceType, maxDim));
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "StoreAbility{" +
+                "resourceType=" + resourceType +
+                ", maxDim=" + maxDim +
+                '}';
+    }
 }

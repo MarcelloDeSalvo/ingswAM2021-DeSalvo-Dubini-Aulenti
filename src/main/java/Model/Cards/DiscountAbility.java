@@ -39,4 +39,12 @@ public class DiscountAbility implements Ability{
     public void setDiscount(int discount) {
         this.discount = discount;
     }
+
+    @Override
+    public String toString() {
+        return "DiscountAbility{" +
+                "resourceType=" + resourceType +
+                ", discount=" + discount +
+                '}';
+    }
 }

@@ -144,17 +144,14 @@ class PlayerBoardTest {
 
         //clears the transaction buffers for the next turn
         p.getPlayerBoard().getVault().clearBuffer();
-
     }
 
     @Test
-    void canProduce(){
+    void productionSimulation2() {
+
 
     }
 
-    @Test
-    void produce() {
-    }
 
     //Tests canBuy and buy methods in the same Test
     @Test
