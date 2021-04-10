@@ -28,11 +28,75 @@ class PlayerBoardTest {
     }
 
     @Test
-    void checkResources() {
+    void hashEnoughResourcesArrayList() {
+        Player player = new Player("Presidente? PRESIDENTE?");
+
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.SHIELD, 2));
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 1));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 3));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 3));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 5));
+
+        ArrayList<ResourceContainer> requested = new ArrayList<>();
+
+        requested.add(new ResourceContainer(ResourceType.SHIELD, 4));
+        requested.add(new ResourceContainer(ResourceType.MINION, 1));
+        requested.add(new ResourceContainer(ResourceType.GOLD, 3));
+        requested.add(new ResourceContainer(ResourceType.STONE, 2));
+        requested.add(new ResourceContainer(ResourceType.STONE, 3));
+
+
+
+        assertTrue(player.getPlayerBoard().hasEnoughResources(requested));
+
+        requested.add(new ResourceContainer(ResourceType.MINION, 1));
+
+        assertFalse(player.getPlayerBoard().hasEnoughResources(requested));
     }
 
     @Test
-    void ProductionSimulation() {
+    void hashEnoughResourcesHashMap() {
+        Player player = new Player("Antonio Zequila");
+
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.SHIELD, 2));
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 1));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 3));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 3));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 5));
+
+        HashMap<ResourceType, ResourceContainer> requested = new HashMap<>();
+
+        requested.put(ResourceType.SHIELD, new ResourceContainer(ResourceType.SHIELD, 5));
+        requested.put(ResourceType.MINION, new ResourceContainer(ResourceType.MINION, 1));
+        requested.put(ResourceType.GOLD, new ResourceContainer(ResourceType.GOLD, 2));
+        requested.put(ResourceType.STONE, new ResourceContainer(ResourceType.STONE, 5));
+
+
+
+        assertTrue(player.getPlayerBoard().hasEnoughResources(requested));
+
+        requested.replace(ResourceType.SHIELD, new ResourceContainer(ResourceType.SHIELD, 6));
+
+        assertFalse(player.getPlayerBoard().hasEnoughResources(requested));
+    }
+
+    @Test
+    void checkResources() {
+        Player player = new Player("Luca Giurato");
+
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.SHIELD, 2));
+        player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 1));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 3));
+        player.getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 3));
+
+        assertEquals(player.getPlayerBoard().checkResources(ResourceType.SHIELD), 5);
+        assertEquals(player.getPlayerBoard().checkResources(ResourceType.MINION), 1);
+        assertEquals(player.getPlayerBoard().checkResources(ResourceType.GOLD), 3);
+        assertEquals(player.getPlayerBoard().checkResources(ResourceType.STONE), 0);
+    }
+
+    @Test
+    void productionSimulation() {
         Player p = new Player("Nick");
 
         //Development card creation
@@ -92,8 +156,9 @@ class PlayerBoardTest {
     void produce() {
     }
 
+    //Tests canBuy and buy methods in the same Test
     @Test
-    void canBuy() {
+    void buySimulation() {
         Player player = new Player("Paolo Brosio");
 
         player.getPlayerBoard().getDeposit().getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.SHIELD, 1));
@@ -119,10 +184,10 @@ class PlayerBoardTest {
         inputList.add(new ResourceContainer(ResourceType.GOLD, 1));
 
         assertFalse(player.getPlayerBoard().canBuy(inputList));
-    }
 
-    @Test
-    void buy() {
+
+        //buy method test
+        assertTrue(player.getPlayerBoard().buy());
     }
 
     @Test

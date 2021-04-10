@@ -40,12 +40,8 @@ public class PlayerBoard {
      */
     public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
         HashMap<ResourceType, ResourceContainer> resourceMap = arraylistToMap(requested);
-        for (ResourceType key : resourceMap.keySet()) {
-            if( resourceMap.get(key).getQty() > checkResources(key) )
-                return false;
-        }
 
-        return true;
+        return hasEnoughResources(resourceMap);
     }
 
     /**
@@ -196,7 +192,7 @@ public class PlayerBoard {
      * @return true if the insert is successful
      */
     public boolean insertBoughtCard(ProductionSlot productionSlot, DevelopmentCard boughtCard){
-        int index =0;
+        int index;
         if(productionSlot != null && productionSite.getProductionSlots().contains(productionSlot)) {
             index = productionSite.getProductionSlots().indexOf(productionSlot);
             return productionSite.getProductionSlots().get(index).insertOnTop(boughtCard);

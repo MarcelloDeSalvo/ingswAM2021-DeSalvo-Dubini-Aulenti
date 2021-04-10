@@ -64,7 +64,7 @@ class DiscountAbilityTest {
 
     @Test
     void discountAbilityOverDiscount (){
-        Player alessandro=new Player("Margara");
+        Player alessandro=new Player("Who lives in a pineapple under the sea? SPONGEBOB SQUAREPANTS");
         DevelopmentCard cardThatIsPrettyCheap= new DevelopmentCard(8,1,Colour.YELLOW);
         cardThatIsPrettyCheap.addPrice(new ResourceContainer(ResourceType.GOLD,1));
         discoLeader.executeAbility(alessandro.getPlayerBoard());
