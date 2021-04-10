@@ -10,14 +10,24 @@ public class  DevelopmentCard extends Card{
     private ArrayList<ResourceContainer> input;
     private ArrayList<ResourceContainer> output;
 
-    public DevelopmentCard (int victorypoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
-        super(victorypoints, req, Status.PURCHASABLE);
+    //JSON constructors
+    public DevelopmentCard (int victoryPoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
+        super(victoryPoints,Status.PURCHASABLE, req, price);
         this.level = level;
         this.colour = colour;
         this.input = new ArrayList<>(input);
         this.output = new ArrayList<>(output);
     }
 
+    public DevelopmentCard (int victorypoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
+        super(victorypoints,Status.PURCHASABLE, price);
+        this.level = level;
+        this.colour = colour;
+        this.input = new ArrayList<>(input);
+        this.output = new ArrayList<>(output);
+    }
+
+    //Test constructors
     public DevelopmentCard (int victorypoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
         super(victorypoints, Status.PURCHASABLE);
         this.level = level;
@@ -33,6 +43,7 @@ public class  DevelopmentCard extends Card{
         this.input = new ArrayList<>();
         this.output = new ArrayList<>();
     }
+
 
 
     @Override
@@ -89,5 +100,15 @@ public class  DevelopmentCard extends Card{
 
     public ArrayList<ResourceContainer> getOutput() {
         return output;
+    }
+
+    @Override
+    public String toString() {
+        return "DevelopmentCard{" +
+                "level=" + level +
+                ", colour=" + colour +
+                ", input=" + input +
+                ", output=" + output +
+                '}';
     }
 }

@@ -6,30 +6,37 @@ import Model.Resources.ResourceContainer;
 import java.util.ArrayList;
 
 abstract class Card {
-    private int victorypoints;
+    private int victoryPoints;
     private Status status;
     private ArrayList<Requirement> requirements;
     private ArrayList<ResourceContainer> price;
 
-    public Card(int vpoints, ArrayList<Requirement> req, Status status, ArrayList<ResourceContainer> price){
-        this.victorypoints = vpoints;
+    public Card(int vpoints, Status status, ArrayList<Requirement> req, ArrayList<ResourceContainer> price){
+        this.victoryPoints = vpoints;
         this.status = status;
-        this.requirements = new ArrayList<Requirement>(req);
+        this.requirements = new ArrayList<>(req);
+        this.price = price;
+    }
+
+    public Card(int vpoints, Status status, ArrayList<ResourceContainer> price){
+        this.victoryPoints = vpoints;
+        this.status = status;
+        this.requirements = new ArrayList<>();
         this.price = price;
     }
 
     public Card(int vpoints, ArrayList<Requirement> req, Status status){
-        this.victorypoints = vpoints;
+        this.victoryPoints = vpoints;
         this.status = status;
-        this.requirements = new ArrayList<Requirement>(req);
-        this.price = new ArrayList<ResourceContainer>();
+        this.requirements = new ArrayList<>(req);
+        this.price = new ArrayList<>();
     }
 
-    public Card(int victorypoints, Status status) {
-        this.victorypoints = victorypoints;
+    public Card(int victoryPoints, Status status) {
+        this.victoryPoints = victoryPoints;
         this.status = status;
-        this.requirements = new ArrayList<Requirement>();
-        this.price = new ArrayList<ResourceContainer>();
+        this.requirements = new ArrayList<>();
+        this.price = new ArrayList<>();
     }
 
     /**
@@ -81,10 +88,10 @@ abstract class Card {
 
 
     public int getVictoryPoints() {
-        return victorypoints;
+        return victoryPoints;
     }
 
-    public void setVictorypoints(int victorypoints) { this.victorypoints = victorypoints; }
+    public void setVictoryPoints(int victoryPoints) { this.victoryPoints = victoryPoints; }
 
     public Status getStatus() {
         return status;
