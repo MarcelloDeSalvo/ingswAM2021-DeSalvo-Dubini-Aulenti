@@ -80,6 +80,7 @@ public class ResourceContainer {
         if (!(o instanceof ResourceContainer)) return false;
         ResourceContainer container = (ResourceContainer) o;
         return qty == container.qty && resourceType == container.resourceType;
+        
     }
 
     @Override

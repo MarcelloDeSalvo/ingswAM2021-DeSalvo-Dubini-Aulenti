@@ -1,23 +1,39 @@
 package Model.Resources;
 
-
-import Model.FaithPath;
 import Model.Player.Deposit.DepositSlot;
-import Model.Player.Player;
 import Model.Player.Vault;
 
 public enum ResourceType {
-    GOLD(1), MINION(1), STONE(1), SHIELD(1), FAITHPOINT(2), BLANK(0);
+    GOLD(true,true,false),
+    MINION(true,true,false),
+    STONE(true,true,false),
+    SHIELD(true,true,false),
+    FAITHPOINT(false,false,true),
+    BLANK(false,false,false);
 
-    private final int permission;
-    ResourceType(int permission){
-        this.permission = permission;
+    /**
+     * Resources' permissions
+     */
+    private boolean canAddToVault;
+    private boolean canAddToDeposit;
+    private boolean canAddToFaithPath ;
+
+    ResourceType(boolean canAddToVault, boolean canAddToDeposit, boolean canAddToFaithPath){
+        this.canAddToVault = canAddToVault;
+        this.canAddToDeposit = canAddToDeposit;
+        this.canAddToFaithPath = canAddToFaithPath;
     }
 
 
+    /**
+     * Adds a container to a Vault
+     * @param container is the input container
+     * @param vault is the destination
+     * @return true if the resource has the permission
+     */
     public boolean addToVault(ResourceContainer container, Vault vault){
 
-        if(container.getResourceType().getPermission() != 1 )
+        if(container.getResourceType().canAddToVault() != true )
             return false;
 
         if (vault.addToVault(container))
@@ -26,8 +42,14 @@ public enum ResourceType {
             return false;
     }
 
+    /**
+     * Adds a container to a Deposit
+     * @param container is the input container
+     * @param depositslot is the destination
+     * @return true if the resource has the permission
+     */
     public boolean addToDeposit (ResourceContainer container, DepositSlot depositslot) {
-        if(container.getResourceType().getPermission() != 1 )
+        if(container.getResourceType().canAddToDeposit() != true)
             return false;
 
         if (depositslot.addToDepositSlot(new ResourceContainer(container.getResourceType(), 1)))
@@ -36,15 +58,28 @@ public enum ResourceType {
             return false;
     }
 
+    /**
+     * Increments the current player position
+     * @param container is the input container
+     * @return true if the resource has the permission
+     */
     public boolean addToFaithPath (ResourceContainer container){
-        if(container.getResourceType().getPermission() != 2 )
+        if(container.getResourceType().canAddToFaithPath() != true )
             return false;
 
         return true;
     }
 
-    public int getPermission() {
-        return permission;
+    public boolean canAddToVault() {
+        return canAddToVault;
+    }
+
+    public boolean canAddToDeposit() {
+        return canAddToDeposit;
+    }
+
+    public boolean canAddToFaithPath() {
+        return canAddToFaithPath;
     }
 }
 
