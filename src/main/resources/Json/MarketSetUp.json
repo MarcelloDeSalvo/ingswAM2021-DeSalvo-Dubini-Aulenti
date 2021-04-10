@@ -1,0 +1,54 @@
+[
+  {
+    "resourceType": "FAITHPOINT",
+    "qty": 1
+  },
+  {
+    "resourceType": "BLANK",
+    "qty": 1
+  },
+  {
+    "resourceType": "BLANK",
+    "qty": 1
+  },
+  {
+    "resourceType": "BLANK",
+    "qty": 1
+  },
+  {
+    "resourceType": "BLANK",
+    "qty": 1
+  },
+  {
+  "resourceType": "STONE",
+  "qty": 1
+  },
+  {
+  "resourceType": "STONE",
+  "qty": 1
+  },
+  {
+  "resourceType": "GOLD",
+  "qty": 1
+  },
+  {
+  "resourceType": "GOLD",
+  "qty": 1
+  },
+  {
+  "resourceType": "MINION",
+  "qty": 1
+  },
+  {
+  "resourceType": "MINION",
+  "qty": 1
+  },
+  {
+  "resourceType": "SHIELD",
+  "qty": 1
+  },
+  {
+  "resourceType": "SHIELD",
+  "qty": 1
+}
+]

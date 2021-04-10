@@ -2,6 +2,7 @@ package Model;
 
 import Model.Exceptions.InvalidColumnNumber;
 import Model.Exceptions.InvalidRowNumber;
+import Model.Parser.MarketSetUpParser;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +14,13 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MarketTest {
-    ArrayList<ResourceContainer> marblesMarket= new  ArrayList<>();
+    ArrayList<ResourceContainer> marblesMarket;
     @BeforeEach
-    void constructRandomMarbles(){
+    void marketSetUp(){
+        assertAll(()->marblesMarket = MarketSetUpParser.deserializeMarketElements());
+    }
+ /*   @BeforeEach
+    void constructRandomMarbles() {
         for(int i=0; i<13; i++) {
             Random random=new Random();
             int randomNum= random.nextInt(6);
@@ -32,12 +37,12 @@ class MarketTest {
                     marblesMarket.add(new ResourceContainer(ResourceType.FAITHPOINT,1));
                 case 5:
                     marblesMarket.add(new ResourceContainer(ResourceType.BLANK,1));
-              /*  default:
-                    System.out.println("Errore!");*/
+               //default:
+               //     System.out.println("Errore!");
             }
         }
     }
-
+*/
     @Test
     void marketConstructor(){
 

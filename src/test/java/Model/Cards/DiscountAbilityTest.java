@@ -71,6 +71,15 @@ class DiscountAbilityTest {
         assertEquals(cardThatIsPrettyCheap.getDiscountedPrice(alessandro.getPlayerBoard()).get(0).getQty(), 0);
     }
 
+    @Test
+    void discountAbilityDifferentType (){
+        Player alessandro=new Player("Margara");
+        DevelopmentCard cardThatIsPrettyCheap= new DevelopmentCard(8,1,Colour.YELLOW);
+        cardThatIsPrettyCheap.addPrice(new ResourceContainer(ResourceType.MINION,1));
+        discoLeader.executeAbility(alessandro.getPlayerBoard());
+        assertEquals(cardThatIsPrettyCheap.getDiscountedPrice(alessandro.getPlayerBoard()).get(0).getQty(), 1);
+    }
+
 
 
 }
