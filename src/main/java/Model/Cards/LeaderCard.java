@@ -6,6 +6,7 @@ import Model.Resources.ResourceContainer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class LeaderCard extends Card{
     private ArrayList<Ability> abilities;
@@ -54,8 +55,8 @@ public class LeaderCard extends Card{
 
     /**
      * Executes all the Leader's ability, scrolling through them one by one
-     * @param playerBoard
-     * @return
+     * @param playerBoard is the current player's playerBoard
+     * @return true
      */
     public boolean executeAbility (PlayerBoard playerBoard) {
         Iterator<Ability> iter = abilities.iterator();
@@ -63,6 +64,20 @@ public class LeaderCard extends Card{
         while(iter.hasNext()) {
             iter.next().useAbility(playerBoard);
         }
+        return true;
+    }
+
+    /**
+     * Checks automatically if all card's requirements are satisfied
+     * @param playerBoard is the current player's playerBoard
+     * @return true if all requirements are satisfied, false if there's at least one not satisfied
+     */
+    public boolean checkRequirements(PlayerBoard playerBoard){
+        for (Requirement req: super.getRequirements()) {
+            if(!req.checkRequirements(playerBoard))
+                return false;
+        }
+
         return true;
     }
 

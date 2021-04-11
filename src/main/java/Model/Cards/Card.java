@@ -42,7 +42,7 @@ abstract class Card {
     /**
      * Adds a requirement to the list
      * @param requirement
-     * @return
+     * @return true if the add finishes without problems
      */
     public boolean addRequirement(Requirement requirement) {
         if(requirement!= null && this.requirements.add(requirement))
@@ -63,8 +63,8 @@ abstract class Card {
 
     /**
      * Checks if the current users has some active discount and return the card's discounted price
-     * @param playerBoard
-     * @return
+     * @param playerBoard is the current's player's playerboard
+     * @return the discounted price for the current player
      */
     public ArrayList<ResourceContainer> getDiscountedPrice(PlayerBoard playerBoard){
         ArrayList<ResourceContainer> discountedPrice = new ArrayList<ResourceContainer>();
@@ -87,8 +87,8 @@ abstract class Card {
 
     /**
      * changes the current card's status
-     * @param status
-     * @return
+     * @param status is the status that i want to set
+     * @return true if he changed it
      */
     public abstract boolean changeStatus(Status status);
 
