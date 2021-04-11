@@ -10,7 +10,7 @@ public class Market {
     static final int columns=4;
     static final int rows=3;
 
-    ResourceContainer[][] market= new ResourceContainer[columns][3];
+    ResourceContainer[][] market= new ResourceContainer[columns][rows];
     ResourceContainer vacant;
 
     public Market(ArrayList<ResourceContainer> marblesMarket){
@@ -85,6 +85,13 @@ public class Market {
         System.out.println("Il vacant è: "+vacant.getResourceType());
     }
 
+    public ResourceContainer getMarketCell (int rowNum,int columnNum){
+      return market[columnNum][rowNum];
+    }
+
+    public ResourceContainer getVacant (){
+        return vacant;
+    }
 
 
 
