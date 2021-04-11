@@ -4,28 +4,34 @@ import Model.Cards.DevelopmentCard;
 import java.util.*;
 
 public class Deck{
-    private Queue<DevelopmentCard> deck;
+    private LinkedList<DevelopmentCard> deck;
 
     public Deck() {
-        this.deck = new LinkedList<DevelopmentCard>();
+        this.deck = new LinkedList<>();
     }
 
 
     public ArrayList<DevelopmentCard> randomInsert(ArrayList<DevelopmentCard> cardsList){
         Collections.shuffle(cardsList);
         for (DevelopmentCard card: cardsList) {
-            deck.add(card);
+            deck.push(card);
         }
         return cardsList;
     }
 
     //getterAndSetter
-    public Queue<DevelopmentCard> getDeck() {
+    public LinkedList<DevelopmentCard> getDeck() {
         return deck;
     }
 
-    public void setDeck(PriorityQueue<DevelopmentCard> deck) {
+    public void setDeck(LinkedList<DevelopmentCard> deck) {
         this.deck = deck;
     }
 
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "deck=" + deck +
+                '}';
+    }
 }
