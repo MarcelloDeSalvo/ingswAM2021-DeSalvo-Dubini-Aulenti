@@ -1,8 +1,11 @@
 package Model;
 
+import Model.Parser.MarketSetUpParser;
 import Model.Player.Deposit.DepositSlot;
 import Model.Player.Player;
+import Model.Resources.ResourceContainer;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,8 +18,27 @@ public class Game {
     private Deck leaderDeck;
 
 
-    public boolean createGame(ArrayList<String> players){
-        Iterator<String> iter = players.iterator();
+ /*   public void Game() throws  FileNotFoundException {
+        playerList = new ArrayList<>();
+        for (int i= 0; i<4; i++){
+            playerList.add(new Player(("default")));
+        }
+
+        try {
+            ArrayList<ResourceContainer> marketMarbles = MarketSetUpParser.deserializeMarketElements();
+            market = new Market(marketMarbles);
+
+        }catch()
+
+    }*/
+
+
+
+    public boolean createStandardRules(ArrayList<String> playersNicknames){
+
+        playerList = new ArrayList<>();
+
+        Iterator<String> iter = playersNicknames.iterator();
         String current;
         while(iter.hasNext()){
             current=iter.next();
@@ -24,5 +46,18 @@ public class Game {
         }
         return true;
     }
+
+    public boolean createCustomRules(ArrayList<String> playersNicknames, String confFilePath ){
+        playerList = new ArrayList<>();
+
+        Iterator<String> iter = playersNicknames.iterator();
+        String current;
+        while(iter.hasNext()){
+            current=iter.next();
+            playerList.add(new Player(current));
+        }
+        return true;
+    }
+
 
 }
