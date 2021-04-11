@@ -176,7 +176,7 @@
     "requirements" : [
       {
         "type" : "DevelopmentRequirement",
-        "number" : 2,
+        "number" : 1,
         "colour" : "YELLOW",
         "level" : 2
       }
@@ -207,7 +207,7 @@
     "requirements" : [
       {
         "type" : "DevelopmentRequirement",
-        "number" : 2,
+        "number" : 1,
         "colour" : "GREEN",
         "level" : 2
       }
@@ -238,7 +238,7 @@
     "requirements" : [
       {
         "type" : "DevelopmentRequirement",
-        "number" : 2,
+        "number" : 1,
         "colour" : "PURPLE",
         "level" : 2
       }
@@ -269,7 +269,7 @@
     "requirements" : [
       {
         "type" : "DevelopmentRequirement",
-        "number" : 2,
+        "number" : 1,
         "colour" : "BLUE",
         "level" : 2
       }
