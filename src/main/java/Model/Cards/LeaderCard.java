@@ -5,24 +5,29 @@ import Model.Resources.ResourceContainer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class LeaderCard extends Card{
-    private ArrayList<Ability> abilities;
+    private final ArrayList<Ability> abilities;
 
-    //main constructor
+    /**
+     * Main constructor
+     */
     public LeaderCard(int vpoints, ArrayList<Requirement> req, ArrayList<Ability> abilities) {
         super(vpoints, req, Status.HAND);
         this.abilities = abilities;
     }
 
-    //constructor used for a few tests
+    /**
+     * constructor used for a few tests
+     */
     public LeaderCard (int victoryPoints) {
         super(victoryPoints, Status.HAND);
         this.abilities = new ArrayList<>();
     }
 
-    //constructor with extensibility for "price"
+    /**
+     * constructor with extensibility for "price"
+     */
     public LeaderCard(int vpoints, ArrayList<Requirement> req, ArrayList<ResourceContainer> price, ArrayList<Ability> abilities) {
         super(vpoints, Status.HAND, req, price);
         this.abilities = abilities;
@@ -31,15 +36,11 @@ public class LeaderCard extends Card{
 
     /**
      * adds an ability to the list
-     * @param ability
-     * @return false if it can't be added
-     * @throws NullPointerException
-     * @throws IllegalArgumentException
      */
-    public boolean addAbility (Ability ability) throws NullPointerException, IllegalArgumentException {
-        if(ability != null && abilities.add(ability))
-            return true;
-        return false;
+    public void addAbility (Ability ability) throws NullPointerException, IllegalArgumentException {
+        if (ability != null) {
+            abilities.add(ability);
+        }
     }
 
     @Override
@@ -55,13 +56,10 @@ public class LeaderCard extends Card{
     /**
      * Executes all the Leader's ability, scrolling through them one by one
      * @param playerBoard is the current player's playerBoard
-     * @return true
      */
     public boolean executeAbility (PlayerBoard playerBoard) {
-        Iterator<Ability> iter = abilities.iterator();
-
-        while(iter.hasNext()) {
-            iter.next().useAbility(playerBoard);
+        for (Ability ability : abilities) {
+            ability.useAbility(playerBoard);
         }
         return true;
     }

@@ -5,8 +5,8 @@ import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
 public class DiscountAbility implements Ability{
-    private ResourceType resourceType;
-    private int discount;
+    private final ResourceType resourceType;
+    private final int discount;
 
     public DiscountAbility(ResourceType resourceType, int discount) {
         this.resourceType = resourceType;
@@ -15,7 +15,7 @@ public class DiscountAbility implements Ability{
 
     /**
      * creates a new Discount to put in "DiscountSite" section using "addDiscount"
-     * @param playerBoard
+     * @param playerBoard is the current player's playerBoard
      * @return true
      */
     @Override
@@ -28,17 +28,10 @@ public class DiscountAbility implements Ability{
         return resourceType;
     }
 
-    public void setResourceType(ResourceType resourceType) {
-        this.resourceType = resourceType;
-    }
-
     public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
 
     @Override
     public String toString() {

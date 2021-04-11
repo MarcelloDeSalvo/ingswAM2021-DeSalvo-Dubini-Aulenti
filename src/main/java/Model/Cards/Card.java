@@ -42,13 +42,10 @@ abstract class Card {
 
     /**
      * Adds a requirement to the list
-     * @param requirement
      * @return true if the add finishes without problems
      */
-    public boolean addRequirement(Requirement requirement) {
-        if(requirement!= null && this.requirements.add(requirement))
-            return true;
-        return false;
+    public boolean addRequirement(Requirement requirement) throws NullPointerException, IllegalArgumentException {
+        return requirement != null && this.requirements.add(requirement);
     }
 
     /**
@@ -56,10 +53,8 @@ abstract class Card {
      * @param priceContainer is the added price
      * @return true if the insert ends without exception
      */
-    public boolean addPrice(ResourceContainer priceContainer){
-        if(priceContainer!= null && this.price.add(priceContainer))
-            return true;
-        return false;
+    public boolean addPrice(ResourceContainer priceContainer) throws NullPointerException, IllegalArgumentException{
+        return priceContainer != null && this.price.add(priceContainer);
     }
 
     /**
@@ -68,7 +63,7 @@ abstract class Card {
      * @return the discounted price for the current player
      */
     public ArrayList<ResourceContainer> getDiscountedPrice(PlayerBoard playerBoard){
-        ArrayList<ResourceContainer> discountedPrice = new ArrayList<ResourceContainer>();
+        ArrayList<ResourceContainer> discountedPrice = new ArrayList<>();
 
         for (ResourceContainer rs: price) {
             int discountAmount = playerBoard.getDiscountSite().getDiscount(rs.getResourceType());

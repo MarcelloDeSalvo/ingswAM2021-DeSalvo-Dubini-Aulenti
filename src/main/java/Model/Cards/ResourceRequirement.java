@@ -3,10 +3,9 @@ package Model.Cards;
 import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
-import java.util.ArrayList;
 
 public class ResourceRequirement implements Requirement{
-    private ResourceContainer resourceContainer;
+    private final ResourceContainer resourceContainer;
 
     public ResourceRequirement(ResourceContainer resourceContainer) {
         this.resourceContainer = resourceContainer;
@@ -14,7 +13,6 @@ public class ResourceRequirement implements Requirement{
 
     /**
      * Checks if the player has enough resources to satisfy the requirement
-     * @param playerBoard
      * @return true if he has enough resources, false if he doesn't
      */
     @Override
