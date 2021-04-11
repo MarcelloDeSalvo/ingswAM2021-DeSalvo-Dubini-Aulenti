@@ -81,7 +81,7 @@ public class  DevelopmentCard extends Card{
      * @return true if the inputs are equal to the card attributes
      */
     public boolean isSameLevelandColour(int l, Colour c){
-        if(this.getColour() == c && (this.getLevel() == l || l==0))
+        if(this.colour == c && (this.level == l || l==0))
             return true;
         return false;
     }

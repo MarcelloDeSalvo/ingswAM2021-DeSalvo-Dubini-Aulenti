@@ -7,6 +7,7 @@ import Model.Parser.MarketSetUpParser;
 import Model.Player.Player;
 import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
+import Model.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,22 +28,36 @@ class DevelopmentRequirementTest {
         leaderCards = LeaderCardParser.deserializeLeaderList();
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
 
-        //Green level 3
-        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(1),developmentCards.get(0)));
-        assertEquals(developmentCards.get(1).getColour(), Colour.GREEN);
-        assertEquals(developmentCards.get(1).getLevel(), 3);
+
+        //Yellow level 1
+        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(1), Util.getCardWithVpColour(1, Colour.YELLOW)));
+        assertEquals(developmentCards.get(35).getColour(), Colour.YELLOW);
+        assertEquals(developmentCards.get(35).getLevel(), 1);
 
         //Blue level 2
-        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(2), developmentCards.get(16)));
+        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(1), developmentCards.get(16)));
         assertEquals(developmentCards.get(16).getColour(), Colour.BLUE);
         assertEquals(developmentCards.get(16).getLevel(), 2);
 
-        //Yellow level 1
-        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(3), developmentCards.get(35)));
-        assertEquals(developmentCards.get(3).getColour(), Colour.YELLOW);
-        assertEquals(developmentCards.get(3).getLevel(), 1);
-
+        //Green level 3
+        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(1),developmentCards.get(1)));
+        assertEquals(developmentCards.get(1).getColour(), Colour.GREEN);
+        assertEquals(developmentCards.get(1).getLevel(), 3);
     }
+
+
+    @Test
+    void sameLevel(){
+        assertTrue(Util.getCardWithVpColour(6,Colour.BLUE).isSameLevelandColour(2, Colour.BLUE));
+    }
+
+    @Test
+    void checkSlot(){
+        p_playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(1,1,Colour.YELLOW);
+        p_playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(1,2,Colour.BLUE);
+        p_playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(1,3,Colour.GREEN);
+    }
+
 
     @Test
     void checkRequirements_AnyLevel_True(){
@@ -52,15 +67,17 @@ class DevelopmentRequirementTest {
 
     @Test
     void checkRequirements_AnyLevel_False(){
-        //He needs one generic Yellow and one generic Blue
-        assertFalse(leaderCards.get(1).checkRequirements(p_playerBoard));
+        //He needs one generic Green and one generic Blue
+        assertTrue(leaderCards.get(1).checkRequirements(p_playerBoard));
     }
 
     @Test
     void checkRequirements_SpecificLevel_False(){
         //He needs one level 2 blue
-        assertTrue(leaderCards.get(12).checkRequirements(p_playerBoard));
+        assertEquals(leaderCards.get(11).getRequirements().get(0).getColour(), Colour.BLUE);
+        assertEquals(leaderCards.get(11).getRequirements().get(0).getLevel(), 2);
+        assertTrue(leaderCards.get(11).checkRequirements(p_playerBoard));
         //He needs one level 2 purple
-        assertFalse(leaderCards.get(11).checkRequirements(p_playerBoard));
+        assertFalse(leaderCards.get(10).checkRequirements(p_playerBoard));
     }
 }
