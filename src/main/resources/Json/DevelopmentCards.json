@@ -1,7 +1,8 @@
 [
+
   {
-    "victoryPoints": 2,
-    "level": 1,
+    "victoryPoints": 12,
+    "level": 3,
     "colour": "GREEN",
     "input":[
       {
@@ -10,36 +11,76 @@
       }],
 
     "output": [
-      { "resourceType": "MINION",
+      { "resourceType": "SHIELD",
         "qty": 1
+      },
+      { "resourceType": "GOLD",
+        "qty": 3
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "GOLD",
+        "qty": 4
+      },
+      {
+        "resourceType": "SHIELD",
+        "qty": 4
+      }
+    ]
+
+  },
+  {
+    "victoryPoints": 11,
+    "level": 3,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 1
+      },
+      { "resourceType": "FAITHPOINT",
+        "qty": 3
       }
     ],
 
     "price": [
       {
         "resourceType": "SHIELD",
-        "qty": 1
-      },{
-        "resourceType": "MINION",
-        "qty": 1
-      },{
-        "resourceType": "STONE",
-        "qty": 1
+        "qty": 7
       }
     ]
-  },
 
+  },
   {
-    "victoryPoints": 1,
-    "level": 1,
+    "victoryPoints": 10,
+    "level": 3,
     "colour": "GREEN",
     "input":[
       {
         "resourceType": "GOLD",
         "qty": 1
-      }],
+      },
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }
+    ],
 
     "output": [
+      { "resourceType": "SHIELD",
+        "qty": 2
+      },
+      {
+        "resourceType": "STONE",
+        "qty": 2
+      },
       { "resourceType": "FAITHPOINT",
         "qty": 1
       }
@@ -48,14 +89,18 @@
     "price": [
       {
         "resourceType": "SHIELD",
+        "qty": 5
+      },
+      {
+        "resourceType": "MINION",
         "qty": 2
       }
     ]
-  },
 
+  },
   {
-    "victoryPoints": 3,
-    "level": 1,
+    "victoryPoints": 9,
+    "level": 3,
     "colour": "GREEN",
     "input":[
       {
@@ -64,23 +109,137 @@
       }],
 
     "output": [
-      { "resourceType": "GOLD",
-        "qty": 1
-      },
-      { "resourceType": "SHIELD",
-        "qty": 1
-      },
       { "resourceType": "STONE",
-        "qty": 1
+        "qty": 3
+      },
+      { "resourceType": "FAITHPOINT",
+        "qty": 2
       }
     ],
 
     "price": [
       {
         "resourceType": "SHIELD",
-        "qty": 2
+        "qty": 6
       }
     ]
+
+  },
+
+  {
+    "victoryPoints": 8,
+    "level": 2,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "GOLD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "SHIELD",
+        "qty": 2
+      },
+      { "resourceType": "FAITHPOINT",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "GOLD",
+        "qty": 3
+      },
+      {
+        "resourceType": "SHIELD",
+        "qty": 3
+      }
+    ]
+
+  },
+  {
+    "victoryPoints": 7,
+    "level": 2,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "GOLD",
+        "qty": 2
+      }],
+
+    "output": [
+      { "resourceType": "STONE",
+        "qty": 2
+      },
+      { "resourceType": "FAITHPOINT",
+        "qty": 2
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "SHIELD",
+        "qty": 5
+      }
+    ]
+
+  },
+  {
+    "victoryPoints": 6,
+    "level": 2,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      },
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }
+    ],
+
+    "output": [
+      { "resourceType": "STONE",
+        "qty": 3
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "MINION",
+        "qty": 2
+      },
+      {
+        "resourceType": "SHIELD",
+        "qty": 3
+      }
+    ]
+
+},
+  {
+    "victoryPoints": 5,
+    "level": 2,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "STONE",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "FAITHPOINT",
+        "qty": 2
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "SHIELD",
+        "qty": 4
+      }
+    ]
+
   },
 
   {
@@ -118,10 +277,67 @@
       }
     ]
   },
-
   {
-    "victoryPoints": 8,
-    "level": 2,
+    "victoryPoints": 3,
+    "level": 1,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "MINION",
+        "qty": 2
+      }],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 1
+      },
+      { "resourceType": "SHIELD",
+        "qty": 1
+      },
+      { "resourceType": "STONE",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "SHIELD",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "victoryPoints": 2,
+    "level": 1,
+    "colour": "GREEN",
+    "input":[
+      {
+        "resourceType": "STONE",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "MINION",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      },{
+        "resourceType": "MINION",
+        "qty": 1
+      },{
+        "resourceType": "STONE",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "victoryPoints": 1,
+    "level": 1,
     "colour": "GREEN",
     "input":[
       {
@@ -130,9 +346,6 @@
       }],
 
     "output": [
-      { "resourceType": "SHIELD",
-        "qty": 2
-      },
       { "resourceType": "FAITHPOINT",
         "qty": 1
       }
@@ -140,28 +353,23 @@
 
     "price": [
       {
-      "resourceType": "GOLD",
-      "qty": 3
-      },
-      {
         "resourceType": "SHIELD",
-        "qty": 3
+        "qty": 2
       }
     ]
-
   },
 
 
 
   {
-    "victoryPoints": 9,
+    "victoryPoints": 12,
     "level": 3,
     "colour": "BLUE",
     "input":[
-     {
-      "resourceType": "MINION",
-      "qty": 2
-     }],
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }],
 
     "output": [
       {
@@ -169,15 +377,19 @@
         "qty": 3
       },
       {
-        "resourceType": "FAITHPOINT",
-        "qty": 2
+        "resourceType": "GOLD",
+        "qty": 1
       }
     ],
 
     "price": [
       {
         "resourceType": "GOLD",
-        "qty": 6
+        "qty": 4
+      },
+      {
+        "resourceType": "STONE",
+        "qty": 4
       }
     ]
   },
@@ -250,13 +462,13 @@
     ]
   },
   {
-    "victoryPoints": 12,
+    "victoryPoints": 9,
     "level": 3,
     "colour": "BLUE",
     "input":[
       {
         "resourceType": "MINION",
-        "qty": 1
+        "qty": 2
       }],
 
     "output": [
@@ -265,19 +477,15 @@
         "qty": 3
       },
       {
-        "resourceType": "GOLD",
-        "qty": 1
+        "resourceType": "FAITHPOINT",
+        "qty": 2
       }
     ],
 
     "price": [
       {
         "resourceType": "GOLD",
-        "qty": 4
-      },
-      {
-        "resourceType": "STONE",
-        "qty": 4
+        "qty": 6
       }
     ]
   },
@@ -469,29 +677,6 @@
     ]
   },
   {
-    "victoryPoints": 1,
-    "level": 1,
-    "colour": "BLUE",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "FAITHPOINT",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "GOLD",
-        "qty": 2
-      }
-    ]
-  },
-  {
     "victoryPoints": 2,
     "level": 1,
     "colour": "BLUE",
@@ -522,7 +707,375 @@
       }
     ]
   },
+  {
+    "victoryPoints": 1,
+    "level": 1,
+    "colour": "BLUE",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
 
+    "output": [
+      { "resourceType": "FAITHPOINT",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "GOLD",
+        "qty": 2
+      }
+    ]
+  },
+
+
+
+  {
+    "victoryPoints": 12 ,
+    "level": 3,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "STONE",
+        "qty": 1
+      },
+      {"resourceType": "MINION",
+        "qty": 3
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 4
+      },{
+        "resourceType": "MINION",
+        "qty": 4
+      }
+    ]
+  },
+  {
+    "victoryPoints": 11 ,
+    "level": 3,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "MINION",
+        "qty": 1
+      },
+      {"resourceType": "FAITHPOINT",
+        "qty": 3
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 7
+      }
+    ]
+  },
+  {
+    "victoryPoints":  10,
+    "level": 3,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "STONE",
+        "qty": 1
+      },
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }
+    ],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 2
+      },
+      {"resourceType": "SHIELD",
+        "qty": 2
+      },
+      {"resourceType": "FAITHPOINT",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 5
+      },{
+        "resourceType": "MINION",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "victoryPoints": 9 ,
+    "level": 3,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 2
+      }],
+
+    "output": [
+      { "resourceType": "MINION",
+        "qty": 3
+      },
+      {"resourceType": "FAITHPOINT",
+        "qty": 2
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 6
+      }
+    ]
+  },
+
+  {
+    "victoryPoints":  8,
+    "level": 2,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 2
+      },
+      {"resourceType": "FAITHPOINT",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 3
+      },{
+        "resourceType": "MINION",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "victoryPoints": 7 ,
+    "level": 2,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 2
+      }],
+
+    "output": [
+      { "resourceType": "MINION",
+        "qty": 2
+      },
+      {"resourceType": "FAITHPOINT",
+        "qty": 2
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 5
+      }
+    ]
+  },
+  {
+    "victoryPoints": 6 ,
+    "level": 2,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "STONE",
+        "qty": 1
+      },
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 3
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "SHIELD",
+        "qty": 2
+      },{
+        "resourceType": "STONE",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "victoryPoints": 5  ,
+    "level": 2,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "FAITHPOINT",
+        "qty": 2
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 4
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 4 ,
+    "level": 1,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "GOLD",
+        "qty": 1
+      },
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "SHIELD",
+        "qty": 2
+      },
+      {"resourceType": "FAITHPOINT",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "SHIELD",
+        "qty": 2
+      },{
+        "resourceType": "STONE",
+        "qty": 2
+      }
+    ]
+  },
+  {
+    "victoryPoints": 3 ,
+    "level": 1,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 2
+      }],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 1
+      },
+      {"resourceType": "MINION",
+        "qty": 1
+      },
+      {
+        "resourceType": "STONE",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 3
+      }
+    ]
+  },
+  {
+    "victoryPoints": 2 ,
+    "level": 1,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "SHIELD",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "GOLD",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 1
+      },{
+        "resourceType": "GOLD",
+        "qty": 1
+      },{
+        "resourceType": "SHIELD",
+        "qty": 1
+      }
+    ]
+  },
+  {
+    "victoryPoints": 1 ,
+    "level": 1,
+    "colour": "YELLOW",
+    "input":[
+      {
+        "resourceType": "MINION",
+        "qty": 1
+      }],
+
+    "output": [
+      { "resourceType": "FAITHPOINT",
+        "qty": 1
+      }
+    ],
+
+    "price": [
+      {
+        "resourceType": "STONE",
+        "qty": 2
+      }
+    ]
+  },
 
 
 
@@ -559,7 +1112,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 11,
     "level": 3,
@@ -589,7 +1141,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 10,
     "level": 3,
@@ -631,7 +1182,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 9,
     "level": 3,
@@ -695,7 +1245,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 7,
     "level": 2,
@@ -725,7 +1274,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 6,
     "level": 2,
@@ -759,7 +1307,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 5,
     "level": 2,
@@ -823,7 +1370,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 3,
     "level": 1,
@@ -857,7 +1403,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 2,
     "level": 1,
@@ -891,7 +1436,6 @@
       }
     ]
   },
-
   {
     "victoryPoints": 1,
     "level": 1,
@@ -913,360 +1457,6 @@
     "price": [
       {
         "resourceType": "MINION",
-        "qty": 2
-      }
-    ]
-  },
-
-
-  {
-    "victoryPoints": 9 ,
-    "level": 3,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 2
-      }],
-
-    "output": [
-      { "resourceType": "MINION",
-        "qty": 3
-      },
-      {"resourceType": "FAITHPOINT",
-        "qty": 2
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 6
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 11 ,
-    "level": 3,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "MINION",
-        "qty": 1
-      },
-      {"resourceType": "FAITHPOINT",
-        "qty": 3
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 7
-      }
-    ]
-  },
-
-  {
-    "victoryPoints":  10,
-    "level": 3,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "STONE",
-        "qty": 1
-      },
-      {
-        "resourceType": "MINION",
-        "qty": 1
-      }
-    ],
-
-    "output": [
-      { "resourceType": "GOLD",
-        "qty": 2
-      },
-      {"resourceType": "SHIELD",
-        "qty": 2
-      },
-      {"resourceType": "FAITHPOINT",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 5
-      },{
-        "resourceType": "MINION",
-        "qty": 2
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 12 ,
-    "level": 3,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "STONE",
-        "qty": 1
-      },
-      {"resourceType": "MINION",
-        "qty": 3
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 4
-      },{
-        "resourceType": "MINION",
-        "qty": 4
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 5  ,
-    "level": 2,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "FAITHPOINT",
-        "qty": 2
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 4
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 6 ,
-    "level": 2,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "STONE",
-        "qty": 1
-      },
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "GOLD",
-        "qty": 3
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "SHIELD",
-        "qty": 2
-      },{
-        "resourceType": "STONE",
-        "qty": 3
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 7 ,
-    "level": 2,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 2
-      }],
-
-    "output": [
-      { "resourceType": "MINION",
-        "qty": 2
-      },
-      {"resourceType": "FAITHPOINT",
-        "qty": 2
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 5
-      }
-    ]
-  },
-
-  {
-    "victoryPoints":  8,
-    "level": 2,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "GOLD",
-        "qty": 2
-      },
-      {"resourceType": "FAITHPOINT",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 3
-      },{
-        "resourceType": "MINION",
-        "qty": 3
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 1 ,
-    "level": 1,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "MINION",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "FAITHPOINT",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 2
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 2 ,
-    "level": 1,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "GOLD",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 1
-      },{
-        "resourceType": "GOLD",
-        "qty": 1
-      },{
-        "resourceType": "SHIELD",
-        "qty": 1
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 3 ,
-    "level": 1,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "SHIELD",
-        "qty": 2
-      }],
-
-    "output": [
-      { "resourceType": "GOLD",
-        "qty": 1
-      },
-      {"resourceType": "MINION",
-        "qty": 1
-      },
-      {
-        "resourceType": "STONE",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "STONE",
-        "qty": 3
-      }
-    ]
-  },
-
-  {
-    "victoryPoints": 4 ,
-    "level": 1,
-    "colour": "YELLOW",
-    "input":[
-      {
-        "resourceType": "GOLD",
-        "qty": 1
-      },
-      {
-        "resourceType": "MINION",
-        "qty": 1
-      }],
-
-    "output": [
-      { "resourceType": "SHIELD",
-        "qty": 2
-      },
-      {"resourceType": "FAITHPOINT",
-        "qty": 1
-      }
-    ],
-
-    "price": [
-      {
-        "resourceType": "SHIELD",
-        "qty": 2
-      },{
-        "resourceType": "STONE",
         "qty": 2
       }
     ]
