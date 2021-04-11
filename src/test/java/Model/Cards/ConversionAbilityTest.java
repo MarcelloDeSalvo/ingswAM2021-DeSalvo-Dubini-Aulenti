@@ -41,7 +41,7 @@ class ConversionAbilityTest {
     @Test
     void conversionAbility_1(){
 
-        assertTrue(leaderCards.get(2).executeAbility(p_playerBoard));
+        assertTrue(leaderCards.get(12).executeAbility(p_playerBoard));
         assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().size(), 1);
         assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().get(0).getQty(), 1);
         assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().get(0).getResourceType(), ResourceType.MINION);
@@ -50,12 +50,8 @@ class ConversionAbilityTest {
     @Test
     void conversionAbility_2(){
 
-        assertTrue(leaderCards.get(2).executeAbility(p_playerBoard));
-
-        LeaderCard conversion_1 = new LeaderCard(8);
-        ConversionAbility conversionAbility = new ConversionAbility(ResourceType.GOLD);
-        assertTrue(conversion_1.addAbility(conversionAbility));
-        assertAll(()->conversion_1.executeAbility(p_playerBoard));
+        assertTrue(leaderCards.get(12).executeAbility(p_playerBoard));
+        assertTrue(leaderCards.get(15).executeAbility(p_playerBoard));
 
         assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().size(), 2);
         assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().get(1).getResourceType(), ResourceType.GOLD);

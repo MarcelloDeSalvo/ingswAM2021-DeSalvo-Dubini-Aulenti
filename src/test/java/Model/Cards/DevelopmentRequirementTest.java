@@ -28,7 +28,7 @@ class DevelopmentRequirementTest {
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
 
         assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(1),developmentCards.get(0)));
-        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(2), developmentCards.get(4)));
+        assertTrue(p_playerBoard.insertBoughtCard(p_playerBoard.getProductionSlotByID(2), developmentCards.get(35)));
 
     }
 
