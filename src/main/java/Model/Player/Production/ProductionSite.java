@@ -84,15 +84,16 @@ public class ProductionSite {
 
 
     /**
-     * checks if the user has enough input resources in order to activate the production
-     * @param bufferInputMap
-     * @param playerBoard
-     * @return
+     * checks if the user has enough resources altogether before the user starts to selected them (vault + deposit) in order to activate the production
+     * @return true if he has enough total resources
      */
-    public  boolean hasEnoughInputResources(HashMap<ResourceType,ResourceContainer> bufferInputMap, PlayerBoard playerBoard){
+    public  boolean hasEnoughInputResources(PlayerBoard playerBoard){
+        if (bufferInputMap.size()==0)
+            return false;
+
         for (ResourceType key : bufferInputMap.keySet())
         {
-            if(playerBoard.checkResources(key)<bufferInputMap.get(key).getQty())
+            if( playerBoard.checkResources(key) < bufferInputMap.get(key).getQty() )
                 return false;
         }
         return true;
@@ -117,9 +118,9 @@ public class ProductionSite {
      */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
         Util.arraylistToMap(selectedResources, bufferSelectedResources);
-        for (ResourceType key: bufferSelectedResources.keySet()) {
+        for (ResourceType key: bufferInputMap.keySet()) {
 
-            if(!bufferInputMap.containsKey(key))
+            if(!bufferSelectedResources.containsKey(key))
                 throw new NotEnoughResources ("You miss one ResourceType");
             if(bufferInputMap.get(key).getQty() > bufferSelectedResources.get(key).getQty())
                 throw new NotEnoughResources ("You need more resources");

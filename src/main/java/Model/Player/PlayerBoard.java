@@ -26,10 +26,10 @@ public class PlayerBoard {
     private final ConversionSite conversionSite;
     private final DiscountSite discountSite;
 
-    public PlayerBoard(int PyramidNum, int ProdSlotNum) {
-        this.deposit = new Deposit(PyramidNum);
+    public PlayerBoard(int pyramidNum, int prodSlotNum) {
+        this.deposit = new Deposit(pyramidNum);
         this.vault = new Vault();
-        this.productionSite = new ProductionSite(ProdSlotNum);
+        this.productionSite = new ProductionSite(prodSlotNum);
         this.conversionSite = new ConversionSite();
         this.discountSite = new DiscountSite();
     }
@@ -60,11 +60,27 @@ public class PlayerBoard {
     }
 
     /**
+     * checks if the user has enough resources altogether before the user starts to selected them (vault + deposit) in order to activate the production
+     * @return true if he has enough total resources
+     */
+    public  boolean hasEnoughResourcesForProduction(){
+        return productionSite.hasEnoughInputResources(this);
+    }
+
+    /**
      * Returns the  current quantity of the requested ResourceType
      * @return the sum of the ResourceType's quantity inside the vault and all the deposits
      */
     public int checkResources(ResourceType requested){
         return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
+    }
+
+    /**
+     * Puts all the resources needed to activate the selected production cards and all the resources produced by those cards into a buffer
+     * @param selectedProductionCard is the list of the cards selected by the user
+     */
+    public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
+        return productionSite.activateProduction(selectedProductionCard);
     }
 
     /**
