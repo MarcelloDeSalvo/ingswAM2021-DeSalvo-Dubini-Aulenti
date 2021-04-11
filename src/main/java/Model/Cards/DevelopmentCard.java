@@ -5,10 +5,10 @@ import Model.Resources.ResourceContainer;
 import java.util.ArrayList;
 
 public class  DevelopmentCard extends Card{
-    private int level;
-    private Colour colour;
-    private ArrayList<ResourceContainer> input;
-    private ArrayList<ResourceContainer> output;
+    private final int level;
+    private final Colour colour;
+    private final ArrayList<ResourceContainer> input;
+    private final ArrayList<ResourceContainer> output;
 
     //JSON constructors
     public DevelopmentCard (int victoryPoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
@@ -52,27 +52,6 @@ public class  DevelopmentCard extends Card{
         return true;
     }
 
-    /**
-     * Adds a production input to the list
-     * @param resourceContainer
-     */
-    public boolean addInput (ResourceContainer resourceContainer) throws NullPointerException, IllegalArgumentException{
-        if(resourceContainer!= null && input.add(resourceContainer))
-            return true;
-        return false;
-
-    }
-
-    /**
-     * Adds a production output to the list
-     * @param resourceContainer
-     */
-    public boolean addOutput (ResourceContainer resourceContainer)throws NullPointerException, IllegalArgumentException {
-        if(resourceContainer!= null && output.add(resourceContainer))
-            return true;
-        return false;
-    }
-
 
     /**
      * check if this card has the level and colour required
@@ -81,9 +60,7 @@ public class  DevelopmentCard extends Card{
      * @return true if the inputs are equal to the card attributes
      */
     public boolean isSameLevelandColour(int l, Colour c){
-        if(this.colour == c && (this.level == l || l==0))
-            return true;
-        return false;
+        return this.colour == c && (this.level == l || l == 0);
     }
 
     public int getLevel() {

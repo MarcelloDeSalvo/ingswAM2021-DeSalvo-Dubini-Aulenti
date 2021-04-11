@@ -4,9 +4,9 @@ import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
 public class DevelopmentRequirement implements Requirement {
-    private int number;
-    private Colour colour;
-    private int level;
+    private final int number;
+    private final Colour colour;
+    private final int level;
 
     public DevelopmentRequirement(int number, int level, Colour colour) {
         this.number = number;

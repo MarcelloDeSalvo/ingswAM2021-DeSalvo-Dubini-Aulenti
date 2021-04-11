@@ -1,19 +1,15 @@
 package Model.Cards;
 
-import Model.Market;
+
 import Model.Parser.DevelopmentCardParser;
 import Model.Parser.LeaderCardParser;
-import Model.Parser.MarketSetUpParser;
 import Model.Player.Player;
 import Model.Player.PlayerBoard;
-import Model.Resources.ResourceContainer;
 import Model.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DevelopmentRequirementTest {
@@ -48,6 +44,7 @@ class DevelopmentRequirementTest {
 
     @Test
     void sameLevel(){
+        assertNotNull(Util.getCardWithVpColour(6,Colour.BLUE));
         assertTrue(Util.getCardWithVpColour(6,Colour.BLUE).isSameLevelandColour(2, Colour.BLUE));
     }
 

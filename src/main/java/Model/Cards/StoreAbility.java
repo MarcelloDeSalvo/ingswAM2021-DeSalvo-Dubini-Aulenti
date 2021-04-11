@@ -5,7 +5,7 @@ import Model.Player.PlayerBoard;
 import Model.Resources.ResourceType;
 
 public class StoreAbility implements Ability {
-    private ResourceType resourceType;
+    private final ResourceType resourceType;
     int maxDim;
 
     public StoreAbility(ResourceType resourceType, int maxDim) {
@@ -15,8 +15,6 @@ public class StoreAbility implements Ability {
 
     /**
      * create a new LeaderDepositSlot in the "Deposit" section
-     * @param playerBoard
-     * @return true
      */
     @Override
     public boolean useAbility(PlayerBoard playerBoard) {
