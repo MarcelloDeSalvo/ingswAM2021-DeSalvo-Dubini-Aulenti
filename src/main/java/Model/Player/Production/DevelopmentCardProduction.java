@@ -22,21 +22,32 @@ public class DevelopmentCardProduction implements ProductionSlot {
      * @return true
      */
     public boolean insertOnTop (DevelopmentCard newDevelopmentCard) {
-        if(dev.getDeck().peek() != null) {
+        if(dev.getDeck().peekLast() != null) {
             if(dev.getDeck().element().getLevel()+1 == newDevelopmentCard.getLevel())
+            {
                 dev.getDeck().element().changeStatus(Status.ACTIVE);
+                newDevelopmentCard.changeStatus(Status.ON_TOP);
+                dev.getDeck().push(newDevelopmentCard);
+            }
             else
                 return false;
         }
-
-        newDevelopmentCard.changeStatus(Status.ON_TOP);
-        dev.getDeck().add(newDevelopmentCard);
+        else
+        {
+            if(newDevelopmentCard.getLevel() == 1)
+            {
+                newDevelopmentCard.changeStatus(Status.ON_TOP);
+                dev.getDeck().push(newDevelopmentCard);
+            }
+            else
+                return false;
+        }
 
         return true;
     }
 
     public DevelopmentCard getElementOnTop () {
-        return dev.getDeck().element();
+        return dev.getDeck().peek();
     }
 
     @Override
