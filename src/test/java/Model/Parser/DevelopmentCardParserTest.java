@@ -1,5 +1,6 @@
 package Model.Parser;
 
+import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class DevelopmentCardParserTest {
     void deserializeDevelopmentList() throws FileNotFoundException {
         ArrayList<DevelopmentCard> cards ;
         cards = DevelopmentCardParser.deserializeDevelopmentList();
-        assertEquals(cards.get(0).getLevel(),1);
+        assertEquals(cards.get(0).getColour(), Colour.GREEN);
         System.out.println(cards.toString());
     }
 }
