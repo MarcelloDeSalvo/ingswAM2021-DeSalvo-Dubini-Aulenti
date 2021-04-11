@@ -1,6 +1,5 @@
 package Model.Cards;
 
-import Model.Player.Player;
 import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
@@ -85,6 +84,6 @@ public class LeaderCard extends Card{
     public String toString() {
         return "LeaderCard{" +
                 "abilities=" + abilities +
-                "} " + super.toString();
+                "} " + super.toString() + '\n';
     }
 }

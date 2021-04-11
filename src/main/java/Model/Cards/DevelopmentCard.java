@@ -111,4 +111,12 @@ public class  DevelopmentCard extends Card{
                 ", output=" + output +
                 "} " + super.toString() + '\n';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DevelopmentCard)) return false;
+        DevelopmentCard that = (DevelopmentCard) o;
+        return level == that.level && colour == that.colour && input.equals(that.input) && output.equals(that.output);
+    }
 }

@@ -3,7 +3,6 @@ package Model.Player.Production;
 import Model.Cards.Colour;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
-import Model.FaithPath;
 import Model.Player.PlayerBoard;
 import Model.Player.Vault;
 import Model.Resources.ResourceContainer;
@@ -89,9 +88,7 @@ public class ProductionSite {
      * @return
      */
     public boolean addProductionSlot(ProductionSlot productionSlot){
-        if(productionSlot != null && productionSlots.add(productionSlot))
-            return true;
-        return false;
+        return productionSlot != null && productionSlots.add(productionSlot);
     }
 
     /**

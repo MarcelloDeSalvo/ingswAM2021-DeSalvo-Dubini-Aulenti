@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class LeaderCardParser {
 
-    public LeaderCardParser() {
+    private LeaderCardParser() {
     }
 
     public static ArrayList<LeaderCard> deserializeLeaderList() throws FileNotFoundException {

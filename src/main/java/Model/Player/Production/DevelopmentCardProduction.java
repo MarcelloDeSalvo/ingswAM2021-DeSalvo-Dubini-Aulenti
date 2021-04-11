@@ -35,6 +35,10 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return true;
     }
 
+    public DevelopmentCard getElementOnTop () {
+        return dev.getDeck().element();
+    }
+
     @Override
     public ArrayList<ResourceContainer> getProductionInput() {
         if(dev.getDeck().peek() != null)
@@ -61,6 +65,9 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return i;
     }
 
+    public Deck getSlot() {
+        return dev;
+    }
 
     //implemented methods (to code if we want to make it extendible [Development Cards with question marks]) ------------------------------------
     @Override

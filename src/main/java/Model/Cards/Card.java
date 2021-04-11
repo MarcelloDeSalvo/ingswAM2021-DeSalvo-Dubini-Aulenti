@@ -4,6 +4,7 @@ import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 abstract class Card {
     private int victoryPoints;
@@ -131,4 +132,13 @@ abstract class Card {
                 ", price=" + price +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Card)) return false;
+        Card card = (Card) o;
+        return victoryPoints == card.victoryPoints && status == card.status && Objects.equals(requirements, card.requirements) && Objects.equals(price, card.price);
+    }
+
 }
