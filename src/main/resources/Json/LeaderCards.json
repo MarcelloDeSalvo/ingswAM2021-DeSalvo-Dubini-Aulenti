@@ -25,6 +25,81 @@
   },
 
   {
+    "victoryPoints": 2,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "BLUE",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "GREEN",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "DiscountAbility",
+        "resourceType" : "STONE",
+        "discount" : 1
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 2,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "YELLOW",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "PURPLE",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "DiscountAbility",
+        "resourceType" : "GOLD",
+        "discount" : 1
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 2,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "BLUE",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "PURPLE",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "DiscountAbility",
+        "resourceType" : "SHIELD",
+        "discount" : 1
+      }
+    ]
+  },
+
+  {
     "victoryPoints": 3,
     "requirements" : [
       {
@@ -43,25 +118,55 @@
   },
 
   {
-    "victoryPoints": 5,
+    "victoryPoints": 3,
     "requirements" : [
       {
-        "type" : "DevelopmentRequirement",
-        "number" : 2,
-        "colour" : "YELLOW",
-        "level" : 0
-      },
-      {
-        "type" : "DevelopmentRequirement",
-        "number" : 1,
-        "colour" : "BLUE",
-        "level" : 0
+        "type" : "ResourceRequirement",
+        "resourceType" : "STONE",
+        "qty" : 5
       }
     ],
     "abilities" : [
       {
-        "type" : "ConversionAbility",
-        "output" : "MINION"
+        "type" : "StoreAbility",
+        "resourceType" : "MINION",
+        "maxDim" : 2
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 3,
+    "requirements" : [
+      {
+        "type" : "ResourceRequirement",
+        "resourceType" : "SHIELD",
+        "qty" : 5
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "StoreAbility",
+        "resourceType" : "GOLD",
+        "maxDim" : 2
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 3,
+    "requirements" : [
+      {
+        "type" : "ResourceRequirement",
+        "resourceType" : "MINION",
+        "qty" : 5
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "StoreAbility",
+        "resourceType" : "SHIELD",
+        "maxDim" : 2
       }
     ]
   },
@@ -93,6 +198,195 @@
         ],
         "questionMarkOnInput" : 0,
         "questionMarkOnOutput" : 1
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 4,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "GREEN",
+        "level" : 2
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ProductionAbility",
+        "input" : [
+          {
+            "resourceType": "GOLD",
+            "qty": 1
+          }
+        ],
+        "output": [
+          {
+            "resourceType": "FAITHPOINT",
+            "qty": 1
+          }
+        ],
+        "questionMarkOnInput" : 0,
+        "questionMarkOnOutput" : 1
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 4,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "PURPLE",
+        "level" : 2
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ProductionAbility",
+        "input" : [
+          {
+            "resourceType": "STONE",
+            "qty": 1
+          }
+        ],
+        "output": [
+          {
+            "resourceType": "FAITHPOINT",
+            "qty": 1
+          }
+        ],
+        "questionMarkOnInput" : 0,
+        "questionMarkOnOutput" : 1
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 4,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "BLUE",
+        "level" : 2
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ProductionAbility",
+        "input" : [
+          {
+            "resourceType": "MINION",
+            "qty": 1
+          }
+        ],
+        "output": [
+          {
+            "resourceType": "FAITHPOINT",
+            "qty": 1
+          }
+        ],
+        "questionMarkOnInput" : 0,
+        "questionMarkOnOutput" : 1
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 5,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "YELLOW",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "BLUE",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ConversionAbility",
+        "output" : "MINION"
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 5,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "GREEN",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "PURPLE",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ConversionAbility",
+        "output" : "SHIELD"
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 5,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "BLUE",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "YELLOW",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ConversionAbility",
+        "output" : "STONE"
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 5,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "PURPLE",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "GREEN",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ConversionAbility",
+        "output" : "GOLD"
       }
     ]
   }
