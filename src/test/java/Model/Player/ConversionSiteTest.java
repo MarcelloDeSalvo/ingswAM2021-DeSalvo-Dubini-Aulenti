@@ -39,7 +39,7 @@ class ConversionSiteTest {
         conversionSite.addConversion(new ResourceContainer(ResourceType.STONE,2));
         conversionSite.addConversion(new ResourceContainer(ResourceType.GOLD,1));
         ArrayList<ResourceContainer> marketInput= new ArrayList<>();
-        marketInput.add(new ResourceContainer(ResourceType.BLANK,1));
+        assertAll(()->marketInput.add(new ResourceContainer(ResourceType.BLANK,1)));
         assertThrows(MultipleConversionsActive.class, ()->conversionSite.canConvert());
 
     }

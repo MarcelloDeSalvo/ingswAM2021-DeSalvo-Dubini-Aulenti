@@ -22,5 +22,78 @@
         "discount" : 1
       }
     ]
+  },
+
+  {
+    "victoryPoints": 3,
+    "requirements" : [
+      {
+        "type" : "ResourceRequirement",
+        "resourceType" : "GOLD",
+        "qty" : 5
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "StoreAbility",
+        "resourceType" : "STONE",
+        "maxDim" : 2
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 5,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "YELLOW",
+        "level" : 0
+      },
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 1,
+        "colour" : "BLUE",
+        "level" : 0
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ConversionAbility",
+        "output" : "MINION"
+      }
+    ]
+  },
+
+  {
+    "victoryPoints": 4,
+    "requirements" : [
+      {
+        "type" : "DevelopmentRequirement",
+        "number" : 2,
+        "colour" : "YELLOW",
+        "level" : 2
+      }
+    ],
+    "abilities" : [
+      {
+        "type" : "ProductionAbility",
+        "input" : [
+          {
+            "resourceType": "SHIELD",
+            "qty": 1
+          }
+        ],
+        "output": [
+          {
+            "resourceType": "FAITHPOINT",
+            "qty": 1
+          }
+        ],
+        "questionMarkOnInput" : 0,
+        "questionMarkOnOutput" : 1
+      }
+    ]
   }
 ]
