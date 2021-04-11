@@ -9,6 +9,7 @@ import Model.Player.Deposit.DefaultDepositSlot;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+import Model.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -207,7 +208,7 @@ class PlayerBoardTest {
         controlMap.put(ResourceType.MINION, new ResourceContainer(ResourceType.MINION, 3));
 
 
-        HashMap<ResourceType, ResourceContainer> map = playerBoard.arraylistToMap(list);
+        HashMap<ResourceType, ResourceContainer> map = Util.arraylistToMap(list);
 
         assertEquals(controlMap, map);
 

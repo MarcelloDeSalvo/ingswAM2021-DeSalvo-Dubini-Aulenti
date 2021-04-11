@@ -3,6 +3,8 @@ package Model.Cards;
 import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
+import java.util.ArrayList;
+
 public class ResourceRequirement implements Requirement{
     private ResourceContainer resourceContainer;
 
@@ -27,5 +29,25 @@ public class ResourceRequirement implements Requirement{
         return "ResourceRequirement{" +
                 "resourceContainer=" + resourceContainer +
                 '}';
+    }
+
+    @Override
+    public Colour getColour() {
+        return null;
+    }
+
+    @Override
+    public int getLevel() {
+        return 0;
+    }
+
+    @Override
+    public int getDevelopmentCardNumber() {
+        return 0;
+    }
+
+    @Override
+    public ResourceContainer getResourceRequirement() {
+        return resourceContainer;
     }
 }

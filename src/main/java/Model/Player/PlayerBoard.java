@@ -9,6 +9,7 @@ import Model.Player.Production.ProductionSite;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+import Model.Util;
 
 import java.sql.Struct;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class PlayerBoard {
      * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
-        HashMap<ResourceType, ResourceContainer> resourceMap = arraylistToMap(requested);
+        HashMap<ResourceType, ResourceContainer> resourceMap = Util.arraylistToMap(requested);
 
         return hasEnoughResources(resourceMap);
     }
@@ -98,7 +99,7 @@ public class PlayerBoard {
         addDepositBuffer(bufferMap);
         addVaultBuffer(bufferMap);
 
-        cardPriceMap = arraylistToMap(cardPrice);
+        cardPriceMap = Util.arraylistToMap(cardPrice);
 
         return cardPriceMap.equals(bufferMap);
     }
@@ -143,45 +144,6 @@ public class PlayerBoard {
             else
                 bufferMap.get(key).addQty(rc.getQty());
         }
-    }
-
-    /**
-     * Converts a list to a Map
-     * @param tempProductionInput
-     * @return true if the conversion ends successfully
-     */
-    public HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> tempProductionInput){
-        HashMap<ResourceType, ResourceContainer> map = new HashMap<ResourceType, ResourceContainer>();
-        Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
-        ResourceContainer current;
-        while(iterator.hasNext()){
-            current=iterator.next();
-            if(isPresent(current.getResourceType(), map)){
-                map.get(current.getResourceType()).addQty(current.getQty());
-            }
-            else
-                map.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
-        }
-        return map;
-    }
-
-    /*/**
-     * Converts a list to a map
-     * @param list
-
-    public Map<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> list) {
-        Map<ResourceType, ResourceContainer> map = list.stream()
-                .collect(Collectors.toMap(ResourceContainer::getResourceType, resourceContainer -> resourceContainer));
-        return map;
-    }*/
-
-    /**
-     * Checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
-        return map.containsKey(type);
     }
 
 

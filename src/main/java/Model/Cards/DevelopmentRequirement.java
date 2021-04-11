@@ -1,6 +1,7 @@
 package Model.Cards;
 
 import Model.Player.PlayerBoard;
+import Model.Resources.ResourceContainer;
 
 public class DevelopmentRequirement implements Requirement {
     private int number;
@@ -29,28 +30,25 @@ public class DevelopmentRequirement implements Requirement {
         return playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(number, level, colour);
     }
 
-    public int getNumber() {
+    @Override
+    public int getDevelopmentCardNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
+    @Override
     public Colour getColour() {
         return colour;
     }
 
-    public void setColour(Colour colour) {
-        this.colour = colour;
-    }
-
+    @Override
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+
+    @Override
+    public ResourceContainer getResourceRequirement() {
+        return null;
     }
 
     @Override
@@ -61,4 +59,6 @@ public class DevelopmentRequirement implements Requirement {
                 ", level=" + level +
                 '}';
     }
+
+
 }

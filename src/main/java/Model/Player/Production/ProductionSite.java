@@ -7,6 +7,7 @@ import Model.Player.PlayerBoard;
 import Model.Player.Vault;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+import Model.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class ProductionSite {
 
     /**
      * Builds a new Production site with a maximum number of DevelopmentCards defaultnum
-     * @param defaultNum
+     * @param defaultNum is the default number of slots (3 by the standard rules)
      */
     public ProductionSite(int defaultNum) {
         this.defaultNum = defaultNum;
@@ -46,23 +47,13 @@ public class ProductionSite {
      */
     public boolean activateProduction(ArrayList<ProductionSlot> productionSlots){
         for (ProductionSlot ps: productionSlots) {
-            if(!addToMap(ps.getProductionInput(),bufferInputMap))
+            if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
                 return false;
 
-            if(!addToMap(ps.getProductionOutput(),bufferOutputMap))
+            if(!Util.arraylistToMap(ps.getProductionOutput(),bufferOutputMap))
                 return false;
         }
         return true;
-    }
-
-
-    /**
-     * checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    private boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
-        return map.containsKey(type);
     }
 
 
@@ -84,32 +75,13 @@ public class ProductionSite {
 
     /**
      * adds a production slot to the list
-     * @param productionSlot
-     * @return
+     * @param productionSlot is the input production slot
+     * @return true if it can be added
      */
     public boolean addProductionSlot(ProductionSlot productionSlot){
         return productionSlot != null && productionSlots.add(productionSlot);
     }
 
-    /**
-     * Converts a list into a map
-     * @param tempProductionInput
-     * @param map
-     * @return
-     */
-    public boolean addToMap (ArrayList<ResourceContainer> tempProductionInput, HashMap<ResourceType, ResourceContainer> map){
-        Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
-        ResourceContainer current;
-        while(iterator.hasNext()){
-            current=iterator.next();
-            if(isPresent(current.getResourceType(), map)){
-                map.get(current.getResourceType()).addQty(current.getQty());
-            }
-            else
-                map.put(current.getResourceType(),new ResourceContainer(current.getResourceType(),current.getQty()));
-        }
-        return true;
-    }
 
     /**
      * checks if the user has enough input resources in order to activate the production
@@ -138,13 +110,13 @@ public class ProductionSite {
 
     /**
      * checks if the user can produce by checking if the selected resources match the inputs of the activated production cards
-     * @param selectedResources
-     * @return
-     * @throws NotEnoughResources
-     * @throws DepositSlotMaxDimExceeded
+     * @param selectedResources are the resources selected by the user
+     * @return true if the selected resources are equals to the input resources needed to produce
+     * @throws NotEnoughResources if there are missing resources
+     * @throws DepositSlotMaxDimExceeded if the user selected too many resources
      */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
-        addToMap(selectedResources, bufferSelectedResources);
+        Util.arraylistToMap(selectedResources, bufferSelectedResources);
         for (ResourceType key: bufferSelectedResources.keySet()) {
 
             if(!bufferInputMap.containsKey(key))
@@ -161,8 +133,8 @@ public class ProductionSite {
 
     /**
      * Sends the production output to the current player's vault
-     * @param vault
-     * @return
+     * @param vault is the current player's vault
+     * @return true if it adds the resources
      */
     public boolean produce(Vault vault){
         for (ResourceType key : bufferOutputMap.keySet()){

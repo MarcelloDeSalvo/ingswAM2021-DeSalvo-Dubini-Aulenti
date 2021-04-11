@@ -2,6 +2,7 @@ package Model.Player;
 
 import Model.Exceptions.NotEnoughResources;
 import Model.Resources.*;
+import Model.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,14 +20,6 @@ public class Vault {
         bufferList = new ArrayList<>();
     }
 
-    /**
-     * checks if a specific ResourceType is present in the HashMap
-     * @param type is the key that will be used to check in the HashMap
-     * @return true if present, false otherwise
-     */
-    public boolean isPresent(ResourceType type){
-        return vaultMap.containsKey(type);
-    }
 
     /**
      * for each element of inputArr it calls the method that adds a single ResourceContainer to the HashMap
@@ -49,7 +42,7 @@ public class Vault {
      * @return true
      */
     public boolean addToVault(ResourceContainer container) {
-        if(isPresent(container.getResourceType()))
+        if(Util.isPresent(container.getResourceType(), vaultMap))
             vaultMap.get(container.getResourceType()).addQty(container.getQty());
         else
             vaultMap.put(container.getResourceType(), container);
@@ -99,7 +92,7 @@ public class Vault {
 
         while(iter.hasNext()){
             current = iter.next();
-            if(!isPresent(current.getResourceType()))
+            if(!Util.isPresent(current.getResourceType(),vaultMap))
                 throw new NotEnoughResources("There are currently 0 " + current.getResourceType() + " in the Vault!");
             else if(!vaultMap.get(current.getResourceType()).hasEnough(current))
                 throw new NotEnoughResources("Not enough resources");
@@ -117,7 +110,7 @@ public class Vault {
      */
     public boolean canRemoveFromVault(ResourceContainer inputcontainer) throws NotEnoughResources {
 
-        if(!isPresent(inputcontainer.getResourceType()))
+        if(!Util.isPresent(inputcontainer.getResourceType(),vaultMap))
             throw new NotEnoughResources("There are currently 0 " + inputcontainer.getResourceType() + " in the Vault!");
         else if(!vaultMap.get(inputcontainer.getResourceType()).hasEnough(inputcontainer))
             throw new NotEnoughResources("Not enough resources");
@@ -142,7 +135,7 @@ public class Vault {
     }
 
     public int getResourceQuantity(ResourceType type) {
-        if(isPresent(type))
+        if(Util.isPresent(type,vaultMap))
             return vaultMap.get(type).getQty();
         else
             return 0;
