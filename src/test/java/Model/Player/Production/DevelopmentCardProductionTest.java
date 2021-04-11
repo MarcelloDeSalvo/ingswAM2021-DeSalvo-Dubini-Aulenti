@@ -1,5 +1,6 @@
 package Model.Player.Production;
 
+import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
 import Model.Parser.DevelopmentCardParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,14 +72,67 @@ class DevelopmentCardProductionTest {
 
     @Test
     void getProductionInput() {
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(9)));
+        assertEquals(developmentCardProduction.getProductionInput(), developmentCards.get(9).getInput());
+
+
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(28)));
+        assertEquals(developmentCardProduction.getProductionInput(), developmentCards.get(28).getInput());
+
+
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(37)));
+        assertEquals(developmentCardProduction.getProductionInput(), developmentCards.get(37).getInput());
     }
 
     @Test
     void getProductionOutput() {
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(9)));
+        assertEquals(developmentCardProduction.getProductionOutput(), developmentCards.get(9).getOutput());
+
+
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(29)));
+        assertEquals(developmentCardProduction.getProductionOutput(), developmentCards.get(29).getOutput());
+
+
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(37)));
+        assertEquals(developmentCardProduction.getProductionOutput(), developmentCards.get(37).getOutput());
     }
 
     @Test
+    void getProductionEmptyInputAndOutput() {
+        //production Input and Output of an empty Stuck must return null
+        assertNull(developmentCardProduction.getProductionInput());
+        assertNull(developmentCardProduction.getProductionOutput());
+    }
+
+
+    @Test
     void countCardsWith() {
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(8)));
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(4)));
+
+        assertEquals(developmentCardProduction.countCardsWith(1, Colour.GREEN), 1);
+        assertEquals(developmentCardProduction.countCardsWith(0, Colour.BLUE), 0);
+
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(0)));
+
+        assertEquals(developmentCardProduction.countCardsWith(0, Colour.GREEN), 3);
+
+    }
+
+    @Test
+    void countCardsWith2() {
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(8)));
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(31)));
+
+        assertEquals(developmentCardProduction.countCardsWith(1, Colour.GREEN), 1);
+        assertEquals(developmentCardProduction.countCardsWith(2, Colour.YELLOW), 1);
+
+        assertTrue(developmentCardProduction.insertOnTop(developmentCards.get(3)));
+
+        assertEquals(developmentCardProduction.countCardsWith(3, Colour.GREEN), 1);
+        assertEquals(developmentCardProduction.countCardsWith(0, Colour.GREEN), 2);
+
     }
 
     /*@Test
