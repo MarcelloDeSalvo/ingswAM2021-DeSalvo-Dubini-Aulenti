@@ -7,7 +7,7 @@ import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 
-public class BaseProductionSlot implements ProductionSlot {
+public class BaseProduction implements ProductionSlot {
 
     private final ArrayList<ResourceContainer> input;
     private final ArrayList<ResourceContainer> output;
@@ -15,14 +15,14 @@ public class BaseProductionSlot implements ProductionSlot {
     private final int QMO;
 
 
-    public BaseProductionSlot() {
+    public BaseProduction() {
         this.input = new ArrayList<>();
         this.output = new ArrayList<>();
         this.QMI = 2;
         this.QMO = 1;
     }
 
-    public BaseProductionSlot(int defaultQtyIn , int defaultQtyOut) {
+    public BaseProduction(int defaultQtyIn , int defaultQtyOut) {
         this.input = new ArrayList<>();
         this.output = new ArrayList<>();
         this.QMI = defaultQtyIn;

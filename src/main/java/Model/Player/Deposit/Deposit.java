@@ -28,23 +28,23 @@ public class Deposit {
      */
     private int pyramidMaxCells;
 
-    public Deposit(int num) {
+    public Deposit(int pyramidHeight) {
         this.depositList = new ArrayList<>();
-        this.defaultDepositNumber = num;
+        this.defaultDepositNumber = pyramidHeight;
         this.pyramidMaxCells = 1;
 
-        for(int i=0; i<num; i++){
-            depositList.add(new DefaultDepositSlot(pyramidMaxCells));
+        for(int i=0; i<pyramidHeight; i++){
+            depositList.add(new DefaultDeposit(pyramidMaxCells));
             pyramidMaxCells++;
         }
     }
 
     /**
-     * adds a LeaderDepositSlot to the depositList
-     * @param lds LeaderDepositSlot to add
+     * adds a LeaderDeposit to the depositList
+     * @param lds LeaderDeposit to add
      * @return false if there is an argument exception (NoSuchElementException)
      */
-    public boolean addDepositSlot(LeaderDepositSlot lds) {
+    public boolean addDepositSlot(LeaderDeposit lds) {
         return lds != null && depositList.add(lds);
     }
 

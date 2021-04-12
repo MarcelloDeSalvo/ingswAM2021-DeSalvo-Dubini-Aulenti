@@ -1,21 +1,16 @@
 package Model.Player;
 
-import Model.Player.Deposit.DefaultDepositSlot;
+import Model.Player.Deposit.DefaultDeposit;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
-import Model.Player.Deposit.DefaultDepositSlot;
 import Model.Player.Production.ProductionSlot;
-import Model.Resources.ResourceContainer;
-import Model.Resources.ResourceType;
-import Model.Util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +19,7 @@ class PlayerBoardTest {
 
     @BeforeEach
     void clearStaticSet(){
-        DefaultDepositSlot clear = new DefaultDepositSlot(1);
+        DefaultDeposit clear = new DefaultDeposit(1);
         clear.clearSet();
     }
 
@@ -188,36 +183,7 @@ class PlayerBoardTest {
         assertTrue(player.getPlayerBoard().buy());
     }
 
-    @Test
-    void arraylistToMap() {
-        PlayerBoard playerBoard = new PlayerBoard(3, 3);
 
-        ArrayList<ResourceContainer> list = new ArrayList<>();
-
-        list.add(new ResourceContainer(ResourceType.STONE, 2));
-        list.add(new ResourceContainer(ResourceType.GOLD, 1));
-        list.add(new ResourceContainer(ResourceType.MINION, 3));
-        list.add(new ResourceContainer(ResourceType.GOLD, 2));
-        list.add(new ResourceContainer(ResourceType.STONE, 3));
-
-
-        HashMap<ResourceType, ResourceContainer> controlMap = new HashMap<>();
-
-        controlMap.put(ResourceType.STONE, new ResourceContainer(ResourceType.STONE, 5));
-        controlMap.put(ResourceType.GOLD, new ResourceContainer(ResourceType.GOLD, 3));
-        controlMap.put(ResourceType.MINION, new ResourceContainer(ResourceType.MINION, 3));
-
-
-        HashMap<ResourceType, ResourceContainer> map = Util.arraylistToMap(list);
-
-        assertEquals(controlMap, map);
-
-
-        controlMap.put(ResourceType.SHIELD, new ResourceContainer(ResourceType.SHIELD, 3));
-
-        assertNotEquals(controlMap, map);
-
-    }
 
     @Test
     void insertBoughtCard() {

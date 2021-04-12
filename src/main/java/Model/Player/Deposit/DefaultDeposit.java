@@ -10,11 +10,11 @@ import Model.Resources.ResourceType;
 import java.util.HashSet;
 
 
-public class DefaultDepositSlot extends DepositSlot {
+public class DefaultDeposit extends DepositSlot {
 
     private static HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
 
-    public DefaultDepositSlot(int maxDim) {
+    public DefaultDeposit(int maxDim) {
         super(maxDim);
     }
 
@@ -139,7 +139,7 @@ public class DefaultDepositSlot extends DepositSlot {
     }
 
     public static void setNotAvailableResourceType(HashSet<ResourceType> notAvailableResourceType) {
-        DefaultDepositSlot.notAvailableResourceType = notAvailableResourceType;
+        DefaultDeposit.notAvailableResourceType = notAvailableResourceType;
     }
 
 

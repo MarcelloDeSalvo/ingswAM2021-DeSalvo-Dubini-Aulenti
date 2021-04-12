@@ -8,9 +8,9 @@ import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
 
-public class LeaderDepositSlot extends DepositSlot {
+public class LeaderDeposit extends DepositSlot {
 
-    public LeaderDepositSlot(ResourceType depositResourceType, int maxDim) {
+    public LeaderDeposit(ResourceType depositResourceType, int maxDim) {
         super(depositResourceType, maxDim);
     }
 

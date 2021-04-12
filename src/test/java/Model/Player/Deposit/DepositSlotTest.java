@@ -1,9 +1,6 @@
 package Model.Player.Deposit;
 
 import Model.Exceptions.DepositSlotMaxDimExceeded;
-import Model.Player.Deposit.DefaultDepositSlot;
-import Model.Player.Deposit.Deposit;
-import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,13 +12,13 @@ class DepositSlotTest {
 
     @BeforeEach
     void clearStaticSet(){
-        DefaultDepositSlot clear = new DefaultDepositSlot(1);
+        DefaultDeposit clear = new DefaultDeposit(1);
         clear.clearSet();
     }
 
     @Test
     void canAdd() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
 
         assertTrue(slot.canAdd(2));
         assertTrue(slot.canAdd(3));
@@ -30,7 +27,7 @@ class DepositSlotTest {
 
     @Test
     void canAdd2() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 1);
 
         slot.addToDepositSlot(container);
@@ -42,7 +39,7 @@ class DepositSlotTest {
 
     @Test
     void canAddLeader() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
 
         assertTrue(slot.canAdd(1));
         assertTrue(slot.canAdd(2));
@@ -51,7 +48,7 @@ class DepositSlotTest {
 
     @Test
     void canAddLeader2() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 1);
 
         slot.addToDepositSlot(container);
@@ -62,7 +59,7 @@ class DepositSlotTest {
 
     @Test
     void canRemove() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(2);
+        DefaultDeposit slot = new DefaultDeposit(2);
 
         assertFalse(slot.canRemove(1));
         assertFalse(slot.canRemove(3));
@@ -70,7 +67,7 @@ class DepositSlotTest {
 
     @Test
     void canRemove2() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(2);
+        DefaultDeposit slot = new DefaultDeposit(2);
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 2);
 
         slot.addToDepositSlot(container);
@@ -82,7 +79,7 @@ class DepositSlotTest {
 
     @Test
     void canRemoveLeader() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
 
         assertFalse(slot.canRemove(1));
         assertFalse(slot.canRemove(3));
@@ -90,7 +87,7 @@ class DepositSlotTest {
 
     @Test
     void canRemoveLeader2() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 2);
 
         slot.addToDepositSlot(container);
@@ -102,7 +99,7 @@ class DepositSlotTest {
 
     @Test
     void isNullAndEmpty() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(2);
+        DefaultDeposit slot = new DefaultDeposit(2);
 
         assertTrue(slot.isNull());
 
@@ -119,7 +116,7 @@ class DepositSlotTest {
 
     @Test
     void isNullAndEmptyLeader() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
 
         assertFalse(slot.isNull());
 
@@ -130,7 +127,7 @@ class DepositSlotTest {
 
     @Test
     void isEmpty() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(2);
+        DefaultDeposit slot = new DefaultDeposit(2);
 
         assertTrue(slot.isEmpty());
 
@@ -146,7 +143,7 @@ class DepositSlotTest {
 
     @Test
     void isEmptyLeader() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
 
         assertTrue(slot.isEmpty());
 
@@ -188,7 +185,7 @@ class DepositSlotTest {
 
     /*@Test
     void setDepositResourceType() {
-        LeaderDepositSlot slot = new LeaderDepositSlot(ResourceType.MINION, 2);
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
 
         assertThrows( , () -> slot.setDepositResourceType(ResourceType.STONE));
     }*/

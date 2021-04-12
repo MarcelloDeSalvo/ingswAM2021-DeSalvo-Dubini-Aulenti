@@ -1,14 +1,10 @@
 package Model.Cards;
 
-import Model.Parser.DevelopmentCardParser;
 import Model.Player.Player;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import Model.Util;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -69,7 +65,7 @@ class LeaderCardTest {
     }
 
     @Test
-    void addAbility_3() {
+    void addAbility_null() {
         StoreAbility storeAbility = null;
         assertAll(()->genericLeader.addAbility(storeAbility));
     }

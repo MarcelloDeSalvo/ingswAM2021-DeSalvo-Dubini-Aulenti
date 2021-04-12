@@ -17,9 +17,9 @@ public class Player {
         this.playerBoard = new PlayerBoard(3,3);
     }
 
-    public Player(String nickname, int pyramidNum, int prodSlotNum) {
+    public Player(String nickname, int pyramidHeight, int prodSlotNum) {
         this.nickname = nickname;
-        this.playerBoard = new PlayerBoard(pyramidNum,prodSlotNum);
+        this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
     }
 
     /**

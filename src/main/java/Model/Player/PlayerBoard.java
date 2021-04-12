@@ -22,8 +22,8 @@ public class PlayerBoard {
     private final ConversionSite conversionSite;
     private final DiscountSite discountSite;
 
-    public PlayerBoard(int pyramidNum, int prodSlotNum) {
-        this.deposit = new Deposit(pyramidNum);
+    public PlayerBoard(int pyramidHeight, int prodSlotNum) {
+        this.deposit = new Deposit(pyramidHeight);
         this.vault = new Vault();
         this.productionSite = new ProductionSite(prodSlotNum);
         this.conversionSite = new ConversionSite();

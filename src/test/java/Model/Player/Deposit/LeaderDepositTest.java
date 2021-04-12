@@ -3,18 +3,17 @@ package Model.Player.Deposit;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
-import Model.Player.Deposit.LeaderDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LeaderDepositSlotTest {
+class LeaderDepositTest {
 
     @Test
     void basicLeaderDepositConstructor(){
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,2);
         assertTrue(lds.getMaxDim()==2);
         assertTrue(lds.getDepositResourceType()==ResourceType.GOLD);
         assertTrue(lds.getResourceQty()==0);
@@ -24,7 +23,7 @@ class LeaderDepositSlotTest {
 
     @Test
     void canAddToDepositSlotTest() {
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,2);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,2);
         ResourceContainer aCoin= new ResourceContainer(ResourceType.GOLD, 1);
         ResourceContainer aShield= new ResourceContainer(ResourceType.SHIELD, 1);
         assertAll(()->lds.canAddToDepositSlot(aCoin));
@@ -42,7 +41,7 @@ class LeaderDepositSlotTest {
     @Test
     void canRemoveFromDepositSlotTest (){
         ResourceContainer inputCont= new ResourceContainer(ResourceType.BLANK, 0 );
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,5);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,5);
         lds.getDepositContainer().setQty(5);
         inputCont.setResourceType(ResourceType.GOLD);
         inputCont.setQty(3);
@@ -55,7 +54,7 @@ class LeaderDepositSlotTest {
 
     @Test
     void canRemoveFromDepositSlotTest_1 (){
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,1);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,1);
         lds.getDepositContainer().setQty(1);
         ResourceContainer inputCont= new ResourceContainer(ResourceType.GOLD, 1 );
         assertAll(()->lds.canRemoveFromDepositSlot(inputCont));
@@ -68,7 +67,7 @@ class LeaderDepositSlotTest {
 
     @Test
     void addToDepositSlotTest(){
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,3);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,3);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 1));
         assertTrue(lds.getResourceQty()==1);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
@@ -80,7 +79,7 @@ class LeaderDepositSlotTest {
 
     @Test
     void removeFromDepositSlot(){
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,5);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,5);
         lds.getDepositContainer().setQty(5);
         lds.removeFromDepositSlot(new ResourceContainer(ResourceType.GOLD,0));
         assertTrue(lds.getResourceQty()==5);
@@ -90,7 +89,7 @@ class LeaderDepositSlotTest {
 
     @Test
     void ldsComplexTest(){
-        LeaderDepositSlot lds = new LeaderDepositSlot(ResourceType.GOLD,5);
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,5);
         ResourceContainer bagoCoins=new ResourceContainer(ResourceType.GOLD,4);
         assertAll(()->lds.canAddToDepositSlot(bagoCoins));
         assertThrows(NotEnoughResources.class, ()->lds.canRemoveFromDepositSlot(bagoCoins));

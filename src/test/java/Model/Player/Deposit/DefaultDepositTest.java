@@ -3,8 +3,6 @@ package Model.Player.Deposit;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.DifferentResourceType;
 import Model.Exceptions.NotEnoughResources;
-import Model.Exceptions.ResourceTypeAlreadyStored;
-import Model.Player.Deposit.DefaultDepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,17 +10,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DefaultDepositSlotTest {
+class DefaultDepositTest {
 
     @BeforeEach
     void clearStaticSet(){
-        DefaultDepositSlot clear = new DefaultDepositSlot(1);
+        DefaultDeposit clear = new DefaultDeposit(1);
         clear.clearSet();
     }
 
     @Test
     void canAddToDepositSlot() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.STONE, 1);
 
         assertAll(() -> slot.canAddToDepositSlot(container));
@@ -30,7 +28,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canAddToDepositSlot2() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.MINION, 2);
 
@@ -40,7 +38,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canAddToDepositSlot3() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.STONE, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
         slot.addToDepositSlot(container);
@@ -50,7 +48,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canAddToDepositSlot4() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 2);
         ResourceContainer container2 = new ResourceContainer(ResourceType.SHIELD, 2);
         slot.addToDepositSlot(container);
@@ -60,7 +58,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canAddToDepositSlot5() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(2);
+        DefaultDeposit slot = new DefaultDeposit(2);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 5);
         slot.addToDepositSlot(container);
 
@@ -70,7 +68,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canRemoveFromDepositSlot() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 2);
         ResourceContainer container2 = new ResourceContainer(ResourceType.SHIELD, 2);
 
@@ -81,7 +79,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canRemoveFromDepositSlot2() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 2);
 
         assertThrows(NotEnoughResources.class, () -> slot.canRemoveFromDepositSlot(container));
@@ -89,7 +87,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canRemoveFromDepositSlot3() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 2);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
 
@@ -100,7 +98,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void canRemoveFromDepositSlot4() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer container = new ResourceContainer(ResourceType.GOLD, 2);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 3);
 
@@ -112,7 +110,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void addToDepositSlot() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(2);
+        DefaultDeposit slot = new DefaultDeposit(2);
         ResourceContainer container = new ResourceContainer(ResourceType.GOLD, 1);
 
         assertTrue(slot.addToDepositSlot(container));
@@ -125,7 +123,7 @@ class DefaultDepositSlotTest {
 
     @Test
     void removeFromDepositSlot() {
-        DefaultDepositSlot slot = new DefaultDepositSlot(3);
+        DefaultDeposit slot = new DefaultDeposit(3);
         ResourceContainer addContainer = new ResourceContainer(ResourceType.MINION, 3);
         ResourceContainer removeContainer = new ResourceContainer(ResourceType.MINION, 2);
 

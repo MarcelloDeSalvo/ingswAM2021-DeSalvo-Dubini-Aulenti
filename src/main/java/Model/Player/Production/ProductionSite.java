@@ -28,7 +28,7 @@ public class ProductionSite {
         this.defaultNum = defaultNum;
         this.productionSlots = new ArrayList<>();
 
-        productionSlots.add(new BaseProductionSlot());
+        productionSlots.add(new BaseProduction());
 
         for(int i=0; i<defaultNum; i++){
             productionSlots.add(new DevelopmentCardProduction());

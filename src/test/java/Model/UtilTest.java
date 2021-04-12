@@ -2,8 +2,13 @@ package Model;
 
 import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
+import Model.Player.PlayerBoard;
+import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +36,36 @@ class UtilTest {
         assertEquals(myCard.getInput().get(0).getQty(),1);
         assertEquals(myCard.getOutput().get(0).getResourceType(),ResourceType.FAITHPOINT);
         assertEquals(myCard.getOutput().get(0).getQty(),1);
+
+    }
+
+    @Test
+    void arraylistToMap() {
+
+        ArrayList<ResourceContainer> list = new ArrayList<>();
+
+        list.add(new ResourceContainer(ResourceType.STONE, 2));
+        list.add(new ResourceContainer(ResourceType.GOLD, 1));
+        list.add(new ResourceContainer(ResourceType.MINION, 3));
+        list.add(new ResourceContainer(ResourceType.GOLD, 2));
+        list.add(new ResourceContainer(ResourceType.STONE, 3));
+
+
+        HashMap<ResourceType, ResourceContainer> controlMap = new HashMap<>();
+
+        controlMap.put(ResourceType.STONE, new ResourceContainer(ResourceType.STONE, 5));
+        controlMap.put(ResourceType.GOLD, new ResourceContainer(ResourceType.GOLD, 3));
+        controlMap.put(ResourceType.MINION, new ResourceContainer(ResourceType.MINION, 3));
+
+
+        HashMap<ResourceType, ResourceContainer> map = Util.arraylistToMap(list);
+
+        assertEquals(controlMap, map);
+
+
+        controlMap.put(ResourceType.SHIELD, new ResourceContainer(ResourceType.SHIELD, 3));
+
+        assertNotEquals(controlMap, map);
 
     }
 
