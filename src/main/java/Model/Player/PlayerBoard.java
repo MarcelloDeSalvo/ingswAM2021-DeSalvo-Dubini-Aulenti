@@ -103,9 +103,15 @@ public class PlayerBoard {
      * @return true if the production is completed without problems
      */
     public boolean produce(){
-        return deposit.removeAllBuffers() && vault.removeFromVault() && productionSite.produce(vault);
+        return clearAllBuffers() && productionSite.produce(vault);
     }
 
+    /**
+     * clears all the deposits' and vault's buffers
+     */
+    public boolean clearAllBuffers(){
+        return deposit.removeAllBuffers() && vault.removeFromVault();
+    }
 
     /**
      * Tells the controller if the user has selected the right quantity of resources in order to buy one development card

@@ -1,6 +1,7 @@
 package Model.Player.Production;
 
 import Model.Cards.ResourceRequirement;
+import Model.Exceptions.NotEnoughResources;
 import Model.Player.Deposit.DepositSlot;
 import Model.Player.Player;
 import Model.Player.PlayerBoard;
@@ -151,6 +152,59 @@ class BaseProductionTest {
 
         assertEquals(playerBoard.getDepositSlotWithDim(3).getResourceQty(), 1); // 3 stones - 1 stone
         assertEquals(playerBoard.getVault().getResourceQuantity(ResourceType.GOLD),1);
+
+    }
+
+    @Test
+    void base_production_simulation_canProduce_false(){
+        //insert_3_stones_inside_deposit(); -> No resources for Pippo
+
+        //he starts selecting the cards or the base production
+        ArrayList<ProductionSlot> selectedByTheUser = new ArrayList<>();
+        //he selects the base production
+        assertAll(()->selectedByTheUser.add(pippo.getProductionSlotByID(0)));
+
+        //at first he needs to fill all the undefined input/output
+        fillQuestionMarkInput_Output_Pippo(); //2 stones -> 1 gold
+
+        //then the controller checks if he has enough total resources in order to produce those cards
+        assertTrue(()->playerBoard.activateProduction(selectedByTheUser)); //fills the buffers inside production site
+        assertFalse(playerBoard.hasEnoughResourcesForProduction());//compares the buffers with all the player's resources
+
+        playerBoard.clearAllBuffers();
+
+    }
+
+    @Test
+    void base_production_simulation_wrong_selection(){
+        //This time Pippo has the enough total resources but he selects only one stone (which is insufficient)
+
+        insert_3_stones_inside_deposit();
+
+        //he starts selecting the cards or the base production
+        ArrayList<ProductionSlot> selectedByTheUser = new ArrayList<>();
+        //he selects the base production
+        assertAll(()->selectedByTheUser.add(pippo.getProductionSlotByID(0)));
+
+        //at first he needs to fill all the undefined input/output
+        fillQuestionMarkInput_Output_Pippo(); //2 stones -> 1 gold
+
+        //then the controller checks if he has enough total resources in order to produce those cards
+        assertTrue(()->playerBoard.activateProduction(selectedByTheUser)); //fills the buffers inside production site
+        assertTrue(playerBoard.hasEnoughResourcesForProduction());//compares the buffers with all the player's resources
+
+        //he starts selecting the resources from his vault/deposit
+        ArrayList<ResourceContainer> selectedResourcesForProduction = new ArrayList<>();
+        //user> 1 Stones from deposit 3
+        ResourceContainer selectedResources = new ResourceContainer(ResourceType.STONE, 1); //he selects the ones with 3 stone
+        assertAll(()->playerBoard.getDepositSlotWithDim(3).canRemoveFromDepositSlot(selectedResources));
+        selectedResourcesForProduction.add(selectedResources);
+        //user> confirm
+
+        //He can't produce because he needed 2 stone and not 1
+        assertThrows(NotEnoughResources.class,()->pippo.canProduce(selectedResourcesForProduction));
+
+        playerBoard.clearAllBuffers();
 
     }
 }
