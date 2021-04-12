@@ -57,16 +57,6 @@ public class PlayerBoard {
 
 
     /**
-     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
-     * in order to activate the production
-     * @return true if he has enough total resources
-     */
-    public  boolean hasEnoughResourcesForProduction(){
-        return productionSite.hasEnoughInputResources(this);
-    }
-
-
-    /**
      * Returns the  current quantity of the requested ResourceType
      * @return the sum of the ResourceType's quantity inside the vault and all the deposits
      */
@@ -82,6 +72,15 @@ public class PlayerBoard {
      */
     public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
         return productionSite.activateProduction(selectedProductionCard);
+    }
+
+    /**
+     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
+     * in order to activate the production
+     * @return true if he has enough total resources
+     */
+    public  boolean hasEnoughResourcesForProduction(){
+        return productionSite.hasEnoughInputResources(this);
     }
 
 
@@ -105,6 +104,7 @@ public class PlayerBoard {
     public boolean produce(){
         return clearAllBuffers() && productionSite.produce(vault);
     }
+
 
     /**
      * clears all the deposits' and vault's buffers
@@ -190,13 +190,11 @@ public class PlayerBoard {
     }
 
 
-
     /**
      *Adds a resourceContainer to the defaultDeposit with dimension dim
      */
     public boolean addResourceToDefaultDepositWithDim(int dim, ResourceContainer myContainer){
        return( deposit.getDefaultSlot_WithDim(dim).addToDepositSlot(myContainer));
-
     }
 
     /**
