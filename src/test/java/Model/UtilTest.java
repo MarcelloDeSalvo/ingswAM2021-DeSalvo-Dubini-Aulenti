@@ -17,6 +17,7 @@ class UtilTest {
     void getCardWithVpTest1(){
         assertNotNull(Util.getCardWithVpColour(9, Colour.YELLOW));
         DevelopmentCard myCard= Util.getCardWithVpColour(9, Colour.YELLOW);
+
         assertEquals(myCard.getPrice().get(0).getResourceType(), ResourceType.STONE);
         assertEquals(myCard.getPrice().get(0).getQty(), 6);
         assertEquals(myCard.getInput().get(0).getResourceType(),ResourceType.SHIELD);
@@ -30,6 +31,7 @@ class UtilTest {
     void getCardWithVpTest2(){
         assertNotNull(Util.getCardWithVpColour(1, Colour.PURPLE));
         DevelopmentCard myCard= Util.getCardWithVpColour(1, Colour.PURPLE);
+
         assertEquals(myCard.getPrice().get(0).getResourceType(), ResourceType.MINION);
         assertEquals(myCard.getPrice().get(0).getQty(), 2);
         assertEquals(myCard.getInput().get(0).getResourceType(),ResourceType.STONE);

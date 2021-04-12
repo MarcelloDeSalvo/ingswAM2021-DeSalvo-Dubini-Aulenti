@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProductionSite {
-    private ArrayList<ProductionSlot> productionSlots;
-    private HashMap<ResourceType, ResourceContainer> bufferSelectedResources;
-    private HashMap<ResourceType, ResourceContainer> bufferInputMap;
-    private HashMap<ResourceType, ResourceContainer> bufferOutputMap;
+    private final ArrayList<ProductionSlot> productionSlots;
+    private final HashMap<ResourceType, ResourceContainer> bufferSelectedResources;
+    private final HashMap<ResourceType, ResourceContainer> bufferInputMap;
+    private final HashMap<ResourceType, ResourceContainer> bufferOutputMap;
 
     int defaultNum;
 
@@ -40,7 +40,7 @@ public class ProductionSite {
     }
 
     /**
-     * inserts the production inputs and outputs of the selected cards into the relative buffer maps
+     * Inserts the production inputs and outputs of the selected cards into the relative buffer maps
      * @param productionSlots are the selected slot
      * @return true if the add() finish without errors
      */
@@ -57,7 +57,7 @@ public class ProductionSite {
 
 
     /**
-     * counts the active Development Cards with specific attributes
+     * Counts the active Development Cards with specific attributes
      * @param numberRequired is the total amount of cards that must have a specific level and colour
      * @param level is the level required
      * @param colour is the color required
@@ -73,7 +73,7 @@ public class ProductionSite {
     }
 
     /**
-     * adds a production slot to the list
+     * Adds a production slot to the list
      * @param productionSlot is the input production slot
      * @return true if it can be added
      */
@@ -83,7 +83,7 @@ public class ProductionSite {
 
 
     /**
-     * checks if the user has enough resources altogether before the user starts to selected them (vault + deposit) in order to activate the production
+     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit) in order to activate the production
      * @return true if he has enough total resources
      */
     public  boolean hasEnoughInputResources(PlayerBoard playerBoard){
@@ -99,7 +99,7 @@ public class ProductionSite {
     }
 
     /**
-     * clears the current buffers
+     * Clears the current buffers
      */
     public boolean clearBuffers(){
         bufferInputMap.clear();
@@ -108,7 +108,7 @@ public class ProductionSite {
     }
 
     /**
-     * checks if the user can produce by checking if the selected resources match the inputs of the activated production cards
+     * Checks if the user can produce by checking if the selected resources match the inputs of the activated production cards
      * @param selectedResources are the resources selected by the user
      * @return true if the selected resources are equals to the input resources needed to produce
      * @throws NotEnoughResources if there are missing resources
@@ -168,32 +168,16 @@ public class ProductionSite {
         return productionSlots;
     }
 
-    public void setProductionSlots(ArrayList<ProductionSlot> productionSlots) {
-        this.productionSlots = productionSlots;
-    }
-
     public HashMap<ResourceType, ResourceContainer> getBufferInputMap() {
         return bufferInputMap;
-    }
-
-    public void setBufferInputMap(HashMap<ResourceType, ResourceContainer> bufferInputMap) {
-        this.bufferInputMap = bufferInputMap;
     }
 
     public HashMap<ResourceType, ResourceContainer> getBufferOutputMap() {
         return bufferOutputMap;
     }
 
-    public void setBufferOutputMap(HashMap<ResourceType, ResourceContainer> bufferOutputMap) {
-        this.bufferOutputMap = bufferOutputMap;
-    }
-
     public HashMap<ResourceType, ResourceContainer> getBufferSelectedResources() {
         return bufferSelectedResources;
-    }
-
-    public void setBufferSelectedResources(HashMap<ResourceType, ResourceContainer> bufferSelectedResources) {
-        this.bufferSelectedResources = bufferSelectedResources;
     }
 
     public int getDefaultNum() {

@@ -1,6 +1,5 @@
 package Model.Parser;
 
-import Model.Cards.DevelopmentCard;
 import Model.Cards.LeaderCard;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +16,8 @@ class LeaderCardParserTest {
         cards = LeaderCardParser.deserializeLeaderList();
 
         assertEquals(cards.get(0).getVictoryPoints(), 2);
-        System.out.println(cards.toString());
+        assertEquals(cards.get(4).getVictoryPoints(), 3);
+        assertEquals(cards.get(8).getVictoryPoints(), 4);
+        assertEquals(cards.get(12).getVictoryPoints(), 5);
     }
 }

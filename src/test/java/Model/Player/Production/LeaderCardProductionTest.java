@@ -1,5 +1,7 @@
 package Model.Player.Production;
 
+import Model.Player.Player;
+import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +17,8 @@ class LeaderCardProductionTest {
 
     @BeforeEach
     void setUp() {
-        input = new ArrayList<ResourceContainer>();
-        output = new ArrayList<ResourceContainer>();
+        input = new ArrayList<>();
+        output = new ArrayList<>();
         input.add(new ResourceContainer(ResourceType.GOLD, 1));
         output.add(new ResourceContainer(ResourceType.FAITHPOINT, 1));
     }
@@ -135,5 +137,50 @@ class LeaderCardProductionTest {
 
         LeaderCardProduction leaderCardProduction3 = new LeaderCardProduction(input, output, 0, 3);
         assertTrue(leaderCardProduction3.hasQuestionMarks());
+    }
+
+    @Test
+    void LeaderProduction() {
+        Player player = new Player("Ben Dover");
+        PlayerBoard playerBoard = player.getPlayerBoard();
+
+        //new leaderCardProduction gets added to ProductionSite
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 1, 5);
+        leaderCardProduction.fillQuestionMarkInput(ResourceType.MINION);
+        assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE));
+        assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE));
+        assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD));
+        assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD));
+        assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.GOLD));
+
+        assertTrue(playerBoard.getProductionSite().addProductionSlot(leaderCardProduction));
+
+        //adds a few elements to Deposit
+        assertTrue(playerBoard.getDeposit().getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.MINION,1)));
+        assertTrue(playerBoard.getDeposit().getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.SHIELD,2)));
+        assertTrue(playerBoard.getDeposit().getDefaultSlot_WithDim(3).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2)));
+
+        //this fills the buffers
+        ArrayList<ProductionSlot> selectedSlots = new ArrayList<>();
+        selectedSlots.add(leaderCardProduction);
+        assertTrue(playerBoard.activateProduction(selectedSlots));
+        //controls if in vault/deposit there are enough resources for production
+        assertTrue(playerBoard.hasEnoughResourcesForProduction());
+
+        //ArrayList that i receive as a "payment" for production
+        ArrayList<ResourceContainer> selectedRes = new ArrayList<>();
+        selectedRes.add(new ResourceContainer(ResourceType.MINION, 1));
+        selectedRes.add(new ResourceContainer(ResourceType.GOLD, 1));
+
+        //checks if selectedRes is enough to "pay" for the production
+        assertAll(() -> playerBoard.canProduce(selectedRes));
+
+        //clear all buffers from Vault and Deposit then adds the production outputs in Vault
+        assertTrue(playerBoard.produce());
+
+        //checks if the elements are actually produced and stored in Vault
+        assertEquals(playerBoard.getVault().getResourceQuantity(ResourceType.STONE), 2);
+        assertEquals(playerBoard.getVault().getResourceQuantity(ResourceType.SHIELD), 2);
+        assertEquals(playerBoard.getVault().getResourceQuantity(ResourceType.GOLD), 1);
     }
 }

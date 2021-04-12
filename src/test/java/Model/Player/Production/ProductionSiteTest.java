@@ -88,7 +88,6 @@ class ProductionSiteTest {
         //it must be equal to the level 2 card on Top, not to the one on bottom
         assertEquals(Util.arraylistToMap(Util.getCardWithVpColour(6, Colour.YELLOW).getInput()), playerBoard.getProductionSite().getBufferInputMap());
         assertEquals(Util.arraylistToMap(Util.getCardWithVpColour(6, Colour.YELLOW).getOutput()), playerBoard.getProductionSite().getBufferOutputMap());
-
     }
 
     @Test
@@ -99,7 +98,6 @@ class ProductionSiteTest {
 
         assertTrue(playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(1,1,Colour.GREEN));
         assertTrue(playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(1,1,Colour.BLUE));
-
     }
 
 
@@ -150,9 +148,6 @@ class ProductionSiteTest {
 
         assertAll(()->playerBoard.canProduce(selectedByTheUser));
         //produce()
-
-
-
     }
 
     @Test
@@ -177,7 +172,7 @@ class ProductionSiteTest {
     }
 
     @Test
-    void canProduce_faslse_1() {
+    void canProduce_false_1() {
         insert_all_res_needed();
 
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
@@ -197,7 +192,7 @@ class ProductionSiteTest {
     }
 
     @Test
-    void canProduce_faslse_2() {
+    void canProduce_false_2() {
         insert_all_res_needed();
 
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
@@ -238,4 +233,6 @@ class ProductionSiteTest {
         assertTrue(playerBoard.getProductionSite().clearBuffers());
 
     }
+
+
 }

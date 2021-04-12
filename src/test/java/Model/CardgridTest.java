@@ -32,14 +32,14 @@ class CardgridTest {
     @Test
     void removeDevelopmentCardTest()throws FileNotFoundException{
         Cardgrid cardgrid=new Cardgrid();
-        Deck greenLevel3s=new Deck();
-        greenLevel3s=cardgrid.getDeckFromGrid(Colour.GREEN,3);
+        Deck greenLevel3s;
+        greenLevel3s = cardgrid.getDeckFromGrid(Colour.GREEN,3);
         DevelopmentCard cardNum1=greenLevel3s.getDeck().get(0);
         DevelopmentCard cardNum2=greenLevel3s.getDeck().get(1);
         DevelopmentCard cardNum3=greenLevel3s.getDeck().get(2);
         DevelopmentCard cardNum4=greenLevel3s.getDeck().get(3);
 
-        cardgrid.printGrid();
+        //cardgrid.printGrid();
 
         assertEquals(cardgrid.getDevelopmentCardOnTop(Colour.GREEN,3),cardNum1);
 
@@ -50,7 +50,7 @@ class CardgridTest {
         assertTrue(cardgrid.removeDevelopmentCard(Colour.GREEN,3));
         assertEquals(cardgrid.getDevelopmentCardOnTop(Colour.GREEN,3),cardNum4);
         assertTrue(cardgrid.removeDevelopmentCard(Colour.GREEN,3));
-        cardgrid.printGrid();
+        //cardgrid.printGrid();
         assertFalse(cardgrid.removeDevelopmentCard(Colour.GREEN,3));
         assertNull(cardgrid.getDevelopmentCardOnTop(Colour.GREEN, 3));
 
