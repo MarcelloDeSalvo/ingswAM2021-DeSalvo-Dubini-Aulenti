@@ -207,8 +207,8 @@ public class PlayerBoard {
      *Adds a resourceContainer to the depositLeader number x. We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.
      */
     public boolean addResourceToLeaderDepositNumberX(ResourceContainer myContainer,Deposit deposit, int x){
-        if(x>0 && deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x)!=null)
-            return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x).addToDepositSlot(myContainer));
+        if(x>0 && deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1)!=null)
+            return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1).addToDepositSlot(myContainer));
         return false;
     }
 
@@ -223,8 +223,8 @@ public class PlayerBoard {
      *Returns to the depositLeader number x. We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.
      */
     public DepositSlot getLeaderDepositNumberX(int x){
-        if(x>0 && deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x)!=null)
-            return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x));
+        if(x>0 && deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1)!=null)
+            return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1));
         return null;
     }
 

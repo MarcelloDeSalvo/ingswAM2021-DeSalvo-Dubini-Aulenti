@@ -83,4 +83,8 @@ public class LeaderCard extends Card{
                 "abilities=" + abilities +
                 "} " + super.toString() + '\n';
     }
+
+    public ArrayList<Ability> getAbilities() {
+        return abilities;
+    }
 }

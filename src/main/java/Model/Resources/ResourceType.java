@@ -14,9 +14,9 @@ public enum ResourceType {
     /**
      * Resources' permissions
      */
-    private boolean canAddToVault;
-    private boolean canAddToDeposit;
-    private boolean canAddToFaithPath ;
+    private final boolean canAddToVault;
+    private final boolean canAddToDeposit;
+    private final boolean canAddToFaithPath ;
 
     ResourceType(boolean canAddToVault, boolean canAddToDeposit, boolean canAddToFaithPath){
         this.canAddToVault = canAddToVault;

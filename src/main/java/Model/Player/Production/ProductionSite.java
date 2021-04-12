@@ -138,9 +138,9 @@ public class ProductionSite {
     public boolean produce(Vault vault){
         for (ResourceType key : bufferOutputMap.keySet()){
 
-
             key.addToVault(bufferOutputMap.get(key), vault);
             key.addToFaithPath(bufferOutputMap.get(key));
+
         }
         return true;
     }
