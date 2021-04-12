@@ -31,89 +31,7 @@ public class PlayerBoard {
     }
 
 
-    /**
-     * Returns the  current quantity of the requested ArrayList of resources (sum of deposit and vault)
-     * @return true if the user has enough resources
-     */
-    public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
-        HashMap<ResourceType, ResourceContainer> resourceMap = Util.arraylistToMap(requested);
-
-        return hasEnoughResources(resourceMap);
-    }
-
-    /**
-     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
-     * @return true if the user has enough resources
-     */
-    public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
-
-        for (ResourceType key : requested.keySet()) {
-            if( requested.get(key).getQty() > checkResources(key) )
-                return false;
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Returns the  current quantity of the requested ResourceType
-     * @return the sum of the ResourceType's quantity inside the vault and all the deposits
-     */
-    public int checkResources(ResourceType requested){
-        return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
-    }
-
-
-    /**
-     * Puts all the resources needed to activate the selected production cards and all the resources
-     * produced by those cards into a buffer
-     * @param selectedProductionCard is the list of the cards selected by the user
-     */
-    public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
-        return productionSite.activateProduction(selectedProductionCard);
-    }
-
-
-    /**
-     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
-     * in order to activate the production
-     * @return true if he has enough total resources
-     */
-    public  boolean hasEnoughResourcesForProduction(){
-        return productionSite.hasEnoughInputResources(this);
-    }
-
-
-    /**
-     * Tells the controller if the user has selected the right quantity of resources in order to produce the activated production cards
-     * @param selectedResources contains all the selected resources by the user (i.e. 3 Stones from Vault, 1 Gold from Deposit 1)
-     * @return true if the selected resources are equals to the input resources needed to produce
-     * @throws NotEnoughResources if there are missing resources
-     * @throws DepositSlotMaxDimExceeded if the user selected too many resources
-     */
-    public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
-        return productionSite.canProduce(selectedResources);
-    }
-
-
-    /**
-     * Execute the production of the selected cards
-     * Adds to the current player's vault the output resources
-     * @return true if the production is completed without problems
-     */
-    public boolean produce(){
-        return clearAllBuffers() && productionSite.produce(vault);
-    }
-
-
-    /**
-     * clears all the deposits' and vault's buffers
-     */
-    public boolean clearAllBuffers(){
-        return deposit.removeAllBuffers() && vault.removeFromVault();
-    }
-
+    //BUY METHODS-------------------------------------------------------------------------------------------------------
     /**
      * Tells the controller if the user has selected the right quantity of resources in order to buy one development card
      * @param cardPrice contains the card's price (it's a list of resourceContainer)
@@ -189,6 +107,106 @@ public class PlayerBoard {
         }
         return false;
     }
+    //BUY METHODS END---------------------------------------------------------------------------------------------------
+
+
+    //PRODUCTION PIPELINE ----------------------------------------------------------------------------------------------
+    /*  User selects the production cards (Base/DevelopmentCard/LeaderCard)
+         L He fills all the question marks with the desired resourceType
+             L fillProductionBuffers()
+                 L hasEnoughInputResources():  checks his total resources
+                      L User selects the resources from his vault or his deposits
+                            L canProduce():         validates the selection
+                                  L produce()
+                                       L  clearBuffers()
+    */
+
+    /**
+     * Puts all the resources needed to activate the selected production cards and all the resources
+     * produced by those cards into a buffer
+     * @param selectedProductionCard is the list of the cards selected by the user
+     */
+    public boolean fillProductionBuffers(ArrayList<ProductionSlot> selectedProductionCard){
+        return productionSite.fillProductionBuffers(selectedProductionCard);
+    }
+
+
+    /**
+     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
+     * in order to activate the production
+     * @return true if he has enough total resources
+     */
+    public  boolean hasEnoughResourcesForProduction(){
+        return productionSite.hasEnoughInputResources(this);
+    }
+
+
+    /**
+     * Tells the controller if the user has selected the right quantity of resources in order to produce the activated production cards
+     * @param selectedResources contains all the selected resources by the user (i.e. 3 Stones from Vault, 1 Gold from Deposit 1)
+     * @return true if the selected resources are equals to the input resources needed to produce
+     * @throws NotEnoughResources if there are missing resources
+     * @throws DepositSlotMaxDimExceeded if the user selected too many resources
+     */
+    public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
+        return productionSite.canProduce(selectedResources);
+    }
+
+
+    /**
+     * Execute the production of the selected cards
+     * Adds to the current player's vault the output resources
+     * @return true if the production is completed without problems
+     */
+    public boolean produce(){
+        return clearAllBuffers() && productionSite.produce(vault);
+    }
+
+
+    /**
+     * clears all the deposits' and vault's buffers
+     */
+    public boolean clearAllBuffers(){
+        return deposit.removeAllBuffers() && vault.removeFromVault();
+    }
+
+    //PRODUCTION PIPELINE END-------------------------------------------------------------------------------------------
+
+
+
+    //OTHER METHODS-----------------------------------------------------------------------------------------------------
+    /**
+     * Returns the  current quantity of the requested ArrayList of resources (sum of deposit and vault)
+     * @return true if the user has enough resources
+     */
+    public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
+        HashMap<ResourceType, ResourceContainer> resourceMap = Util.arraylistToMap(requested);
+
+        return hasEnoughResources(resourceMap);
+    }
+
+    /**
+     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
+     * @return true if the user has enough resources
+     */
+    public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
+
+        for (ResourceType key : requested.keySet()) {
+            if( requested.get(key).getQty() > checkResources(key) )
+                return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Returns the  current quantity of the requested ResourceType
+     * @return the sum of the ResourceType's quantity inside the vault and all the deposits
+     */
+    public int checkResources(ResourceType requested){
+        return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
+    }
 
 
     /**
@@ -209,7 +227,7 @@ public class PlayerBoard {
 
 
 
-    //getter and setter
+    //getter and setter-------------------------------------------------------------------------------------------------
 
     /**
      *Adds a resourceContainer to the depositLeader number x. We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.

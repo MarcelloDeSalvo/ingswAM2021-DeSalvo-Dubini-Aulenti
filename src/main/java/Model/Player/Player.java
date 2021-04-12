@@ -26,8 +26,8 @@ public class Player {
      * Puts all the resources needed to activate the selected production cards and all the resources produced by those cards into a buffer
      * @param selectedProductionCard is the list of the cards selected by the user
      */
-    public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
-        return playerBoard.activateProduction(selectedProductionCard);
+    public boolean fillProductionBuffers(ArrayList<ProductionSlot> selectedProductionCard){
+        return playerBoard.fillProductionBuffers(selectedProductionCard);
     }
 
     /**

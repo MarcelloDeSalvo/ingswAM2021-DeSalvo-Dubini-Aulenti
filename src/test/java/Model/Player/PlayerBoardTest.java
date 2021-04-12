@@ -115,7 +115,7 @@ class PlayerBoardTest {
         ArrayList<ProductionSlot> selectedSlot = new ArrayList<>();
         selectedSlot.add(p.getProductionSlotByID(1));
 
-        p.activateProduction(selectedSlot);
+        p.fillProductionBuffers(selectedSlot);
         assertTrue(p.getPlayerBoard().hasEnoughResources(p.getPlayerBoard().getProductionSite().getBufferInputMap()));
 
         //Nick's selects all the resources he needs to validate the production

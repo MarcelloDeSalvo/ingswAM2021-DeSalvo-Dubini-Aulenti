@@ -39,12 +39,24 @@ public class ProductionSite {
         this.bufferSelectedResources = new HashMap<>();
     }
 
+
+    //PRODUCTION PIPELINE ----------------------------------------------------------------------------------------------
+    /*  User selects the production cards (Base/DevelopmentCard/LeaderCard)
+         L He fills all the question marks with the desired resourceType
+             L fillProductionBuffers()
+                 L hasEnoughInputResources():  checks his total resources
+                      L User selects the resources from his vault or his deposits
+                            L canProduce():         validates the selection
+                                  L produce()
+                                       L  clearBuffers()
+    */
+
     /**
      * Inserts the production inputs and outputs of the selected cards into the relative buffer maps
      * @param productionSlots are the selected slot
      * @return true if the add() finish without errors
      */
-    public boolean activateProduction(ArrayList<ProductionSlot> productionSlots){
+    public boolean fillProductionBuffers(ArrayList<ProductionSlot> productionSlots){
         for (ProductionSlot ps: productionSlots) {
             if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
                 return false;
@@ -53,32 +65,6 @@ public class ProductionSite {
                 return false;
         }
         return true;
-    }
-
-
-    /**
-     * Counts the active Development Cards with specific attributes
-     * @param numberRequired is the total amount of cards that must have a specific level and colour
-     * @param level is the level required
-     * @param colour is the color required
-     * @return true if the card's count is greater or equal compared to the numberRequired
-     */
-    public boolean hasEnoughDevelopmentCardsWith(int numberRequired, int level, Colour colour){
-        int cardNumber = 0;
-        for(ProductionSlot ps : productionSlots){
-            cardNumber += ps.countCardsWith(level, colour);
-        }
-
-        return cardNumber >= numberRequired;
-    }
-
-    /**
-     * Adds a production slot to the list
-     * @param productionSlot is the input production slot
-     * @return true if it can be added
-     */
-    public boolean addProductionSlot(ProductionSlot productionSlot){
-        return productionSlot != null && productionSlots.add(productionSlot);
     }
 
 
@@ -95,15 +81,6 @@ public class ProductionSite {
             if( playerBoard.checkResources(key) < bufferInputMap.get(key).getQty() )
                 return false;
         }
-        return true;
-    }
-
-    /**
-     * Clears the current buffers
-     */
-    public boolean clearBuffers(){
-        bufferInputMap.clear();
-        bufferOutputMap.clear();
         return true;
     }
 
@@ -146,7 +123,43 @@ public class ProductionSite {
     }
 
 
-    //getter and setter
+    /**
+     * Clears the current buffers
+     */
+    public boolean clearBuffers(){
+        bufferInputMap.clear();
+        bufferOutputMap.clear();
+        return true;
+    }
+
+    //END OF THE PIPELINE ----------------------------------------------------------------------------------------------
+
+    /**
+     * Counts the active Development Cards with specific attributes
+     * @param numberRequired is the total amount of cards that must have a specific level and colour
+     * @param level is the level required
+     * @param colour is the color required
+     * @return true if the card's count is greater or equal compared to the numberRequired
+     */
+    public boolean hasEnoughDevelopmentCardsWith(int numberRequired, int level, Colour colour){
+        int cardNumber = 0;
+        for(ProductionSlot ps : productionSlots){
+            cardNumber += ps.countCardsWith(level, colour);
+        }
+
+        return cardNumber >= numberRequired;
+    }
+
+    /**
+     * Adds a production slot to the list
+     * @param productionSlot is the input production slot
+     * @return true if it can be added
+     */
+    public boolean addProductionSlot(ProductionSlot productionSlot){
+        return productionSlot != null && productionSlots.add(productionSlot);
+    }
+
+    //getter and setter-------------------------------------------------------------------------------------------------
     public int getBufferInputResourceQty(ResourceType resourceType){
        if (bufferInputMap.containsKey(resourceType))
            return bufferInputMap.get(resourceType).getQty();

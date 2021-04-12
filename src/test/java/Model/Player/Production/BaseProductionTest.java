@@ -133,7 +133,7 @@ class BaseProductionTest {
         fillQuestionMarkInput_Output_Pippo(); //2 stones -> 1 gold
 
         //then the controller checks if he has enough total resources in order to produce those cards
-        assertTrue(()->playerBoard.activateProduction(selectedByTheUser)); //fills the buffers inside production site
+        assertTrue(()->playerBoard.fillProductionBuffers(selectedByTheUser)); //fills the buffers inside production site
         assertTrue(playerBoard.hasEnoughResourcesForProduction());//compares the buffers with all the player's resources
 
         //he starts selecting the resources from his vault/deposit
@@ -168,7 +168,7 @@ class BaseProductionTest {
         fillQuestionMarkInput_Output_Pippo(); //2 stones -> 1 gold
 
         //then the controller checks if he has enough total resources in order to produce those cards
-        assertTrue(()->playerBoard.activateProduction(selectedByTheUser)); //fills the buffers inside production site
+        assertTrue(()->playerBoard.fillProductionBuffers(selectedByTheUser)); //fills the buffers inside production site
         assertFalse(playerBoard.hasEnoughResourcesForProduction());//compares the buffers with all the player's resources
 
         playerBoard.clearAllBuffers();
@@ -190,7 +190,7 @@ class BaseProductionTest {
         fillQuestionMarkInput_Output_Pippo(); //2 stones -> 1 gold
 
         //then the controller checks if he has enough total resources in order to produce those cards
-        assertTrue(()->playerBoard.activateProduction(selectedByTheUser)); //fills the buffers inside production site
+        assertTrue(()->playerBoard.fillProductionBuffers(selectedByTheUser)); //fills the buffers inside production site
         assertTrue(playerBoard.hasEnoughResourcesForProduction());//compares the buffers with all the player's resources
 
         //he starts selecting the resources from his vault/deposit

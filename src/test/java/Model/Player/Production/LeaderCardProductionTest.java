@@ -163,7 +163,7 @@ class LeaderCardProductionTest {
         //this fills the buffers
         ArrayList<ProductionSlot> selectedSlots = new ArrayList<>();
         selectedSlots.add(leaderCardProduction);
-        assertTrue(playerBoard.activateProduction(selectedSlots));
+        assertTrue(playerBoard.fillProductionBuffers(selectedSlots));
 
         //controls if in vault/deposit there are enough resources for production
         assertTrue(playerBoard.hasEnoughResourcesForProduction());

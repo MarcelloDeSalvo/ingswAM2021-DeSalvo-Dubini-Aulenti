@@ -74,14 +74,14 @@ class ProductionSiteTest {
     }
 
     @Test
-    void activateProduction() {
+    void fillProductionBuffers() {
 
         insert_all_res_needed();
 
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
         selectedProductionCards.add(playerBoard.getProductionSlotByID(1));
 
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
 
         assertTrue(playerBoard.hasEnoughResourcesForProduction());
 
@@ -108,7 +108,7 @@ class ProductionSiteTest {
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
         selectedProductionCards.add(playerBoard.getProductionSlotByID(1));
 
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
         assertTrue(playerBoard.hasEnoughResourcesForProduction());
     }
 
@@ -119,13 +119,13 @@ class ProductionSiteTest {
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
         selectedProductionCards.add(playerBoard.getProductionSlotByID(3));//    1St -> 1M          Level 1 OnTop
 
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
         assertFalse(playerBoard.hasEnoughResourcesForProduction());
     }
 
     @Test
     void clearBuffers() {
-        activateProduction();
+        fillProductionBuffers();
         assertTrue(playerBoard.getProductionSite().clearBuffers());
 
         assertTrue(playerBoard.getProductionSite().getBufferInputMap().isEmpty());
@@ -138,7 +138,7 @@ class ProductionSiteTest {
 
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
         selectedProductionCards.add(playerBoard.getProductionSlotByID(3));//    1St -> 1M          Level 1 OnTop
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
 
         assertTrue(playerBoard.hasEnoughResourcesForProduction());
 
@@ -157,7 +157,7 @@ class ProductionSiteTest {
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
         selectedProductionCards.add(playerBoard.getProductionSlotByID(3));//    1St -> 1M          Level 1 OnTop
         selectedProductionCards.add(playerBoard.getProductionSlotByID(2));//    1M -> 1S           Level 1 OnTop
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
 
         assertTrue(playerBoard.hasEnoughResourcesForProduction());
 
@@ -177,7 +177,7 @@ class ProductionSiteTest {
 
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
         selectedProductionCards.add(playerBoard.getProductionSlotByID(3));//    1St -> 1M          Level 1 OnTop
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
 
         assertTrue(playerBoard.hasEnoughResourcesForProduction());
 
@@ -199,7 +199,7 @@ class ProductionSiteTest {
         selectedProductionCards.add(playerBoard.getProductionSlotByID(3));//    1St -> 1M          Level 1 OnTop
         selectedProductionCards.add(playerBoard.getProductionSlotByID(2));//    1M -> 1S           Level 1 OnTop
 
-        assertTrue(playerBoard.activateProduction(selectedProductionCards));
+        assertTrue(playerBoard.fillProductionBuffers(selectedProductionCards));
         assertTrue(playerBoard.hasEnoughResourcesForProduction());
 
         ArrayList<ResourceContainer> selectedByTheUser = new ArrayList<>();
