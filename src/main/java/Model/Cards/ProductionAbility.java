@@ -20,7 +20,7 @@ public class ProductionAbility implements Ability {
     }
 
     /**
-     * Adds ana available production (creating a LeaderProductionSlot) to the current player
+     * Adds an available production (creating a LeaderProductionSlot) to the current player
      * @param playerBoard is the current Player's playerBoard
      */
     @Override
@@ -30,13 +30,18 @@ public class ProductionAbility implements Ability {
         return true;
     }
 
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ArrayList<ResourceContainer> getInput() {
         return input;
     }
     public ArrayList<ResourceContainer> getOutput() {
         return output;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "ProductionAbility{" +
@@ -46,4 +51,6 @@ public class ProductionAbility implements Ability {
                 ", questionMarkOnOutput=" + questionMarkOnOutput +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

@@ -24,6 +24,8 @@ public class Market {
         this.vacant=marblesMarket.get(rows*columns);
     }
 
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     /**
      * This method returns a chosen row from the market grid.
      * @param selectedRow is the row you want to obtain
@@ -70,7 +72,17 @@ public class Market {
         return outputColumn;
     }
 
+    public ResourceContainer getMarketCell (int rowNum,int columnNum){
+      return market[columnNum][rowNum];
+    }
 
+    public ResourceContainer getVacant (){
+        return vacant;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //PRINT METHODS----------(Only for testing purposes)----------------------------------------------------------------
     public void stampaMarket(){
         for(int i=0; i<rows;i++) {
             for (int j = 0; j < columns; j++) {
@@ -80,18 +92,11 @@ public class Market {
         }
         System.out.println("Il vacant è: "+vacant.getResourceType());
     }
-
-    public ResourceContainer getMarketCell (int rowNum,int columnNum){
-      return market[columnNum][rowNum];
-    }
-
-    public ResourceContainer getVacant (){
-        return vacant;
-    }
-
+    //------------------------------------------------------------------------------------------------------------------
 
 
 }
+
 /* Easter update
  CONGRATS! YOU FOUND THE SECOND EASTER EGG!
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣧⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

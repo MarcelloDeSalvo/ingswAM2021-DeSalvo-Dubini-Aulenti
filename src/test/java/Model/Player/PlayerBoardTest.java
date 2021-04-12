@@ -130,10 +130,10 @@ class PlayerBoardTest {
         //Controller checks if the selected resources are legit
         assertAll(()->p.canProduce(selectedInput));
         //Controller executes the production
+        assertEquals(p.getPlayerBoard().getProductionSite().getBufferOutputResourceQty(ResourceType.MINION),2);
         assertTrue(p.getPlayerBoard().produce());
 
         //checks if the production finished correctly
-        assertEquals(p.getPlayerBoard().getProductionSite().getBufferOutputResourceQty(ResourceType.MINION),2);
         assertEquals(p.getPlayerBoard().getVault().getResourceQuantity(ResourceType.GOLD),1);
         assertEquals(p.getPlayerBoard().getVault().getResourceQuantity(ResourceType.STONE),0);
         assertEquals(p.getPlayerBoard().getVault().getResourceQuantity(ResourceType.MINION),2);

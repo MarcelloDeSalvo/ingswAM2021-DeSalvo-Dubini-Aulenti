@@ -25,6 +25,8 @@ public abstract class  DepositSlot {
         this.bufferContainer = new ResourceContainer(null,0);
     }
 
+
+    //DEPOSIT MANAGEMENT-------------------------------------------------------------------------------------------------------
     /**
      * It's the function that gives the permission to add or not to the Controller
      * @return true if he can add the resources
@@ -34,17 +36,16 @@ public abstract class  DepositSlot {
     public abstract boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
+     * It's the function that gives the permission to remove or not to the Controller
+     * @return true if he can
+     */
+    public abstract boolean addToDepositSlot(ResourceContainer inputContainer);
+    /**
      * adds the quantity from a resourceContainer in any case.
      * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
      * @return true if there were no errors
      */
     public abstract boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
-
-    /**
-     * It's the function that gives the permission to remove or not to the Controller
-     * @return true if he can
-     */
-    public abstract boolean addToDepositSlot(ResourceContainer inputContainer);
 
     /**
      * removes the quantity from a resourceContainer
@@ -64,16 +65,6 @@ public abstract class  DepositSlot {
     public abstract boolean canTransferTo(DepositSlot destination, int quantityThatIWantToSwitch) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
-     * Used when the Deposit's type allows the storage of different ResourceType
-     * Gives the controller the permission to switch a desired quantity from one deposit to another
-     * @param destination is the deposit that will switch resources with the selected one
-     * @return true if the Deposit's type can switch his resources with another generic deposit
-     * @throws ResourceTypeAlreadyStored if the user wants to move already stored ResourceTypes
-     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
-     */
-    public abstract boolean canSwitchWith(DepositSlot destination) throws  DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
-
-    /**
      * Transfer a desired quantity from one deposit to another one
      * Sets the target deposit's ResourceType equal as this ResourceType
      * @param destination is the deposit where the user wants the resources to be placed
@@ -87,6 +78,16 @@ public abstract class  DepositSlot {
         destination.setDepositResourceType(this.getDepositResourceType());
         return true;
     }
+
+    /**
+     * Used when the Deposit's type allows the storage of different ResourceType
+     * Gives the controller the permission to switch a desired quantity from one deposit to another
+     * @param destination is the deposit that will switch resources with the selected one
+     * @return true if the Deposit's type can switch his resources with another generic deposit
+     * @throws ResourceTypeAlreadyStored if the user wants to move already stored ResourceTypes
+     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
+     */
+    public abstract boolean canSwitchWith(DepositSlot destination) throws  DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
      * Switches two deposit's resources if they can store different ResourceType
@@ -108,6 +109,10 @@ public abstract class  DepositSlot {
         return true;
     }
 
+    //-----------------------------------------------------------------------------------------------------------------
+
+
+    //BUFFERS MANAGEMENT-----------------------------------------------------------------------------------------------
     /**
      * Adds an input to the buffer that handles one transaction
      * It is called when the user decides to buy one card or to produce:
@@ -138,8 +143,10 @@ public abstract class  DepositSlot {
         bufferContainer.setQty(0);
         return true;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
+    //OTHER METHODS-----------------------------------------------------------------------------------------------
     public boolean canAdd(int input) {
         return (input+depositContainer.getQty()<=maxDim);
     }
@@ -156,8 +163,10 @@ public abstract class  DepositSlot {
     public boolean isTheSameType(DepositSlot depositSlot){
         return this.getDepositResourceType() == depositSlot.getDepositResourceType();
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    //Getter and Setter
+
+    //GETTER AND SETTER------------------------------------------------------------------------------------------------
     public int getMaxDim() {
         return maxDim;
     }
@@ -183,5 +192,6 @@ public abstract class  DepositSlot {
     public ResourceContainer getBufferContainer() {
         return bufferContainer;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 }

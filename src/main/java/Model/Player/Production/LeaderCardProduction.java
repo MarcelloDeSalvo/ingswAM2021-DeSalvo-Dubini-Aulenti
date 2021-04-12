@@ -10,9 +10,24 @@ import java.util.ArrayList;
 
 public class LeaderCardProduction implements ProductionSlot {
 
-    ArrayList<ResourceContainer> input; //only defined input types
+    /**
+     * Contains all the defined inputs
+     */
+    ArrayList<ResourceContainer> input;
+
+    /**
+     * Contains the number of the definable inputs
+     */
     int questionMarkOnInput;
+
+    /**
+     * Contains all the defined outputs
+     */
     ArrayList<ResourceContainer> output;
+
+    /**
+     * Contains the number of the definable outputs
+     */
     int questionMarkOnOut;
 
     ArrayList<ResourceContainer> inputBuffer;
@@ -29,27 +44,17 @@ public class LeaderCardProduction implements ProductionSlot {
 
     }
 
-    @Override
-    public int countCardsWith(int level, Colour c) {
-        return 0;
-    }
 
+    //SLOT MANAGEMENT---------------------------------------------------------------------------------------------------
     @Override
-    public ArrayList<ResourceContainer> getProductionInput(){
-        return getInputBuffer();
+    public boolean hasQuestionMarks(){
+        return (questionMarkOnInput>0 || questionMarkOnOut >0);
     }
-
-    @Override
-    public ArrayList<ResourceContainer> getProductionOutput(){
-        return getOutputBuffer();
-    }
-
 
     @Override
     public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
         return definedInput != null && inputBuffer.add(new ResourceContainer(definedInput, 1));
     }
-
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType definedOutput) throws NullPointerException, IllegalArgumentException{
@@ -79,18 +84,27 @@ public class LeaderCardProduction implements ProductionSlot {
     }
 
     @Override
-    public boolean hasQuestionMarks(){
-        return (questionMarkOnInput>0 || questionMarkOnOut >0);
-    }
-
-    @Override
     public boolean insertOnTop(DevelopmentCard newDevelopmentCard) {
         return false;
     }
 
+    @Override
+    public int countCardsWith(int level, Colour c) {
+        return 0;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
 
-    //getter and setter
 
+    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    @Override
+    public ArrayList<ResourceContainer> getProductionInput(){
+        return getInputBuffer();
+    }
+
+    @Override
+    public ArrayList<ResourceContainer> getProductionOutput(){
+        return getOutputBuffer();
+    }
 
     @Override
     public int getQMI() {
@@ -101,6 +115,7 @@ public class LeaderCardProduction implements ProductionSlot {
     public int getQMO() {
         return questionMarkOnOut;
     }
+
 
     public void setQuestionMarkOnOut(int getQuestionMarkOnOut) {
         this.questionMarkOnOut = getQuestionMarkOnOut;
@@ -129,5 +144,7 @@ public class LeaderCardProduction implements ProductionSlot {
     public ArrayList<ResourceContainer> getOutput() {
         return output;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 
 }

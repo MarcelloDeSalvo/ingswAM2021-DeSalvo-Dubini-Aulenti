@@ -8,22 +8,9 @@ import Model.Resources.ResourceType;
 import java.util.ArrayList;
 
 public interface ProductionSlot {
-    /**
-     * Checks the amount and the type of development cards active
-     * @return the number of cards with level "level" and colour "c"
-     */
-     int countCardsWith(int level, Colour c);
 
-    /**
-     * Returns to the caller the list of all the required resources
-     */
-     ArrayList<ResourceContainer> getProductionInput();
 
-    /**
-     * Returns to the caller the list of all the production outputs
-     */
-     ArrayList<ResourceContainer> getProductionOutput();
-
+    //SLOT MANAGEMENT---------------------------------------------------------------------------------------------------
     /**
      * Checks if the ProductionSlot has question marks in its production pattern
      */
@@ -57,17 +44,37 @@ public interface ProductionSlot {
      boolean insertOnTop(DevelopmentCard newDevelopmentCard);
 
     /**
+     * Checks the amount and the type of development cards active
+     * @return the number of cards with level "level" and colour "c"
+     */
+    int countCardsWith(int level, Colour c);
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
+    /**
+     * Returns to the caller the list of all the required resources
+     */
+    ArrayList<ResourceContainer> getProductionInput();
+
+    /**
+     * Returns to the caller the list of all the production outputs
+     */
+    ArrayList<ResourceContainer> getProductionOutput();
+
+    /**
      * gets the number of question marks inside the input
      * @return the number of question marks
      */
      int getQMI();
-
 
     /**
      * gets the number of question marks inside the output
      * @return the number of question marks
      */
      int getQMO();
+    //------------------------------------------------------------------------------------------------------------------
+
 
 
 }

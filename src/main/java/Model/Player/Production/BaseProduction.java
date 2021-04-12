@@ -30,22 +30,7 @@ public class BaseProduction implements ProductionSlot {
     }
 
 
-
-    @Override
-    public int countCardsWith(int level, Colour c) {
-        return 0;
-    }
-
-    @Override
-    public ArrayList<ResourceContainer> getProductionInput() {
-        return input;
-    }
-
-    @Override
-    public ArrayList<ResourceContainer> getProductionOutput() {
-        return output;
-    }
-
+    //SLOT MANAGEMENT---------------------------------------------------------------------------------------------------
     @Override
     public boolean hasQuestionMarks() {
         return true;
@@ -73,11 +58,21 @@ public class BaseProduction implements ProductionSlot {
         return false;
     }
 
-    public ArrayList<ResourceContainer> getInput() {
+    @Override
+    public int countCardsWith(int level, Colour c) {
+        return 0;
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+
+
+    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    @Override
+    public ArrayList<ResourceContainer> getProductionInput() {
         return input;
     }
 
-    public ArrayList<ResourceContainer> getOutput() {
+    @Override
+    public ArrayList<ResourceContainer> getProductionOutput() {
         return output;
     }
 
@@ -88,5 +83,7 @@ public class BaseProduction implements ProductionSlot {
     public int getQMO() {
         return QMO;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }
 

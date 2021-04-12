@@ -20,6 +20,8 @@ public class DevelopmentRequirement implements Requirement {
         this.level = 0;
     }
 
+
+
     /**
      * Check if the current player has enough cards with a specific Level (that can also be any level), a specific colour and a specific amount of this kind of card
      * @param playerBoard is the current player's PlayerBoard
@@ -30,6 +32,8 @@ public class DevelopmentRequirement implements Requirement {
         return playerBoard.getProductionSite().hasEnoughDevelopmentCardsWith(number, level, colour);
     }
 
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     @Override
     public int getDevelopmentCardNumber() {
         return number;
@@ -45,12 +49,14 @@ public class DevelopmentRequirement implements Requirement {
         return level;
     }
 
-
     @Override
     public ResourceContainer getResourceRequirement() {
         return null;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //JAVA---------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "DevelopmentRequirement{" +
@@ -59,6 +65,7 @@ public class DevelopmentRequirement implements Requirement {
                 ", level=" + level +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
 }

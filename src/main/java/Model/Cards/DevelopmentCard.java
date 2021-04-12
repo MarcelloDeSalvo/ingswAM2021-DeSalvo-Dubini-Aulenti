@@ -10,7 +10,7 @@ public class  DevelopmentCard extends Card{
     private final ArrayList<ResourceContainer> input;
     private final ArrayList<ResourceContainer> output;
 
-    //JSON constructors
+    //JSON constructors-------------------------------------------------------------------------------------------------
     public DevelopmentCard (int victoryPoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
         super(victoryPoints,Status.PURCHASABLE, req, price);
         this.level = level;
@@ -27,7 +27,7 @@ public class  DevelopmentCard extends Card{
         this.output = new ArrayList<>(output);
     }
 
-    //Test constructors
+    //Test constructors-------------------------------------------------------------------------------------------------
     public DevelopmentCard (int victoryPoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
         super(victoryPoints, Status.PURCHASABLE);
         this.level = level;
@@ -46,6 +46,7 @@ public class  DevelopmentCard extends Card{
 
 
 
+    //CARD MANAGEMENT---------------------------------------------------------------------------------------------------
     @Override
     public boolean changeStatus (Status status) {
         setStatus(status);
@@ -62,7 +63,11 @@ public class  DevelopmentCard extends Card{
     public boolean isSameLevelandColour(int l, Colour c){
         return this.colour == c && (this.level == l || l == 0);
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public int getLevel() {
         return level;
     }
@@ -78,7 +83,10 @@ public class  DevelopmentCard extends Card{
     public ArrayList<ResourceContainer> getOutput() {
         return output;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //------------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "DevelopmentCard{" +

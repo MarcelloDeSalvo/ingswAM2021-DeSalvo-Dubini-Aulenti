@@ -41,7 +41,7 @@ public class Game {
     }
 
 
-
+    //-----------------------------------------------------------------------------------------------------------------
     public boolean createStandardRules(ArrayList<String> playersNicknames){
 
         playerList = new ArrayList<>();

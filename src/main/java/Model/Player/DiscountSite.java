@@ -12,22 +12,9 @@ public class DiscountSite {
         this.discountMap = new HashMap<>();
     }
 
-    /**
-     * This method is used to know the discount relating to a specific ResourceType
-     * @param resourceType is the ResourceType that i'm interested to know the discount of
-     * @return 0 if the element is absent, the correct value otherwise
-     */
-    public int getDiscount(ResourceType resourceType) {
-        if(!isPresent(resourceType))
-            return 0;
-        else
-            return discountMap.get(resourceType);
-    }
 
-    private boolean isPresent(ResourceType type){
-        return discountMap.containsKey(type);
-    }
 
+    //DISCOUNT MANAGEMENT----------------------------------------------------------------------------------------------
     /**
      * If a ResourceType is present the method simply adds the qty of the HashMap to the qty of ResourceContainer
      * otherwise, when a ResourceType is absent, the method put a new element in the HashMap
@@ -45,7 +32,29 @@ public class DiscountSite {
         return true;
     }
 
+    private boolean isPresent(ResourceType type){
+        return discountMap.containsKey(type);
+    }
+    //-----------------------------------------------------------------------------------------------------------------
+
+
+    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    /**
+     * This method is used to know the discount relating to a specific ResourceType
+     * @param resourceType is the ResourceType that i'm interested to know the discount of
+     * @return 0 if the element is absent, the correct value otherwise
+     */
+    public int getDiscount(ResourceType resourceType) {
+        if(!isPresent(resourceType))
+            return 0;
+        else
+            return discountMap.get(resourceType);
+    }
+
     public HashMap<ResourceType, Integer> getDiscountMap() {
         return discountMap;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
 }

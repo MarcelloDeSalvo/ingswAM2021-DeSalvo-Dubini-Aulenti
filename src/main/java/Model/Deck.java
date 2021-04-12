@@ -19,7 +19,7 @@ public class Deck{
         return cardsList;
     }
 
-    //getterAndSetter
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public LinkedList<DevelopmentCard> getDeck() {
         return deck;
     }
@@ -27,11 +27,16 @@ public class Deck{
     public void setDeck(LinkedList<DevelopmentCard> deck) {
         this.deck = deck;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "Deck{" +
                 "deck=" + deck +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

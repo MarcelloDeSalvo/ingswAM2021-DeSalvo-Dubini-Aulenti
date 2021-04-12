@@ -33,25 +33,8 @@ public class LeaderCard extends Card{
     }
 
 
-    /**
-     * adds an ability to the list
-     */
-    public void addAbility (Ability ability) throws NullPointerException, IllegalArgumentException {
-        if (ability != null) {
-            abilities.add(ability);
-        }
-    }
 
-    @Override
-    public boolean changeStatus (Status status) {
-        if (this.getStatus().equals(Status.HAND)) {
-            this.setStatus(status);
-            return true;
-        }
-
-        return false;
-    }
-
+    //CARD MANAGEMENT---------------------------------------------------------------------------------------------------
     /**
      * Executes all the Leader's ability, scrolling through them one by one
      * @param playerBoard is the current player's playerBoard
@@ -78,13 +61,40 @@ public class LeaderCard extends Card{
     }
 
     @Override
+    public boolean changeStatus (Status status) {
+        if (this.getStatus().equals(Status.HAND)) {
+            this.setStatus(status);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * adds an ability to the list
+     */
+    public void addAbility (Ability ability) throws NullPointerException, IllegalArgumentException {
+        if (ability != null) {
+            abilities.add(ability);
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
+    public ArrayList<Ability> getAbilities() {
+        return abilities;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //JAVA---------------------------------------------------------------------------------------------------------------
+    @Override
     public String toString() {
         return "LeaderCard{" +
                 "abilities=" + abilities +
                 "} " + super.toString() + '\n';
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    public ArrayList<Ability> getAbilities() {
-        return abilities;
-    }
 }

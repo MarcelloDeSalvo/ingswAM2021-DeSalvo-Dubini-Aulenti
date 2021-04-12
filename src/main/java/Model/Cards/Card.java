@@ -40,6 +40,15 @@ abstract class Card {
         this.price = new ArrayList<>();
     }
 
+
+    //CARD MANAGEMENT---------------------------------------------------------------------------------------------------
+    /**
+     * changes the current card's status
+     * @param status is the status that i want to set
+     * @return true if he changed it
+     */
+    public abstract boolean changeStatus(Status status);
+
     /**
      * Adds a requirement to the list
      * @return true if the add finishes without problems
@@ -56,7 +65,12 @@ abstract class Card {
     public boolean addPrice(ResourceContainer priceContainer) throws NullPointerException, IllegalArgumentException{
         return priceContainer != null && this.price.add(priceContainer);
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     /**
      * Checks if the current users has some active discount and return the card's discounted price
      * @param playerBoard is the current's player's playerBoard
@@ -79,15 +93,6 @@ abstract class Card {
 
         return discountedPrice;
     }
-
-
-    /**
-     * changes the current card's status
-     * @param status is the status that i want to set
-     * @return true if he changed it
-     */
-    public abstract boolean changeStatus(Status status);
-
 
     public int getVictoryPoints() {
         return victoryPoints;
@@ -118,6 +123,8 @@ abstract class Card {
         this.price = price;
     }
 
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "Card{" +
@@ -133,7 +140,12 @@ abstract class Card {
         if (this == o) return true;
         if (!(o instanceof Card)) return false;
         Card card = (Card) o;
-        return victoryPoints == card.victoryPoints && status == card.status && Objects.equals(requirements, card.requirements) && Objects.equals(price, card.price);
+        return  victoryPoints == card.victoryPoints &&
+                status == card.status &&
+                Objects.equals(requirements, card.requirements) &&
+                Objects.equals(price, card.price);
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 
 }

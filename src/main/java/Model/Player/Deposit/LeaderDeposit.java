@@ -15,11 +15,11 @@ public class LeaderDeposit extends DepositSlot {
     }
 
 
+    //DEPOSIT MANAGEMENT-------------------------------------------------------------------------------------------------------
     @Override
     public void setDepositResourceType(ResourceType depositResourceType) {
         //System.out.println("You cannot modify the resource type on a LeaderDeposit");
     }
-
 
     @Override
     public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
@@ -34,7 +34,6 @@ public class LeaderDeposit extends DepositSlot {
             throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
 
     }
-
 
     @Override
     public boolean addToDepositSlot(ResourceContainer inputContainer) {
@@ -58,8 +57,6 @@ public class LeaderDeposit extends DepositSlot {
         addToBuffer(inputContainer);
         return true;
     }
-
-
 
     @Override
     public boolean removeFromDepositSlot(ResourceContainer inputContainer) {
@@ -98,6 +95,7 @@ public class LeaderDeposit extends DepositSlot {
     public boolean canSwitchWith(DepositSlot destination){
         return false;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
 }
