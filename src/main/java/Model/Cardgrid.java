@@ -2,13 +2,14 @@ package Model;
 
 import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
+import Model.Exceptions.InvalidColumnNumber;
+import Model.Exceptions.InvalidRowNumber;
 import Model.Parser.DevelopmentCardParser;
-import Model.Player.Player;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.PriorityQueue;
+
 
 public class Cardgrid {
     private Deck[][] deckGrid;
@@ -44,25 +45,24 @@ public class Cardgrid {
     public void printGrid(){
         for(int i=0;i<columns;i++){
             for(int j=0;j<rows;j++){
-                for(int z=0;z<4;z++) {
-                    System.out.println(deckGrid[i][j].getDeck().get(z).getColour());
-                    System.out.println(deckGrid[i][j].getDeck().get(z).getLevel());
-                    System.out.println(deckGrid[i][j].getDeck().get(z).getVictoryPoints());
+                if(!deckGrid[i][j].getDeck().isEmpty()) {
+                    System.out.println(deckGrid[i][j].getDeck().peek().getColour());
+                    System.out.println("Level: " + deckGrid[i][j].getDeck().peek().getLevel());
+                    System.out.println("Victory points: " + deckGrid[i][j].getDeck().peek().getVictoryPoints());
                     System.out.println();
-
-                }System.out.println('\n');
+                }
             }
         }
     }
 
     /**
-     * This method returns the current card on top of its respective deck with the desired parametres
+     * This method returns the current card on top of its respective deck. The deck is chosen by the parameters: Colour and level
      * @return null if the card isn't found
      */
     public DevelopmentCard getDevelopmentCardOnTop( Colour desiredColour, int desiredLevel) {
             for (int i = 0; i < columns; i++) {
                 for (int j = 0; j < rows; j++) {
-                    if (deckGrid[i][j]!=null && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel)
+                    if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel)
                         return( deckGrid[i][j].getDeck().peekFirst());
                 }
             }
@@ -71,17 +71,68 @@ public class Cardgrid {
 
     /**
      * Removes a chosen card from the top of a deck in the cardgrid.
-     * @returns false if a deck with the chosen parameters isn't found or is empty
+     * @return false if a deck with the chosen parameters isn't found or is empty
      */
     public boolean removeDevelopmentCard(Colour desiredColour, int desiredLevel){
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                if (deckGrid[i][j]!=null && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel)
+                if (!deckGrid[i][j].getDeck().isEmpty()   && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel) {
                     deckGrid[i][j].getDeck().remove();
                     return true;
+                }
             }
         }
         return false;
     }
+
+    /**
+     * Returns an entire deck from the card grid. The deck is selected with the parameters:Colour and Level
+     * @return null if the deck isn't present
+     */
+    public Deck getDeckFromGrid(Colour desiredColour, int desiredLevel){
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (deckGrid[i][j]!=null && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel)
+                    return deckGrid[i][j];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method returns the current card on top of its respective deck. The deck is chosen by the position on the grid defined by the two parameters
+     * @return null if the card isn't found
+     */
+    public DevelopmentCard getDevelopmentCardOnTop( int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
+        if(rowNumber<=0)
+            throw new InvalidRowNumber ("Selected row isn't valid");
+        if(columnNumber<=0)
+            throw new InvalidColumnNumber ("Selected column isn't valid");
+
+        if (!deckGrid[columnNumber-1][rowNumber-1].getDeck().isEmpty() && deckGrid[columnNumber-1][rowNumber-1].getDeck()!=null)
+            return( deckGrid[columnNumber-1][rowNumber-1].getDeck().peekFirst());
+        return null;
+    }
+
+    /**
+     * This method deletes the current card on top of its respective deck. The deck is chosen by the position on the grid defined by the two parameters
+     */
+    public boolean removeDevelopmentCard( int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
+        if(rowNumber<=0)
+            throw new InvalidRowNumber ("Selected row isn't valid");
+        if(columnNumber<=0)
+            throw new InvalidColumnNumber ("Selected column isn't valid");
+
+            if (!deckGrid[columnNumber-1][rowNumber-1].getDeck().isEmpty() && deckGrid[columnNumber-1][rowNumber-1].getDeck()!=null) {
+            deckGrid[columnNumber-1][rowNumber-1].getDeck().remove();
+            return true;
+        }
+        return false;
+    }
+
+
+     public void printGreenCardsLevel1(){
+         deckGrid[0][0].getDeck().forEach(System.out::println);
+     }
 
 }

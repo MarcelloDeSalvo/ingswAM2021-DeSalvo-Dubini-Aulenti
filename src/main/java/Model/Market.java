@@ -51,13 +51,11 @@ public class Market {
 
     /**
      * This method returns a chosen column from the market grid.
-     * @param selectedColumn
-     * @return
-     * @throws InvalidColumnNumber
+     * @throws InvalidColumnNumber when an invalid column number is inserted
      */
     public ArrayList<ResourceContainer> getColumn(int selectedColumn) throws InvalidColumnNumber {
         if(selectedColumn<=0 || selectedColumn>columns)
-            throw new InvalidColumnNumber ("Selected row isn't valid");
+            throw new InvalidColumnNumber ("Selected column isn't valid");
 
         ArrayList<ResourceContainer> outputColumn= new ArrayList<>();
         for(int i=0; i<rows; i++){
@@ -66,9 +64,7 @@ public class Market {
 
         ResourceContainer vacantCopy=new ResourceContainer(vacant.getResourceType(),1);
         vacant=market[selectedColumn-1][0];
-        for(int i=0;i<rows-1;i++){
-            market[selectedColumn-1][i]=market[selectedColumn-1][i+1];
-        }
+        System.arraycopy(market[selectedColumn - 1], 1, market[selectedColumn - 1], 0, rows - 1);
         market[selectedColumn-1][rows-1]=vacantCopy;
 
         return outputColumn;
