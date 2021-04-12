@@ -12,7 +12,6 @@ class CardgridTest {
     void cardGridConstructorTest() throws FileNotFoundException {
         Cardgrid cardgrid=new Cardgrid();
         cardgrid.printGrid();
-
     }
 
 }

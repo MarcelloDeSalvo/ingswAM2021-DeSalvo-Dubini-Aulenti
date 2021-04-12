@@ -1,10 +1,13 @@
 package Model;
 
+import Model.Cards.DevelopmentCard;
+import Model.Parser.DevelopmentCardParser;
 import Model.Parser.MarketSetUpParser;
 import Model.Player.Deposit.DepositSlot;
 import Model.Player.Player;
 import Model.Resources.ResourceContainer;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +21,7 @@ public class Game {
     private Deck leaderDeck;
 
 
- /*   public void Game() throws  FileNotFoundException {
+    public void Game() throws  FileNotFoundException {
         playerList = new ArrayList<>();
         for (int i= 0; i<4; i++){
             playerList.add(new Player(("default")));
@@ -27,10 +30,15 @@ public class Game {
         try {
             ArrayList<ResourceContainer> marketMarbles = MarketSetUpParser.deserializeMarketElements();
             market = new Market(marketMarbles);
+            cardgrid = new Cardgrid();
 
-        }catch()
 
-    }*/
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
+    }
 
 
 
