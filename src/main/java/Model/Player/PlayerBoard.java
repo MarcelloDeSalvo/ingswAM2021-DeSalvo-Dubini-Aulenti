@@ -66,13 +66,14 @@ public class PlayerBoard {
 
 
     /**
-     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
-     * in order to activate the production
-     * @return true if he has enough total resources
+     * Puts all the resources needed to activate the selected production cards and all the resources
+     * produced by those cards into a buffer
+     * @param selectedProductionCard is the list of the cards selected by the user
      */
-    public  boolean hasEnoughResourcesForProduction(){
-        return productionSite.hasEnoughInputResources(this);
+    public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
+        return productionSite.activateProduction(selectedProductionCard);
     }
+
 
     /**
      * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
@@ -93,16 +94,6 @@ public class PlayerBoard {
      */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
         return productionSite.canProduce(selectedResources);
-    }
-
-
-    /**
-     * Puts all the resources needed to activate the selected production cards and all the resources
-     * produced by those cards into a buffer
-     * @param selectedProductionCard is the list of the cards selected by the user
-     */
-    public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
-        return productionSite.activateProduction(selectedProductionCard);
     }
 
 
