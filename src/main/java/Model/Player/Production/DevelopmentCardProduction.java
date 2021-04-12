@@ -14,6 +14,8 @@ public class DevelopmentCardProduction implements ProductionSlot {
         dev = new Deck();
     }
 
+
+    //SLOT MANAGEMENT---------------------------------------------------------------------------------------------------
     /**
      * When the stack is empty it checks if newDevelopmentCard's level is '1' when this is the case
      * it simply sets the new card status to "ON_TOP" and adds the new card in the stack
@@ -44,6 +46,21 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return true;
     }
 
+
+    @Override
+    public int countCardsWith(int level, Colour c) {
+        int i = 0;
+        for (DevelopmentCard d: dev.getDeck()) {
+            if (d.isSameLevelandColour(level, c))
+                i++;
+        }
+        return i;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+    //GETTER AND SETTER------------------------------------------------------------------------------------------------
     public DevelopmentCard getElementOnTop () {
         return dev.getDeck().peek();
     }
@@ -64,21 +81,13 @@ public class DevelopmentCardProduction implements ProductionSlot {
             return null;
     }
 
-    @Override
-    public int countCardsWith(int level, Colour c) {
-        int i = 0;
-        for (DevelopmentCard d: dev.getDeck()) {
-            if (d.isSameLevelandColour(level, c))
-                i++;
-        }
-        return i;
-    }
-
     public Deck getSlot() {
         return dev;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    //implemented methods (to code if we want to make it extendable [Development Cards with question marks]) ------------------------------------
+
+    //TO BE IMPLEMENTED METHODS---(to code if we want to make it extendable [Development Cards with question marks])----
     @Override
     public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
         //if(definedInput!=null && inputBuffer.add(new ResourceContainer(definedInput, 1)))

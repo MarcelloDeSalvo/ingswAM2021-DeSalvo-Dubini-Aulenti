@@ -22,6 +22,8 @@ public class Player {
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
     }
 
+
+    //PRODUCTION PIPELINE---(Calls the methods of the lowest levels)----------------------------------------------------
     /**
      * Puts all the resources needed to activate the selected production cards and all the resources produced by those cards into a buffer
      * @param selectedProductionCard is the list of the cards selected by the user
@@ -49,7 +51,10 @@ public class Player {
     public boolean produce(){
        return playerBoard.produce();
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //OTHER METHODS------(Calls the methods of the lowest levels)-------------------------------------------------------
     /**
      * Inserts the just bought card into the selected production slot
      * @param id is the index of the selected ProductionSlot
@@ -59,8 +64,10 @@ public class Player {
     public boolean insertBoughtCardOn(int id, DevelopmentCard developmentCard){
         return playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard);
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    //getter and setter
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ProductionSlot getProductionSlotByID(int n){
         return playerBoard.getProductionSlotByID(n);
     }
@@ -80,5 +87,7 @@ public class Player {
     public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 
 }

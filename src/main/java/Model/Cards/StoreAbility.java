@@ -22,6 +22,7 @@ public class StoreAbility implements Ability {
         return true;
     }
 
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "StoreAbility{" +
@@ -29,4 +30,6 @@ public class StoreAbility implements Ability {
                 ", maxDim=" + maxDim +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

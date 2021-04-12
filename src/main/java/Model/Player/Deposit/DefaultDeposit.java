@@ -19,6 +19,7 @@ public class DefaultDeposit extends DepositSlot {
     }
 
 
+    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
     @Override
     public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
         int quantityThatIWantToAdd = inputContainer.getQty();
@@ -37,6 +38,17 @@ public class DefaultDeposit extends DepositSlot {
         throw new DifferentResourceType("Not the same type");
     }
 
+    @Override
+    public boolean addToDepositSlot(ResourceContainer inputContainer)  {
+        int quantityThatIWantToAdd = inputContainer.getQty();
+        ResourceType inputType = inputContainer.getResourceType();
+
+        this.getDepositContainer().addQty(quantityThatIWantToAdd);
+        this.getDepositContainer().setResourceType(inputType);
+        getNotAvailableResourceType().add(inputType);
+        return true;
+    }
+
 
     public boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
         if(this.isEmpty())
@@ -51,19 +63,6 @@ public class DefaultDeposit extends DepositSlot {
         addToBuffer(inputContainer);
         return true;
     }
-
-
-    @Override
-    public boolean addToDepositSlot(ResourceContainer inputContainer)  {
-        int quantityThatIWantToAdd = inputContainer.getQty();
-        ResourceType inputType = inputContainer.getResourceType();
-
-        this.getDepositContainer().addQty(quantityThatIWantToAdd);
-        this.getDepositContainer().setResourceType(inputType);
-        getNotAvailableResourceType().add(inputType);
-        return true;
-    }
-
 
     @Override
     public boolean removeFromDepositSlot(ResourceContainer inputContainer){
@@ -124,26 +123,10 @@ public class DefaultDeposit extends DepositSlot {
     public void clearSet(){
         notAvailableResourceType.clear();
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
-
-    //getter and setter
-    public void getHashSetData(){
-        for (ResourceType rs: notAvailableResourceType) {
-            System.out.println(rs.toString());
-        }
-    }
-
-    public static HashSet<ResourceType> getNotAvailableResourceType() {
-        return notAvailableResourceType;
-    }
-
-    public static void setNotAvailableResourceType(HashSet<ResourceType> notAvailableResourceType) {
-        DefaultDeposit.notAvailableResourceType = notAvailableResourceType;
-    }
-
-
-    //private methods
+    //PRIVATE METHODS---------------------------------------------------------------------------------------------------
     /**
      * Checks if the input ResourceType is already stored inside some other Default Deposit
      * @return true if it is
@@ -158,7 +141,6 @@ public class DefaultDeposit extends DepositSlot {
         //getHashSetData(); // -------------> Da rimuovere, solo per testing
     }
 
-
     /**
      * Removes the deposit's ResourceType from the notAvailable Set
      * Called when the deposit's quantity reaches zero
@@ -169,6 +151,25 @@ public class DefaultDeposit extends DepositSlot {
         //getHashSetData(); // -------------> Da rimuovere, solo per testing
 
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
+    public void getHashSetData(){
+        for (ResourceType rs: notAvailableResourceType) {
+            System.out.println(rs.toString());
+        }
+    }
+
+    public static HashSet<ResourceType> getNotAvailableResourceType() {
+        return notAvailableResourceType;
+    }
+
+    public static void setNotAvailableResourceType(HashSet<ResourceType> notAvailableResourceType) {
+        DefaultDeposit.notAvailableResourceType = notAvailableResourceType;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 
 }
 

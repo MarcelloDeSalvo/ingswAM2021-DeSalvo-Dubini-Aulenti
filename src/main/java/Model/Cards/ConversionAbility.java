@@ -21,10 +21,14 @@ public class ConversionAbility implements Ability {
         return true;
     }
 
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "ConversionAbility{" +
                 "output=" + output +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

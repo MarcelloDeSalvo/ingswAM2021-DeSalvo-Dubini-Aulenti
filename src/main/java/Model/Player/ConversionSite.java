@@ -9,9 +9,12 @@ import java.util.Iterator;
 
 public class ConversionSite {
     /**
-     * List of available conversion slots
+     * List of available conversions
       */
     private ArrayList<ResourceContainer> conversionsAvailable;
+    /**
+     * Input resourceType of the conversion
+     */
     private ResourceType defaultConverted;
 
     public ConversionSite() {
@@ -19,6 +22,9 @@ public class ConversionSite {
         this.conversionsAvailable=new ArrayList<>();
     }
 
+
+
+    //CONVERSION MANAGEMENT---------------------------------------------------------------------------------------------
     /**
      * This method adds a conversion  to the list of the ones available.
      * @return false if the argument is null, true otherwise.
@@ -65,7 +71,6 @@ public class ConversionSite {
         return true;
     }
 
-
     /**
      * converts an input ResourceContainer into another one (possibly taken from availableConversions)
      */
@@ -74,8 +79,10 @@ public class ConversionSite {
         input.setResourceType(chosenConversion.getResourceType());
         return true;
     }
+    //-----------------------------------------------------------------------------------------------------------------
 
 
+    //GETTER AND SETTER------------------------------------------------------------------------------------------------
     public ArrayList<ResourceContainer> getConversionsAvailable() {
         return conversionsAvailable;
     }
@@ -91,4 +98,6 @@ public class ConversionSite {
     public void setConversionsAvailable(ArrayList<ResourceContainer> conversionsAvailable) {
         this.conversionsAvailable = conversionsAvailable;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

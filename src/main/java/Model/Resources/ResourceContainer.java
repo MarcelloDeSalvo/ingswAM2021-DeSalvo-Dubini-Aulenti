@@ -20,6 +20,7 @@ public class ResourceContainer {
     }
 
 
+    //CONTAINER MANAGEMENT----------------------------------------------------------------------------------------------
     public void addQty(int n) {
         setQty(this.qty + n);
     }
@@ -42,10 +43,11 @@ public class ResourceContainer {
     }
 
     public boolean isEditable(){ return this.resourceType == null; }
+    //------------------------------------------------------------------------------------------------------------------
 
 
-    //getter and setter
 
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ResourceType getResourceType() {
         return resourceType;
     }
@@ -64,7 +66,10 @@ public class ResourceContainer {
         else
             this.qty = qty;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //JAVA-------------------------------------------------------------------------------------------------------------
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,4 +86,6 @@ public class ResourceContainer {
                 ", qty=" + qty +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

@@ -14,34 +14,10 @@ import java.util.Iterator;
 public class Util {
 
 
+    //MAP AND LIST CONVERSION-------------------------------------------------------------------------------------------
     /**
-     * Returns a specific Development Card (victoryPoints and Colour)
-     */
-    public static DevelopmentCard getCardWithVpColour (int victoryPointsRequested, Colour requestedColor){
-        ArrayList<DevelopmentCard> cards ;
-        try{
-            cards = DevelopmentCardParser.deserializeDevelopmentList();
-            Iterator<DevelopmentCard> iter = cards.iterator();
-            DevelopmentCard current;
-            while(iter.hasNext()){
-                current=iter.next();
-                if(current.getColour()==requestedColor && current.getVictoryPoints()==victoryPointsRequested)
-                    return current;
-            }
-            System.out.println("Card not found");
-            return null;
-
-        }
-        catch(FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-    }
-
-
-    /**
-     * Converts a list into a map
+     * Converts a list into a map <br>
+     * It can also be used to add a list to a non empty map
      */
     public static boolean arraylistToMap (ArrayList<ResourceContainer> list, HashMap<ResourceType, ResourceContainer> map){
         Iterator<ResourceContainer> iterator= list.iterator();
@@ -67,7 +43,10 @@ public class Util {
             return map;
         return null;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //CHECKS------------------------------------------------------------------------------------------------------------
     /**
      * checks if a specific ResourceType is present in the HashMap
      * @param type is the key that will be used to check in the HashMap
@@ -76,4 +55,34 @@ public class Util {
     public static boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
         return map.containsKey(type);
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GETTER------------------------------------------------------------------------------------------------------------
+    /**
+     * Returns a specific Development Card (victoryPoints and Colour)
+     */
+    public static DevelopmentCard getCardWithVpColour (int victoryPointsRequested, Colour requestedColor){
+        ArrayList<DevelopmentCard> cards ;
+        try{
+            cards = DevelopmentCardParser.deserializeDevelopmentList();
+            Iterator<DevelopmentCard> iter = cards.iterator();
+            DevelopmentCard current;
+            while(iter.hasNext()){
+                current=iter.next();
+                if(current.getColour()==requestedColor && current.getVictoryPoints()==victoryPointsRequested)
+                    return current;
+            }
+            System.out.println("Card not found");
+            return null;
+
+        }
+        catch(FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

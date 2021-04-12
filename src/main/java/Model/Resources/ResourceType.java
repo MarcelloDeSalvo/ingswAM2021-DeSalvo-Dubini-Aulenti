@@ -25,6 +25,7 @@ public enum ResourceType {
     }
 
 
+    //RESOURCE PERMISSIONS----------------------------------------------------------------------------------------------
     /**
      * Adds a container to a Vault
      * @param container is the input container
@@ -72,6 +73,8 @@ public enum ResourceType {
     public boolean canAddToFaithPath() {
         return canAddToFaithPath;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }
 
 

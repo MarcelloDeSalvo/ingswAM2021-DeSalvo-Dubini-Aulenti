@@ -11,6 +11,8 @@ public class ResourceRequirement implements Requirement{
         this.resourceContainer = resourceContainer;
     }
 
+
+
     /**
      * Checks if the player has enough resources to satisfy the requirement
      * @return true if he has enough resources, false if he doesn't
@@ -22,13 +24,8 @@ public class ResourceRequirement implements Requirement{
         return amount >= resourceContainer.getQty();
     }
 
-    @Override
-    public String toString() {
-        return "ResourceRequirement{" +
-                "resourceContainer=" + resourceContainer +
-                '}';
-    }
 
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     @Override
     public Colour getColour() {
         return null;
@@ -48,4 +45,16 @@ public class ResourceRequirement implements Requirement{
     public ResourceContainer getResourceRequirement() {
         return resourceContainer;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        return "ResourceRequirement{" +
+                "resourceContainer=" + resourceContainer +
+                '}';
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

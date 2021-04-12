@@ -40,8 +40,9 @@ public class ProductionSite {
     }
 
 
-    //PRODUCTION PIPELINE ----------------------------------------------------------------------------------------------
-    /*  User selects the production cards (Base/DevelopmentCard/LeaderCard)
+    //PRODUCTION PIPELINE----------------------------------------------------------------------------------------------
+
+    /*  User selects the production slots (Base/DevelopmentCard/LeaderCard)
          L He fills all the question marks with the desired resourceType
              L fillProductionBuffers()
                  L hasEnoughInputResources():  checks his total resources
@@ -52,8 +53,8 @@ public class ProductionSite {
     */
 
     /**
-     * Inserts the production inputs and outputs of the selected cards into the relative buffer maps
-     * @param productionSlots are the selected slot
+     * Inserts the production inputs and outputs of the selected slots into the relative buffer maps
+     * @param productionSlots are the selected slots
      * @return true if the add() finish without errors
      */
     public boolean fillProductionBuffers(ArrayList<ProductionSlot> productionSlots){
@@ -66,6 +67,22 @@ public class ProductionSite {
         }
         return true;
     }
+
+    /**
+     * Inserts the production inputs and outputs of the selected slot into the relative buffer maps <br>
+     * Called if the controller checks one slot at a time after the user fills all the question marks
+     * @param ps is the selected slot
+     * @return true if the add() finish without errors
+     */
+    public boolean fillProductionBuffers(ProductionSlot ps){
+            if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
+                return false;
+
+            if(!Util.arraylistToMap(ps.getProductionOutput(),bufferOutputMap))
+                return false;
+        return true;
+    }
+
 
 
     /**
@@ -131,9 +148,10 @@ public class ProductionSite {
         bufferOutputMap.clear();
         return true;
     }
-
     //END OF THE PIPELINE ----------------------------------------------------------------------------------------------
 
+
+    //OTHER METHODS-----------------------------------------------------------------------------------------------------------
     /**
      * Counts the active Development Cards with specific attributes
      * @param numberRequired is the total amount of cards that must have a specific level and colour
@@ -158,8 +176,10 @@ public class ProductionSite {
     public boolean addProductionSlot(ProductionSlot productionSlot){
         return productionSlot != null && productionSlots.add(productionSlot);
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    //getter and setter-------------------------------------------------------------------------------------------------
+
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public int getBufferInputResourceQty(ResourceType resourceType){
        if (bufferInputMap.containsKey(resourceType))
            return bufferInputMap.get(resourceType).getQty();
@@ -200,6 +220,8 @@ public class ProductionSite {
     public void setDefaultNum(int defaultNum) {
         this.defaultNum = defaultNum;
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }
 
 

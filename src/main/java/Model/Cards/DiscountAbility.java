@@ -13,6 +13,7 @@ public class DiscountAbility implements Ability{
         this.discount = discount;
     }
 
+
     /**
      * creates a new Discount to put in "DiscountSite" section using "addDiscount"
      * @param playerBoard is the current player's playerBoard
@@ -24,6 +25,7 @@ public class DiscountAbility implements Ability{
         return true;
     }
 
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ResourceType getResourceType() {
         return resourceType;
     }
@@ -31,8 +33,10 @@ public class DiscountAbility implements Ability{
     public int getDiscount() {
         return discount;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
 
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "DiscountAbility{" +
@@ -40,4 +44,6 @@ public class DiscountAbility implements Ability{
                 ", discount=" + discount +
                 '}';
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 }
