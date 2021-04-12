@@ -6,14 +6,14 @@ import Model.Resources.ResourceType;
 import java.util.HashMap;
 
 public class DiscountSite {
-    private HashMap<ResourceType, Integer> discountMap;
+    private final HashMap<ResourceType, Integer> discountMap;
 
     public DiscountSite() {
         this.discountMap = new HashMap<>();
     }
 
     /**
-     * this method is used to know the discount relating to a specific ResourceType
+     * This method is used to know the discount relating to a specific ResourceType
      * @param resourceType is the ResourceType that i'm interested to know the discount of
      * @return 0 if the element is absent, the correct value otherwise
      */
@@ -29,7 +29,7 @@ public class DiscountSite {
     }
 
     /**
-     * if a ResourceType is present the method simply adds the qty of the HashMap to the qty of ResourceContainer
+     * If a ResourceType is present the method simply adds the qty of the HashMap to the qty of ResourceContainer
      * otherwise, when a ResourceType is absent, the method put a new element in the HashMap
      * @param resourceContainer is the element to add in the HashMap
      * @return true

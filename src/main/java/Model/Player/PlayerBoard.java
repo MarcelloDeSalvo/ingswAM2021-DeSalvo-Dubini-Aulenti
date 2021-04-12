@@ -11,12 +11,8 @@ import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import Model.Util;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class PlayerBoard {
 
@@ -36,7 +32,7 @@ public class PlayerBoard {
 
 
     /**
-     * Returns the  current quantity of the requested ArrayList ( sum of deposit and vault)
+     * Returns the  current quantity of the requested ArrayList of resources (sum of deposit and vault)
      * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
@@ -46,7 +42,7 @@ public class PlayerBoard {
     }
 
     /**
-     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer>( sum of deposit and vault)
+     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
      * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
@@ -59,13 +55,16 @@ public class PlayerBoard {
         return true;
     }
 
+
     /**
-     * checks if the user has enough resources altogether before the user starts to selected them (vault + deposit) in order to activate the production
+     * checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
+     * in order to activate the production
      * @return true if he has enough total resources
      */
     public  boolean hasEnoughResourcesForProduction(){
         return productionSite.hasEnoughInputResources(this);
     }
+
 
     /**
      * Returns the  current quantity of the requested ResourceType
@@ -75,13 +74,16 @@ public class PlayerBoard {
         return(deposit.checkDeposit(requested) + vault.getResourceQuantity(requested));
     }
 
+
     /**
-     * Puts all the resources needed to activate the selected production cards and all the resources produced by those cards into a buffer
+     * Puts all the resources needed to activate the selected production cards and all the resources
+     * produced by those cards into a buffer
      * @param selectedProductionCard is the list of the cards selected by the user
      */
     public boolean activateProduction(ArrayList<ProductionSlot> selectedProductionCard){
         return productionSite.activateProduction(selectedProductionCard);
     }
+
 
     /**
      * Tells the controller if the user has selected the right quantity of resources in order to produce the activated production cards
@@ -94,6 +96,7 @@ public class PlayerBoard {
         return productionSite.canProduce(selectedResources);
     }
 
+
     /**
      * Execute the production of the selected cards
      * Adds to the current player's vault the output resources
@@ -102,6 +105,7 @@ public class PlayerBoard {
     public boolean produce(){
         return deposit.removeAllBuffers() && vault.removeFromVault() && productionSite.produce(vault);
     }
+
 
     /**
      * Tells the controller if the user has selected the right quantity of resources in order to buy one development card
@@ -120,6 +124,7 @@ public class PlayerBoard {
         return cardPriceMap.equals(bufferMap);
     }
 
+
     /**
      * Called when canBuy() returns true
      * subtracts all buffers from all the deposits and the vault in order to buy one development card
@@ -128,6 +133,7 @@ public class PlayerBoard {
     public boolean buy(){
         return deposit.removeAllBuffers() && vault.removeFromVault();
     }
+
 
     /**
      * The method adds the buffers from each DepositSlot in Deposit
@@ -146,6 +152,7 @@ public class PlayerBoard {
 
         }
     }
+
 
     /**
      * The method adds the buffers from Vault
@@ -177,7 +184,6 @@ public class PlayerBoard {
         }
         return false;
     }
-
 
 
     public ProductionSlot getProductionSlotByID(int n) throws IndexOutOfBoundsException{

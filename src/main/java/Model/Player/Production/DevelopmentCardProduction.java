@@ -8,23 +8,23 @@ import Model.Resources.ResourceType;
 import java.util.ArrayList;
 
 public class DevelopmentCardProduction implements ProductionSlot {
-    private Deck dev;
+    private final Deck dev;
 
     public DevelopmentCardProduction() {
         dev = new Deck();
     }
 
     /**
-     * if the queue is empty it simply sets the new card status to "ON_TOP" and adds the new card in the queue
-     * if the queue already has elements in it and if level+1 of the element on top == new card level
-     * the method sets the first element of the queue to "ACTIVE" and then adds the new one
+     * When the stack is empty it checks if newDevelopmentCard's level is '1' when this is the case
+     * it simply sets the new card status to "ON_TOP" and adds the new card in the stack
+     * if the stack already has elements in it and if level+1 of the element on top == new card level
+     * the method sets the first element of the stack to "ACTIVE" and then adds the new one
      * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
-     * @return true
+     * @return true if everything goes right, false if you can't add the newDevelopmentCard for some reasons
      */
     public boolean insertOnTop (DevelopmentCard newDevelopmentCard) {
         if(dev.getDeck().peekLast() != null) {
-            if(dev.getDeck().element().getLevel()+1 == newDevelopmentCard.getLevel())
-            {
+            if(dev.getDeck().element().getLevel()+1 == newDevelopmentCard.getLevel()) {
                 dev.getDeck().element().changeStatus(Status.ACTIVE);
                 newDevelopmentCard.changeStatus(Status.ON_TOP);
                 dev.getDeck().push(newDevelopmentCard);
@@ -32,10 +32,8 @@ public class DevelopmentCardProduction implements ProductionSlot {
             else
                 return false;
         }
-        else
-        {
-            if(newDevelopmentCard.getLevel() == 1)
-            {
+        else {
+            if(newDevelopmentCard.getLevel() == 1) {
                 newDevelopmentCard.changeStatus(Status.ON_TOP);
                 dev.getDeck().push(newDevelopmentCard);
             }
@@ -80,7 +78,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return dev;
     }
 
-    //implemented methods (to code if we want to make it extendible [Development Cards with question marks]) ------------------------------------
+    //implemented methods (to code if we want to make it extendable [Development Cards with question marks]) ------------------------------------
     @Override
     public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
         //if(definedInput!=null && inputBuffer.add(new ResourceContainer(definedInput, 1)))
@@ -97,7 +95,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
     }
 
     /**
-     * clears the current buffer and then sets them to the original input/otuput's data
+     * clears the current buffer and then sets them to the original input/output's data
      * @return true if the add executes without errors
      */
     @Override

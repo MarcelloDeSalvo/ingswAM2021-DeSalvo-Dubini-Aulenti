@@ -2,7 +2,6 @@ package Model.Player.Production;
 
 import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
-import Model.Exceptions.MaterialChoiceRequired;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 

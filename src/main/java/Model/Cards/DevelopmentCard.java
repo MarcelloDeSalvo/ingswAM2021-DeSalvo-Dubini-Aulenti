@@ -19,8 +19,8 @@ public class  DevelopmentCard extends Card{
         this.output = new ArrayList<>(output);
     }
 
-    public DevelopmentCard (int victorypoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
-        super(victorypoints,Status.PURCHASABLE, price);
+    public DevelopmentCard (int victoryPoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
+        super(victoryPoints,Status.PURCHASABLE, price);
         this.level = level;
         this.colour = colour;
         this.input = new ArrayList<>(input);
@@ -28,16 +28,16 @@ public class  DevelopmentCard extends Card{
     }
 
     //Test constructors
-    public DevelopmentCard (int victorypoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
-        super(victorypoints, Status.PURCHASABLE);
+    public DevelopmentCard (int victoryPoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
+        super(victoryPoints, Status.PURCHASABLE);
         this.level = level;
         this.colour = colour;
         this.input = new ArrayList<>(input);
         this.output = new ArrayList<>(output);
     }
 
-    public DevelopmentCard (int victorypoints, int level, Colour colour) {
-        super(victorypoints, Status.PURCHASABLE);
+    public DevelopmentCard (int victoryPoints, int level, Colour colour) {
+        super(victoryPoints, Status.PURCHASABLE);
         this.level = level;
         this.colour = colour;
         this.input = new ArrayList<>();

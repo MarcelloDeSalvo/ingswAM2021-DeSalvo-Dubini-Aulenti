@@ -47,21 +47,17 @@ public class LeaderCardProduction implements ProductionSlot {
 
     @Override
     public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
-        if(definedInput!=null && inputBuffer.add(new ResourceContainer(definedInput, 1)))
-            return true;
-        return false;
+        return definedInput != null && inputBuffer.add(new ResourceContainer(definedInput, 1));
     }
 
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType definedOutput) throws NullPointerException, IllegalArgumentException{
-        if(definedOutput!=null && outputBuffer.add((new ResourceContainer(definedOutput, 1))))
-            return true;
-        return false;
+        return definedOutput != null && outputBuffer.add((new ResourceContainer(definedOutput, 1)));
     }
 
     /**
-     * clears the current buffer and then sets them to the original input/otuput's data
+     * clears the current buffer and then sets them to the original input/output's data
      * @return true if the add executes without errors
      */
     @Override

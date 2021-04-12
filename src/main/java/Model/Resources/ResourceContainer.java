@@ -1,7 +1,5 @@
 package Model.Resources;
 
-import javax.print.DocFlavor;
-
 public class ResourceContainer {
 
     private ResourceType resourceType;
@@ -25,13 +23,6 @@ public class ResourceContainer {
     public void addQty(int n) {
         setQty(this.qty + n);
     }
-
-    /*public void subQty(int n) {
-        if(this.qty < n)
-            throw new ArithmeticException("ResourceContainer can't have a negative qty");
-        else
-            this.qty = this.qty - n;
-    }*/
 
 
     public boolean canRemove(ResourceContainer container) {

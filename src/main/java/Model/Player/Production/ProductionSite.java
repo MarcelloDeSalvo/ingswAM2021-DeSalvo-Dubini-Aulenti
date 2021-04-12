@@ -11,7 +11,6 @@ import Model.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class ProductionSite {
     private ArrayList<ProductionSlot> productionSlots;
@@ -22,7 +21,7 @@ public class ProductionSite {
     int defaultNum;
 
     /**
-     * Builds a new Production site with a maximum number of DevelopmentCards defaultnum
+     * Builds a new Production site with a maximum number of DevelopmentCards defaultNum
      * @param defaultNum is the default number of slots (3 by the standard rules)
      */
     public ProductionSite(int defaultNum) {

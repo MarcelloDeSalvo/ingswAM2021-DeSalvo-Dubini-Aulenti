@@ -12,22 +12,22 @@ abstract class Card {
     private ArrayList<Requirement> requirements;
     private ArrayList<ResourceContainer> price;
 
-    public Card(int vpoints, Status status, ArrayList<Requirement> req, ArrayList<ResourceContainer> price){
-        this.victoryPoints = vpoints;
+    public Card(int vPoints, Status status, ArrayList<Requirement> req, ArrayList<ResourceContainer> price){
+        this.victoryPoints = vPoints;
         this.status = status;
         this.requirements = new ArrayList<>(req);
         this.price = price;
     }
 
-    public Card(int vpoints, Status status, ArrayList<ResourceContainer> price){
-        this.victoryPoints = vpoints;
+    public Card(int vPoints, Status status, ArrayList<ResourceContainer> price){
+        this.victoryPoints = vPoints;
         this.status = status;
         this.requirements = new ArrayList<>();
         this.price = price;
     }
 
-    public Card(int vpoints, ArrayList<Requirement> req, Status status){
-        this.victoryPoints = vpoints;
+    public Card(int vPoints, ArrayList<Requirement> req, Status status){
+        this.victoryPoints = vPoints;
         this.status = status;
         this.requirements = new ArrayList<>(req);
         this.price = new ArrayList<>();
@@ -59,7 +59,7 @@ abstract class Card {
 
     /**
      * Checks if the current users has some active discount and return the card's discounted price
-     * @param playerBoard is the current's player's playerboard
+     * @param playerBoard is the current's player's playerBoard
      * @return the discounted price for the current player
      */
     public ArrayList<ResourceContainer> getDiscountedPrice(PlayerBoard playerBoard){

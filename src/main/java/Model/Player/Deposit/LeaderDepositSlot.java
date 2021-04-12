@@ -23,12 +23,12 @@ public class LeaderDepositSlot extends DepositSlot {
 
     @Override
     public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
-        int quantityThatIwantToAdd = inputContainer.getQty();
+        int quantityThatIWantToAdd = inputContainer.getQty();
 
         if (!this.getDepositContainer().isTheSameType(inputContainer))
             throw new DifferentResourceType("Not the same type");
 
-        if (canAdd(quantityThatIwantToAdd))
+        if (canAdd(quantityThatIWantToAdd))
             return true;
         else
             throw new DepositSlotMaxDimExceeded("Maximum dimension exceeded");
@@ -38,9 +38,9 @@ public class LeaderDepositSlot extends DepositSlot {
 
     @Override
     public boolean addToDepositSlot(ResourceContainer inputContainer) {
-        int quantityThatIwantToAdd = inputContainer.getQty();
+        int quantityThatIWantToAdd = inputContainer.getQty();
 
-        this.getDepositContainer().addQty(quantityThatIwantToAdd);
+        this.getDepositContainer().addQty(quantityThatIWantToAdd);
 
         return true;
     }
@@ -63,9 +63,9 @@ public class LeaderDepositSlot extends DepositSlot {
 
     @Override
     public boolean removeFromDepositSlot(ResourceContainer inputContainer) {
-        int quantityThatIwantToRemove = inputContainer.getQty();
+        int quantityThatIWantToRemove = inputContainer.getQty();
 
-        this.getDepositContainer().addQty(-quantityThatIwantToRemove);
+        this.getDepositContainer().addQty(-quantityThatIWantToRemove);
         return true;
 
     }
@@ -73,20 +73,20 @@ public class LeaderDepositSlot extends DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIwantToTransfer
+     * @param quantityThatIWantToTransfer
      * @return true if the LeaderDeposit can transfer his resources with another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
     @Override
-    public boolean canTransferTo(DepositSlot destination, int quantityThatIwantToTransfer) throws DifferentResourceType, NotEnoughResources, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
-        if(!this.canRemove(quantityThatIwantToTransfer))
+    public boolean canTransferTo(DepositSlot destination, int quantityThatIWantToTransfer) throws DifferentResourceType, NotEnoughResources, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
+        if(!this.canRemove(quantityThatIWantToTransfer))
             throw  new NotEnoughResources("Not enough resources");
 
         if(!destination.isTheSameType(this) && !destination.isEmpty())
             throw new DifferentResourceType("Not the same type");
 
-        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIwantToTransfer);
+        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIWantToTransfer);
         if (destination.canAddToDepositSlot(send))
             return true;
 

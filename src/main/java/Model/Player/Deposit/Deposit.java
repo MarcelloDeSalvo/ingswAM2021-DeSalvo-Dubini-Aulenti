@@ -16,7 +16,7 @@ public class Deposit {
     /**
      * It's the list of the user's deposits
      */
-    private ArrayList<DepositSlot> depositList;
+    private final ArrayList<DepositSlot> depositList;
 
     /**
      * Player's deposit number.
@@ -30,7 +30,7 @@ public class Deposit {
     private int pyramidMaxCells;
 
     public Deposit(int num) {
-        this.depositList = new ArrayList<DepositSlot>();
+        this.depositList = new ArrayList<>();
         this.defaultDepositNumber = num;
         this.pyramidMaxCells = 1;
 
@@ -42,30 +42,21 @@ public class Deposit {
 
     /**
      * adds a LeaderDepositSlot to the depositList
-     * @param lds
+     * @param lds LeaderDepositSlot to add
      * @return false if there is an argument exception (NoSuchElementException)
      */
     public boolean addDepositSlot(LeaderDepositSlot lds) {
-        if(lds != null && depositList.add(lds)){
-            return true;
-        }else {
-            return false;
-        }
-
+        return lds != null && depositList.add(lds);
     }
 
     /**
      * warning: this feature should not be used according to the rules of the base game
-     * removes a DepostiSlot from the depositList
-     * @param depositSlot
+     * removes a DepositSlot from the depositList
+     * @param depositSlot DepositSlot to remove
      * @return false if there is an argument exception (NoSuchElementException)
      */
     public boolean removeDepositSlot(DepositSlot depositSlot){
-        if(depositSlot != null && depositList.remove(depositSlot)){
-            return true;
-        } else{
-            return false;
-        }
+        return depositSlot != null && depositList.remove(depositSlot);
     }
 
 
@@ -104,24 +95,19 @@ public class Deposit {
      * @throws NotEnoughResources
      */
     public boolean canTransferDeposit(DepositSlot selected, int selectedQta, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
-        if (selected.canTransferTo(destination, selectedQta))
-            return true;
-        return false;
+        return selected.canTransferTo(destination, selectedQta);
     }
 
     /**
-     * Chacks if the controller can call switchDeposit() in order to switch some number of resources of different kinds from one deposit(selected) to another(destination)
+     * Checks if the controller can call switchDeposit() in order to switch some number of resources of different kinds from one deposit(selected) to another(destination)
      * @param selected is the one selected by the user
      * @param destination is the deposit that will switch resources with the selected one
      * @return true if the Deposit's type can switch his resources with another generic deposit
      * @throws DepositSlotMaxDimExceeded
-     * @throws DifferentResourceType
-     * @throws NotEnoughResources
+     * @throws ResourceTypeAlreadyStored
      */
     public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
-        if (selected.canSwitchWith(destination) && destination.canSwitchWith(selected))
-            return true;
-        return false;
+        return selected.canSwitchWith(destination) && destination.canSwitchWith(selected);
     }
 
     /**
@@ -151,19 +137,18 @@ public class Deposit {
     /**
      * get method to retrieve the DefaultDeposit's slots indexes
      * @param i is the index related to the default slot with max_dim = i
-     * @return the desired index of the default slots.
-     * @return the first slot with max_dim = 1 if it receives '0' as input
+     * @return the desired index of the default slot or the first slot with max_dim = 1 if it receives '0' as input
      */
     public DepositSlot getDefaultSlot_WithDim(int i){
-        if (i>0){
+        if (i>0)
             return (this.getDepositList().get(i-1));
-        }
-        else return (this.getDepositList().get(0));
+        else
+            return (this.getDepositList().get(0));
     }
 
     /**
      * Check deposit returns the quantity of a chosen resourceType present in the deposit
-     * @return
+     * @return num
      */
     public int checkDeposit (ResourceType requested){
         int num = 0;
@@ -206,9 +191,6 @@ public class Deposit {
         return depositList;
     }
 
-    public void setDepositList(ArrayList<DepositSlot> depositList) {
-        this.depositList = depositList;
-    }
 
     public int getDefaultDepositNumber() {
         return defaultDepositNumber;
@@ -218,11 +200,7 @@ public class Deposit {
         this.defaultDepositNumber = defaultDepositNumber;
     }
 
-    public int getPiramidMaxCells() {
+    public int getPyramidMaxCells() {
         return pyramidMaxCells;
-    }
-
-    public void setPiramidMaxCells(int piramidMaxCells) {
-        this.pyramidMaxCells = piramidMaxCells;
     }
 }

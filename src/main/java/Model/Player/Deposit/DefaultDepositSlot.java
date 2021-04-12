@@ -21,14 +21,14 @@ public class DefaultDepositSlot extends DepositSlot {
 
     @Override
     public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
-        int quantityThatIwantToAdd = inputContainer.getQty();
+        int quantityThatIWantToAdd = inputContainer.getQty();
 
         if(isTheResourceTypeAlreadyTaken(inputContainer.getResourceType()))
             throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type");
 
 
         if(this.isEmpty() || inputContainer.isTheSameType(this.getDepositContainer())){
-            if(canAdd(quantityThatIwantToAdd))
+            if(canAdd(quantityThatIWantToAdd))
                 return true;
             else
                 throw new DepositSlotMaxDimExceeded("Max dimension Exceeded");
@@ -36,6 +36,7 @@ public class DefaultDepositSlot extends DepositSlot {
 
         throw new DifferentResourceType("Not the same type");
     }
+
 
     public boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources {
         if(this.isEmpty())
@@ -51,22 +52,24 @@ public class DefaultDepositSlot extends DepositSlot {
         return true;
     }
 
+
     @Override
     public boolean addToDepositSlot(ResourceContainer inputContainer)  {
-        int quantityThatIwantToAdd = inputContainer.getQty();
+        int quantityThatIWantToAdd = inputContainer.getQty();
         ResourceType inputType = inputContainer.getResourceType();
 
-        this.getDepositContainer().addQty(quantityThatIwantToAdd);
+        this.getDepositContainer().addQty(quantityThatIWantToAdd);
         this.getDepositContainer().setResourceType(inputType);
         getNotAvailableResourceType().add(inputType);
         return true;
     }
 
+
     @Override
     public boolean removeFromDepositSlot(ResourceContainer inputContainer){
-        int quantityThatIwantToRemove = inputContainer.getQty();
+        int quantityThatIWantToRemove = inputContainer.getQty();
 
-        this.getDepositContainer().addQty(-quantityThatIwantToRemove);
+        this.getDepositContainer().addQty(-quantityThatIWantToRemove);
         remakeTypeAvailableIfEmpty();
 
         return true;
@@ -75,17 +78,17 @@ public class DefaultDepositSlot extends DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIwantToTransfer
+     * @param quantityThatIWantToTransfer
      * @return true if the Default Deposit can transfer his resources with another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
     @Override
-    public boolean canTransferTo(DepositSlot destination, int quantityThatIwantToTransfer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored, NotEnoughResources{
-        if(!this.canRemove(quantityThatIwantToTransfer))
+    public boolean canTransferTo(DepositSlot destination, int quantityThatIWantToTransfer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored, NotEnoughResources{
+        if(!this.canRemove(quantityThatIWantToTransfer))
             throw  new NotEnoughResources("Not enough resources");
 
-        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIwantToTransfer);
+        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIWantToTransfer);
         if(destination.canAddToDepositSlot(send))
             return true;
 
@@ -93,12 +96,13 @@ public class DefaultDepositSlot extends DepositSlot {
     }
 
     @Override
-    public boolean transferTo(DepositSlot destination, int quantityThatIwantToSwitch) {
+    public boolean transferTo(DepositSlot destination, int quantityThatIWantToSwitch) {
         remakeTypeAvailableIfEmpty();
 
-        super.transferTo(destination, quantityThatIwantToSwitch);
+        super.transferTo(destination, quantityThatIWantToSwitch);
         return true;
     }
+
 
     /**
      * Used when the Deposit's type allows the storage of different ResourceType
@@ -165,7 +169,7 @@ public class DefaultDepositSlot extends DepositSlot {
 
 
     /**
-     * Removes the deposit's Resourcetype from the notAvailable Set
+     * Removes the deposit's ResourceType from the notAvailable Set
      * Called when the deposit's quantity reaches zero
      */
     private void remakeTypeAvailableIfEmpty(){

@@ -17,6 +17,11 @@ public class LeaderCardParser {
     private LeaderCardParser() {
     }
 
+    /**
+     * Reads the JSON file containing the leader cards infos
+     * @return the list containing all the cards
+     * @throws FileNotFoundException
+     */
     public static ArrayList<LeaderCard> deserializeLeaderList() throws FileNotFoundException {
         String path = "src/main/resources/Json/LeaderCards.json";
 

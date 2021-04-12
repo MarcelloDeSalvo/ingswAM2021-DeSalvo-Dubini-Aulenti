@@ -4,7 +4,6 @@ import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class LeaderCard extends Card{
     private final ArrayList<Ability> abilities;
@@ -12,8 +11,8 @@ public class LeaderCard extends Card{
     /**
      * Main constructor
      */
-    public LeaderCard(int vpoints, ArrayList<Requirement> req, ArrayList<Ability> abilities) {
-        super(vpoints, req, Status.HAND);
+    public LeaderCard(int vPoints, ArrayList<Requirement> req, ArrayList<Ability> abilities) {
+        super(vPoints, req, Status.HAND);
         this.abilities = abilities;
     }
 
@@ -28,8 +27,8 @@ public class LeaderCard extends Card{
     /**
      * constructor with extensibility for "price"
      */
-    public LeaderCard(int vpoints, ArrayList<Requirement> req, ArrayList<ResourceContainer> price, ArrayList<Ability> abilities) {
-        super(vpoints, Status.HAND, req, price);
+    public LeaderCard(int vPoints, ArrayList<Requirement> req, ArrayList<ResourceContainer> price, ArrayList<Ability> abilities) {
+        super(vPoints, Status.HAND, req, price);
         this.abilities = abilities;
     }
 

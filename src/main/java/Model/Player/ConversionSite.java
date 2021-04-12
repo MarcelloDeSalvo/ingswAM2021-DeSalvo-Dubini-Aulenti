@@ -1,6 +1,5 @@
 package Model.Player;
 
-import Model.Player.Deposit.DepositSlot;
 import Model.Resources.ResourceContainer;
 import Model.Exceptions.*;
 import Model.Resources.ResourceType;
@@ -26,13 +25,12 @@ public class ConversionSite {
      * @return false if the argument is null, true otherwise.
      */
     public boolean addConversion (ResourceContainer inputConversion){
-        if(inputConversion!= null){
+        if(inputConversion != null){
             conversionsAvailable.add(inputConversion);
             return true;
         }
-        else{
+        else
             return false;
-        }
     }
 
     /**

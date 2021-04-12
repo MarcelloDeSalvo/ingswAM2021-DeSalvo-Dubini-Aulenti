@@ -9,8 +9,8 @@ import Model.Resources.ResourceType;
 
 public abstract class  DepositSlot {
     private int maxDim;
-    private ResourceContainer depositContainer;
-    private ResourceContainer bufferContainer;
+    private final ResourceContainer depositContainer;
+    private final ResourceContainer bufferContainer;
 
     public DepositSlot(ResourceType depositResourceType, int maxDim) {
         this.maxDim = maxDim;
@@ -60,13 +60,13 @@ public abstract class  DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIwantToSwitch
+     * @param quantityThatIWantToSwitch
      * @return true if the selected deposit can transfer his resources to another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
-     * @throws DifferentResourceType if the selected slot has some Resourcetype restrictions
+     * @throws DifferentResourceType if the selected slot has some ResourceType restrictions
      */
-    public abstract boolean canTransferTo(DepositSlot destination, int quantityThatIwantToSwitch) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
+    public abstract boolean canTransferTo(DepositSlot destination, int quantityThatIWantToSwitch) throws NotEnoughResources, DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored;
 
     /**
      * Used when the Deposit's type allows the storage of different ResourceType
@@ -82,11 +82,11 @@ public abstract class  DepositSlot {
      * Transfer a desired quantity from one deposit to another one
      * Sets the target deposit's ResourceType equal as this ResourceType
      * @param destination is the deposit where the user wants the resources to be placed
-     * @param quantityThatIwantToTransfer
+     * @param quantityThatIWantToTransfer
      * @return true
      */
-    public boolean transferTo(DepositSlot destination, int quantityThatIwantToTransfer){
-        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIwantToTransfer);
+    public boolean transferTo(DepositSlot destination, int quantityThatIWantToTransfer){
+        ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIWantToTransfer);
         this.removeFromDepositSlot(send);
         destination.addToDepositSlot(send);
 
@@ -122,10 +122,10 @@ public abstract class  DepositSlot {
      * @return
      */
     public boolean addToBuffer(ResourceContainer inputContainer){
-        int quantityThatIwantToAdd = inputContainer.getQty();
+        int quantityThatIWantToAdd = inputContainer.getQty();
         ResourceType inputType = inputContainer.getResourceType();
 
-        bufferContainer.addQty(quantityThatIwantToAdd);
+        bufferContainer.addQty(quantityThatIWantToAdd);
         bufferContainer.setResourceType(inputType);
         return true;
     }
@@ -180,10 +180,6 @@ public abstract class  DepositSlot {
         return depositContainer;
     }
 
-    public void setDepositContainer(ResourceContainer depositContainer) {
-        this.depositContainer = depositContainer;
-    }
-
     public int getResourceQty(){ return this.depositContainer.getQty(); }
 
     public ResourceType getDepositResourceType() {
@@ -198,7 +194,4 @@ public abstract class  DepositSlot {
         return bufferContainer;
     }
 
-    public void setBufferContainer(ResourceContainer bufferContainer) {
-        this.bufferContainer = bufferContainer;
-    }
 }

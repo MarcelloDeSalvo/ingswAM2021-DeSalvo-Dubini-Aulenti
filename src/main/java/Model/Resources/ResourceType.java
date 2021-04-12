@@ -33,29 +33,23 @@ public enum ResourceType {
      */
     public boolean addToVault(ResourceContainer container, Vault vault){
 
-        if(container.getResourceType().canAddToVault() != true )
+        if(!container.getResourceType().canAddToVault())
             return false;
 
-        if (vault.addToVault(container))
-            return true;
-        else
-            return false;
+        return vault.addToVault(container);
     }
 
     /**
      * Adds a container to a Deposit
      * @param container is the input container
-     * @param depositslot is the destination
+     * @param depositSlot is the destination
      * @return true if the resource has the permission
      */
-    public boolean addToDeposit (ResourceContainer container, DepositSlot depositslot) {
-        if(container.getResourceType().canAddToDeposit() != true)
+    public boolean addToDeposit (ResourceContainer container, DepositSlot depositSlot) {
+        if(!container.getResourceType().canAddToDeposit())
             return false;
 
-        if (depositslot.addToDepositSlot(new ResourceContainer(container.getResourceType(), 1)))
-            return true;
-        else
-            return false;
+        return depositSlot.addToDepositSlot(new ResourceContainer(container.getResourceType(), 1));
     }
 
     /**
@@ -64,10 +58,7 @@ public enum ResourceType {
      * @return true if the resource has the permission
      */
     public boolean addToFaithPath (ResourceContainer container){
-        if(container.getResourceType().canAddToFaithPath() != true )
-            return false;
-
-        return true;
+        return container.getResourceType().canAddToFaithPath();
     }
 
     public boolean canAddToVault() {

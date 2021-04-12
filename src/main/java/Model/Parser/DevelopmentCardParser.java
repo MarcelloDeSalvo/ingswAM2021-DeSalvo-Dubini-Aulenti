@@ -1,10 +1,8 @@
 package Model.Parser;
 
 import Model.Cards.DevelopmentCard;
-import Model.Deck;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 
 import java.io.*;

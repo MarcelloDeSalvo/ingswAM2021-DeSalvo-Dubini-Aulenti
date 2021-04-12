@@ -53,16 +53,12 @@ public class BaseProductionSlot implements ProductionSlot {
 
     @Override
     public boolean fillQuestionMarkInput(ResourceType resourceType) throws NullPointerException,IllegalArgumentException{
-        if(resourceType!= null &&  input.add(new ResourceContainer(resourceType, 1)))
-            return true;
-        return false;
+        return resourceType != null && input.add(new ResourceContainer(resourceType, 1));
     }
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType resourceType) throws NullPointerException,IllegalArgumentException{
-        if(resourceType!= null &&  output.add(new ResourceContainer(resourceType, 1)))
-            return true;
-        return false;
+        return resourceType != null && output.add(new ResourceContainer(resourceType, 1));
     }
 
     @Override
