@@ -73,7 +73,6 @@ public class LeaderDepositSlot extends DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIWantToTransfer
      * @return true if the LeaderDeposit can transfer his resources with another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
@@ -87,10 +86,7 @@ public class LeaderDepositSlot extends DepositSlot {
             throw new DifferentResourceType("Not the same type");
 
         ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIWantToTransfer);
-        if (destination.canAddToDepositSlot(send))
-            return true;
-
-        return false;
+        return destination.canAddToDepositSlot(send);
     }
 
     /**
@@ -99,7 +95,7 @@ public class LeaderDepositSlot extends DepositSlot {
      * @return false because the LeaderDeposit (by default) can only store one ResourceType
      */
     @Override
-    public boolean canSwitchWith(DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored{
+    public boolean canSwitchWith(DepositSlot destination){
         return false;
     }
 

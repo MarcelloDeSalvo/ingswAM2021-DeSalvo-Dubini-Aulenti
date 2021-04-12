@@ -42,12 +42,9 @@ public class Util {
 
     /**
      * Converts a list into a map
-     * @param tempProductionInput
-     * @param map
-     * @return true
      */
-    public static boolean arraylistToMap (ArrayList<ResourceContainer> tempProductionInput, HashMap<ResourceType, ResourceContainer> map){
-        Iterator<ResourceContainer> iterator= tempProductionInput.iterator();
+    public static boolean arraylistToMap (ArrayList<ResourceContainer> list, HashMap<ResourceType, ResourceContainer> map){
+        Iterator<ResourceContainer> iterator= list.iterator();
         ResourceContainer current;
         while(iterator.hasNext()){
             current=iterator.next();
@@ -62,21 +59,13 @@ public class Util {
 
     /**
      * Converts a list to a Map
-     * @param tempProductionInput
      * @return a Map containing the converted list
      */
-    public static HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> tempProductionInput) {
+    public static HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> list) {
         HashMap<ResourceType, ResourceContainer> map = new HashMap<>();
-        Iterator<ResourceContainer> iterator = tempProductionInput.iterator();
-        ResourceContainer current;
-        while (iterator.hasNext()) {
-            current = iterator.next();
-            if (isPresent(current.getResourceType(), map)) {
-                map.get(current.getResourceType()).addQty(current.getQty());
-            } else
-                map.put(current.getResourceType(), new ResourceContainer(current.getResourceType(), current.getQty()));
-        }
-        return map;
+        if (arraylistToMap(list, map))
+            return map;
+        return null;
     }
 
     /**

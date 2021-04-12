@@ -66,10 +66,10 @@ public class Deposit {
      * @param selectedQty is the resource quantity that the user wants to move
      * @param destination is the deposit where the user wants the resources to be placed
      * @return true if transfer or switch deposit ends without exceptions
-     * @throws DepositSlotMaxDimExceeded
-     * @throws DifferentResourceType
-     * @throws NotEnoughResources
-     * @throws ResourceTypeAlreadyStored
+     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
+     * @throws DifferentResourceType if the selected slot has some ResourceType restrictions
+     * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
+     * @throws ResourceTypeAlreadyStored if another default deposit is already storing the same resource type
      */
     public boolean moveTo(DepositSlot selected, int selectedQty, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
 
@@ -90,9 +90,9 @@ public class Deposit {
      * @param selectedQta is the resource quantity that the user wants to move
      * @param destination is the deposit where the user wants the resources to be placed
      * @return true if the user chose a legit quantity from the selected deposit that can fits in the target deposit
-     * @throws DepositSlotMaxDimExceeded
-     * @throws DifferentResourceType
-     * @throws NotEnoughResources
+     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
+     * @throws DifferentResourceType if the selected slot has some ResourceType restrictions
+     * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      */
     public boolean canTransferDeposit(DepositSlot selected, int selectedQta, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
         return selected.canTransferTo(destination, selectedQta);
@@ -103,8 +103,8 @@ public class Deposit {
      * @param selected is the one selected by the user
      * @param destination is the deposit that will switch resources with the selected one
      * @return true if the Deposit's type can switch his resources with another generic deposit
-     * @throws DepositSlotMaxDimExceeded
-     * @throws ResourceTypeAlreadyStored
+     * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
+     * @throws ResourceTypeAlreadyStored if another default deposit is already storing the same resource type
      */
     public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
         return selected.canSwitchWith(destination) && destination.canSwitchWith(selected);
@@ -165,7 +165,6 @@ public class Deposit {
     /**
      * Called when a transaction (buy or produce) can be completed without problems
      * Ends a transaction
-     * @return
      */
     public boolean removeAllBuffers(){
         for (DepositSlot ds: depositList) {
@@ -177,7 +176,6 @@ public class Deposit {
 
     /**
      * Clears all the buffers
-     * @return
      */
     public boolean clearBuffer(){
         for (DepositSlot ds: depositList) {
@@ -187,19 +185,16 @@ public class Deposit {
         return true;
     }
 
+    //getter and setter
     public ArrayList<DepositSlot> getDepositList() {
         return depositList;
     }
-
-
     public int getDefaultDepositNumber() {
         return defaultDepositNumber;
     }
-
     public void setDefaultDepositNumber(int defaultDepositNumber) {
         this.defaultDepositNumber = defaultDepositNumber;
     }
-
     public int getPyramidMaxCells() {
         return pyramidMaxCells;
     }

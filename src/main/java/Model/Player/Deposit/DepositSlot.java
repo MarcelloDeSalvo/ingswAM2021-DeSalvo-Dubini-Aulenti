@@ -27,7 +27,6 @@ public abstract class  DepositSlot {
 
     /**
      * It's the function that gives the permission to add or not to the Controller
-     * @param inputContainer
      * @return true if he can add the resources
      * @throws DifferentResourceType when there is a ResourceType mismatch
      * @throws DepositSlotMaxDimExceeded when it would add too many resources
@@ -37,14 +36,12 @@ public abstract class  DepositSlot {
     /**
      * adds the quantity from a resourceContainer in any case.
      * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
-     * @param inputContainer
      * @return true if there were no errors
      */
     public abstract boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;
 
     /**
      * It's the function that gives the permission to remove or not to the Controller
-     * @param inputContainer
      * @return true if he can
      */
     public abstract boolean addToDepositSlot(ResourceContainer inputContainer);
@@ -52,7 +49,6 @@ public abstract class  DepositSlot {
     /**
      * removes the quantity from a resourceContainer
      * It needs to be called after CanRemoveFromDepositSlot if the user wants to follow the rules
-     * @param inputContainer
      * @return true if there were no exceptions
      */
     public abstract boolean removeFromDepositSlot(ResourceContainer inputContainer);
@@ -60,7 +56,6 @@ public abstract class  DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIWantToSwitch
      * @return true if the selected deposit can transfer his resources to another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
@@ -82,7 +77,6 @@ public abstract class  DepositSlot {
      * Transfer a desired quantity from one deposit to another one
      * Sets the target deposit's ResourceType equal as this ResourceType
      * @param destination is the deposit where the user wants the resources to be placed
-     * @param quantityThatIWantToTransfer
      * @return true
      */
     public boolean transferTo(DepositSlot destination, int quantityThatIWantToTransfer){
@@ -118,8 +112,6 @@ public abstract class  DepositSlot {
      * Adds an input to the buffer that handles one transaction
      * It is called when the user decides to buy one card or to produce:
      * it adds the price or the input requirement for the production to the buffer after the canRemove(price/productionInput)
-     * @param inputContainer
-     * @return
      */
     public boolean addToBuffer(ResourceContainer inputContainer){
         int quantityThatIWantToAdd = inputContainer.getQty();
@@ -132,7 +124,6 @@ public abstract class  DepositSlot {
 
     /**
      * Subtracts the quantity value of the buffer from the original container
-     * @return
      */
     public boolean removeTheBuffer(){
         this.removeFromDepositSlot(bufferContainer);
@@ -141,7 +132,6 @@ public abstract class  DepositSlot {
 
     /**
      * Clears all the buffers
-     * @return
      */
     public boolean clearCurrentBuffer(){
         bufferContainer.setResourceType(null);

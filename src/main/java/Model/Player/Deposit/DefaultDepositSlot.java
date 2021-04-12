@@ -78,7 +78,6 @@ public class DefaultDepositSlot extends DepositSlot {
     /**
      * gives the controller the permission to move a desired quantity from one deposit to another
      * @param destination is the deposit where the user wants the resources to be moved
-     * @param quantityThatIWantToTransfer
      * @return true if the Default Deposit can transfer his resources with another generic deposit
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
@@ -89,10 +88,7 @@ public class DefaultDepositSlot extends DepositSlot {
             throw  new NotEnoughResources("Not enough resources");
 
         ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIWantToTransfer);
-        if(destination.canAddToDepositSlot(send))
-            return true;
-
-        return false;
+        return destination.canAddToDepositSlot(send);
     }
 
     @Override
@@ -109,11 +105,10 @@ public class DefaultDepositSlot extends DepositSlot {
      * Gives the controller the permission to switch a desired quantity from one deposit to another
      * @param destination is the deposit that will switch resources with the selected one
      * @return true if the Default Deposit can switch his resources with another generic deposit
-     * @throws ResourceTypeAlreadyStored if the user wants to move already stored ResourceTypes
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      */
     @Override
-    public boolean canSwitchWith(DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored{
+    public boolean canSwitchWith(DepositSlot destination) throws DepositSlotMaxDimExceeded{
         int allResources = this.getResourceQty();
 
         if(allResources> destination.getMaxDim())
@@ -151,7 +146,6 @@ public class DefaultDepositSlot extends DepositSlot {
     //private methods
     /**
      * Checks if the input ResourceType is already stored inside some other Default Deposit
-     * @param inputResType
      * @return true if it is
      */
     private boolean isTheResourceTypeAlreadyTaken(ResourceType inputResType){
@@ -159,12 +153,9 @@ public class DefaultDepositSlot extends DepositSlot {
         if(inputResType == this.getDepositResourceType())
             return false;
 
-        if(!getNotAvailableResourceType().contains(inputResType))
-            return false;
+        return getNotAvailableResourceType().contains(inputResType);
 
         //getHashSetData(); // -------------> Da rimuovere, solo per testing
-
-        return true;
     }
 
 
