@@ -17,7 +17,7 @@ public class ConversionAbility implements Ability {
      */
     @Override
     public boolean useAbility(PlayerBoard playerBoard) {
-        playerBoard.getConvertionSite().addConversion(new ResourceContainer(output, 1));
+        playerBoard.getConversionSite().addConversion(new ResourceContainer(output, 1));
         return true;
     }
 

@@ -100,7 +100,6 @@ public class ProductionSite {
 
     /**
      * clears the current buffers
-     * @return
      */
     public boolean clearBuffers(){
         bufferInputMap.clear();

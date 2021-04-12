@@ -138,7 +138,6 @@ public class PlayerBoard {
     /**
      * The method adds the buffers from each DepositSlot in Deposit
      * if the element is already present in the HashMap it simply adds the qty, otherwise it creates a new element in the HashMap
-     * @param bufferMap
      */
     private void addDepositBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
         for (DepositSlot ds: deposit.getDepositList()) {
@@ -157,7 +156,6 @@ public class PlayerBoard {
     /**
      * The method adds the buffers from Vault
      * if the element is already present in the HashMap it simply adds the qty, otherwise it creates a new element in the HashMap
-     * @param bufferMap
      */
     private void addVaultBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
         for (ResourceContainer rc: vault.getBufferList()) {
@@ -197,6 +195,24 @@ public class PlayerBoard {
         return null;
     }
 
+    /**
+     *Adds a resourceContainer to the defaultDeposit with dimension dim
+     */
+    public boolean addResourceToDefaultDepositWithDim(ResourceContainer myContainer,Deposit deposit, int dim){
+       return( deposit.getDefaultSlot_WithDim(dim).addToDepositSlot(myContainer));
+
+    }
+
+    /**
+     *Adds a resourceContainer to the depositLeader number x. We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.
+     */
+    public boolean addResourceToLeaderDepositNumberX(ResourceContainer myContainer,Deposit deposit, int x){
+        if(x>0)
+            return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x).addToDepositSlot(myContainer));
+        return false;
+    }
+
+
     public Deposit getDeposit() {
         return deposit;
     }
@@ -209,7 +225,7 @@ public class PlayerBoard {
         return productionSite;
     }
 
-    public ConversionSite getConvertionSite() {
+    public ConversionSite getConversionSite() {
         return conversionSite;
     }
 

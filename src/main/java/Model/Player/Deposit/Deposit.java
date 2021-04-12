@@ -19,8 +19,7 @@ public class Deposit {
     private final ArrayList<DepositSlot> depositList;
 
     /**
-     * Player's deposit number.
-     * By default it's 3
+     * Player's DefaultDeposit number which is 3 by default.
      */
     private int defaultDepositNumber;
 

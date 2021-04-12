@@ -27,10 +27,8 @@ public class Vault {
      * @return true
      */
     public boolean addToVault(ArrayList<ResourceContainer> inputArr) {
-        Iterator<ResourceContainer> iter = inputArr.iterator();
 
-        while(iter.hasNext())
-            addToVault(iter.next());
+        for (ResourceContainer resourceContainer : inputArr) addToVault(resourceContainer);
 
         return true;
     }
@@ -38,7 +36,6 @@ public class Vault {
     /**
      * if a container for a specific ResourceType already exists, the method simply adds the quantity to it
      * otherwise it creates the relative ResourceType key element in the HashMap
-     * @param container
      * @return true
      */
     public boolean addToVault(ResourceContainer container) {
@@ -58,12 +55,7 @@ public class Vault {
     public boolean removeFromVault(){
         if(bufferList == null)
             return false;
-
-        Iterator<ResourceContainer> iter = bufferList.iterator();
-
-        while(iter.hasNext())
-            removeFromVault(iter.next());
-
+        for (ResourceContainer resourceContainer : bufferList) removeFromVault(resourceContainer);
         return true;
     }
 

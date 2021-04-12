@@ -1,7 +1,5 @@
 package Model.Cards;
 
-import Model.Exceptions.InvalidColumnNumber;
-import Model.Exceptions.MultipleConversionsActive;
 import Model.Market;
 import Model.Parser.LeaderCardParser;
 import Model.Parser.MarketSetUpParser;
@@ -9,16 +7,14 @@ import Model.Player.Player;
 import Model.Player.PlayerBoard;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
-import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
-import java.util.Random;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,9 +38,9 @@ class ConversionAbilityTest {
     void conversionAbility_1(){
 
         assertTrue(leaderCards.get(12).executeAbility(p_playerBoard));
-        assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().size(), 1);
-        assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().get(0).getQty(), 1);
-        assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().get(0).getResourceType(), ResourceType.MINION);
+        assertEquals(p_playerBoard.getConversionSite().getConversionsAvailable().size(), 1);
+        assertEquals(p_playerBoard.getConversionSite().getConversionsAvailable().get(0).getQty(), 1);
+        assertEquals(p_playerBoard.getConversionSite().getConversionsAvailable().get(0).getResourceType(), ResourceType.MINION);
     }
 
     @Test
@@ -53,8 +49,8 @@ class ConversionAbilityTest {
         assertTrue(leaderCards.get(12).executeAbility(p_playerBoard));
         assertTrue(leaderCards.get(15).executeAbility(p_playerBoard));
 
-        assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().size(), 2);
-        assertEquals(p_playerBoard.getConvertionSite().getConversionsAvailable().get(1).getResourceType(), ResourceType.GOLD);
+        assertEquals(p_playerBoard.getConversionSite().getConversionsAvailable().size(), 2);
+        assertEquals(p_playerBoard.getConversionSite().getConversionsAvailable().get(1).getResourceType(), ResourceType.GOLD);
     }
 
 

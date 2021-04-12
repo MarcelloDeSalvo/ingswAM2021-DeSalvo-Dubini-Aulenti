@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 public class BaseProductionSlot implements ProductionSlot {
 
-    private ArrayList<ResourceContainer> input;
-    private ArrayList<ResourceContainer> output;
-    private int QMI;
-    private int QMO;
+    private final ArrayList<ResourceContainer> input;
+    private final ArrayList<ResourceContainer> output;
+    private final int QMI;
+    private final int QMO;
 
 
     public BaseProductionSlot() {

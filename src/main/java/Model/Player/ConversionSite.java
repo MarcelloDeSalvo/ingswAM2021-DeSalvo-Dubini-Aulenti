@@ -21,7 +21,6 @@ public class ConversionSite {
 
     /**
      * This method adds a conversion  to the list of the ones available.
-     * @param inputConversion
      * @return false if the argument is null, true otherwise.
      */
     public boolean addConversion (ResourceContainer inputConversion){
@@ -51,7 +50,6 @@ public class ConversionSite {
 
     /**
      * Method called for conversion when there's only one a single conversion available, thus no choice by the user is needed.
-     * @param marketOutput
      * @return The converted input array
      */
     public boolean convert(ArrayList<ResourceContainer> marketOutput){
@@ -70,9 +68,6 @@ public class ConversionSite {
 
     /**
      * converts an input ResourceContainer into another one (possibly taken from availableConversions)
-     * @param input
-     * @param chosenConversion
-     * @return
      */
     public boolean convertSingleBlank (ResourceContainer input,ResourceContainer chosenConversion){
         input.setQty(chosenConversion.getQty());
