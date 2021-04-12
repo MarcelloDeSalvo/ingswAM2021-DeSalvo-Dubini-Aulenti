@@ -72,5 +72,21 @@ public class BaseProduction implements ProductionSlot {
     public boolean insertOnTop(DevelopmentCard newDevelopmentCard) {
         return false;
     }
+
+    public ArrayList<ResourceContainer> getInput() {
+        return input;
+    }
+
+    public ArrayList<ResourceContainer> getOutput() {
+        return output;
+    }
+
+    public int getQMI() {
+        return QMI;
+    }
+
+    public int getQMO() {
+        return QMO;
+    }
 }
 

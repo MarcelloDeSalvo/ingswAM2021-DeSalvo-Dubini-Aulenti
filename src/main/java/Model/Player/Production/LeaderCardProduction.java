@@ -91,15 +91,14 @@ public class LeaderCardProduction implements ProductionSlot {
 
     //getter and setter
 
-    public int getQuestionMarkOnInput() {
+
+    @Override
+    public int getQMI() {
         return questionMarkOnInput;
     }
 
-    public void setQuestionMarkOnInput(int questionMarkOnInput) {
-        this.questionMarkOnInput = questionMarkOnInput;
-    }
-
-    public int getQuestionMarkOnOut() {
+    @Override
+    public int getQMO() {
         return questionMarkOnOut;
     }
 

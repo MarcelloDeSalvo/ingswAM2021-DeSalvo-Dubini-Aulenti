@@ -184,21 +184,11 @@ public class PlayerBoard {
     }
 
 
-    public ProductionSlot getProductionSlotByID(int n) throws IndexOutOfBoundsException{
-        return productionSite.getProductionSlotByID(n);
-
-    }
-
-    public DepositSlot getDepositSlotByID(int n){
-        if (n>=0 && n< deposit.getDepositList().size())
-            return deposit.getDepositList().get(n);
-        return null;
-    }
 
     /**
      *Adds a resourceContainer to the defaultDeposit with dimension dim
      */
-    public boolean addResourceToDefaultDepositWithDim(ResourceContainer myContainer,Deposit deposit, int dim){
+    public boolean addResourceToDefaultDepositWithDim(int dim, ResourceContainer myContainer){
        return( deposit.getDefaultSlot_WithDim(dim).addToDepositSlot(myContainer));
 
     }
@@ -206,11 +196,15 @@ public class PlayerBoard {
     /**
      *Adds a resourceContainer to the depositLeader number x. We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.
      */
-    public boolean addResourceToLeaderDepositNumberX(ResourceContainer myContainer,Deposit deposit, int x){
+    public boolean addResourceToLeaderDepositNumberX( int x, ResourceContainer myContainer){
         if(x>0 && deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1)!=null)
             return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1).addToDepositSlot(myContainer));
         return false;
     }
+
+
+
+    //getter and setter
 
     /**
      *Adds a resourceContainer to the depositLeader number x. We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.
@@ -225,6 +219,17 @@ public class PlayerBoard {
     public DepositSlot getLeaderDepositNumberX(int x){
         if(x>0 && deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1)!=null)
             return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1));
+        return null;
+    }
+
+    public ProductionSlot getProductionSlotByID(int n) throws IndexOutOfBoundsException{
+        return productionSite.getProductionSlotByID(n);
+
+    }
+
+    public DepositSlot getDepositSlotByID(int n){
+        if (n>=0 && n< deposit.getDepositList().size())
+            return deposit.getDepositList().get(n);
         return null;
     }
 

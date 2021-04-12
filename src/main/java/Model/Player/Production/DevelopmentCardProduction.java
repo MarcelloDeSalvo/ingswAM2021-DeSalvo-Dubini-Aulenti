@@ -123,5 +123,15 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return false;
     }
 
+    @Override
+    public int getQMI() {
+        return 0;
+    }
+
+    @Override
+    public int getQMO() {
+        return 0;
+    }
+
     //---------------------------------------------------------------------------------
 }

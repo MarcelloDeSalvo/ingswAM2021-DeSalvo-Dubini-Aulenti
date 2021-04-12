@@ -56,4 +56,18 @@ public interface ProductionSlot {
      */
      boolean insertOnTop(DevelopmentCard newDevelopmentCard);
 
+    /**
+     * gets the number of question marks inside the input
+     * @return the number of question marks
+     */
+     int getQMI();
+
+
+    /**
+     * gets the number of question marks inside the output
+     * @return the number of question marks
+     */
+     int getQMO();
+
+
 }
