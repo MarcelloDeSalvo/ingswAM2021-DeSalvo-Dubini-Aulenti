@@ -23,7 +23,7 @@ class MarketTest {
     void marketConstructor(){
 
         Market market=new Market(marblesMarket);
-        market.stampaMarket();
+        market.printMarket();
     }
 
     @Test
@@ -99,7 +99,6 @@ class MarketTest {
         ResourceType num1=market.getMarketCell(0,0).getResourceType();
         ResourceType num2=market.getMarketCell(1,0).getResourceType();
         ResourceType num3=market.getMarketCell(2,0).getResourceType();
-        ResourceType num4=market.getMarketCell(0,0).getResourceType();
         ResourceType num5=market.getVacant().getResourceType();
         assertAll(()->market.getColumn(1));
 
@@ -111,7 +110,7 @@ class MarketTest {
         num1=market.getMarketCell(0,0).getResourceType();
         num2=market.getMarketCell(0,1).getResourceType();
         num3=market.getMarketCell(0,2).getResourceType();
-        num4=market.getMarketCell(0,3).getResourceType();
+        ResourceType num4=market.getMarketCell(0,3).getResourceType();
         num5=market.getVacant().getResourceType();
 
         assertAll(()->market.getRow(1));
@@ -125,7 +124,6 @@ class MarketTest {
         num1=market.getMarketCell(0,3).getResourceType();
         num2=market.getMarketCell(1,3).getResourceType();
         num3=market.getMarketCell(2,3).getResourceType();
-        num4=market.getMarketCell(0,3).getResourceType();
         num5=market.getVacant().getResourceType();
         assertAll(()->market.getColumn(4));
 

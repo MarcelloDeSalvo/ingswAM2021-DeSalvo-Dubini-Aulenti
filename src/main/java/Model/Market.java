@@ -83,7 +83,7 @@ public class Market {
 
 
     //PRINT METHODS----------(Only for testing purposes)----------------------------------------------------------------
-    public void stampaMarket(){
+    public void printMarket(){
         for(int i=0; i<rows;i++) {
             for (int j = 0; j < columns; j++) {
                 System.out.print(market[j][i].getResourceType() + "   |   ");
