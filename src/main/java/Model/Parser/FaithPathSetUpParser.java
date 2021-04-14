@@ -22,13 +22,14 @@ public class FaithPathSetUpParser {
      * @return An initialized faithpath without players
      * @throws FileNotFoundException
      */
-    public static FaithPath deserializeFaithPathSetUp() throws FileNotFoundException {
+    public static FaithPath deserializeFaithPathSetUp(int numberOfP) throws FileNotFoundException {
         String path = "src/main/resources/Json/FaithPathSetUp.json";
         Gson gson = new Gson();
 
         Reader reader = new FileReader(path);
-        FaithPath setUp = gson.fromJson(reader, FaithPath.class);
 
+        FaithPath setUp = gson.fromJson(reader, FaithPath.class);
+        setUp.setNumberOfPlayers(numberOfP);
         return setUp;
     }
 

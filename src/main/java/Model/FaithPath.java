@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class FaithPath implements ObserverFaithPath, ObservableEndGame {
+    private int numberOfPlayers;
     private int currentPlayer;
     private ArrayList<Integer> positions;
     private int length;
@@ -18,7 +19,6 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         this.vaticanReports=vaticanReports;
         this.victoryPoints=victoryPoints;
         this.papalFavours=papalFavours;
-
         this.positions = new ArrayList<>();
         this.observersEndGame = new ArrayList<>();
 
@@ -86,6 +86,13 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         return papalFavours;
     }
 
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
     //------------------------------------------------------------------------------------------------------------------
 }
 
