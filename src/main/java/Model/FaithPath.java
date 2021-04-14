@@ -49,6 +49,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         if(vaticanReports.get(positions.get(currentPlayer)) == 'P')
             return true;
         return false;
+
     }
 
     public boolean activatePapalFavour(){
