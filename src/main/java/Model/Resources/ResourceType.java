@@ -22,7 +22,7 @@ public enum ResourceType implements ObservableFaithPath {
     private final boolean canAddToDeposit;
     private final boolean canAddToFaithPath;
 
-    ArrayList<ObserverFaithPath> observers = new ArrayList<>();
+    static ArrayList<ObserverFaithPath> observers = new ArrayList<>();
 
     ResourceType(boolean canAddToVault, boolean canAddToDeposit, boolean canAddToFaithPath){
         this.canAddToVault = canAddToVault;
@@ -101,11 +101,16 @@ public enum ResourceType implements ObservableFaithPath {
 
     @Override
     public void notifyFaithPath(int faithPoints) {
-        for (ObserverFaithPath observer : this.observers) {
+        for (ObserverFaithPath observer : observers) {
             observer.update(faithPoints);
         }
     }
     //------------------------------------------------------------------------------------------------------------------
+
+
+    public ArrayList<ObserverFaithPath> getObservers() {
+        return observers;
+    }
 }
 
 
