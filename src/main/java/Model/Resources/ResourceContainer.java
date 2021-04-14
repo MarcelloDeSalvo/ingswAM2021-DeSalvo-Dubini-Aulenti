@@ -1,6 +1,13 @@
 package Model.Resources;
 
-public class ResourceContainer {
+import Model.ObservableFaithPath;
+import Model.ObserverFaithPath;
+import Model.Player.Deposit.DepositSlot;
+import Model.Player.Vault;
+
+import java.util.ArrayList;
+
+public class ResourceContainer implements ObservableFaithPath {
 
     private ResourceType resourceType;
 
@@ -8,6 +15,8 @@ public class ResourceContainer {
      * Quantity of resources inside the container
      */
     private int qty;
+
+    static ArrayList<ObserverFaithPath> observers = new ArrayList<>();
 
     public ResourceContainer(ResourceType resourceType, int qty) throws ArithmeticException {
 
@@ -47,6 +56,69 @@ public class ResourceContainer {
 
 
 
+    //MOVING RESOURCES AROUND-------------------------------------------------------------------------------------------
+    /**
+     * Adds the container to a Vault
+     * @param vault is the destination
+     * @return true if the resource has the permission
+     */
+    public boolean addToVault(Vault vault){
+        if(!this.getResourceType().canAddToVault())
+            return false;
+
+        return vault.addToVault(this);
+    }
+
+    /**
+     * Adds the container to a Deposit
+     * @param depositSlot is the destination
+     * @return true if the resource has the permission
+     */
+    public boolean addToDeposit (DepositSlot depositSlot) {
+        if(!this.getResourceType().canAddToDeposit())
+            return false;
+
+        return depositSlot.addToDepositSlot(this);
+    }
+
+    /**
+     * Increments the current player position by notifying FaithPath with an Observer
+     * @return true if the resource has the permission
+     */
+    public boolean addToFaithPath (){
+        if(this.getResourceType().canAddToFaithPath()) {
+            notifyFaithPath(this.getQty());
+            return true;
+        }
+        else
+            return false;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+    //OBSERVER METHODS--------------------------------------------------------------------------------------------------
+    @Override
+    public void addObserver(ObserverFaithPath observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(ObserverFaithPath observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyFaithPath(int faithPoints) {
+        for (ObserverFaithPath observer : observers) {
+            observer.update(faithPoints);
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ResourceType getResourceType() {
         return resourceType;
@@ -66,7 +138,12 @@ public class ResourceContainer {
         else
             this.qty = qty;
     }
+
+    public ArrayList<ObserverFaithPath> getObservers() {
+        return observers;
+    }
     //------------------------------------------------------------------------------------------------------------------
+
 
 
     //JAVA-------------------------------------------------------------------------------------------------------------
