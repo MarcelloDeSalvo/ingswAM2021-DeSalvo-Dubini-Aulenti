@@ -48,11 +48,11 @@ public class Util {
 
     //CHECKS------------------------------------------------------------------------------------------------------------
     /**
-     * checks if a specific ResourceType is present in the HashMap
+     * Checks if a specific ResourceType is present in the HashMap
      * @param type is the key that will be used to check in the HashMap
      * @return true if present, false otherwise
      */
-    public static boolean isPresent(ResourceType type, HashMap<ResourceType, ResourceContainer> map){
+    public static <T> boolean isPresent(ResourceType type, HashMap<ResourceType, T> map){
         return map.containsKey(type);
     }
     //------------------------------------------------------------------------------------------------------------------

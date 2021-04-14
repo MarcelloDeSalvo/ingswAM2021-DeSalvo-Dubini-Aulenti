@@ -2,6 +2,7 @@ package Model.Player;
 
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
+import Model.Util;
 
 import java.util.HashMap;
 
@@ -24,16 +25,12 @@ public class DiscountSite {
     public boolean addDiscount(ResourceContainer resourceContainer) {
         ResourceType currType = resourceContainer.getResourceType();
 
-        if(isPresent(currType))
+        if(Util.isPresent(currType, discountMap))
             discountMap.replace(currType, discountMap.get(currType) + resourceContainer.getQty());
         else
             discountMap.put(currType, resourceContainer.getQty());
 
         return true;
-    }
-
-    private boolean isPresent(ResourceType type){
-        return discountMap.containsKey(type);
     }
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +42,7 @@ public class DiscountSite {
      * @return 0 if the element is absent, the correct value otherwise
      */
     public int getDiscount(ResourceType resourceType) {
-        if(!isPresent(resourceType))
+        if(!Util.isPresent(resourceType, discountMap))
             return 0;
         else
             return discountMap.get(resourceType);
