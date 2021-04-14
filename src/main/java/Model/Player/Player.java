@@ -3,6 +3,7 @@ package Model.Player;
 import Model.Cards.DevelopmentCard;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
+import Model.ObserverEndGame;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 

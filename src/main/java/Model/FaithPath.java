@@ -8,4 +8,7 @@ public class FaithPath {
     private ArrayList<Integer> victoryPoints;
     private int papalFavourCounter;
 
+    public FaithPath() {
+        this.positions = new ArrayList<>();
+    }
 }
