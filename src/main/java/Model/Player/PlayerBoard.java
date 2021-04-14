@@ -217,7 +217,7 @@ public class PlayerBoard implements ObservableEndGame {
 
     /**
      * Calls the notifyEndGame() when: <br>
-     *     -The current Player buys his seventh development card (Standard Rules)
+     *     -The current Player buys his seventh development card (Standard Rules) <br>
      *     -The current Player buys his [totalDevCardsForWinning] development card (Custom Rules)
      */
     private void victoryConditions(){
