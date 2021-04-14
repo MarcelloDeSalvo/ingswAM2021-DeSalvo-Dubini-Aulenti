@@ -12,9 +12,16 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     private ArrayList<ObserverEndGame> observersEndGame;
     private ArrayList<Integer> papalFavours;
 
-    public FaithPath() {
+    public FaithPath(int length, ArrayList<Character> vaticanReports, ArrayList<Integer> victoryPoints,ArrayList<Integer> papalFavours){
+        this.currentPlayer=0;
+        this.length=length;
+        this.vaticanReports=vaticanReports;
+        this.victoryPoints=victoryPoints;
+        this.papalFavours=papalFavours;
+
         this.positions = new ArrayList<>();
         this.observersEndGame = new ArrayList<>();
+
     }
 
 
@@ -58,6 +65,27 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
+
+    public int getLength() {
+        return length;
+    }
+
+    public ArrayList<Character> getVaticanReports() {
+        return vaticanReports;
+    }
+
+    public ArrayList<Integer> getPositions() {
+        return positions;
+    }
+
+    public ArrayList<Integer> getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public ArrayList<Integer> getPapalFavours() {
+        return papalFavours;
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 }
 
