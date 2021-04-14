@@ -3,7 +3,6 @@ package Model.Player;
 import Model.Cards.DevelopmentCard;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
-import Model.ObserverEndGame;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 
@@ -12,15 +11,28 @@ import java.util.ArrayList;
 public class Player {
     private String nickname;
     private PlayerBoard playerBoard;
+    private int orderID;
 
     public Player(String nickname) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
     }
 
+    public Player(String nickname,int orderID) {
+        this.nickname = nickname;
+        this.playerBoard = new PlayerBoard(3,3);
+        this.orderID = orderID;
+    }
+
     public Player(String nickname, int pyramidHeight, int prodSlotNum) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
+    }
+
+    public Player(String nickname, int pyramidHeight, int prodSlotNum, int orderID) {
+        this.nickname = nickname;
+        this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
+        this.orderID = orderID;
     }
 
 
@@ -87,6 +99,14 @@ public class Player {
 
     public void setPlayerBoard(PlayerBoard playerBoard) {
         this.playerBoard = playerBoard;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
     //------------------------------------------------------------------------------------------------------------------
 

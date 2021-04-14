@@ -62,7 +62,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     @Override
     public void notifyEndGame() {
         for (ObserverEndGame observer : this.observersEndGame) {
-            observer.update(true);
+            observer.update();
         }
     }
 

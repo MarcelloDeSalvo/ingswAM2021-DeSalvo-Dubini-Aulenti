@@ -197,7 +197,7 @@ public class PlayerBoard implements ObservableEndGame {
     @Override
     public void notifyEndGame() {
         for (ObserverEndGame observerEndGame: observersEndGame) {
-            observerEndGame.update(true);
+            observerEndGame.update();
         }
     }
 
@@ -220,9 +220,13 @@ public class PlayerBoard implements ObservableEndGame {
      *     -The current Player buys his seventh development card (Standard Rules) <br>
      *     -The current Player buys his [totalDevCardsForWinning] development card (Custom Rules)
      */
-    private void victoryConditions(){
-        if (totalDevCards==totalDevCardsForWinning)
+    public boolean victoryConditions(){
+        if (totalDevCards==totalDevCardsForWinning){
             notifyEndGame();
+            return true;
+        }
+
+        return false;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -333,6 +337,10 @@ public class PlayerBoard implements ObservableEndGame {
 
     public int getTotalDevCards() {
         return totalDevCards;
+    }
+
+    public ArrayList<ObserverEndGame> getObserversEndGame() {
+        return observersEndGame;
     }
     //------------------------------------------------------------------------------------------------------------------
 

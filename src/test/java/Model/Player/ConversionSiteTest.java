@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConversionSiteTest {
 
     @Test
-    void convertTest1 (){
+    void canConvertTest1 (){
         ConversionSite conversionSite= new ConversionSite();
         conversionSite.addConversion(new ResourceContainer(ResourceType.STONE,2));
         ArrayList<ResourceContainer> marketInput= new ArrayList<>();
@@ -33,7 +33,7 @@ class ConversionSiteTest {
     }
 
     @Test
-    void convertTest2 (){
+    void canConvertTest2 (){
         ConversionSite conversionSite= new ConversionSite();
         assertDoesNotThrow(()->conversionSite.canConvert());
         conversionSite.addConversion(new ResourceContainer(ResourceType.STONE,2));
@@ -41,7 +41,6 @@ class ConversionSiteTest {
         ArrayList<ResourceContainer> marketInput= new ArrayList<>();
         assertAll(()->marketInput.add(new ResourceContainer(ResourceType.BLANK,1)));
         assertThrows(MultipleConversionsActive.class, ()->conversionSite.canConvert());
-
     }
 
 }
