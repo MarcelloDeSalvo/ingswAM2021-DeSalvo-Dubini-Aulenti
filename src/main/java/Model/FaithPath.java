@@ -43,10 +43,39 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     }
 
 
+    //FAITHPATH METHODS-------------------------------------------------------------------------------------------------
+
+    public boolean isOnPopeSpace(){
+        if(vaticanReports.get(positions.get(currentPlayer)) == 'P')
+            return true;
+        return false;
+    }
+
+    public boolean activatePapalFavour(){
+        for(int i=0;i<numberOfPlayers-1;i++){
+            //Per assegnare i PapalFavour ai giocatori fai ArrayList di ArrayList e fai .add di quello flippato se va flippato
+
+        }
+
+        return true;
+    }
+
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
     @Override
     public void update(int faithPoints) {
-        positions.set(currentPlayer, positions.get(currentPlayer) + faithPoints);
+        for(int i=0;i<faithPoints;i++){
+            positions.set(currentPlayer, positions.get(currentPlayer) + 1);
+            if(isOnPopeSpace()){
+                activatePapalFavour();
+            }
+            victoryConditions();
+        }
+
     }
 
     /**
@@ -54,7 +83,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      */
     private void victoryConditions() {
         for(int position : this.positions) {
-            if (position >= length-1)
+            if (position == length-1)
                 notifyEndGame();
         }
     }
