@@ -3,6 +3,8 @@ package Model.Player;
 import Model.Cards.DevelopmentCard;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
+import Model.ObservableEndGame;
+import Model.ObserverEndGame;
 import Model.Player.Deposit.Deposit;
 import Model.Player.Deposit.DepositSlot;
 import Model.Player.Production.ProductionSite;
@@ -14,13 +16,16 @@ import Model.Util;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlayerBoard {
+public class PlayerBoard implements ObservableEndGame {
 
     private final Deposit deposit;
     private final Vault vault;
     private final ProductionSite productionSite;
     private final ConversionSite conversionSite;
     private final DiscountSite discountSite;
+    private ArrayList<ObserverEndGame> observersEndGame;
+    private int totalDevCards;
+    private int totalDevCardsForWinning;
 
     public PlayerBoard(int pyramidHeight, int prodSlotNum) {
         this.deposit = new Deposit(pyramidHeight);
@@ -28,6 +33,10 @@ public class PlayerBoard {
         this.productionSite = new ProductionSite(prodSlotNum);
         this.conversionSite = new ConversionSite();
         this.discountSite = new DiscountSite();
+
+        this.observersEndGame = new ArrayList<>();
+        this.totalDevCards = 0;
+        this.totalDevCardsForWinning = 7;
     }
 
 
@@ -101,7 +110,11 @@ public class PlayerBoard {
         int index;
         if(productionSlot != null && productionSite.getProductionSlots().contains(productionSlot)) {
             index = productionSite.getProductionSlots().indexOf(productionSlot);
-            return productionSite.getProductionSlots().get(index).insertOnTop(boughtCard);
+
+            if(productionSite.getProductionSlots().get(index).insertOnTop(boughtCard))
+                totalDevCards++;
+                victoryConditions();
+                return true;
         }
         return false;
     }
@@ -179,6 +192,39 @@ public class PlayerBoard {
     }
     //PRODUCTION PIPELINE END-------------------------------------------------------------------------------------------
 
+
+    //OBSERVER METHODS--------------------------------------------------------------------------------------------------
+    @Override
+    public void notifyEndGame() {
+        for (ObserverEndGame observerEndGame: observersEndGame) {
+            observerEndGame.update(true);
+        }
+    }
+
+    @Override
+    public void addObserver(ObserverEndGame observerEndGame) throws NullPointerException, IllegalArgumentException{
+        if (observerEndGame != null) {
+            observersEndGame.add(observerEndGame);
+        }
+    }
+
+    @Override
+    public void removeObserver(ObserverEndGame observerEndGame) throws NullPointerException, IllegalArgumentException {
+        if(observerEndGame!=null){
+            observersEndGame.remove(observerEndGame);
+        }
+    }
+
+    /**
+     * Calls the notifyEndGame() when: <br>
+     *     -The current Player buys his seventh development card (Standard Rules)
+     *     -The current Player buys his [totalDevCardsForWinning] development card (Custom Rules)
+     */
+    private void victoryConditions(){
+        if (totalDevCards==totalDevCardsForWinning)
+            notifyEndGame();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     //SUPPORT METHODS---------------------------------------------------------------------------------------------------

@@ -1,18 +1,15 @@
 package Model;
 
-import Model.Cards.DevelopmentCard;
-import Model.Parser.DevelopmentCardParser;
+
 import Model.Parser.MarketSetUpParser;
-import Model.Player.Deposit.DepositSlot;
 import Model.Player.Player;
 import Model.Resources.ResourceContainer;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Game {
+public class Game implements ObserverEndGame{
     private int numOfPlayers;
     private ArrayList<Player> playerList;
     private Player currentPlayer;
@@ -41,7 +38,7 @@ public class Game {
     }
 
 
-    //-----------------------------------------------------------------------------------------------------------------
+    //GAME CREATION----------------------------------------------------------------------------------------------------
     public boolean createStandardRules(ArrayList<String> playersNicknames){
 
         playerList = new ArrayList<>();
@@ -66,6 +63,15 @@ public class Game {
         }
         return true;
     }
+    //-----------------------------------------------------------------------------------------------------------------
+
+
+    //OBSERVER METHODS---(end game notify)-----------------------------------------------------------------------------
+    @Override
+    public void update(boolean gameStatus) {
+
+    }
+    //-----------------------------------------------------------------------------------------------------------------
 
 
 }
