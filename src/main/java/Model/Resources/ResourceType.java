@@ -1,9 +1,13 @@
 package Model.Resources;
 
+import Model.ObservableFaithPath;
+import Model.ObserverFaithPath;
 import Model.Player.Deposit.DepositSlot;
 import Model.Player.Vault;
 
-public enum ResourceType {
+import java.util.ArrayList;
+
+public enum ResourceType implements ObservableFaithPath {
     GOLD(true,true,false),
     MINION(true,true,false),
     STONE(true,true,false),
@@ -16,7 +20,9 @@ public enum ResourceType {
      */
     private final boolean canAddToVault;
     private final boolean canAddToDeposit;
-    private final boolean canAddToFaithPath ;
+    private final boolean canAddToFaithPath;
+
+    ArrayList<ObserverFaithPath> observers = new ArrayList<>();
 
     ResourceType(boolean canAddToVault, boolean canAddToDeposit, boolean canAddToFaithPath){
         this.canAddToVault = canAddToVault;
@@ -54,12 +60,17 @@ public enum ResourceType {
     }
 
     /**
-     * Increments the current player position
+     * Increments the current player position by notifying FaithPath with an Observer
      * @param container is the input container
      * @return true if the resource has the permission
      */
     public boolean addToFaithPath (ResourceContainer container){
-        return container.getResourceType().canAddToFaithPath();
+        if(container.getResourceType().canAddToFaithPath()) {
+            notifyFaithPath(container.getQty());
+            return true;
+        }
+        else
+            return false;
     }
 
     public boolean canAddToVault() {
@@ -75,6 +86,26 @@ public enum ResourceType {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
+
+    //OBSERVER METHODS--------------------------------------------------------------------------------------------------
+    @Override
+    public void addObserver(ObserverFaithPath observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(ObserverFaithPath observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyFaithPath(int faithPoints) {
+        for (ObserverFaithPath observer : this.observers) {
+            observer.update(faithPoints);
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }
 
 

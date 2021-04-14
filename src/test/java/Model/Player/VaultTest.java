@@ -30,7 +30,7 @@ class  VaultTest {
     }
 
     @Test
-    void getNotExistingResourceFromVolt(){
+    void getNotExistingResourceFromVault(){
         Vault vault = new Vault();
         assertThrows(NullPointerException.class, ()-> vault.getVaultMap().get(ResourceType.SHIELD).getQty());
         assertEquals(vault.getResourceQuantity(ResourceType.SHIELD),0 );
