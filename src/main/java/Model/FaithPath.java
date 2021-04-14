@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     private int numberOfPlayers;
-    private int currentPlayer;
     private ArrayList<Integer> positions;
     private int length;
     private ArrayList<Character> vaticanReports;
@@ -17,7 +16,6 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      * Main constructor
      */
     public FaithPath(int length, ArrayList<Character> vaticanReports, ArrayList<Integer> victoryPoints,ArrayList<Integer> papalFavours){
-        this.currentPlayer = 0;
         this.length = length;
         this.vaticanReports = vaticanReports;
         this.victoryPoints = victoryPoints;
@@ -46,7 +44,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     //FAITHPATH METHODS-------------------------------------------------------------------------------------------------
 
     public boolean isOnPopeSpace(){
-        if(vaticanReports.get(positions.get(currentPlayer)) == 'P')
+        if(vaticanReports.get(positions.get(Game.currentPlayer)) == 'P')
             return true;
         return false;
 
@@ -70,7 +68,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     @Override
     public void update(int faithPoints) {
         for(int i=0;i<faithPoints;i++){
-            positions.set(currentPlayer, positions.get(currentPlayer) + 1);
+            positions.set(Game.currentPlayer, positions.get(Game.currentPlayer) + 1);
             if(isOnPopeSpace()){
                 activatePapalFavour();
             }
@@ -110,10 +108,6 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
 
 
     //GETTERS AND SETTERS-----------------------------------------------------------------------------------------------
-    public void setCurrentPlayer(int currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
     public int getLength() {
         return length;
     }

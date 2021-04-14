@@ -34,7 +34,6 @@ class ResourceTypeTest {
     @Test
     void observerTest() throws FileNotFoundException {
         FaithPath faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(3);
-        faithPath.setCurrentPlayer(0);
 
         ResourceContainer faithPoint = new ResourceContainer(ResourceType.FAITHPOINT, 1);
         ResourceContainer gold = new ResourceContainer(ResourceType.GOLD, 1);
