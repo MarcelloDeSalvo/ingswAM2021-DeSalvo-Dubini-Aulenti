@@ -1,14 +1,16 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     private int currentPlayer;
     private ArrayList<Integer> positions;
     private int length;
+    private ArrayList<Character> vaticanReports;
     private ArrayList<Integer> victoryPoints;
     private ArrayList<ObserverEndGame> observersEndGame;
-    private int papalFavourCounter;
+    private ArrayList<Integer> papalFavours;
 
     public FaithPath() {
         this.positions = new ArrayList<>();
@@ -58,3 +60,5 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     }
     //------------------------------------------------------------------------------------------------------------------
 }
+
+
