@@ -51,7 +51,5 @@ class DiscountSiteTest {
         assertTrue(discountSite.addDiscount(container3));
         assertTrue(discountSite.addDiscount(container3));
         assertEquals(5, discountSite.getDiscount(container3.getResourceType()));
-
-
     }
 }

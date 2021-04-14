@@ -19,7 +19,7 @@ public class ConversionSite {
 
     public ConversionSite() {
         this.defaultConverted = ResourceType.BLANK;
-        this.conversionsAvailable=new ArrayList<>();
+        this.conversionsAvailable = new ArrayList<>();
     }
 
 
@@ -43,7 +43,7 @@ public class ConversionSite {
      * @return true if there's only one conversion
      * @throws MultipleConversionsActive if there's more than one conversion leader and a choice by the user is required
      */
-    public boolean canConvert ( )  throws  MultipleConversionsActive{
+    public boolean canConvert ()  throws  MultipleConversionsActive{
         switch (conversionsAvailable.size()){
             case 0:
                 return false;
@@ -64,7 +64,7 @@ public class ConversionSite {
         while (iter.hasNext()) {
             current = iter.next();
             if (current.getResourceType() == defaultConverted) {
-                convertSingleBlank(current, conversionsAvailable.get(0));
+                convertSingleElement(current, conversionsAvailable.get(0));
             }
         }
 
@@ -72,9 +72,9 @@ public class ConversionSite {
     }
 
     /**
-     * converts an input ResourceContainer into another one (possibly taken from availableConversions)
+     * Converts an input ResourceContainer into another one (possibly taken from availableConversions)
      */
-    public boolean convertSingleBlank (ResourceContainer input,ResourceContainer chosenConversion){
+    public boolean convertSingleElement (ResourceContainer input, ResourceContainer chosenConversion){
         input.setQty(chosenConversion.getQty());
         input.setResourceType(chosenConversion.getResourceType());
         return true;
