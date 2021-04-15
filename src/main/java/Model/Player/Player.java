@@ -1,8 +1,11 @@
 package Model.Player;
 
 import Model.Cards.DevelopmentCard;
+import Model.Cards.LeaderCard;
+import Model.Cards.Status;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
+import Model.Exceptions.RequirementsNotFulfilled;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 
@@ -10,30 +13,102 @@ import java.util.ArrayList;
 
 public class Player {
     private String nickname;
+    private ArrayList<LeaderCard> hand;
     private PlayerBoard playerBoard;
     private int orderID;
 
     public Player(String nickname) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
+        hand = new ArrayList<>();
     }
 
     public Player(String nickname,int orderID) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
         this.orderID = orderID;
+        hand = new ArrayList<>();
     }
 
     public Player(String nickname, int pyramidHeight, int prodSlotNum) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
+        hand = new ArrayList<>();
     }
 
     public Player(String nickname, int pyramidHeight, int prodSlotNum, int orderID) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
         this.orderID = orderID;
+        hand = new ArrayList<>();
     }
+
+    //PLAYER METHODS----------------------------------------------------------------------------------------------------
+    /**
+     * Adds a leaderCard to a Player's hand
+     * @param leaderCard is the drawn card
+     * @return true if it can be added
+     */
+    public boolean addToHand(LeaderCard leaderCard) throws NullPointerException, IllegalArgumentException{
+        return leaderCard != null && hand.add(leaderCard);
+    }
+
+    /**
+     * Discards a leaderCard from a Player's hand
+     * @param leaderCard is the discarded leaderCard
+     * @return true if it can be discarded
+     */
+    public boolean discardFromHand(LeaderCard leaderCard) throws NullPointerException, IllegalArgumentException{
+        return leaderCard != null && hand.remove(leaderCard);
+    }
+
+    public boolean discardFromHand(int i) throws NullPointerException, IndexOutOfBoundsException{
+        if (i >0 && i<hand.size() && hand.contains(hand.get(i))){
+            return hand.remove(hand.get(i));
+        }
+
+        return false;
+    }
+
+    public boolean activateLeader(LeaderCard leaderCard) throws RequirementsNotFulfilled {
+        if(leaderCard != null) {
+            if(leaderCard.checkRequirements(playerBoard))
+                leaderCard.changeStatus(Status.ACTIVE);
+            throw new RequirementsNotFulfilled("Requirements not fulfilled");
+        }
+        return false;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+    //BUY METHODS---(Calls the methods of the lowest levels)------------------------------------------------------------
+    /**
+     * Tells the controller if the user has selected the right quantity of resources in order to buy one development card
+     * @param developmentCard it's the selected card (it's a list of resourceContainer)
+     * @return true if the selected resources are equals to the card's price
+     */
+    public boolean canBuy(DevelopmentCard developmentCard) {
+        return playerBoard.canBuy(developmentCard.getPrice());
+    }
+
+    /**
+     * Called when canBuy() returns true <br>
+     * Subtracts all buffers from all the deposits and the vault in order to buy one development card
+     * @return true if the subtraction is successful
+     */
+    public boolean buy(){
+        return playerBoard.buy();
+    }
+
+    /**
+     * Inserts the just bought card into the selected production slot
+     * @param id is the index of the selected ProductionSlot
+     * @param developmentCard is the card bought by the user
+     * @return true if the insert is successful
+     */
+    public boolean insertBoughtCardOn(int id, DevelopmentCard developmentCard){
+        return playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard);
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     //PRODUCTION PIPELINE---(Calls the methods of the lowest levels)----------------------------------------------------
@@ -57,25 +132,11 @@ public class Player {
     }
 
     /**
-     * Called after canProduce()
+     * Called after canProduce() <br>
      * Execute the production
-     * @return
      */
     public boolean produce(){
        return playerBoard.produce();
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-
-    //OTHER METHODS------(Calls the methods of the lowest levels)-------------------------------------------------------
-    /**
-     * Inserts the just bought card into the selected production slot
-     * @param id is the index of the selected ProductionSlot
-     * @param developmentCard is the card bought by the user
-     * @return true if the insert is successful
-     */
-    public boolean insertBoughtCardOn(int id, DevelopmentCard developmentCard){
-        return playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -107,6 +168,14 @@ public class Player {
 
     public void setOrderID(int orderID) {
         this.orderID = orderID;
+    }
+
+    public ArrayList<LeaderCard> getHand() {
+        return hand;
+    }
+
+    public void setHand(ArrayList<LeaderCard> hand) {
+        this.hand = hand;
     }
     //------------------------------------------------------------------------------------------------------------------
 

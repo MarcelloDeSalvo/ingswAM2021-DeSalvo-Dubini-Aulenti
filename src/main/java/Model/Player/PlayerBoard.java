@@ -55,7 +55,7 @@ public class PlayerBoard implements ObservableEndGame {
 
         cardPriceMap = Util.arraylistToMap(cardPrice);
 
-        return cardPriceMap.equals(bufferMap);
+        return cardPriceMap!= null && cardPriceMap.equals(bufferMap);
     }
 
     /**
