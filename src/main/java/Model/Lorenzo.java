@@ -1,7 +1,24 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Lorenzo {
+    private ArrayList<ActionToken> actions;
+
+    public Lorenzo() {
+    }
+
+    public Lorenzo(ArrayList<ActionToken> actions) {
+        this.actions = actions;
+    }
+
+    public void shuffleActionTokens() {
+        Collections.shuffle(actions);
+    }
 }
+
+
 /*
 
                                               ......................................................

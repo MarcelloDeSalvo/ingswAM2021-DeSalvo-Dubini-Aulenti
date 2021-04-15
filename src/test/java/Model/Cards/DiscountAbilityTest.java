@@ -64,11 +64,11 @@ class DiscountAbilityTest {
 
     @Test
     void discountAbilityOverDiscount (){
-        Player alessandro=new Player("Who lives in a pineapple under the sea? SPONGEBOB SQUAREPANTS");
+        Player player=new Player("Who lives in a pineapple under the sea? SPONGEBOB SQUAREPANTS");
         DevelopmentCard cardThatIsPrettyCheap= new DevelopmentCard(8,1,Colour.YELLOW);
         cardThatIsPrettyCheap.addPrice(new ResourceContainer(ResourceType.GOLD,1));
-        discoLeader.executeAbility(alessandro.getPlayerBoard());
-        assertEquals(cardThatIsPrettyCheap.getDiscountedPrice(alessandro.getPlayerBoard()).get(0).getQty(), 0);
+        discoLeader.executeAbility(player.getPlayerBoard());
+        assertEquals(cardThatIsPrettyCheap.getDiscountedPrice(player.getPlayerBoard()).get(0).getQty(), 0);
     }
 
     @Test

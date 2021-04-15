@@ -4,9 +4,7 @@ import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
 import Model.Exceptions.InvalidColumnNumber;
 import Model.Exceptions.InvalidRowNumber;
-import Model.Parser.DevelopmentCardParser;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,19 +39,32 @@ public class Cardgrid {
 
     //CARD GRID MANAGEMENT----------------------------------------------------------------------------------------------
     /**
-     * Removes a chosen card from the top of a deck in the cardgrid.
+     * Removes a chosen card from the top of a deck in the cardGrid.
      * @return false if a deck with the chosen parameters isn't found or is empty
      */
     public boolean removeDevelopmentCard(Colour desiredColour, int desiredLevel){
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                if (!deckGrid[i][j].getDeck().isEmpty()   && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel) {
+                if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel) {
                     deckGrid[i][j].getDeck().remove();
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    /**
+     * Removes a card of a specific colour from the top of a deck in the cardGrid starting with the cards with the lowest level
+     */
+    public void removeAmountOfDevelopmentCardWithColour(int amount, Colour desiredColour){
+        for(int i = 0; i < amount; i++) {
+            second:
+            for(int level = 1; level < 4; level++) {
+                if(removeDevelopmentCard(desiredColour, level))
+                    break second;
+            }
+        }
     }
 
     /**
@@ -116,6 +127,20 @@ public class Cardgrid {
             }
         }
         return null;
+    }
+
+    /**
+     * This method checks if a certain colour is present in the cardGrid
+     * @return false if the card isn't found
+     */
+    public boolean getIfAColourIsPresent(Colour desiredColour) {
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getColour()==desiredColour)
+                    return true;
+            }
+        }
+        return false;
     }
     //------------------------------------------------------------------------------------------------------------------
 

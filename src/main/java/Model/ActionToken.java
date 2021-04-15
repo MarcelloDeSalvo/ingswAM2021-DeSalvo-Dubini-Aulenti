@@ -1,14 +1,36 @@
 package Model;
 
-import Model.Player.Player;
+import Model.Cards.Colour;
+import Model.Resources.ResourceContainer;
+import Model.Resources.ResourceType;
 
 interface Action{
-    boolean doAction(Game g);
+    void doAction(Game g);
 }
 
 public class ActionToken {
-    private Action action;
-    private int randomNumber;
-    //Genera un numero a caso che poi serve a mettere in action l'abilità casuale
+    private Colour colour;
+    private int amountOfCards;
+    private int faithPoints;
+
+    public ActionToken(Colour colour, int amountOfCards, int faithPoints) {
+        this.colour = colour;
+        this.amountOfCards = amountOfCards;
+        this.faithPoints = faithPoints;
+    }
+
+    Action removeCards = (g) -> {
+        g.getCardgrid().removeAmountOfDevelopmentCardWithColour(amountOfCards, colour);
+        //if(!g.getCardgrid().getIfAColourIsPresent(colour))
+            //notify observer
+    };
+
+    Action addFaithPoints = (g) -> {
+        if(faithPoints == 1)
+            g.getLorenzo().shuffleActionTokens();
+
+        ResourceContainer container = new ResourceContainer(ResourceType.FAITHPOINT, faithPoints);
+        container.addToFaithPath();
+    };
 
 }

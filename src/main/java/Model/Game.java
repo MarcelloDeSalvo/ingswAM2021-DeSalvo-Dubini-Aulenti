@@ -30,6 +30,7 @@ public class Game implements ObserverEndGame{
     private Market market;
     private Cardgrid cardgrid;
     private FaithPath faithPath;
+    private Lorenzo lorenzo;
 
     private ArrayList<LeaderCard> leaderCards;
     private ArrayList<DevelopmentCard> developmentCards;
@@ -332,6 +333,14 @@ public class Game implements ObserverEndGame{
         this.faithPath = faithPath;
     }
 
+    public Lorenzo getLorenzo() {
+        return lorenzo;
+    }
+
+    public void setLorenzo(Lorenzo lorenzo) {
+        this.lorenzo = lorenzo;
+    }
+
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
@@ -367,6 +376,9 @@ public class Game implements ObserverEndGame{
     public int getCurrentPlayer() {
         return currentPlayer;
     }
+
+
+
     //-----------------------------------------------------------------------------------------------------------------
 
 }
