@@ -21,11 +21,9 @@ public class Cardgrid {
         deckGrid = new Deck[columns][rows];
     }*/
 
-    public Cardgrid() throws FileNotFoundException {
+    public Cardgrid(ArrayList<DevelopmentCard> fileCards){
         deckGrid = new Deck[columns][rows];
-        ArrayList<DevelopmentCard> fileCards;
         int c=0;
-        fileCards= DevelopmentCardParser.deserializeDevelopmentList();
         for(int i=0;i<columns;i++){
             for(int j=0;j<rows;j++){
                 Deck tempDeck=new Deck();

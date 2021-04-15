@@ -61,7 +61,7 @@ class ObservableEndGameTest {
         buy_7th_card();
         assertTrue(winner.getPlayerBoard().victoryConditions());
 
-        assertTrue(g.isThisTheFinalTurn());
+        assertTrue(g.isFinalTurn());
     }
 
 
