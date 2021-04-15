@@ -20,8 +20,8 @@ import java.util.Iterator;
 
 public class Game implements ObserverEndGame{
 
-    public static int currentPlayer;
-    public static int numOfPlayers;
+    private int currentPlayer;
+    private int numOfPlayers;
 
     public int turnNumber;
 
@@ -44,7 +44,7 @@ public class Game implements ObserverEndGame{
     /**
      * Test Constructor
      */
-    public void Game() throws  FileNotFoundException {
+    public Game() throws  FileNotFoundException {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("Player_1");
         strings.add("Player_2");
@@ -62,7 +62,7 @@ public class Game implements ObserverEndGame{
      * Standard rules multiplayer constructor
      * @param playersNicknames is the list of the connected player's nicknames
      */
-    public void Game(ArrayList<String> playersNicknames, int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
+    public Game(ArrayList<String> playersNicknames, int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         newPlayerOrder(playersNicknames);
         standard_deck_start(numOfPlayers);
 
@@ -75,7 +75,7 @@ public class Game implements ObserverEndGame{
      * @param prodSlotNum is the initial DevelopmentProduction slot number
      * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
      */
-    public void Game(ArrayList<String> playersNicknames, int pyramidHeight, int prodSlotNum, int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
+    public Game(ArrayList<String> playersNicknames, int pyramidHeight, int prodSlotNum, int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         newPlayerOrder(playersNicknames,pyramidHeight,prodSlotNum);
         standard_deck_start(numOfPlayers); //to change when custom rules methods are ready
 
@@ -88,7 +88,7 @@ public class Game implements ObserverEndGame{
      * @param prodSlotNum is the initial DevelopmentProduction slot number
      * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
      */
-    public void Game(ArrayList<String> playersNicknames, int pyramidHeight, int prodSlotNum, int numOfPlayers, ArrayList<String> customDecks) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
+    public Game(ArrayList<String> playersNicknames, int pyramidHeight, int prodSlotNum, int numOfPlayers, ArrayList<String> customDecks) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         newPlayerOrder(playersNicknames,pyramidHeight,prodSlotNum);
         custom_deck_default_param_start(numOfPlayers, customDecks);
 
@@ -102,7 +102,7 @@ public class Game implements ObserverEndGame{
      * @param playerNickname is the list of the connected player's nicknames
      * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
      */
-    public void Game(String playerNickname) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
+    public Game(String playerNickname) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         standard_single_player_start(playerNickname);
         standard_deck_start(2);
 
@@ -118,12 +118,15 @@ public class Game implements ObserverEndGame{
      * @throws JsonIOException if the file cannot be read by Json
      */
     public void standard_deck_start(int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        Game.numOfPlayers = numOfPlayers;
+        this.numOfPlayers = numOfPlayers;
 
         leaderCards = LeaderCardParser.deserializeLeaderList();
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
         marbles = MarketSetUpParser.deserializeMarketElements();
+
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp();
+        System.out.println(faithPath.getPlayersFavourList().size());
+        faithPath.setUpPositions(numOfPlayers);
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
@@ -144,12 +147,14 @@ public class Game implements ObserverEndGame{
      * @throws JsonIOException if the file cannot be read by Json
      */
     public void custom_deck_default_param_start(int numOfPlayers, ArrayList<String> customFiles) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        Game.numOfPlayers = numOfPlayers;
+        this.numOfPlayers = numOfPlayers;
 
         leaderCards = LeaderCardParser.deserializeLeaderList(customFiles.get(0));
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList(customFiles.get(1));
         marbles = MarketSetUpParser.deserializeMarketElements(customFiles.get(2));
+
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(customFiles.get(3));
+        faithPath.setUpPositions(numOfPlayers);
 
         market = new Market(marbles);
         cardgrid = new Cardgrid(developmentCards);
@@ -263,6 +268,7 @@ public class Game implements ObserverEndGame{
 
         if(!gameEnded && gameStarted) {
             currentPlayer = (currentPlayer++) % numOfPlayers;
+            faithPath.setCurrentPlayer(currentPlayer);
             turnNumber++;
         }
     }
@@ -294,16 +300,72 @@ public class Game implements ObserverEndGame{
         this.gameStarted = gameStarted;
     }
 
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public void setPlayerList(ArrayList<Player> playerList) {
+        this.playerList = playerList;
+    }
+
+    public Market getMarket() {
+        return market;
+    }
+
+    public void setMarket(Market market) {
+        this.market = market;
+    }
+
+    public Cardgrid getCardgrid() {
+        return cardgrid;
+    }
+
+    public void setCardgrid(Cardgrid cardgrid) {
+        this.cardgrid = cardgrid;
+    }
+
+    public FaithPath getFaithPath() {
+        return faithPath;
+    }
+
+    public void setFaithPath(FaithPath faithPath) {
+        this.faithPath = faithPath;
+    }
+
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
+    public void setLeaderCards(ArrayList<LeaderCard> leaderCards) {
+        this.leaderCards = leaderCards;
+    }
+
+    public ArrayList<DevelopmentCard> getDevelopmentCards() {
+        return developmentCards;
+    }
+
+    public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
+        this.developmentCards = developmentCards;
+    }
+
+    public ArrayList<ResourceContainer> getMarbles() {
+        return marbles;
+    }
+
+    public void setMarbles(ArrayList<ResourceContainer> marbles) {
+        this.marbles = marbles;
+    }
+
     public int getOrderId(Player player){
         return player.getOrderID();
     }
 
-    public static int getCurrentPlayer() {
-        return currentPlayer;
+    public int getNumOfPlayers() {
+        return numOfPlayers;
     }
 
-    public int getTurnNumber() {
-        return turnNumber;
+    public int getCurrentPlayer() {
+        return currentPlayer;
     }
     //-----------------------------------------------------------------------------------------------------------------
 

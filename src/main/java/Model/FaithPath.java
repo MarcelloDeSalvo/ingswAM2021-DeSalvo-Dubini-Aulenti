@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     private ArrayList<Integer> positions;
+    private int numOfPlayers;
+    private int currentPlayer;
     private int length;
     private int lastPActivated;
     private ArrayList<Character> vaticanReports;
@@ -24,35 +26,42 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         this.lastPActivated=0;
         this.positions = new ArrayList<>();
         this.observersEndGame = new ArrayList<>();
-        this.playersFavourList=new ArrayList<>();
-        for(int i=0;i<Game.numOfPlayers;i++)
-            playersFavourList.add(new playerFavour());
-        setUpPositions();
+        this.playersFavourList = new ArrayList<>();
     }
 
     /**
-     * Constructor used for a few tests
+     * Json constructor <br>
+     * It should read: <br>
+     * - int length <br>
+     * - ArrayList<Character> vaticanReports <br>
+     * - ArrayList<Integer> victoryPoints <br>
+     * - ArrayList<Integer> papalFavours
      */
-    public FaithPath() {
+    public FaithPath(){
+        this.lastPActivated=0;
         this.positions = new ArrayList<>();
         this.observersEndGame = new ArrayList<>();
-        setUpPositions();
-    }
-
-    private void setUpPositions() {
-        for(int i = 0; i <Game.numOfPlayers; i++)
-            positions.add(0);
+        this.playersFavourList = new ArrayList<>();
     }
 
 
     //FAITHPATH METHODS-------------------------------------------------------------------------------------------------
+    public void setUpPositions(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+        this.currentPlayer = 0;
+
+        for(int i=0;i <numOfPlayers;i++){
+            playersFavourList.add(new playerFavour());
+            positions.add(0);
+        }
+    }
 
     /**
      * Checks if current player is the first to land on a Pope Space
      * @return
      */
     public boolean isFirstOnPopeSpace(){
-        if(vaticanReports.get(positions.get(Game.currentPlayer)) == 'P' && positions.get(Game.currentPlayer)>lastPActivated )
+        if(vaticanReports.get(positions.get(currentPlayer)) == 'P' && positions.get(currentPlayer)>lastPActivated )
             return true;
         return false;
 
@@ -65,17 +74,15 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      * @return true if there are no errors.
      */
     public boolean activatePapalFavour(){
-        for(int i=0;i<Game.numOfPlayers;i++){
+        for(int i=0;i<numOfPlayers;i++){
             if((vaticanReports.get(positions.get(i)) == 'P' || vaticanReports.get(positions.get(i)) == 'X') && positions.get(i)>lastPActivated)
                 playersFavourList.get(i).addFavour(papalFavours.get(0));
         }
-        lastPActivated=positions.get(Game.currentPlayer);
+        lastPActivated=positions.get(currentPlayer);
         papalFavours.remove(0);
 
         return true;
     }
-
-
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -83,7 +90,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     @Override
     public void update(int faithPoints) {
         for(int i=0;i<faithPoints;i++){
-            positions.set(Game.currentPlayer, positions.get(Game.currentPlayer) + 1);
+            positions.set(currentPlayer, positions.get(currentPlayer) + 1);
             if(isFirstOnPopeSpace()){
                 activatePapalFavour();
             }
@@ -142,13 +149,32 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     public ArrayList<Integer> getPapalFavours() {
         return papalFavours;
     }
+
+    public ArrayList<playerFavour> getPlayersFavourList() {
+        return playersFavourList;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int numOfPlayers) {
+        this.numOfPlayers = numOfPlayers;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
     //------------------------------------------------------------------------------------------------------------------
 }
 
 
 
-    //PlayerFavour (Support class)--------------------------------------------------------------------------------------
-
+//PlayerFavour (Support class)--------------------------------------------------------------------------------------
 class playerFavour{
     private ArrayList<Integer> Favours;
 

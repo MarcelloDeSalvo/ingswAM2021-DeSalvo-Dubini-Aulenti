@@ -2,16 +2,22 @@ package Model;
 
 import Model.Cards.Colour;
 import Model.Cards.DevelopmentCard;
-import Model.Cards.DevelopmentRequirement;
 import Model.Player.Player;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ObservableEndGameTest {
+class ObservableEndGameTest{
 
-    Player winner = new Player("Winner winner chicken dinner!");
     Game g = new Game();
+    Player winner = new Player("Winner winner chicken dinner!");
+
+    ObservableEndGameTest() throws FileNotFoundException {
+    }
+
 
     @Test
     void buy_6_cards(){

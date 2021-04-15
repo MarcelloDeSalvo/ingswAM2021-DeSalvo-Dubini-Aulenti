@@ -2,16 +2,23 @@ package Model.Resources;
 
 import Model.FaithPath;
 import Model.Game;
-import Model.Parser.FaithPathSetUpParser;
 import Model.Player.Deposit.Deposit;
 import Model.Player.Vault;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTypeTest {
+    @BeforeEach
+    void clear(){
+        ResourceContainer aCoin= new ResourceContainer(ResourceType.GOLD,1);
+        aCoin.getObservers().clear();
+    }
 
     @Test
     void goldToDepositTest(){
@@ -34,12 +41,14 @@ class ResourceTypeTest {
 
     @Test
     void observerTest() throws FileNotFoundException {
-        FaithPath faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp();
+        Game game = new Game();
 
+        assertEquals(game.getNumOfPlayers(), 4);
+        FaithPath faithPath = game.getFaithPath();
+        assertEquals(faithPath.getLength(),25);
+        assertEquals(faithPath.getPlayersFavourList().size(),4);
         ResourceContainer faithPoint = new ResourceContainer(ResourceType.FAITHPOINT, 1);
         ResourceContainer gold = new ResourceContainer(ResourceType.GOLD, 1);
-
-        faithPoint.addObserver(faithPath);
 
         assertTrue(faithPoint.addToFaithPath());
         assertTrue(faithPoint.addToFaithPath());
