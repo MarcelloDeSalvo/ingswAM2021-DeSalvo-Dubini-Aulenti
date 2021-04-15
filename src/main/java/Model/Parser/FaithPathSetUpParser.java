@@ -25,9 +25,9 @@ public class FaithPathSetUpParser {
      * @throws JsonSyntaxException if the file contains some syntax errors;
      * @throws JsonIOException if the file cannot be read by Json
      */
-    public static FaithPath deserializeFaithPathSetUp(int numberOfP) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+    public static FaithPath deserializeFaithPathSetUp() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
         String path = "src/main/resources/Json/FaithPathSetUp.json";
-        return FaithPathSetUpParser.deserializeFaithPathSetUp(numberOfP, path);
+        return FaithPathSetUpParser.deserializeFaithPathSetUp(path);
     }
 
     /**
@@ -37,7 +37,7 @@ public class FaithPathSetUpParser {
      * @throws JsonSyntaxException if the file contains some syntax errors;
      * @throws JsonIOException if the file cannot be read by Json
      */
-    public static FaithPath deserializeFaithPathSetUp(int numberOfP,String path) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+    public static FaithPath deserializeFaithPathSetUp(String path) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
         Gson gson = new Gson();
         Reader reader;
         FaithPath setUp;
@@ -60,7 +60,6 @@ public class FaithPathSetUpParser {
             throw new JsonSyntaxException( path + ": File is malformed");
         }
 
-        setUp.setNumberOfPlayers(numberOfP);
         return setUp;
     }
 

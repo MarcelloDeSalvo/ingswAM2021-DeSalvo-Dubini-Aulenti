@@ -21,9 +21,10 @@ import java.util.Iterator;
 public class Game implements ObserverEndGame{
 
     public static int currentPlayer;
+    public static int numOfPlayers;
+
     public int turnNumber;
 
-    private int numOfPlayers;
     private ArrayList<Player> playerList;
 
     private Market market;
@@ -117,12 +118,12 @@ public class Game implements ObserverEndGame{
      * @throws JsonIOException if the file cannot be read by Json
      */
     public void standard_deck_start(int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        this.numOfPlayers = numOfPlayers;
+        Game.numOfPlayers = numOfPlayers;
 
         leaderCards = LeaderCardParser.deserializeLeaderList();
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
         marbles = MarketSetUpParser.deserializeMarketElements();
-        faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(this.numOfPlayers);
+        faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp();
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
@@ -143,12 +144,12 @@ public class Game implements ObserverEndGame{
      * @throws JsonIOException if the file cannot be read by Json
      */
     public void custom_deck_default_param_start(int numOfPlayers, ArrayList<String> customFiles) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        this.numOfPlayers = numOfPlayers;
+        Game.numOfPlayers = numOfPlayers;
 
         leaderCards = LeaderCardParser.deserializeLeaderList(customFiles.get(0));
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList(customFiles.get(1));
         marbles = MarketSetUpParser.deserializeMarketElements(customFiles.get(2));
-        faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(this.numOfPlayers, customFiles.get(3));
+        faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(customFiles.get(3));
 
         market = new Market(marbles);
         cardgrid = new Cardgrid(developmentCards);
