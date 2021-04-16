@@ -71,9 +71,9 @@ public class Cardgrid {
      * This method deletes the current card on top of its respective deck. The deck is chosen by the position on the grid defined by the two parameters
      */
     public boolean removeDevelopmentCard( int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
-        if(rowNumber<=0)
+        if(rowNumber<=0|| rowNumber>3)
             throw new InvalidRowNumber ("Selected row isn't valid");
-        if(columnNumber<=0)
+        if(columnNumber<=0|| rowNumber>4)
             throw new InvalidColumnNumber ("Selected column isn't valid");
 
             if (!deckGrid[columnNumber-1][rowNumber-1].getDeck().isEmpty() && deckGrid[columnNumber-1][rowNumber-1].getDeck()!=null) {
@@ -87,13 +87,15 @@ public class Cardgrid {
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     /**
-     * This method returns the current card on top of its respective deck. The deck is chosen by the position on the grid defined by the two parameters
+     * This method returns the current card on top of its respective deck. <br>
+     * The deck is chosen by the position on the grid defined by the two parameters that define the position <br>
+     * with two integers between 1-4
      * @return null if the card isn't found
      */
     public DevelopmentCard getDevelopmentCardOnTop( int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
-        if(rowNumber<=0)
+        if(rowNumber<=0 || rowNumber>3)
             throw new InvalidRowNumber ("Selected row isn't valid");
-        if(columnNumber<=0)
+        if(columnNumber<=0 || columnNumber>4)
             throw new InvalidColumnNumber ("Selected column isn't valid");
 
         if (!deckGrid[columnNumber-1][rowNumber-1].getDeck().isEmpty() && deckGrid[columnNumber-1][rowNumber-1].getDeck()!=null)

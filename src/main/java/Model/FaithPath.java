@@ -58,7 +58,6 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
 
     /**
      * Checks if current player is the first to land on a Pope Space
-     * @return
      */
     public boolean isFirstOnPopeSpace(){
         if(vaticanReports.get(positions.get(currentPlayer)) == 'P' && positions.get(currentPlayer)>lastPActivated )
@@ -74,6 +73,8 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      * @return true if there are no errors.
      */
     public boolean activatePapalFavour(){
+        if(papalFavours.get(0)==null)
+            return false;
         for(int i=0;i<numOfPlayers;i++){
             if((vaticanReports.get(positions.get(i)) == 'P' || vaticanReports.get(positions.get(i)) == 'X') && positions.get(i)>lastPActivated)
                 playersFavourList.get(i).addFavour(papalFavours.get(0));
