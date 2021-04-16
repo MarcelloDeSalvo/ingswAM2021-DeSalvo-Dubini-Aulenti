@@ -10,7 +10,7 @@ public class  DevelopmentCard extends Card{
     private final ArrayList<ResourceContainer> input;
     private final ArrayList<ResourceContainer> output;
 
-    //JSON constructors-------------------------------------------------------------------------------------------------
+
     public DevelopmentCard (int victoryPoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
         super(victoryPoints,Status.PURCHASABLE, req, price);
         this.level = level;

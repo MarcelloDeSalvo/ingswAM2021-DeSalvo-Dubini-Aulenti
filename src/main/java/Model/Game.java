@@ -126,7 +126,6 @@ public class Game implements ObserverEndGame{
         marbles = MarketSetUpParser.deserializeMarketElements();
 
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp();
-        System.out.println(faithPath.getPlayersFavourList().size());
         faithPath.setUpPositions(numOfPlayers);
 
         cardgrid = new Cardgrid(developmentCards);
@@ -238,8 +237,8 @@ public class Game implements ObserverEndGame{
         for (Player p: playerList) {
             for (int i = 0; i<4; i++){
                 p.addToHand(leaderCards.get(j));
+                j++;
             }
-            j++;
         }
     }
 
@@ -264,14 +263,21 @@ public class Game implements ObserverEndGame{
      * Ends the round and changes the current player
      */
     public void nextTurn(){
-        if (currentPlayer++==1 && finalTurn)
-               gameEnded = true;
+        if (currentPlayer++==1 && finalTurn){
+            gameEnded = true;
+            gameStarted = false;
+        }
+
 
         if(!gameEnded && gameStarted) {
             currentPlayer = (currentPlayer++) % numOfPlayers;
             faithPath.setCurrentPlayer(currentPlayer);
             turnNumber++;
         }
+    }
+
+    public void startGame(){
+        gameStarted = true;
     }
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -377,7 +383,15 @@ public class Game implements ObserverEndGame{
         return currentPlayer;
     }
 
+    public  Player getPlayer(int i){
+        if(i<0 && i>getPlayerList().size())
+            return null;
+        return getPlayerList().get(i);
+    }
 
+    public int getTurnNumber() {
+        return turnNumber;
+    }
 
     //-----------------------------------------------------------------------------------------------------------------
 
