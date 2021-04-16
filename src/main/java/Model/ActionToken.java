@@ -21,8 +21,8 @@ public class ActionToken {
         Action removeCards = (g) -> {
             if(colour != null) {
                 g.getCardgrid().removeAmountOfDevelopmentCardWithColour(amountOfCards, colour);
-                //if(!g.getCardgrid().getIfAColourIsPresent(colour))
-                //notify observer
+                if(!g.getCardgrid().getIfAColourIsPresent(colour))
+                    g.getLorenzo().notifyEndGame();
             }
         };
 
@@ -40,6 +40,7 @@ public class ActionToken {
         actions.add(addFaithPoints);
     }
 
+    //GETTERS-----------------------------------------------------------------------------------------------------------
     public Colour getColour() {
         return colour;
     }
@@ -55,4 +56,5 @@ public class ActionToken {
     public ArrayList<Action> getActions() {
         return actions;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }
