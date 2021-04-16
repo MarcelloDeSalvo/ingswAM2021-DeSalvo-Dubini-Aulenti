@@ -4,19 +4,53 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Lorenzo {
-    private ArrayList<ActionToken> actions;
+    private ArrayList<ActionToken> actionTokens;
 
     public Lorenzo() {
+        Collections.shuffle(this.actionTokens);
     }
 
-    public Lorenzo(ArrayList<ActionToken> actions) {
-        this.actions = actions;
+    public Lorenzo(ArrayList<ActionToken> actionTokens) {
+        this.actionTokens = actionTokens;
+        Collections.shuffle(this.actionTokens);
     }
 
     public void shuffleActionTokens() {
-        Collections.shuffle(actions);
+        Collections.shuffle(actionTokens);
+    }
+
+    public void pickAction(Game g) {
+        for (Action action : actionTokens.get(0).getActions()) {
+            action.doAction(g);
+        }
+
+        actionTokens.add(actionTokens.get(0));
+        actionTokens.remove(0);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*

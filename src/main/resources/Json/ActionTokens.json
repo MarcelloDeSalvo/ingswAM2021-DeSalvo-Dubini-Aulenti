@@ -1,0 +1,37 @@
+[
+  {
+    "colour" : "GREEN",
+    "amountOfCards" : "2",
+    "faithPoints" : "0"
+  },
+  {
+    "colour" : "BLUE",
+    "amountOfCards" : "2",
+    "faithPoints" : "0"
+  },
+  {
+    "colour" : "YELLOW",
+    "amountOfCards" : "2",
+    "faithPoints" : "0"
+  },
+  {
+    "colour" : "PURPLE",
+    "amountOfCards" : "2",
+    "faithPoints" : "0"
+  },
+  {
+    "colour" : "null",
+    "amountOfCards" : "0",
+    "faithPoints" : "2"
+  },
+  {
+    "colour" : "null",
+    "amountOfCards" : "0",
+    "faithPoints" : "2"
+  },
+  {
+    "colour" : "null",
+    "amountOfCards" : "0",
+    "faithPoints" : "1"
+  }
+]
