@@ -3,10 +3,7 @@ package Model;
 
 import Model.Cards.DevelopmentCard;
 import Model.Cards.LeaderCard;
-import Model.Parser.DevelopmentCardParser;
-import Model.Parser.FaithPathSetUpParser;
-import Model.Parser.LeaderCardParser;
-import Model.Parser.MarketSetUpParser;
+import Model.Parser.*;
 import Model.Player.Player;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -172,11 +169,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * starts a single player Game
      * @param nickname is the player's nickname
      */
-    public void standard_single_player_start(String nickname){
-        Lorenzo lorenzo = new Lorenzo();
+    public void standard_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
+        lorenzo = new Lorenzo(tokens);
+        lorenzo.shuffleActionTokens();
+
         playerList = new ArrayList<>();
         playerList.add(new Player(nickname,0));
-        setUpObserves();
+
+        setUpObservers_singlePlayer();
 
         finalTurn = false;
         gameEnded = false;
@@ -243,6 +244,14 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     /**
+     * Sets up all the observers for the single player
+     */
+    public void setUpObservers_singlePlayer(){
+        lorenzo.addObserver(this);
+        setUpObserves();
+    }
+
+    /**
      * Sets up all the observers
      */
     public void setUpObserves(){
@@ -303,24 +312,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return gameStarted;
     }
 
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
-    }
 
     public ArrayList<Player> getPlayerList() {
         return playerList;
     }
 
-    public void setPlayerList(ArrayList<Player> playerList) {
-        this.playerList = playerList;
-    }
-
-    public Market getMarket() {
-        return market;
-    }
-
-    public void setMarket(Market market) {
-        this.market = market;
+    public Player getPlayer(int i) throws IndexOutOfBoundsException{
+        if(i<0 || i>getPlayerList().size())
+            return null;
+        return getPlayerList().get(i);
     }
 
     @Override
@@ -328,17 +328,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return cardgrid;
     }
 
-    public void setCardgrid(Cardgrid cardgrid) {
-        this.cardgrid = cardgrid;
-    }
-
     @Override
     public FaithPath getFaithPath() {
         return faithPath;
-    }
-
-    public void setFaithPath(FaithPath faithPath) {
-        this.faithPath = faithPath;
     }
 
     @Override
@@ -346,33 +338,23 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return lorenzo;
     }
 
-    public void setLorenzo(Lorenzo lorenzo) {
-        this.lorenzo = lorenzo;
+    public Market getMarket() {
+        return market;
     }
+
 
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
-    }
-
-    public void setLeaderCards(ArrayList<LeaderCard> leaderCards) {
-        this.leaderCards = leaderCards;
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCards() {
         return developmentCards;
     }
 
-    public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
-        this.developmentCards = developmentCards;
-    }
-
     public ArrayList<ResourceContainer> getMarbles() {
         return marbles;
     }
 
-    public void setMarbles(ArrayList<ResourceContainer> marbles) {
-        this.marbles = marbles;
-    }
 
     public int getOrderId(Player player){
         return player.getOrderID();
@@ -386,16 +368,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return currentPlayer;
     }
 
-    public  Player getPlayer(int i){
-        if(i<0 && i>getPlayerList().size())
-            return null;
-        return getPlayerList().get(i);
-    }
-
     public int getTurnNumber() {
         return turnNumber;
     }
-
     //-----------------------------------------------------------------------------------------------------------------
 
 }
