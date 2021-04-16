@@ -1,6 +1,7 @@
 package Model.Cards;
 
 import Model.Player.PlayerBoard;
+import Model.Player.PlayerBoard_AbilityAccess;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -16,7 +17,7 @@ public class ConversionAbility implements Ability {
      * @param playerBoard is the current Player's playerBoard
      */
     @Override
-    public boolean useAbility(PlayerBoard playerBoard) {
+    public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
         playerBoard.getConversionSite().addConversion(new ResourceContainer(output, 1));
         return true;
     }

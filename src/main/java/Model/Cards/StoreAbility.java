@@ -1,7 +1,7 @@
 package Model.Cards;
 
 import Model.Player.Deposit.LeaderDeposit;
-import Model.Player.PlayerBoard;
+import Model.Player.PlayerBoard_AbilityAccess;
 import Model.Resources.ResourceType;
 
 public class StoreAbility implements Ability {
@@ -17,7 +17,7 @@ public class StoreAbility implements Ability {
      * create a new LeaderDeposit in the "Deposit" section
      */
     @Override
-    public boolean useAbility(PlayerBoard playerBoard) {
+    public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
         playerBoard.getDeposit().addDepositSlot(new LeaderDeposit(resourceType, maxDim));
         return true;
     }

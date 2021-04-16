@@ -1,6 +1,7 @@
 package Model.Cards;
 
 import Model.Player.PlayerBoard;
+import Model.Player.PlayerBoard_AbilityAccess;
 import Model.Player.Production.LeaderCardProduction;
 import Model.Resources.ResourceContainer;
 
@@ -24,7 +25,7 @@ public class ProductionAbility implements Ability {
      * @param playerBoard is the current Player's playerBoard
      */
     @Override
-    public boolean useAbility(PlayerBoard playerBoard) {
+    public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
         LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, questionMarkOnInput, questionMarkOnOutput);
         playerBoard.getProductionSite().addProductionSlot(leaderCardProduction);
         return true;

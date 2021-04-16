@@ -12,11 +12,13 @@ import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import Model.Util;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PlayerBoard implements ObservableEndGame {
+
+
+
+public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess {
 
     private final Deposit deposit;
     private final Vault vault;
@@ -314,25 +316,25 @@ public class PlayerBoard implements ObservableEndGame {
         return null;
     }
 
-
+    @Override
     public Deposit getDeposit() {
         return deposit;
+    }
+    @Override
+    public ProductionSite getProductionSite() {
+        return productionSite;
+    }
+    @Override
+    public ConversionSite getConversionSite() {
+        return conversionSite;
+    }
+    @Override
+    public DiscountSite getDiscountSite() {
+        return discountSite;
     }
 
     public Vault getVault() {
         return vault;
-    }
-
-    public ProductionSite getProductionSite() {
-        return productionSite;
-    }
-
-    public ConversionSite getConversionSite() {
-        return conversionSite;
-    }
-
-    public DiscountSite getDiscountSite() {
-        return discountSite;
     }
 
     public int getTotalDevCards() {

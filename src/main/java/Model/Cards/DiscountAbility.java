@@ -1,6 +1,7 @@
 package Model.Cards;
 
 import Model.Player.PlayerBoard;
+import Model.Player.PlayerBoard_AbilityAccess;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 
@@ -20,7 +21,7 @@ public class DiscountAbility implements Ability{
      * @return true
      */
     @Override
-    public boolean useAbility(PlayerBoard playerBoard) {
+    public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
         playerBoard.getDiscountSite().addDiscount(new ResourceContainer(resourceType, discount));
         return true;
     }
