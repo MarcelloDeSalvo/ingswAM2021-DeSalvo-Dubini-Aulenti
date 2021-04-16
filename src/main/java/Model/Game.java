@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class Game implements ObserverEndGame{
+public class Game implements ObserverEndGame, Game_TokensAccess{
 
     private int currentPlayer;
     private int numOfPlayers;
@@ -323,6 +323,7 @@ public class Game implements ObserverEndGame{
         this.market = market;
     }
 
+    @Override
     public Cardgrid getCardgrid() {
         return cardgrid;
     }
@@ -331,6 +332,7 @@ public class Game implements ObserverEndGame{
         this.cardgrid = cardgrid;
     }
 
+    @Override
     public FaithPath getFaithPath() {
         return faithPath;
     }
@@ -339,6 +341,7 @@ public class Game implements ObserverEndGame{
         this.faithPath = faithPath;
     }
 
+    @Override
     public Lorenzo getLorenzo() {
         return lorenzo;
     }

@@ -7,7 +7,6 @@ public class Lorenzo {
     private ArrayList<ActionToken> actionTokens;
 
     public Lorenzo() {
-        Collections.shuffle(this.actionTokens);
     }
 
     public Lorenzo(ArrayList<ActionToken> actionTokens) {

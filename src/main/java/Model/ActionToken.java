@@ -7,7 +7,7 @@ import Model.Resources.ResourceType;
 import java.util.ArrayList;
 
 interface Action{
-    void doAction(Game g);
+    void doAction(Game_TokensAccess g);
 }
 
 public class ActionToken {
@@ -17,11 +17,7 @@ public class ActionToken {
 
     private ArrayList<Action> actions = new ArrayList<>();
 
-    public ActionToken(Colour colour, int amountOfCards, int faithPoints) {
-        this.colour = colour;
-        this.amountOfCards = amountOfCards;
-        this.faithPoints = faithPoints;
-
+    public ActionToken() {
         Action removeCards = (g) -> {
             if(colour != null) {
                 g.getCardgrid().removeAmountOfDevelopmentCardWithColour(amountOfCards, colour);
