@@ -3,10 +3,7 @@ package Model;
 
 import Model.Cards.DevelopmentCard;
 import Model.Cards.LeaderCard;
-import Model.Parser.DevelopmentCardParser;
-import Model.Parser.FaithPathSetUpParser;
-import Model.Parser.LeaderCardParser;
-import Model.Parser.MarketSetUpParser;
+import Model.Parser.*;
 import Model.Player.Player;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
@@ -172,11 +169,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * starts a single player Game
      * @param nickname is the player's nickname
      */
-    public void standard_single_player_start(String nickname){
-        Lorenzo lorenzo = new Lorenzo();
+    public void standard_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
+        lorenzo = new Lorenzo(tokens);
+        lorenzo.shuffleActionTokens();
+
         playerList = new ArrayList<>();
         playerList.add(new Player(nickname,0));
-        setUpObserves();
+
+        setUpObservers_singlePlayer();
 
         finalTurn = false;
         gameEnded = false;
@@ -240,6 +241,14 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
                 j++;
             }
         }
+    }
+
+    /**
+     * Sets up all the observers for the single player
+     */
+    public void setUpObservers_singlePlayer(){
+        lorenzo.addObserver(this);
+        setUpObserves();
     }
 
     /**
