@@ -1,6 +1,5 @@
 package Model.Player;
 
-import Model.Exceptions.MultipleConversionsActive;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;
@@ -23,40 +22,40 @@ class ConversionSiteTest {
         marketOutput.add(new ResourceContainer(ResourceType.BLANK,1));
 
 
-        assertAll(()->conversionSite.canConvert());
+        assertEquals(Enum.valueOf(conversionMode.class, "AUTOMATIC"), conversionSite.canConvert());
 
         conversionSite.convertSingleElement(marketOutput.get(1), conversionSite.getConversionsAvailable().get(0));
         conversionSite.convertSingleElement(marketOutput.get(3), conversionSite.getConversionsAvailable().get(0));
 
-        assertEquals(marketOutput.get(0).getResourceType(), ResourceType.GOLD);
-        assertEquals(marketOutput.get(1).getResourceType(), ResourceType.STONE);
-        assertEquals(marketOutput.get(1).getQty(), 2);
-        assertEquals(marketOutput.get(2).getResourceType(), ResourceType.MINION);
-        assertEquals(marketOutput.get(3).getResourceType(), ResourceType.STONE);
-        assertEquals(marketOutput.get(3).getQty(), 2);
+        assertEquals(ResourceType.GOLD, marketOutput.get(0).getResourceType());
+        assertEquals(ResourceType.STONE, marketOutput.get(1).getResourceType());
+        assertEquals(2, marketOutput.get(1).getQty());
+
+        assertEquals(ResourceType.MINION, marketOutput.get(2).getResourceType());
+        assertEquals(ResourceType.STONE, marketOutput.get(3).getResourceType());
+        assertEquals(2, marketOutput.get(3).getQty());
     }
 
     @Test
-    void canConvertTest () throws MultipleConversionsActive {
+    void canConvertTest (){
         ConversionSite conversionSite = new ConversionSite();
 
         //case when conversionSite is still empty
-        assertFalse(conversionSite.canConvert());
-        assertDoesNotThrow(()->conversionSite.canConvert());
+        assertEquals(Enum.valueOf(conversionMode.class, "INACTIVE"),conversionSite.canConvert());
 
         conversionSite.addConversion(new ResourceContainer(ResourceType.STONE,2));
         conversionSite.addConversion(new ResourceContainer(ResourceType.GOLD,1));
 
 
-        assertThrows(MultipleConversionsActive.class, ()->conversionSite.canConvert());
+        assertEquals(Enum.valueOf(conversionMode.class, "CHOICE_REQUIRED"),conversionSite.canConvert());
     }
 
     @Test
-    void convertTest() throws MultipleConversionsActive {
+    void convertTest(){
         ConversionSite conversionSite = new ConversionSite();
         conversionSite.addConversion(new ResourceContainer(ResourceType.MINION,3));
 
-        assertTrue(conversionSite.canConvert());
+        assertEquals(Enum.valueOf(conversionMode.class, "AUTOMATIC"),conversionSite.canConvert());
 
         ArrayList<ResourceContainer> marketOutput = new ArrayList<>();
         marketOutput.add(new ResourceContainer(ResourceType.BLANK,1));
@@ -66,16 +65,17 @@ class ConversionSiteTest {
 
         assertTrue(conversionSite.convert(marketOutput));
 
-        assertEquals(marketOutput.get(0).getResourceType(), ResourceType.MINION);
-        assertEquals(marketOutput.get(0).getQty(), 3);
-        assertEquals(marketOutput.get(1).getResourceType(), ResourceType.STONE);
-        assertEquals(marketOutput.get(2).getResourceType(), ResourceType.MINION);
-        assertEquals(marketOutput.get(2).getQty(), 3);
-        assertEquals(marketOutput.get(3).getResourceType(), ResourceType.GOLD);
+        assertEquals( ResourceType.MINION, marketOutput.get(0).getResourceType());
+        assertEquals( 3, marketOutput.get(0).getQty());
+        assertEquals( ResourceType.STONE, marketOutput.get(1).getResourceType());
+        assertEquals( ResourceType.MINION, marketOutput.get(2).getResourceType());
+        assertEquals( 3, marketOutput.get(2).getQty());
+        assertEquals( ResourceType.GOLD, marketOutput.get(3).getResourceType());
 
 
+        ArrayList<ResourceContainer> old_marketOutput = (ArrayList<ResourceContainer>)marketOutput.clone();
         //it shouldn't change again
         assertTrue(conversionSite.convert(marketOutput));
-        assertEquals(marketOutput, marketOutput);
+        assertEquals(old_marketOutput, marketOutput);
     }
 }

@@ -93,7 +93,6 @@ public class ResourceContainer implements ObservableFaithPath {
         else
             return false;
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 

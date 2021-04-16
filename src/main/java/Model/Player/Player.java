@@ -5,7 +5,6 @@ import Model.Cards.LeaderCard;
 import Model.Cards.Status;
 import Model.Exceptions.DepositSlotMaxDimExceeded;
 import Model.Exceptions.NotEnoughResources;
-import Model.Exceptions.RequirementsNotFulfilled;
 import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 
@@ -70,12 +69,16 @@ public class Player {
         return false;
     }
 
-    public boolean activateLeader(LeaderCard leaderCard) throws RequirementsNotFulfilled {
-        if(leaderCard != null) {
-            if(leaderCard.checkRequirements(playerBoard))
-                leaderCard.changeStatus(Status.ACTIVE);
-            throw new RequirementsNotFulfilled("Requirements not fulfilled");
+    public boolean activateLeader(LeaderCard leaderCard) throws NullPointerException {
+
+        if (leaderCard == null)
+            return false;
+
+        if(leaderCard.checkRequirements(playerBoard)){
+            leaderCard.changeStatus(Status.ACTIVE);
+            return leaderCard.executeAbility(playerBoard);
         }
+
         return false;
     }
     //------------------------------------------------------------------------------------------------------------------

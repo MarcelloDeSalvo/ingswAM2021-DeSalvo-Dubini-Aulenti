@@ -7,6 +7,11 @@ import Model.Resources.ResourceType;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+enum conversionMode{
+    INACTIVE, AUTOMATIC, CHOICE_REQUIRED;
+}
+
+
 public class ConversionSite {
     /**
      * List of available conversions
@@ -41,16 +46,15 @@ public class ConversionSite {
     /**
      * canConvert checks if and how many conversions are available
      * @return true if there's only one conversion
-     * @throws MultipleConversionsActive if there's more than one conversion leader and a choice by the user is required
      */
-    public boolean canConvert ()  throws  MultipleConversionsActive{
+    public conversionMode canConvert (){
         switch (conversionsAvailable.size()){
             case 0:
-                return false;
+                return conversionMode.INACTIVE;
             case 1:
-                return true;
+                return conversionMode.AUTOMATIC;
             default:
-                throw new MultipleConversionsActive("You have more than one conversion available. Which one would you like to use?");
+                return conversionMode.CHOICE_REQUIRED;
         }
     }
 
