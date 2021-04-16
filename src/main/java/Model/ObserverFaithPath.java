@@ -6,4 +6,12 @@ public interface ObserverFaithPath {
      * @param faithPoints qty of FAITHPOINTs
      */
     void update(int faithPoints);
+
+    /**
+     * Method called when a player overflows Resources in Deposit. It updates the position of every other player by <br>
+     * the param
+     * @param faithPoints qty of FAITHPOINTs
+     */
+    void updateEveryOneElse(int faithPoints);
+
 }

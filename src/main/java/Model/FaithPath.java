@@ -59,8 +59,8 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     /**
      * Checks if current player is the first to land on a Pope Space
      */
-    public boolean isFirstOnPopeSpace(){
-        if(vaticanReports.get(positions.get(currentPlayer)) == 'P' && positions.get(currentPlayer)>lastPActivated )
+    public boolean isFirstOnPopeSpace(int thisPlayer){
+        if(vaticanReports.get(positions.get(thisPlayer)) == 'P' && positions.get(thisPlayer)>lastPActivated )
             return true;
         return false;
 
@@ -72,14 +72,14 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      * the latest used P char by updating lastPActivated.
      * @return true if there are no errors.
      */
-    public boolean activatePapalFavour(){
+    public boolean activatePapalFavour(int thisPlayer){
         if(papalFavours.get(0)==null)
             return false;
         for(int i=0;i<numOfPlayers;i++){
             if((vaticanReports.get(positions.get(i)) == 'P' || vaticanReports.get(positions.get(i)) == 'X') && positions.get(i)>lastPActivated)
                 playersFavourList.get(i).addFavour(papalFavours.get(0));
         }
-        lastPActivated=positions.get(currentPlayer);
+        lastPActivated=positions.get(thisPlayer);
         papalFavours.remove(0);
 
         return true;
@@ -91,13 +91,31 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     @Override
     public void update(int faithPoints) {
         for(int i=0;i<faithPoints;i++){
-            positions.set(currentPlayer, positions.get(currentPlayer) + 1);
-            if(isFirstOnPopeSpace()){
-                activatePapalFavour();
+            if(positions.get(currentPlayer) != length-1) {
+                positions.set(currentPlayer, positions.get(currentPlayer) + 1);
+                if (isFirstOnPopeSpace(currentPlayer)) {
+                    activatePapalFavour(currentPlayer);
+                }
+                victoryConditions();
             }
-            victoryConditions();
         }
 
+    }
+
+    @Override
+    public void updateEveryOneElse(int faithPoints) {
+        for(int j=0;j<faithPoints;j++) {
+            for (int i = 0; i < numOfPlayers; i++) {
+                if (i != currentPlayer && positions.get(i) != length - 1) {
+                    positions.set(i, positions.get(i) + 1);
+                }
+            }
+            for (int i = 0; i < numOfPlayers; i++){
+                if (isFirstOnPopeSpace(i)) {
+                    activatePapalFavour(i);
+                }
+            }
+        }
     }
 
     /**
@@ -187,9 +205,12 @@ class playerFavour{
         Favours.add(favourAmount);
         return true;
     }
+    public boolean isEmpty(){
+        return(Favours.isEmpty());
+    }
 
     public ArrayList<Integer> getFavours() {
-        return Favours;
+            return Favours;
     }
 
 }
