@@ -14,4 +14,5 @@ public interface ObserverFaithPath {
      */
     void updateEveryOneElse(int faithPoints);
 
+
 }
