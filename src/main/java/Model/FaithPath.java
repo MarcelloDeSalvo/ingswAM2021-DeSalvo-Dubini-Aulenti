@@ -114,6 +114,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
                 }
             }
         }
+        victoryConditions();
     }
 
     /**
@@ -186,6 +187,9 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
+
+    public ArrayList<ObserverEndGame> getObserversEndGame() { return observersEndGame; }
+
     //------------------------------------------------------------------------------------------------------------------
 }
 

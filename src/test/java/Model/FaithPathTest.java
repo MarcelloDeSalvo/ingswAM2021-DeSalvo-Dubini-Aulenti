@@ -66,11 +66,6 @@ class FaithPathTest {
 
     @Test
     void faithTestResourceOverFlow(){
-        //LEGENDA
-        //ROSSO O
-        //GIALLO 1
-        //SHIELD 2
-        //SCHIAVO 3
 
         faithPath.update(7);
         faithPath.setCurrentPlayer(1);
