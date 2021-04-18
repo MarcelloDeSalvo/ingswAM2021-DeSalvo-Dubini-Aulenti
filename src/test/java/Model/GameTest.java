@@ -83,23 +83,89 @@ class GameTest {
     void setUpObserves() {
     }
 
+
+    void nextTurn_check(Game game, int turnNumber){
+        assertEquals(turnNumber%game.getNumOfPlayers(), game.getCurrentPlayer());
+        assertEquals(turnNumber, game.getTurnNumber());
+        assertEquals(turnNumber%game.getNumOfPlayers(), game.getFaithPath().getCurrentPlayer());
+    }
+
     @Test
-    void nextTurn() throws FileNotFoundException {
+    void nextTurn_1() throws FileNotFoundException {
         Game game = new Game();
 
-        assertEquals(0,game.getCurrentPlayer());
+        assertEquals(0, game.getCurrentPlayer());
         assertEquals(0, game.getTurnNumber());
         assertEquals(0, game.getFaithPath().getCurrentPlayer());
 
         game.startGame();
         game.nextTurn();
-
-        assertEquals(1, game.getCurrentPlayer());
-        assertEquals(1, game.getTurnNumber());
-        assertEquals(1, game.getFaithPath().getCurrentPlayer());
+        nextTurn_check(game, 1);
     }
 
     @Test
-    void update() {
+    void nextTurn_2() throws FileNotFoundException {
+        Game game = new Game();
+        game.startGame();
+
+        game.nextTurn();
+        nextTurn_check(game, 1);
+
+        game.nextTurn();
+        nextTurn_check(game, 2);
+
+        game.nextTurn();
+        nextTurn_check(game, 3);
     }
+
+
+    @Test
+    void nextTurn_finalTurnMiddleOfTheRound() throws FileNotFoundException {
+        Game game = new Game();
+        game.startGame();
+
+        nextTurn_check(game, 0);  //ink well
+        game.nextTurn();
+
+        nextTurn_check(game, 1);  //first Player
+        game.update();                      //he activates some win conditions
+        assertTrue(game.isFinalTurn());
+        game.nextTurn();                    //ends his turn, but since he's the one sitting to the left of the first player, the game will end in two rounds
+
+        nextTurn_check(game, 2);  //second Player
+        game.nextTurn();
+
+        nextTurn_check(game, 3);  //third Player
+        game.nextTurn();
+
+        assertTrue(game.isGameEnded());
+        nextTurn_check(game, 3);
+
+    }
+
+
+    @Test
+    void nextTurn_finalTurnThatEndsTheGame() throws FileNotFoundException {
+        Game game = new Game();
+        game.startGame();
+
+        nextTurn_check(game, 0);  //ink well
+        game.nextTurn();
+
+        nextTurn_check(game, 1);  //first Player
+        game.nextTurn();
+
+        nextTurn_check(game, 2);  //second Player
+        game.nextTurn();
+
+        nextTurn_check(game, 3);  //third Player
+        game.update(); //FinalTurn          //he activates some win conditions
+        game.nextTurn();                    //ends his turn, but since he's the one sitting to the right of the first player, the game ends
+
+        assertTrue(game.isFinalTurn());
+        assertTrue(game.isGameEnded());
+        nextTurn_check(game, 3);
+
+    }
+
 }

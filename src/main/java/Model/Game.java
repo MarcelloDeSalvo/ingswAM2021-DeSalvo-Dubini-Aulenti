@@ -176,14 +176,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         playerList = new ArrayList<>();
         playerList.add(new Player(nickname,0));
+        playerList.add(new Player("LORENZO",1));
 
         setUpObservers_singlePlayer();
-
-        finalTurn = false;
-        gameEnded = false;
-
-        turnNumber = 0;
-        currentPlayer = 0;
     }
 
     /**
@@ -272,14 +267,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * Ends the round and changes the current player
      */
     public void nextTurn(){
-        if (currentPlayer++==1 && finalTurn){
+
+        if (((currentPlayer+1)%numOfPlayers) == 0 && finalTurn){
             gameEnded = true;
             gameStarted = false;
         }
 
 
         if(!gameEnded && gameStarted) {
-            currentPlayer = (currentPlayer++) % numOfPlayers;
+            currentPlayer = (currentPlayer+1) % numOfPlayers;
             faithPath.setCurrentPlayer(currentPlayer);
             turnNumber++;
         }
