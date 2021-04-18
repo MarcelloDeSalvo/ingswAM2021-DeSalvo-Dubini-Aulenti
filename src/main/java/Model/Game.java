@@ -17,10 +17,10 @@ import java.util.Iterator;
 
 public class Game implements ObserverEndGame, Game_TokensAccess{
 
-    private int currentPlayer;
     private int numOfPlayers;
 
-    public int turnNumber;
+    private int currentPlayer = 0;
+    public int turnNumber = 0;
 
     private ArrayList<Player> playerList;
 
@@ -33,12 +33,12 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     private ArrayList<DevelopmentCard> developmentCards;
     private ArrayList<ResourceContainer> marbles;
 
-    private boolean finalTurn;
+    private boolean finalTurn = false;
 
-    private boolean gameStarted;
-    private boolean gameEnded;
+    private boolean gameStarted = false;
+    private boolean gameEnded = false;
 
-    private boolean isSinglePlayer = false;
+    private boolean singlePlayer = false;
 
 
     /**
@@ -53,8 +53,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         standard_deck_start(4);
         newPlayerOrder(strings);
-
-
     }
 
 
@@ -104,7 +102,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public Game(String playerNickname) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         standard_deck_start(2);
         standard_single_player_start(playerNickname);
-        isSinglePlayer = true;
+        singlePlayer = true;
     }
 
     /**
@@ -116,7 +114,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public Game(String playerNickname, boolean test) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         standard_deck_start(2);
         test_single_player_start(playerNickname);
-        isSinglePlayer=true;
+        singlePlayer=true;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -141,11 +139,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
-
-        finalTurn = false;
-        gameEnded = false;
-
-        turnNumber = 0;
     }
 
     /**
@@ -166,11 +159,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         market = new Market(marbles);
         cardgrid = new Cardgrid(developmentCards);
-
-        finalTurn = false;
-        gameEnded = false;
-
-        turnNumber = 0;
     }
 
     /**
@@ -204,7 +192,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         playerList.add(new Player(nickname,0));
         playerList.add(new Player("LORENZO",1));
 
-        currentPlayer = 0;
         setUpObservers_singlePlayer();
         distributeRandomLeadersToPlayer();
     }
@@ -227,7 +214,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             i++;
         }
 
-        currentPlayer = 0;
         distributeRandomLeadersToHands();
         setUpObservers();
     }
@@ -251,7 +237,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             i++;
         }
 
-        currentPlayer = 0;
         distributeRandomLeadersToHands();
         setUpObservers();
     }
@@ -316,7 +301,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      */
     public void nextTurn(){
 
-        if ((((currentPlayer+1)%numOfPlayers) == 0 && finalTurn) || (currentPlayer==0 && isSinglePlayer && finalTurn)){
+        if (  (((currentPlayer+1)%numOfPlayers == 0) || (currentPlayer==0 && singlePlayer )) && finalTurn){
             gameEnded = true;
             gameStarted = false;
         }
@@ -360,7 +345,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     public boolean isSinglePlayer() {
-        return isSinglePlayer;
+        return singlePlayer;
     }
 
     public ArrayList<Player> getPlayerList() {
