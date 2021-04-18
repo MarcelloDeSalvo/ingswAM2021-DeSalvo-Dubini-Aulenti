@@ -193,7 +193,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      */
     public void test_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
         ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
-        lorenzo = new Lorenzo(tokens);
+        lorenzo = new Lorenzo(tokens, true);
         //lorenzo.shuffleActionTokens();
 
         playerList = new ArrayList<>();
@@ -406,6 +406,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
     public int getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
     public int getTurnNumber() {

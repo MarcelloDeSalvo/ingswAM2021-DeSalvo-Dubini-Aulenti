@@ -17,6 +17,12 @@ public class Lorenzo implements ObservableEndGame{
         Collections.shuffle(this.actionTokens);
     }
 
+    public Lorenzo(ArrayList<ActionToken> actionTokens, boolean test) {
+        this.actionTokens = actionTokens;
+        this.observersEndGame = new ArrayList<>();
+        //Collections.shuffle(this.actionTokens);
+    }
+
     public void shuffleActionTokens() {
         Collections.shuffle(actionTokens);
     }
