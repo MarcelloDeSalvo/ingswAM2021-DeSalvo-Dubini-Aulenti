@@ -28,7 +28,7 @@ class ActionTokenTest {
     }
 
 
-    //this test is used for checking if "removeCards" actions works fine
+    //This test is used for checking if "removeCards" actions works fine
     //it also checks if the NotifyEndGame works properly
     @Test
     void removeCardsActionTest() {
@@ -53,7 +53,10 @@ class ActionTokenTest {
 
         assertEquals(0, cardgrid.getNumOfColor(actionTokens.get(0).getColour())); //GREEN
 
+        //CHECKS IF THE GAME ENDS
         assertTrue(game.isFinalTurn());
+        game.nextTurn();
+        assertTrue(game.isGameEnded());
     }
 
     @Test
@@ -101,8 +104,39 @@ class ActionTokenTest {
     void incrementFaithPointsTest() {
         System.out.println(game.getTurnNumber());
         actionTokens.get(4).getActions().get(1).doAction(game);
-
         assertEquals(2, faithPath.getPositions().get(1));
 
+        actionTokens.get(5).getActions().get(1).doAction(game);
+        assertEquals(4, faithPath.getPositions().get(1));
+
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+        actionTokens.get(4).getActions().get(1).doAction(game);
+
+        assertEquals(24, faithPath.getPositions().get(1));
+
+        actionTokens.get(4).getActions().get(1).doAction(game); //END OF FAITHPATH
+
+        //CHECKS IF THE GAME ENDS
+        assertTrue(game.isFinalTurn());
+        game.nextTurn();
+        assertTrue(game.isGameEnded());
+    }
+
+    @Test
+    void incrementFaithPointsTest2() {
+        actionTokens.get(6).getActions().get(1).doAction(game);
+        assertEquals(1, faithPath.getPositions().get(1));
+
+        ArrayList<ActionToken> shuffledActionTokens = lorenzo.getActionTokens();
+
+        //System.out.println(shuffledActionTokens.toString()); print of the shuffled ArrayList: used for checking manually
     }
 }
