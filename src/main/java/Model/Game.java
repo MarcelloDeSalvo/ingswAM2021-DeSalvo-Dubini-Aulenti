@@ -49,8 +49,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         strings.add("Player_3");
         strings.add("Player_4");
 
-        newPlayerOrder(strings);
         standard_deck_start(4);
+        newPlayerOrder(strings);
+
 
     }
 
@@ -61,9 +62,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * @param playersNicknames is the list of the connected player's nicknames
      */
     public Game(ArrayList<String> playersNicknames, int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        newPlayerOrder(playersNicknames);
         standard_deck_start(numOfPlayers);
-
+        newPlayerOrder(playersNicknames);
     }
 
     /**
@@ -74,9 +74,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
      */
     public Game(ArrayList<String> playersNicknames, int pyramidHeight, int prodSlotNum, int numOfPlayers) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        newPlayerOrder(playersNicknames,pyramidHeight,prodSlotNum);
         standard_deck_start(numOfPlayers); //to change when custom rules methods are ready
-
+        newPlayerOrder(playersNicknames,pyramidHeight,prodSlotNum);
     }
 
     /**
@@ -87,9 +86,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
      */
     public Game(ArrayList<String> playersNicknames, int pyramidHeight, int prodSlotNum, int numOfPlayers, ArrayList<String> customDecks) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        newPlayerOrder(playersNicknames,pyramidHeight,prodSlotNum);
         custom_deck_default_param_start(numOfPlayers, customDecks);
-
+        newPlayerOrder(playersNicknames,pyramidHeight,prodSlotNum);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -251,6 +249,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         currentPlayer = 0;
         distributeRandomLeadersToHands();
+        setUpObservers();
     }
 
     /**
