@@ -56,13 +56,22 @@ public class Player {
      * Discards a leaderCard from a Player's hand
      * @param leaderCard is the discarded leaderCard
      * @return true if it can be discarded
+     * @throws NullPointerException
+     * @throws IndexOutOfBoundsException
      */
     public boolean discardFromHand(LeaderCard leaderCard) throws NullPointerException, IllegalArgumentException{
         return leaderCard != null && hand.remove(leaderCard);
     }
 
+    /**
+     * Discards a leaderCard from a Player's hand <br>
+     * @param i is the index that starts from 0 (and must be less than hand.size())
+     * @return true if it can be removed
+     * @throws NullPointerException
+     * @throws IndexOutOfBoundsException
+     */
     public boolean discardFromHand(int i) throws NullPointerException, IndexOutOfBoundsException{
-        if (i >0 && i<hand.size() && hand.contains(hand.get(i))){
+        if (i >= 0 && i<hand.size() && hand.contains(hand.get(i))){
             return hand.remove(hand.get(i));
         }
 
@@ -78,7 +87,6 @@ public class Player {
             leaderCard.changeStatus(Status.ACTIVE);
             return leaderCard.executeAbility(playerBoard);
         }
-
         return false;
     }
     //------------------------------------------------------------------------------------------------------------------

@@ -38,6 +38,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     private boolean gameStarted;
     private boolean gameEnded;
 
+    private boolean isSinglePlayer = false;
+
 
     /**
      * Test Constructor
@@ -102,6 +104,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public Game(String playerNickname) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         standard_deck_start(2);
         standard_single_player_start(playerNickname);
+        isSinglePlayer = true;
     }
 
     /**
@@ -113,6 +116,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public Game(String playerNickname, boolean test) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         standard_deck_start(2);
         test_single_player_start(playerNickname);
+        isSinglePlayer=true;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -312,7 +316,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      */
     public void nextTurn(){
 
-        if (((currentPlayer+1)%numOfPlayers) == 0 && finalTurn){
+        if ((((currentPlayer+1)%numOfPlayers) == 0 && finalTurn) || (currentPlayer==0 && isSinglePlayer && finalTurn)){
             gameEnded = true;
             gameStarted = false;
         }
@@ -325,6 +329,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         }
     }
 
+    /**
+     * Starts the game and the turn's counter
+     */
     public void startGame(){
         gameStarted = true;
     }
@@ -352,6 +359,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return gameStarted;
     }
 
+    public boolean isSinglePlayer() {
+        return isSinglePlayer;
+    }
 
     public ArrayList<Player> getPlayerList() {
         return playerList;

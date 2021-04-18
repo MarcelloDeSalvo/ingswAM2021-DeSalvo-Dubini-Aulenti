@@ -19,12 +19,12 @@ class ActionTokenTest {
     @BeforeEach
     void setUp() throws FileNotFoundException {
         game = new Game("Bandit", true);
+        game.startGame();
         lorenzo = game.getLorenzo();
         cardgrid = game.getCardgrid();
         faithPath = game.getFaithPath();
         actionTokens = lorenzo.getActionTokens();
-
-        faithPath.setCurrentPlayer(1);
+        game.nextTurn();
     }
 
 
@@ -99,6 +99,7 @@ class ActionTokenTest {
 
     @Test
     void incrementFaithPointsTest() {
+        System.out.println(game.getTurnNumber());
         actionTokens.get(4).getActions().get(1).doAction(game);
 
         assertEquals(2, faithPath.getPositions().get(1));
