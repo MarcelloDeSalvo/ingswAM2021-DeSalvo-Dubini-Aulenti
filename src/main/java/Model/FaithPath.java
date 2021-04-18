@@ -1,18 +1,19 @@
 package Model;
 
+
 import java.util.ArrayList;
 
 public class FaithPath implements ObserverFaithPath, ObservableEndGame {
-    private ArrayList<Integer> positions;
+    private final ArrayList<Integer> positions;
     private int numOfPlayers;
     private int currentPlayer;
     private int length;
     private int lastPActivated;
     private ArrayList<Character> vaticanReports;
     private ArrayList<Integer> victoryPoints;
-    private ArrayList<ObserverEndGame> observersEndGame;
+    private final ArrayList<ObserverEndGame> observersEndGame;
     private ArrayList<Integer> papalFavours;
-    private ArrayList<playerFavour> playersFavourList;
+    private final ArrayList<playerFavour> playersFavourList;
 
 
     /**
@@ -60,10 +61,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      * Checks if current player is the first to land on a Pope Space
      */
     public boolean isFirstOnPopeSpace(int thisPlayer){
-        if(vaticanReports.get(positions.get(thisPlayer)) == 'P' && positions.get(thisPlayer)>lastPActivated )
-            return true;
-        return false;
-
+        return vaticanReports.get(positions.get(thisPlayer)) == 'P' && positions.get(thisPlayer) > lastPActivated;
     }
 
     /**
@@ -73,7 +71,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
      * @return true if there are no errors.
      */
     public boolean activatePapalFavour(int thisPlayer){
-        if(papalFavours.get(0)==null)
+        if(papalFavours.isEmpty())
             return false;
         for(int i=0;i<numOfPlayers;i++){
             if((vaticanReports.get(positions.get(i)) == 'P' || vaticanReports.get(positions.get(i)) == 'X') && positions.get(i)>lastPActivated)
@@ -112,7 +110,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
             }
             for (int i = 0; i < numOfPlayers; i++){
                 if (isFirstOnPopeSpace(i)) {
-                    activatePapalFavour(i);
+                   activatePapalFavour(i);
                 }
             }
         }
