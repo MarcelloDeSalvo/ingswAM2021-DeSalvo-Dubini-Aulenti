@@ -33,7 +33,7 @@ public class ActionTokensParser {
 
 
     /**
-     *  Reads the JSON file containing the initial ActionTokens
+     * Reads the JSON file containing the initial ActionTokens
      * @return An arraylist of the initial ActionTokens
      * @throws FileNotFoundException if the file cannot be opened or it's missing
      * @throws JsonSyntaxException if the file contains some syntax errors;
@@ -62,7 +62,7 @@ public class ActionTokensParser {
             throw new JsonSyntaxException( path + ": File is malformed");
         }
 
-        Collections.shuffle(actionTokens);
+        //Collections.shuffle(actionTokens);
         return actionTokens;
     }
 }

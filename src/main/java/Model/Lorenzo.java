@@ -35,6 +35,7 @@ public class Lorenzo implements ObservableEndGame{
         actionTokens.remove(0);
     }
 
+
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
     @Override
     public void notifyEndGame() {
@@ -51,6 +52,17 @@ public class Lorenzo implements ObservableEndGame{
     @Override
     public void removeObserver(ObserverEndGame observerEndGame) {
         observersEndGame.remove(observerEndGame);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GETTERS-----------------------------------------------------------------------------------------------------------
+    public ArrayList<ActionToken> getActionTokens() {
+        return actionTokens;
+    }
+
+    public ArrayList<ObserverEndGame> getObserversEndGame() {
+        return observersEndGame;
     }
     //------------------------------------------------------------------------------------------------------------------
 }

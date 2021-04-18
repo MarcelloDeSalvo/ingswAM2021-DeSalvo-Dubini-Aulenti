@@ -40,6 +40,7 @@ public class ActionToken {
         actions.add(addFaithPoints);
     }
 
+
     //GETTERS-----------------------------------------------------------------------------------------------------------
     public Colour getColour() {
         return colour;
@@ -55,6 +56,18 @@ public class ActionToken {
 
     public ArrayList<Action> getActions() {
         return actions;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        return "ActionToken{" +
+                "colour=" + colour +
+                ", amountOfCards=" + amountOfCards +
+                ", faithPoints=" + faithPoints +
+                '}';
     }
     //------------------------------------------------------------------------------------------------------------------
 }

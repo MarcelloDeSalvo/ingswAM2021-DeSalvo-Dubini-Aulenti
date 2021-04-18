@@ -94,6 +94,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     //------------------------------------------------------------------------------------------------------------------
 
 
+
     //SINGLE PLAYER CONSTRUCTORS------------------------------------------------------------------------------------------
     /**
      * Standard rules single player constructor
@@ -101,11 +102,22 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
      * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
      */
     public Game(String playerNickname) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
-        standard_single_player_start(playerNickname);
         standard_deck_start(2);
+        standard_single_player_start(playerNickname);
+    }
 
+    /**
+     * Standard rules single player constructor used for TESTS ONLY
+     * @param playerNickname is the list of the connected player's nicknames
+     * @param test indicates that i want to create a single player game for a TEST
+     * @throws FileNotFoundException if one of the configuration files is missing or it cannot be opened
+     */
+    public Game(String playerNickname, boolean test) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
+        standard_deck_start(2);
+        test_single_player_start(playerNickname);
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
 
     //GAME CREATION----------------------------------------------------------------------------------------------------
@@ -127,9 +139,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
-
-        distributeRandomLeadersToHands();
-        setUpObserves();
 
         finalTurn = false;
         gameEnded = false;
@@ -156,9 +165,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         market = new Market(marbles);
         cardgrid = new Cardgrid(developmentCards);
 
-        distributeRandomLeadersToHands();
-        setUpObserves();
-
         finalTurn = false;
         gameEnded = false;
 
@@ -166,7 +172,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     /**
-     * starts a single player Game
+     * Starts a single player Game
      * @param nickname is the player's nickname
      */
     public void standard_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
@@ -180,6 +186,25 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         currentPlayer = 0;
         setUpObservers_singlePlayer();
+        distributeRandomLeadersToPlayer();
+    }
+
+    /**
+     * Starts a single player Game. Used for TEST ONLY
+     * @param nickname is the player's nickname
+     */
+    public void test_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
+        lorenzo = new Lorenzo(tokens);
+        //lorenzo.shuffleActionTokens();
+
+        playerList = new ArrayList<>();
+        playerList.add(new Player(nickname,0));
+        playerList.add(new Player("LORENZO",1));
+
+        currentPlayer = 0;
+        setUpObservers_singlePlayer();
+        distributeRandomLeadersToPlayer();
     }
 
     /**
@@ -201,6 +226,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         }
 
         currentPlayer = 0;
+        distributeRandomLeadersToHands();
+        setUpObservers();
     }
 
     /**
@@ -223,10 +250,11 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         }
 
         currentPlayer = 0;
+        distributeRandomLeadersToHands();
     }
 
     /**
-     * Gives 4 random leader to each player
+     * Gives 4 random LeaderCards to each player
      */
     public void distributeRandomLeadersToHands(){
         Collections.shuffle(leaderCards);
@@ -240,17 +268,33 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     /**
+     * Gives 4 random LeaderCards to the first (and only) player
+     */
+    public void distributeRandomLeadersToPlayer(){
+        Collections.shuffle(leaderCards);
+        for (int i = 0; i<4; i++){
+            playerList.get(0).addToHand(leaderCards.get(i));
+            i++;
+        }
+    }
+
+    /**
      * Sets up all the observers for the single player
      */
     public void setUpObservers_singlePlayer(){
         lorenzo.addObserver(this);
-        setUpObserves();
+        faithPath.addObserver(this);
+
+        playerList.get(0).getPlayerBoard().addObserver(this);
+
+        ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
+        resourceContainer.addObserver(faithPath);
     }
 
     /**
      * Sets up all the observers
      */
-    public void setUpObserves(){
+    public void setUpObservers(){
         faithPath.addObserver(this);
 
         for (Player p: playerList) {

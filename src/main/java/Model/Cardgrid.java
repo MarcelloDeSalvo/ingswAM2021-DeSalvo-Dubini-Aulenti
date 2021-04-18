@@ -144,6 +144,22 @@ public class Cardgrid {
         }
         return false;
     }
+
+    /**
+     * This method checks the amount of cards, of a certain colour, present in the cardGrid
+     * @return the right amount
+     */
+    public int getNumOfColor(Colour desiredColour) {
+        int count = 0;
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getColour()==desiredColour)
+                    count = count + deckGrid[i][j].getDeck().size();
+            }
+        }
+
+        return count;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -153,7 +169,7 @@ public class Cardgrid {
      }
 
     /**
-     * Function used to print the cardgrid and manually check if everything is correct.
+     * Function used to print the CardGrid and manually check if everything is correct.
      */
     public void printGrid(){
         for(int i=0;i<columns;i++){

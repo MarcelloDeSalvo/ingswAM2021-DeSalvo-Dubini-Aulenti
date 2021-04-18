@@ -25,16 +25,16 @@ class CardgridTest {
     @Test
     void cardGridConstructorTest() throws FileNotFoundException {
         Cardgrid cardgrid=new Cardgrid(developmentCards);
-        cardgrid.printGrid();
+        //cardgrid.printGrid();
     }
 
     @Test
     void cardGridGetDevelopmentCardOnTopTest() throws FileNotFoundException, InvalidRowNumber, InvalidColumnNumber {
         Cardgrid cardgrid=new Cardgrid(developmentCards);
-        cardgrid.printGreenCardsLevel1();
+        //cardgrid.printGreenCardsLevel1();
         DevelopmentCard tempCard;
-        tempCard=cardgrid.getDevelopmentCardOnTop(Colour.GREEN,3);
-        System.out.println("Card's level: "+tempCard.getLevel() + " and VP: "+tempCard.getVictoryPoints());
+        tempCard = cardgrid.getDevelopmentCardOnTop(Colour.GREEN,3);
+        //System.out.println("Card's level: "+tempCard.getLevel() + " and VP: "+tempCard.getVictoryPoints());
         assertEquals(cardgrid.getDevelopmentCardOnTop(Colour.GREEN,3), cardgrid.getDevelopmentCardOnTop(1,1));
 
     }
@@ -66,4 +66,28 @@ class CardgridTest {
 
     }
 
+    @Test
+    void actionTokenActivitiesTest() {
+        Cardgrid cardgrid = new Cardgrid(developmentCards);
+        //cardgrid.printGrid();
+
+        cardgrid.removeAmountOfDevelopmentCardWithColour(4, Colour.YELLOW);
+        assertNull(cardgrid.getDevelopmentCardOnTop(Colour.YELLOW, 1));
+
+        assertTrue(cardgrid.getIfAColourIsPresent(Colour.YELLOW));
+
+
+        cardgrid.removeAmountOfDevelopmentCardWithColour(4, Colour.YELLOW);
+        assertNull(cardgrid.getDevelopmentCardOnTop(Colour.YELLOW, 2));
+
+        assertTrue(cardgrid.getIfAColourIsPresent(Colour.YELLOW));
+
+
+        cardgrid.removeAmountOfDevelopmentCardWithColour(6, Colour.YELLOW);
+        assertNull(cardgrid.getDevelopmentCardOnTop(Colour.YELLOW, 3));
+
+        assertFalse(cardgrid.getIfAColourIsPresent(Colour.YELLOW));
+
+        //cardgrid.printGrid();
+    }
 }
