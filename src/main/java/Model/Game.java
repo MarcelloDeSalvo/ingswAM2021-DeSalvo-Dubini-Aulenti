@@ -178,6 +178,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         playerList.add(new Player(nickname,0));
         playerList.add(new Player("LORENZO",1));
 
+        currentPlayer = 0;
         setUpObservers_singlePlayer();
     }
 
