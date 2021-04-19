@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 public class Game implements ObserverEndGame, Game_TokensAccess{
 
@@ -41,7 +42,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     private boolean singlePlayer = false;
     private boolean lorenzoWon = false;
 
-    private String winner;
+    private ArrayList<String> winner;
 
 
     /**
@@ -335,13 +336,56 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     /**
+     * Returns the total amount of victory points earned by a player throughout the game
+     */
+    public int calculatePlayerVictoryPoints(Player player){
+        int total=0;
+        total=total+faithPath.victoryPointCountFaithPath(player.getOrderID());
+        total=total+player.getPlayerBoard().resourceVictoryPointsTotal();
+        total=total+player.activeLeadersVictoryPoints();
+        return total;
+    }
+
+    /**
      *Tells the controller who won
      */
     public void winnerCalculator(){
-        if(singlePlayer)
-            winner = lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname();
+        int evenCounter=0;
+        ArrayList<Player> maxPointPlayer=new ArrayList<>();
+        List<Integer> playersTotalVictoryPoints= new ArrayList<>();
 
+        if(singlePlayer) {
+            winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
+            //calcolo punteggio del primo e lo salvo da qualche parte
+            return;
+        }
 
+        for(int i=0;i<numOfPlayers;i++){
+            playersTotalVictoryPoints.add(calculatePlayerVictoryPoints(playerList.get(i)));
+        }
+        int max=playersTotalVictoryPoints.stream().max(Integer::compare).get();
+        for (Player p:playerList) {
+            if(calculatePlayerVictoryPoints(p)==max) {
+                winner.add(p.getNickname());
+                evenCounter++;
+                maxPointPlayer.add(p);
+            }
+        }
+        if(evenCounter>1)
+            drawDecider(maxPointPlayer);
+    }
+
+    private void drawDecider(ArrayList<Player> maxPointPlayers){
+        List<Integer> resourceTotal= new ArrayList<>();
+        winner.clear();
+        for (Player p:maxPointPlayers) {
+            resourceTotal.add(p.getPlayerBoard().resourceQuantityTotal());
+        }
+        int max=resourceTotal.stream().max(Integer::compare).get();
+        for (Player p:maxPointPlayers) {
+            if(p.getPlayerBoard().resourceQuantityTotal()==max)
+                winner.add(p.getNickname());
+        }
     }
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -442,15 +486,13 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return turnNumber;
     }
 
-
-    public String getWinner() {
+    public ArrayList<String> getWinner() {
         return winner;
     }
 
-
-    public void setWinner(String winner) {
+    public void setWinner(ArrayList<String> winner) {
         this.winner = winner;
     }
-    //-----------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------
 
 }

@@ -61,6 +61,8 @@ class FaithPathTest {
         assertEquals(2,faithPath.getPlayersFavourList().get(1).getFavours().get(0));
         assertEquals(2,faithPath.getPlayersFavourList().get(0).getFavours().get(0));
         assertEquals(3,faithPath.getPlayersFavourList().get(0).getFavours().get(1));
+        assertEquals(5, faithPath.getPlayersFavourList().get(0).favourVictoryTotal());
+
         assertTrue(faithPath.getPlayersFavourList().get(3).isEmpty());
     }
 
@@ -138,6 +140,27 @@ class FaithPathTest {
         assertEquals(4,faithPath.getPlayersFavourList().get(1).getFavours().get(2));
         assertEquals(4,faithPath.getPlayersFavourList().get(2).getFavours().get(2));
         assertEquals(4,faithPath.getPlayersFavourList().get(3).getFavours().get(2));
+        assertEquals(9, faithPath.getPlayersFavourList().get(2).favourVictoryTotal());
+        assertEquals(29, faithPath.victoryPointCountFaithPath(2));
+
+    }
+
+    @Test
+    void faithTestVictoryPoints(){
+        faithPath.setCurrentPlayer(1);
+        faithPath.update(4);
+        assertEquals(1, faithPath.victoryPointCountFaithPath(1));
+        faithPath.update(4);
+        assertEquals(4, faithPath.victoryPointCountFaithPath(1));
+        faithPath.setCurrentPlayer(0);
+        faithPath.update(16);
+        assertEquals(12, faithPath.victoryPointCountFaithPath(0));
+        faithPath.update(4);
+        faithPath.setCurrentPlayer(1);
+        faithPath.update(50);
+        assertEquals(26, faithPath.victoryPointCountFaithPath(1));
+        assertEquals(19, faithPath.victoryPointCountFaithPath(0));
+
 
     }
 

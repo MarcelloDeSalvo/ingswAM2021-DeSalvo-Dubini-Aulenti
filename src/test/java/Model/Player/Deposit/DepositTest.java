@@ -197,4 +197,18 @@ class DepositTest {
         assertEquals(deposit.checkDeposit(ResourceType.GOLD),4);
     }
 
+    @Test
+    void totalQuantityOfResourcesInDeposit(){
+        Deposit deposit = new Deposit(2);
+        assertEquals(0,deposit.totalQuantityOfResourcesInDeposit());
+        deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
+        assertEquals(2,deposit.totalQuantityOfResourcesInDeposit());
+        deposit.getDefaultSlot_WithDim(1).addToDepositSlot(new ResourceContainer(ResourceType.MINION,1));
+        assertEquals(3,deposit.totalQuantityOfResourcesInDeposit());
+        LeaderDeposit lds = new LeaderDeposit(ResourceType.STONE,2);
+        deposit.addDepositSlot(lds);
+        deposit.getDepositList().get(2).addToDepositSlot(new ResourceContainer(ResourceType.STONE,1));
+        assertEquals(4,deposit.totalQuantityOfResourcesInDeposit());
+    }
+
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -167,5 +168,16 @@ class GameTest {
         nextTurn_check(game, 3);
 
     }
+
+ /*   @Test
+    void trovamaxinstream(){
+        List<Integer> listOfIntegers =new ArrayList<>();
+        listOfIntegers.add(1);
+        listOfIntegers.add(2);
+        listOfIntegers.add(5);
+        assertEquals(5,listOfIntegers.stream().max(Integer::compare).get());
+        listOfIntegers.add(8);
+        assertEquals(8,listOfIntegers.stream().max(Integer::compare).get());
+    }*/
 
 }

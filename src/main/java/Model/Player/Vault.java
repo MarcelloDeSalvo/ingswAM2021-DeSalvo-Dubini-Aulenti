@@ -7,6 +7,7 @@ import Model.Util;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class Vault {
     /**
@@ -122,6 +123,20 @@ public class Vault {
         bufferList.clear();
         return true;
     }
+
+    /**
+     * Returns the total amount of resources present in the vault
+     */
+    public int totalQuantityOfResourcesInVault(){
+        int c=0;
+        for (Map.Entry<ResourceType, ResourceContainer> entry:vaultMap.entrySet()) {
+            c=c+entry.getValue().getQty();
+
+        }
+        return c;
+    }
+
+
     //------------------------------------------------------------------------------------------------------------------
 
 

@@ -114,6 +114,17 @@ public class Deposit {
         selected.switchTo(destination);
         return true;
     }
+
+    /**
+     * Returns the number of all the resources present in the deposit
+     */
+    public int totalQuantityOfResourcesInDeposit(){
+        int c=0;
+        for (DepositSlot slot:depositList) {
+            c=c+slot.getResourceQty();
+        }
+        return c;
+    }
     //-----------------------------------------------------------------------------------------------------------------
 
 

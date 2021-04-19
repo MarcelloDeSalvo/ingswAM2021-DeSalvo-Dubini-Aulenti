@@ -77,4 +77,20 @@ class PlayerTest {
         ArrayList<LeaderCard> list = LeaderCardParser.deserializeLeaderList();
         LeaderCard leaderCard = list.get(0);
     }
+
+    @Test
+    void victoryPointsActiveLeaders(){
+        LeaderCard leaderCard1 = new LeaderCard(1);
+        LeaderCard leaderCard2 = new LeaderCard(5);
+        LeaderCard leaderCard3 = new LeaderCard(3);
+        Player p = new Player("Antonio Netto");
+        assertTrue(p.addToHand(leaderCard2));
+        assertTrue(p.addToHand(leaderCard3));
+        assertTrue(p.activateLeader(leaderCard2));
+        assertTrue(p.activateLeader(leaderCard3));
+        assertEquals(8,p.activeLeadersVictoryPoints());
+        assertTrue(p.addToHand(leaderCard1));
+        assertTrue(p.activateLeader(leaderCard1));
+        assertEquals(9,p.activeLeadersVictoryPoints());
+    }
 }

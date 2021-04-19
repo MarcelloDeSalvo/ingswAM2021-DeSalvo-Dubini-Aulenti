@@ -146,4 +146,19 @@ class  VaultTest {
 
     }
 
+    @Test
+    void totalQuantityOfResourcesInVault(){
+        Vault vault = new Vault();
+        assertEquals(0,vault.totalQuantityOfResourcesInVault());
+        vault.addToVault(new ResourceContainer(ResourceType.GOLD,2));
+        assertEquals(2,vault.totalQuantityOfResourcesInVault());
+        vault.addToVault(new ResourceContainer(ResourceType.MINION,3));
+        assertEquals(5,vault.totalQuantityOfResourcesInVault());
+        vault.addToVault(new ResourceContainer(ResourceType.MINION,4));
+        assertEquals(9,vault.totalQuantityOfResourcesInVault());
+        vault.addToVault(new ResourceContainer(ResourceType.STONE,60));
+        assertEquals(69,vault.totalQuantityOfResourcesInVault());
+
+    }
+
 }

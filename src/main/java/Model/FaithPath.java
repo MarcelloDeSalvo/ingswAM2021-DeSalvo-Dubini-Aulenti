@@ -1,6 +1,8 @@
 package Model;
 
 
+import Model.Player.Player;
+
 import java.util.ArrayList;
 
 public class FaithPath implements ObserverFaithPath, ObservableEndGame {
@@ -82,6 +84,15 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
 
         return true;
     }
+
+    /**
+     * Returns the total amount of Victory Points the selected player has collected on the FaithPath
+     * @param playerNumber is the player's ID
+     */
+    public int victoryPointCountFaithPath(int playerNumber){
+        return(victoryPoints.get(positions.get(playerNumber))+playersFavourList.get(playerNumber).favourVictoryTotal());
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -213,6 +224,18 @@ class playerFavour{
     }
     public boolean isEmpty(){
         return(Favours.isEmpty());
+    }
+
+    /**
+     * Sums all the integers that represent all the Favoure a player has collected over the game.
+     */
+    public int favourVictoryTotal(){
+        int c=0;
+        for (int i :Favours ) {
+            c=c+i;
+        }
+        return c;
+
     }
 
     public ArrayList<Integer> getFavours() {

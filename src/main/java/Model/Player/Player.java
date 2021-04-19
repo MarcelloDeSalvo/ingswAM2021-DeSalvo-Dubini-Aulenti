@@ -89,6 +89,18 @@ public class Player {
         }
         return false;
     }
+
+    /**
+     * Determines the amount of points a player earns through his active leader cards
+     */
+    public int activeLeadersVictoryPoints(){
+        int c=0;
+        for (LeaderCard card:hand) {
+            if(card.getStatus()==Status.ACTIVE)
+                c=c+ card.getVictoryPoints();
+        }
+        return c;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
     //BUY METHODS---(Calls the methods of the lowest levels)------------------------------------------------------------

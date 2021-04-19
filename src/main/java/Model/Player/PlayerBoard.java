@@ -282,6 +282,20 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
             return(deposit.getDepositList().get(deposit.getDefaultDepositNumber()+x-1).addToDepositSlot(myContainer));
         return false;
     }
+
+    /**
+     * Method used to determine the amount of victory points earned through resources
+     */
+    public int resourceVictoryPointsTotal(){
+        return(resourceQuantityTotal()/5);
+    }
+
+    /**
+     * Method used to determine the total amount of resources
+     */
+    public int resourceQuantityTotal(){
+        return (deposit.totalQuantityOfResourcesInDeposit()+vault.totalQuantityOfResourcesInVault());
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
