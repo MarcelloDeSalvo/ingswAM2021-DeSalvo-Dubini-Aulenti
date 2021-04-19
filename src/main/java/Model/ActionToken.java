@@ -67,7 +67,7 @@ public class ActionToken {
                 "colour=" + colour +
                 ", amountOfCards=" + amountOfCards +
                 ", faithPoints=" + faithPoints +
-                '}';
+                '}' + '\n';
     }
     //------------------------------------------------------------------------------------------------------------------
 }

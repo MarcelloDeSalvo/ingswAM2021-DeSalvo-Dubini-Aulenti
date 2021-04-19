@@ -156,6 +156,10 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         return vaticanReports;
     }
 
+    public int getPositions(int i) {
+        return positions.get(i);
+    }
+
     public ArrayList<Integer> getPositions() {
         return positions;
     }

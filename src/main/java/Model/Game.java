@@ -39,6 +39,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     private boolean gameEnded = false;
 
     private boolean singlePlayer = false;
+    private boolean lorenzoWon = false;
+
+    private String winner;
 
 
     /**
@@ -320,13 +323,41 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public void startGame(){
         gameStarted = true;
     }
+
+    /**
+     * Lorenzo's turn
+     */
+    public void lorenzoPickAction(){
+       if (singlePlayer && currentPlayer == 1){
+           lorenzo.pickAction(this);
+           nextTurn();
+       }
+    }
+
+    /**
+     *Tells the controller who won
+     */
+    public void winnerCalculator(){
+        if(singlePlayer)
+            winner = lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname();
+
+
+    }
     //-----------------------------------------------------------------------------------------------------------------
 
 
     //OBSERVER METHODS---(end game notify)-----------------------------------------------------------------------------
     @Override
     public void update() {
+        if (singlePlayer)
+            lorenzoWon = faithPath.getPositions(1) == faithPath.getLength()-1;
+
         finalTurn = true;
+    }
+
+    @Override
+    public void lorenzoWon() {
+        lorenzoWon = true;
     }
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -409,6 +440,16 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
     public int getTurnNumber() {
         return turnNumber;
+    }
+
+
+    public String getWinner() {
+        return winner;
+    }
+
+
+    public void setWinner(String winner) {
+        this.winner = winner;
     }
     //-----------------------------------------------------------------------------------------------------------------
 
