@@ -12,6 +12,7 @@ import Model.Player.Production.ProductionSlot;
 import Model.Resources.ResourceContainer;
 import Model.Resources.ResourceType;
 import Model.Util;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -295,6 +296,10 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
      */
     public int resourceQuantityTotal(){
         return (deposit.totalQuantityOfResourcesInDeposit()+vault.totalQuantityOfResourcesInVault());
+    }
+
+    public int developmentCardsVictoryPoints(){
+        return productionSite.getVictoryPoints();
     }
     //------------------------------------------------------------------------------------------------------------------
 

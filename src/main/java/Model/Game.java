@@ -123,8 +123,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     //------------------------------------------------------------------------------------------------------------------
 
 
-
-    //GAME CREATION----------------------------------------------------------------------------------------------------
+    //GAME METHODS------------------------------------------------------------------------------------------------------
     /**
      * Starts a new Game with the default decks and parameters
      * @throws FileNotFoundException if the file cannot be opened or it's missing
@@ -166,40 +165,42 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     /**
-     * Starts a single player Game
-     * @param nickname is the player's nickname
+     * Starts the game and the turn's counter
      */
-    public void standard_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
-        lorenzo = new Lorenzo(tokens);
-        lorenzo.shuffleActionTokens();
-
-        playerList = new ArrayList<>();
-        playerList.add(new Player(nickname,0));
-        playerList.add(new Player("LORENZO",1));
-
-        currentPlayer = 0;
-        setUpObservers_singlePlayer();
-        distributeRandomLeadersToPlayer();
+    public void startGame(){
+        gameStarted = true;
     }
 
     /**
-     * Starts a single player Game. Used for TEST ONLY
-     * @param nickname is the player's nickname
+     * Ends the round and changes the current player
      */
-    public void test_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
-        lorenzo = new Lorenzo(tokens, true);
-        //lorenzo.shuffleActionTokens();
+    public void nextTurn(){
 
-        playerList = new ArrayList<>();
-        playerList.add(new Player(nickname,0));
-        playerList.add(new Player("LORENZO",1));
+        if (  (((currentPlayer+1)%numOfPlayers == 0) || (currentPlayer==0 && singlePlayer )) && finalTurn){
+            gameEnded = true;
+            gameStarted = false;
+        }
 
-        setUpObservers_singlePlayer();
-        distributeRandomLeadersToPlayer();
+        if(!gameEnded && gameStarted) {
+            currentPlayer = (currentPlayer+1) % numOfPlayers;
+            faithPath.setCurrentPlayer(currentPlayer);
+            turnNumber++;
+        }
     }
 
+    /**
+     * Lorenzo's turn
+     */
+    public void lorenzoPickAction(){
+        if (singlePlayer && currentPlayer == 1){
+            lorenzo.pickAction(this);
+            nextTurn();
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //MULTIPLAYER GAME CREATION-----------------------------------------------------------------------------------------
     /**
      * Creates the Players and orders them randomly <br>
      * Sets the standard parameters for the players
@@ -258,6 +259,44 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             }
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //SINGLE PLAYER GAME CREATION---------------------------------------------------------------------------------------
+    /**
+     * Starts a single player Game
+     * @param nickname is the player's nickname
+     */
+    public void standard_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
+        lorenzo = new Lorenzo(tokens);
+        lorenzo.shuffleActionTokens();
+
+        playerList = new ArrayList<>();
+        playerList.add(new Player(nickname,0));
+        playerList.add(new Player("LORENZO",1));
+
+        currentPlayer = 0;
+        setUpObservers_singlePlayer();
+        distributeRandomLeadersToPlayer();
+    }
+
+    /**
+     * Starts a single player Game. Used for TEST ONLY
+     * @param nickname is the player's nickname
+     */
+    public void test_single_player_start(String nickname) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        ArrayList<ActionToken> tokens = ActionTokensParser.deserializeActionTokens();
+        lorenzo = new Lorenzo(tokens, true);
+        //lorenzo.shuffleActionTokens();
+
+        playerList = new ArrayList<>();
+        playerList.add(new Player(nickname,0));
+        playerList.add(new Player("LORENZO",1));
+
+        setUpObservers_singlePlayer();
+        distributeRandomLeadersToPlayer();
+    }
 
     /**
      * Gives 4 random LeaderCards to the first (and only) player
@@ -268,6 +307,101 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             playerList.get(0).addToHand(leaderCards.get(i));
             i++;
         }
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //PICKING THE WINNERS-----------------------------------------------------------------------------------------------
+    /**
+     *Tells the controller who won
+     *@return the maximum score
+     */
+    public int winnerCalculator(){
+        winner = new ArrayList<>();
+
+        if(singlePlayer) {
+            winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
+            return calculatePlayerVictoryPoints(playerList.get(1));
+        }
+
+        int max = 0;
+        ArrayList<Player> maxPointPlayer=new ArrayList<>();
+        List<Integer> playersTotalVictoryPoints= new ArrayList<>();
+
+        calcAllPlayerPoints(playersTotalVictoryPoints);
+        max = playersTotalVictoryPoints.stream().max(Integer::compare).get();
+        setWinners(maxPointPlayer, max);
+
+        return max;
+    }
+    /**
+     * Calculates all the Player's points
+     */
+    private void calcAllPlayerPoints(List<Integer> playersTotalVictoryPoints){
+        for(int i=0;i<numOfPlayers;i++){
+            playersTotalVictoryPoints.add(calculatePlayerVictoryPoints(playerList.get(i)));
+        }
+    }
+
+    /**
+     *@return the total amount of victory points earned by a player throughout the game
+     */
+    private int calculatePlayerVictoryPoints(Player player){
+        int total=0;
+        total+=faithPath.victoryPointCountFaithPath(player.getOrderID());
+        total+=player.getPlayerBoard().resourceVictoryPointsTotal();
+        total+=player.activeLeadersVictoryPoints();
+        total+=player.getPlayerBoard().developmentCardsVictoryPoints();
+        return total;
+    }
+
+    /**
+     * Checks if there is a draw
+     */
+    private void drawDecider(ArrayList<Player> maxPointPlayers){
+        List<Integer> resourceTotal= new ArrayList<>();
+        winner.clear();
+        for (Player p:maxPointPlayers) {
+            resourceTotal.add(p.getPlayerBoard().resourceQuantityTotal());
+        }
+        int max=resourceTotal.stream().max(Integer::compare).get();
+        for (Player p:maxPointPlayers) {
+            if(p.getPlayerBoard().resourceQuantityTotal()==max)
+                winner.add(p.getNickname());
+        }
+    }
+
+    /**
+     * Sets the nicknames of the winners
+     */
+    private void setWinners(ArrayList<Player> maxPointPlayer, int max){
+        int evenCounter = 0;
+        for (Player p:playerList) {
+            if(calculatePlayerVictoryPoints(p)==max) {
+                winner.add(p.getNickname());
+                evenCounter++;
+                maxPointPlayer.add(p);
+            }
+        }
+
+        if(evenCounter>1)
+            drawDecider(maxPointPlayer);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //OBSERVER METHODS---(end game notify)------------------------------------------------------------------------------
+    @Override
+    public void update() {
+        if (singlePlayer)
+            lorenzoWon = faithPath.getPositions(1) == faithPath.getLength()-1;
+
+        finalTurn = true;
+    }
+
+    @Override
+    public void lorenzoWon() {
+        lorenzoWon = true;
     }
 
     /**
@@ -296,117 +430,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
         resourceContainer.addObserver(faithPath);
     }
-    //-----------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 
 
-    //GAME METHODS-----------------------------------------------------------------------------------------------------
-    /**
-     * Ends the round and changes the current player
-     */
-    public void nextTurn(){
-
-        if (  (((currentPlayer+1)%numOfPlayers == 0) || (currentPlayer==0 && singlePlayer )) && finalTurn){
-            gameEnded = true;
-            gameStarted = false;
-        }
-
-
-        if(!gameEnded && gameStarted) {
-            currentPlayer = (currentPlayer+1) % numOfPlayers;
-            faithPath.setCurrentPlayer(currentPlayer);
-            turnNumber++;
-        }
-    }
-
-    /**
-     * Starts the game and the turn's counter
-     */
-    public void startGame(){
-        gameStarted = true;
-    }
-
-    /**
-     * Lorenzo's turn
-     */
-    public void lorenzoPickAction(){
-       if (singlePlayer && currentPlayer == 1){
-           lorenzo.pickAction(this);
-           nextTurn();
-       }
-    }
-
-    /**
-     * Returns the total amount of victory points earned by a player throughout the game
-     */
-    public int calculatePlayerVictoryPoints(Player player){
-        int total=0;
-        total=total+faithPath.victoryPointCountFaithPath(player.getOrderID());
-        total=total+player.getPlayerBoard().resourceVictoryPointsTotal();
-        total=total+player.activeLeadersVictoryPoints();
-        return total;
-    }
-
-    /**
-     *Tells the controller who won
-     */
-    public void winnerCalculator(){
-        int evenCounter=0;
-        ArrayList<Player> maxPointPlayer=new ArrayList<>();
-        List<Integer> playersTotalVictoryPoints= new ArrayList<>();
-
-        if(singlePlayer) {
-            winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
-            //calcolo punteggio del primo e lo salvo da qualche parte
-            return;
-        }
-
-        for(int i=0;i<numOfPlayers;i++){
-            playersTotalVictoryPoints.add(calculatePlayerVictoryPoints(playerList.get(i)));
-        }
-        int max=playersTotalVictoryPoints.stream().max(Integer::compare).get();
-        for (Player p:playerList) {
-            if(calculatePlayerVictoryPoints(p)==max) {
-                winner.add(p.getNickname());
-                evenCounter++;
-                maxPointPlayer.add(p);
-            }
-        }
-        if(evenCounter>1)
-            drawDecider(maxPointPlayer);
-    }
-
-    private void drawDecider(ArrayList<Player> maxPointPlayers){
-        List<Integer> resourceTotal= new ArrayList<>();
-        winner.clear();
-        for (Player p:maxPointPlayers) {
-            resourceTotal.add(p.getPlayerBoard().resourceQuantityTotal());
-        }
-        int max=resourceTotal.stream().max(Integer::compare).get();
-        for (Player p:maxPointPlayers) {
-            if(p.getPlayerBoard().resourceQuantityTotal()==max)
-                winner.add(p.getNickname());
-        }
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-
-
-    //OBSERVER METHODS---(end game notify)-----------------------------------------------------------------------------
-    @Override
-    public void update() {
-        if (singlePlayer)
-            lorenzoWon = faithPath.getPositions(1) == faithPath.getLength()-1;
-
-        finalTurn = true;
-    }
-
-    @Override
-    public void lorenzoWon() {
-        lorenzoWon = true;
-    }
-    //-----------------------------------------------------------------------------------------------------------------
-
-
-    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public boolean isFinalTurn() {
         return finalTurn;
     }
@@ -493,6 +520,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public void setWinner(ArrayList<String> winner) {
         this.winner = winner;
     }
-//-----------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 
 }

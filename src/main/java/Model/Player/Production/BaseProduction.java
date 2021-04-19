@@ -83,6 +83,11 @@ public class BaseProduction implements ProductionSlot {
     public int getQMO() {
         return QMO;
     }
+
+    @Override
+    public int getVictoryPoints() {
+        return 0;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 }

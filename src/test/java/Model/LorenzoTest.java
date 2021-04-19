@@ -94,6 +94,8 @@ class LorenzoTest {
         game.getFaithPath().updateEveryOneElse(25); //Lorenzo wins
         game.nextTurn();
         assertTrue(game.isGameEnded());
+        game.winnerCalculator();
+        assertEquals(game.getWinner().get(0), "LORENZO");
     }
 
     @Test

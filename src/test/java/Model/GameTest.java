@@ -1,7 +1,11 @@
 package Model;
 
+import Model.Cards.Colour;
+import Model.Cards.DevelopmentCard;
 import Model.Exceptions.InvalidColumnNumber;
 import Model.Exceptions.InvalidRowNumber;
+import Model.Resources.ResourceContainer;
+import Model.Resources.ResourceType;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -169,15 +173,65 @@ class GameTest {
 
     }
 
- /*   @Test
-    void trovamaxinstream(){
-        List<Integer> listOfIntegers =new ArrayList<>();
-        listOfIntegers.add(1);
-        listOfIntegers.add(2);
-        listOfIntegers.add(5);
-        assertEquals(5,listOfIntegers.stream().max(Integer::compare).get());
-        listOfIntegers.add(8);
-        assertEquals(8,listOfIntegers.stream().max(Integer::compare).get());
-    }*/
+
+    @Test
+    void player_3_wins() throws FileNotFoundException {
+        Game game = new Game();
+        game.startGame();
+
+        DevelopmentCard dev1 = new DevelopmentCard(2,1, Colour.YELLOW);
+        game.getPlayer(0).insertBoughtCardOn(1,dev1);
+        game.nextTurn();
+
+        DevelopmentCard dev2 = new DevelopmentCard(3,1, Colour.YELLOW);
+        game.getPlayer(1).insertBoughtCardOn(1, dev2);
+        game.nextTurn();
+
+        game.getPlayer(2).getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 20));
+
+        game.winnerCalculator();
+
+        assertEquals(game.getPlayer(2).getNickname(), game.getWinner().get(0));
+    }
+
+    @Test
+    void player_1_wins() throws FileNotFoundException {
+        Game game = new Game();
+        game.startGame();
+
+        DevelopmentCard dev1 = new DevelopmentCard(8,1, Colour.YELLOW);
+        game.getPlayer(0).insertBoughtCardOn(1,dev1);
+        game.nextTurn();
+
+        DevelopmentCard dev2 = new DevelopmentCard(3,1, Colour.YELLOW);
+        game.getPlayer(1).insertBoughtCardOn(1, dev2);
+        game.nextTurn();
+
+        game.getPlayer(2).getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 20));
+
+        game.winnerCalculator();
+        assertEquals(game.getPlayer(0).getNickname(), game.getWinner().get(0));
+    }
+
+    @Test
+    void draw() throws FileNotFoundException {
+        Game game = new Game();
+        game.startGame();
+
+        DevelopmentCard dev1 = new DevelopmentCard(8,1, Colour.YELLOW);
+        game.getPlayer(0).insertBoughtCardOn(1,dev1);
+        game.nextTurn();
+
+        DevelopmentCard dev2 = new DevelopmentCard(8,1, Colour.YELLOW);
+        game.getPlayer(1).insertBoughtCardOn(1, dev2);
+        game.nextTurn();
+
+        game.getPlayer(2).getPlayerBoard().getVault().addToVault(new ResourceContainer(ResourceType.STONE, 20));
+
+        game.winnerCalculator();
+        assertEquals(2, game.getWinner().size());
+        assertEquals(game.getPlayer(0).getNickname(), game.getWinner().get(0));
+        assertEquals(game.getPlayer(1).getNickname(), game.getWinner().get(1));
+    }
 
 }

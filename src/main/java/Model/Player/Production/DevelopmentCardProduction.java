@@ -84,6 +84,15 @@ public class DevelopmentCardProduction implements ProductionSlot {
     public Deck getSlot() {
         return dev;
     }
+
+    @Override
+    public int getVictoryPoints() {
+        int tot = 0;
+        for (DevelopmentCard card: dev.getDeck()) {
+            tot+=card.getVictoryPoints();
+        }
+        return tot;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

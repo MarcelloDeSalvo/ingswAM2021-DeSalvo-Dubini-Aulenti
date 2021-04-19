@@ -144,6 +144,11 @@ public class LeaderCardProduction implements ProductionSlot {
     public ArrayList<ResourceContainer> getOutput() {
         return output;
     }
+
+    @Override
+    public int getVictoryPoints() {
+        return 0;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

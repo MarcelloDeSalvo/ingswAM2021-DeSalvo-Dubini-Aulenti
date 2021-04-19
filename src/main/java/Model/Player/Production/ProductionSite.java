@@ -201,6 +201,16 @@ public class ProductionSite {
         return productionSlots;
     }
 
+
+    public int getVictoryPoints(){
+        int tot = 0;
+        for (ProductionSlot p: productionSlots) {
+            tot+=p.getVictoryPoints();
+        }
+        return tot;
+    }
+
+
     public HashMap<ResourceType, ResourceContainer> getBufferInputMap() {
         return bufferInputMap;
     }

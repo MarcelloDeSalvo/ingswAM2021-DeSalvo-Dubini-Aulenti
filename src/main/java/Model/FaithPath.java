@@ -136,6 +136,13 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
             if (position == length-1)
                 notifyEndGame();
         }
+
+        if(positions.get(1) == length-1){
+            for (ObserverEndGame observer : this.observersEndGame) {
+                observer.lorenzoWon();
+            }
+        }
+
     }
 
     @Override

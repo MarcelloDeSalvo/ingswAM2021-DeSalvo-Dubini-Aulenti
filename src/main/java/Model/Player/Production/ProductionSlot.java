@@ -73,6 +73,12 @@ public interface ProductionSlot {
      * @return the number of question marks
      */
      int getQMO();
+
+    /**
+     * Gets the amount of victoryPoints
+     * @return the sum of the victoryPoints
+     */
+    int getVictoryPoints();
     //------------------------------------------------------------------------------------------------------------------
 
 
