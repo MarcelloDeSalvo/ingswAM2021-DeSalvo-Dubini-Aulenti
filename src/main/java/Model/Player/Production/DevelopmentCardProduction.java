@@ -60,7 +60,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
 
 
 
-    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public DevelopmentCard getElementOnTop () {
         return dev.getDeck().peek();
     }
@@ -151,5 +151,5 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return 0;
     }
 
-    //---------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 }

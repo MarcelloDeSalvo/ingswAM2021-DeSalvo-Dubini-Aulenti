@@ -25,7 +25,6 @@ public class DevelopmentRequirement implements Requirement {
     /**
      * Check if the current player has enough cards with a specific Level (that can also be any level), a specific colour and a specific amount of this kind of card
      * @param playerBoard is the current player's PlayerBoard
-     * @return
      */
     @Override
     public boolean checkRequirements(PlayerBoard playerBoard) {
@@ -56,7 +55,7 @@ public class DevelopmentRequirement implements Requirement {
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //JAVA---------------------------------------------------------------------------------------------------------------
+    //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         return "DevelopmentRequirement{" +

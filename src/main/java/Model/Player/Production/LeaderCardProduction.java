@@ -92,10 +92,10 @@ public class LeaderCardProduction implements ProductionSlot {
     public int countCardsWith(int level, Colour c) {
         return 0;
     }
-    //-----------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 
 
-    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     @Override
     public ArrayList<ResourceContainer> getProductionInput(){
         return getInputBuffer();

@@ -15,7 +15,7 @@ public class DiscountSite {
 
 
 
-    //DISCOUNT MANAGEMENT----------------------------------------------------------------------------------------------
+    //DISCOUNT MANAGEMENT-----------------------------------------------------------------------------------------------
     /**
      * If a ResourceType is present the method simply adds the qty of the HashMap to the qty of ResourceContainer
      * otherwise, when a ResourceType is absent, the method put a new element in the HashMap
@@ -32,10 +32,10 @@ public class DiscountSite {
 
         return true;
     }
-    //-----------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 
 
-    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     /**
      * This method is used to know the discount relating to a specific ResourceType
      * @param resourceType is the ResourceType that i'm interested to know the discount of

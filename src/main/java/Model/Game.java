@@ -97,7 +97,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
 
 
-    //SINGLE PLAYER CONSTRUCTORS------------------------------------------------------------------------------------------
+    //SINGLE PLAYER CONSTRUCTORS----------------------------------------------------------------------------------------
     /**
      * Standard rules single player constructor
      * @param playerNickname is the list of the connected player's nicknames
@@ -335,7 +335,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return max;
     }
     /**
-     * Calculates all the Player's points
+     * Calculates all the Players' points
      */
     private void calcAllPlayerPoints(List<Integer> playersTotalVictoryPoints){
         for(int i=0;i<numOfPlayers;i++){
@@ -356,7 +356,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     }
 
     /**
-     * Checks if there is a draw
+     * In case of equal points determines which player has more resources. In case of equal points and resources <br>
+     * it calls the game a draw and picks the winners.
      */
     private void drawDecider(ArrayList<Player> maxPointPlayers){
         List<Integer> resourceTotal= new ArrayList<>();
@@ -524,3 +525,35 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     //------------------------------------------------------------------------------------------------------------------
 
 }
+
+/*
+*            ________________________________________________
+            /                                                \
+           |    _________________________________________     |
+           |   |                                         |    |
+           |   |  C:\> https://youtu.be/dQw4w9WgXcQ      |    |
+           |   |                                         |    |
+           |   |  Open the link for free CFU :)          |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |                                         |    |
+           |   |_________________________________________|    |
+           |                                                  |
+            \_________________________________________________/
+                   \___________________________________/
+                ___________________________________________
+             _-'    .-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.  --- `-_
+          _-'.-.-. .---.-.-.-.-.-.-.-.-.-.-.-.-.-.-.--.  .-.-.`-_
+       _-'.-.-.-. .---.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-`__`. .-.-.-.`-_
+    _-'.-.-.-.-. .-----.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-----. .-.-.-.-.`-_
+ _-'.-.-.-.-.-. .---.-. .-------------------------. .-.---. .---.-.-.-.`-_
+:-------------------------------------------------------------------------:
+`---._.-------------------------------------------------------------._.---'
+
+* */

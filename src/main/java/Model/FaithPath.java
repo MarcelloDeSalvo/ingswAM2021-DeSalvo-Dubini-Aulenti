@@ -218,7 +218,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
 
 
 
-//PlayerFavour (Support class)--------------------------------------------------------------------------------------
+//PlayerFavour (Support class)------------------------------------------------------------------------------------------
 class playerFavour{
     private ArrayList<Integer> Favours;
 

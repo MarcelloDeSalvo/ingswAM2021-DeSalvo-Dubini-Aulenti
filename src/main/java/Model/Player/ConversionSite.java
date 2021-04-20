@@ -1,14 +1,13 @@
 package Model.Player;
 
 import Model.Resources.ResourceContainer;
-import Model.Exceptions.*;
 import Model.Resources.ResourceType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 enum conversionMode{
-    INACTIVE, AUTOMATIC, CHOICE_REQUIRED;
+    INACTIVE, AUTOMATIC, CHOICE_REQUIRED
 }
 
 
@@ -83,10 +82,10 @@ public class ConversionSite {
         input.setResourceType(chosenConversion.getResourceType());
         return true;
     }
-    //-----------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
 
 
-    //GETTER AND SETTER------------------------------------------------------------------------------------------------
+    //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ArrayList<ResourceContainer> getConversionsAvailable() {
         return conversionsAvailable;
     }

@@ -40,7 +40,7 @@ public class ProductionSite {
     }
 
 
-    //PRODUCTION PIPELINE----------------------------------------------------------------------------------------------
+    //PRODUCTION PIPELINE-----------------------------------------------------------------------------------------------
 
     /*  User selects the production slots (Base/DevelopmentCard/LeaderCard)
          L He fills all the question marks with the desired resourceType
@@ -78,9 +78,7 @@ public class ProductionSite {
             if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
                 return false;
 
-            if(!Util.arraylistToMap(ps.getProductionOutput(),bufferOutputMap))
-                return false;
-        return true;
+        return Util.arraylistToMap(ps.getProductionOutput(), bufferOutputMap);
     }
 
 
@@ -151,7 +149,7 @@ public class ProductionSite {
     //END OF THE PIPELINE ----------------------------------------------------------------------------------------------
 
 
-    //OTHER METHODS-----------------------------------------------------------------------------------------------------------
+    //OTHER METHODS-----------------------------------------------------------------------------------------------------
     /**
      * Counts the active Development Cards with specific attributes
      * @param numberRequired is the total amount of cards that must have a specific level and colour
