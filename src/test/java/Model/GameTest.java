@@ -80,7 +80,7 @@ class GameTest {
         assertEquals(4, game.getPlayerList().get(3).getHand().size());
 
         assertNotEquals(game.getPlayer(0).getHand().get(0), game.getPlayer(0).getHand().get(1));
-        System.out.println(game.getPlayer(0).getHand().toString());
+        //System.out.println(game.getPlayer(0).getHand().toString());
 
     }
 

@@ -21,9 +21,8 @@ class MarketTest {
 
     @Test
     void marketConstructor(){
-
-        Market market=new Market(marblesMarket);
-        market.printMarket();
+        Market market = new Market(marblesMarket);
+        //market.printMarket();
     }
 
     @Test
