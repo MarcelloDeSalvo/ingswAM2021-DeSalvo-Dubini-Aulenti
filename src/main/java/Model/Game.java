@@ -371,6 +371,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         }
     }
 
+
     /**
      * Sets the nicknames of the winners
      */

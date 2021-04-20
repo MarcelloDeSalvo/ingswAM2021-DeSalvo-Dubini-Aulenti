@@ -23,6 +23,7 @@ public class Lorenzo implements ObservableEndGame{
         //Collections.shuffle(this.actionTokens);
     }
 
+    //LORENZO'S METHODS-------------------------------------------------------------------------------------------------
     public void shuffleActionTokens() {
         Collections.shuffle(actionTokens);
     }
@@ -40,6 +41,8 @@ public class Lorenzo implements ObservableEndGame{
         actionTokens.add(actionTokens.get(0));
         actionTokens.remove(0);
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 
 
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------

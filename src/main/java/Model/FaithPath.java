@@ -66,6 +66,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         return vaticanReports.get(positions.get(thisPlayer)) == 'P' && positions.get(thisPlayer) > lastPActivated;
     }
 
+
     /**
      * Adds the top of the papalFavour stack to every eligible player. The papalFavour is now considered used, and <br>
      * is thus  removed from the stack. To check if a player is on a Pope Space that has not yet been used, we update <br>

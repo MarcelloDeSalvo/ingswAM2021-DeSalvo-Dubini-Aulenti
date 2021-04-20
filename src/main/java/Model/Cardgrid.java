@@ -15,10 +15,6 @@ public class Cardgrid {
     static final int columns = 4;
 
 
-   /* public Cardgrid() {
-        deckGrid = new Deck[columns][rows];
-    }*/
-
     public Cardgrid(ArrayList<DevelopmentCard> fileCards){
         deckGrid = new Deck[columns][rows];
         int c=0;
@@ -102,6 +98,7 @@ public class Cardgrid {
             return( deckGrid[columnNumber-1][rowNumber-1].getDeck().peekFirst());
         return null;
     }
+
 
     /**
      * This method returns the current card on top of its respective deck. The deck is chosen by the parameters: Colour and level
