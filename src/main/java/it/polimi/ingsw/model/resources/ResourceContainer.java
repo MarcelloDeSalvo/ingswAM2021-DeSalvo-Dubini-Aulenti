@@ -47,6 +47,15 @@ public class ResourceContainer implements ObservableFaithPath {
         return this.getQty() >= container.getQty();
     }
 
+    /**
+     * Sums the qty of two containers and check if it has enough <br>
+     * Used mainly when there are buffers involved
+     * @return true if this container can subtract the sum of two containers
+     */
+    public boolean hasEnough(ResourceContainer container1, ResourceContainer container2) {
+        return this.getQty() >= container1.getQty() + container2.getQty();
+    }
+
     public boolean isEmpty(){
         return this.qty == 0;
     }
