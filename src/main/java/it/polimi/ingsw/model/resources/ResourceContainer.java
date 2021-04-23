@@ -53,8 +53,11 @@ public class ResourceContainer implements ObservableFaithPath {
      * Requires two containers of the same type
      * @return true if this container can subtract the sum of two containers
      */
-    public boolean hasEnough(ResourceContainer container1, ResourceContainer container2) {
-        return this.getQty() >= container1.getQty() + container2.getQty();
+    public boolean hasEnough(ResourceContainer container1, ResourceContainer bufferContainer) {
+        if(bufferContainer == null)
+            return this.getQty() >= container1.getQty();
+        else
+            return this.getQty() >= container1.getQty() + bufferContainer.getQty();
     }
 
     public boolean isEmpty(){

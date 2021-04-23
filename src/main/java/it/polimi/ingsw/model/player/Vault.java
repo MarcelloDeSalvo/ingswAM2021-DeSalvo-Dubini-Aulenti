@@ -15,17 +15,17 @@ public class Vault {
      * vaultMap is an HashMap used to store ResourceContainers (Resources and their quantity) using ResourceType as key
      */
     private final HashMap<ResourceType, ResourceContainer> vaultMap;
-    private ArrayList<ResourceContainer> bufferList;
+    private HashMap<ResourceType, ResourceContainer> bufferMap;
 
     public Vault() {
         vaultMap = new HashMap<>();
-        bufferList = new ArrayList<>();
+        bufferMap = new HashMap<>();
     }
 
 
     //VAULT MANAGEMENT--------------------------------------------------------------------------------------------------
     /**
-     * for each element of inputArr it calls the method that adds a single ResourceContainer to the HashMap
+     * For each element of inputArr it calls the method that adds a single ResourceContainer to the HashMap
      * @param inputArr is an ArrayList of ResourceContainer
      * @return true
      */
@@ -37,7 +37,7 @@ public class Vault {
     }
 
     /**
-     * if a container for a specific ResourceType already exists, the method simply adds the quantity to it <br>
+     * If a container for a specific ResourceType already exists, the method simply adds the quantity to it <br>
      * otherwise it creates the relative ResourceType key element in the HashMap
      * @return true
      */
@@ -51,14 +51,14 @@ public class Vault {
     }
 
     /**
-     * for each element of bufferArr it calls the method that remove a single ResourceContainer to the HashMap <br>
+     * For each element of bufferMap it calls the method that remove a single ResourceContainer to the HashMap <br>
      * this method needs to be called after canRemoveFrom Vault
      * @return true
      */
     public boolean removeFromVault(){
-        if(bufferList == null)
+        if(bufferMap == null)
             return false;
-        for (ResourceContainer resourceContainer : bufferList) removeFromVault(resourceContainer);
+        for (ResourceType key : bufferMap.keySet()) removeFromVault(bufferMap.get(key));
         return true;
     }
 
@@ -74,8 +74,8 @@ public class Vault {
     }
 
     /**
-     * checks if a series of elements inside of inputArr is present in the HashMap and if they can be subtracted <br>
-     * if everything goes right bufferArr is put "=" to inputArr
+     * Checks if a series of elements inside of inputArr is present in the HashMap and if they can be subtracted <br>
+     * if everything goes right bufferMap is put "=" to inputArr
      * @param inputArr is an array of ResourceContainer. It contains a list of elements <br>
      * (they must be different from each other) and we need to check if they are in the Vault
      * @return true if the elements in inputArr are present in the HashMap
@@ -90,16 +90,16 @@ public class Vault {
             current = iter.next();
             if(!Util.isPresent(current.getResourceType(),vaultMap))
                 throw new NotEnoughResources("There are currently 0 " + current.getResourceType() + " in the Vault!");
-            else if(!vaultMap.get(current.getResourceType()).hasEnough(current))
+            else if(!vaultMap.get(current.getResourceType()).hasEnough(current, bufferMap.get(current.getResourceType())))
                 throw new NotEnoughResources("Not enough resources");
         }
 
-        bufferList = inputArr;
+        bufferMap = Util.arraylistToMap(inputArr);
         return true;
     }
 
     /**
-     * checks if a specific element inside of inputArr is present in the HashMap and if they can be subtracted <br>
+     * Checks if a specific element inside of inputArr is present in the HashMap and if they can be subtracted <br>
      * If everything goes right the element is added bufferArr
      * @return true if the ResourceType of inputContainer is present as a Key and if the quantity can be removed
      * @throws NotEnoughResources if it doesn't contain a specific ResourceType OR if it doesn't contain enough resources
@@ -109,19 +109,24 @@ public class Vault {
 
         if(!Util.isPresent(inputContainer.getResourceType(),vaultMap))
             throw new NotEnoughResources("There are currently 0 " + inputContainer.getResourceType() + " in the Vault!");
-        else if(!vaultMap.get(inputContainer.getResourceType()).hasEnough(inputContainer))
+        else if(!vaultMap.get(inputContainer.getResourceType()).hasEnough(inputContainer, bufferMap.get(inputContainer.getResourceType())))
             throw new NotEnoughResources("Not enough resources");
 
-        bufferList.add(inputContainer);
+
+        if(Util.isPresent(inputContainer.getResourceType(), bufferMap))
+            bufferMap.get(inputContainer.getResourceType()).addQty(inputContainer.getQty());
+        else
+            bufferMap.put(inputContainer.getResourceType(), inputContainer);
+
         return true;
     }
 
     /**
-     * clears the buffer containing elements that needs to be removed
+     * Clears the buffer containing elements that needs to be removed
      * @return true
      */
     public boolean clearBuffer() {
-        bufferList.clear();
+        bufferMap.clear();
         return true;
     }
 
@@ -129,9 +134,9 @@ public class Vault {
      * Returns the total amount of resources present in the vault
      */
     public int totalQuantityOfResourcesInVault(){
-        int c=0;
+        int c = 0;
         for (Map.Entry<ResourceType, ResourceContainer> entry:vaultMap.entrySet()) {
-            c=c+entry.getValue().getQty();
+            c = c + entry.getValue().getQty();
 
         }
         return c;
@@ -154,8 +159,8 @@ public class Vault {
             return 0;
     }
 
-    public ArrayList<ResourceContainer> getBufferList() {
-        return bufferList;
+    public HashMap<ResourceType, ResourceContainer> getBufferMap() {
+        return bufferMap;
     }
     //------------------------------------------------------------------------------------------------------------------
 

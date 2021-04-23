@@ -93,13 +93,14 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
      * If the element is already present in the HashMap it simply adds the qty,
      * otherwise it creates a new element in the HashMap
      */
-    private void addVaultBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
-        for (ResourceContainer rc: vault.getBufferList()) {
-            ResourceType key = rc.getResourceType();
-            if(!bufferMap.containsKey(key))
-                bufferMap.put(key, new ResourceContainer(key, rc.getQty()));
+    private void addVaultBuffer (HashMap<ResourceType, ResourceContainer> bufferMapInput) {
+        HashMap<ResourceType, ResourceContainer> bufferMapVault = vault.getBufferMap();
+
+        for (ResourceType key: bufferMapVault.keySet()) {
+            if(!bufferMapInput.containsKey(key))
+                bufferMapInput.put(key, new ResourceContainer(key, bufferMapVault.get(key).getQty()));
             else
-                bufferMap.get(key).addQty(rc.getQty());
+                bufferMapInput.get(key).addQty(bufferMapVault.get(key).getQty());
         }
     }
 
