@@ -49,7 +49,8 @@ public class ResourceContainer implements ObservableFaithPath {
 
     /**
      * Sums the qty of two containers and check if it has enough <br>
-     * Used mainly when there are buffers involved
+     * Used mainly when there are buffers involved <br>
+     * Requires two containers of the same type
      * @return true if this container can subtract the sum of two containers
      */
     public boolean hasEnough(ResourceContainer container1, ResourceContainer container2) {

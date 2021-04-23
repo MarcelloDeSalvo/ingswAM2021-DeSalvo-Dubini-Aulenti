@@ -40,9 +40,10 @@ public abstract class  DepositSlot {
      * @return true if he can
      */
     public abstract boolean addToDepositSlot(ResourceContainer inputContainer);
+
     /**
-     * adds the quantity from a resourceContainer in any case.
-     * It needs to be called after canAddToDepositSlot if the user wants to follow the rules
+     * Tells the controller if a container can be removed<br>
+     * If the user is sending multiple containers it also check if he has (inputQty + bufferQty)
      * @return true if there were no errors
      */
     public abstract boolean canRemoveFromDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, NotEnoughResources;

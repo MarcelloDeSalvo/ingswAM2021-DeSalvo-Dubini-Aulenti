@@ -51,7 +51,7 @@ public class LeaderDeposit extends DepositSlot {
         if (!this.getDepositContainer().isTheSameType(inputContainer))
             throw new DifferentResourceType("Not the same type");
 
-        if (!this.getDepositContainer().hasEnough(inputContainer))
+        if (!this.getDepositContainer().hasEnough(inputContainer, getBufferContainer()))
             throw new NotEnoughResources("Not enough resources");
 
         addToBuffer(inputContainer);

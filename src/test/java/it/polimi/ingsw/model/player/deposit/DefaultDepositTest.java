@@ -133,4 +133,24 @@ class DefaultDepositTest {
         assertEquals(slot.getDepositContainer(), new ResourceContainer(ResourceType.MINION, 1));
     }
 
+    @Test
+    void multiple_selection() throws NotEnoughResources, DifferentResourceType {
+        DefaultDeposit slot = new DefaultDeposit(3);
+        assertTrue(slot.addToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
+
+        assertAll(()->slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 2)));
+        assertThrows(NotEnoughResources.class,()-> slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 2)));
+        assertAll(()->slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 1)));
+        assertThrows(NotEnoughResources.class,()-> slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 1)));
+    }
+
+    @Test
+    void multiple_selection_diffResType() throws NotEnoughResources, DifferentResourceType {
+        DefaultDeposit slot = new DefaultDeposit(3);
+        assertTrue(slot.addToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
+
+        assertAll(()->slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 2)));
+        assertThrows(DifferentResourceType.class,()-> slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.SHIELD, 1)));
+    }
+
 }

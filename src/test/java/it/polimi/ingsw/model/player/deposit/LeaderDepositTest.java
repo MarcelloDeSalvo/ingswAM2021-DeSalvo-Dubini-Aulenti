@@ -101,6 +101,17 @@ class LeaderDepositTest {
         assertTrue(lds.getResourceQty()==2);
     }
 
+    @Test
+    void multiple_selection() throws NotEnoughResources, DifferentResourceType {
+        LeaderDeposit slot = new LeaderDeposit(ResourceType.STONE, 3);
+        assertTrue(slot.addToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
+
+        assertAll(()->slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 2)));
+        assertThrows(NotEnoughResources.class,()-> slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 2)));
+        assertAll(()->slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 1)));
+        assertThrows(NotEnoughResources.class,()-> slot.canRemoveFromDepositSlot(new ResourceContainer(ResourceType.STONE, 1)));
+    }
+
 
 }
 
