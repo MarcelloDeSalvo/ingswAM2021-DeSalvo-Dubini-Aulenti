@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 abstract class Card {
+
+    private int id;
     private int victoryPoints;
     private Status status;
     private ArrayList<Requirement> requirements;
@@ -122,6 +124,8 @@ abstract class Card {
     public void setPrice(ArrayList<ResourceContainer> price) {
         this.price = price;
     }
+
+    public int getId() { return id; }
     //------------------------------------------------------------------------------------------------------------------
 
 

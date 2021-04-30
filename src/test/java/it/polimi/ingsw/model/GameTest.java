@@ -234,4 +234,19 @@ class GameTest {
         assertEquals(game.getPlayer(1).getNickname(), game.getWinner().get(1));
     }
 
+    @Test
+    void multi_game() throws FileNotFoundException {
+        Game[] games = new Game[2];
+        games[0] = new Game();
+        games[1] = new Game();
+
+        games[0].startGame();
+        games[1].startGame();
+
+        assertAll(()->games[0].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).addToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
+        assertEquals(games[1].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).getDepositContainer().getQty(), 0);
+        assertEquals(games[0].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).getDepositContainer().getQty(), 3);
+
+    }
+
 }

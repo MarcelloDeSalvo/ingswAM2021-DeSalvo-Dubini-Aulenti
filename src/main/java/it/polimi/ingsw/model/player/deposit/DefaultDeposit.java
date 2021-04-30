@@ -20,6 +20,14 @@ public class DefaultDeposit extends DepositSlot {
 
 
     //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
+
+    /**
+     * It's the function that gives the permission to add or not to the Controller
+     * @return true if he can add the resources
+     * @throws DifferentResourceType when there is a ResourceType mismatch
+     * @throws DepositSlotMaxDimExceeded when it would add too many resources
+     * @throws ResourceTypeAlreadyStored if another default deposit is already storing the same resource type
+     */
     @Override
     public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
         int quantityThatIWantToAdd = inputContainer.getQty();

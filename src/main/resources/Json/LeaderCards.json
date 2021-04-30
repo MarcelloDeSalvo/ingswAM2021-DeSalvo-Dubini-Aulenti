@@ -1,5 +1,6 @@
 [
   {
+    "id" : 1,
     "victoryPoints": 2,
     "requirements" : [
       {
@@ -25,6 +26,7 @@
   },
 
   {
+    "id" : 2,
     "victoryPoints": 2,
     "requirements" : [
       {
@@ -50,6 +52,7 @@
   },
 
   {
+    "id" : 3,
     "victoryPoints": 2,
     "requirements" : [
       {
@@ -75,6 +78,7 @@
   },
 
   {
+    "id" : 4,
     "victoryPoints": 2,
     "requirements" : [
       {
@@ -100,6 +104,7 @@
   },
 
   {
+    "id" : 5,
     "victoryPoints": 3,
     "requirements" : [
       {
@@ -118,6 +123,7 @@
   },
 
   {
+    "id" : 6,
     "victoryPoints": 3,
     "requirements" : [
       {
@@ -136,6 +142,7 @@
   },
 
   {
+    "id" : 7,
     "victoryPoints": 3,
     "requirements" : [
       {
@@ -154,6 +161,7 @@
   },
 
   {
+    "id" : 8,
     "victoryPoints": 3,
     "requirements" : [
       {
@@ -172,6 +180,7 @@
   },
 
   {
+    "id" : 9,
     "victoryPoints": 4,
     "requirements" : [
       {
@@ -203,6 +212,7 @@
   },
 
   {
+    "id" : 10,
     "victoryPoints": 4,
     "requirements" : [
       {
@@ -234,6 +244,7 @@
   },
 
   {
+    "id" : 11,
     "victoryPoints": 4,
     "requirements" : [
       {
@@ -265,6 +276,7 @@
   },
 
   {
+    "id" : 12,
     "victoryPoints": 4,
     "requirements" : [
       {
@@ -296,6 +308,7 @@
   },
 
   {
+    "id" : 13,
     "victoryPoints": 5,
     "requirements" : [
       {
@@ -320,6 +333,7 @@
   },
 
   {
+    "id" : 14,
     "victoryPoints": 5,
     "requirements" : [
       {
@@ -344,6 +358,7 @@
   },
 
   {
+    "id" : 15,
     "victoryPoints": 5,
     "requirements" : [
       {
@@ -368,6 +383,7 @@
   },
 
   {
+    "id" : 16,
     "victoryPoints": 5,
     "requirements" : [
       {
