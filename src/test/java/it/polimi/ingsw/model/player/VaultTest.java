@@ -91,7 +91,7 @@ class  VaultTest {
     }
 
     @Test
-    void canRemoveFromVault_3_Array() {
+    void canRemoveFromVault_3_List() {
         Vault vault = new Vault();
         ArrayList<ResourceContainer> selectedResources = new ArrayList<ResourceContainer>();
 
@@ -122,7 +122,7 @@ class  VaultTest {
     }
 
     @Test
-    void canRemoveFromVault_4_Array() {
+    void canRemoveFromVault_4_List() {
         Vault vault = new Vault();
         ArrayList<ResourceContainer> selectedResources = new ArrayList<ResourceContainer>();
 
@@ -144,6 +144,35 @@ class  VaultTest {
         assertEquals(vault.getResourceQuantity(ResourceType.GOLD), 5);
         assertEquals(vault.getResourceQuantity(ResourceType.STONE), 3);
 
+    }
+
+    @Test
+    void canRemoveFromVault_5() throws NotEnoughResources {
+        Vault vault = new Vault();
+        ArrayList<ResourceContainer> selectedResources = new ArrayList<ResourceContainer>();
+
+        ResourceContainer vContainer1 = new ResourceContainer(ResourceType.MINION, 5);
+        ResourceContainer vContainer2 = new ResourceContainer(ResourceType.STONE, 3);
+
+        vault.addToVault(vContainer1);
+        vault.addToVault(vContainer2);
+
+        ResourceContainer resourceContainer1 = new ResourceContainer(ResourceType.MINION, 2);
+        ResourceContainer resourceContainer2 = new ResourceContainer(ResourceType.MINION, 1);
+
+        assertTrue(vault.canRemoveFromVault(resourceContainer1));
+        assertEquals(2, vault.getBufferMap().get(ResourceType.MINION).getQty());
+
+        assertTrue(vault.canRemoveFromVault(resourceContainer1));
+        assertEquals(4, vault.getBufferMap().get(ResourceType.MINION).getQty());
+
+        assertThrows(NotEnoughResources.class, ()-> vault.canRemoveFromVault(resourceContainer1));
+        assertThrows(NotEnoughResources.class, ()-> vault.canRemoveFromVault(new ResourceContainer(ResourceType.STONE, 4)));
+
+        assertTrue(vault.canRemoveFromVault(resourceContainer2));
+
+        assertTrue(vault.removeFromVault());
+        assertEquals(0, vault.getResourceQuantity(ResourceType.MINION));
     }
 
     @Test
