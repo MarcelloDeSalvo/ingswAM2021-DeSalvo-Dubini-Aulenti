@@ -14,11 +14,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerMain {
-
+    
     private int port;
 
     public ServerMain()throws FileNotFoundException{
-        File file = new File("src/main/resources/ServerConfig");
+        File file = new File("src/main/resources/ConfigurationFile/ServerConfig");
         Scanner sc = new Scanner(file);
         int i = 0;
         while (sc.hasNextLine()) {
