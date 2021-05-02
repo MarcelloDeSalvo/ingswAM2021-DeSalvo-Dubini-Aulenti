@@ -22,6 +22,9 @@ public class ClientMain {
     private View view;
     private String viewMode;
 
+    private ClientSender clientSender;
+    private ClientReceiver clientReceiver;
+
     private final List<String> myParam = new ArrayList<>(Arrays.asList("-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
     public ClientMain(){ }
@@ -133,17 +136,18 @@ public class ClientMain {
 
     public void connect(){
         try {
-            view = viewSelector();
+
             Socket echoSocket = new Socket(hostName, portNumber);
+            view = viewSelector();
 
-            ClientSender clientSender = new ClientSender(echoSocket, view);
+            clientReceiver = new ClientReceiver(echoSocket, view);
+            clientSender = new ClientSender(echoSocket, view);
+
+            view.setSender(clientSender);
+
+
             clientSender.start();
-
-            ClientReceiver clientReceiver = new ClientReceiver(echoSocket);
-            clientReceiver.addObserverIO(view);
             clientReceiver.start();
-
-
 
 
         } catch (UnknownHostException e) {
@@ -157,30 +161,20 @@ public class ClientMain {
     }
 
     View viewSelector(){
-
         switch (this.viewMode.toUpperCase()){
             case "CLI":
-                return cliInit();
+                Cli cli = new Cli();
+                System.out.println('\n'+"|°-___--_[ CLI MODE ]_--___-°|"+'\n');
+                return cli;
+
             case "GUI":
-                return guiInit();
+                Gui gui = new Gui();
+                return gui;
 
             default:
                 System.out.println("Invalid view");
                 return null;
         }
-    }
-
-
-
-    Cli cliInit(){
-        Cli cli = new Cli();
-        System.out.println('\n'+"|°-___--_[ CLI MODE ]_--___-°|"+'\n');
-        return cli;
-    }
-
-    Gui guiInit(){
-        Gui gui = new Gui();
-        return gui;
     }
 
     public String getHostName() {

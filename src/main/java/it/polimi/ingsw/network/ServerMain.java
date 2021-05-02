@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.server.EchoServerClientHandler;
+import it.polimi.ingsw.network.server.LobbyManager;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.File;
@@ -18,7 +19,7 @@ public class ServerMain {
     private int port;
 
     public ServerMain()throws FileNotFoundException{
-        File file = new File("src/main/resources/ConfigurationFile/ServerConfig");
+        File file = new File("src/main/resources/ConfigurationFiles/ServerConfig");
         Scanner sc = new Scanner(file);
         int i = 0;
         while (sc.hasNextLine()) {
@@ -42,7 +43,8 @@ public class ServerMain {
             serverMain.startServer();
         }
         catch (Exception e){
-            System.out.println("There was an issue with reading port number from the file, shutting down.");
+            e.printStackTrace();
+            System.out.println("There was an issue with starting the server.");
             System.exit(1);
         }
     }
@@ -57,16 +59,19 @@ public class ServerMain {
             return;
         }
         System.out.println("Server ready"+'\n');
-        VirtualView virtualView= new VirtualView();
-        Controller controller = new Controller(virtualView);
-        virtualView.addObserverController(controller);
+
+        LobbyManager lobbyManager = new LobbyManager();
 
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                executor.submit(new EchoServerClientHandler(socket,virtualView));
+
+                EchoServerClientHandler echoClient = new EchoServerClientHandler(socket, lobbyManager);
+                executor.submit(echoClient);
+
             } catch(IOException e) {
-                break; // Entrerei qui se serverSocket venisse chiuso
+                System.out.println("There was an issue with accepting the socket.");
+                break;
             }
         }
         executor.shutdown();

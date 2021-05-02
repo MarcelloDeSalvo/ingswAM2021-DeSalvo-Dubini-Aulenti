@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.*;
 
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class VirtualView implements ObservableViewIO, ObserverViewIO, ObservableController, ObserverModel {
@@ -18,15 +19,15 @@ public class VirtualView implements ObservableViewIO, ObserverViewIO, Observable
     }
 
     @Override
-    public void update(Message mex){
+    public void update(Message mex, Socket socket){
         Command command = mex.getCommand();
 
         switch (command){
             case QUIT:
-                notifyIO(new Message(Command.REPLY, "Bye!"));
+                notifyIO_unicast(new Message(Command.REPLY, "Bye!"), socket);
                 break;
             case HELLO:
-                notifyIO(new Message(Command.REPLY, "Hello!"));
+                notifyIO_unicast(new Message(Command.REPLY, "Hello!"), socket);
                 break;
 
             default:
@@ -36,15 +37,16 @@ public class VirtualView implements ObservableViewIO, ObserverViewIO, Observable
 
     }
 
+
     @Override
-    public void showBoard(){
-        notifyIO(new Message(Command.SHOW, "show"));
-    }
-    @Override
-    public void increaseReply(String path){
-        notifyIO(new Message(Command.REPLY, path));
+    public void notifyIO_unicast(Message message, Socket socket) {
+
     }
 
+    @Override
+    public void notifyIO_broadcast(Message message) {
+
+    }
 
     @Override
     public void addObserverIO(ObserverViewIO observer) {
@@ -52,12 +54,6 @@ public class VirtualView implements ObservableViewIO, ObserverViewIO, Observable
             observerViewIOS.add(observer);
     }
 
-    @Override
-    public void notifyIO(Message message) {
-        for (ObserverViewIO obs: observerViewIOS) {
-            obs.update(message);
-        }
-    }
 
     @Override
     public void addObserverController(ObserverController obs) {
@@ -77,4 +73,23 @@ public class VirtualView implements ObservableViewIO, ObserverViewIO, Observable
         return true;
     }
 
+    @Override
+    public void showBoard() {
+
+    }
+
+    @Override
+    public void increaseReply(String path) {
+
+    }
+
+    @Override
+    public void update(Message message) {
+
+    }
+
+    @Override
+    public Socket getSocket() {
+        return null;
+    }
 }

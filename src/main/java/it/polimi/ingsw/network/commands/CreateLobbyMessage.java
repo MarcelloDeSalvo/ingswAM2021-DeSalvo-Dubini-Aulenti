@@ -6,7 +6,7 @@ public class CreateLobbyMessage extends Message{
     boolean customParameters;
 
     public CreateLobbyMessage(String lobbyName, int numOfPlayers, boolean customParameters) {
-        super(Command.LOBBY_SETTINGS);
+        super(Command.CREATE_LOBBY);
         this.lobbyName = lobbyName;
         this.numOfPlayers = numOfPlayers;
         this.customParameters = customParameters;

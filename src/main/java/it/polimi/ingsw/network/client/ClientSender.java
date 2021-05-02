@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ClientSender extends Thread implements ObserverViewIO {
+public class ClientSender extends Thread {
     private Socket serverSocket;
     private PrintWriter out;
     private View view;
@@ -17,8 +17,6 @@ public class ClientSender extends Thread implements ObserverViewIO {
         this.serverSocket = serverSocket;
         this.out = null;
         this.view = view;
-        view.addObserverIO(this);
-
     }
 
     public void run(){
@@ -34,16 +32,10 @@ public class ClientSender extends Thread implements ObserverViewIO {
         }
     }
 
-    @Override
-    public void update(Message mex){
-        //da serializzare
+    //passa al server il comando
+    public void send(Message mex){
         String stringToSend = mex.serialize();
-        send(stringToSend);
-    }
-
-    public void send(String mex){
-        //passa al server il comando
-        out.println(mex);
+        out.println(stringToSend);
         out.flush();
     }
 

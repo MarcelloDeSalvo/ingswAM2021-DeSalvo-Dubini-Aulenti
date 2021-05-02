@@ -1,32 +1,46 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.view.VirtualView;
+
 
 import java.net.Socket;
 
 
 public class EchoServerClientHandler implements Runnable {
     private Socket socket;
-    private VirtualView virtualView;
+    ServerReceiver serverReceiver;
+    ServerSender serverSender;
+    LobbyManager lobbyManager;
 
-    public EchoServerClientHandler(Socket socket, VirtualView virtualView) {
+    public EchoServerClientHandler(Socket socket, LobbyManager lobbyManager) {
         this.socket = socket;
-        this.virtualView=virtualView;
+        this.lobbyManager = lobbyManager;
     }
 
     public void run() {
         try {
 
-            ServerReceiver serverReceiver = new ServerReceiver(socket, virtualView);
+            serverReceiver = new ServerReceiver(socket);
+            serverReceiver.addObserverIO(lobbyManager);
             serverReceiver.start();
 
-            ServerSender serverSender = new ServerSender(socket, virtualView);
+            serverSender = new ServerSender(socket);
+            lobbyManager.addObserverIO(serverSender);
             serverSender.start();
+
 
         }catch (IllegalThreadStateException e){
             e.printStackTrace();
         }
+    }
 
+    public Socket getSocket() {
+        return socket;
+    }
 
+    public ServerReceiver getServerReceiver() {
+        return serverReceiver;
+    }
+    public ServerSender getServerSender() {
+        return serverSender;
     }
 }

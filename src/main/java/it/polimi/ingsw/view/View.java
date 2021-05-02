@@ -1,12 +1,18 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.network.client.ClientReceiver;
+import it.polimi.ingsw.network.client.ClientSender;
+import it.polimi.ingsw.network.commands.Message;
 
-import it.polimi.ingsw.observers.ObservableViewIO;
-import it.polimi.ingsw.observers.ObserverViewIO;
+public abstract class View {
 
-public abstract class View implements ObservableViewIO, ObserverViewIO {
+    public abstract void setSender(ClientSender sender);
 
-    public abstract void askMove();
-    public abstract void increasePos();
+    public abstract boolean readInput();
+    public abstract void readUpdates(Message message);
+
+    public abstract void printHello();
+    public abstract void printQuit();
+    public abstract void printReply(String payload);
 
 }

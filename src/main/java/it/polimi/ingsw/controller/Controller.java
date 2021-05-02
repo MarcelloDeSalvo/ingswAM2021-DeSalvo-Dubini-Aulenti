@@ -23,10 +23,6 @@ public class Controller implements ObserverController {
 
         switch (command){
 
-            case MOVE:
-                MoveMessage move = gson.fromJson(originale, MoveMessage.class);
-                moveController(move);
-                break;
 
             default:
                 System.out.println("comando invalido");

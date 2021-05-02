@@ -1,24 +1,10 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.observers.ObserverViewIO;
 import it.polimi.ingsw.view.View;
 
 public class Gui extends View {
-    @Override
-    public void askMove() {
-
-    }
-
-    @Override
-    public void addObserverIO(ObserverViewIO observer) {
-
-    }
-
-    @Override
-    public void notifyIO(Message message) {
-
-    }
 
     @Override
     public boolean readInput() {
@@ -26,12 +12,27 @@ public class Gui extends View {
     }
 
     @Override
-    public void update(Message message) {
+    public void readUpdates(Message message) {
 
     }
 
     @Override
-    public void increasePos() {
+    public void printHello() {
+
+    }
+
+    @Override
+    public void printQuit() {
+
+    }
+
+    @Override
+    public void printReply(String payload) {
+
+    }
+
+    @Override
+    public void setSender(ClientSender sender) {
 
     }
 }

@@ -7,6 +7,8 @@ public class Message {
     Command command;
     String info;
 
+
+
     public Message(Command command) {
         this.command = command;
         this.info = null;

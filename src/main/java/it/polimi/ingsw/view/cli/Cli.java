@@ -1,27 +1,25 @@
 package it.polimi.ingsw.view.cli;
 
+import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.MoveMessage;
-import it.polimi.ingsw.observers.ObserverViewIO;
 import it.polimi.ingsw.view.View;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cli extends View {
-    ArrayList<ObserverViewIO> observers = new ArrayList<>();
+    ClientSender sender;
 
     @Override
-    public void update(Message mex){
+    public void readUpdates(Message mex){
         Command command = mex.getCommand();
         switch (command){
-            case REPLY:
-                System.out.println(mex.toString());
+            case HELLO:
+                printHello();
                 break;
 
-            case MOVE:
-                System.out.println(mex.toString());
+            case REPLY:
+                printReply(mex.getInfo());
                 break;
         }
 
@@ -35,17 +33,16 @@ public class Cli extends View {
         userInput = stdIn.next();
 
         switch (userInput.toUpperCase()){
-            case "MOVE":
-                askMove();
-                break;
-            case "INCREASE":
-                increasePos();
-                break;
             case "HELLO":
-                notifyIO(new Message(Command.HELLO));
+                sender.send(new Message(Command.HELLO));
                 break;
+
+            case "HELLO_ALL":
+                sender.send(new Message(Command.HELLO_ALL));
+                break;
+
             case "QUIT":
-                notifyIO(new Message(Command.QUIT));
+                sender.send(new Message(Command.QUIT));
                 return false;
         }
 
@@ -54,32 +51,22 @@ public class Cli extends View {
     }
 
     @Override
-    public void askMove() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Where do you want to move? Insert the command [ Move: x,y,string ] ");
-        Message moveMex = new MoveMessage(in.nextInt(), in.nextInt(), in.next());
-        //System.out.println(moveMex);
-
-        notifyIO(moveMex);
+    public void printHello() {
+        System.out.println("Hello!");
     }
 
     @Override
-    public void increasePos() {
-        Message increaseMex = new Message(Command.INCREASE, "");
-        notifyIO(increaseMex);
+    public void printQuit() {
+        System.out.println("Disconnected");
     }
 
     @Override
-    public void addObserverIO(ObserverViewIO observer) {
-        if(observer!=null)
-            observers.add(observer);
+    public void printReply(String payload) {
+        System.out.println(payload);
     }
 
     @Override
-    public void notifyIO(Message message) {
-        for (ObserverViewIO obs: observers) {
-            obs.update(message);
-        }
+    public void setSender(ClientSender clientSender) {
+        this.sender = clientSender;
     }
-
 }
