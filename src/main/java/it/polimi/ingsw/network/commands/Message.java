@@ -12,17 +12,22 @@ public class Message {
     public Message(Command command) {
         this.command = command;
         this.info = null;
+        this.target = Target.UNICAST;
+        this.senderNickname = null;
     }
 
     public Message(Command command, String message) {
         this.command = command;
         this.info = message;
+        this.target = Target.UNICAST;
+        this.senderNickname = null;
     }
 
     public Message(Command command, String info, Target target) {
         this.command = command;
         this.info = info;
         this.target = target;
+        this.senderNickname = null;
     }
 
     public Message(Command command, String info, Target target, String senderNickname) {
