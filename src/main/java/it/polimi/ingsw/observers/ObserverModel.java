@@ -1,6 +1,10 @@
 package it.polimi.ingsw.observers;
 
-public interface ObserverModel {
+import java.util.ArrayList;
 
-    void showBoard();
+public interface ObserverModel {
+    void printHello();
+    void printQuit();
+    void printHand(ArrayList<Integer> leaderIDs);
+    void printReply(String payload);
 }

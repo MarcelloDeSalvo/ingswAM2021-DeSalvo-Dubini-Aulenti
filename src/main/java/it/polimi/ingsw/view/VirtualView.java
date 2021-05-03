@@ -3,9 +3,10 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.*;
 
-import java.net.Socket;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,7 +38,6 @@ public class VirtualView implements View, ObservableViewIO, ObserverViewIO, Obse
                 break;
         }
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -64,6 +64,7 @@ public class VirtualView implements View, ObservableViewIO, ObserverViewIO, Obse
                 break;
         }
     }
+    //------------------------------------------------------------------------------------------------------------------
 
     //PLAYERSLIST MANAGEMENT -------------------------------------------------------------------------------------------
     @Override
@@ -109,28 +110,26 @@ public class VirtualView implements View, ObservableViewIO, ObserverViewIO, Obse
 
     //OBSERVER MODEL-------(VV OBSERVES THE MODEL)----------------------------------------------------------------------
     @Override
-    public void showBoard() {
-
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-
-
-
-    //VIEW--------------------------------------------------------------------------------------------------------------
-    @Override
     public void printHello() {
-
+        notifyIO(new Message(Command.REPLY, "Bye!", Target.UNICAST));
     }
 
     @Override
     public void printQuit() {
-        //notifyIO_unicast(new Message(Command.REPLY, "Bye!"), socket);
+        notifyIO(new Message(Command.REPLY, "Bye!", Target.UNICAST));
     }
 
     @Override
     public void printReply(String payload) {
 
     }
+
+    @Override
+    public void printHand() {
+
+    }
+
     //------------------------------------------------------------------------------------------------------------------
+
+
 }

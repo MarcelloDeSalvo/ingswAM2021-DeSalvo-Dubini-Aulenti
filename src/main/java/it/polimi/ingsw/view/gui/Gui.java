@@ -17,6 +17,11 @@ public class Gui extends ClientView {
     }
 
     @Override
+    public void setSender(ClientSender sender) {
+
+    }
+
+    @Override
     public void printHello() {
 
     }
@@ -27,12 +32,13 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printReply(String payload) {
+    public void printHand() {
 
     }
 
     @Override
-    public void setSender(ClientSender sender) {
+    public void printReply(String payload) {
 
     }
+
 }

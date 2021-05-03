@@ -7,10 +7,15 @@ import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.player.production.ProductionSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.observers.ObservableModel;
+import it.polimi.ingsw.observers.ObserverModel;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements ObservableModel {
+
+    private ArrayList<ObserverModel> observers;
+
     private String nickname;
     private ArrayList<LeaderCard> hand;
     private PlayerBoard playerBoard;
@@ -20,6 +25,8 @@ public class Player {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
         hand = new ArrayList<>();
+
+        observers = new ArrayList<>();
     }
 
     public Player(String nickname,int orderID) {
@@ -27,12 +34,16 @@ public class Player {
         this.playerBoard = new PlayerBoard(3,3);
         this.orderID = orderID;
         hand = new ArrayList<>();
+
+        observers = new ArrayList<>();
     }
 
     public Player(String nickname, int pyramidHeight, int prodSlotNum) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
         hand = new ArrayList<>();
+
+        observers = new ArrayList<>();
     }
 
     public Player(String nickname, int pyramidHeight, int prodSlotNum, int orderID) {
@@ -40,6 +51,8 @@ public class Player {
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
         this.orderID = orderID;
         hand = new ArrayList<>();
+
+        observers = new ArrayList<>();
     }
 
     //PLAYER METHODS----------------------------------------------------------------------------------------------------
@@ -72,7 +85,12 @@ public class Player {
      */
     public boolean discardFromHand(int i) throws NullPointerException, IndexOutOfBoundsException{
         if (i >= 0 && i<hand.size() && hand.contains(hand.get(i))){
-            return hand.remove(hand.get(i));
+
+            if (hand.remove(hand.get(i))){
+                for (ObserverModel obs: observers) {
+                    obs.printHand();
+                }
+            }
         }
 
         return false;
@@ -214,6 +232,13 @@ public class Player {
                 '}';
     }
     //------------------------------------------------------------------------------------------------------------------
+
+
+    @Override
+    public void addView(ObserverModel view) {
+        observers.add(view);
+    }
+
 
 
     /*

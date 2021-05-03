@@ -1,8 +1,8 @@
 package it.polimi.ingsw.view;
 
 
-public interface View {
-    void printHello();
-    void printQuit();
-    void printReply(String payload);
+import it.polimi.ingsw.observers.ObserverModel;
+
+public interface View extends ObserverModel {
+
 }
