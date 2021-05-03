@@ -22,7 +22,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
     public ServerReceiver (Socket socket, BufferedReader in){
         this.socket = socket;
         observerViewIOS = new ArrayList<>();
-        this.in=in;
+        this.in = in;
     }
 
     @Override

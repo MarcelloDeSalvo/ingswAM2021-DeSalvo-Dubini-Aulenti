@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.gui.Gui;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.net.Socket;
@@ -161,7 +162,7 @@ public class ClientMain {
 
     }
 
-    ClientView viewSelector(){
+    ClientView viewSelector() throws FileNotFoundException {
         switch (this.viewMode.toUpperCase()){
             case "CLI":
                 Cli cli = new Cli();

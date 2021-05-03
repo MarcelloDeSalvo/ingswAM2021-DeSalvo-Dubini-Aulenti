@@ -15,7 +15,7 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
 
     public LobbyManager() {
         nicksOfPlayersConnected = new ArrayList<>();
-        connectedPlayers =new HashMap<>();
+        connectedPlayers = new HashMap<>();
     }
 
     @Override
@@ -35,8 +35,6 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
             case HELLO_ALL:
                 notifyIO(new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
                 break;
-
-            case LOGIN:
 
             case JOIN_LOBBY:
 
@@ -88,10 +86,7 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
 
     @Override
     public boolean isNamePresent(String nick) {
-        if (connectedPlayers.containsKey(nick)) {
-            return true;
-        }
-        return false;
+        return connectedPlayers.containsKey(nick);
     }
 
     @Override

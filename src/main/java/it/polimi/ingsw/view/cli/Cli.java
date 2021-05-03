@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.DiscardLeaderMessage;
@@ -9,11 +11,17 @@ import it.polimi.ingsw.network.commands.ShowHandMessage;
 import it.polimi.ingsw.view.ClientView;
 
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Cli extends ClientView {
     ClientSender sender;
+    ArrayList<LeaderCard> leaderCards;
+
+    public Cli() throws FileNotFoundException {
+        leaderCards = LeaderCardParser.deserializeLeaderList();
+    }
 
     @Override
     public void readUpdates(Message mex){
@@ -27,7 +35,7 @@ public class Cli extends ClientView {
                 break;
 
             case SHOW_HAND:
-                ShowHandMessage showHandMessage = gson.fromJson(original,ShowHandMessage.class);
+                ShowHandMessage showHandMessage = gson.fromJson(original, ShowHandMessage.class);
                 printHand(showHandMessage.getCardsID());
                 break;
 
@@ -48,22 +56,21 @@ public class Cli extends ClientView {
         switch (userInput.toUpperCase()){
             case "LOGIN":
                 String nickname = stdIn.next();
-                Message login=new Message(Command.LOGIN, nickname);
-                super.setNickname(nickname);
-                System.out.println(login.toString());
+                Message login = new Message(Command.LOGIN, nickname);
+                this.setNickname(nickname);
                 sender.send(login);
                 break;
 
             case "HELLO":
-                sender.send(new Message(Command.HELLO, super.getNickname()));
+                sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
                 break;
 
             case "HELLO_ALL":
-                sender.send(new Message(Command.HELLO_ALL, super.getNickname()));
+                sender.send(new Message(Command.HELLO_ALL, "Hello all", this.getNickname()));
                 break;
 
             case "DISCARD_LEADER":
-                sender.send(new DiscardLeaderMessage(stdIn.nextInt(), super.getNickname()));
+                sender.send(new DiscardLeaderMessage(stdIn.nextInt(), this.getNickname()));
                 break;
 
             case "QUIT":
@@ -102,11 +109,8 @@ public class Cli extends ClientView {
 
     @Override
     public void printHand(ArrayList<Integer> leaderIDs) {
-
-        for (int id: leaderIDs) {
-            System.out.println("");
-        }
-
+        for (int id: leaderIDs)
+            System.out.println(leaderCards.get(id));
     }
 
 

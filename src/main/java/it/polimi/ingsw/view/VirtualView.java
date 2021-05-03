@@ -125,7 +125,7 @@ public class VirtualView implements View, ObservableViewIO, ObserverViewIO, Obse
     }
 
     @Override
-    public void printHand() {
+    public void printHand(ArrayList<Integer> leaderIDs) {
 
     }
 

@@ -11,6 +11,7 @@ import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Player implements ObservableModel {
 
@@ -88,13 +89,24 @@ public class Player implements ObservableModel {
 
             if (hand.remove(hand.get(i))){
                 for (ObserverModel obs: observers) {
-                    obs.printHand();
+                    obs.printHand(leaderListToInt());
                 }
             }
         }
 
         return false;
     }
+
+
+    private ArrayList<Integer>  leaderListToInt () {
+        ArrayList<Integer> leaderListInt = new ArrayList<>();
+
+        for (LeaderCard leader : hand)
+            leaderListInt.add(leader.getId());
+
+        return leaderListInt;
+    }
+
 
     public boolean activateLeader(LeaderCard leaderCard) throws NullPointerException {
 

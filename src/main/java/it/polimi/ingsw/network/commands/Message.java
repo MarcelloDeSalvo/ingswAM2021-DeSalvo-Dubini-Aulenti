@@ -23,6 +23,13 @@ public class Message {
         this.senderNickname = null;
     }
 
+    public Message(Command command, String message, String senderNickname) {
+        this.command = command;
+        this.info = message;
+        this.target = Target.UNICAST;
+        this.senderNickname = senderNickname;
+    }
+
     public Message(Command command, String info, Target target) {
         this.command = command;
         this.info = info;
@@ -65,6 +72,8 @@ public class Message {
         return "Message{" +
                 "command=" + command +
                 ", info='" + info + '\'' +
+                ", target=" + target +
+                ", senderNickname='" + senderNickname + '\'' +
                 '}';
     }
 }

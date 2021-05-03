@@ -4,6 +4,8 @@ import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.view.ClientView;
 
+import java.util.ArrayList;
+
 public class Gui extends ClientView {
 
     @Override
@@ -32,7 +34,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printHand() {
+    public void printHand(ArrayList<Integer> leaderIDs) {
 
     }
 
