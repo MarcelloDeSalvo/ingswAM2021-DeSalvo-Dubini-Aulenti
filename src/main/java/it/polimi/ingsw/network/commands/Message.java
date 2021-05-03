@@ -19,6 +19,12 @@ public class Message {
         this.info = message;
     }
 
+    public Message(Command command, String info, Target target) {
+        this.command = command;
+        this.info = info;
+        this.target = target;
+    }
+
     public Message(Command command, String info, Target target, String senderNickname) {
         this.command = command;
         this.info = info;

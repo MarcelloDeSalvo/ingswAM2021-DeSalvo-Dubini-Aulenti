@@ -12,7 +12,14 @@ public class MoveMessage extends Message{
         this.messaggio = messaggio;
     }
 
-    public MoveMessage(Command command, String info, Target target, String senderNickname, int x, int y, String messaggio) {
+    public MoveMessage(String info, Target target, int x, int y, String messaggio) {
+        super(Command.MOVE, info, target);
+        this.x = x;
+        this.y = y;
+        this.messaggio = messaggio;
+    }
+
+    public MoveMessage(String info, Target target, String senderNickname, int x, int y, String messaggio) {
         super(Command.MOVE, info, target, senderNickname);
         this.x = x;
         this.y = y;

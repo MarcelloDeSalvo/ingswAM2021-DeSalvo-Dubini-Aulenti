@@ -8,7 +8,12 @@ public class DiscardLeaderMessage extends Message{
         this.leaderID = leaderID;
     }
 
-    public DiscardLeaderMessage(Command command, String info, Target target, String senderNickname, int leaderID) {
+    public DiscardLeaderMessage(String info, Target target, int leaderID) {
+        super(Command.DISCARD_LEADER, info, target);
+        this.leaderID = leaderID;
+    }
+
+    public DiscardLeaderMessage(String info, Target target, String senderNickname, int leaderID) {
         super(Command.DISCARD_LEADER, info, target, senderNickname);
         this.leaderID = leaderID;
     }

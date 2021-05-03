@@ -10,8 +10,13 @@ public class LobbyListMessage extends Message{
         this.lobbyNames = lobbyList;
     }
 
-    public LobbyListMessage(Command command, String info, Target target, String senderNickname, ArrayList<String> lobbyNames) {
-        super(command, info, target, senderNickname);
+    public LobbyListMessage(String info, Target target, ArrayList<String> lobbyNames) {
+        super(Command.LOBBY_LIST, info, target);
+        this.lobbyNames = lobbyNames;
+    }
+
+    public LobbyListMessage(String info, Target target, String senderNickname, ArrayList<String> lobbyNames) {
+        super(Command.LOBBY_LIST, info, target, senderNickname);
         this.lobbyNames = lobbyNames;
     }
 
