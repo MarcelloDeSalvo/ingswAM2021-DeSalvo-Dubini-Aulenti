@@ -41,6 +41,13 @@ public class Message {
         return info;
     }
 
+    public Target getTarget() {
+        return target;
+    }
+
+    public String getSenderNickname() {
+        return senderNickname;
+    }
 
     @Override
     public String toString() {

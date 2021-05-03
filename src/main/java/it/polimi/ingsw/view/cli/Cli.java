@@ -4,11 +4,11 @@ import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.Target;
-import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.ClientView;
 
 import java.util.Scanner;
 
-public class Cli extends View {
+public class Cli extends ClientView {
     ClientSender sender;
 
     @Override

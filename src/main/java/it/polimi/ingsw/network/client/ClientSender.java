@@ -2,7 +2,9 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverViewIO;
+import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,9 +13,9 @@ import java.net.Socket;
 public class ClientSender extends Thread {
     private Socket serverSocket;
     private PrintWriter out;
-    private View view;
+    private ClientView view;
 
-    public ClientSender(Socket serverSocket, View view){
+    public ClientSender(Socket serverSocket, ClientView view){
         this.serverSocket = serverSocket;
         this.out = null;
         this.view = view;

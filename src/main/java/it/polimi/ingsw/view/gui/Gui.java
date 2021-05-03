@@ -2,9 +2,9 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.ClientView;
 
-public class Gui extends View {
+public class Gui extends ClientView {
 
     @Override
     public boolean readInput() {

@@ -1,19 +1,19 @@
 package it.polimi.ingsw.network.commands;
 
 public class DiscardLeaderMessage extends Message{
-    String leaderID;
+    int leaderID;
 
-    public DiscardLeaderMessage(String leaderID) {
+    public DiscardLeaderMessage(int leaderID) {
         super(Command.DISCARD_LEADER);
         this.leaderID = leaderID;
     }
 
-    public DiscardLeaderMessage(Command command, String info, Target target, String senderNickname, String leaderID) {
+    public DiscardLeaderMessage(Command command, String info, Target target, String senderNickname, int leaderID) {
         super(Command.DISCARD_LEADER, info, target, senderNickname);
         this.leaderID = leaderID;
     }
 
-    public String getLeaderID() {
+    public int getLeaderID() {
         return leaderID;
     }
 

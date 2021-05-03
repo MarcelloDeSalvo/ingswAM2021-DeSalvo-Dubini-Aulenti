@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.network.client.ClientSender;
+import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.gui.Gui;
@@ -19,7 +20,7 @@ public class ClientMain {
     private String hostName;
     private int portNumber;
 
-    private View view;
+    private ClientView view;
     private String viewMode;
 
     private ClientSender clientSender;
@@ -160,7 +161,7 @@ public class ClientMain {
 
     }
 
-    View viewSelector(){
+    ClientView viewSelector(){
         switch (this.viewMode.toUpperCase()){
             case "CLI":
                 Cli cli = new Cli();

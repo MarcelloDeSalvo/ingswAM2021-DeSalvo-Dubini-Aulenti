@@ -3,9 +3,9 @@ package it.polimi.ingsw.network.client;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.observers.ObservableViewIO;
-import it.polimi.ingsw.observers.ObserverViewIO;
+import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,9 +14,9 @@ import java.net.Socket;
 
 public class ClientReceiver extends Thread{
     private final Socket socket;
-    View view;
+    ClientView view;
 
-    public ClientReceiver (Socket socket, View view){
+    public ClientReceiver (Socket socket, ClientView view){
         this.socket = socket;
         this.view = view;
     }

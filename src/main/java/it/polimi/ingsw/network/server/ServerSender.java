@@ -39,14 +39,5 @@ public class ServerSender extends Thread implements ObserverViewIO {
         out.flush();
     }
 
-    @Override
-    public Socket getSocket() {
-        return socket;
-    }
-
-    @Override
-    public void update(Message message, Socket socket) {
-
-    }
 }
 
