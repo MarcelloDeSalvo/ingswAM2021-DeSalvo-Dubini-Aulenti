@@ -12,9 +12,9 @@ public class ServerSender extends Thread implements ObserverViewIO {
     Socket socket;
     PrintWriter out;
 
-    public ServerSender (Socket socket){
+    public ServerSender (Socket socket, PrintWriter out){
         this.socket = socket;
-        out = null;
+        this.out=out;
     }
 
     public void run(){

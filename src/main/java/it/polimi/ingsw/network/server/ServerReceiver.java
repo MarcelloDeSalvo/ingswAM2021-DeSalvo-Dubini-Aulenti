@@ -17,10 +17,12 @@ public class ServerReceiver extends Thread implements ObservableThread {
 
     Socket socket;
     ArrayList<ObserverViewIO> observerViewIOS;
+    BufferedReader in;
 
-    public ServerReceiver (Socket socket){
+    public ServerReceiver (Socket socket, BufferedReader in){
         this.socket = socket;
         observerViewIOS = new ArrayList<>();
+        this.in=in;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
         Gson gson = new Gson();
 
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String receivedMex = "";
 
             while ((receivedMex = in.readLine()) != null) {

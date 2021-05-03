@@ -34,6 +34,12 @@ public class Cli extends ClientView {
         userInput = stdIn.next();
 
         switch (userInput.toUpperCase()){
+            case "LOGIN":
+                Message login=new Message(Command.LOGIN, stdIn.next());
+                System.out.println(login.toString());
+                sender.send(login);
+                break;
+
             case "HELLO":
                 sender.send(new Message(Command.HELLO));
                 break;
@@ -45,6 +51,10 @@ public class Cli extends ClientView {
             case "QUIT":
                 sender.send(new Message(Command.QUIT));
                 return false;
+
+
+            default:
+                System.out.println("Invalid command, type HELP to see all available commands");
         }
 
         return true;
