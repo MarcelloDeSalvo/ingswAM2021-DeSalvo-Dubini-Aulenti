@@ -7,14 +7,17 @@ import it.polimi.ingsw.observers.ObserverViewIO;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LobbyManager implements ObservableViewIO, ObserverViewIO {
     ArrayList<String> nicksOfPlayersConnected;
     ArrayList<ObserverViewIO> observerViewIOS;
+    HashMap<String,Socket> connectedPlayerList;
 
     public LobbyManager() {
         nicksOfPlayersConnected = new ArrayList<>();
         observerViewIOS = new ArrayList<>();
+        connectedPlayerList=new HashMap<>();
     }
 
     @Override
@@ -44,7 +47,7 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
             case LOBBY_LIST:
 
             default:
-                notifyIO_unicast(new Message(Command.REPLY, "Invalid command"), client);;
+                notifyIO_unicast(new Message(Command.REPLY, "Invalid command"), client);
                 break;
         }
 
@@ -88,5 +91,44 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
     @Override
     public Socket getSocket() {
         return null;
+    }
+
+    //PLAYERSLIST MANAGEMENT -------------------------------------------------------------------------------------------
+
+    /**
+     * Adds an active player to the list of connected players
+     * @return true if the player is successfully added, false if it fails if there's another player connected <br>
+     * with his name.
+     */
+    public boolean addPlayer(String nick, Socket socket){
+        if(!connectedPlayerList.containsKey(nick)) {
+            connectedPlayerList.put(nick, socket);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    /**
+     * @return true if nick is present
+     */
+    public boolean isNamePresent(String nick) {
+        if (connectedPlayerList.containsKey(nick)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Removes a player from the list of connected players
+     * @return true if the player is present and is successfully removed, false if a Player is not present <br>
+     * and can't be removed.
+     */
+    public boolean removePlayer(String nick, Socket socket) {
+        if (connectedPlayerList.containsKey(nick)) {
+            connectedPlayerList.remove(nick);
+            return true;
+        }
+        return false;
     }
 }
