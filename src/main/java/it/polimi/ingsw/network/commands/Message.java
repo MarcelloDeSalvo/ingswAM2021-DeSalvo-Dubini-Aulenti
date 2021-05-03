@@ -6,8 +6,8 @@ public class Message {
     static Gson gson = new Gson();
     Command command;
     String info;
-
-
+    Target target;
+    String senderNickname;
 
     public Message(Command command) {
         this.command = command;
@@ -17,6 +17,13 @@ public class Message {
     public Message(Command command, String message) {
         this.command = command;
         this.info = message;
+    }
+
+    public Message(Command command, String info, Target target, String senderNickname) {
+        this.command = command;
+        this.info = info;
+        this.target = target;
+        this.senderNickname = senderNickname;
     }
 
     public void deserialize(){

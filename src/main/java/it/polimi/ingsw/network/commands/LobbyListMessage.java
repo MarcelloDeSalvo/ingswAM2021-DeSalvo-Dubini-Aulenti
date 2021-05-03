@@ -10,6 +10,11 @@ public class LobbyListMessage extends Message{
         this.lobbyNames = lobbyList;
     }
 
+    public LobbyListMessage(Command command, String info, Target target, String senderNickname, ArrayList<String> lobbyNames) {
+        super(command, info, target, senderNickname);
+        this.lobbyNames = lobbyNames;
+    }
+
     public ArrayList<String> getLobbyNames() {
         return lobbyNames;
     }

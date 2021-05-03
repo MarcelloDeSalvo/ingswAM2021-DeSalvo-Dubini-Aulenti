@@ -34,7 +34,6 @@ public class VirtualView implements ObservableViewIO, ObserverViewIO, Observable
                 notifyController(mex);
                 break;
         }
-
     }
 
 

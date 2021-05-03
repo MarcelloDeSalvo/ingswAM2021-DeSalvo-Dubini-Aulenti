@@ -27,7 +27,6 @@ public class EchoServerClientHandler implements Runnable {
             lobbyManager.addObserverIO(serverSender);
             serverSender.start();
 
-
         }catch (IllegalThreadStateException e){
             e.printStackTrace();
         }

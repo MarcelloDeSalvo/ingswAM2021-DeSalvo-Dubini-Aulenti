@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.view.View;
 
 import java.util.Scanner;

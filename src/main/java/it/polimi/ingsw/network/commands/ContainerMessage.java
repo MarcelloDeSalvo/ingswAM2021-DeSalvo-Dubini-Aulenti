@@ -19,6 +19,14 @@ public class ContainerMessage extends Message{
         this.depositID = depositID;
     }
 
+    public ContainerMessage(Command command, String info, Target target, String senderNickname, int qty, ResourceType resourceType, String source, int depositID) {
+        super(Command.SEND_CONTAINER, info, target, senderNickname);
+        this.qty = qty;
+        this.resourceType = resourceType;
+        this.source = source;
+        this.depositID = depositID;
+    }
+
     public int getQty() {
         return qty;
     }
