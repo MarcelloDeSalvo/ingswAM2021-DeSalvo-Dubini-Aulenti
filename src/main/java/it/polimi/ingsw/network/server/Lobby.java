@@ -1,10 +1,12 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.UserManager;
+import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.observers.ObserverViewIO;
 
 import java.util.HashMap;
 
-public class Lobby {
+public class Lobby implements ObserverViewIO {
     String lobbyName;
     HashMap<String, User> players;
 
@@ -25,6 +27,11 @@ public class Lobby {
         UserManager.addPlayer(players, user.getNickname(), user);
     }
 
+
+    @Override
+    public void update(Message message) {
+
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -72,5 +79,7 @@ public class Lobby {
                 ", isClosed=" + isClosed +
                 '}';
     }
+
+
     //------------------------------------------------------------------------------------------------------------------
 }

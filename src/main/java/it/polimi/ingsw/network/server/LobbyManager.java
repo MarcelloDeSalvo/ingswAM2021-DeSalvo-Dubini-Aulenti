@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.Util;
+import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
@@ -40,57 +41,83 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST, senderNick));
                 break;
 
-            case HELLO:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.HELLO, "Hello!", Target.UNICAST, senderNick));
-                break;
+                case HELLO:
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.HELLO, "Hello!", Target.UNICAST, senderNick));
+                    break;
 
-            case HELLO_ALL:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
-                break;
+                case HELLO_ALL:
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
+                    break;
 
-            case LOBBY_LIST:
-                ArrayList<String> lobbiesInfos = new ArrayList<>();
-                for (String key: lobbies.keySet()) {
-                   lobbiesInfos.add(lobbies.get(key).toString());
-                }
+                case JOIN_LOBBY:
+                    JoinLobbyMessage joinLobbyMessage = gson.fromJson(original, JoinLobbyMessage.class);
+                    String lobbyToJoinName = joinLobbyMessage.getLobbyName();
 
-                UserManager.notifyUsers(connectedPlayers, new LobbyListMessage(lobbiesInfos, senderNick));
-                break;
+                    if(Util.isPresent(lobbyToJoinName, lobbies)) {
 
-            case JOIN_LOBBY:
-                JoinLobbyMessage joinLobbyMessage = gson.fromJson(original, JoinLobbyMessage.class);
-                Lobby lobbyToJoin = lobbies.get(joinLobbyMessage.getLobbyName());
-                lobbyToJoin.addUser(currentUser);
-                break;
+                        joinLobby(lobbyToJoinName, currentUser);
 
-            case CREATE_LOBBY:
-                CreateLobbyMessage createLobbyMessage = gson.fromJson(original, CreateLobbyMessage.class);
-                String newLobbyName = createLobbyMessage.getLobbyName();
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "You joined " + lobbyToJoinName + " correctly", Target.UNICAST, senderNick));
+                    }
+                    else
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby", Target.UNICAST, senderNick));
 
-                if(!Util.isPresent(newLobbyName, lobbies))
-                {
-                    Lobby newLobby = new Lobby(newLobbyName, createLobbyMessage.getNumOfPlayers());
-                    newLobby.addUser(currentUser);
-                    lobbies.put(newLobbyName, newLobby);
+                    break;
 
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "The lobby " + newLobbyName + " has been created", Target.UNICAST, senderNick));
-                }
-                else
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
+                case CREATE_LOBBY:
+                    CreateLobbyMessage createLobbyMessage = gson.fromJson(original, CreateLobbyMessage.class);
+                    String newLobbyName = createLobbyMessage.getLobbyName();
 
-                break;
+                    if(!Util.isPresent(newLobbyName, lobbies)) {
 
-            default:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Invalid command", Target.UNICAST, senderNick));
-                break;
-        }
+                        createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
 
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + newLobbyName + " has been created correctly!", Target.UNICAST, senderNick));
+                    }
+                    else
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
+
+                    break;
+
+                default:
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Invalid command", Target.UNICAST, senderNick));
+                    break;
+            }
+    }
+
+
+
+    //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
+    private void joinLobby (String lobbyToJoinName, User currentUser) {
+        Lobby lobbyToJoin = lobbies.get(lobbyToJoinName);
+
+        lobbyToJoin.addUser(currentUser);
+        currentUser.addLobbyOrView(lobbyToJoin);
+
+        currentUser.setStatus(Status.IN_LOBBY);
+    }
+
+    private void createLobby (String newLobbyName, int numOfPlayers, User currentUser) {
+        Lobby newLobby = new Lobby(newLobbyName, numOfPlayers);
+
+        newLobby.addUser(currentUser);
+        lobbies.put(newLobbyName, newLobby);
+        currentUser.addLobbyOrView(newLobby);
+
+        currentUser.setStatus(Status.IN_LOBBY);
     }
 
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY_MANAGER;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //GETTERS AND SETTERS-----------------------------------------------------------------------------------------------
     public HashMap<String, User> getConnectedPlayers() {
         return connectedPlayers;
     }
