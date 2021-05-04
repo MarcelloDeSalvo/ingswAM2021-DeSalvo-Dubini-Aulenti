@@ -41,52 +41,52 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST, senderNick));
                 break;
 
-                case HELLO:
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.HELLO, "Hello!", Target.UNICAST, senderNick));
-                    break;
+            case HELLO:
+                UserManager.notifyUsers(connectedPlayers, new Message(Command.HELLO, "Hello!", Target.UNICAST, senderNick));
+                break;
 
-                case HELLO_ALL:
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
-                    break;
+            case HELLO_ALL:
+                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
+                break;
 
-                case JOIN_LOBBY:
-                    JoinLobbyMessage joinLobbyMessage = gson.fromJson(original, JoinLobbyMessage.class);
-                    String lobbyToJoinName = joinLobbyMessage.getLobbyName();
+            case JOIN_LOBBY:
+                JoinLobbyMessage joinLobbyMessage = gson.fromJson(original, JoinLobbyMessage.class);
+                String lobbyToJoinName = joinLobbyMessage.getLobbyName();
 
-                    if(Util.isPresent(lobbyToJoinName, lobbies)) {
+                if(Util.isPresent(lobbyToJoinName, lobbies)) {
 
-                        joinLobby(lobbyToJoinName, currentUser);
+                    joinLobby(lobbyToJoinName, currentUser);
 
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "You joined " + lobbyToJoinName + " correctly", Target.UNICAST, senderNick));
-                    }
-                    else
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby", Target.UNICAST, senderNick));
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                            "You joined " + lobbyToJoinName + " correctly", Target.UNICAST, senderNick));
+                }
+                else
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                            "The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby", Target.UNICAST, senderNick));
 
-                    break;
+                break;
 
-                case CREATE_LOBBY:
-                    CreateLobbyMessage createLobbyMessage = gson.fromJson(original, CreateLobbyMessage.class);
-                    String newLobbyName = createLobbyMessage.getLobbyName();
+            case CREATE_LOBBY:
+                CreateLobbyMessage createLobbyMessage = gson.fromJson(original, CreateLobbyMessage.class);
+                String newLobbyName = createLobbyMessage.getLobbyName();
 
-                    if(!Util.isPresent(newLobbyName, lobbies)) {
+                if(!Util.isPresent(newLobbyName, lobbies)) {
 
-                        createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
+                    createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
 
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "The lobby " + newLobbyName + " has been created correctly!", Target.UNICAST, senderNick));
-                    }
-                    else
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                            "The lobby " + newLobbyName + " has been created correctly!", Target.UNICAST, senderNick));
+                }
+                else
+                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                            "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
 
-                    break;
+                break;
 
-                default:
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Invalid command", Target.UNICAST, senderNick));
-                    break;
-            }
+            default:
+                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Invalid command", Target.UNICAST, senderNick));
+                break;
+        }
     }
 
 
