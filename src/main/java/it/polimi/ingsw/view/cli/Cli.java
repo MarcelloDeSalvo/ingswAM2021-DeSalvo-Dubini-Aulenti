@@ -94,10 +94,10 @@ public class Cli extends ClientView {
                     return false;
 
                 default:
-                    System.out.println("Invalid command, type HELP to see all available commands");
+                    System.out.println("Invalid command, type "+Color.ANSI_RED.escape()+"HELP"+Color.RESET+" to see all available commands");
             }
         }catch (InputMismatchException e){
-            System.out.println("The command you submitted isn't valid, please consult HELP to know more about commands");
+             System.out.println("The command you submitted isn't valid, please consult "+Color.ANSI_YELLOW.escape()+"HELP"+Color.RESET+" to know more about commands");
         }
         return true;
 
@@ -110,7 +110,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printHello() {
-        System.out.println("Hello!");
+        System.out.println(Color.ANSI_CYAN.escape()+"Hello!"+Color.RESET);
     }
 
     @Override
