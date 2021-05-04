@@ -1,10 +1,13 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.UserManager;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Lobby {
     String lobbyName;
-    ArrayList<String> nicknames;
+    HashMap<String, User> players;
 
     int maxPlayer;
     int numOfPlayersConnected;
@@ -12,33 +15,23 @@ public class Lobby {
     boolean isFull;
     boolean isClosed;
 
-    boolean customDecks;
-
-    public Lobby(String lobbyName, int maxPlayer, boolean customDecks) {
+    public Lobby(String lobbyName, int maxPlayer) {
         this.lobbyName = lobbyName;
         this.maxPlayer = maxPlayer;
-        this.customDecks = customDecks;
-        nicknames = new ArrayList<>();
+        players = new HashMap<>();
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
-    public boolean addNick(String nick){
-        return nick!=null && nicknames.add(nick);
+    public void addUser(User user){
+        UserManager.addPlayer(players, user.getNickname(), user);
     }
 
-    public boolean removeNick(String nick){
-        return nick!=null && nicknames.remove(nick);
-    }
     //------------------------------------------------------------------------------------------------------------------
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public String getLobbyName() {
         return lobbyName;
-    }
-
-    public ArrayList<String> getNicknames() {
-        return nicknames;
     }
 
     public int getMaxPlayer() {
@@ -55,14 +48,6 @@ public class Lobby {
 
     public boolean isClosed() {
         return isClosed;
-    }
-
-    public boolean isCustomDecks() {
-        return customDecks;
-    }
-
-    public void setNicknames(ArrayList<String> nicknames) {
-        this.nicknames = nicknames;
     }
 
     public void setNumOfPlayersConnected(int numOfPlayersConnected) {
@@ -83,11 +68,9 @@ public class Lobby {
     public String toString() {
         return "Lobby{" +
                 "lobbyName='" + lobbyName + '\'' +
-                ", nicknames=" + nicknames + '\n' +
                 ", connected=" + numOfPlayersConnected + '\''+ numOfPlayersConnected +
                 ", isFull=" + isFull +
                 ", isClosed=" + isClosed +
-                ", customDecks=" + customDecks +
                 '}';
     }
     //------------------------------------------------------------------------------------------------------------------

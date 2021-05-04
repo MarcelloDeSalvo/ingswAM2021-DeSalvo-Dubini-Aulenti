@@ -37,11 +37,13 @@ public class Cli extends ClientView {
                 printHand(showHandMessage.getCardsID());
                 break;
 
+            case CREATE_LOBBY:
+                break;
+
             case REPLY:
                 printReply(mex.getInfo());
                 break;
         }
-
     }
 
 
@@ -60,9 +62,8 @@ public class Cli extends ClientView {
                     break;
 
                 case "CREATE_LOBBY":
-                    sender.send(new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), stdIn.nextBoolean(), this.getNickname()));
+                    sender.send(new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname()));
                     break;
-
 
                 case "HELLO":
                     sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
@@ -110,7 +111,6 @@ public class Cli extends ClientView {
     public void setSender(ClientSender clientSender) {
         this.sender = clientSender;
     }
-
 
     @Override
     public void printHand(ArrayList<Integer> leaderIDs) {

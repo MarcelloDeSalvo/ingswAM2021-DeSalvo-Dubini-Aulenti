@@ -52,7 +52,7 @@ public class Util {
      * @param type is the key that will be used to check in the HashMap
      * @return true if present, false otherwise
      */
-    public static <T> boolean isPresent(ResourceType type, HashMap<ResourceType, T> map){
+    public static <E,T> boolean isPresent(E type, HashMap<E, T> map){
         return map.containsKey(type);
     }
     //------------------------------------------------------------------------------------------------------------------

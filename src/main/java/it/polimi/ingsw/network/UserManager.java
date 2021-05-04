@@ -1,4 +1,4 @@
-package it.polimi.ingsw.observers;
+package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.server.User;
@@ -48,7 +48,7 @@ public class UserManager {
     /**
      * @return true if nick is present
      */
-    public static boolean isNamePresent(HashMap<String, User> connectedPlayers, String nick) {
+    public static <T> boolean isNamePresent(HashMap<String, T> connectedPlayers, String nick) {
         return connectedPlayers.containsKey(nick);
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 
+import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.Target;

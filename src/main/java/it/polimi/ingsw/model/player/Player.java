@@ -91,6 +91,7 @@ public class Player implements ObservableModel {
                 for (ObserverModel obs: observers) {
                     obs.printHand(leaderListToInt());
                 }
+                return true;
             }
         }
 

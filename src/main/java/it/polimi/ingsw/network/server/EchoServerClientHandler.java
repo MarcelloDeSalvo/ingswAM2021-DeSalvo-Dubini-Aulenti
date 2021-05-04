@@ -5,7 +5,7 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.observers.UserManager;
+import it.polimi.ingsw.network.UserManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;

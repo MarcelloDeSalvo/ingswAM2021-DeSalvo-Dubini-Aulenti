@@ -8,7 +8,7 @@ import it.polimi.ingsw.observers.ObserverViewIO;
 import java.util.ArrayList;
 
 enum Status{
-    IN_GAME, IN_LOBBY_MANAGER, IN_LOBBY, DISCONNECTED
+    IN_LOBBY_MANAGER, IN_LOBBY, IN_GAME, DISCONNECTED
 }
 
 public class User implements ObserverThread, ObservableViewIO {
