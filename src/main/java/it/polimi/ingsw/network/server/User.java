@@ -23,6 +23,7 @@ public class User implements ObserverThread, ObservableViewIO {
         this.nickname = nickname;
         this.serverReceiver = serverReceiver;
         this.serverSender = serverSender;
+        serverReceiver.addThreadObserver(this);
         this.status = status;
         lobbies = new ArrayList<>();
     }
