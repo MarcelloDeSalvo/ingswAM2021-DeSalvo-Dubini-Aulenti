@@ -23,7 +23,7 @@ public class Controller implements ObserverController {
             game = new Game();
         }catch (FileNotFoundException e){
             e.printStackTrace();
-            virtualView.notifyIO(new Message(Command.REPLY, "Cannot read the configuration file of the game"));
+            virtualView.notifyUsers(new Message(Command.REPLY, "Cannot read the configuration file of the game"));
         }
     }
 
@@ -33,7 +33,7 @@ public class Controller implements ObserverController {
             game = new Game();
         }catch (FileNotFoundException e){
             e.printStackTrace();
-            virtualView.notifyIO(new Message(Command.REPLY, "Cannot read the configuration file of the game"));
+            virtualView.notifyUsers(new Message(Command.REPLY, "Cannot read the configuration file of the game"));
         }
     }
 
@@ -52,7 +52,7 @@ public class Controller implements ObserverController {
 
                 int currP = game.getCurrentPlayer();
                 if (!game.getPlayer(currP).discardFromHand(discardLeaderMessage.getLeaderID()))
-                    virtualView.notifyIO(new Message(Command.REPLY, "Wrong leader ID", Target.UNICAST));
+                    virtualView.notifyUsers(new Message(Command.REPLY, "Wrong leader ID", Target.UNICAST));
                 break;
 
             default:
@@ -63,7 +63,7 @@ public class Controller implements ObserverController {
 
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
-            virtualView.notifyIO(new Message(Command.REPLY, "Not the current Player", Target.UNICAST));
+            virtualView.notifyUsers(new Message(Command.REPLY, "Not the current Player", Target.UNICAST));
             return false;
         }
         return true;

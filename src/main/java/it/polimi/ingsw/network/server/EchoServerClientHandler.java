@@ -5,6 +5,7 @@ package it.polimi.ingsw.network.server;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.observers.UserManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,15 +42,17 @@ public class EchoServerClientHandler implements Runnable {
 
                 if (nick.getCommand() == Command.LOGIN) {
 
-                    if(!lobbyManager.isNamePresent(nick.getInfo())){
+                    if(!lobbyManager.getConnectedPlayers().containsKey(nick.getInfo())){
                         out.println(new Message(Command.REPLY,"You inserted a valid nickname. Welcome to masters of renaissance").serialize());
                         out.flush();
 
                         serverReceiver = new ServerReceiver(socket, in);
-                        serverReceiver.addThreadObserver(lobbyManager);
-
                         serverSender = new ServerSender(socket, out);
-                        lobbyManager.addPlayer(nick.getInfo(), serverSender);
+
+                        User user = new User(nick.getInfo(), serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
+                        user.addLobbyOrView(lobbyManager);
+
+                        UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nick.getInfo(), user);
 
                         serverReceiver.start();
                         serverSender.start();

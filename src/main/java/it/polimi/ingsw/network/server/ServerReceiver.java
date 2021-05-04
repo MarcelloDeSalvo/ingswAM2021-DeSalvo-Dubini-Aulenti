@@ -4,24 +4,22 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObservableThread;
-import it.polimi.ingsw.observers.ObservableViewIO;
-import it.polimi.ingsw.observers.ObserverViewIO;
+import it.polimi.ingsw.observers.ObserverThread;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ServerReceiver extends Thread implements ObservableThread {
 
     Socket socket;
-    ArrayList<ObserverViewIO> observerViewIOS;
+    ArrayList<ObserverThread> observerThreads;
     BufferedReader in;
 
     public ServerReceiver (Socket socket, BufferedReader in){
         this.socket = socket;
-        observerViewIOS = new ArrayList<>();
+        observerThreads = new ArrayList<>();
         this.in = in;
     }
 
@@ -50,16 +48,16 @@ public class ServerReceiver extends Thread implements ObservableThread {
     }
 
     @Override
-    public void addThreadObserver(ObserverViewIO observer) {
+    public void addThreadObserver(ObserverThread observer) {
         if(observer!=null)
-            observerViewIOS.add(observer);
+            observerThreads.add(observer);
     }
 
 
     @Override
     public void notifyThreadObserver(Message message) {
-        for (ObserverViewIO obs: observerViewIOS) {
-            obs.update(message);
+        for (ObserverThread obs: observerThreads) {
+            obs.userReceive(message);
         }
 
     }

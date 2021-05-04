@@ -4,20 +4,25 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.Target;
+import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class VirtualView implements View, ObservableViewIO, ObserverViewIO, ObservableController, ObserverModel {
+public class VirtualView implements View, ObserverViewIO, ObservableController, ObserverModel {
 
-    HashMap<String,ObserverViewIO> players;
+    HashMap<String, User> connectedPlayers;
     ArrayList<ObserverController> observerControllers;
 
     public VirtualView() {
-        players = new HashMap<>();
+        connectedPlayers = new HashMap<>();
         observerControllers = new ArrayList<>();
+    }
+
+    public void notifyUsers(Message message){
+        UserManager.notifyUsers(connectedPlayers, message);
     }
 
     //OBSERVER VIEW IO-------(RECEIVED DATA)-----------------------------------------------------------------------------------
@@ -41,57 +46,6 @@ public class VirtualView implements View, ObservableViewIO, ObserverViewIO, Obse
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //OBSERVABLE VIEW IO---------(SEND DATA)---------------------------------------------------------------------------
-    @Override
-    public void notifyIO(Message message) {
-        switch (message.getTarget()){
-            case UNICAST:
-                if (isNamePresent(message.getSenderNickname()))
-                    players.get(message.getSenderNickname()).update(message);
-                break;
-
-            case BROADCAST:
-                for (String nick: players.keySet()) {
-                    players.get(nick).update(message);
-                }
-                break;
-
-            case EVERYONE_ELSE:
-                for (String nick: players.keySet()) {
-                    if (!nick.equals(message.getSenderNickname()))
-                        players.get(nick).update(message);
-                }
-                break;
-        }
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-    //PLAYERSLIST MANAGEMENT -------------------------------------------------------------------------------------------
-    @Override
-    public boolean addPlayer(String nick, ObserverViewIO threadSender){
-        if(!players.containsKey(nick)) {
-            players.put(nick, threadSender);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    @Override
-    public boolean isNamePresent(String nick) {
-        return players.containsKey(nick);
-    }
-
-    @Override
-    public boolean removePlayer(String nick) {
-        if (players.containsKey(nick)) {
-            players.remove(nick);
-            return true;
-        }
-        return false;
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
     //CONTROLLER OBSERVER-----------------------------------------------------------------------------------------------
     @Override
     public void addObserverController(ObserverController obs) {
@@ -111,12 +65,12 @@ public class VirtualView implements View, ObservableViewIO, ObserverViewIO, Obse
     //OBSERVER MODEL-------(VV OBSERVES THE MODEL)----------------------------------------------------------------------
     @Override
     public void printHello() {
-        notifyIO(new Message(Command.REPLY, "Bye!", Target.UNICAST));
+        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST));
     }
 
     @Override
     public void printQuit() {
-        notifyIO(new Message(Command.REPLY, "Bye!", Target.UNICAST));
+        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST));
     }
 
     @Override
