@@ -28,7 +28,6 @@ public class User implements ObserverThread, ObservableViewIO {
         lobbies = new ArrayList<>();
     }
 
-
     @Override
     public void userReceive(String message){
         notifyLobbyOrView(message);
@@ -36,9 +35,11 @@ public class User implements ObserverThread, ObservableViewIO {
 
     @Override
     public void notifyLobbyOrView(String message) {
-        for (ObserverViewIO lobby: lobbies) {
-            lobby.update(message);
-        }
+        //for (ObserverViewIO lobby: lobbies) {
+            lobbies.get(0).update(message);
+
+            if(lobbies.size() == 2)
+                lobbies.get(1).update(message);
     }
 
     @Override

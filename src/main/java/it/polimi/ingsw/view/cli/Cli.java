@@ -27,7 +27,6 @@ public class Cli extends ClientView {
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();
-        String original = deserializedMex.serialize();
 
         switch (command){
             case HELLO:
@@ -35,12 +34,12 @@ public class Cli extends ClientView {
                 break;
 
             case LOBBY_LIST:
-                LobbyListMessage lobbyListMessage = gson.fromJson(original, LobbyListMessage.class);
+                LobbyListMessage lobbyListMessage = gson.fromJson(mex, LobbyListMessage.class);
                 printLobby(lobbyListMessage.getLobbiesInfos());
                 break;
 
             case SHOW_HAND:
-                ShowHandMessage showHandMessage = gson.fromJson(original, ShowHandMessage.class);
+                ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
                 printHand(showHandMessage.getCardsID());
                 break;
 
@@ -69,7 +68,7 @@ public class Cli extends ClientView {
                     sender.send(createLobbyMessage);
                     break;
 
-                case "SHOW_LOBBY":
+                case "SHOW_LOBBIES":
                     sender.send(new LobbyListMessage(this.getNickname()));
                     break;
 
@@ -94,10 +93,10 @@ public class Cli extends ClientView {
                     return false;
 
                 default:
-                    System.out.println("Invalid command, type "+Color.ANSI_RED.escape()+"HELP"+Color.RESET+" to see all available commands");
+                    System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
             }
         }catch (InputMismatchException e){
-             System.out.println("The command you submitted isn't valid, please consult "+Color.ANSI_YELLOW.escape()+"HELP"+Color.RESET+" to know more about commands");
+             System.out.println("The command you submitted isn't valid, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands");
         }
         return true;
 
@@ -110,7 +109,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printHello() {
-        System.out.println(Color.ANSI_CYAN.escape()+"Hello!"+Color.RESET);
+        System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET);
     }
 
     @Override

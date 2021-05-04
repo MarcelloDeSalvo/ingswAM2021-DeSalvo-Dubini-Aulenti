@@ -36,7 +36,7 @@ public class LobbyManager implements  ObserverViewIO {
         if(!hasPermission(currentUser))
             return;
 
-        switch (command){
+        switch (command) {
             case QUIT:
                 UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST, senderNick));
                 break;
@@ -113,7 +113,6 @@ public class LobbyManager implements  ObserverViewIO {
 
         newLobby.addUser(currentUser);
         lobbies.put(newLobbyName, newLobby);
-
         currentUser.addLobbyOrView(newLobby);
 
         currentUser.setStatus(Status.IN_LOBBY);

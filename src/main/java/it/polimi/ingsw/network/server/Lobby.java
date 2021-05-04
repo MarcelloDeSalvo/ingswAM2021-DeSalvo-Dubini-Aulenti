@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.UserManager;
-import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverViewIO;
 
 import java.util.HashMap;
@@ -10,25 +9,36 @@ public class Lobby implements ObserverViewIO {
     String lobbyName;
     HashMap<String, User> players;
 
-    int maxPlayer;
+    int maxPlayers;
     int numOfPlayersConnected;
 
     boolean isFull;
     boolean isClosed;
 
-    public Lobby(String lobbyName, int maxPlayer) {
+    public Lobby(String lobbyName, int maxPlayers) {
         this.lobbyName = lobbyName;
-        this.maxPlayer = maxPlayer;
+        this.maxPlayers = maxPlayers;
         players = new HashMap<>();
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
     public boolean addUser(User user){
-        return UserManager.addPlayer(players, user.getNickname(), user);
+        if(UserManager.addPlayer(players, user.getNickname(), user)) {
+            numOfPlayersConnected++;
+            return true;
+        }
+        else
+            return false;
+
     }
 
     public boolean removeUser(User user){
-        return UserManager.removePlayer(players, user.getNickname());
+        if(UserManager.removePlayer(players, user.getNickname())){
+            numOfPlayersConnected--;
+            return true;
+        }
+        else
+            return false;
     }
 
     @Override
@@ -44,7 +54,7 @@ public class Lobby implements ObserverViewIO {
     }
 
     public int getMaxPlayer() {
-        return maxPlayer;
+        return maxPlayers;
     }
 
     public int getNumOfPlayersConnected() {
@@ -75,12 +85,10 @@ public class Lobby implements ObserverViewIO {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "Lobby{" +
-                "lobbyName='" + lobbyName + '\'' +
-                ", connected=" + numOfPlayersConnected + '\''+ numOfPlayersConnected +
+        return "* lobbyName='" + lobbyName + '\'' +
+                ", connected=" + numOfPlayersConnected + "/" + maxPlayers +
                 ", isFull=" + isFull +
-                ", isClosed=" + isClosed +
-                '}';
+                ", isClosed=" + isClosed;
     }
     //------------------------------------------------------------------------------------------------------------------
 }
