@@ -3,31 +3,26 @@ package it.polimi.ingsw.network.commands;
 import java.util.ArrayList;
 
 public class LobbyListMessage extends Message{
-    ArrayList<String> lobbyNames;
+    ArrayList<String> lobbyInfos;
 
-    public LobbyListMessage(Command command, ArrayList<String> lobbyList) {
-        super(Command.LOBBY_LIST);
-        this.lobbyNames = lobbyList;
+
+    public LobbyListMessage(ArrayList<String> lobbyNames, String senderNickname) {
+        super(Command.LOBBY_LIST, "", Target.UNICAST, senderNickname);
+        this.lobbyInfos = lobbyNames;
     }
 
-    public LobbyListMessage(String info, Target target, ArrayList<String> lobbyNames) {
-        super(Command.LOBBY_LIST, info, target);
-        this.lobbyNames = lobbyNames;
+    public LobbyListMessage(String senderNickname) {
+        super(Command.LOBBY_LIST, "", Target.UNICAST, senderNickname);
     }
 
-    public LobbyListMessage(String info, Target target, String senderNickname, ArrayList<String> lobbyNames) {
-        super(Command.LOBBY_LIST, info, target, senderNickname);
-        this.lobbyNames = lobbyNames;
-    }
-
-    public ArrayList<String> getLobbyNames() {
-        return lobbyNames;
+    public ArrayList<String> getLobbiesInfos() {
+        return lobbyInfos;
     }
 
     @Override
     public String toString() {
         return "LobbyListMessage{" +
-                "lobbyList=" + lobbyNames +
+                "lobbyList=" + lobbyInfos +
                 "} " + super.toString();
     }
 }

@@ -32,12 +32,17 @@ public class Cli extends ClientView {
                 printHello();
                 break;
 
+            case CREATE_LOBBY:
+                break;
+
+            case LOBBY_LIST:
+                LobbyListMessage lobbyListMessage = gson.fromJson(original, LobbyListMessage.class);
+                printLobby(lobbyListMessage.getLobbiesInfos());
+                break;
+
             case SHOW_HAND:
                 ShowHandMessage showHandMessage = gson.fromJson(original, ShowHandMessage.class);
                 printHand(showHandMessage.getCardsID());
-                break;
-
-            case CREATE_LOBBY:
                 break;
 
             case REPLY:
@@ -65,12 +70,20 @@ public class Cli extends ClientView {
                     sender.send(new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname()));
                     break;
 
+                case "SHOW_LOBBY":
+                    sender.send(new LobbyListMessage(this.getNickname()));
+                    break;
+
                 case "HELLO":
                     sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
                     break;
 
                 case "HELLO_ALL":
                     sender.send(new Message(Command.HELLO_ALL, "Hello all", this.getNickname()));
+                    break;
+
+                case "START_GAME":
+                    sender.send(new Message(Command.START_GAME, "Start", this.getNickname()));
                     break;
 
                 case "DISCARD_LEADER":
@@ -118,5 +131,10 @@ public class Cli extends ClientView {
             System.out.println(leaderCards.get(id));
     }
 
-
+    @Override
+    public void printLobby(ArrayList<String> lobbiesInfos) {
+        for (String info : lobbiesInfos) {
+            System.out.println(info);
+        }
+    }
 }

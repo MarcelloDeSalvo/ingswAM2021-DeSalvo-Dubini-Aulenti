@@ -84,6 +84,11 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
     }
 
+    @Override
+    public void printLobby(ArrayList<String> lobbiesInfos) {
+
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

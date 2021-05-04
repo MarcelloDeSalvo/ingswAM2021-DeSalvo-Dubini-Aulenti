@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.network.UserManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Lobby {

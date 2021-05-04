@@ -7,4 +7,5 @@ public interface ObserverModel {
     void printQuit();
     void printHand(ArrayList<Integer> leaderIDs);
     void printReply(String payload);
+    void printLobby(ArrayList<String> lobbiesInfos);
 }
