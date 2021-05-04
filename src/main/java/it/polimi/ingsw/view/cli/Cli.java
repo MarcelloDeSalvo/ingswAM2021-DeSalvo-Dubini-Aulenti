@@ -22,17 +22,16 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void readUpdates(Message mex){
-        Command command = mex.getCommand();
+    public void readUpdates(String mex){
         Gson gson = new Gson();
-        String original = mex.serialize();
+        Message deserializedMex = gson.fromJson(mex, Message.class);
+
+        Command command = deserializedMex.getCommand();
+        String original = deserializedMex.serialize();
 
         switch (command){
             case HELLO:
                 printHello();
-                break;
-
-            case CREATE_LOBBY:
                 break;
 
             case LOBBY_LIST:
@@ -46,11 +45,10 @@ public class Cli extends ClientView {
                 break;
 
             case REPLY:
-                printReply(mex.getInfo());
+                printReply(deserializedMex.getInfo());
                 break;
         }
     }
-
 
     @Override
     public boolean readInput() {
@@ -94,7 +92,6 @@ public class Cli extends ClientView {
                     sender.send(new Message(Command.QUIT));
                     return false;
 
-
                 default:
                     System.out.println("Invalid command, type HELP to see all available commands");
             }
@@ -103,6 +100,11 @@ public class Cli extends ClientView {
         }
         return true;
 
+    }
+
+    @Override
+    public void setSender(ClientSender clientSender) {
+        this.sender = clientSender;
     }
 
     @Override
@@ -118,11 +120,6 @@ public class Cli extends ClientView {
     @Override
     public void printReply(String payload) {
         System.out.println(payload);
-    }
-
-    @Override
-    public void setSender(ClientSender clientSender) {
-        this.sender = clientSender;
     }
 
     @Override

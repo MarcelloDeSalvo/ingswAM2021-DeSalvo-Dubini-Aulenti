@@ -32,8 +32,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
             String receivedMex = "";
 
             while ((receivedMex = in.readLine()) != null) {
-                Message deserializedMex = gson.fromJson(receivedMex, Message.class);
-                notifyThreadObserver(deserializedMex);
+                notifyThreadObserver(receivedMex);
             }
 
             in.close();
@@ -55,7 +54,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
 
 
     @Override
-    public void notifyThreadObserver(Message message) {
+    public void notifyThreadObserver(String message) {
         for (ObserverThread obs: observerThreads) {
             obs.userReceive(message);
         }

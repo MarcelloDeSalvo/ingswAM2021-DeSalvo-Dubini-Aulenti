@@ -23,13 +23,16 @@ public class Lobby implements ObserverViewIO {
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
-    public void addUser(User user){
-        UserManager.addPlayer(players, user.getNickname(), user);
+    public boolean addUser(User user){
+        return UserManager.addPlayer(players, user.getNickname(), user);
     }
 
+    public boolean removeUser(User user){
+        return UserManager.removePlayer(players, user.getNickname());
+    }
 
     @Override
-    public void update(Message message) {
+    public void update(String message) {
 
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -79,7 +82,5 @@ public class Lobby implements ObserverViewIO {
                 ", isClosed=" + isClosed +
                 '}';
     }
-
-
     //------------------------------------------------------------------------------------------------------------------
 }

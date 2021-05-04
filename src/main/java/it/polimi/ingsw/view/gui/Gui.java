@@ -14,7 +14,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void readUpdates(Message message) {
+    public void readUpdates(String message) {
 
     }
 

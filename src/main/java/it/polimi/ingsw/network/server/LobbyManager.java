@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.Util;
-import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
@@ -25,15 +24,16 @@ public class LobbyManager implements  ObserverViewIO {
     }
 
     @Override
-    public void update(Message mex){
-        Command command = mex.getCommand();
-        String senderNick = mex.getSenderNickname();
-        String original = mex.serialize();
+    public void update(String mex){
         Gson gson = new Gson();
+        Message deserializedMex = gson.fromJson(mex, Message.class);
+
+        Command command = deserializedMex.getCommand();
+        String senderNick = deserializedMex.getSenderNickname();
 
         User currentUser = connectedPlayers.get(senderNick);
 
-        if(hasPermission(currentUser))
+        if(!hasPermission(currentUser))
             return;
 
         switch (command){
@@ -50,7 +50,7 @@ public class LobbyManager implements  ObserverViewIO {
                 break;
 
             case JOIN_LOBBY:
-                JoinLobbyMessage joinLobbyMessage = gson.fromJson(original, JoinLobbyMessage.class);
+                JoinLobbyMessage joinLobbyMessage = gson.fromJson(mex, JoinLobbyMessage.class);
                 String lobbyToJoinName = joinLobbyMessage.getLobbyName();
 
                 if(Util.isPresent(lobbyToJoinName, lobbies)) {
@@ -67,7 +67,7 @@ public class LobbyManager implements  ObserverViewIO {
                 break;
 
             case CREATE_LOBBY:
-                CreateLobbyMessage createLobbyMessage = gson.fromJson(original, CreateLobbyMessage.class);
+                CreateLobbyMessage createLobbyMessage = gson.fromJson(mex, CreateLobbyMessage.class);
                 String newLobbyName = createLobbyMessage.getLobbyName();
 
                 if(!Util.isPresent(newLobbyName, lobbies)) {
@@ -88,7 +88,6 @@ public class LobbyManager implements  ObserverViewIO {
                 break;
         }
     }
-
 
 
     //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------

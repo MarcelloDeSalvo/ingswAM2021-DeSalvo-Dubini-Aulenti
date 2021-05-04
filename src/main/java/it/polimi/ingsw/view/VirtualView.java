@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -28,8 +29,11 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
     //OBSERVER VIEW IO-------(RECEIVED DATA)-----------------------------------------------------------------------------------
     @Override
-    public void update(Message mex){
-        Command command = mex.getCommand();
+    public void update(String mex){
+        Gson gson = new Gson();
+        Message deserializedMex = gson.fromJson(mex, Message.class);
+
+        Command command = deserializedMex.getCommand();
 
         switch (command){
             case QUIT:
@@ -40,7 +44,7 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
                 break;
 
             default:
-                notifyController(mex);
+                notifyController(deserializedMex);
                 break;
         }
     }

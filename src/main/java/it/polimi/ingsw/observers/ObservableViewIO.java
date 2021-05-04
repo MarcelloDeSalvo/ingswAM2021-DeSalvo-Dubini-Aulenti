@@ -4,6 +4,6 @@ import it.polimi.ingsw.network.commands.Message;
 
 public interface ObservableViewIO {
 
-    void notifyLobbyOrView(Message message);
+    void notifyLobbyOrView(String message);
     void addLobbyOrView(ObserverViewIO obs);
 }

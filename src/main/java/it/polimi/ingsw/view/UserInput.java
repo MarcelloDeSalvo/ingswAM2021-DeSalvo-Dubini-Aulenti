@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.commands.Message;
 public interface UserInput {
 
     boolean readInput();
-    void readUpdates(Message message);
+    void readUpdates(String message);
 
     void setSender(ClientSender sender);
 }

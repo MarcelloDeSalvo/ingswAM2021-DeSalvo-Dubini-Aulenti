@@ -38,10 +38,9 @@ public class CreateLobbyMessage extends Message{
         return numOfPlayers;
     }
 
-
     @Override
     public String toString() {
-        return "LobbySettings{" +
+        return "CreateLobbyMessage{" +
                 "lobbyName='" + lobbyName + '\'' +
                 ", numOfPlayers=" + numOfPlayers +
                 "} " + super.toString();

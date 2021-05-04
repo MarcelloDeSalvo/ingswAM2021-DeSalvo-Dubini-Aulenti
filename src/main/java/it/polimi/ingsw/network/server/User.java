@@ -30,12 +30,12 @@ public class User implements ObserverThread, ObservableViewIO {
 
 
     @Override
-    public void userReceive(Message message){
+    public void userReceive(String message){
         notifyLobbyOrView(message);
     }
 
     @Override
-    public void notifyLobbyOrView(Message message) {
+    public void notifyLobbyOrView(String message) {
         for (ObserverViewIO lobby: lobbies) {
             lobby.update(message);
         }
@@ -47,7 +47,8 @@ public class User implements ObserverThread, ObservableViewIO {
     }
 
     public void userSend(Message message){
-        serverSender.update(message);
+        String stringToSend = message.serialize();
+        serverSender.send(stringToSend);
     }
 
 

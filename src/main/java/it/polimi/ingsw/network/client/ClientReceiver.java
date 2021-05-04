@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.view.ClientView;
-import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.cli.Cli;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,8 +28,7 @@ public class ClientReceiver extends Thread{
 
             String receivedMex = "";
             while ((receivedMex = in.readLine())!=null) {
-                Message deserializedMex = gson.fromJson(receivedMex, Message.class);
-                view.readUpdates(deserializedMex);
+                view.readUpdates(receivedMex);
             }
 
         } catch (IOException e) {
