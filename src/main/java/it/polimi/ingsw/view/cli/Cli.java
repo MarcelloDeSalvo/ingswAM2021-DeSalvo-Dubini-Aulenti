@@ -37,9 +37,6 @@ public class Cli extends ClientView {
                 printHand(showHandMessage.getCardsID());
                 break;
 
-            case CREATE_LOBBY:
-                break;
-
             case REPLY:
                 printReply(mex.getInfo());
                 break;

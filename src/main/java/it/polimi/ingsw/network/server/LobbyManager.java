@@ -50,8 +50,18 @@ public class LobbyManager implements  ObserverViewIO {
 
                 case JOIN_LOBBY:
                     JoinLobbyMessage joinLobbyMessage = gson.fromJson(original, JoinLobbyMessage.class);
-                    Lobby lobbyToJoin = lobbies.get(joinLobbyMessage.getLobbyName());
-                    lobbyToJoin.addUser(currentUser);
+                    String lobbyToJoinName = joinLobbyMessage.getLobbyName();
+
+                    if(Util.isPresent(lobbyToJoinName, lobbies)) {
+
+                        joinLobby(lobbyToJoinName, currentUser);
+
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "You joined " + lobbyToJoinName + " correctly", Target.UNICAST, senderNick));
+                    }
+                    else
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby", Target.UNICAST, senderNick));
 
                     break;
 
@@ -59,16 +69,16 @@ public class LobbyManager implements  ObserverViewIO {
                     CreateLobbyMessage createLobbyMessage = gson.fromJson(original, CreateLobbyMessage.class);
                     String newLobbyName = createLobbyMessage.getLobbyName();
 
-                    if(!Util.isPresent(newLobbyName, lobbies))
-                    {
-                        Lobby newLobby = new Lobby(newLobbyName, createLobbyMessage.getNumOfPlayers());
-                        newLobby.addUser(currentUser);
-                        lobbies.put(newLobbyName, newLobby);
+                    if(!Util.isPresent(newLobbyName, lobbies)) {
 
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "The lobby " + newLobbyName + " has been created", Target.UNICAST, senderNick));
+                        createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
+
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + newLobbyName + " has been created correctly!", Target.UNICAST, senderNick));
                     }
                     else
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
 
                     break;
 
@@ -77,14 +87,36 @@ public class LobbyManager implements  ObserverViewIO {
                     break;
             }
         }
+    }
 
 
+    //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
+    private void joinLobby (String lobbyToJoinName, User currentUser) {
+        Lobby lobbyToJoin = lobbies.get(lobbyToJoinName);
+
+        lobbyToJoin.addUser(currentUser);
+        currentUser.addLobbyOrView(lobbyToJoin);
+
+        currentUser.setStatus(Status.IN_LOBBY);
+    }
+
+    private void createLobby (String newLobbyName, int numOfPlayers, User currentUser) {
+        Lobby newLobby = new Lobby(newLobbyName, numOfPlayers);
+
+        newLobby.addUser(currentUser);
+        lobbies.put(newLobbyName, newLobby);
+        currentUser.addLobbyOrView(newLobby);
+
+        currentUser.setStatus(Status.IN_LOBBY);
     }
 
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY_MANAGER;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //GETTERS AND SETTERS-----------------------------------------------------------------------------------------------
     public HashMap<String, User> getConnectedPlayers() {
         return connectedPlayers;
     }
