@@ -49,6 +49,14 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
                 break;
 
+            case LOBBY_LIST:
+                ArrayList<String> lobbiesInfo = new ArrayList<>();
+                for (String key: lobbies.keySet()) {
+                    lobbiesInfo.add(lobbies.get(key).toString());
+                }
+                UserManager.notifyUsers(connectedPlayers, new LobbyListMessage(lobbiesInfo, senderNick));
+                break;
+
             case JOIN_LOBBY:
                 JoinLobbyMessage joinLobbyMessage = gson.fromJson(mex, JoinLobbyMessage.class);
                 String lobbyToJoinName = joinLobbyMessage.getLobbyName();
@@ -105,6 +113,7 @@ public class LobbyManager implements  ObserverViewIO {
 
         newLobby.addUser(currentUser);
         lobbies.put(newLobbyName, newLobby);
+
         currentUser.addLobbyOrView(newLobby);
 
         currentUser.setStatus(Status.IN_LOBBY);
@@ -120,4 +129,5 @@ public class LobbyManager implements  ObserverViewIO {
     public HashMap<String, User> getConnectedPlayers() {
         return connectedPlayers;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }
