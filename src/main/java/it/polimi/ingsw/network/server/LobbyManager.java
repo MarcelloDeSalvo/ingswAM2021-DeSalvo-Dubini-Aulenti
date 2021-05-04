@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.Target;
+import com.google.gson.Gson;
+import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.observers.ObservableViewIO;
 import it.polimi.ingsw.observers.ObserverViewIO;
 
@@ -12,16 +11,20 @@ import java.util.HashMap;
 public class LobbyManager implements ObservableViewIO, ObserverViewIO {
     ArrayList<String> nicksOfPlayersConnected;
     HashMap<String,ObserverViewIO> connectedPlayers;
+    ArrayList<Lobby> lobbies;
 
     public LobbyManager() {
         nicksOfPlayersConnected = new ArrayList<>();
         connectedPlayers = new HashMap<>();
+        lobbies= new ArrayList<>();
     }
 
     @Override
     public void update(Message mex){
         Command command = mex.getCommand();
         String senderNick = mex.getSenderNickname();
+        String original = mex.serialize();
+        Gson gson= new Gson();
 
         switch (command){
             case QUIT:
@@ -39,8 +42,12 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
             case JOIN_LOBBY:
 
             case CREATE_LOBBY:
-
-            case LOBBY_LIST:
+                CreateLobbyMessage createLobbyMessage=gson.fromJson(original,CreateLobbyMessage.class);
+                System.out.println(mex.toString());
+                //Lobby newLobby=new Lobby(createLobbyMessage.getLobbyName(),createLobbyMessage.getNumOfPlayers(),createLobbyMessage.isCustomParameters());
+                //newLobby.addNick(mex.getSenderNickname());
+                //lobbies.add(newLobby);
+                break;
 
             default:
                 notifyIO(new Message(Command.REPLY, "Invalid command", Target.UNICAST, senderNick));
@@ -97,4 +104,10 @@ public class LobbyManager implements ObservableViewIO, ObserverViewIO {
         }
         return false;
     }
+
+    //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
+
+
+
+
 }

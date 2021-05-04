@@ -4,15 +4,13 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.network.client.ClientSender;
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.DiscardLeaderMessage;
-import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.ShowHandMessage;
+import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.view.ClientView;
 
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cli extends ClientView {
@@ -52,36 +50,43 @@ public class Cli extends ClientView {
         String userInput;
         Scanner stdIn = new Scanner(System.in);
         userInput = stdIn.next();
+        try {
+            switch (userInput.toUpperCase()) {
+                case "LOGIN":
+                    String nickname = stdIn.next();
+                    Message login = new Message(Command.LOGIN, nickname);
+                    this.setNickname(nickname);
+                    sender.send(login);
+                    break;
 
-        switch (userInput.toUpperCase()){
-            case "LOGIN":
-                String nickname = stdIn.next();
-                Message login = new Message(Command.LOGIN, nickname);
-                this.setNickname(nickname);
-                sender.send(login);
-                break;
-
-            case "HELLO":
-                sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
-                break;
-
-            case "HELLO_ALL":
-                sender.send(new Message(Command.HELLO_ALL, "Hello all", this.getNickname()));
-                break;
-
-            case "DISCARD_LEADER":
-                sender.send(new DiscardLeaderMessage(stdIn.nextInt(), this.getNickname()));
-                break;
-
-            case "QUIT":
-                sender.send(new Message(Command.QUIT));
-                return false;
+                case "CREATE_LOBBY":
+                    sender.send(new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), stdIn.nextBoolean(), this.getNickname()));
+                    break;
 
 
-            default:
-                System.out.println("Invalid command, type HELP to see all available commands");
+                case "HELLO":
+                    sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
+                    break;
+
+                case "HELLO_ALL":
+                    sender.send(new Message(Command.HELLO_ALL, "Hello all", this.getNickname()));
+                    break;
+
+                case "DISCARD_LEADER":
+                    sender.send(new DiscardLeaderMessage(stdIn.nextInt(), this.getNickname()));
+                    break;
+
+                case "QUIT":
+                    sender.send(new Message(Command.QUIT));
+                    return false;
+
+
+                default:
+                    System.out.println("Invalid command, type HELP to see all available commands");
+            }
+        }catch (InputMismatchException e){
+            System.out.println("The command you submitted isn't valid, please consult HELP to know more about commands");
         }
-
         return true;
 
     }
