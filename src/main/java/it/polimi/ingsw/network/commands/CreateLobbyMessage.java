@@ -12,6 +12,15 @@ public class CreateLobbyMessage extends Message{
         this.customParameters = customParameters;
     }
 
+    public CreateLobbyMessage(String lobbyName, int numOfPlayers, boolean customParameters, String senderNick) {
+        super(Command.CREATE_LOBBY);
+        this.lobbyName = lobbyName;
+        this.numOfPlayers = numOfPlayers;
+        this.customParameters = customParameters;
+        this.senderNickname=senderNick;
+    }
+
+
     public CreateLobbyMessage(String info, Target target, String lobbyName, int numOfPlayers, boolean customParameters) {
         super(Command.CREATE_LOBBY, info, target);
         this.lobbyName = lobbyName;
