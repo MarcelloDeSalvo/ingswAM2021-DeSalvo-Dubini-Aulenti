@@ -141,5 +141,6 @@ public class Cli extends ClientView {
         for (String info : lobbiesInfos) {
             System.out.println(info);
         }
+        System.out.println();
     }
 }

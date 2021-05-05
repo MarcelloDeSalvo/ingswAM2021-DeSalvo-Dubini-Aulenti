@@ -50,11 +50,7 @@ public class LobbyManager implements  ObserverViewIO {
                 break;
 
             case LOBBY_LIST:
-                ArrayList<String> lobbiesInfo = new ArrayList<>();
-                for (String key: lobbies.keySet()) {
-                    lobbiesInfo.add(lobbies.get(key).toString());
-                }
-                UserManager.notifyUsers(connectedPlayers, new LobbyListMessage(lobbiesInfo, senderNick));
+                sendLobbyList(senderNick);
                 break;
 
             case JOIN_LOBBY:
@@ -101,6 +97,19 @@ public class LobbyManager implements  ObserverViewIO {
 
 
     //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
+    public void sendLobbyList(String senderNick){
+        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "\n"+"[LOBBIES]:", senderNick));
+
+        if (lobbies.isEmpty())
+            UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "There are currently 0 active lobbies"+"\n", senderNick));
+
+        ArrayList<String> lobbiesInfo = new ArrayList<>();
+        for (String key: lobbies.keySet()) {
+            lobbiesInfo.add(lobbies.get(key).toString());
+        }
+        UserManager.notifyUsers(connectedPlayers, new LobbyListMessage(lobbiesInfo, senderNick));
+    }
+
     private boolean joinLobby (String lobbyToJoinName, User currentUser) {
         Lobby lobbyToJoin = lobbies.get(lobbyToJoinName);
 

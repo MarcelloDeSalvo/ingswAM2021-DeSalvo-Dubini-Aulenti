@@ -5,7 +5,8 @@ import it.polimi.ingsw.observers.ObservableViewIO;
 import it.polimi.ingsw.observers.ObserverThread;
 import it.polimi.ingsw.observers.ObserverViewIO;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 enum Status{
     IN_LOBBY_MANAGER, IN_LOBBY, IN_GAME, DISCONNECTED
@@ -15,7 +16,7 @@ public class User implements ObserverThread, ObservableViewIO {
     String nickname;
     ServerReceiver serverReceiver;
     ServerSender serverSender;
-    ArrayList<ObserverViewIO> lobbies;
+    List<ObserverViewIO> lobbies;
 
     Status status;
 
@@ -25,7 +26,7 @@ public class User implements ObserverThread, ObservableViewIO {
         this.serverSender = serverSender;
         serverReceiver.addThreadObserver(this);
         this.status = status;
-        lobbies = new ArrayList<>();
+        lobbies = new CopyOnWriteArrayList<>();
     }
 
     @Override
@@ -36,13 +37,15 @@ public class User implements ObserverThread, ObservableViewIO {
     @Override
     public void notifyLobbyOrView(String message) {
 
+        /*
         for(int i = 0; i < lobbies.size(); i++){
             lobbies.get(i).update(message);
         }
+        */
 
-        /*for (ObserverViewIO lobby: lobbies) {
+        for (ObserverViewIO lobby: lobbies) {
             lobby.update(message);
-        }*/
+        }
         /*
             lobbies.get(0).update(message);
 

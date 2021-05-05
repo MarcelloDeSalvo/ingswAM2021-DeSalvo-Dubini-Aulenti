@@ -38,21 +38,23 @@ public class EchoServerClientHandler implements Runnable {
             String receivedMex = "";
             while ((receivedMex = in.readLine()) != null) {
 
-                Message nick = gson.fromJson(receivedMex, Message.class);
+                Message nickMex = gson.fromJson(receivedMex, Message.class);
+                String nickname = nickMex.getInfo();
 
-                if (nick.getCommand() == Command.LOGIN) {
+                if (nickMex.getCommand() == Command.LOGIN) {
 
-                    if(!lobbyManager.getConnectedPlayers().containsKey(nick.getInfo())){
+                    if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
                         out.println(new Message(Command.REPLY,"You inserted a valid nickname. Welcome to masters of renaissance").serialize());
                         out.flush();
 
                         serverReceiver = new ServerReceiver(socket, in);
                         serverSender = new ServerSender(socket, out);
 
-                        User user = new User(nick.getInfo(), serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
+                        User user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
                         user.addLobbyOrView(lobbyManager);
 
-                        UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nick.getInfo(), user);
+                        UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
+                        lobbyManager.sendLobbyList(nickname);
 
                         serverReceiver.start();
                         serverSender.start();
