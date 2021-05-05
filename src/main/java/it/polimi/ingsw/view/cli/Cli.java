@@ -77,11 +77,11 @@ public class Cli extends ClientView {
                     break;
 
                 case "EXIT_LOBBY":
-                    sender.send(new Message(Command.EXIT_LOBBY, this.getNickname()));
+                    sender.send(new Message(Command.EXIT_LOBBY, null, this.getNickname()));
                     break;
 
                 case "START_GAME":
-                    sender.send(new Message(Command.START_GAME, this.getNickname()));
+                    sender.send(new Message(Command.START_GAME, null, this.getNickname()));
                     break;
 
                 case "HELLO":

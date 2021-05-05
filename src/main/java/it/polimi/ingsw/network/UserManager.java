@@ -3,7 +3,6 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.server.User;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UserManager {

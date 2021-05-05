@@ -64,7 +64,7 @@ public class LobbyManager implements  ObserverViewIO {
                                 "You joined " + lobbyToJoinName + " correctly!", Target.UNICAST, senderNick));
                     else
                         UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "The lobby " + lobbyToJoinName + " is full! Please select another lobby", Target.UNICAST, senderNick));
+                                "The lobby " + lobbyToJoinName + " is already full! Please select another lobby", Target.UNICAST, senderNick));
                 }
                 else
                     UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
@@ -123,13 +123,23 @@ public class LobbyManager implements  ObserverViewIO {
     }
 
     private void createLobby (String newLobbyName, int numOfPlayers, User currentUser) {
-        Lobby newLobby = new Lobby(newLobbyName, numOfPlayers);
+        Lobby newLobby = new Lobby(newLobbyName, numOfPlayers, currentUser);
 
         newLobby.addUser(currentUser);
         lobbies.put(newLobbyName, newLobby);
+        //System.out.println("create " + newLobbyName + newLobby);
         currentUser.addLobbyOrView(newLobby);
 
         currentUser.setStatus(Status.IN_LOBBY);
+    }
+
+    public void deleteLobby (String lobbyName, User user) {
+        Lobby lobbyToDelete = lobbies.get(lobbyName);
+
+        //System.out.println(lobbyName + " " + lobbyToDelete);
+
+        lobbies.remove(lobbyName, lobbyToDelete);
+        user.removeLobbyOrView(lobbyToDelete);
     }
 
     public boolean hasPermission (User user) {

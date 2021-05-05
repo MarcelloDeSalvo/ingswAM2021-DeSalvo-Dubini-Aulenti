@@ -59,6 +59,10 @@ public class User implements ObserverThread, ObservableViewIO {
         lobbies.add(lobby);
     }
 
+    public void removeLobbyOrView(ObserverViewIO lobby){
+        lobbies.remove(lobby);
+    }
+
     public void userSend(Message message){
         String stringToSend = message.serialize();
         serverSender.send(stringToSend);

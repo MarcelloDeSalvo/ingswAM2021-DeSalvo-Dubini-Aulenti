@@ -1,13 +1,18 @@
 package it.polimi.ingsw.network.server;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.network.UserManager;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.ObserverViewIO;
 
 import java.util.HashMap;
 
-public class Lobby implements ObserverViewIO {
+public class Lobby extends LobbyManager implements ObserverViewIO {
     String lobbyName;
     HashMap<String, User> players;
+    User owner;
 
     int maxPlayers;
     int numOfPlayersConnected;
@@ -15,9 +20,10 @@ public class Lobby implements ObserverViewIO {
     boolean isFull;
     boolean isClosed;
 
-    public Lobby(String lobbyName, int maxPlayers) {
+    public Lobby(String lobbyName, int maxPlayers, User owner) {
         this.lobbyName = lobbyName;
         this.maxPlayers = maxPlayers;
+        this.owner = owner;
         players = new HashMap<>();
     }
 
@@ -39,7 +45,13 @@ public class Lobby implements ObserverViewIO {
 
     public boolean removeUser(User user){
         if(UserManager.removePlayer(players, user.getNickname())){
+
             numOfPlayersConnected--;
+            if(numOfPlayersConnected == 0) {
+                deleteLobby(lobbyName, user);
+            }
+
+            user.setStatus(Status.IN_LOBBY_MANAGER);
             return true;
         }
         else
@@ -47,8 +59,44 @@ public class Lobby implements ObserverViewIO {
     }
 
     @Override
-    public void update(String message) {
+    public void update(String mex) {
+        Gson gson = new Gson();
+        Message deserializedMex = gson.fromJson(mex, Message.class);
 
+        Command command = deserializedMex.getCommand();
+        String senderNick = deserializedMex.getSenderNickname();
+
+        if(!UserManager.isNamePresent(players, senderNick))
+            return;
+
+        User currentUser = players.get(senderNick);
+
+        if(!hasPermission(currentUser))
+            return;
+
+        switch (command) {
+            case EXIT_LOBBY:
+
+                if(removeUser(currentUser)) {
+                    if(players.size() > 0) {
+                        UserManager.notifyUsers(players, new Message(Command.REPLY,
+                                "The user " + senderNick + " has left the lobby", Target.EVERYONE_ELSE, senderNick));
+                    }
+
+                    currentUser.userSend(new Message(Command.REPLY,
+                            "You left: " + lobbyName + " correctly!", Target.UNICAST, senderNick));
+                }
+
+                break;
+
+            case START_GAME:
+                break;
+
+        }
+    }
+
+    public boolean hasPermission (User user) {
+        return user.getStatus() == Status.IN_LOBBY;
     }
     //------------------------------------------------------------------------------------------------------------------
 
