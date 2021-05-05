@@ -31,6 +31,7 @@ public class LobbyManager implements  ObserverViewIO {
         if(!hasPermission(currentUser))
             return;
 
+
         switch (command) {
             case QUIT:
                 UserManager.notifyUsers(connectedPlayers,
@@ -48,6 +49,12 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("Hello all!").setTarget(Target.EVERYONE_ELSE).setNickname(senderNick).build());
+                break;
+
+            case CHAT:
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo(deserializedMex.getInfo()).setNickname(senderNick).build());
                 break;
 
             case LOBBY_LIST:

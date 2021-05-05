@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.commands;
 
 public enum Command {
 
-    QUIT, HELLO, HELLO_ALL, REPLY,
+    QUIT, HELLO, HELLO_ALL, REPLY, CHAT,
 
     LOGIN, CREATE_LOBBY, JOIN_LOBBY, LOBBY_LIST,
 

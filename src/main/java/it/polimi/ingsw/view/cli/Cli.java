@@ -63,16 +63,16 @@ public class Cli extends ClientView {
                     sender.send(login);
                     break;
 
-                case "CREATE_LOBBY":
+                case "CREATE":
                     CreateLobbyMessage createLobbyMessage = new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname());
                     sender.send(createLobbyMessage);
                     break;
 
-                case "JOIN_LOBBY":
+                case "JOIN":
                     sender.send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
                     break;
 
-                case "SHOW_LOBBIES":
+                case "REFRESH":
                     sender.send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
                     break;
 
@@ -82,6 +82,10 @@ public class Cli extends ClientView {
 
                 case "START_GAME":
                     sender.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
+                    break;
+
+                case "CHAT":
+                    sender.send(new Message.MessageBuilder().setCommand(Command.CHAT).setNickname(stdIn.next()).setInfo(stdIn.nextLine()).build());
                     break;
 
                 case "HELLO":

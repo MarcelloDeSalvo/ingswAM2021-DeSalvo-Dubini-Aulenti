@@ -47,9 +47,14 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         if(UserManager.removePlayer(players, user.getNickname())){
 
             numOfPlayersConnected--;
+
             if(numOfPlayersConnected == 0) {
-               deleteLobby(lobbyName, user);
+               deleteLobby(user);
                 System.out.println(user);
+            }else{
+                if(user.getNickname().equals(owner.getNickname())){
+                    owner = players.get(0);//DA VEDERE--------------------------------||||||||||||||||||||||||||||||
+                }
             }
 
             user.setStatus(Status.IN_LOBBY_MANAGER);
@@ -59,7 +64,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             return false;
     }
 
-    private void deleteLobby (String lobbyName, User user) {
+    private void deleteLobby (User user) {
         System.out.println(getConnectedPlayers());
         Lobby lobbyToDelete = getLobbies().get(lobbyName);
         System.out.println(getLobbies());
@@ -82,8 +87,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         User currentUser = players.get(senderNick);
 
-        if(!hasPermission(currentUser))
-            return;
+        if(!hasPermission(currentUser)){
+            if(!hasPermission(currentUser)){
+                return;
+            }
+        }
+
 
         switch (command) {
             case EXIT_LOBBY:
@@ -107,6 +116,10 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             case START_GAME:
                 break;
 
+            default:
+                UserManager.notifyUsers(players,
+                    new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command").setNickname(senderNick).build());
+                break;
         }
     }
 
