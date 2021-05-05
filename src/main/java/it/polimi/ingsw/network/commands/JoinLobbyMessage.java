@@ -8,6 +8,11 @@ public class JoinLobbyMessage extends Message{
         this.lobbyName = lobbyName;
     }
 
+    public JoinLobbyMessage(String lobbyName, String senderNickname) {
+        super(Command.JOIN_LOBBY, null, senderNickname);
+        this.lobbyName = lobbyName;
+    }
+
     public JoinLobbyMessage(String info, Target target, String lobbyName) {
         super(Command.JOIN_LOBBY, info, target);
         this.lobbyName = lobbyName;

@@ -68,6 +68,10 @@ public class Cli extends ClientView {
                     sender.send(createLobbyMessage);
                     break;
 
+                case "JOIN_LOBBY":
+                    sender.send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
+                    break;
+
                 case "SHOW_LOBBIES":
                     sender.send(new LobbyListMessage(this.getNickname()));
                     break;

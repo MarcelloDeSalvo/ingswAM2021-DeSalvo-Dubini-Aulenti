@@ -35,11 +35,20 @@ public class User implements ObserverThread, ObservableViewIO {
 
     @Override
     public void notifyLobbyOrView(String message) {
-        //for (ObserverViewIO lobby: lobbies) {
+
+        for(int i = 0; i < lobbies.size(); i++){
+            lobbies.get(i).update(message);
+        }
+
+        /*for (ObserverViewIO lobby: lobbies) {
+            lobby.update(message);
+        }*/
+        /*
             lobbies.get(0).update(message);
 
             if(lobbies.size() == 2)
                 lobbies.get(1).update(message);
+         */
     }
 
     @Override

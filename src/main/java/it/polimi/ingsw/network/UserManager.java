@@ -32,13 +32,13 @@ public class UserManager {
         }
     }
     /**
-     * Adds an active player to the list of connected players
+     * Adds an active player to a map of players players
      * @return true if the player is successfully added, false if it fails if there's another player connected <br>
      * with his name.
      */
-    public static boolean addPlayer(HashMap<String, User> connectedPlayers, String nick, User user){
-        if(!connectedPlayers.containsKey(nick)) {
-            connectedPlayers.put(nick, user);
+    public static boolean addPlayer(HashMap<String, User> players, String nick, User user){
+        if(!players.containsKey(nick)) {
+            players.put(nick, user);
             return true;
         }
         else

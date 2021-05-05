@@ -23,8 +23,13 @@ public class Lobby implements ObserverViewIO {
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
     public boolean addUser(User user){
+        if(isFull)
+            return false;
+
         if(UserManager.addPlayer(players, user.getNickname(), user)) {
             numOfPlayersConnected++;
+            if(numOfPlayersConnected == maxPlayers)
+                setFull(true);
             return true;
         }
         else

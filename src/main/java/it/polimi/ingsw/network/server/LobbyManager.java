@@ -63,10 +63,12 @@ public class LobbyManager implements  ObserverViewIO {
 
                 if(Util.isPresent(lobbyToJoinName, lobbies)) {
 
-                    joinLobby(lobbyToJoinName, currentUser);
-
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                            "You joined " + lobbyToJoinName + " correctly", Target.UNICAST, senderNick));
+                    if(joinLobby(lobbyToJoinName, currentUser))
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "You joined " + lobbyToJoinName + " correctly!", Target.UNICAST, senderNick));
+                    else
+                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
+                                "The lobby " + lobbyToJoinName + " is full! Please select another lobby", Target.UNICAST, senderNick));
                 }
                 else
                     UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
@@ -99,13 +101,16 @@ public class LobbyManager implements  ObserverViewIO {
 
 
     //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
-    private void joinLobby (String lobbyToJoinName, User currentUser) {
+    private boolean joinLobby (String lobbyToJoinName, User currentUser) {
         Lobby lobbyToJoin = lobbies.get(lobbyToJoinName);
 
-        lobbyToJoin.addUser(currentUser);
-        currentUser.addLobbyOrView(lobbyToJoin);
+        if(!lobbyToJoin.addUser(currentUser))
+            return false;
 
+        currentUser.addLobbyOrView(lobbyToJoin);
         currentUser.setStatus(Status.IN_LOBBY);
+
+        return true;
     }
 
     private void createLobby (String newLobbyName, int numOfPlayers, User currentUser) {
