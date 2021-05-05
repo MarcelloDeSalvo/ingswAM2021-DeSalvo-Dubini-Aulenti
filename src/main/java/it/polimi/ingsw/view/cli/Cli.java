@@ -76,16 +76,20 @@ public class Cli extends ClientView {
                     sender.send(new LobbyListMessage(this.getNickname()));
                     break;
 
+                case "EXIT_LOBBY":
+                    sender.send(new Message(Command.EXIT_LOBBY, this.getNickname()));
+                    break;
+
+                case "START_GAME":
+                    sender.send(new Message(Command.START_GAME, this.getNickname()));
+                    break;
+
                 case "HELLO":
                     sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
                     break;
 
                 case "HELLO_ALL":
                     sender.send(new Message(Command.HELLO_ALL, "Hello all", this.getNickname()));
-                    break;
-
-                case "START_GAME":
-                    sender.send(new Message(Command.START_GAME, "Start", this.getNickname()));
                     break;
 
                 case "DISCARD_LEADER":
