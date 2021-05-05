@@ -10,15 +10,15 @@ import it.polimi.ingsw.observers.ObserverViewIO;
 import java.util.HashMap;
 
 public class Lobby extends LobbyManager implements ObserverViewIO {
-    String lobbyName;
-    HashMap<String, User> players;
-    User owner;
+    private String lobbyName;
+    private HashMap<String, User> players;
+    private User owner;
 
-    int maxPlayers;
-    int numOfPlayersConnected;
+    private int maxPlayers;
+    private int numOfPlayersConnected;
 
-    boolean isFull;
-    boolean isClosed;
+    private boolean isFull;
+    private boolean isClosed;
 
     public Lobby(String lobbyName, int maxPlayers, User owner) {
         this.lobbyName = lobbyName;
@@ -48,7 +48,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
             numOfPlayersConnected--;
             if(numOfPlayersConnected == 0) {
-                deleteLobby(lobbyName, user);
+               deleteLobby(lobbyName, user);
+                System.out.println(user);
             }
 
             user.setStatus(Status.IN_LOBBY_MANAGER);
@@ -56,6 +57,16 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         }
         else
             return false;
+    }
+
+    private void deleteLobby (String lobbyName, User user) {
+        System.out.println(getConnectedPlayers());
+        Lobby lobbyToDelete = getLobbies().get(lobbyName);
+        System.out.println(getLobbies());
+        System.out.println(lobbyName + " " + lobbyToDelete);
+
+        getLobbies().remove(lobbyName, lobbyToDelete);
+        user.removeLobbyOrView(lobbyToDelete);
     }
 
     @Override
@@ -79,12 +90,16 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
                 if(removeUser(currentUser)) {
                     if(players.size() > 0) {
-                        UserManager.notifyUsers(players, new Message(Command.REPLY,
-                                "The user " + senderNick + " has left the lobby", Target.EVERYONE_ELSE, senderNick));
+                        UserManager.notifyUsers(players,
+                                new Message.MessageBuilder().setCommand(Command.REPLY).
+                                        setInfo("The user " + senderNick + " has left the lobby").setNickname(senderNick).
+                                        setTarget(Target.EVERYONE_ELSE).build());
                     }
 
-                    currentUser.userSend(new Message(Command.REPLY,
-                            "You left: " + lobbyName + " correctly!", Target.UNICAST, senderNick));
+                    currentUser.userSend(
+                            new Message.MessageBuilder().setCommand(Command.REPLY).
+                                    setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build()
+                    );
                 }
 
                 break;
@@ -95,6 +110,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         }
     }
 
+    @Override
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY;
     }

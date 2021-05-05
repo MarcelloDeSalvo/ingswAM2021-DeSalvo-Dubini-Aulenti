@@ -13,15 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LobbyManager implements  ObserverViewIO {
-    ArrayList<String> nicksOfPlayersConnected;
-    HashMap<String, User> connectedPlayers;
-    HashMap<String, Lobby> lobbies;
 
-    public LobbyManager() {
-        nicksOfPlayersConnected = new ArrayList<>();
-        connectedPlayers = new HashMap<>();
-        lobbies = new HashMap<>();
-    }
+    private static final HashMap<String, User> connectedPlayers = new HashMap<>();;
+    private static final HashMap<String, Lobby> lobbies = new HashMap<>();;
+
 
     @Override
     public void update(String mex){
@@ -38,15 +33,21 @@ public class LobbyManager implements  ObserverViewIO {
 
         switch (command) {
             case QUIT:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST, senderNick));
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("Bye!").setNickname(senderNick).build());
                 break;
 
             case HELLO:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.HELLO, "Hello!", Target.UNICAST, senderNick));
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("Hello!").setNickname(senderNick).build());
                 break;
 
             case HELLO_ALL:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Hello!", Target.EVERYONE_ELSE, senderNick));
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("Hello all!").setTarget(Target.EVERYONE_ELSE).setNickname(senderNick).build());
                 break;
 
             case LOBBY_LIST:
@@ -60,15 +61,18 @@ public class LobbyManager implements  ObserverViewIO {
                 if(Util.isPresent(lobbyToJoinName, lobbies)) {
 
                     if(joinLobby(lobbyToJoinName, currentUser))
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "You joined " + lobbyToJoinName + " correctly!", Target.UNICAST, senderNick));
+                        UserManager.notifyUsers(connectedPlayers,
+                                new Message.MessageBuilder().setCommand(Command.REPLY).
+                                        setInfo("You joined " + lobbyToJoinName + " correctly!").setNickname(senderNick).build());
                     else
-                        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                                "The lobby " + lobbyToJoinName + " is already full! Please select another lobby", Target.UNICAST, senderNick));
+                        UserManager.notifyUsers(connectedPlayers,
+                                new Message.MessageBuilder().setCommand(Command.REPLY).
+                                        setInfo("The lobby " + lobbyToJoinName + " is already full! Please select another lobby").setNickname(senderNick).build());
                 }
                 else
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                            "The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby", Target.UNICAST, senderNick));
+                    UserManager.notifyUsers(connectedPlayers,
+                            new Message.MessageBuilder().setCommand(Command.REPLY).
+                                    setInfo("The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby").setNickname(senderNick).build());
 
                 break;
 
@@ -80,17 +84,21 @@ public class LobbyManager implements  ObserverViewIO {
 
                     createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
 
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                            "The lobby " + newLobbyName + " has been created correctly!", Target.UNICAST, senderNick));
+                    UserManager.notifyUsers(connectedPlayers,
+                            new Message.MessageBuilder().setCommand(Command.REPLY).
+                                    setInfo("The lobby " + newLobbyName + " has been created correctly!").setNickname(senderNick).build());
+
                 }
                 else
-                    UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY,
-                            "The lobby " + newLobbyName + " already exists! Please insert a valid name", Target.UNICAST, senderNick));
+                    UserManager.notifyUsers(connectedPlayers,
+                            new Message.MessageBuilder().setCommand(Command.REPLY).
+                                    setInfo("The lobby " + newLobbyName + " already exists! Please insert a valid name").setNickname(senderNick).build());
 
                 break;
 
             default:
-                UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Invalid command", Target.UNICAST, senderNick));
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command").setNickname(senderNick).build());
                 break;
         }
     }
@@ -98,10 +106,6 @@ public class LobbyManager implements  ObserverViewIO {
 
     //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
     public void sendLobbyList(String senderNick){
-        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "\n"+"[LOBBIES]:", senderNick));
-
-        if (lobbies.isEmpty())
-            UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "There are currently 0 active lobbies"+"\n", senderNick));
 
         ArrayList<String> lobbiesInfo = new ArrayList<>();
         for (String key: lobbies.keySet()) {
@@ -133,15 +137,6 @@ public class LobbyManager implements  ObserverViewIO {
         currentUser.setStatus(Status.IN_LOBBY);
     }
 
-    public void deleteLobby (String lobbyName, User user) {
-        Lobby lobbyToDelete = lobbies.get(lobbyName);
-
-        //System.out.println(lobbyName + " " + lobbyToDelete);
-
-        lobbies.remove(lobbyName, lobbyToDelete);
-        user.removeLobbyOrView(lobbyToDelete);
-    }
-
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY_MANAGER;
     }
@@ -151,6 +146,10 @@ public class LobbyManager implements  ObserverViewIO {
     //GETTERS AND SETTERS-----------------------------------------------------------------------------------------------
     public HashMap<String, User> getConnectedPlayers() {
         return connectedPlayers;
+    }
+
+    public HashMap<String, Lobby> getLobbies() {
+        return lobbies;
     }
     //------------------------------------------------------------------------------------------------------------------
 }

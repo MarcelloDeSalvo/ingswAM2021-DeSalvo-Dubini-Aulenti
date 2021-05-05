@@ -13,10 +13,10 @@ enum Status{
 }
 
 public class User implements ObserverThread, ObservableViewIO {
-    String nickname;
-    ServerReceiver serverReceiver;
-    ServerSender serverSender;
-    List<ObserverViewIO> lobbies;
+    private String nickname;
+    private ServerReceiver serverReceiver;
+    private ServerSender serverSender;
+    private List<ObserverViewIO> lobbies;
 
     Status status;
 

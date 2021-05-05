@@ -70,12 +70,12 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     //OBSERVER MODEL-------(VV OBSERVES THE MODEL)----------------------------------------------------------------------
     @Override
     public void printHello() {
-        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST));
+        UserManager.notifyUsers(connectedPlayers, new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Hello!").build());
     }
 
     @Override
     public void printQuit() {
-        UserManager.notifyUsers(connectedPlayers, new Message(Command.REPLY, "Bye!", Target.UNICAST));
+        UserManager.notifyUsers(connectedPlayers, new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").build());
     }
 
     @Override

@@ -12,23 +12,23 @@ public class ContainerMessage extends Message{
     int depositID;
 
     public ContainerMessage(int qty, ResourceType resourceType, String source, int depositID) {
-        super(Command.SEND_CONTAINER);
+        super( new MessageBuilder().setCommand(Command.SEND_CONTAINER));
         this.qty = qty;
         this.resourceType = resourceType;
         this.source = source;
         this.depositID = depositID;
     }
 
-    public ContainerMessage(Command command, String info, Target target, int qty, ResourceType resourceType, String source, int depositID) {
-        super(Command.SEND_CONTAINER, info, target);
+    public ContainerMessage( String info, Target target, int qty, ResourceType resourceType, String source, int depositID) {
+        super( new MessageBuilder().setCommand(Command.SEND_CONTAINER).setInfo(info).setTarget(target));
         this.qty = qty;
         this.resourceType = resourceType;
         this.source = source;
         this.depositID = depositID;
     }
 
-    public ContainerMessage(Command command, String info, Target target, String senderNickname, int qty, ResourceType resourceType, String source, int depositID) {
-        super(Command.SEND_CONTAINER, info, target, senderNickname);
+    public ContainerMessage(String info, Target target, String senderNickname, int qty, ResourceType resourceType, String source, int depositID) {
+        super( new MessageBuilder().setCommand(Command.SEND_CONTAINER).setInfo(info).setTarget(target).setNickname(senderNickname));
         this.qty = qty;
         this.resourceType = resourceType;
         this.source = source;

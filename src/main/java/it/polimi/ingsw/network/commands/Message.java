@@ -3,48 +3,51 @@ package it.polimi.ingsw.network.commands;
 import com.google.gson.Gson;
 
 public class Message {
-    static Gson gson = new Gson();
-    Command command;
-    String info;
-    Target target;
-    String senderNickname;
+    private static Gson gson = new Gson();
+    private Command command;
+    private String info;
+    private Target target;
+    private String senderNickname;
 
-    public Message(Command command) {
-        this.command = command;
-        this.info = null;
-        this.target = Target.UNICAST;
-        this.senderNickname = null;
+    public Message(MessageBuilder messageBuilder) {
+        this.command = messageBuilder.command;
+        this.info = messageBuilder.info;
+        this.target = messageBuilder.target;
+        this.senderNickname = messageBuilder.senderNickname;
     }
 
-    public Message(Command command, String message) {
-        this.command = command;
-        this.info = message;
-        this.target = Target.UNICAST;
-        this.senderNickname = null;
-    }
+    public static class MessageBuilder{
+        //required parameters
+        private Command command;
+        private String senderNickname;
 
-    public Message(Command command, String message, String senderNickname) {
-        this.command = command;
-        this.info = message;
-        this.target = Target.UNICAST;
-        this.senderNickname = senderNickname;
-    }
+        //optional parameters
+        private String info;
+        private Target target = Target.UNICAST;
 
-    public Message(Command command, String info, Target target) {
-        this.command = command;
-        this.info = info;
-        this.target = target;
-        this.senderNickname = null;
-    }
+        public MessageBuilder setCommand(Command command) {
+            this.command = command;
+            return this;
+        }
 
-    public Message(Command command, String info, Target target, String senderNickname) {
-        this.command = command;
-        this.info = info;
-        this.target = target;
-        this.senderNickname = senderNickname;
-    }
+        public MessageBuilder setNickname(String senderNickname) {
+            this.senderNickname = senderNickname;
+            return this;
+        }
 
-    public void deserialize(){
+        public MessageBuilder setInfo(String info) {
+            this.info = info;
+            return this;
+        }
+
+        public MessageBuilder setTarget(Target target) {
+            this.target = target;
+            return this;
+        }
+
+        public Message build(){
+            return new Message(this);
+        }
     }
 
     public String serialize () {
@@ -66,6 +69,7 @@ public class Message {
     public String getSenderNickname() {
         return senderNickname;
     }
+
 
     @Override
     public String toString() {

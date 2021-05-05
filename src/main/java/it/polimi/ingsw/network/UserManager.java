@@ -12,8 +12,10 @@ public class UserManager {
     public static void notifyUsers(HashMap<String, User> connectedPlayers, Message message) {
         switch (message.getTarget()){
             case UNICAST:
-                if (isNamePresent(connectedPlayers, message.getSenderNickname()))
+                if (isNamePresent(connectedPlayers, message.getSenderNickname())){
                     connectedPlayers.get(message.getSenderNickname()).userSend(message);
+                }
+
                 break;
 
             case BROADCAST:

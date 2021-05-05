@@ -5,7 +5,7 @@ public class DiscardLeaderMessage extends Message{
 
 
     public DiscardLeaderMessage(int leaderID, String senderNickname) {
-        super(Command.DISCARD_LEADER, senderNickname);
+        super(new MessageBuilder().setNickname(senderNickname).setCommand(Command.DISCARD_LEADER));
         this.leaderID = leaderID;
     }
 

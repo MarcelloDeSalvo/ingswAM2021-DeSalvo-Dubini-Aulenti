@@ -58,7 +58,7 @@ public class Cli extends ClientView {
             switch (userInput.toUpperCase()) {
                 case "LOGIN":
                     String nickname = stdIn.next();
-                    Message login = new Message(Command.LOGIN, nickname);
+                    Message login = new Message.MessageBuilder().setCommand(Command.LOGIN).setNickname(nickname).build();
                     this.setNickname(nickname);
                     sender.send(login);
                     break;
@@ -73,23 +73,25 @@ public class Cli extends ClientView {
                     break;
 
                 case "SHOW_LOBBIES":
-                    sender.send(new LobbyListMessage(this.getNickname()));
+                    sender.send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
                     break;
 
                 case "EXIT_LOBBY":
-                    sender.send(new Message(Command.EXIT_LOBBY, null, this.getNickname()));
+                    sender.send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
                     break;
 
                 case "START_GAME":
-                    sender.send(new Message(Command.START_GAME, null, this.getNickname()));
+                    sender.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
                     break;
 
                 case "HELLO":
-                    sender.send(new Message(Command.HELLO, "Hello", this.getNickname()));
+                    sender.send(new Message.MessageBuilder().setCommand(Command.HELLO).
+                            setInfo("Hello!").setNickname(this.getNickname()).build());
                     break;
 
                 case "HELLO_ALL":
-                    sender.send(new Message(Command.HELLO_ALL, "Hello all", this.getNickname()));
+                    sender.send(new Message.MessageBuilder().setCommand(Command.HELLO_ALL).
+                            setInfo("Hello all!").setNickname(this.getNickname()).build());
                     break;
 
                 case "DISCARD_LEADER":
@@ -97,7 +99,7 @@ public class Cli extends ClientView {
                     break;
 
                 case "QUIT":
-                    sender.send(new Message(Command.QUIT));
+                    sender.send(new Message.MessageBuilder().setCommand(Command.QUIT).build());
                     return false;
 
                 default:
@@ -138,6 +140,13 @@ public class Cli extends ClientView {
 
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
+        System.out.println("\n"+"[LOBBIES]:");
+
+        if (lobbiesInfos.isEmpty()){
+            System.out.println("There are currently 0 active lobbies"+"\n");
+            return;
+        }
+
         for (String info : lobbiesInfos) {
             System.out.println(info);
         }

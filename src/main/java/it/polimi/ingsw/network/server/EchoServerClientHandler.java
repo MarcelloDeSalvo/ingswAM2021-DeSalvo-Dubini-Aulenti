@@ -31,7 +31,7 @@ public class EchoServerClientHandler implements Runnable {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             Gson gson=new Gson();
 
-            Message askNick = new Message(Command.REPLY, "Welcome to the server, please select a valid nickname: ");
+            Message askNick = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Welcome to the server, please select a valid nickname: ").build();
             out.println(askNick.serialize());
 
 
@@ -39,12 +39,12 @@ public class EchoServerClientHandler implements Runnable {
             while ((receivedMex = in.readLine()) != null) {
 
                 Message nickMex = gson.fromJson(receivedMex, Message.class);
-                String nickname = nickMex.getInfo();
+                String nickname = nickMex.getSenderNickname();
 
                 if (nickMex.getCommand() == Command.LOGIN) {
 
                     if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
-                        out.println(new Message(Command.REPLY,"You inserted a valid nickname. Welcome to masters of renaissance").serialize());
+                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("You inserted a valid nickname. Welcome to masters of renaissance").build().serialize());
                         out.flush();
 
                         serverReceiver = new ServerReceiver(socket, in);
@@ -62,11 +62,13 @@ public class EchoServerClientHandler implements Runnable {
 
                     }
                     else{
-                        out.println(new Message(Command.REPLY,"Sorry, but the nickname is already in use. Try submitting another one again:").serialize());
+                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                                .setInfo("Sorry, but the nickname is already in use. Try submitting another one again:").build().serialize());
                     }
                 }
                 else {
-                    out.println(new Message(Command.REPLY,"Incorrect command, please use the LOGIN command").serialize());
+                    out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                            .setInfo("Incorrect command, please use the LOGIN command").build().serialize());
                 }
             }
 

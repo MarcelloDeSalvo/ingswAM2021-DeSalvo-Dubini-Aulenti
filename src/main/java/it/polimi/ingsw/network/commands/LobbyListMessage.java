@@ -7,12 +7,8 @@ public class LobbyListMessage extends Message{
 
 
     public LobbyListMessage(ArrayList<String> lobbyNames, String senderNickname) {
-        super(Command.LOBBY_LIST, "", Target.UNICAST, senderNickname);
+        super( new MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(senderNickname));
         this.lobbyInfos = lobbyNames;
-    }
-
-    public LobbyListMessage(String senderNickname) {
-        super(Command.LOBBY_LIST, "", Target.UNICAST, senderNickname);
     }
 
     public ArrayList<String> getLobbiesInfos() {

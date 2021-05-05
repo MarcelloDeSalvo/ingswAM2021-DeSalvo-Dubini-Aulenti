@@ -23,7 +23,8 @@ public class Controller implements ObserverController {
             game = new Game();
         }catch (FileNotFoundException e){
             e.printStackTrace();
-            virtualView.notifyUsers(new Message(Command.REPLY, "Cannot read the configuration file of the game"));
+            virtualView.notifyUsers(
+                    new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Cannot read the configuration file of the game").build());
         }
     }
 
@@ -33,7 +34,8 @@ public class Controller implements ObserverController {
             game = new Game();
         }catch (FileNotFoundException e){
             e.printStackTrace();
-            virtualView.notifyUsers(new Message(Command.REPLY, "Cannot read the configuration file of the game"));
+            virtualView.notifyUsers(
+                    new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Cannot read the configuration file of the game").build());
         }
     }
 
@@ -52,7 +54,7 @@ public class Controller implements ObserverController {
 
                 int currP = game.getCurrentPlayer();
                 if (!game.getPlayer(currP).discardFromHand(discardLeaderMessage.getLeaderID()))
-                    virtualView.notifyUsers(new Message(Command.REPLY, "Wrong leader ID", Target.UNICAST));
+                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").build());
                 break;
 
             default:
@@ -63,7 +65,7 @@ public class Controller implements ObserverController {
 
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
-            virtualView.notifyUsers(new Message(Command.REPLY, "Not the current Player", Target.UNICAST));
+            virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Not the current Player").build());
             return false;
         }
         return true;
