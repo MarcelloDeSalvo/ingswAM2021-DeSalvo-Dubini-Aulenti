@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.DiscardLeaderMessage;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.VirtualView;
@@ -42,17 +43,23 @@ public class Controller implements ObserverController {
     }
 
     @Override
-    public void update(Message mex) {
-        Command command = mex.getCommand();
+    public void update(String mex) {
         Gson gson = new Gson();
-        String original = mex.serialize();
+
+        Message deserializedMex = gson.fromJson(mex, Message.class);
+        Command command = deserializedMex.getCommand();
 
         switch (command){
 
-            case DISCARD_LEADER:
-                DiscardLeaderMessage discardLeaderMessage = gson.fromJson(original, DiscardLeaderMessage.class);
+            case SEND_CONTAINER:
+                SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
+                System.out.println("Arrivato: " + sendContainer);
+                break;
 
-                isTheCurrentPlayer(mex.getSenderNickname());
+            case DISCARD_LEADER:
+                DiscardLeaderMessage discardLeaderMessage = gson.fromJson(mex, DiscardLeaderMessage.class);
+
+                isTheCurrentPlayer(deserializedMex.getSenderNickname());
 
                 int currP = game.getCurrentPlayer();
 

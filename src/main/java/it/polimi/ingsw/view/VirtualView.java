@@ -45,7 +45,7 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
         if(!hasPermission(currentUser))
             return;
 
-        notifyController(deserializedMex);
+        notifyController(mex);
     }
 
     public boolean hasPermission (User user) {
@@ -62,7 +62,7 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     }
 
     @Override
-    public void notifyController(Message message) {
+    public void notifyController(String message) {
         for (ObserverController obs: observerControllers) {
             obs.update(message);
         }

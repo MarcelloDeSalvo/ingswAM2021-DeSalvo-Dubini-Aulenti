@@ -151,6 +151,9 @@ public class ClientMain {
             clientSender.start();
             clientReceiver.start();
 
+            clientSender.join();
+
+
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
@@ -158,6 +161,8 @@ public class ClientMain {
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to " + hostName);
             System.exit(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
     }
