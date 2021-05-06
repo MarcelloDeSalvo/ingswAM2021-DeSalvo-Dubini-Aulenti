@@ -8,10 +8,6 @@ import it.polimi.ingsw.observers.ObserverViewIO;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-enum Status{
-    IN_LOBBY_MANAGER, IN_LOBBY, IN_GAME, DISCONNECTED
-}
-
 public class User implements ObserverThread, ObservableViewIO {
     private String nickname;
     private ServerReceiver serverReceiver;

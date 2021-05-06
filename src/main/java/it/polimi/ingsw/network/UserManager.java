@@ -8,14 +8,13 @@ import java.util.HashMap;
 public class UserManager {
 
 
-    //PLAYERSLIST MANAGEMENT -------------------------------------------------------------------------------------------
+    //PLAYERS LIST MANAGEMENT-------------------------------------------------------------------------------------------
     public static void notifyUsers(HashMap<String, User> connectedPlayers, Message message) {
         switch (message.getTarget()){
             case UNICAST:
                 if (isNamePresent(connectedPlayers, message.getSenderNickname())){
                     connectedPlayers.get(message.getSenderNickname()).userSend(message);
                 }
-
                 break;
 
             case BROADCAST:

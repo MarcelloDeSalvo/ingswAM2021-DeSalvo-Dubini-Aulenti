@@ -87,7 +87,6 @@ public class LobbyManager implements  ObserverViewIO {
 
                     if(joinLobby(lobbyToJoinName, currentUser))
                         lobbies.get(lobbyToJoinName).notifyNewJoin(currentUser);
-
                     else
                         UserManager.notifyUsers(connectedPlayers,
                                 new Message.MessageBuilder().setCommand(Command.REPLY).
@@ -129,6 +128,10 @@ public class LobbyManager implements  ObserverViewIO {
 
 
     //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
+    /**
+     * Retrieves every lobby name and sends them over using a specific message
+     * @param senderNick
+     */
     public void sendLobbyList(String senderNick){
 
         ArrayList<String> lobbiesInfo = new ArrayList<>();
@@ -138,6 +141,12 @@ public class LobbyManager implements  ObserverViewIO {
         UserManager.notifyUsers(connectedPlayers, new LobbyListMessage(lobbiesInfo, senderNick));
     }
 
+    /**
+     * Allows an user to join a specific lobby and sets the user status to "IN_LOBBY"
+     * @param lobbyToJoinName is the lobby that the user wants to join
+     * @param currentUser
+     * @return true if everything goes right, false if the User cannot join the lobby
+     */
     private boolean joinLobby (String lobbyToJoinName, User currentUser) {
         Lobby lobbyToJoin = lobbies.get(lobbyToJoinName);
 
@@ -150,6 +159,12 @@ public class LobbyManager implements  ObserverViewIO {
         return true;
     }
 
+    /**
+     * Create a new lobby, adds the user to it and sets his status to "IN_LOBBY"
+     * @param newLobbyName name of the lobby that i want to create
+     * @param numOfPlayers max number of players that the new lobby can have
+     * @param currentUser the user that will be owner of the lobby
+     */
     private void createLobby (String newLobbyName, int numOfPlayers, User currentUser) {
         Lobby newLobby = new Lobby(newLobbyName, numOfPlayers, currentUser);
 
@@ -160,6 +175,11 @@ public class LobbyManager implements  ObserverViewIO {
         currentUser.setStatus(Status.IN_LOBBY);
     }
 
+    /**
+     * Checks if the user has a specific level of permission
+     * @param user
+     * @return true if this is the case, false otherwise
+     */
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY_MANAGER;
     }

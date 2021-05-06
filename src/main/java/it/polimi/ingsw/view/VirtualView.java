@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
 
@@ -26,26 +27,28 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
         UserManager.notifyUsers(connectedPlayers, message);
     }
 
-    //OBSERVER VIEW IO-------(RECEIVED DATA)-----------------------------------------------------------------------------------
+    //OBSERVER VIEW IO-------(RECEIVED DATA)----------------------------------------------------------------------------
     @Override
     public void update(String mex){
         Gson gson = new Gson();
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
-        Command command = deserializedMex.getCommand();
+        //Command command = deserializedMex.getCommand();
+        String senderNick = deserializedMex.getSenderNickname();
 
-        switch (command){
-            case QUIT:
-                printQuit();
-                break;
-            case HELLO:
-                printHello();
-                break;
+        if(!UserManager.isNamePresent(connectedPlayers, senderNick))
+            return;
 
-            default:
-                notifyController(deserializedMex);
-                break;
-        }
+        User currentUser = connectedPlayers.get(senderNick);
+
+        if(!hasPermission(currentUser))
+            return;
+
+        notifyController(deserializedMex);
+    }
+
+    public boolean hasPermission (User user) {
+        return user.getStatus() == Status.IN_GAME;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -69,12 +72,14 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     //OBSERVER MODEL-------(VV OBSERVES THE MODEL)----------------------------------------------------------------------
     @Override
     public void printHello() {
-        UserManager.notifyUsers(connectedPlayers, new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Hello!").build());
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Hello!").build());
     }
 
     @Override
     public void printQuit() {
-        UserManager.notifyUsers(connectedPlayers, new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").build());
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").build());
     }
 
     @Override

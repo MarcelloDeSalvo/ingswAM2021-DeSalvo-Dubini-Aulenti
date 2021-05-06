@@ -105,7 +105,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             case START_GAME:
                 if(currentUser != owner)
                     UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY).
-                            setInfo("Only " + owner +" (the owner of the lobby) can start the game!").setNickname(senderNick).build());
+                            setInfo("Only " + owner.getNickname() +" (the owner of the lobby) can start the game!").setNickname(senderNick).build());
                 else
                     startGame();
                     //printare tutti i comandi a disposizione
