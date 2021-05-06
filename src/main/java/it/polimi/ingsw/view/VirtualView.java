@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
@@ -95,6 +96,17 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
 
+    }
+
+    public void printOrder(ArrayList<String> randomOrder) {
+        StringBuilder orderBuild = new StringBuilder();
+        orderBuild.append("This is the Turn Order \n");
+        for (int i = 0; i<randomOrder.size(); i++){
+            orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
+        }
+
+        Message orderMex = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(orderBuild.toString()).setTarget(Target.BROADCAST).build();
+        notifyUsers(orderMex);
     }
 
     //------------------------------------------------------------------------------------------------------------------

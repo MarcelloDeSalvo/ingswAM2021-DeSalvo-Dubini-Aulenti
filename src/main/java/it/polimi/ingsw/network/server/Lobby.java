@@ -133,8 +133,10 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             players.get(name).setStatus(Status.IN_GAME);
             players.get(name).addLobbyOrView(controller.getVirtualView());
         }
-    }
 
+        notifyTheGameIsStarted();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     //NOTIFICATIONS-----------------------------------------------------------------------------------------------------
@@ -175,6 +177,11 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 new Message.MessageBuilder().setCommand(Command.REPLY).
                         setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build()
         );
+    }
+
+    public void notifyTheGameIsStarted(){
+        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
+                .setInfo("The Game is started! Have fun!").setTarget(Target.BROADCAST).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -232,7 +239,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
 
 
-        return available+"\u06DD Lobby " +Color.ANSI_RESET.escape() + lobbyName + '\'' +
+        return available+"\u06DD Lobby " +Color.ANSI_RESET.escape() + lobbyName +
                 ", connected=" + numOfPlayersConnected + "/" + maxPlayers +
                 ", Owner=" + owner.getNickname() +
                 ","+coloredFull+" isFull=" + isFull +Color.ANSI_RESET.escape()+

@@ -26,22 +26,14 @@ public class Controller implements ObserverController {
         int numOfPlayers = playersNicknames.size();
 
         try {
-            if(numOfPlayers > 1)
+            if(numOfPlayers > 1){
                 game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
+                virtualView.printOrder(playersNicknames);
+            }
+
             else
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
 
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-            virtualView.notifyUsers(
-                    new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Cannot read the configuration file of the game").build());
-        }
-    }
-
-    public Controller(VirtualView virtualView) {
-        this.virtualView = virtualView;
-        try {
-            game = new Game();
         }catch (FileNotFoundException e){
             e.printStackTrace();
             virtualView.notifyUsers(
