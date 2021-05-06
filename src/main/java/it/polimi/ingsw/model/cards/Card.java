@@ -132,12 +132,11 @@ abstract class Card {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "Card{" +
-                "victoryPoints=" + victoryPoints +
+        return  "ID: " + id +
+                ", victoryPoints=" + victoryPoints +
                 ", status=" + status +
                 ", requirements=" + requirements +
-                ", price=" + price +
-                '}';
+                ", price=" + price ;
     }
 
     @Override

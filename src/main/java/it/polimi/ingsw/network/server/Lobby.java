@@ -129,6 +129,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
     private void startGame() {
+        notifyTheGameIsStarted();
+
         Controller controller = new Controller(players);
 
         for (String name: players.keySet()) {
@@ -136,7 +138,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             players.get(name).addLobbyOrView(controller.getVirtualView());
         }
 
-        notifyTheGameIsStarted();
     }
     //------------------------------------------------------------------------------------------------------------------
 

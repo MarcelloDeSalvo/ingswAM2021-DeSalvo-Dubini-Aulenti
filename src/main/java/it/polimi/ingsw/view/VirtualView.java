@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.ShowHandMessage;
 import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
@@ -90,13 +91,16 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
     @Override
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
+        /*
         StringBuilder idsBuild = new StringBuilder();
         idsBuild.append("These are your Leader Cards: \n");
         for (Integer id : leaderIDs){
             idsBuild.append(id).append(", ");
         }
 
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(idsBuild.toString()).setNickname(nickname).build());
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_HAND).setInfo(idsBuild.toString()).setNickname(nickname).build()); */
+
+        notifyUsers(new ShowHandMessage(leaderIDs, nickname));
     }
 
     @Override

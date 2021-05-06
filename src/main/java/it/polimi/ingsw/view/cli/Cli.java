@@ -239,8 +239,10 @@ public class Cli extends ClientView {
 
     @Override
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
+        System.out.println("These are your Leader Cards: \n");
         for (int id: leaderIDs)
-            System.out.println(leaderCards.get(id));
+            System.out.println(leaderCards.get(id-1).toString());
+        System.out.println();
     }
 
     @Override

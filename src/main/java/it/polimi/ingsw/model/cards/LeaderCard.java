@@ -91,9 +91,9 @@ public class LeaderCard extends Card{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "LeaderCard{" +
+        return "LeaderCard[" + super.toString() +
                 "abilities=" + abilities +
-                "} " + super.toString() + '\n';
+                "] " ;
     }
     //------------------------------------------------------------------------------------------------------------------
 
