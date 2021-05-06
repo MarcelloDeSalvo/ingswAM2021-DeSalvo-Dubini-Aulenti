@@ -58,7 +58,7 @@ public class UserManager {
      * @return true if the player is present and is successfully removed, false if a Player is not present <br>
      * and can't be removed.
      */
-    public static boolean removePlayer(HashMap<String, User> connectedPlayers, String nick) {
+    public static boolean removePlayer(HashMap<String, User> connectedPlayers, String nick) throws NullPointerException{
         if (connectedPlayers.containsKey(nick)) {
             connectedPlayers.remove(nick);
             return true;

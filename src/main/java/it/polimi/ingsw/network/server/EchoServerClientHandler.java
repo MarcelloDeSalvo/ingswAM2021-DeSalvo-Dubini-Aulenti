@@ -73,9 +73,6 @@ public class EchoServerClientHandler implements Runnable {
             }
 
 
-
-
-
         }catch (IllegalThreadStateException | IOException e){
             e.printStackTrace();
         }

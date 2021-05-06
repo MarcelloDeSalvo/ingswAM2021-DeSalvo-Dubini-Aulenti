@@ -68,9 +68,8 @@ public class LobbyManager implements  ObserverViewIO {
                 if(Util.isPresent(lobbyToJoinName, lobbies)) {
 
                     if(joinLobby(lobbyToJoinName, currentUser))
-                        UserManager.notifyUsers(connectedPlayers,
-                                new Message.MessageBuilder().setCommand(Command.REPLY).
-                                        setInfo("You joined " + lobbyToJoinName + " correctly!").setNickname(senderNick).build());
+                        lobbies.get(lobbyToJoinName).notifyNewJoin(currentUser);
+
                     else
                         UserManager.notifyUsers(connectedPlayers,
                                 new Message.MessageBuilder().setCommand(Command.REPLY).
@@ -88,13 +87,11 @@ public class LobbyManager implements  ObserverViewIO {
                 String newLobbyName = createLobbyMessage.getLobbyName();
 
                 if(!Util.isPresent(newLobbyName, lobbies)) {
-
-                    createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
-
                     UserManager.notifyUsers(connectedPlayers,
                             new Message.MessageBuilder().setCommand(Command.REPLY).
                                     setInfo("The lobby " + newLobbyName + " has been created correctly!").setNickname(senderNick).build());
 
+                    createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
                 }
                 else
                     UserManager.notifyUsers(connectedPlayers,
@@ -147,6 +144,7 @@ public class LobbyManager implements  ObserverViewIO {
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY_MANAGER;
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

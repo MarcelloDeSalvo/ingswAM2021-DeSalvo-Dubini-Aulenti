@@ -34,6 +34,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         if(UserManager.addPlayer(players, user.getNickname(), user)) {
             numOfPlayersConnected++;
+            notifyPlayerList(user);
+
             if(numOfPlayersConnected == maxPlayers)
                 setFull(true);
             return true;
@@ -43,32 +45,31 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
     }
 
-    public boolean removeUser(User user){
+    public void removeUser(User user){
         if(UserManager.removePlayer(players, user.getNickname())){
 
             numOfPlayersConnected--;
+            notifySomeoneLeft(user);
 
             if(numOfPlayersConnected == 0) {
                deleteLobby(user);
-                System.out.println(user);
+
             }else{
                 if(user.getNickname().equals(owner.getNickname())){
-                    owner = players.get(0);//DA VEDERE--------------------------------||||||||||||||||||||||||||||||
+                    String key = players.entrySet().stream().findFirst().get().getKey();
+                    owner = players.get(key);
+
+                    notifyNewOwner();
                 }
             }
 
             user.setStatus(Status.IN_LOBBY_MANAGER);
-            return true;
         }
-        else
-            return false;
+
     }
 
     private void deleteLobby (User user) {
-        System.out.println(getConnectedPlayers());
         Lobby lobbyToDelete = getLobbies().get(lobbyName);
-        System.out.println(getLobbies());
-        System.out.println(lobbyName + " " + lobbyToDelete);
 
         getLobbies().remove(lobbyName, lobbyToDelete);
         user.removeLobbyOrView(lobbyToDelete);
@@ -87,30 +88,17 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         User currentUser = players.get(senderNick);
 
-        if(!hasPermission(currentUser)){
-            if(!hasPermission(currentUser)){
-                return;
-            }
-        }
-
+        if(!hasPermission(currentUser))
+            return;
 
         switch (command) {
             case EXIT_LOBBY:
+                removeUser(currentUser);
+                sendLobbyList(currentUser.getNickname());
+                break;
 
-                if(removeUser(currentUser)) {
-                    if(players.size() > 0) {
-                        UserManager.notifyUsers(players,
-                                new Message.MessageBuilder().setCommand(Command.REPLY).
-                                        setInfo("The user " + senderNick + " has left the lobby").setNickname(senderNick).
-                                        setTarget(Target.EVERYONE_ELSE).build());
-                    }
-
-                    currentUser.userSend(
-                            new Message.MessageBuilder().setCommand(Command.REPLY).
-                                    setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build()
-                    );
-                }
-
+            case LOBBY_LIST:
+                notifyPlayerList(currentUser);
                 break;
 
             case START_GAME:
@@ -126,6 +114,48 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     @Override
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY;
+    }
+
+
+
+    //NOTIFICATIONS-----------------------------------------------------------------------------------------------------
+    public void notifyNewJoin(User newJoined){
+        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
+                .setInfo("# The user: "+ newJoined.getNickname() + " has joined the lobby").setTarget(Target.EVERYONE_ELSE).setNickname(newJoined.getNickname()).build());
+
+        UserManager.notifyUsers(players,
+                new Message.MessageBuilder().setCommand(Command.REPLY).
+                        setInfo("You joined " + lobbyName + " correctly!").setNickname(newJoined.getNickname()).build());
+    }
+
+    public void notifyNewOwner(){
+        UserManager.notifyUsers(players,
+                new Message.MessageBuilder().setCommand(Command.REPLY)
+                        .setNickname(owner.getNickname()).setInfo("The Owner has left, you are now the new Owner").build());
+
+        UserManager.notifyUsers(players,
+                new Message.MessageBuilder().setCommand(Command.REPLY)
+                        .setTarget(Target.EVERYONE_ELSE).setNickname(owner.getNickname()).setInfo("The Owner has left, the new Owner is: " + owner.getNickname()).build());
+    }
+
+    public void notifyPlayerList(User user){
+        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
+                .setInfo("Players connected in " + lobbyName + ":\n"+ players.keySet().toString()).setNickname(user.getNickname()).build());
+    }
+
+    public void notifySomeoneLeft(User userThatHasLeft){
+        String senderNick = userThatHasLeft.getNickname();
+        if(players.size() > 0) {
+            UserManager.notifyUsers(players,
+                    new Message.MessageBuilder().setCommand(Command.REPLY).
+                            setInfo("# The user " + senderNick + " has left the lobby").setNickname(senderNick).
+                            setTarget(Target.EVERYONE_ELSE).build());
+        }
+
+        userThatHasLeft.userSend(
+                new Message.MessageBuilder().setCommand(Command.REPLY).
+                        setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build()
+        );
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -169,6 +199,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     public String toString() {
         return "* lobbyName='" + lobbyName + '\'' +
                 ", connected=" + numOfPlayersConnected + "/" + maxPlayers +
+                ", Owner=" + owner.getNickname() +
                 ", isFull=" + isFull +
                 ", isClosed=" + isClosed;
     }

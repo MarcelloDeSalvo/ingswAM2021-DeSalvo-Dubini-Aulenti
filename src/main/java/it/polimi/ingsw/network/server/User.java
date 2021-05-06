@@ -46,12 +46,6 @@ public class User implements ObserverThread, ObservableViewIO {
         for (ObserverViewIO lobby: lobbies) {
             lobby.update(message);
         }
-        /*
-            lobbies.get(0).update(message);
-
-            if(lobbies.size() == 2)
-                lobbies.get(1).update(message);
-         */
     }
 
     @Override
@@ -74,16 +68,8 @@ public class User implements ObserverThread, ObservableViewIO {
         return nickname;
     }
 
-    public ServerReceiver getServerReceiver() {
-        return serverReceiver;
-    }
-
     public void setServerReceiver(ServerReceiver serverReceiver) {
         this.serverReceiver = serverReceiver;
-    }
-
-    public ServerSender getServerSender() {
-        return serverSender;
     }
 
     public Status getStatus() {

@@ -65,6 +65,10 @@ public class Cli extends ClientView {
 
                 case "CREATE":
                     CreateLobbyMessage createLobbyMessage = new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname());
+                    if(createLobbyMessage.getNumOfPlayers()>4 || createLobbyMessage.getNumOfPlayers()<1){
+                        System.out.println("You cannot play with more than 4 people, please select a valid number");
+                        break;
+                    }
                     sender.send(createLobbyMessage);
                     break;
 
@@ -133,7 +137,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printReply(String payload) {
-        System.out.println(payload);
+        System.out.println(payload+"\n");
     }
 
     @Override
