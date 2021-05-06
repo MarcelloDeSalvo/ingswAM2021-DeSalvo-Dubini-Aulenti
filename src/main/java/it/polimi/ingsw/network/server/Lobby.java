@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -10,11 +11,11 @@ import it.polimi.ingsw.observers.ObserverViewIO;
 import java.util.HashMap;
 
 public class Lobby extends LobbyManager implements ObserverViewIO {
-    private String lobbyName;
-    private HashMap<String, User> players;
+    private final String lobbyName;
+    private final HashMap<String, User> players;
     private User owner;
 
-    private int maxPlayers;
+    private final int maxPlayers;
     private int numOfPlayersConnected;
 
     private boolean isFull;
@@ -53,7 +54,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 System.out.println(user);
             }else{
                 if(user.getNickname().equals(owner.getNickname())){
-                    owner = players.get(0);//DA VEDERE--------------------------------||||||||||||||||||||||||||||||
+                    owner = players.get(0); //DA VEDERE--------------------------------||||||||||||||||||||||||||||||
+                    System.out.println(owner);
                 }
             }
 
@@ -96,29 +98,34 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         switch (command) {
             case EXIT_LOBBY:
-
                 if(removeUser(currentUser)) {
                     if(players.size() > 0) {
-                        UserManager.notifyUsers(players,
-                                new Message.MessageBuilder().setCommand(Command.REPLY).
+                        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY).
                                         setInfo("The user " + senderNick + " has left the lobby").setNickname(senderNick).
                                         setTarget(Target.EVERYONE_ELSE).build());
                     }
 
-                    currentUser.userSend(
-                            new Message.MessageBuilder().setCommand(Command.REPLY).
-                                    setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build()
-                    );
+                    currentUser.userSend(new Message.MessageBuilder().setCommand(Command.REPLY).
+                                    setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build());
                 }
 
                 break;
 
+
             case START_GAME:
+                if(currentUser != owner)
+                    UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY).
+                            setInfo("Only " + owner +" (the owner of the lobby) can start the game!").setNickname(senderNick).build());
+                else
+                    startGame();
+                    //printare tutti i comandi a disposizione
+
                 break;
 
+
             default:
-                UserManager.notifyUsers(players,
-                    new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command").setNickname(senderNick).build());
+                UserManager.notifyUsers(players, new Message.MessageBuilder()
+                        .setCommand(Command.REPLY).setInfo("Invalid Command").setNickname(senderNick).build());
                 break;
         }
     }
@@ -126,6 +133,15 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     @Override
     public boolean hasPermission (User user) {
         return user.getStatus() == Status.IN_LOBBY;
+    }
+
+    private void startGame() {
+        Controller controller = new Controller(players);
+
+        for (String name: players.keySet()) {
+            players.get(name).setStatus(Status.IN_GAME);
+            players.get(name).addLobbyOrView(controller.getVirtualView());
+        }
     }
     //------------------------------------------------------------------------------------------------------------------
 

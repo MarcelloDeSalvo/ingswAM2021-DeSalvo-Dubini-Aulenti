@@ -118,7 +118,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     public Game(String playerNickname, boolean test) throws FileNotFoundException, JsonIOException, JsonSyntaxException{
         standard_deck_start(2);
         test_single_player_start(playerNickname);
-        singlePlayer=true;
+        singlePlayer = true;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -334,6 +334,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         return max;
     }
+
     /**
      * Calculates all the Players' points
      */

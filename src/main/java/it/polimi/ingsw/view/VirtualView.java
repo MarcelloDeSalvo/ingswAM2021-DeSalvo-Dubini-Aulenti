@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
 
@@ -18,8 +17,8 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     HashMap<String, User> connectedPlayers;
     ArrayList<ObserverController> observerControllers;
 
-    public VirtualView() {
-        connectedPlayers = new HashMap<>();
+    public VirtualView(HashMap<String, User> connectedPlayers) {
+        this.connectedPlayers = new HashMap<>(connectedPlayers);
         observerControllers = new ArrayList<>();
     }
 
