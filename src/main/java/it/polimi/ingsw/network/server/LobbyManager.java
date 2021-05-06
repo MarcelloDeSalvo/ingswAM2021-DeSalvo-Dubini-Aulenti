@@ -39,11 +39,13 @@ public class LobbyManager implements  ObserverViewIO {
                                 setInfo("Bye!").setNickname(senderNick).build());
                 break;
 
+
             case HELLO:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("Hello!").setNickname(senderNick).build());
                 break;
+
 
             case HELLO_ALL:
                 UserManager.notifyUsers(connectedPlayers,
@@ -51,15 +53,18 @@ public class LobbyManager implements  ObserverViewIO {
                                 setInfo("Hello all!").setTarget(Target.EVERYONE_ELSE).setNickname(senderNick).build());
                 break;
 
+
             case CHAT:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo(deserializedMex.getInfo()).setNickname(senderNick).build());
                 break;
 
+
             case LOBBY_LIST:
                 sendLobbyList(senderNick);
                 break;
+
 
             case JOIN_LOBBY:
                 JoinLobbyMessage joinLobbyMessage = gson.fromJson(mex, JoinLobbyMessage.class);
@@ -82,6 +87,7 @@ public class LobbyManager implements  ObserverViewIO {
 
                 break;
 
+
             case CREATE_LOBBY:
                 CreateLobbyMessage createLobbyMessage = gson.fromJson(mex, CreateLobbyMessage.class);
                 String newLobbyName = createLobbyMessage.getLobbyName();
@@ -99,6 +105,7 @@ public class LobbyManager implements  ObserverViewIO {
                                     setInfo("The lobby " + newLobbyName + " already exists! Please insert a valid name").setNickname(senderNick).build());
 
                 break;
+
 
             default:
                 UserManager.notifyUsers(connectedPlayers,
@@ -135,7 +142,6 @@ public class LobbyManager implements  ObserverViewIO {
 
         newLobby.addUser(currentUser);
         lobbies.put(newLobbyName, newLobby);
-        //System.out.println("create " + newLobbyName + newLobby);
         currentUser.addLobbyOrView(newLobby);
 
         currentUser.setStatus(Status.IN_LOBBY);

@@ -5,22 +5,32 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.DiscardLeaderMessage;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.Target;
+import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
     VirtualView virtualView;
     Game game;
 
-    public Controller (){
-        this.virtualView = new VirtualView();
+    public Controller (HashMap<String, User> connectedPlayers){
+        this.virtualView = new VirtualView(connectedPlayers);
+        virtualView.addObserverController(this);
+
+        ArrayList<String> playersNicknames = new ArrayList<>(connectedPlayers.keySet());
+        int numOfPlayers = playersNicknames.size();
 
         try {
-            game = new Game();
+            if(numOfPlayers > 1)
+                game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
+            else
+                game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
+
         }catch (FileNotFoundException e){
             e.printStackTrace();
             virtualView.notifyUsers(
@@ -53,8 +63,10 @@ public class Controller implements ObserverController {
                 isTheCurrentPlayer(mex.getSenderNickname());
 
                 int currP = game.getCurrentPlayer();
+
                 if (!game.getPlayer(currP).discardFromHand(discardLeaderMessage.getLeaderID()))
                     virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").build());
+
                 break;
 
             default:
@@ -71,4 +83,11 @@ public class Controller implements ObserverController {
         return true;
     }
 
+    public VirtualView getVirtualView() {
+        return virtualView;
+    }
+
+    public Game getGame() {
+        return game;
+    }
 }
