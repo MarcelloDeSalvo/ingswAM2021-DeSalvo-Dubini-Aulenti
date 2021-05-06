@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.DiscardLeaderMessage;
 import it.polimi.ingsw.network.commands.Message;
@@ -34,6 +35,8 @@ public class Controller implements ObserverController {
 
             else
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
+
+            setUpGame();
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
@@ -82,6 +85,20 @@ public class Controller implements ObserverController {
         return true;
     }
 
+    public void setUpGame() {
+        ArrayList<Player> players = game.getPlayerList();
+        ArrayList<String> namesInOrder = game.getPlayerListString();
+
+        for (Player player : players) {
+            System.out.println("ciclo");
+            virtualView.printHand(player.getHandIDs(), player.getNickname());
+            virtualView.printLeaderCardRequest(player.getNickname());
+            //while(player.getHand().size() != 2);
+        }
+    }
+
+
+    //GETTERS-----------------------------------------------------------------------------------------------------------
     public VirtualView getVirtualView() {
         return virtualView;
     }

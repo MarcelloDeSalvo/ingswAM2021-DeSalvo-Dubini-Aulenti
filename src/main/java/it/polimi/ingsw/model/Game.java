@@ -437,6 +437,17 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
+
+    public ArrayList<String> getPlayerListString(){
+        ArrayList<String> nicknames = new ArrayList<>();
+
+        for (Player player : playerList) {
+            nicknames.add(player.getNickname());
+        }
+
+        return nicknames;
+    }
+
     public boolean isFinalTurn() {
         return finalTurn;
     }

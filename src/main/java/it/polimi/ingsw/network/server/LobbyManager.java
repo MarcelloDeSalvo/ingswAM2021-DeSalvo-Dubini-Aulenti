@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class LobbyManager implements  ObserverViewIO {
 
-    private static final HashMap<String, User> connectedPlayers = new HashMap<>();;
-    private static final HashMap<String, Lobby> lobbies = new HashMap<>();;
+    private static final HashMap<String, User> connectedPlayers = new HashMap<>();
+    private static final HashMap<String, Lobby> lobbies = new HashMap<>();
 
 
     @Override
@@ -66,6 +66,7 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers,
                         new ChatMessage(senderNick,deserializedMex.getInfo(),receiver));
                 break;
+
 
             case CHAT_ALL:
                 UserManager.notifyUsers(connectedPlayers,

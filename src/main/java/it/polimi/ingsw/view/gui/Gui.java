@@ -29,12 +29,12 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printQuit() {
+    public void printQuit(String nickname) {
 
     }
 
     @Override
-    public void printHand(ArrayList<Integer> leaderIDs) {
+    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
 
     }
 

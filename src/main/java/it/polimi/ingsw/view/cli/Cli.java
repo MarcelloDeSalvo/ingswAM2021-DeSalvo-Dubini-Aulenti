@@ -42,7 +42,7 @@ public class Cli extends ClientView {
 
             case SHOW_HAND:
                 ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                printHand(showHandMessage.getCardsID());
+                printHand(showHandMessage.getCardsID(), showHandMessage.getSenderNickname());
                 break;
 
             case REPLY:
@@ -51,13 +51,13 @@ public class Cli extends ClientView {
 
 
             case CHAT_ALL:
-                System.out.print(Color.ANSI_MAGENTA.escape()+deserializedMex.getSenderNickname()+" in ALL chat:"+Color.RESET);
+                System.out.print(Color.ANSI_MAGENTA.escape() + deserializedMex.getSenderNickname() + " in ALL chat:" + Color.RESET);
                 printReply(deserializedMex.getInfo());
                 break;
 
             case CHAT:
                 ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
-                System.out.print(Color.ANSI_BLUE.escape()+chatMessage.getReceiver()+Color.RESET+" whispers you: ");
+                System.out.print(Color.ANSI_BLUE.escape() + chatMessage.getReceiver() + Color.RESET + " whispers you: ");
                 printReply(deserializedMex.getInfo());
                 break;
 
@@ -74,7 +74,6 @@ public class Cli extends ClientView {
 
                 //GENERAL-----------------------------------------------------------------------------------------------------
                 case "CHAT":
-
                     sender.send(new ChatMessage(stdIn.next(), stdIn.nextLine() ,this.getNickname()));
                     break;
 
@@ -229,7 +228,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printQuit() {
+    public void printQuit(String nickaname) {
         System.out.println("Disconnected");
     }
 
@@ -239,7 +238,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printHand(ArrayList<Integer> leaderIDs) {
+    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
         for (int id: leaderIDs)
             System.out.println(leaderCards.get(id));
     }

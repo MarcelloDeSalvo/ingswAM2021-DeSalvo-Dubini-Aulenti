@@ -11,7 +11,6 @@ import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class Player implements ObservableModel {
 
@@ -79,17 +78,23 @@ public class Player implements ObservableModel {
 
     /**
      * Discards a leaderCard from a Player's hand <br>
-     * @param i is the index that starts from 0 (and must be less than hand.size())
+     * @param id is the LeaderCard id
      * @return true if it can be removed
      * @throws NullPointerException
      * @throws IndexOutOfBoundsException
      */
-    public boolean discardFromHand(int i) throws NullPointerException, IndexOutOfBoundsException{
-        if (i >= 0 && i<hand.size() && hand.contains(hand.get(i))){
+    public boolean discardFromHand(int id) throws NullPointerException, IndexOutOfBoundsException{
+        if (id > 0){
+            LeaderCard leaderCardToRemove = null;
 
-            if (hand.remove(hand.get(i))){
+            for (LeaderCard lCard: hand) {
+                if(lCard.getId() == id)
+                    leaderCardToRemove = lCard;
+            }
+
+            if (hand.remove(leaderCardToRemove)) {
                 for (ObserverModel obs: observers) {
-                    obs.printHand(leaderListToInt());
+                    obs.printHand(leaderListToInt(), nickname);
                 }
                 return true;
             }
@@ -196,6 +201,25 @@ public class Player implements ObservableModel {
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
+    public int getAmountOfDiscardedCards () {
+        int i = 0;
+        for (LeaderCard leaderCard : hand) {
+            if(leaderCard.getStatus() == Status.DISCARDED)
+                i++;
+        }
+        return i;
+    }
+
+    public ArrayList<Integer> getHandIDs () {
+        ArrayList<Integer> handIDs = new ArrayList<>();
+
+        for (LeaderCard leaderCard : hand) {
+            handIDs.add(leaderCard.getId());
+        }
+
+        return handIDs;
+    }
+
     public ProductionSlot getProductionSlotByID(int n){
         return playerBoard.getProductionSlotByID(n);
     }

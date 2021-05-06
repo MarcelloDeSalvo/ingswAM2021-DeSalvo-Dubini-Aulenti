@@ -119,6 +119,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                         .setCommand(Command.REPLY).setInfo("Invalid Command").setNickname(senderNick).build());
                 break;
         }
+
+        setClosed(true);
     }
 
     @Override
@@ -149,6 +151,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                         setInfo("You joined " + lobbyName + " correctly!").setNickname(newJoined.getNickname()).build());
     }
 
+
     public void notifyNewOwner(){
         UserManager.notifyUsers(players,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
@@ -159,10 +162,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                         .setTarget(Target.EVERYONE_ELSE).setNickname(owner.getNickname()).setInfo("The Owner has left, the new Owner is: " + owner.getNickname()).build());
     }
 
+
     public void notifyPlayerList(User user){
         UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
                 .setInfo("Players connected in " + lobbyName + ":\n"+ players.keySet().toString()).setNickname(user.getNickname()).build());
     }
+
 
     public void notifySomeoneLeft(User userThatHasLeft){
         String senderNick = userThatHasLeft.getNickname();
