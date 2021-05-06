@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.ObserverViewIO;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.HashMap;
 
@@ -215,11 +216,27 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "* lobbyName='" + lobbyName + '\'' +
+        String coloredFull,coloredClosed,available=Color.ANSI_GREEN.escape();;
+        if(isFull ) {
+            coloredFull = Color.ANSI_RED.escape();
+            available = Color.ANSI_RED.escape();
+        }
+        else
+            coloredFull=Color.ANSI_GREEN.escape();
+        if(isClosed ) {
+            coloredClosed = Color.ANSI_RED.escape();
+            available = Color.ANSI_RED.escape();
+        }
+        else
+            coloredClosed=Color.ANSI_GREEN.escape();
+
+
+
+        return available+"\u06DD Lobby " +Color.ANSI_RESET.escape() + lobbyName + '\'' +
                 ", connected=" + numOfPlayersConnected + "/" + maxPlayers +
                 ", Owner=" + owner.getNickname() +
-                ", isFull=" + isFull +
-                ", isClosed=" + isClosed;
+                ","+coloredFull+" isFull=" + isFull +Color.ANSI_RESET.escape()+
+                ","+coloredClosed+" isClosed=" + isClosed+Color.ANSI_RESET.escape();
     }
     //------------------------------------------------------------------------------------------------------------------
 }

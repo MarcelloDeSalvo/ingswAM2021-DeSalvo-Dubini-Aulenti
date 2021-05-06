@@ -6,7 +6,8 @@ public enum Color {
     ANSI_YELLOW("\u001B[33m"),
     ANSI_BLUE("\u001B[34m"),
     ANSI_MAGENTA("\u001B[35m"),
-    ANSI_CYAN("\u001B[36m");
+    ANSI_CYAN("\u001B[36m"),
+    ANSI_RESET("\u001B[0m");
 
     static final String RESET = "\u001B[0m";
 
