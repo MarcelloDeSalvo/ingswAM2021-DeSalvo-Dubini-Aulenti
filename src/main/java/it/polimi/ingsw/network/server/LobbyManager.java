@@ -55,9 +55,22 @@ public class LobbyManager implements  ObserverViewIO {
 
 
             case CHAT:
-                UserManager.notifyUsers(connectedPlayers,
+                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
+                System.out.println(chatMessage.toString());
+                String receiver = chatMessage.getReceiver();
+                if(!UserManager.isNamePresent(connectedPlayers,receiver)){
+                    UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
-                                setInfo(deserializedMex.getInfo()).setNickname(senderNick).build());
+                                setInfo("Sorry to inform you the user you want to contact isn't connected.").setNickname(senderNick).build());
+                }
+                UserManager.notifyUsers(connectedPlayers,
+                        new ChatMessage(senderNick,deserializedMex.getInfo(),receiver));
+                break;
+
+            case CHAT_ALL:
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.CHAT_ALL).
+                                setInfo(deserializedMex.getInfo()).setNickname(senderNick).setTarget(Target.EVERYONE_ELSE).build());
                 break;
 
 

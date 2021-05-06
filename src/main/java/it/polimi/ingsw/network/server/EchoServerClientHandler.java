@@ -44,7 +44,9 @@ public class EchoServerClientHandler implements Runnable {
                 if (nickMex.getCommand() == Command.LOGIN) {
 
                     if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
-                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("You inserted a valid nickname. Welcome to masters of renaissance").build().serialize());
+                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You inserted a valid nickname. Welcome to masters of renaissance! Here's a list of all available servers").
+                                    build().serialize());
                         out.flush();
 
                         serverReceiver = new ServerReceiver(socket, in);

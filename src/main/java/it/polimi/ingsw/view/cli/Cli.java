@@ -8,7 +8,9 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.view.ClientView;
 
 
+import javax.sound.midi.Soundbank;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -46,6 +48,19 @@ public class Cli extends ClientView {
             case REPLY:
                 printReply(deserializedMex.getInfo());
                 break;
+
+
+            case CHAT_ALL:
+                System.out.print(Color.ANSI_MAGENTA.escape()+deserializedMex.getSenderNickname()+" in ALL chat:"+Color.RESET);
+                printReply(deserializedMex.getInfo());
+                break;
+
+            case CHAT:
+                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
+                System.out.print(Color.ANSI_BLUE.escape()+chatMessage.getReceiver()+Color.RESET+" whispers you: ");
+                printReply(deserializedMex.getInfo());
+                break;
+
         }
     }
 
@@ -89,7 +104,12 @@ public class Cli extends ClientView {
                     break;
 
                 case "CHAT":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.CHAT).setNickname(stdIn.next()).setInfo(stdIn.nextLine()).build());
+
+                    sender.send(new ChatMessage(stdIn.next(), stdIn.nextLine() ,this.getNickname()));
+                    break;
+
+                case "CHAT_ALL":
+                    sender.send(new ChatMessage(stdIn.nextLine(),this.getNickname()));
                     break;
 
                 case "HELLO":
@@ -148,7 +168,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
-        System.out.println("\n"+"[LOBBIES]:");
+        System.out.println("\n"+Color.ANSI_BLUE.escape()+"[LOBBIES]:"+Color.RESET);
 
         if (lobbiesInfos.isEmpty()){
             System.out.println("There are currently 0 active lobbies"+"\n");
