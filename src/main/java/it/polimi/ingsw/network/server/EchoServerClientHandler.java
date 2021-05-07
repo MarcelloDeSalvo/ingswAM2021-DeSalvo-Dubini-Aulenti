@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 
 public class EchoServerClientHandler implements Runnable {
@@ -39,14 +40,15 @@ public class EchoServerClientHandler implements Runnable {
             while ((receivedMex = in.readLine()) != null) {
 
                 Message nickMex = gson.fromJson(receivedMex, Message.class);
-                String nickname = nickMex.getSenderNickname();
+                String nickname = nickMex.getInfo();
 
                 if (nickMex.getCommand() == Command.LOGIN) {
 
                     if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
-                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY).
+                        out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
                                 setInfo("You inserted a valid nickname. Welcome to masters of renaissance! Here's a list of all available servers").
                                     build().serialize());
+
                         out.flush();
 
                         serverReceiver = new ServerReceiver(socket, in);
@@ -60,6 +62,8 @@ public class EchoServerClientHandler implements Runnable {
 
                         serverReceiver.start();
                         serverSender.start();
+
+                        System.out.println("# " + nickname+ " has logged into the server \n");
                         break;
 
                     }
@@ -72,10 +76,12 @@ public class EchoServerClientHandler implements Runnable {
                     out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
                             .setInfo("Incorrect command, please use the LOGIN command").build().serialize());
                 }
+
             }
 
 
         }catch (IllegalThreadStateException | IOException e){
+            System.out.println("User disconnected");
             e.printStackTrace();
         }
 

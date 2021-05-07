@@ -19,8 +19,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     private final int maxPlayers;
     private int numOfPlayersConnected;
 
-    private boolean isFull;
-    private boolean isClosed;
+    private boolean isFull = false;
+    private boolean isClosed = false;
 
     public Lobby(String lobbyName, int maxPlayers, User owner) {
         this.lobbyName = lobbyName;
@@ -31,7 +31,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
     public boolean addUser(User user){
-        if(isFull)
+        if(isFull||isClosed)
             return false;
 
         if(UserManager.addPlayer(players, user.getNickname(), user)) {
@@ -52,6 +52,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
             numOfPlayersConnected--;
             notifySomeoneLeft(user);
+
+            if(isFull)
+                isFull=false;
 
             if(numOfPlayersConnected == 0) {
                deleteLobby(user);
@@ -137,6 +140,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             players.get(name).setStatus(Status.IN_GAME);
             players.get(name).addLobbyOrView(controller.getVirtualView());
         }
+
+        isClosed = true;
 
     }
     //------------------------------------------------------------------------------------------------------------------

@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientReceiver extends Thread{
     private final Socket socket;
@@ -20,10 +21,8 @@ public class ClientReceiver extends Thread{
     }
 
     public void run() {
-        Gson gson = new Gson();
 
         try {
-
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String receivedMex = "";
@@ -32,10 +31,13 @@ public class ClientReceiver extends Thread{
             }
 
         } catch (IOException e) {
+            System.out.println("User disconnected");
             e.printStackTrace();
+
         } catch (JsonSyntaxException e){
             System.out.println("Wrong syntax, the message has been discarded");
             e.printStackTrace();
+
         }
     }
 

@@ -16,8 +16,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cli extends ClientView {
-    ClientSender sender;
-    ArrayList<LeaderCard> leaderCards;
+    private ClientSender sender;
+    private ArrayList<LeaderCard> leaderCards;
+    private String nickname = null;
+    private String nicknameTemp = null;
 
     public Cli() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
@@ -31,6 +33,11 @@ public class Cli extends ClientView {
         Command command = deserializedMex.getCommand();
 
         switch (command){
+            case LOGIN:
+                printReply(deserializedMex.getInfo());
+                nickname = nicknameTemp;
+                break;
+
             case HELLO:
                 printHello();
                 break;
@@ -93,8 +100,15 @@ public class Cli extends ClientView {
 
                 //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------------------------------
                 case "LOGIN":
-                    String nickname = stdIn.next();
-                    Message login = new Message.MessageBuilder().setCommand(Command.LOGIN).setNickname(nickname).build();
+                    nicknameTemp = stdIn.next();
+                    Message login;
+
+                    if (nickname != null){
+                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(nickname).build();
+                    }else{
+                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
+                    }
+
                     this.setNickname(nickname);
                     sender.send(login);
                     break;

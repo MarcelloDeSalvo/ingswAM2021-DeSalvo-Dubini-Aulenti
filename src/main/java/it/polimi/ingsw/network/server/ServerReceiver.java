@@ -25,10 +25,9 @@ public class ServerReceiver extends Thread implements ObservableThread {
 
     @Override
     public void run() {
-        Gson gson = new Gson();
 
         try {
-            //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
             String receivedMex = "";
 
             while ((receivedMex = in.readLine()) != null) {
@@ -38,7 +37,9 @@ public class ServerReceiver extends Thread implements ObservableThread {
             in.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("A user has forcibly logged out");
+            //e.printStackTrace();
+
         } catch (JsonSyntaxException e){
             System.out.println("Wrong syntax, the message has been discarded");
             e.printStackTrace();
