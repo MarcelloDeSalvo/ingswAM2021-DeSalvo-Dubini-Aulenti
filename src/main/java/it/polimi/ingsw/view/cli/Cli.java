@@ -18,7 +18,6 @@ import java.util.Scanner;
 public class Cli extends ClientView {
     private ClientSender sender;
     private ArrayList<LeaderCard> leaderCards;
-    private String nickname = null;
     private String nicknameTemp = null;
 
     public Cli() throws FileNotFoundException {
@@ -33,9 +32,13 @@ public class Cli extends ClientView {
         Command command = deserializedMex.getCommand();
 
         switch (command){
+            case QUIT:
+                printReply(deserializedMex.getInfo());
+                break;
+
             case LOGIN:
                 printReply(deserializedMex.getInfo());
-                nickname = nicknameTemp;
+                this.setNickname(nicknameTemp);
                 break;
 
             case HELLO:
@@ -81,7 +84,7 @@ public class Cli extends ClientView {
 
                 //GENERAL-----------------------------------------------------------------------------------------------------
                 case "CHAT":
-                    sender.send(new ChatMessage(stdIn.next(), stdIn.nextLine() ,this.getNickname()));
+                    sender.send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
                     break;
 
                 case "CHAT_ALL":
@@ -103,13 +106,12 @@ public class Cli extends ClientView {
                     nicknameTemp = stdIn.next();
                     Message login;
 
-                    if (nickname != null){
-                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(nickname).build();
+                    if (this.getNickname() != null){
+                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(this.getNickname()).build();
                     }else{
                          login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
                     }
 
-                    this.setNickname(nickname);
                     sender.send(login);
                     break;
 
@@ -169,7 +171,7 @@ public class Cli extends ClientView {
                     break;
 
                 case "QUIT":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.QUIT).build());
+                    sender.send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
                     return false;
 
                 default:

@@ -13,9 +13,11 @@ import java.util.ArrayList;
 
 public class ServerReceiver extends Thread implements ObservableThread {
 
-    Socket socket;
-    ArrayList<ObserverThread> observerThreads;
-    BufferedReader in;
+    private Socket socket;
+    private ArrayList<ObserverThread> observerThreads;
+    private BufferedReader in;
+    private boolean exit = false;
+
 
     public ServerReceiver (Socket socket, BufferedReader in){
         this.socket = socket;
@@ -30,14 +32,14 @@ public class ServerReceiver extends Thread implements ObservableThread {
 
             String receivedMex = "";
 
-            while ((receivedMex = in.readLine()) != null) {
+            while ((receivedMex = in.readLine()) != null || !exit) {
                 notifyThreadObserver(receivedMex);
             }
 
             in.close();
 
         } catch (IOException e) {
-            System.out.println("A user has forcibly logged out");
+            //System.out.println("A user logged out");
             //e.printStackTrace();
 
         } catch (JsonSyntaxException e){
@@ -60,6 +62,10 @@ public class ServerReceiver extends Thread implements ObservableThread {
             obs.userReceive(message);
         }
 
+    }
+
+    public void exit(){
+        exit = true;
     }
 
 }

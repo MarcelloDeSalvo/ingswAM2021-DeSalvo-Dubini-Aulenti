@@ -152,8 +152,9 @@ public class ClientMain {
             clientReceiver.start();
 
             clientSender.join();
+            clientReceiver.join();
 
-
+            echoSocket.close();
 
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);

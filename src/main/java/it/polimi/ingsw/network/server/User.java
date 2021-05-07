@@ -33,12 +33,6 @@ public class User implements ObserverThread, ObservableViewIO {
     @Override
     public void notifyLobbyOrView(String message) {
 
-        /*
-        for(int i = 0; i < lobbies.size(); i++){
-            lobbies.get(i).update(message);
-        }
-        */
-
         for (ObserverViewIO lobby: lobbies) {
             lobby.update(message);
         }
@@ -58,6 +52,10 @@ public class User implements ObserverThread, ObservableViewIO {
         serverSender.send(stringToSend);
     }
 
+
+    public void killThreads(){
+        serverReceiver.exit();
+    }
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public String getNickname() {

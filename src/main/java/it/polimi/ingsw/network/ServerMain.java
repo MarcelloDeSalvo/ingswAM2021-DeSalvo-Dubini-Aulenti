@@ -1,9 +1,7 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.server.EchoServerClientHandler;
 import it.polimi.ingsw.network.server.LobbyManager;
-import it.polimi.ingsw.view.VirtualView;
 
 import java.io.File;
 import java.io.FileNotFoundException;

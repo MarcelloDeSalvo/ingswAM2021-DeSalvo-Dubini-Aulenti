@@ -305,7 +305,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         Collections.shuffle(leaderCards);
         for (int i = 0; i<4; i++){
             playerList.get(0).addToHand(leaderCards.get(i));
-            i++;
         }
     }
     //------------------------------------------------------------------------------------------------------------------

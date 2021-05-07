@@ -81,8 +81,8 @@ public class EchoServerClientHandler implements Runnable {
 
 
         }catch (IllegalThreadStateException | IOException e){
-            System.out.println("User disconnected");
-            e.printStackTrace();
+            System.out.println("# The user logged out before entering a nickname -> " + "IP: " + socket.getInetAddress());
+            //e.printStackTrace();
         }
 
     }

@@ -26,6 +26,9 @@ public class ClientSender extends Thread {
                 if (!view.readInput())
                     break;
             }
+
+            out.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

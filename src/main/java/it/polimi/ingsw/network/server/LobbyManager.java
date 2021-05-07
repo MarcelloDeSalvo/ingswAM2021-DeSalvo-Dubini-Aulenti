@@ -35,8 +35,11 @@ public class LobbyManager implements  ObserverViewIO {
         switch (command) {
             case QUIT:
                 UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                        new Message.MessageBuilder().setCommand(Command.QUIT).
                                 setInfo("Bye!").setNickname(senderNick).build());
+                currentUser.killThreads();
+                UserManager.removePlayer(connectedPlayers, senderNick);
+                System.out.println("# " + senderNick + " has disconnected");
                 break;
 
 

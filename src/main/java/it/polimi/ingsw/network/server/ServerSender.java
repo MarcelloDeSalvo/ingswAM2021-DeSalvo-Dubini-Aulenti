@@ -17,9 +17,11 @@ public class ServerSender extends Thread {
     public void run(){
         try{
             out = new PrintWriter(socket.getOutputStream(), true);
+            //Muore subito?
 
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 
