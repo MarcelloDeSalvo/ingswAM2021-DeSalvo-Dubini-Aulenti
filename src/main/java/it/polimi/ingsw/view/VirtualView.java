@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
+import it.polimi.ingsw.view.cli.Color;
 
 
 import java.util.ArrayList;
@@ -126,6 +127,22 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
         UserManager.notifyUsers(connectedPlayers,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
                         .setInfo("Please select 2 Leader Cards to discard by typing 'DISCARD_LEADER id'").setNickname(nickname).build());
+    }
+
+    public void askForResources(String nickname, int qty) {
+            notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
+                    .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
+                        .setNickname(nickname).build());
+    }
+
+    public void notifyFaithPathProgression(String nickname, int qty) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI REPLY DOVREMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
+                .setInfo("Your current position has been incremented of " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
+                    .setNickname(nickname).build());
+
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI REPLY DOVREMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
+                .setInfo(nickname + " position has been incremented of " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
+                    .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
     }
 
     //------------------------------------------------------------------------------------------------------------------

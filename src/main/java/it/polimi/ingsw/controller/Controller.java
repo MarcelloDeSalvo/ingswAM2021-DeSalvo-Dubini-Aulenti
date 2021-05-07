@@ -28,15 +28,20 @@ public class Controller implements ObserverController {
         int numOfPlayers = playersNicknames.size();
 
         try {
-            if(numOfPlayers > 1){
+            if(numOfPlayers > 1) {
                 game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
                 virtualView.printOrder(playersNicknames);
+
+                for (Player player : game.getPlayerList()) {
+                    virtualView.printHand(player.getHandIDs(), player.getNickname());
+                    virtualView.printLeaderCardRequest(player.getNickname());
+                }
             }
-
-            else
+            else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
-
-            setUpGame();
+                virtualView.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
+                virtualView.printLeaderCardRequest(game.getPlayer(0).getNickname());
+            }
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
@@ -64,28 +69,32 @@ public class Controller implements ObserverController {
             case DISCARD_LEADER:
                 DiscardLeaderMessage discardLeaderMessage = gson.fromJson(mex, DiscardLeaderMessage.class);
 
-                if(!isTheCurrentPlayer(senderNick))
-                    return;
+                /*if(!isTheCurrentPlayer(senderNick))
+                    return;     useful if we decide to setup with turns instead of in parallel*/
 
                 int currP = game.getCurrentPlayer();
+                int playerNumber = game.getPlayerListString().indexOf(senderNick);
 
-                if(game.getPlayer(currP).isLeadersHaveBeenDiscarded()){
+                if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
                     virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("You can't do this action because you already discarded 2 Leaders!").setNickname(senderNick).build());
                     return;
                 }
 
-                if (!game.getPlayer(currP).discardFromHand(discardLeaderMessage.getLeaderID())) {
+                if (!game.getPlayer(playerNumber).discardFromHand(discardLeaderMessage.getLeaderID())) {
                     virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").setNickname(senderNick).build());
                     return;
                 }
 
                 virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("The leader has been discarded correctly!").setNickname(senderNick).build());
 
+                if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
+                    askForResources();
+
                 break;
 
 
             default:
-                System.out.println("Invalid command siamo in controller update");
+                System.out.println("Invalid command, siamo in controller update");
                 break;
         }
     }
@@ -98,15 +107,36 @@ public class Controller implements ObserverController {
         return true;
     }
 
-    public void setUpGame() {
-        ArrayList<Player> players = game.getPlayerList();
-        ArrayList<String> namesInOrder = game.getPlayerListString();
+    public boolean checkIfAllLeadersHaveBeenDiscarded() {
 
-        for (Player player : players) {
-            virtualView.printHand(player.getHandIDs(), player.getNickname());
-            virtualView.printLeaderCardRequest(player.getNickname());
+        for (Player player : game.getPlayerList()) {
+            if(!player.isLeadersHaveBeenDiscarded())
+                return false;
+        }
 
-            System.out.println(player.getHandIDs());
+        return true;
+    }
+
+
+    private void askForResources() {
+        for (Player player : game.getPlayerList()) {
+
+            switch (player.getOrderID()) {
+                case 0:
+                    break;
+                case 1:
+                    virtualView.askForResources(player.getNickname(), 1);
+                    break;
+                case 2:
+                    virtualView.askForResources(player.getNickname(), 1);
+                    virtualView.notifyFaithPathProgression(player.getNickname(), 1);
+                    //game.addFaithPoints();
+                    break;
+                case 3:
+                    virtualView.askForResources(player.getNickname(), 2);
+                    virtualView.notifyFaithPathProgression(player.getNickname(), 1);
+                    break;
+            }
         }
     }
 

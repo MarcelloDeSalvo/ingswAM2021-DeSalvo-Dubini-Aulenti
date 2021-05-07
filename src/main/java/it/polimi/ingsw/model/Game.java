@@ -310,6 +310,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //------------------------------------------------------------------------------------------------------------------
+    /*public void addFaithPoints(int qty) {
+        ResourceContainer faithPoints = new ResourceContainer(ResourceType.FAITHPOINT, qty);
+
+        faithPoints.addToFaithPath();
+    }*/
+    //------------------------------------------------------------------------------------------------------------------
+
+
     //PICKING THE WINNERS-----------------------------------------------------------------------------------------------
     /**
      *Tells the controller who won
