@@ -29,6 +29,8 @@ public class LobbyManager implements  ObserverViewIO {
 
         User currentUser = connectedPlayers.get(senderNick);
 
+
+
         if(!Command.canUseCommand(currentUser,command)){
             if(currentUser.getStatus()==Status.IN_LOBBY_MANAGER) {
                 UserManager.notifyUsers(connectedPlayers,
@@ -37,6 +39,8 @@ public class LobbyManager implements  ObserverViewIO {
             }
             return;
         }
+        if(command.getWhereToProcess()!=Status.IN_LOBBY_MANAGER)
+            return;
 
 
         switch (command) {
@@ -131,8 +135,7 @@ public class LobbyManager implements  ObserverViewIO {
 
 
             default:
-                UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command, you are in lobby manager").setNickname(senderNick).build());
+                //UserManager.notifyUsers(connectedPlayers,new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command, you are in lobby manager").setNickname(senderNick).build());
                 break;
         }
     }

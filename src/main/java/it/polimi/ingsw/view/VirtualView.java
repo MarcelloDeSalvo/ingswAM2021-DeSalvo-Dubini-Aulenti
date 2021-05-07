@@ -34,6 +34,7 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     public void update(String mex){
         Gson gson = new Gson();
         Message deserializedMex = gson.fromJson(mex, Message.class);
+        Command command=deserializedMex.getCommand();
 
         //Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
@@ -43,8 +44,19 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
         User currentUser = connectedPlayers.get(senderNick);
 
-        if(!hasPermission(currentUser))
+
+        if(!Command.canUseCommand(currentUser,command)){
+            if(currentUser.getStatus()==Status.IN_GAME) {
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You can't use this command in game!").setNickname(senderNick).build());
+            }
             return;
+        }
+
+        if(command.getWhereToProcess()!=Status.IN_GAME)
+            return;
+
 
         notifyController(mex);
     }
