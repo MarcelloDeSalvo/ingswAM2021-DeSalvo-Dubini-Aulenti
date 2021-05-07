@@ -113,7 +113,7 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     public void printLeaderCardRequest(String nickname) {
         UserManager.notifyUsers(connectedPlayers,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
-                        .setInfo("Please select 2 Leader Card to discard by typing 'DISCARD_LEADER id'").setNickname(nickname).build());
+                        .setInfo("Please select 2 Leader Cards to discard by typing 'DISCARD_LEADER id'").setNickname(nickname).build());
     }
 
     //------------------------------------------------------------------------------------------------------------------

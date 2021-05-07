@@ -30,7 +30,7 @@ public class EchoServerClientHandler implements Runnable {
         try {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            Gson gson=new Gson();
+            Gson gson = new Gson();
 
             Message askNick = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Welcome to the server, please select a valid nickname: ").build();
             out.println(askNick.serialize());

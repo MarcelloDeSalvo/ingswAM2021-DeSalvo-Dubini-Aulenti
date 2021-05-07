@@ -51,6 +51,7 @@ public class Controller implements ObserverController {
 
         Message deserializedMex = gson.fromJson(mex, Message.class);
         Command command = deserializedMex.getCommand();
+        String senderNick = deserializedMex.getSenderNickname();
 
         switch (command){
 
@@ -59,20 +60,32 @@ public class Controller implements ObserverController {
                 System.out.println("Arrivato: " + sendContainer);
                 break;
 
+
             case DISCARD_LEADER:
                 DiscardLeaderMessage discardLeaderMessage = gson.fromJson(mex, DiscardLeaderMessage.class);
 
-                isTheCurrentPlayer(deserializedMex.getSenderNickname());
+                if(!isTheCurrentPlayer(senderNick))
+                    return;
 
                 int currP = game.getCurrentPlayer();
 
-                if (!game.getPlayer(currP).discardFromHand(discardLeaderMessage.getLeaderID()))
-                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").build());
+                if(game.getPlayer(currP).isLeadersHaveBeenDiscarded()){
+                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("You can't do this action because you already discarded 2 Leaders!").setNickname(senderNick).build());
+                    return;
+                }
+
+                if (!game.getPlayer(currP).discardFromHand(discardLeaderMessage.getLeaderID())) {
+                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").setNickname(senderNick).build());
+                    return;
+                }
+
+                virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("The leader has been discarded correctly!").setNickname(senderNick).build());
 
                 break;
 
+
             default:
-                System.out.println("Invalid command");
+                System.out.println("Invalid command siamo in controller update");
                 break;
         }
     }
@@ -92,7 +105,8 @@ public class Controller implements ObserverController {
         for (Player player : players) {
             virtualView.printHand(player.getHandIDs(), player.getNickname());
             virtualView.printLeaderCardRequest(player.getNickname());
-            //while(player.getHand().size() != 2);
+
+            System.out.println(player.getHandIDs());
         }
     }
 

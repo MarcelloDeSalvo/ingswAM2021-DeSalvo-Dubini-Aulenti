@@ -132,7 +132,7 @@ public class LobbyManager implements  ObserverViewIO {
 
             default:
                 UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command").setNickname(senderNick).build());
+                        new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command, you are in lobby manager").setNickname(senderNick).build());
                 break;
         }
     }

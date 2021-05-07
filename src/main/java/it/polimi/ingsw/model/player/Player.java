@@ -21,6 +21,9 @@ public class Player implements ObservableModel {
     private PlayerBoard playerBoard;
     private int orderID;
 
+    private boolean leadersHaveBeenDiscarded = false;
+    private boolean selectedResources = false;
+
     public Player(String nickname) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
@@ -29,7 +32,7 @@ public class Player implements ObservableModel {
         observers = new ArrayList<>();
     }
 
-    public Player(String nickname,int orderID) {
+    public Player(String nickname, int orderID) {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
         this.orderID = orderID;
@@ -84,7 +87,7 @@ public class Player implements ObservableModel {
      * @throws IndexOutOfBoundsException
      */
     public boolean discardFromHand(int id) throws NullPointerException, IndexOutOfBoundsException{
-        if (id > 0){
+        if (id > 0) {
             LeaderCard leaderCardToRemove = null;
 
             for (LeaderCard lCard: hand) {
@@ -96,6 +99,10 @@ public class Player implements ObservableModel {
                 for (ObserverModel obs: observers) {
                     obs.printHand(leaderListToInt(), nickname);
                 }
+
+                if(hand.size() == 2)
+                    setLeadersHaveBeenDiscarded(true);
+
                 return true;
             }
         }
@@ -255,6 +262,23 @@ public class Player implements ObservableModel {
     public void setHand(ArrayList<LeaderCard> hand) {
         this.hand = hand;
     }
+
+    public boolean isLeadersHaveBeenDiscarded() {
+        return leadersHaveBeenDiscarded;
+    }
+
+    public void setLeadersHaveBeenDiscarded(boolean leadersHaveBeenDiscarded) {
+        this.leadersHaveBeenDiscarded = leadersHaveBeenDiscarded;
+    }
+
+    public boolean isSelectedResources() {
+        return selectedResources;
+    }
+
+    public void setSelectedResources(boolean selectedResources) {
+        this.selectedResources = selectedResources;
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
