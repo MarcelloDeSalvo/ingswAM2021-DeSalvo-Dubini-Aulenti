@@ -239,9 +239,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printHello() {
-        System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET);
-    }
+    public void printHello() { System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET); }
 
     @Override
     public void printQuit(String nickaname) {

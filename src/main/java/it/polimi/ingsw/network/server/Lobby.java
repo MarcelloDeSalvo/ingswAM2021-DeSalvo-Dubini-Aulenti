@@ -93,8 +93,14 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         User currentUser = players.get(senderNick);
 
-        if(!hasPermission(currentUser))
+        if(!Command.canUseCommand(currentUser,command)) {
+            if(currentUser.getStatus()==Status.IN_LOBBY) {
+                UserManager.notifyUsers(players,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You can't use this command in the lobby!").setNickname(senderNick).build());
+            }
             return;
+        }
 
         switch (command) {
             case EXIT_LOBBY:
