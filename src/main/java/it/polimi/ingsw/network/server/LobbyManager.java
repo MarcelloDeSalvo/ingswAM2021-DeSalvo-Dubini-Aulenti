@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.UserManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class LobbyManager implements  ObserverViewIO {
 
     private static final HashMap<String, User> connectedPlayers = new HashMap<>();
@@ -28,8 +29,14 @@ public class LobbyManager implements  ObserverViewIO {
 
         User currentUser = connectedPlayers.get(senderNick);
 
-        if(!hasPermission(currentUser))
+        if(!Command.canUseCommand(currentUser,command)){
+            if(currentUser.getStatus()==Status.IN_LOBBY_MANAGER) {
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You can't use this command in the lobby manager!").setNickname(senderNick).build());
+            }
             return;
+        }
 
 
         switch (command) {
@@ -42,7 +49,7 @@ public class LobbyManager implements  ObserverViewIO {
 
             case HELLO:
                 UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                        new Message.MessageBuilder().setCommand(Command.HELLO).
                                 setInfo("Hello!").setNickname(senderNick).build());
                 break;
 
