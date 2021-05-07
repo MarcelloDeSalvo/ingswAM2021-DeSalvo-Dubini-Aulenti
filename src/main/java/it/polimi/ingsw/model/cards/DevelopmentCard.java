@@ -89,12 +89,12 @@ public class  DevelopmentCard extends Card{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "DevelopmentCard{" +
-                "level=" + level +
-                ", colour=" + colour +
-                ", input=" + input +
-                ", output=" + output +
-                "} " + super.toString() + '\n';
+        return "DevelopmentCard: " +
+                "Level =" + level +
+                ", Colour =" + colour +
+                ", Input =" + input +
+                ", Output =" + output +
+                super.toString() + '\n';
     }
 
     @Override

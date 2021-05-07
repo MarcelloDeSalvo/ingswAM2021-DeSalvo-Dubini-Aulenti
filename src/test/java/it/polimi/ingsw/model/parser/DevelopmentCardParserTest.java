@@ -76,4 +76,11 @@ class DevelopmentCardParserTest {
     void deserializeDevelopmentList() {
         assertThrows(IndexOutOfBoundsException.class, () -> cards.get(48));
     }
+
+    /*@Test
+    void printTest() {
+        for (DevelopmentCard card : cards) {
+            System.out.println(card.toString() + "\n");
+        }
+    }*/
 }

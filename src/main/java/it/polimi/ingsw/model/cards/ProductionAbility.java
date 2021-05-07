@@ -44,12 +44,11 @@ public class ProductionAbility implements Ability {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "ProductionAbility{" +
-                "input=" + input +
-                ", questionMarkOnInput=" + questionMarkOnInput +
-                ", output=" + output +
-                ", questionMarkOnOutput=" + questionMarkOnOutput +
-                '}';
+        return "\nProductionAbility: " +
+                "Input =" + input +
+                ", QuestionMarkOnInput = " + questionMarkOnInput +
+                ", Output = " + output +
+                ", QuestionMarkOnOutput = " + questionMarkOnOutput;
     }
     //------------------------------------------------------------------------------------------------------------------
 

@@ -25,10 +25,9 @@ public class StoreAbility implements Ability {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "StoreAbility{" +
-                "resourceType=" + resourceType +
-                ", maxDim=" + maxDim +
-                '}';
+        return "\nStoreAbility: " +
+                "ResourceType = " + resourceType +
+                ", MaxDim = " + maxDim;
     }
     //------------------------------------------------------------------------------------------------------------------
 

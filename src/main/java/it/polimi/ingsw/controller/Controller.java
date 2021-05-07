@@ -17,8 +17,8 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
-    VirtualView virtualView;
-    Game game;
+    private VirtualView virtualView;
+    private Game game;
 
     public Controller (HashMap<String, User> connectedPlayers){
         this.virtualView = new VirtualView(connectedPlayers);
@@ -90,7 +90,6 @@ public class Controller implements ObserverController {
         ArrayList<String> namesInOrder = game.getPlayerListString();
 
         for (Player player : players) {
-            System.out.println("ciclo");
             virtualView.printHand(player.getHandIDs(), player.getNickname());
             virtualView.printLeaderCardRequest(player.getNickname());
             //while(player.getHand().size() != 2);

@@ -109,8 +109,11 @@
     "requirements" : [
       {
         "type" : "ResourceRequirement",
-        "resourceType" : "GOLD",
-        "qty" : 5
+        "resourceContainer" :
+          {
+            "resourceType" : "GOLD",
+            "qty" : 5
+          }
       }
     ],
     "abilities" : [
@@ -128,8 +131,11 @@
     "requirements" : [
       {
         "type" : "ResourceRequirement",
-        "resourceType" : "STONE",
-        "qty" : 5
+        "resourceContainer" :
+          {
+            "resourceType" : "STONE",
+            "qty" : 5
+          }
       }
     ],
     "abilities" : [
@@ -147,8 +153,11 @@
     "requirements" : [
       {
         "type" : "ResourceRequirement",
-        "resourceType" : "SHIELD",
-        "qty" : 5
+        "resourceContainer" :
+          {
+            "resourceType" : "SHIELD",
+            "qty" : 5
+          }
       }
     ],
     "abilities" : [
@@ -166,8 +175,11 @@
     "requirements" : [
       {
         "type" : "ResourceRequirement",
-        "resourceType" : "MINION",
-        "qty" : 5
+        "resourceContainer" :
+          {
+            "resourceType" : "MINION",
+            "qty" : 5
+          }
       }
     ],
     "abilities" : [

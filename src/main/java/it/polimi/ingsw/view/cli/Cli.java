@@ -82,7 +82,7 @@ public class Cli extends ClientView {
         try {
             switch (userInput.toUpperCase()) {
 
-                //GENERAL-----------------------------------------------------------------------------------------------------
+                //GENERAL-----------------------------------------------------------------------------------------------
                 case "CHAT":
                     sender.send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
                     break;
@@ -101,7 +101,7 @@ public class Cli extends ClientView {
                             setInfo("Hello all!").setNickname(this.getNickname()).build());
                     break;
 
-                //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------------------------------
+                //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
                 case "LOGIN":
                     nicknameTemp = stdIn.next();
                     Message login;
@@ -132,7 +132,7 @@ public class Cli extends ClientView {
                     sender.send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
                     break;
 
-                //LOBBY PHASE-----------------------------------------------------------------------------------------------------------
+                //LOBBY PHASE-------------------------------------------------------------------------------------------
                 case "EXIT_LOBBY":
                     sender.send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
                     break;
@@ -141,7 +141,7 @@ public class Cli extends ClientView {
                     sender.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
                     break;
 
-                //GAME PHASE-----------------------------------------------------------------------------------------------------------
+                //GAME PHASE--------------------------------------------------------------------------------------------
                 case "SEND":
 
                     int qty = stdIn.nextInt();

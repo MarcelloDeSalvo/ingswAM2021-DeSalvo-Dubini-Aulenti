@@ -91,15 +91,6 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
     @Override
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
-        /*
-        StringBuilder idsBuild = new StringBuilder();
-        idsBuild.append("These are your Leader Cards: \n");
-        for (Integer id : leaderIDs){
-            idsBuild.append(id).append(", ");
-        }
-
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_HAND).setInfo(idsBuild.toString()).setNickname(nickname).build()); */
-
         notifyUsers(new ShowHandMessage(leaderIDs, nickname));
     }
 
@@ -122,7 +113,7 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     public void printLeaderCardRequest(String nickname) {
         UserManager.notifyUsers(connectedPlayers,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
-                        .setInfo("Please select 2 Leader Card to discard by typing 'DISCARD_LEADER position'").setNickname(nickname).build());
+                        .setInfo("Please select 2 Leader Card to discard by typing 'DISCARD_LEADER id'").setNickname(nickname).build());
     }
 
     //------------------------------------------------------------------------------------------------------------------

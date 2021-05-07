@@ -20,4 +20,15 @@ class LeaderCardParserTest {
         assertEquals(cards.get(8).getVictoryPoints(), 4);
         assertEquals(cards.get(12).getVictoryPoints(), 5);
     }
+
+    /*
+    @Test
+    void printTest() throws FileNotFoundException {
+        ArrayList<LeaderCard> cards;
+        cards = LeaderCardParser.deserializeLeaderList();
+
+        for (LeaderCard card : cards) {
+            System.out.println(card.toString() + "\n");
+        }
+    }*/
 }

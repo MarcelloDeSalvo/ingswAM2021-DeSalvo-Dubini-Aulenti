@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -132,11 +133,18 @@ abstract class Card {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return  "ID: " + id +
-                ", victoryPoints=" + victoryPoints +
-                ", status=" + status +
-                ", requirements=" + requirements +
-                ", price=" + price ;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("(ID: ").append(id).append(") \n");
+        stringBuilder.append("VictoryPoints: ").append(victoryPoints);
+
+        if(status != null)
+            stringBuilder.append(", Status: ").append(status);
+        if(requirements != null)
+            stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nRequirements: ").append(Color.ANSI_RESET.escape()).append(requirements);
+        if(price != null)
+            stringBuilder.append("Price:\n").append(price).append(".");
+
+        return stringBuilder.toString();
     }
 
     @Override

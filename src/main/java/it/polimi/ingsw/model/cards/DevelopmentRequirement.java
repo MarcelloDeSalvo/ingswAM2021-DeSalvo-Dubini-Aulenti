@@ -58,11 +58,16 @@ public class DevelopmentRequirement implements Requirement {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "DevelopmentRequirement{" +
-                "number=" + number +
-                ", colour=" + colour +
-                ", level=" + level +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\nDevelopmentRequirement: ");
+
+        if(number != 0)
+            stringBuilder.append("Number = ").append(number).append(", ");
+        stringBuilder.append("Colour = ").append(colour);
+        if(level != 0)
+            stringBuilder.append(", Level = ").append(level).append(".");
+
+        return stringBuilder.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

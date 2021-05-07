@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
@@ -91,9 +92,14 @@ public class LeaderCard extends Card{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "LeaderCard[" + super.toString() +
-                "abilities=" + abilities +
-                "] " ;
+        return Color.ANSI_BLUE.escape() +
+                "\nLeaderCard " +
+                Color.ANSI_RESET.escape() +
+                super.toString() +
+                Color.ANSI_CYAN.escape() +
+                "\nAbilities: " +
+                Color.ANSI_RESET.escape() +
+                abilities;
     }
     //------------------------------------------------------------------------------------------------------------------
 

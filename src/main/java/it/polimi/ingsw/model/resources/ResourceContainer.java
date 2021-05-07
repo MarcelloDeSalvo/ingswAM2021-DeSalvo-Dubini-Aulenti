@@ -170,10 +170,8 @@ public class ResourceContainer implements ObservableFaithPath {
 
     @Override
     public String toString() {
-        return "ResourceContainer{" +
-                "resourceType=" + resourceType +
-                ", qty=" + qty +
-                '}';
+        return "ResourceType = " + resourceType +
+                ", Qty = " + qty ;
     }
     //------------------------------------------------------------------------------------------------------------------
 
