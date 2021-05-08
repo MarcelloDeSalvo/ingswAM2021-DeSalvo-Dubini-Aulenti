@@ -69,7 +69,6 @@ public class Controller implements ObserverController {
 
                 addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
 
-                System.out.println("Arrivato: " + sendContainer1);
                 break;
 
             case SEND_CONTAINER:
@@ -103,11 +102,14 @@ public class Controller implements ObserverController {
                 break;
 
             default:
-                System.out.println("Invalid command, siamo in controller update");
+                System.out.println("Invalid command, we are in controller update");
                 break;
         }
     }
 
+    /**
+     * Checks if nick is the current player
+     */
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
             virtualView.printReply_uni("Not the current Player", nick);
@@ -116,6 +118,9 @@ public class Controller implements ObserverController {
         return true;
     }
 
+    /**
+     * Check if every player in game has already discarded 2 LeaderCards
+     */
     public boolean checkIfAllLeadersHaveBeenDiscarded() {
         for (Player player : game.getPlayerList()) {
             if(!player.isLeadersHaveBeenDiscarded())
@@ -124,7 +129,11 @@ public class Controller implements ObserverController {
         return true;
     }
 
+    /**
+     * Method used for sending messages about the gameSetUpPhase to every player
+     */
     private void askForResources() {
+
         for (Player player : game.getPlayerList()) {
 
             switch (player.getOrderID()) {
@@ -140,7 +149,6 @@ public class Controller implements ObserverController {
                 case 2:
                     virtualView.askForResources(player.getNickname(), 1);
                     virtualView.notifyFaithPathProgression(player.getNickname(), 1);
-                    //game.addFaithPoints();
                     break;
 
                 case 3:
@@ -154,8 +162,6 @@ public class Controller implements ObserverController {
 
     public void addSetUpContainerToPlayer(int currPlayerNum, ResourceContainer container, int depositSlotID, String currNickname) {
         Player currPlayer = game.getPlayer(currPlayerNum);
-
-        System.out.println("Sono in addSetUpContainer: "+ container.getResourceType() + container.getQty() + " Deposit slot: " + depositSlotID);
 
         switch (currPlayerNum) {
             case 0:
@@ -184,14 +190,12 @@ public class Controller implements ObserverController {
         }
 
         for (Player player : game.getPlayerList()) {
-
-            System.out.println(player.isReady());
-
             if(!player.isReady())
                 return;
         }
 
-        startGame();
+        if(!game.isGameStarted())
+            startGame();
     }
 
 
@@ -214,7 +218,6 @@ public class Controller implements ObserverController {
     private void startGame() {
         game.startGame();
 
-        System.out.println("in start game");
         virtualView.printReply("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN");
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }

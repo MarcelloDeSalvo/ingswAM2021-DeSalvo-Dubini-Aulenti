@@ -60,7 +60,7 @@ public class Cli extends ClientView {
                 break;
 
             case CHAT_ALL:
-                System.out.print(Color.ANSI_MAGENTA.escape() + deserializedMex.getSenderNickname() + " in ALL chat:" + Color.RESET);
+                System.out.print(Color.ANSI_PURPLE.escape() + deserializedMex.getSenderNickname() + " in ALL chat:" + Color.RESET);
                 printReply(deserializedMex.getInfo());
                 break;
 
