@@ -22,6 +22,7 @@ public enum Command {
 
     DISCARD_LEADER  (false,false,true,Status.IN_GAME),
     SEND_CONTAINER  (false,false,true,Status.IN_GAME),
+    SETUP_CONTAINER (false, false, true, Status.IN_GAME),
 
     SHOW_HAND       (false,false,true,null);
 

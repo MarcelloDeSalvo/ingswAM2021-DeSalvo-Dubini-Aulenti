@@ -60,11 +60,15 @@ public class Controller implements ObserverController {
 
         switch (command){
 
+            case SETUP_CONTAINER:
+                SendContainer sendContainer1 =  gson.fromJson(mex, SendContainer.class);
+                System.out.println("Arrivato: " + sendContainer1);
+                break;
+
             case SEND_CONTAINER:
                 SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
                 System.out.println("Arrivato: " + sendContainer);
                 break;
-
 
             case DISCARD_LEADER:
                 DiscardLeaderMessage discardLeaderMessage = gson.fromJson(mex, DiscardLeaderMessage.class);

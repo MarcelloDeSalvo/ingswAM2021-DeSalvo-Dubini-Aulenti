@@ -17,8 +17,9 @@ import java.util.Scanner;
 
 public class Cli extends ClientView {
     private ClientSender sender;
-    private ArrayList<LeaderCard> leaderCards;
+    private final ArrayList<LeaderCard> leaderCards;
     private String nicknameTemp = null;
+
 
     public Cli() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
@@ -32,9 +33,6 @@ public class Cli extends ClientView {
         Command command = deserializedMex.getCommand();
 
         switch (command){
-            case QUIT:
-                printReply(deserializedMex.getInfo());
-                break;
 
             case LOGIN:
                 printReply(deserializedMex.getInfo());
@@ -58,7 +56,6 @@ public class Cli extends ClientView {
             case REPLY:
                 printReply(deserializedMex.getInfo());
                 break;
-
 
             case CHAT_ALL:
                 System.out.print(Color.ANSI_MAGENTA.escape() + deserializedMex.getSenderNickname() + " in ALL chat:" + Color.RESET);
@@ -142,28 +139,17 @@ public class Cli extends ClientView {
                     break;
 
                 //GAME PHASE--------------------------------------------------------------------------------------------
-                case "SEND":
+                case "SELECT":
+                    if (!set_up_Container(stdIn))
+                        default_case();
 
-                    int qty = stdIn.nextInt();
-                    if (!positive_not_zero(qty)) break;
+                    break;
 
-                    String resourceType = stdIn.next();
 
-                    //String from = stdIn.next();
-                    //if (from(from)) break;
+                case "GIVE":
+                    if (!giveContainer(stdIn))
+                        default_case();
 
-                    String destination = stdIn.next();
-                    if (!vault_or_deposit(destination)) break;
-
-                    int destinationID = stdIn.nextInt();
-                    if (!positive_not_zero(destinationID)) break;
-
-                    ResourceContainer container = new ResourceContainer(resourceType_validation(resourceType), qty);
-
-                    SendContainer sendContainer = new SendContainer(container, destination, destinationID, this.getNickname());
-                    System.out.println(sendContainer);
-
-                    sender.send(sendContainer);
                     break;
 
                 case "DISCARD_LEADER":
@@ -184,53 +170,67 @@ public class Cli extends ClientView {
 
     }
 
+    /**
+     * Validates the input when the player has to choose a free resourceType during the game setup Phase
+     */
+    private boolean set_up_Container(Scanner stdIn){
+        SendContainer sendContainer;
+
+        ResourceType resType = InputCheck.resourceType_null(stdIn.next());
+        if (resType == null) return false;
+
+        String destination = stdIn.next();
+        if(InputCheck.not_deposit(destination)) return false;
+
+        int destinationID = stdIn.nextInt();
+
+        ResourceContainer container = new ResourceContainer(resType, 1);
+        sendContainer = new SendContainer(Command.SETUP_CONTAINER, container, destination, destinationID, this.getNickname());
+
+        //System.out.println(sendContainer);
+        sender.send(sendContainer);
+
+        return true;
+    }
+
+    /**
+     * Validates the input when the player has to choose a ResourceContainer in order to Produce or Buy
+     */
+    private boolean giveContainer(Scanner stdIn){
+        SendContainer sendContainer;
+
+        int qty = stdIn.nextInt();
+
+        ResourceType resType = InputCheck.resourceType_null(stdIn.next());
+        if (resType == null) return false;
+
+        String from = stdIn.next();
+        if (InputCheck.not_from(from)) return false;
+
+        String destination = stdIn.next();
+        if (InputCheck.not_vault_or_deposit(destination)) return false;
+
+        if(destination.equals("DEPOSIT")){
+            int destinationID = stdIn.nextInt();
+
+            ResourceContainer container = new ResourceContainer(resType, qty);
+            sendContainer = new SendContainer(Command.SEND_CONTAINER, container, destination, destinationID, this.getNickname());
+
+        }else{ //VAULT
+            ResourceContainer container = new ResourceContainer(resType, qty);
+            sendContainer = new SendContainer(container, destination, this.getNickname());
+
+        }
+
+        //System.out.println(sendContainer);
+        sender.send(sendContainer);
+        return true;
+    }
+
+
     private void default_case(){
         System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
     }
-
-    //INPUT CHECK-------------------------------------------------------------------------------------------------------
-    private boolean positive_not_zero(int x){
-        if(x<1){
-            System.out.println("Please insert a non negative number \n");
-            default_case();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean vault_or_deposit(String x){
-        if(x.toUpperCase().equals("DEPOSIT") || x.toUpperCase().equals("VAULT")){
-            return true;
-        }
-
-        default_case();
-        return false;
-
-    }
-
-    private boolean from(String x){
-        if(x.toUpperCase().equals("FROM")){
-            default_case();
-            return false;
-        }
-
-        return true;
-    }
-
-    private ResourceType resourceType_validation(String x){
-
-        ResourceType resourceType;
-
-        try {
-            resourceType = ResourceType.valueOf(x.toUpperCase());
-        }catch (IllegalArgumentException e){
-            default_case();
-            return null;
-        }
-
-        return resourceType;
-    }
-    //------------------------------------------------------------------------------------------------------------------
 
     //PRINTS OF THE VIEW -----------------------------------------------------------------------------------------------
     @Override

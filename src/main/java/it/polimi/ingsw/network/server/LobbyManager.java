@@ -46,7 +46,7 @@ public class LobbyManager implements  ObserverViewIO {
         switch (command) {
             case QUIT:
                 UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.QUIT).
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("Bye!").setNickname(senderNick).build());
                 currentUser.killThreads();
                 UserManager.removePlayer(connectedPlayers, senderNick);

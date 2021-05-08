@@ -10,12 +10,17 @@ public class SendContainer extends Message{
     String destination; //Vault or Deposit
     int destinationID;
 
-
-    public SendContainer(ResourceContainer container, String destination, int destinationID, String senderNickname) {
+    public SendContainer(Command command, ResourceContainer container, String destination, int destinationID, String senderNickname) {
         super( new MessageBuilder().setCommand(Command.SEND_CONTAINER).setNickname(senderNickname));
         this.container = container;
         this.destination = destination;
         this.destinationID = destinationID;
+    }
+
+    public SendContainer(ResourceContainer container, String destination, String senderNickname) {
+        super( new MessageBuilder().setCommand(Command.SEND_CONTAINER).setNickname(senderNickname));
+        this.container = container;
+        this.destination = destination;
     }
 
     public ResourceContainer getContainer() {
