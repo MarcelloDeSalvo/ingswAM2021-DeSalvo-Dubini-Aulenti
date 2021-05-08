@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.BufferedReader;

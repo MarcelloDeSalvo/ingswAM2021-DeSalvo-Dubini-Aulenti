@@ -5,25 +5,43 @@ import it.polimi.ingsw.network.server.User;
 
 public enum Command {
 
-    QUIT            (true,true,true,Status.IN_LOBBY_MANAGER),
-    HELLO           (true,false,false,Status.IN_LOBBY_MANAGER),
-    HELLO_ALL       (true,false,false,Status.IN_LOBBY_MANAGER),
+    QUIT            (true,true,true, Status.IN_LOBBY_MANAGER),
+    HELLO           (true,false,false, Status.IN_LOBBY_MANAGER),
+    HELLO_ALL       (true,false,false, Status.IN_LOBBY_MANAGER),
     REPLY           (true,true,true,null),
-    CHAT            (true,true,true,Status.IN_LOBBY_MANAGER),
-    CHAT_ALL        (true,true,false,Status.IN_LOBBY_MANAGER),
+    CHAT            (true,true,true, Status.IN_LOBBY_MANAGER),
+    CHAT_ALL        (true,true,false, Status.IN_LOBBY_MANAGER),
 
     LOGIN           (false,false,false,null),
-    CREATE_LOBBY    (true,false,false,Status.IN_LOBBY_MANAGER),
-    JOIN_LOBBY      (true,false,false,Status.IN_LOBBY_MANAGER),
-    LOBBY_LIST      (true,false,false,Status.IN_LOBBY_MANAGER),
+    CREATE_LOBBY    (true,false,false, Status.IN_LOBBY_MANAGER),
+    JOIN_LOBBY      (true,false,false, Status.IN_LOBBY_MANAGER),
+    LOBBY_LIST      (true,false,false, Status.IN_LOBBY_MANAGER),
 
-    EXIT_LOBBY      (false,true,false,Status.IN_LOBBY),
-    START_GAME      (false,true,false,Status.IN_LOBBY),
+    EXIT_LOBBY      (false,true,false, Status.IN_LOBBY),
+    START_GAME      (false,true,false, Status.IN_LOBBY),
 
-    DISCARD_LEADER  (false,false,true,Status.IN_GAME),
+    DISCARD_LEADER  (false,false,true, Status.IN_GAME),
+    ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
+    BUY             (false, false, true, Status.IN_GAME),
+    PRODUCE         (false, false, true, Status.IN_GAME),
+    FILL_QM         (false, false, true, Status.IN_GAME),
+    PICK_FROM_MARKET(false, false,true, Status.IN_GAME ),
+    MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),
     SEND_CONTAINER  (false,false,true,Status.IN_GAME),
     SETUP_CONTAINER (false, false, true, Status.IN_GAME),
+    CONVERSION      (false, false, true, Status.IN_GAME),
+    END_TURN        (false, false, true, Status.IN_GAME),
 
+    SHOW_CARDGRID   (false, false, true, Status.IN_GAME),
+    SHOW_FAITHPATH  (false, false, true, Status.IN_GAME),
+    SHOW_MYBOARD    (false, false, true, Status.IN_GAME),
+    SHOW_PLAYER     (false, false, true, Status.IN_GAME),
+    SHOW_DEPOSIT    (false, false, true, Status.IN_GAME),
+    SHOW_VAULT      (false, false, true, Status.IN_GAME),
+    SHOW_PRODUCTION (false, false, true, Status.IN_GAME),
+    SHOW_MAKET      (false, false, true, Status.IN_GAME),
+    SHOW_POINTS     (false, false, true, Status.IN_GAME),
+    SHOW_ORDER      (false, false, true, Status.IN_GAME),
     SHOW_HAND       (false,false,true,null);
 
 

@@ -112,15 +112,20 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
     }
 
+    @Override
     public void printOrder(ArrayList<String> randomOrder) {
         StringBuilder orderBuild = new StringBuilder();
         orderBuild.append("This is the Turn Order \n");
         for (int i = 0; i<randomOrder.size(); i++){
             orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
         }
-
         Message orderMex = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(orderBuild.toString()).setTarget(Target.BROADCAST).build();
         notifyUsers(orderMex);
+    }
+
+    @Override
+    public void printDeposit(String depositInfo) {
+
     }
 
     public void printLeaderCardRequest(String nickname) {

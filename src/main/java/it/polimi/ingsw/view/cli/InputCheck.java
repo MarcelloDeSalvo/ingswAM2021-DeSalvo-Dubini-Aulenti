@@ -24,6 +24,10 @@ public class InputCheck {
         return !x.toUpperCase().equals("FROM");
     }
 
+    public static boolean not_to(String x){
+        return !x.toUpperCase().equals("TO");
+    }
+
     public static ResourceType resourceType_null(String x){
         ResourceType resourceType;
 

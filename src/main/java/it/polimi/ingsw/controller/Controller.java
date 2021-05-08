@@ -80,7 +80,7 @@ public class Controller implements ObserverController {
                 break;
 
             case DISCARD_LEADER:
-                DiscardLeaderMessage discardLeaderMessage = gson.fromJson(mex, DiscardLeaderMessage.class);
+                LeaderIdMessage leaderIdMessage = gson.fromJson(mex, LeaderIdMessage.class);
 
                 /*if(!isTheCurrentPlayer(senderNick))
                     return;     useful if we decide to setup with turns instead of in parallel*/
@@ -93,7 +93,7 @@ public class Controller implements ObserverController {
                     return;
                 }
 
-                if (!game.getPlayer(playerNumber).discardFromHand(discardLeaderMessage.getLeaderID())) {
+                if (!game.getPlayer(playerNumber).discardFromHand(leaderIdMessage.getLeaderID())) {
                     virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").setNickname(senderNick).build());
                     return;
                 }
@@ -105,6 +105,9 @@ public class Controller implements ObserverController {
 
                 break;
 
+            case SHOW_DEPOSIT:
+                virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setInfo(game.getPlayer(game.getCurrentPlayer()).getPlayerBoard().getDeposit().toString()).setNickname(senderNick).build());
+                break;
 
             default:
                 System.out.println("Invalid command, siamo in controller update");

@@ -8,4 +8,7 @@ public interface ObserverModel {
     void printHand(ArrayList<Integer> leaderIDs, String nickname);
     void printReply(String payload);
     void printLobby(ArrayList<String> lobbiesInfos);
+    void printOrder(ArrayList<String> randomOrder);
+    void printDeposit(String depositInfo);
+
 }

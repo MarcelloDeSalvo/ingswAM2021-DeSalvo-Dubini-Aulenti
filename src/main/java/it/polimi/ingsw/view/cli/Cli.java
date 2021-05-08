@@ -19,10 +19,11 @@ public class Cli extends ClientView {
     private ClientSender sender;
     private final ArrayList<LeaderCard> leaderCards;
     private String nicknameTemp = null;
-
+    private final Scanner stdIn;
 
     public Cli() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
+        stdIn = new Scanner(System.in);
     }
 
     @Override
@@ -31,6 +32,7 @@ public class Cli extends ClientView {
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();
+        System.out.println();
 
         switch (command){
 
@@ -74,8 +76,9 @@ public class Cli extends ClientView {
     @Override
     public boolean readInput() {
         String userInput;
-        Scanner stdIn = new Scanner(System.in);
+
         userInput = stdIn.next();
+
         try {
             switch (userInput.toUpperCase()) {
 
@@ -103,11 +106,11 @@ public class Cli extends ClientView {
                     nicknameTemp = stdIn.next();
                     Message login;
 
-                    if (this.getNickname() != null){
-                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(this.getNickname()).build();
-                    }else{
-                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
-                    }
+                    if (this.getNickname() != null)
+                        login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(this.getNickname()).build();
+                    else
+                        login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
+
 
                     sender.send(login);
                     break;
@@ -145,15 +148,66 @@ public class Cli extends ClientView {
 
                     break;
 
-
                 case "GIVE":
                     if (!giveContainer(stdIn))
                         default_case();
 
                     break;
 
-                case "DISCARD_LEADER":
-                    sender.send(new DiscardLeaderMessage(stdIn.nextInt(), this.getNickname()));
+                case "BUY":
+                    BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
+                    sender.send(buyMessage);
+                    break;
+
+                case "PRODUCE":
+                    ProduceMessage produceMessage = new ProduceMessage(stdIn.nextInt(), this.getNickname());
+                    sender.send(produceMessage);
+                    break;
+
+                case "FILL":
+                    ResourceType questionMarkType = InputCheck.resourceType_null(stdIn.next());
+                    if (questionMarkType == null) return false;
+
+                    ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, questionMarkType, this.getNickname());
+                    sender.send(resourceTypeSend);
+                    break;
+
+                case "MARKET":
+                    MarketMessage marketMessage = new MarketMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
+                    sender.send(marketMessage);
+                    break;
+
+                case "CONVERSION":
+                    ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
+                    if (conversionType == null) return false;
+
+                    ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, conversionType, this.getNickname());
+                    sender.send(convTypeSend);
+                    break;
+
+                case "DISCARD":
+                    sender.send(new LeaderIdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
+                    break;
+
+                case "ACTIVATE":
+                    sender.send(new LeaderIdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
+                    break;
+
+                case "MOVE":
+                    int qty = stdIn.nextInt();
+                    int sourceId =stdIn.nextInt();
+                    String to = stdIn.next();
+                    if (InputCheck.not_to(to)){
+                        default_case();
+                        break;
+                    }
+                    int destId = stdIn.nextInt();
+
+                    sender.send(new ManageDepositMessage(qty,sourceId, destId, this.getNickname()));
+                    break;
+
+                case "SHOW_DEPOSIT":
+                    sender.send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
                     break;
 
                 case "QUIT":
@@ -163,11 +217,12 @@ public class Cli extends ClientView {
                 default:
                     default_case();
             }
-        }catch (InputMismatchException e){
-             System.out.println("The command you submitted isn't valid, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands");
-        }
-        return true;
 
+        }catch (InputMismatchException e){
+            System.out.println("The command you submitted isn't valid, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands");
+        }
+
+        return true;
     }
 
     /**
@@ -261,7 +316,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
-        System.out.println("\n"+Color.ANSI_BLUE.escape()+"[LOBBIES]:"+Color.RESET);
+        System.out.println(Color.ANSI_BLUE.escape()+"[LOBBIES]:"+Color.RESET);
 
         if (lobbiesInfos.isEmpty()){
             System.out.println("There are currently 0 active lobbies"+"\n");
@@ -272,5 +327,15 @@ public class Cli extends ClientView {
             System.out.println(info);
         }
         System.out.println();
+    }
+
+    @Override
+    public void printOrder(ArrayList<String> randomOrder) {
+
+    }
+
+    @Override
+    public void printDeposit(String depositInfo) {
+
     }
 }

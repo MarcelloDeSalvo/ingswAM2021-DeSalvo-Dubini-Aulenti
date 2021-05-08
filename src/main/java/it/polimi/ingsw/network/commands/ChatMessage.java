@@ -9,7 +9,8 @@ public class ChatMessage extends Message {
         super(new MessageBuilder().setCommand(Command.CHAT).setNickname(senderNickname).setInfo(message));
         this.receiver=receiver;
     }
-//Costructor for CHAT_ALL, i ignore the receiver field
+
+    //Costructor for CHAT_ALL, i ignore the receiver field
     public ChatMessage(String message, String senderNickname) {
         super(new MessageBuilder().setCommand(Command.CHAT_ALL).setNickname(senderNickname).setInfo(message));
         this.receiver="Everyone";

@@ -47,4 +47,14 @@ public class Gui extends ClientView {
     public void printLobby(ArrayList<String> lobbiesInfos) {
 
     }
+
+    @Override
+    public void printOrder(ArrayList<String> randomOrder) {
+
+    }
+
+    @Override
+    public void printDeposit(String depositInfo) {
+
+    }
 }
