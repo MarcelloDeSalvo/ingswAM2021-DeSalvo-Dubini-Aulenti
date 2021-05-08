@@ -11,7 +11,6 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.VirtualView;
-import it.polimi.ingsw.view.cli.Color;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
-    private VirtualView virtualView;
+    private final VirtualView virtualView;
     private Game game;
 
     public Controller (HashMap<String, User> connectedPlayers){
@@ -47,8 +46,7 @@ public class Controller implements ObserverController {
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
-            virtualView.notifyUsers(
-                    new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Cannot read the configuration file of the game").build());
+            virtualView.printReply("Cannot read the configuration file of the game");
         }
     }
 
@@ -82,23 +80,18 @@ public class Controller implements ObserverController {
             case DISCARD_LEADER:
                 LeaderIdMessage leaderIdMessage = gson.fromJson(mex, LeaderIdMessage.class);
 
-                /*if(!isTheCurrentPlayer(senderNick))
-                    return;     useful if we decide to setup with turns instead of in parallel*/
-
-                int currP = game.getCurrentPlayer();
-
                 if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
-                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so")
-                            .setNickname(senderNick).build());
+                    virtualView.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
                     return;
                 }
 
                 if (!game.getPlayer(playerNumber).discardFromHand(leaderIdMessage.getLeaderID())) {
-                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Wrong Leader ID").setNickname(senderNick).build());
+                    virtualView.printReply_uni("Wrong Leader ID", senderNick);
                     return;
                 }
 
-                virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("The leader has been discarded correctly!").setNickname(senderNick).build());
+                virtualView.printReply_uni("Wrong Leader ID", senderNick);
+
 
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
                     askForResources();
@@ -106,7 +99,7 @@ public class Controller implements ObserverController {
                 break;
 
             case SHOW_DEPOSIT:
-                virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setInfo(game.getPlayer(game.getCurrentPlayer()).getPlayerBoard().getDeposit().toString()).setNickname(senderNick).build());
+                virtualView.printReply_uni(game.getPlayer(playerNumber).getPlayerBoard().getDeposit().toString(), senderNick);
                 break;
 
             default:
@@ -117,7 +110,7 @@ public class Controller implements ObserverController {
 
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
-            virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Not the current Player").build());
+            virtualView.printReply_uni("Not the current Player", nick);
             return false;
         }
         return true;
@@ -137,8 +130,7 @@ public class Controller implements ObserverController {
             switch (player.getOrderID()) {
                 case 0:
                     player.setReady(true);
-                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                            .setInfo("Please wait for the other players to select their bonus resources").setNickname(player.getNickname()).build());
+                    virtualView.printReply_uni("Please wait for the other players to select their bonus resources",player.getNickname());
                     break;
 
                 case 1:
@@ -167,14 +159,12 @@ public class Controller implements ObserverController {
 
         switch (currPlayerNum) {
             case 0:
-                virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                        .setInfo("You are the first player so you cannot select a bonus resource!").setNickname(currNickname).build());
+                virtualView.printReply_uni("You are the first player so you cannot select a bonus resource!", currNickname);
                 break;
 
             case 3:
                 if(currPlayer.getSelectedResources() == 2) {
-                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                            .setInfo("You already selected your bonus resources! Please wait for the other players to do so").setNickname(currNickname).build());
+                    virtualView.printReply_uni("You already selected your bonus resources! Please wait for the other players to do so", currNickname);
                     break;
                 }
 
@@ -184,8 +174,7 @@ public class Controller implements ObserverController {
 
             default:
                 if(currPlayer.getSelectedResources() == 1) {
-                    virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                            .setInfo("You already selected your bonus resource! Please wait for the other players to do so").setNickname(currNickname).build());
+                    virtualView.printReply_uni("You already selected your bonus resource! Please wait for the other players to do so", currNickname);
                     break;
                 }
 
@@ -212,18 +201,12 @@ public class Controller implements ObserverController {
             game.getPlayer(currPlayer).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
 
             game.getPlayer(currPlayer).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
-
-            virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                    .setInfo(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID)
-                        .setNickname(currNickname).build());
-
+            virtualView.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID, currNickname);
             return true;
 
         } catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException exception) {
 
-            virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                    .setInfo(exception.getMessage()).setNickname(currNickname).build());
-
+            virtualView.printReply_uni(exception.getMessage(), currNickname);
             return false;
         }
     }
@@ -232,10 +215,7 @@ public class Controller implements ObserverController {
         game.startGame();
 
         System.out.println("in start game");
-
-        virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                .setInfo("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN").setTarget(Target.BROADCAST).build());
-
+        virtualView.printReply("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN");
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }
 

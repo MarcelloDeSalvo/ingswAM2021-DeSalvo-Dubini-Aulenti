@@ -16,7 +16,7 @@ import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class VirtualView implements View, ObserverViewIO, ObservableController, ObserverModel {
+public class VirtualView implements View, ObserverViewIO, ObservableController {
 
     HashMap<String, User> connectedPlayers;
     ArrayList<ObserverController> observerControllers;
@@ -85,6 +85,22 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
 
     //OBSERVER MODEL-------(VV OBSERVES THE MODEL)----------------------------------------------------------------------
+    public void printReply_everyOneElse(String payload, String nickname) {
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(payload).setNickname(nickname).setTarget(Target.EVERYONE_ELSE).build());
+    }
+
+    public void printReply_uni(String payload, String nickname) {
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(payload).setNickname(nickname).build());
+    }
+
+    @Override
+    public void printReply(String payload) {
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(payload).setTarget(Target.BROADCAST).build());
+    }
+
     @Override
     public void printHello() {
         UserManager.notifyUsers(connectedPlayers,
@@ -95,11 +111,6 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
     public void printQuit(String nickname) {
         UserManager.notifyUsers(connectedPlayers,
                 new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").setNickname(nickname).build());
-    }
-
-    @Override
-    public void printReply(String payload) {
-
     }
 
     @Override
@@ -128,18 +139,21 @@ public class VirtualView implements View, ObserverViewIO, ObservableController, 
 
     }
 
+    @Override
     public void printLeaderCardRequest(String nickname) {
         UserManager.notifyUsers(connectedPlayers,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
-                        .setInfo("Please select 2 Leader Cards to discard by typing 'DISCARD_LEADER id'").setNickname(nickname).build());
+                        .setInfo("Please select 2 Leader Cards to discard by typing 'DISCARD id'").setNickname(nickname).build());
     }
 
+    @Override
     public void askForResources(String nickname, int qty) {
             notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
     }
 
+    @Override
     public void notifyFaithPathProgression(String nickname, int qty) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
                 .setInfo("Your current position has been incremented of " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())

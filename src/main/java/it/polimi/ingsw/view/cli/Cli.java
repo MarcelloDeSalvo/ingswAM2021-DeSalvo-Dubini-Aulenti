@@ -338,4 +338,20 @@ public class Cli extends ClientView {
     public void printDeposit(String depositInfo) {
 
     }
+
+    @Override
+    public void askForResources(String nickname, int qty) {
+
+    }
+
+    @Override
+    public void notifyFaithPathProgression(String nickname, int qty) {
+
+    }
+
+    @Override
+    public void printLeaderCardRequest(String nickname) {
+
+    }
+
 }

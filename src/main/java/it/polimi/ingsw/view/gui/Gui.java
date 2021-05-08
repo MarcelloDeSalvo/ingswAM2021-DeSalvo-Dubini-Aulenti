@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.ClientView;
 
 import java.util.ArrayList;
@@ -55,6 +56,21 @@ public class Gui extends ClientView {
 
     @Override
     public void printDeposit(String depositInfo) {
+
+    }
+
+    @Override
+    public void askForResources(String nickname, int qty) {
+
+    }
+
+    @Override
+    public void notifyFaithPathProgression(String nickname, int qty) {
+
+    }
+
+    @Override
+    public void printLeaderCardRequest(String nickname) {
 
     }
 }
