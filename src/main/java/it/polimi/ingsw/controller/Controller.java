@@ -112,6 +112,9 @@ public class Controller implements ObserverController {
         }
     }
 
+    /**
+     * Checks if nick is the current player
+     */
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
             virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Not the current Player").build());
@@ -120,6 +123,9 @@ public class Controller implements ObserverController {
         return true;
     }
 
+    /**
+     * Check if every player in game has already discarded 2 LeaderCards
+     */
     public boolean checkIfAllLeadersHaveBeenDiscarded() {
         for (Player player : game.getPlayerList()) {
             if(!player.isLeadersHaveBeenDiscarded())
@@ -128,7 +134,11 @@ public class Controller implements ObserverController {
         return true;
     }
 
+    /**
+     * Method used for sending messages about the gameSetUpPhase to every player
+     */
     private void askForResources() {
+
         for (Player player : game.getPlayerList()) {
 
             switch (player.getOrderID()) {
@@ -145,7 +155,6 @@ public class Controller implements ObserverController {
                 case 2:
                     virtualView.askForResources(player.getNickname(), 1);
                     virtualView.notifyFaithPathProgression(player.getNickname(), 1);
-                    //game.addFaithPoints();
                     break;
 
                 case 3:
