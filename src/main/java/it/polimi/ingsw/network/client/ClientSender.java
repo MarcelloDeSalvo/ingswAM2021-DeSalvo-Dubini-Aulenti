@@ -1,13 +1,13 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ClientSender extends Thread {
+public class ClientSender extends Thread implements ObserverController {
     private Socket serverSocket;
     private PrintWriter out;
     private ClientView view;
@@ -34,10 +34,9 @@ public class ClientSender extends Thread {
         }
     }
 
-    //passa al server il comando
-    public void send(Message mex){
-        String stringToSend = mex.serialize();
-        out.println(stringToSend);
+    @Override
+    public void update(String mex) {
+        out.println(mex);
         out.flush();
     }
 

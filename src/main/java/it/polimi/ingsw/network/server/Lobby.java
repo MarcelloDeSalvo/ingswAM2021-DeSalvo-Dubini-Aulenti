@@ -148,7 +148,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         for (String name: players.keySet()) {
             players.get(name).setStatus(Status.IN_GAME);
-            players.get(name).addLobbyOrView(controller.getVirtualView());
+            players.get(name).addLobbyOrView(controller.getView());
         }
 
         isClosed = true;

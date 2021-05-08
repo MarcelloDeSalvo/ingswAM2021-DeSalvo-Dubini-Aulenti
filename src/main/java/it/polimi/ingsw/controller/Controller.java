@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.ObserverController;
+import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
@@ -18,12 +19,12 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
-    private final VirtualView virtualView;
+    private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
 
     public Controller (HashMap<String, User> connectedPlayers){
-        this.virtualView = new VirtualView(connectedPlayers);
-        virtualView.addObserverController(this);
+        this.view = new VirtualView(connectedPlayers);
+        view.addObserverController(this);
 
         ArrayList<String> playersNicknames = new ArrayList<>(connectedPlayers.keySet());
         int numOfPlayers = playersNicknames.size();
@@ -31,22 +32,22 @@ public class Controller implements ObserverController {
         try {
             if(numOfPlayers > 1) {
                 game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
-                virtualView.printOrder(playersNicknames);
+                view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
-                    virtualView.printHand(player.getHandIDs(), player.getNickname());
-                    virtualView.printLeaderCardRequest(player.getNickname());
+                    view.printHand(player.getHandIDs(), player.getNickname());
+                    view.printLeaderCardRequest(player.getNickname());
                 }
             }
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
-                virtualView.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
-                virtualView.printLeaderCardRequest(game.getPlayer(0).getNickname());
+                view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
+                view.printLeaderCardRequest(game.getPlayer(0).getNickname());
             }
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
-            virtualView.printReply("Cannot read the configuration file of the game");
+            view.printReply("Cannot read the configuration file of the game");
         }
     }
 
@@ -80,16 +81,16 @@ public class Controller implements ObserverController {
                 LeaderIdMessage leaderIdMessage = gson.fromJson(mex, LeaderIdMessage.class);
 
                 if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
-                    virtualView.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
+                    view.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
                     return;
                 }
 
                 if (!game.getPlayer(playerNumber).discardFromHand(leaderIdMessage.getLeaderID())) {
-                    virtualView.printReply_uni("Wrong Leader ID", senderNick);
+                    view.printReply_uni("Wrong Leader ID", senderNick);
                     return;
                 }
 
-                virtualView.printReply_uni("Wrong Leader ID", senderNick);
+                view.printReply_uni("Wrong Leader ID", senderNick);
 
 
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
@@ -98,7 +99,7 @@ public class Controller implements ObserverController {
                 break;
 
             case SHOW_DEPOSIT:
-                virtualView.printReply_uni(game.getPlayer(playerNumber).getPlayerBoard().getDeposit().toString(), senderNick);
+                view.printReply_uni(game.getPlayer(playerNumber).getPlayerBoard().getDeposit().toString(), senderNick);
                 break;
 
             default:
@@ -112,7 +113,7 @@ public class Controller implements ObserverController {
      */
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
-            virtualView.printReply_uni("Not the current Player", nick);
+            view.printReply_uni("Not the current Player", nick);
             return false;
         }
         return true;
@@ -139,21 +140,21 @@ public class Controller implements ObserverController {
             switch (player.getOrderID()) {
                 case 0:
                     player.setReady(true);
-                    virtualView.printReply_uni("Please wait for the other players to select their bonus resources",player.getNickname());
+                    view.printReply_uni("Please wait for the other players to select their bonus resources",player.getNickname());
                     break;
 
                 case 1:
-                    virtualView.askForResources(player.getNickname(), 1);
+                    view.askForResources(player.getNickname(), 1);
                     break;
 
                 case 2:
-                    virtualView.askForResources(player.getNickname(), 1);
-                    virtualView.notifyFaithPathProgression(player.getNickname(), 1);
+                    view.askForResources(player.getNickname(), 1);
+                    view.notifyFaithPathProgression( 1, player.getNickname());
                     break;
 
                 case 3:
-                    virtualView.askForResources(player.getNickname(), 2);
-                    virtualView.notifyFaithPathProgression(player.getNickname(), 1);
+                    view.askForResources(player.getNickname(), 2);
+                    view.notifyFaithPathProgression( 1, player.getNickname());
                     break;
             }
         }
@@ -165,12 +166,12 @@ public class Controller implements ObserverController {
 
         switch (currPlayerNum) {
             case 0:
-                virtualView.printReply_uni("You are the first player so you cannot select a bonus resource!", currNickname);
+                view.printReply_uni("You are the first player so you cannot select a bonus resource!", currNickname);
                 break;
 
             case 3:
                 if(currPlayer.getSelectedResources() == 2) {
-                    virtualView.printReply_uni("You already selected your bonus resources! Please wait for the other players to do so", currNickname);
+                    view.printReply_uni("You already selected your bonus resources! Please wait for the other players to do so", currNickname);
                     break;
                 }
 
@@ -180,7 +181,7 @@ public class Controller implements ObserverController {
 
             default:
                 if(currPlayer.getSelectedResources() == 1) {
-                    virtualView.printReply_uni("You already selected your bonus resource! Please wait for the other players to do so", currNickname);
+                    view.printReply_uni("You already selected your bonus resource! Please wait for the other players to do so", currNickname);
                     break;
                 }
 
@@ -205,12 +206,12 @@ public class Controller implements ObserverController {
             game.getPlayer(currPlayer).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
 
             game.getPlayer(currPlayer).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
-            virtualView.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID, currNickname);
+            view.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID, currNickname);
             return true;
 
         } catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException exception) {
 
-            virtualView.printReply_uni(exception.getMessage(), currNickname);
+            view.printReply_uni(exception.getMessage(), currNickname);
             return false;
         }
     }
@@ -218,13 +219,13 @@ public class Controller implements ObserverController {
     private void startGame() {
         game.startGame();
 
-        virtualView.printReply("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN");
+        view.printReply("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN");
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }
 
     //GETTERS-----------------------------------------------------------------------------------------------------------
-    public VirtualView getVirtualView() {
-        return virtualView;
+    public View getView() {
+        return view;
     }
 
     public Game getGame() {

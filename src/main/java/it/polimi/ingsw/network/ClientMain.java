@@ -146,7 +146,7 @@ public class ClientMain {
             clientReceiver = new ClientReceiver(echoSocket, view);
             clientSender = new ClientSender(echoSocket, view);
 
-            view.setSender(clientSender);
+            view.addObserverController(clientSender);
 
 
             clientSender.start();
@@ -177,8 +177,8 @@ public class ClientMain {
                 return cli;
 
             case "GUI":
-                Gui gui = new Gui();
-                return gui;
+               // Gui gui = new Gui();
+               // return gui;
 
             default:
                 System.out.println("Invalid view");

@@ -5,10 +5,8 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.view.ClientView;
-
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cli extends ClientView {
-    private ClientSender sender;
+
     private final ArrayList<LeaderCard> leaderCards;
     private String nicknameTemp = null;
     private final Scanner stdIn;
@@ -26,6 +24,7 @@ public class Cli extends ClientView {
         stdIn = new Scanner(System.in);
     }
 
+    //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
     @Override
     public void readUpdates(String mex){
         Gson gson = new Gson();
@@ -84,20 +83,20 @@ public class Cli extends ClientView {
 
                 //GENERAL-----------------------------------------------------------------------------------------------
                 case "CHAT":
-                    sender.send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
+                    send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
                     break;
 
                 case "CHAT_ALL":
-                    sender.send(new ChatMessage(stdIn.nextLine(),this.getNickname()));
+                    send(new ChatMessage(stdIn.nextLine(),this.getNickname()));
                     break;
 
                 case "HELLO":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.HELLO).
+                    send(new Message.MessageBuilder().setCommand(Command.HELLO).
                             setInfo("Hello!").setNickname(this.getNickname()).build());
                     break;
 
                 case "HELLO_ALL":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.HELLO_ALL).
+                    send(new Message.MessageBuilder().setCommand(Command.HELLO_ALL).
                             setInfo("Hello all!").setNickname(this.getNickname()).build());
                     break;
 
@@ -112,7 +111,7 @@ public class Cli extends ClientView {
                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
 
 
-                    sender.send(login);
+                    send(login);
                     break;
 
                 case "CREATE":
@@ -121,24 +120,24 @@ public class Cli extends ClientView {
                         System.out.println("You cannot play with more than 4 people, please select a valid number");
                         break;
                     }
-                    sender.send(createLobbyMessage);
+                    send(createLobbyMessage);
                     break;
 
                 case "JOIN":
-                    sender.send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
+                    send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
                     break;
 
                 case "REFRESH":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
+                    send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
                     break;
 
                 //LOBBY PHASE-------------------------------------------------------------------------------------------
                 case "EXIT_LOBBY":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
+                    send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
                     break;
 
                 case "START_GAME":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
+                    send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
                     break;
 
                 //GAME PHASE--------------------------------------------------------------------------------------------
@@ -156,12 +155,12 @@ public class Cli extends ClientView {
 
                 case "BUY":
                     BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
-                    sender.send(buyMessage);
+                    send(buyMessage);
                     break;
 
                 case "PRODUCE":
                     ProduceMessage produceMessage = new ProduceMessage(stdIn.nextInt(), this.getNickname());
-                    sender.send(produceMessage);
+                    send(produceMessage);
                     break;
 
                 case "FILL":
@@ -169,12 +168,12 @@ public class Cli extends ClientView {
                     if (questionMarkType == null) return false;
 
                     ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, questionMarkType, this.getNickname());
-                    sender.send(resourceTypeSend);
+                    send(resourceTypeSend);
                     break;
 
                 case "MARKET":
                     MarketMessage marketMessage = new MarketMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
-                    sender.send(marketMessage);
+                    send(marketMessage);
                     break;
 
                 case "CONVERSION":
@@ -182,15 +181,15 @@ public class Cli extends ClientView {
                     if (conversionType == null) return false;
 
                     ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, conversionType, this.getNickname());
-                    sender.send(convTypeSend);
+                    send(convTypeSend);
                     break;
 
                 case "DISCARD":
-                    sender.send(new LeaderIdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
+                    send(new LeaderIdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "ACTIVATE":
-                    sender.send(new LeaderIdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
+                    send(new LeaderIdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "MOVE":
@@ -203,15 +202,15 @@ public class Cli extends ClientView {
                     }
                     int destId = stdIn.nextInt();
 
-                    sender.send(new ManageDepositMessage(qty,sourceId, destId, this.getNickname()));
+                    send(new ManageDepositMessage(qty,sourceId, destId, this.getNickname()));
                     break;
 
                 case "SHOW_DEPOSIT":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
                     break;
 
                 case "QUIT":
-                    sender.send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
+                    send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
                     return false;
 
                 default:
@@ -244,7 +243,7 @@ public class Cli extends ClientView {
         sendContainer = new SendContainer(Command.SETUP_CONTAINER, container, destination, destinationID, this.getNickname());
 
         //System.out.println(sendContainer);
-        sender.send(sendContainer);
+        send(sendContainer);
 
         return true;
     }
@@ -279,7 +278,7 @@ public class Cli extends ClientView {
         }
 
         //System.out.println(sendContainer);
-        sender.send(sendContainer);
+        send(sendContainer);
         return true;
     }
 
@@ -287,13 +286,10 @@ public class Cli extends ClientView {
     private void default_case(){
         System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    //PRINTS OF THE VIEW -----------------------------------------------------------------------------------------------
-    @Override
-    public void setSender(ClientSender clientSender) {
-        this.sender = clientSender;
-    }
 
+    //PRINTS AND NOTIFIES OF THE VIEW ----------------------------------------------------------------------------------
     @Override
     public void printHello() { System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET); }
 
@@ -346,7 +342,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyFaithPathProgression(String nickname, int qty) {
+    public void notifyFaithPathProgression(int qty, String nickname) {
 
     }
 
@@ -355,4 +351,14 @@ public class Cli extends ClientView {
 
     }
 
+    @Override
+    public void printReply_uni(String payload, String nickname) {
+        printReply(payload);
+    }
+
+    @Override
+    public void printReply_everyOneElse(String payload, String nickname) {
+        printReply(payload);
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }

@@ -7,6 +7,5 @@ public interface UserInput {
 
     boolean readInput();
     void readUpdates(String message);
-
-    void setSender(ClientSender sender);
+    void send(Message message);
 }
