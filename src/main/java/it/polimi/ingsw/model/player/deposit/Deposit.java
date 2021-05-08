@@ -211,9 +211,11 @@ public class Deposit {
     public int getDefaultDepositNumber() {
         return defaultDepositNumber;
     }
+
     public void setDefaultDepositNumber(int defaultDepositNumber) {
         this.defaultDepositNumber = defaultDepositNumber;
     }
+
     public int getPyramidMaxCells() {
         return pyramidMaxCells;
     }

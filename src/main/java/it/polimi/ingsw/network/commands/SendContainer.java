@@ -11,7 +11,7 @@ public class SendContainer extends Message{
     int destinationID;
 
     public SendContainer(Command command, ResourceContainer container, String destination, int destinationID, String senderNickname) {
-        super( new MessageBuilder().setCommand(Command.SEND_CONTAINER).setNickname(senderNickname));
+        super( new MessageBuilder().setCommand(command).setNickname(senderNickname));
         this.container = container;
         this.destination = destination;
         this.destinationID = destinationID;

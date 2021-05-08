@@ -67,7 +67,7 @@ class PlayerTest {
         assertTrue(p.addToHand(leaderCard3));
         assertEquals(p.getHand().size(),3);
 
-        assertTrue(p.discardFromHand(0));
+        assertTrue(p.discardFromHand(0)); // doesn't work anymore because it does not have the field CARD ID
         assertTrue(p.discardFromHand(0));
         assertTrue(p.discardFromHand(0));
         assertEquals(p.getHand().size(),0);

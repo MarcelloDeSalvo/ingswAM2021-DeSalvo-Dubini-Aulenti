@@ -308,8 +308,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
 
     /**
-     *Adds a resourceContainer to the depositLeader number x. <br>
-     *We take the depositLeaderSpace from the arrayList of all depositSlots and skip past the non-leader ones.
+     * Returns the DepositSlot with a specific Dimension dim
      */
     public DepositSlot getDepositSlotWithDim(int dim){
             return deposit.getDefaultSlot_WithDim(dim);
@@ -330,10 +329,11 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
 
     }
 
-    public DepositSlot getDepositSlotByID(int n){
-        if (n>=0 && n< deposit.getDepositList().size())
-            return deposit.getDepositList().get(n);
-        return null;
+    public DepositSlot getDepositSlotByID(int id){
+        if (id >= 0 && id < deposit.getDepositList().size())
+            return deposit.getDepositList().get(id);
+
+        throw new IndexOutOfBoundsException("Such DepositSlot does not exist! Please select a valid one");
     }
 
     @Override

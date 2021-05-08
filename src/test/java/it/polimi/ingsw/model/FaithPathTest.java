@@ -31,7 +31,7 @@ class FaithPathTest {
         assertEquals(faithPath.getPositions().get(0),2);
         faithPath.setCurrentPlayer(3);
         faithPath.update(5);
-        assertEquals(5,faithPath.getPositions().get(3));
+        assertEquals(6,faithPath.getPositions().get(3));
     }
 
     @Test
@@ -75,7 +75,7 @@ class FaithPathTest {
 
         assertEquals(10,faithPath.getPositions().get(0));
         assertEquals(0,faithPath.getPositions().get(1));
-        assertEquals(3,faithPath.getPositions().get(2));
+        assertEquals(4,faithPath.getPositions().get(2));
 
         assertEquals(2,faithPath.getPlayersFavourList().get(0).getFavours().get(0));
 
@@ -88,7 +88,7 @@ class FaithPathTest {
 
         assertEquals(12,faithPath.getPositions().get(0));
         assertEquals(16,faithPath.getPositions().get(1));
-        assertEquals(3,faithPath.getPositions().get(2));
+        assertEquals(4,faithPath.getPositions().get(2));
 
         assertEquals(3,faithPath.getPlayersFavourList().get(0).getFavours().get(1));
         assertEquals(3,faithPath.getPlayersFavourList().get(1).getFavours().get(0));
@@ -100,7 +100,7 @@ class FaithPathTest {
 
         assertEquals(24,faithPath.getPositions().get(0));
         assertEquals(24,faithPath.getPositions().get(1));
-        assertEquals(3,faithPath.getPositions().get(2));
+        assertEquals(4,faithPath.getPositions().get(2));
         assertEquals(24,faithPath.getPositions().get(3));
 
         assertEquals(2,faithPath.getPlayersFavourList().get(0).getFavours().get(0));

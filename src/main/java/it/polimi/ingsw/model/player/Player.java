@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
+import it.polimi.ingsw.model.player.deposit.Deposit;
+import it.polimi.ingsw.model.player.deposit.DepositSlot;
+import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.player.production.ProductionSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.observers.ObservableModel;
@@ -22,7 +25,8 @@ public class Player implements ObservableModel {
     private int orderID;
 
     private boolean leadersHaveBeenDiscarded = false;
-    private boolean selectedResources = false;
+    private int selectedResources = 0;
+    private boolean ready = false;
 
     public Player(String nickname) {
         this.nickname = nickname;
@@ -208,15 +212,6 @@ public class Player implements ObservableModel {
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
-    public int getAmountOfDiscardedCards () {
-        int i = 0;
-        for (LeaderCard leaderCard : hand) {
-            if(leaderCard.getStatus() == Status.DISCARDED)
-                i++;
-        }
-        return i;
-    }
-
     public ArrayList<Integer> getHandIDs () {
         ArrayList<Integer> handIDs = new ArrayList<>();
 
@@ -251,6 +246,38 @@ public class Player implements ObservableModel {
         return orderID;
     }
 
+    public Deposit getDeposit() {
+        return playerBoard.getDeposit();
+    }
+
+    public Vault getVault() {
+        return playerBoard.getVault();
+    }
+
+    public ProductionSite getProductionSite() {
+        return playerBoard.getProductionSite();
+    }
+
+    public ConversionSite getConversionSite() {
+        return playerBoard.getConversionSite();
+    }
+
+    public DiscountSite getDiscountSite() {
+        return playerBoard.getDiscountSite();
+    }
+
+    public DepositSlot getDepositSlotWithDim(int dim){
+        return playerBoard.getDepositSlotWithDim(dim);
+    }
+
+    public DepositSlot getLeaderDepositNumberX(int x){
+        return playerBoard.getLeaderDepositNumberX(x);
+    }
+
+    public DepositSlot getDepositSlotByID(int id){
+        return playerBoard.getDepositSlotByID(id);
+    }
+
     public void setOrderID(int orderID) {
         this.orderID = orderID;
     }
@@ -271,12 +298,25 @@ public class Player implements ObservableModel {
         this.leadersHaveBeenDiscarded = leadersHaveBeenDiscarded;
     }
 
-    public boolean isSelectedResources() {
+    public int getSelectedResources() {
         return selectedResources;
     }
 
-    public void setSelectedResources(boolean selectedResources) {
-        this.selectedResources = selectedResources;
+    public void incrementSelectedResources() {
+        this.selectedResources += 1;
+
+        if(orderID == 3 && selectedResources != 2)
+            return;
+
+        setReady(true);
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
     }
 
     //------------------------------------------------------------------------------------------------------------------

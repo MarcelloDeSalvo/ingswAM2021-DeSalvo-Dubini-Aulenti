@@ -215,7 +215,11 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         String current;
         while(iter.hasNext()){
             current=iter.next();
-            playerList.add(new Player(current,i));
+            playerList.add(new Player(current, i));
+
+            if(i > 1) {
+                faithPath.getPositions().set(i, 1);
+            }
             i++;
         }
 
@@ -239,6 +243,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         while(iter.hasNext()){
             current=iter.next();
             playerList.add(new Player(current,pyramidHeight,prodSlotNum,i));
+
+            if(i > 1) {
+                faithPath.getPositions().set(i, 1);
+            }
             i++;
         }
 
@@ -310,13 +318,14 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //------------------------------------------------------------------------------------------------------------------
-    /*public void addFaithPoints(int qty) {
-        ResourceContainer faithPoints = new ResourceContainer(ResourceType.FAITHPOINT, qty);
 
+    //------------------------------------------------------------------------------------------------------------------
+    /*public void addFaithPointsToCurrentPLayer(int qty) {
+        ResourceContainer faithPoints = new ResourceContainer(ResourceType.FAITHPOINT, qty);
         faithPoints.addToFaithPath();
     }*/
     //------------------------------------------------------------------------------------------------------------------
+
 
 
     //PICKING THE WINNERS-----------------------------------------------------------------------------------------------

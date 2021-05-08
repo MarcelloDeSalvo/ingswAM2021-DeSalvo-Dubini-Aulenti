@@ -51,7 +51,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
         this.numOfPlayers = numOfPlayers;
         this.currentPlayer = 0;
 
-        for(int i=0;i <numOfPlayers;i++){
+        for(int i = 0; i < numOfPlayers; i++){
             playersFavourList.add(new playerFavour());
             positions.add(0);
         }
@@ -98,7 +98,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
     @Override
     public void update(int faithPoints) {
-        for(int i=0;i<faithPoints;i++){
+        for(int i = 0; i < faithPoints; i++){
             if(positions.get(currentPlayer) != length-1) {
                 positions.set(currentPlayer, positions.get(currentPlayer) + 1);
                 if (isFirstOnPopeSpace(currentPlayer)) {
@@ -112,7 +112,7 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
 
     @Override
     public void updateEveryOneElse(int faithPoints) {
-        for(int j=0;j<faithPoints;j++) {
+        for(int j = 0; j < faithPoints; j++) {
             for (int i = 0; i < numOfPlayers; i++) {
                 if (i != currentPlayer && positions.get(i) != length - 1) {
                     positions.set(i, positions.get(i) + 1);
