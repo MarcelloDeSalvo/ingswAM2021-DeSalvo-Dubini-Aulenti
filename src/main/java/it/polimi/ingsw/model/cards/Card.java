@@ -139,8 +139,12 @@ abstract class Card {
 
         if(status != null)
             stringBuilder.append(", Status: ").append(status);
-        if(requirements != null)
-            stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nRequirements: ").append(Color.ANSI_RESET.escape()).append(requirements);
+        if(requirements != null){
+            stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nRequirements: ").append(Color.ANSI_RESET.escape());
+            for (Requirement req: requirements) {
+                stringBuilder.append(req);
+            }
+        }
         if(price != null)
             stringBuilder.append("Price:\n").append(price).append(".");
 

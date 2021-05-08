@@ -8,5 +8,5 @@ public interface Ability {
      * @return true if the ability can be done and finishes without errors
      */
      boolean useAbility(PlayerBoard_AbilityAccess playerBoard);
-
+     
 }

@@ -215,6 +215,7 @@ public class Cli extends ClientView {
                     return false;
 
                 default:
+                    stdIn.nextLine();
                     default_case();
             }
 
