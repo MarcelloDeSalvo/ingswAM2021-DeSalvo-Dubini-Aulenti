@@ -71,7 +71,6 @@ public class Controller implements ObserverController {
 
                 addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
 
-                System.out.println("Arrivato: " + sendContainer1);
                 break;
 
             case SEND_CONTAINER:
@@ -84,8 +83,6 @@ public class Controller implements ObserverController {
 
                 /*if(!isTheCurrentPlayer(senderNick))
                     return;     useful if we decide to setup with turns instead of in parallel*/
-
-                int currP = game.getCurrentPlayer();
 
                 if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
                     virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so")
@@ -110,7 +107,7 @@ public class Controller implements ObserverController {
                 break;
 
             default:
-                System.out.println("Invalid command, siamo in controller update");
+                System.out.println("Invalid command, we are in controller update");
                 break;
         }
     }
@@ -163,8 +160,6 @@ public class Controller implements ObserverController {
     public void addSetUpContainerToPlayer(int currPlayerNum, ResourceContainer container, int depositSlotID, String currNickname) {
         Player currPlayer = game.getPlayer(currPlayerNum);
 
-        System.out.println("Sono in addSetUpContainer: "+ container.getResourceType() + container.getQty() + " Deposit slot: " + depositSlotID);
-
         switch (currPlayerNum) {
             case 0:
                 virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
@@ -195,14 +190,12 @@ public class Controller implements ObserverController {
         }
 
         for (Player player : game.getPlayerList()) {
-
-            System.out.println(player.isReady());
-
             if(!player.isReady())
                 return;
         }
 
-        startGame();
+        if(!game.isGameStarted())
+            startGame();
     }
 
 
@@ -231,10 +224,8 @@ public class Controller implements ObserverController {
     private void startGame() {
         game.startGame();
 
-        System.out.println("in start game");
-
         virtualView.notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                .setInfo("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN").setTarget(Target.BROADCAST).build());
+                .setInfo("---THE GAME HAS BEEN STARTED---\n\t\tHAVE FUN").setTarget(Target.BROADCAST).build());
 
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }
