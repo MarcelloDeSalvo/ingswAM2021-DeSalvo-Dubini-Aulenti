@@ -90,7 +90,7 @@ public class Controller implements ObserverController {
                     return;
                 }
 
-                view.printReply_uni("Wrong Leader ID", senderNick);
+                view.printReply_uni("Leader Discarded!", senderNick);
 
 
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())

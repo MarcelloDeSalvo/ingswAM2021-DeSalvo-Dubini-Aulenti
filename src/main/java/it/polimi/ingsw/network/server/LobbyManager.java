@@ -29,8 +29,6 @@ public class LobbyManager implements  ObserverViewIO {
 
         User currentUser = connectedPlayers.get(senderNick);
 
-
-
         if(!Command.canUseCommand(currentUser,command)){
             if(currentUser.getStatus()==Status.IN_LOBBY_MANAGER) {
                 UserManager.notifyUsers(connectedPlayers,
@@ -39,6 +37,7 @@ public class LobbyManager implements  ObserverViewIO {
             }
             return;
         }
+
         if(command.getWhereToProcess()!=Status.IN_LOBBY_MANAGER)
             return;
 
@@ -163,6 +162,7 @@ public class LobbyManager implements  ObserverViewIO {
      */
     private boolean joinLobby (String lobbyToJoinName, User currentUser) {
         Lobby lobbyToJoin = lobbies.get(lobbyToJoinName);
+        System.out.println(currentUser.getStatus());
 
         if(!lobbyToJoin.addUser(currentUser))
             return false;

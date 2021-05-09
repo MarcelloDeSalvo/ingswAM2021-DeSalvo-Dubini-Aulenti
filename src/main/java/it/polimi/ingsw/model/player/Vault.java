@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Vault {
+
     /**
      * vaultMap is an HashMap used to store ResourceContainers (Resources and their quantity) using ResourceType as key
      */
@@ -141,8 +142,6 @@ public class Vault {
         }
         return c;
     }
-
-
     //------------------------------------------------------------------------------------------------------------------
 
 

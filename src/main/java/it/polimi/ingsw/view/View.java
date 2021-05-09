@@ -7,4 +7,6 @@ import it.polimi.ingsw.observers.ObserverViewIO;
 
 public interface View extends ObserverModel, ObserverViewIO, ObservableController {
 
+
+
 }

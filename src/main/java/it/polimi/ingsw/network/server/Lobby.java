@@ -40,6 +40,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
             if(numOfPlayersConnected == maxPlayers)
                 setFull(true);
+
             return true;
         }
         else
@@ -68,6 +69,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 }
             }
 
+            user.removeLobbyOrView(this);
             user.setStatus(Status.IN_LOBBY_MANAGER);
         }
 
@@ -92,8 +94,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             return;
 
         User currentUser = players.get(senderNick);
-
-
 
         if(!Command.canUseCommand(currentUser,command)) {
             if(currentUser.getStatus()==Status.IN_LOBBY) {
@@ -123,7 +123,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                             setInfo("Only " + owner.getNickname() +" (the owner of the lobby) can start the game!").setNickname(senderNick).build());
                 else
                     startGame();
-                    //printare tutti i comandi a disposizione
+
+                //printare tutti i comandi a disposizione
 
                 break;
 
@@ -133,7 +134,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 break;
         }
 
-        setClosed(true);
+
     }
 
     @Override

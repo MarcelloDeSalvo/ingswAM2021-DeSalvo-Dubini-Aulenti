@@ -82,7 +82,6 @@ public class ProductionSite {
     }
 
 
-
     /**
      * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit) in order to activate the production
      * @return true if he has enough total resources
