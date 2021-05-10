@@ -3,11 +3,11 @@ package it.polimi.ingsw.network.commands;
 import com.google.gson.Gson;
 
 public class Message {
-    private static Gson gson = new Gson();
-    private Command command;
-    private String info;
-    private Target target;
-    private String senderNickname;
+    private static final Gson gson = new Gson();
+    private final Command command;
+    private final String info;
+    private final Target target;
+    private final String senderNickname;
 
     public Message(MessageBuilder messageBuilder) {
         this.command = messageBuilder.command;

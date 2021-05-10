@@ -8,9 +8,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ClientSender extends Thread implements ObserverController {
-    private Socket serverSocket;
+    private final Socket serverSocket;
     private PrintWriter out;
-    private ClientView view;
+    private final ClientView view;
 
     public ClientSender(Socket serverSocket, ClientView view){
         this.serverSocket = serverSocket;

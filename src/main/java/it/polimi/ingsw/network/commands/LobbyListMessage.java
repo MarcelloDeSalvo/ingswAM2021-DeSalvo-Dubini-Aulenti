@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.commands;
 import java.util.ArrayList;
 
 public class LobbyListMessage extends Message{
-    ArrayList<String> lobbyInfos;
+    private final ArrayList<String> lobbyInfos;
 
 
     public LobbyListMessage(ArrayList<String> lobbyNames, String senderNickname) {

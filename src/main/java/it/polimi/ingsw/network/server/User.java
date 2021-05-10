@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class User implements ObserverThread, ObservableViewIO {
-    private String nickname;
-    private ServerReceiver serverReceiver;
-    private ServerSender serverSender;
-    private List<ObserverViewIO> lobbies;
+    private final String nickname;
+    private final ServerReceiver serverReceiver;
+    private final ServerSender serverSender;
+    private final List<ObserverViewIO> lobbies;
 
-    Status status;
+    private Status status;
 
     public User(String nickname, ServerReceiver serverReceiver, ServerSender serverSender, Status status) {
         this.nickname = nickname;
@@ -60,10 +60,6 @@ public class User implements ObserverThread, ObservableViewIO {
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public String getNickname() {
         return nickname;
-    }
-
-    public void setServerReceiver(ServerReceiver serverReceiver) {
-        this.serverReceiver = serverReceiver;
     }
 
     public Status getStatus() {

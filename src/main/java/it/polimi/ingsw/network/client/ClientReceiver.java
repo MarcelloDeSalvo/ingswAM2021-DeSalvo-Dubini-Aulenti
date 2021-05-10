@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class ClientReceiver extends Thread{
     private final Socket socket;
-    private ClientView view;
+    private final ClientView view;
     private boolean exit;
 
     public ClientReceiver (Socket socket, ClientView view){

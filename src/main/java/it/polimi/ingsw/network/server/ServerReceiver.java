@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class ServerReceiver extends Thread implements ObservableThread {
 
     private Socket socket;
-    private ArrayList<ObserverThread> observerThreads;
-    private BufferedReader in;
+    private final ArrayList<ObserverThread> observerThreads;
+    private final BufferedReader in;
     private boolean exit = false;
 
 

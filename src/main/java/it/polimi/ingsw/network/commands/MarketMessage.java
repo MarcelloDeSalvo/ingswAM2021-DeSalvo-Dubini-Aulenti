@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.commands;
 
 public class MarketMessage extends Message{
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     public MarketMessage( int row, int column, String nickName) {
         super(new MessageBuilder().setNickname(nickName).setCommand(Command.PICK_FROM_MARKET));

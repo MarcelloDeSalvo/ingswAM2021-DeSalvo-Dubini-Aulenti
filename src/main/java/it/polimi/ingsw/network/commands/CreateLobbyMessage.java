@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.commands;
 
 public class CreateLobbyMessage extends Message{
-    String lobbyName;
-    int numOfPlayers;
+    private final String lobbyName;
+    private final int numOfPlayers;
 
     public CreateLobbyMessage(String lobbyName, int numOfPlayers, String senderNick) {
         super(new MessageBuilder().setNickname(senderNick).setCommand(Command.CREATE_LOBBY));

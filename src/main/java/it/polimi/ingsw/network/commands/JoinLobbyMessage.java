@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.commands;
 
 public class JoinLobbyMessage extends Message{
-    String lobbyName;
+    private final String lobbyName;
 
 
 

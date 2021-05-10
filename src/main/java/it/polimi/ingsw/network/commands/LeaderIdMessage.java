@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.commands;
 
 public class LeaderIdMessage extends Message{
-    int leaderID;
+    private final int leaderID;
 
 
     public LeaderIdMessage(Command command, int leaderID, String senderNickname) {

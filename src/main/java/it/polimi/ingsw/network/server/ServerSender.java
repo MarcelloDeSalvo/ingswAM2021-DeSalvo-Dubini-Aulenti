@@ -6,8 +6,8 @@ import java.net.Socket;
 
 public class ServerSender extends Thread {
 
-    Socket socket;
-    PrintWriter out;
+    private final Socket socket;
+    private PrintWriter out;
 
     public ServerSender (Socket socket, PrintWriter out){
         this.socket = socket;

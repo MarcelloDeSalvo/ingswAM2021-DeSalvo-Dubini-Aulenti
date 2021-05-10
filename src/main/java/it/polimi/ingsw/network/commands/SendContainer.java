@@ -5,10 +5,10 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 
 public class SendContainer extends Message{
 
-    ResourceContainer container;
+    private final ResourceContainer container;
 
-    String destination; //Vault or Deposit
-    int destinationID;
+    private final String destination; //Vault or Deposit
+    private int destinationID;
 
     public SendContainer(Command command, ResourceContainer container, String destination, int destinationID, String senderNickname) {
         super( new MessageBuilder().setCommand(command).setNickname(senderNickname));

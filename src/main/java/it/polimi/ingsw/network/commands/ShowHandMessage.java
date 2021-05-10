@@ -3,7 +3,7 @@ package it.polimi.ingsw.network.commands;
 import java.util.ArrayList;
 
 public class ShowHandMessage extends Message {
-    ArrayList<Integer> cardsID;
+    private final ArrayList<Integer> cardsID;
 
     /**
      * reply from the server

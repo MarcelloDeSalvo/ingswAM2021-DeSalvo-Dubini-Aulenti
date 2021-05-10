@@ -298,7 +298,7 @@ public class Cli extends ClientView {
     public void printHello() { System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET); }
 
     @Override
-    public void printQuit(String nickaname) {
+    public void printQuit(String nickname) {
         System.out.println("Disconnected");
     }
 

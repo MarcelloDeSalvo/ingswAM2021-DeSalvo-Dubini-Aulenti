@@ -10,7 +10,7 @@ import java.util.Collections;
 
 
 public class Cardgrid {
-    private Deck[][] deckGrid;
+    private final Deck[][] deckGrid;
     static final int rows = 3;
     static final int columns = 4;
 

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -13,14 +11,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 
 
 public class EchoServerClientHandler implements Runnable {
-    private Socket socket;
-    ServerReceiver serverReceiver;
-    ServerSender serverSender;
-    LobbyManager lobbyManager;
+    private final Socket socket;
+    private final LobbyManager lobbyManager;
 
     public EchoServerClientHandler(Socket socket, LobbyManager lobbyManager) {
         this.socket = socket;
@@ -52,8 +47,8 @@ public class EchoServerClientHandler implements Runnable {
 
                         out.flush();
 
-                        serverReceiver = new ServerReceiver(socket, in);
-                        serverSender = new ServerSender(socket, out);
+                        ServerReceiver serverReceiver = new ServerReceiver(socket, in);
+                        ServerSender serverSender = new ServerSender(socket, out);
 
                         User user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
                         user.addLobbyOrView(lobbyManager);
