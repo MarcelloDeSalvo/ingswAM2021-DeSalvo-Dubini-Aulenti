@@ -30,72 +30,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
-    /**
-     * Adds a new user to this lobby after checking if this can be done. <br>
-     * Increments numOfPlayerConnected and if maxPlayers is reached the lobby is set to FULL
-     * @param user the user that needs to be added
-     * @return true if everything goes right and the user is actually added, false otherwise
-     */
-    public boolean addUser(User user){
-        if(isFull||isClosed)
-            return false;
-
-        if(!UserManager.addPlayer(players, user.getNickname(), user))
-            return false;
-
-        numOfPlayersConnected++;
-        notifyPlayerList(user);
-
-        if(numOfPlayersConnected == maxPlayers)
-            setFull(true);
-
-        return true;
-    }
-
-    /**
-     * Remove an user from this lobby after checking if the user is actually present. <br>
-     * numOfPlayerConnected gets decremented and if the Lobby was full "isFull" is set to false. <br>
-     * If the user leaving the lobby is the last one in it, the lobby gets deleted. <br>
-     * If the user leaving the lobby is its owner, a new owner is selected between the users still in the lobby.
-     * @param user the user that need to be removed
-     */
-    public void removeUser(User user){
-        if(UserManager.removePlayer(players, user.getNickname())){
-
-            numOfPlayersConnected--;
-            notifySomeoneLeft(user);
-
-            if(isFull)
-                isFull = false;
-
-            if(numOfPlayersConnected == 0) {
-               deleteLobby(user);
-            }
-            else {
-                if(user.getNickname().equals(owner.getNickname())){
-                    String key = players.entrySet().stream().findFirst().get().getKey();
-                    owner = players.get(key);
-
-                    notifyNewOwner();
-                }
-            }
-
-            user.removeLobbyOrView(this);
-            user.setStatus(Status.IN_LOBBY_MANAGER);
-        }
-    }
-
-    /**
-     * Delete this lobby and removes it from the user's list
-     * @param user
-     */
-    private void deleteLobby (User user) {
-        Lobby lobbyToDelete = getLobbies().get(lobbyName);
-
-        getLobbies().remove(lobbyName, lobbyToDelete);
-        user.removeLobbyOrView(lobbyToDelete);
-    }
-
     @Override
     public void update(String mex) {
         Gson gson = new Gson();
@@ -143,9 +77,70 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         }
     }
 
-    @Override
-    public boolean hasPermission (User user) {
-        return user.getStatus() == Status.IN_LOBBY;
+    /**
+     * Adds a new user to this lobby after checking if this can be done. <br>
+     * Increments numOfPlayerConnected and if maxPlayers is reached the lobby is set to FULL
+     * @param user the user that needs to be added
+     * @return true if everything goes right and the user is actually added, false otherwise
+     */
+    public boolean addUser(User user){
+        if(isFull||isClosed)
+            return false;
+
+        if(!UserManager.addPlayer(players, user.getNickname(), user))
+            return false;
+
+        numOfPlayersConnected++;
+        notifyPlayerList(user);
+
+        if(numOfPlayersConnected == maxPlayers)
+            setFull(true);
+
+        return true;
+    }
+
+    /**
+     * Remove an user from this lobby after checking if the user is actually present. <br>
+     * numOfPlayerConnected gets decremented and if the Lobby was full "isFull" is set to false. <br>
+     * If the user leaving the lobby is the last one in it, the lobby gets deleted. <br>
+     * If the user leaving the lobby is its owner, a new owner is selected between the users still in the lobby.
+     * @param user the user that need to be removed
+     */
+    public void removeUser(User user){
+        if(UserManager.removePlayer(players, user.getNickname())){
+
+            numOfPlayersConnected--;
+            notifySomeoneLeft(user);
+
+            if(isFull)
+                isFull = false;
+
+            if(numOfPlayersConnected == 0) {
+                deleteLobby(user);
+            }
+            else {
+                if(user.getNickname().equals(owner.getNickname())){
+                    String key = players.entrySet().stream().findFirst().get().getKey();
+                    owner = players.get(key);
+
+                    notifyNewOwner();
+                }
+            }
+
+            user.removeLobbyOrView(this);
+            user.setStatus(Status.IN_LOBBY_MANAGER);
+        }
+    }
+
+    /**
+     * Delete this lobby and removes it from the user's list
+     * @param user
+     */
+    private void deleteLobby (User user) {
+        Lobby lobbyToDelete = getLobbies().get(lobbyName);
+
+        getLobbies().remove(lobbyName, lobbyToDelete);
+        user.removeLobbyOrView(lobbyToDelete);
     }
 
     /**
@@ -163,6 +158,11 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         isClosed = true;
 
+    }
+
+    @Override
+    public boolean hasPermission (User user) {
+        return user.getStatus() == Status.IN_LOBBY;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -264,6 +264,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         isClosed = closed;
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
