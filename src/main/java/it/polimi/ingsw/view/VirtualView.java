@@ -18,8 +18,8 @@ import java.util.HashMap;
 
 public class VirtualView implements View {
 
-    HashMap<String, User> connectedPlayers;
-    ArrayList<ObserverController> observerControllers;
+    private final HashMap<String, User> connectedPlayers;
+    private final ArrayList<ObserverController> observerControllers;
 
     public VirtualView(HashMap<String, User> connectedPlayers) {
         this.connectedPlayers = new HashMap<>(connectedPlayers);
@@ -38,9 +38,8 @@ public class VirtualView implements View {
     public void update(String mex){
         Gson gson = new Gson();
         Message deserializedMex = gson.fromJson(mex, Message.class);
-        Command command=deserializedMex.getCommand();
+        Command command = deserializedMex.getCommand();
 
-        //Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
         if(!UserManager.isNamePresent(connectedPlayers, senderNick))
@@ -49,26 +48,34 @@ public class VirtualView implements View {
         User currentUser = connectedPlayers.get(senderNick);
 
 
-        if(!Command.canUseCommand(currentUser,command)){
-            if(hasPermission(currentUser)) {
-                UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).
-                                setInfo("You can't use this command in game!").setNickname(senderNick).build());
-            }
-            return;
-        }
-
-        if(command.getWhereToProcess()!=Status.IN_GAME)
+        if(!hasPermission(currentUser, command))
             return;
 
 
         notifyController(mex);
     }
 
-    public boolean hasPermission (User user) {
-        return user.getStatus() == Status.IN_GAME;
+    /**
+     * Checks if the user has a specific level of permission
+     * @param user user to check
+     * @return true if this is the case, false otherwise
+     */
+    public boolean hasPermission (User user, Command command) {
+        if(!Command.canUseCommand(user, command)){
+
+            if(user.getStatus() == Status.IN_GAME) {
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You can't use this command in game!").setNickname(user.getNickname()).build());
+            }
+
+            return false;
+        }
+
+        return command.getWhereToProcess() == Status.IN_GAME;
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
 
     //CONTROLLER OBSERVER-----------------------------------------------------------------------------------------------
@@ -85,6 +92,7 @@ public class VirtualView implements View {
         }
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
 
     //OBSERVER MODEL-------(VV OBSERVES THE MODEL)----------------------------------------------------------------------

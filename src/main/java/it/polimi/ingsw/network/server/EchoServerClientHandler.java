@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.UserManager;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class EchoServerClientHandler implements Runnable {
 
                     if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
                         out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
-                                setInfo("You inserted a valid nickname. \nWelcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies:").
+                                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD.escape() +"---\tWelcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
                                     build().serialize());
 
                         out.flush();

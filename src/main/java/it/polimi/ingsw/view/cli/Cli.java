@@ -141,6 +141,10 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
                     break;
 
+                case "SHOW_PLAYERS":
+                    send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
+                    break;
+
                 //GAME PHASE--------------------------------------------------------------------------------------------
                 case "SELECT":
                     if (!set_up_Container(stdIn))
@@ -300,7 +304,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printReply(String payload) {
-        System.out.println(payload+"\n");
+        System.out.println(payload + "\n");
     }
 
     @Override
@@ -313,7 +317,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
-        System.out.println(Color.ANSI_BLUE.escape()+"[LOBBIES]:"+Color.RESET);
+        System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
         if (lobbiesInfos.isEmpty()){
             System.out.println("There are currently 0 active lobbies"+"\n");

@@ -29,18 +29,9 @@ public class LobbyManager implements  ObserverViewIO {
 
         User currentUser = connectedPlayers.get(senderNick);
 
-        if(!Command.canUseCommand(currentUser,command)){
-            if(hasPermission(currentUser)) {
-                UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).
-                                setInfo("You can't use this command in the lobby manager!").setNickname(senderNick).build());
-            }
-            return;
-        }
 
-        if(command.getWhereToProcess()!=Status.IN_LOBBY_MANAGER)
+        if(!hasPermission (currentUser, command))
             return;
-
 
         switch (command) {
             case QUIT:
@@ -49,6 +40,7 @@ public class LobbyManager implements  ObserverViewIO {
                                 setInfo("Bye!").setNickname(senderNick).build());
                 currentUser.killThreads();
                 UserManager.removePlayer(connectedPlayers, senderNick);
+
                 System.out.println("# " + senderNick + " has disconnected");
                 break;
 
@@ -192,8 +184,19 @@ public class LobbyManager implements  ObserverViewIO {
      * @param user user to check
      * @return true if this is the case, false otherwise
      */
-    public boolean hasPermission (User user) {
-        return user.getStatus() == Status.IN_LOBBY_MANAGER;
+    public boolean hasPermission (User user, Command command) {
+        if(!Command.canUseCommand(user, command)){
+
+            if(user.getStatus() == Status.IN_LOBBY_MANAGER) {
+                UserManager.notifyUsers(connectedPlayers,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You can't use this command in the lobby manager!").setNickname(user.getNickname()).build());
+            }
+
+            return false;
+        }
+
+        return command.getWhereToProcess() == Status.IN_LOBBY_MANAGER;
     }
 
     //------------------------------------------------------------------------------------------------------------------

@@ -43,18 +43,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         User currentUser = players.get(senderNick);
 
-        if(!Command.canUseCommand(currentUser,command)) {
-            if(hasPermission(currentUser)) {
-                UserManager.notifyUsers(players,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).
-                                setInfo("You can't use this command in the lobby!").setNickname(senderNick).build());
-            }
-            return;
-        }
 
-        if(command.getWhereToProcess()!=Status.IN_LOBBY)
+        if(!hasPermission(currentUser, command))
             return;
-
 
         switch (command) {
             case EXIT_LOBBY:
@@ -62,7 +53,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 sendLobbyList(currentUser.getNickname());
                 break;
 
-            case LOBBY_LIST:
+            case PLAYER_LIST:
                 notifyPlayerList(currentUser);
                 break;
 
@@ -161,8 +152,19 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
     @Override
-    public boolean hasPermission (User user) {
-        return user.getStatus() == Status.IN_LOBBY;
+    public boolean hasPermission (User user, Command command) {
+        if(!Command.canUseCommand(user, command)){
+
+            if(user.getStatus() == Status.IN_LOBBY) {
+                UserManager.notifyUsers(players,
+                        new Message.MessageBuilder().setCommand(Command.REPLY).
+                                setInfo("You can't use this command in the lobby!").setNickname(user.getNickname()).build());
+            }
+
+            return false;
+        }
+
+        return command.getWhereToProcess() == Status.IN_LOBBY;
     }
     //------------------------------------------------------------------------------------------------------------------
 
