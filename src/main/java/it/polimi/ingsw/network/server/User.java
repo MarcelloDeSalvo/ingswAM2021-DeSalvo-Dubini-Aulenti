@@ -26,7 +26,7 @@ public class User implements ObserverThread, ObservableViewIO {
     }
 
     @Override
-    public void userReceive(String message){
+    public void somethingHasBeenReceived(String message){
         notifyLobbyOrView(message);
     }
 

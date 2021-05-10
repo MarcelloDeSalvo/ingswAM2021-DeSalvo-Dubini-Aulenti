@@ -22,6 +22,7 @@ public abstract class ClientView implements View, UserInput {
         observerControllers = new ArrayList<>();
     }
 
+
     @Override
     public void send(Message mex){
         String stringToSend = mex.serialize();
@@ -43,10 +44,6 @@ public abstract class ClientView implements View, UserInput {
         }
     }
 
-    /**
-     * Receives offline data from the controller
-     * @param message is the message received
-     */
     @Override
     public void update(String message) {
         //OFFLINE NOT YET IMPLEMENTED

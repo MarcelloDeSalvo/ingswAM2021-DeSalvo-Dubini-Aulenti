@@ -25,6 +25,9 @@ public class ServerSender extends Thread {
         }
     }
 
+    /**
+     * Sends a message to the ClientReceiver
+     */
     public void send(String mex){
         //passa al server il comando
         out.println(mex);

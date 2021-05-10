@@ -191,7 +191,6 @@ public class LobbyManager implements  ObserverViewIO {
 
     /**
      * Checks if the user has a specific level of permission
-     * @param user
      * @return true if this is the case, false otherwise
      */
     public boolean hasPermission (User user) {

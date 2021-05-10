@@ -41,6 +41,9 @@ public class ClientReceiver extends Thread{
         }
     }
 
+    /**
+     * Kills the thread when called
+     */
     public void exit(){
         exit= true;
     }

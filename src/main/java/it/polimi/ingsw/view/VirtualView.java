@@ -26,6 +26,9 @@ public class VirtualView implements View {
         observerControllers = new ArrayList<>();
     }
 
+    /**
+     * Calls the user manager that sends a message to the connected players
+     */
     public void notifyUsers(Message message){
         UserManager.notifyUsers(connectedPlayers, message);
     }

@@ -8,12 +8,38 @@ public interface ObserverModel {
     void printHello();
     void printQuit(String nickname);
 
+    /**
+     * Multi-player Server-Side: Sends a generic reply to all the players in game <br>
+     * Multi-player Client-Side: prints a generic reply received by the server <br><br>
+     * Single-player: Prints a generic reply received by the controller
+     * @param payload is the generic reply
+     */
     void printReply(String payload);
+
+    /**
+     * Multi-player Server-Side: Sends a generic reply to a specific player in game <br>
+     * Multi-player Client-Side: prints a generic reply received by the server <br><br>
+     * Single-player: Prints a generic reply received by the Controller
+     * @param payload is the generic reply
+     * @param nickname is the nick of the player that needs to be notified
+     */
     void printReply_uni(String payload, String nickname);
+
+    /**
+     * Multi-player Server-Side: Sends a generic reply to all the players in game except the one<br>
+     * Multi-player Client-Side: prints a generic reply received by the server <br><br>
+     * Single-player: Prints a generic reply received by the Controller
+     * @param payload is the generic reply
+     * @param nickname is the nick of the player that needs to be excluded from the notify
+     */
     void printReply_everyOneElse(String payload, String nickname);
 
-    void printLobby(ArrayList<String> lobbiesInfos);
+    /**
+     * Prints the players' turn order
+     */
     void printOrder(ArrayList<String> randomOrder);
+
+    void printLobby(ArrayList<String> lobbiesInfos);
     void printDeposit(String depositInfo);
     void printHand(ArrayList<Integer> leaderIDs, String nickname);
 

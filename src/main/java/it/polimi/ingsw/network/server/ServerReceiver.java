@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObservableThread;
 import it.polimi.ingsw.observers.ObserverThread;
 
@@ -59,11 +57,14 @@ public class ServerReceiver extends Thread implements ObservableThread {
     @Override
     public void notifyThreadObserver(String message) {
         for (ObserverThread obs: observerThreads) {
-            obs.userReceive(message);
+            obs.somethingHasBeenReceived(message);
         }
 
     }
 
+    /**
+     * Kills the thread when called
+     */
     public void exit(){
         exit = true;
     }

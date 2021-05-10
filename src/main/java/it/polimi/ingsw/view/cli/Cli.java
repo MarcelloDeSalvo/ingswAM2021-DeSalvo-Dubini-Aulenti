@@ -103,6 +103,7 @@ public class Cli extends ClientView {
                 //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
                 case "LOGIN":
                     nicknameTemp = stdIn.next();
+                    stdIn.nextLine();
                     Message login;
 
                     if (this.getNickname() != null)
@@ -225,6 +226,10 @@ public class Cli extends ClientView {
         return true;
     }
 
+    private void default_case(){
+        System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
+    }
+
     /**
      * Validates the input when the player has to choose a free resourceType during the game setup Phase
      */
@@ -280,11 +285,6 @@ public class Cli extends ClientView {
         //System.out.println(sendContainer);
         send(sendContainer);
         return true;
-    }
-
-
-    private void default_case(){
-        System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
     }
     //------------------------------------------------------------------------------------------------------------------
 

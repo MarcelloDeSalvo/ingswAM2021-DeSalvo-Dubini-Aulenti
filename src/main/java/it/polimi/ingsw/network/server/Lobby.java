@@ -30,58 +30,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
-    public boolean addUser(User user){
-        if(isFull||isClosed)
-            return false;
-
-        if(UserManager.addPlayer(players, user.getNickname(), user)) {
-            numOfPlayersConnected++;
-            notifyPlayerList(user);
-
-            if(numOfPlayersConnected == maxPlayers)
-                setFull(true);
-
-            return true;
-        }
-        else
-            return false;
-
-    }
-
-    public void removeUser(User user){
-        if(UserManager.removePlayer(players, user.getNickname())){
-
-            numOfPlayersConnected--;
-            notifySomeoneLeft(user);
-
-            if(isFull)
-                isFull=false;
-
-            if(numOfPlayersConnected == 0) {
-               deleteLobby(user);
-
-            }else{
-                if(user.getNickname().equals(owner.getNickname())){
-                    String key = players.entrySet().stream().findFirst().get().getKey();
-                    owner = players.get(key);
-
-                    notifyNewOwner();
-                }
-            }
-
-            user.removeLobbyOrView(this);
-            user.setStatus(Status.IN_LOBBY_MANAGER);
-        }
-
-    }
-
-    private void deleteLobby (User user) {
-        Lobby lobbyToDelete = getLobbies().get(lobbyName);
-
-        getLobbies().remove(lobbyName, lobbyToDelete);
-        user.removeLobbyOrView(lobbyToDelete);
-    }
-
     @Override
     public void update(String mex) {
         Gson gson = new Gson();
@@ -124,22 +72,73 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 else
                     startGame();
 
-                //printare tutti i comandi a disposizione
-
-                break;
-
-
-            default:
-            //    UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command, you are in lobby").setNickname(senderNick).build());
                 break;
         }
     }
 
-    @Override
-    public boolean hasPermission (User user) {
-        return user.getStatus() == Status.IN_LOBBY;
+    /**
+     * Adds a user to the lobby
+     * @return false if the player can't be added because the lobby is full or if the game is already started
+     */
+    public boolean addUser(User user){
+        if(isFull||isClosed)
+            return false;
+
+        if(!UserManager.addPlayer(players, user.getNickname(), user))
+            return false;
+
+        numOfPlayersConnected++;
+        notifyPlayerList(user);
+
+        if(numOfPlayersConnected == maxPlayers)
+            setFull(true);
+
+        return true;
     }
 
+    /**
+     * Removes a user from the lobby
+     */
+    public void removeUser(User user){
+        if(UserManager.removePlayer(players, user.getNickname())){
+
+            numOfPlayersConnected--;
+            notifySomeoneLeft(user);
+
+            if(isFull)
+                isFull=false;
+
+            if(numOfPlayersConnected == 0) {
+               deleteLobby(user);
+
+            }else{
+                if(user.getNickname().equals(owner.getNickname())){
+                    String key = players.entrySet().stream().findFirst().get().getKey();
+                    owner = players.get(key);
+
+                    notifyNewOwner();
+                }
+            }
+
+            user.removeLobbyOrView(this);
+            user.setStatus(Status.IN_LOBBY_MANAGER);
+        }
+
+    }
+
+    /**
+     * Kills the lobby
+     */
+    private void deleteLobby (User user) {
+        Lobby lobbyToDelete = getLobbies().get(lobbyName);
+
+        getLobbies().remove(lobbyName, lobbyToDelete);
+        user.removeLobbyOrView(lobbyToDelete);
+    }
+
+    /**
+     * Starts the game and closes the lobby
+     */
     private void startGame() {
         notifyTheGameIsStarted();
 
@@ -151,12 +150,20 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         }
 
         isClosed = true;
+    }
 
+    @Override
+    public boolean hasPermission (User user) {
+        return user.getStatus() == Status.IN_LOBBY;
     }
     //------------------------------------------------------------------------------------------------------------------
 
 
     //NOTIFICATIONS-----------------------------------------------------------------------------------------------------
+
+    /**
+     * Notifies all the player in the lobby that a new player has joined
+     */
     public void notifyNewJoin(User newJoined){
         UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
                 .setInfo("# The user: "+ newJoined.getNickname() + " has joined the lobby").setTarget(Target.EVERYONE_ELSE).setNickname(newJoined.getNickname()).build());
@@ -166,7 +173,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                         setInfo("You joined " + lobbyName + " correctly!").setNickname(newJoined.getNickname()).build());
     }
 
-
+    /**
+     * Notifies all the player in the lobby that the owner has changed
+     */
     public void notifyNewOwner(){
         UserManager.notifyUsers(players,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
@@ -178,12 +187,17 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
 
+    /**
+     * Notifies all the players in the lobby the nickname of everyone
+     */
     public void notifyPlayerList(User user){
         UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
                 .setInfo("Players connected in " + lobbyName + ":\n"+ players.keySet().toString()).setNickname(user.getNickname()).build());
     }
 
-
+    /**
+     * Notifies all the players in the lobby that someone has left
+     */
     public void notifySomeoneLeft(User userThatHasLeft){
         String senderNick = userThatHasLeft.getNickname();
         if(players.size() > 0) {
@@ -199,6 +213,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         );
     }
 
+    /**
+     * Notifies all the players in the lobby that the game is started
+     */
     public void notifyTheGameIsStarted(){
         UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
                 .setInfo("The Game is started! Have fun!").setTarget(Target.BROADCAST).build());
