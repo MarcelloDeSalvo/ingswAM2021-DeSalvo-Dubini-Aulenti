@@ -46,7 +46,7 @@ class GameTest {
     void newPlayerOrder() throws FileNotFoundException {
         Game game = new Game();
         assertEquals(4,game.getPlayerList().size());
-        assertEquals(0,game.getCurrentPlayer());
+        assertEquals(0,game.getCurrentPlayerNumber());
         assertEquals(0,game.getPlayerList().get(0).getOrderID());
         assertEquals(3,game.getPlayerList().get(3).getOrderID());
         //System.out.println(game.getPlayerList().toString());
@@ -61,7 +61,7 @@ class GameTest {
         Game game = new Game(nicknames,4,4,2);
 
         assertEquals(2,game.getPlayerList().size());
-        assertEquals(0,game.getCurrentPlayer());
+        assertEquals(0,game.getCurrentPlayerNumber());
         assertEquals(0,game.getPlayerList().get(0).getOrderID());
         assertEquals(1,game.getPlayerList().get(1).getOrderID());
         assertThrows(IndexOutOfBoundsException.class, ()->game.getPlayerList().get(2));
@@ -90,7 +90,7 @@ class GameTest {
 
 
     void nextTurn_check(Game game, int turnNumber){
-        assertEquals(turnNumber%game.getNumOfPlayers(), game.getCurrentPlayer());
+        assertEquals(turnNumber%game.getNumOfPlayers(), game.getCurrentPlayerNumber());
         assertEquals(turnNumber, game.getTurnNumber());
         assertEquals(turnNumber%game.getNumOfPlayers(), game.getFaithPath().getCurrentPlayer());
     }
@@ -99,7 +99,7 @@ class GameTest {
     void nextTurn_1() throws FileNotFoundException {
         Game game = new Game();
 
-        assertEquals(0, game.getCurrentPlayer());
+        assertEquals(0, game.getCurrentPlayerNumber());
         assertEquals(0, game.getTurnNumber());
         assertEquals(0, game.getFaithPath().getCurrentPlayer());
 

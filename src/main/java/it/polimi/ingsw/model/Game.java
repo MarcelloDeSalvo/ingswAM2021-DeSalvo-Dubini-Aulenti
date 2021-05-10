@@ -532,8 +532,16 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         return numOfPlayers;
     }
 
-    public int getCurrentPlayer() {
+    public int getCurrentPlayerNumber() {
         return currentPlayer;
+    }
+
+    public Player getCurrentPlayer() {
+        return playerList.get(currentPlayer);
+    }
+
+    public String getCurrentPlayerNick() {
+        return playerList.get(currentPlayer).getNickname();
     }
 
     public void setCurrentPlayer(int currentPlayer) {

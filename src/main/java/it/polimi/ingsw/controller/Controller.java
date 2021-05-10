@@ -103,7 +103,11 @@ public class Controller implements ObserverController {
                 break;
 
             case SHOW_DEPOSIT:
-                view.printReply_uni(game.getPlayer(playerNumber).getPlayerBoard().getDeposit().toString(), senderNick);
+                view.printReply_uni(game.getCurrentPlayer().getPlayerBoard().getDeposit().toString(), senderNick);
+                break;
+            case END_TURN:
+                //if (ha eseguitoalmeno  una azione primaria )
+                view.printItsYourTurn(game.getCurrentPlayerNick());
                 break;
 
             default:
@@ -116,7 +120,7 @@ public class Controller implements ObserverController {
      * Checks if "nick" is the current player
      */
     public boolean isTheCurrentPlayer(String nick) {
-        if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
+        if (!game.getPlayerList().get(game.getCurrentPlayerNumber()).getNickname().equals(nick)){
             view.printReply_uni("Not the current Player", nick);
             return false;
         }
@@ -254,11 +258,10 @@ public class Controller implements ObserverController {
 
     private void startGame() {
         game.startGame();
-
         view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
+        view.printItsYourTurn(game.getCurrentPlayerNick());
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 

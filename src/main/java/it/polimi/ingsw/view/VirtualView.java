@@ -147,8 +147,22 @@ public class VirtualView implements View {
         notifyUsers(orderMex);
     }
 
+    public void printItsYourTurn(String nickname){
+        printReply_uni("It is your turn, chose an action: " + "" +
+                        "\n1)BUY A CARD (>BUY Row Column ProductionSlotID) " +
+                        "\n2)SELECT FROM MARKET (>MARKET Row||Column number)" +
+                        "\n3)PRODUCE (>PRODUCE cardID)"+
+                        "\n4)ACTIVATE LEADER (>ACTIVATE leaderID)"+
+                        "\n5)MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
+                        "\n6)END TURN (>END_TURN)" +
+                        "\n7)SHOW (>SHOW_objectToShow)" +
+                        "\nType HELP to see the full command list ",
+                        nickname);
+       printReply_everyOneElse("@ It is "+ nickname +"'s turn", nickname);
+    }
+
     @Override
-    public void printDeposit(String depositInfo) {
+    public void printDeposit(String nickname) {
 
     }
 
