@@ -44,22 +44,22 @@ class PlayerTest {
 
     @Test
     void discardFromHand_1() {
-        LeaderCard leaderCard = new LeaderCard(2);
+        LeaderCard leaderCard = new LeaderCard(2,1);
         Player p = new Player("Guglielmo Cancelli");
 
         assertTrue(p.addToHand(leaderCard));
         assertEquals(p.getHand().size(),1);
         Assertions.assertEquals(p.getHand().get(0).getVictoryPoints(),2);
 
-        assertTrue(p.discardFromHand(0));
+        assertTrue(p.discardFromHand(1));
         assertEquals(p.getHand().size(),0);
     }
 
     @Test
     void discardFromHand_2() {
-        LeaderCard leaderCard1 = new LeaderCard(1);
-        LeaderCard leaderCard2 = new LeaderCard(2);
-        LeaderCard leaderCard3 = new LeaderCard(3);
+        LeaderCard leaderCard1 = new LeaderCard(1, 1);
+        LeaderCard leaderCard2 = new LeaderCard(2, 2);
+        LeaderCard leaderCard3 = new LeaderCard(3, 3);
         Player p = new Player("Federico Mercurio");
 
         assertTrue(p.addToHand(leaderCard1));
@@ -67,9 +67,9 @@ class PlayerTest {
         assertTrue(p.addToHand(leaderCard3));
         assertEquals(p.getHand().size(),3);
 
-        assertTrue(p.discardFromHand(0)); // doesn't work anymore because it does not have the field CARD ID
-        assertTrue(p.discardFromHand(0));
-        assertTrue(p.discardFromHand(0));
+        assertTrue(p.discardFromHand(1)); // doesn't work anymore because it does not have the field CARD ID
+        assertTrue(p.discardFromHand(2));
+        assertTrue(p.discardFromHand(3));
         assertEquals(p.getHand().size(),0);
     }
 

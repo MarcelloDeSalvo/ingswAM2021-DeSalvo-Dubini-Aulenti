@@ -26,6 +26,14 @@ public class LeaderCard extends Card{
     }
 
     /**
+     * constructor used for a few tests
+     */
+    public LeaderCard (int victoryPoints, int id) {
+        super(victoryPoints, Status.HAND, id);
+        this.abilities = new ArrayList<>();
+    }
+
+    /**
      * constructor with extensibility for "price"
      */
     public LeaderCard(int vPoints, ArrayList<Requirement> req, ArrayList<ResourceContainer> price, ArrayList<Ability> abilities) {

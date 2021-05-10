@@ -43,6 +43,14 @@ abstract class Card {
         this.price = new ArrayList<>();
     }
 
+    public Card(int victoryPoints, Status status, int id) {
+        this.victoryPoints = victoryPoints;
+        this.status = status;
+        this.id = id;
+        this.requirements = new ArrayList<>();
+        this.price = new ArrayList<>();
+    }
+
 
     //CARD MANAGEMENT---------------------------------------------------------------------------------------------------
     /**
