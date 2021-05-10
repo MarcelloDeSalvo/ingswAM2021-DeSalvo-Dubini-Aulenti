@@ -90,11 +90,11 @@ public class  DevelopmentCard extends Card{
     @Override
     public String toString() {
         return "DevelopmentCard: " +
+                super.toString() +
                 "Level =" + level +
                 ", Colour =" + colour +
                 ", Input =" + input +
-                ", Output =" + output +
-                super.toString() + '\n';
+                ", Output =" + output + '\n';
     }
 
     @Override

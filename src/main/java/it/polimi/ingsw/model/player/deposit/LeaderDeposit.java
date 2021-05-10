@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.cli.Color;
 
 
 public class LeaderDeposit extends DepositSlot {
@@ -97,5 +98,22 @@ public class LeaderDeposit extends DepositSlot {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
+    //JAVA--------------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("\nMaxDim: ").append(getMaxDim()).append("\n");
+        stringBuilder.append(getDepositContainer().toString()).append("\n");
+
+        if(getDepositContainer().getQty() == getMaxDim())
+            stringBuilder.append(Color.ANSI_RED.escape()).append("FULL").append(Color.ANSI_RESET.escape()).append("\n");
+        else if(getDepositContainer().getQty() == 0)
+            stringBuilder.append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
+
+        return stringBuilder.toString();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
 }

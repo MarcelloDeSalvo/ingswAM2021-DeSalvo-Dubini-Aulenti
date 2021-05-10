@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.exceptions.DifferentResourceType;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.cli.Color;
 
 
 import java.util.ArrayList;
@@ -222,4 +223,17 @@ public class Deposit {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (DepositSlot depositSlot : depositList) {
+            stringBuilder.append(depositSlot.toString()).append("----------------------------------");
+        }
+
+        return Color.ANSI_CYAN.escape() + "DEPOSIT: " + Color.ANSI_RESET.escape() +
+                "\n" +
+                "----------------------------------" +
+                stringBuilder.toString();
+    }
 }

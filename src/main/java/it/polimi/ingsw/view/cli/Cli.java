@@ -100,6 +100,7 @@ public class Cli extends ClientView {
                             setInfo("Hello all!").setNickname(this.getNickname()).build());
                     break;
 
+
                 //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
                 case "LOGIN":
                     nicknameTemp = stdIn.next();
@@ -132,6 +133,7 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
                     break;
 
+
                 //LOBBY PHASE-------------------------------------------------------------------------------------------
                 case "EXIT_LOBBY":
                     send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
@@ -144,6 +146,7 @@ public class Cli extends ClientView {
                 case "SHOW_PLAYERS":
                     send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
                     break;
+
 
                 //GAME PHASE--------------------------------------------------------------------------------------------
                 case "SELECT":
@@ -238,9 +241,11 @@ public class Cli extends ClientView {
         return true;
     }
 
+
     private void default_case(){
         System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
     }
+
 
     /**
      * Validates the input when the player has to choose a free resourceType during the game setup Phase
@@ -264,6 +269,7 @@ public class Cli extends ClientView {
 
         return true;
     }
+
 
     /**
      * Validates the input when the player has to choose a ResourceContainer in order to Produce or Buy
@@ -303,17 +309,21 @@ public class Cli extends ClientView {
 
     //PRINTS AND NOTIFIES OF THE VIEW ----------------------------------------------------------------------------------
     @Override
-    public void printHello() { System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET); }
+    public void printHello() {
+        System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET);
+    }
 
     @Override
     public void printQuit(String nickname) {
         System.out.println("Disconnected");
     }
 
+
     @Override
     public void printReply(String payload) {
         System.out.println(payload + "\n");
     }
+
 
     @Override
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
@@ -322,6 +332,7 @@ public class Cli extends ClientView {
             System.out.println(leaderCards.get(id-1).toString());
         System.out.println();
     }
+
 
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {

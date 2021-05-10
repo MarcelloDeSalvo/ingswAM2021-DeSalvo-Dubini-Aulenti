@@ -11,7 +11,7 @@ public enum Color {
     ANSI_GREEN ("\u001B[32m"),
     ANSI_CYAN ("\u001B[36m"),
     ANSI_BLACK ("\u001B[30m"),
-    ANSI_WHITE_BOLD("\u001B[51;1m"),
+    ANSI_WHITE_BOLD_FRAMED("\u001B[51;1m"),
 
     ANSI_RESET ("\u001B[0m");
 

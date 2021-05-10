@@ -42,7 +42,7 @@ public class EchoServerClientHandler implements Runnable {
 
                     if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
                         out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
-                                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD.escape() +"---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
+                                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() +"---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
                                     build().serialize());
 
                         out.flush();

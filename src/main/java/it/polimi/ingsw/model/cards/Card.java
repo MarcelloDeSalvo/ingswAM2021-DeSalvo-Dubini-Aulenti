@@ -142,6 +142,7 @@ abstract class Card {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
+
         stringBuilder.append("(ID: ").append(id).append(") \n");
         stringBuilder.append("VictoryPoints: ").append(victoryPoints);
 
