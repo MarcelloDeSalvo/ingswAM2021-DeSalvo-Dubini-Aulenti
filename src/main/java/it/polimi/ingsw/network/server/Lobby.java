@@ -133,8 +133,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             //    UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command, you are in lobby").setNickname(senderNick).build());
                 break;
         }
-
-
     }
 
     @Override

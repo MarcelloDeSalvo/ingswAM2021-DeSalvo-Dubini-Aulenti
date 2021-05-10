@@ -41,6 +41,7 @@ public class Controller implements ObserverController {
             }
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
+
                 view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.printLeaderCardRequest(game.getPlayer(0).getNickname());
             }
@@ -96,6 +97,9 @@ public class Controller implements ObserverController {
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
                     askForResources();
 
+                else if(checkIfAllLeadersHaveBeenDiscarded())   //IF SINGLE PLAYER THE GAME CAN BE STARTED IMMEDIATELY
+                    startGame();
+
                 break;
 
             case SHOW_DEPOSIT:
@@ -109,7 +113,7 @@ public class Controller implements ObserverController {
     }
 
     /**
-     * Checks if nick is the current player
+     * Checks if "nick" is the current player
      */
     public boolean isTheCurrentPlayer(String nick) {
         if (!game.getPlayerList().get(game.getCurrentPlayer()).getNickname().equals(nick)){
@@ -119,10 +123,16 @@ public class Controller implements ObserverController {
         return true;
     }
 
+
+    //GAME SETUP PHASE -------------------------------------------------------------------------------------------------
     /**
      * Check if every player in game has already discarded 2 LeaderCards
      */
     public boolean checkIfAllLeadersHaveBeenDiscarded() {
+        if(game.isSinglePlayer()) {
+            return game.getPlayer(0).isLeadersHaveBeenDiscarded();
+        }
+
         for (Player player : game.getPlayerList()) {
             if(!player.isLeadersHaveBeenDiscarded())
                 return false;
@@ -130,8 +140,9 @@ public class Controller implements ObserverController {
         return true;
     }
 
+
     /**
-     * Method used for sending messages about the gameSetUpPhase to every player
+     * Used for sending messages about the gameSetUpPhase to every player
      */
     private void askForResources() {
 
@@ -161,6 +172,16 @@ public class Controller implements ObserverController {
     }
 
 
+    /**
+     * Checks if the current player can add a container to his deposit and notifies the Client by sending specific messages thru the Virtual View <br>
+     * CurrPlayerNum is used to do different actions following the game rules, if a player has the right to select bonus resources <br>
+     * "addContainerToPlayer" method is called. <br>
+     * If every player in game is ready (meaning that they already did their set up actions) the game is actually started by calling "startGame" method
+     * @param currPlayerNum current player number
+     * @param container container to add
+     * @param depositSlotID id of the deposit slot
+     * @param currNickname player's nickname
+     */
     public void addSetUpContainerToPlayer(int currPlayerNum, ResourceContainer container, int depositSlotID, String currNickname) {
         Player currPlayer = game.getPlayer(currPlayerNum);
 
@@ -177,6 +198,7 @@ public class Controller implements ObserverController {
 
                 if(addContainerToPlayer(currPlayerNum, container, depositSlotID, currNickname))
                     currPlayer.incrementSelectedResources();
+
                 break;
 
             default:
@@ -187,6 +209,7 @@ public class Controller implements ObserverController {
 
                 if(addContainerToPlayer(currPlayerNum, container, depositSlotID, currNickname))
                     currPlayer.incrementSelectedResources();
+
                 break;
         }
 
@@ -200,28 +223,46 @@ public class Controller implements ObserverController {
     }
 
 
-    public boolean addContainerToPlayer(int currPlayer, ResourceContainer container, int depositSlotID, String currNickname) {
+    /**
+     * Adds to currPlayer a ResourceContainer in a specific depositSlotID after checking that everything goes right.
+     * This method also notifies the Client by sending specific messages thru the Virtual View
+     * @param currPlayerNum current player number
+     * @param container container to add
+     * @param depositSlotID id of the deposit slot
+     * @param currNickname player's nickname
+     * @return true if everything goes right, false if an exception is caught
+     */
+    public boolean addContainerToPlayer(int currPlayerNum, ResourceContainer container, int depositSlotID, String currNickname) {
 
         try {
-            game.getPlayer(currPlayer).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
+            game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
 
-            game.getPlayer(currPlayer).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
+            game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
+
             view.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID, currNickname);
+
             return true;
 
         } catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException exception) {
 
             view.printReply_uni(exception.getMessage(), currNickname);
+
             return false;
         }
     }
 
+
     private void startGame() {
         game.startGame();
 
-        view.printReply("---THE GAME HAS BEEN STARTED---\n\tHAVE FUN");
+        view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
 
     //GETTERS-----------------------------------------------------------------------------------------------------------
     public View getView() {
