@@ -243,9 +243,13 @@ class GameTest {
         games[0].startGame();
         games[1].startGame();
 
+        assertAll(()->games[0].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).canAddToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
         assertAll(()->games[0].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).addToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
-        assertEquals(games[1].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).getDepositContainer().getQty(), 0);
         assertEquals(games[0].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).getDepositContainer().getQty(), 3);
+
+        assertEquals(games[1].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).getDepositContainer().getQty(), 0);
+        assertAll(()->games[1].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).canAddToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
+
 
     }
 

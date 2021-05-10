@@ -8,13 +8,17 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepositTest {
 
+    private HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
+
     @BeforeEach
     void clearStaticSet(){
-        DefaultDeposit clear = new DefaultDeposit(1);
+        DefaultDeposit clear = new DefaultDeposit(1, notAvailableResourceType);
         clear.clearSet();
     }
 

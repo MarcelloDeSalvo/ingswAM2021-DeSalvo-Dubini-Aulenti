@@ -9,6 +9,7 @@ import it.polimi.ingsw.view.cli.Color;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 
@@ -33,9 +34,10 @@ public class Deposit {
         this.depositList = new ArrayList<>();
         this.defaultDepositNumber = pyramidHeight;
         this.pyramidMaxCells = 1;
+        HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
 
         for(int i=0; i<pyramidHeight; i++){
-            depositList.add(new DefaultDeposit(pyramidMaxCells));
+            depositList.add(new DefaultDeposit(pyramidMaxCells, notAvailableResourceType));
             pyramidMaxCells++;
         }
     }

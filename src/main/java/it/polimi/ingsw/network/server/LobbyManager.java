@@ -18,10 +18,15 @@ public class LobbyManager implements  ObserverViewIO {
     private static final HashMap<String, User> connectedPlayers = new HashMap<>();
     private static final HashMap<String, Lobby> lobbies = new HashMap<>();
 
+    private final Gson gson;
+
+    public LobbyManager() {
+        gson = new Gson();
+    }
 
     @Override
     public void update(String mex){
-        Gson gson = new Gson();
+
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();

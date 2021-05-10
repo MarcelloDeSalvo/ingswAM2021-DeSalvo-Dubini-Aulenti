@@ -15,6 +15,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     private final String lobbyName;
     private final HashMap<String, User> players;
     private User owner;
+    private Gson gson;
 
     private final int maxPlayers;
     private int numOfPlayersConnected;
@@ -27,12 +28,13 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         this.maxPlayers = maxPlayers;
         this.owner = owner;
         players = new HashMap<>();
+        gson = new Gson();
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
     @Override
     public void update(String mex) {
-        Gson gson = new Gson();
+
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();

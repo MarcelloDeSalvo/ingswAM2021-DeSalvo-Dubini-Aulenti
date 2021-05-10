@@ -13,10 +13,11 @@ import java.util.HashSet;
 
 public class DefaultDeposit extends DepositSlot {
 
-    private static HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
+    private HashSet<ResourceType> notAvailableResourceType;
 
-    public DefaultDeposit(int maxDim) {
+    public DefaultDeposit(int maxDim, HashSet<ResourceType> notAvailableResourceType) {
         super(maxDim);
+        this.notAvailableResourceType = notAvailableResourceType;
     }
 
 
@@ -171,13 +172,10 @@ public class DefaultDeposit extends DepositSlot {
         }
     }
 
-    public static HashSet<ResourceType> getNotAvailableResourceType() {
+    public HashSet<ResourceType> getNotAvailableResourceType() {
         return notAvailableResourceType;
     }
 
-    public static void setNotAvailableResourceType(HashSet<ResourceType> notAvailableResourceType) {
-        DefaultDeposit.notAvailableResourceType = notAvailableResourceType;
-    }
     //------------------------------------------------------------------------------------------------------------------
 
 

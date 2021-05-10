@@ -21,10 +21,12 @@ public class Controller implements ObserverController {
 
     private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
+    private final Gson gson;
 
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
+        gson = new Gson();
 
         ArrayList<String> playersNicknames = new ArrayList<>(connectedPlayers.keySet());
         int numOfPlayers = playersNicknames.size();
@@ -54,29 +56,29 @@ public class Controller implements ObserverController {
 
     @Override
     public void update(String mex) {
-        Gson gson = new Gson();
 
         Message deserializedMex = gson.fromJson(mex, Message.class);
         Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
+        if (!game.isGameStarted()){
+            setUp_Commands(mex, senderNick, command);
+            return;
+        }
+
+        if (!game.getCurrentPlayerNick().equals(senderNick)){
+            view.printReply_uni("It's not your turn!", senderNick);
+            return;
+        }
+
+        turnPhase_Commands(mex, senderNick, command);
+    }
+
+    private void setUp_Commands(String mex, String senderNick, Command command){
         int playerNumber = game.getPlayerListString().indexOf(senderNick);
 
-        System.out.println("Player number: " + playerNumber);
 
         switch (command){
-
-            case SETUP_CONTAINER:
-                SendContainer sendContainer1 =  gson.fromJson(mex, SendContainer.class);
-
-                addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
-
-                break;
-
-            case SEND_CONTAINER:
-                SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
-                System.out.println("Arrivato: " + sendContainer);
-                break;
 
             case DISCARD_LEADER:
                 LeaderIdMessage leaderIdMessage = gson.fromJson(mex, LeaderIdMessage.class);
@@ -93,20 +95,43 @@ public class Controller implements ObserverController {
 
                 view.printReply_uni("Leader Discarded!", senderNick);
 
-
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
                     askForResources();
 
                 else if(checkIfAllLeadersHaveBeenDiscarded())   //IF SINGLE PLAYER THE GAME CAN BE STARTED IMMEDIATELY
                     startGame();
+                break;
 
+
+            case SETUP_CONTAINER:
+                if(!checkIfAllLeadersHaveBeenDiscarded())
+                    return;
+
+                SendContainer sendContainer1 =  gson.fromJson(mex, SendContainer.class);
+                addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
+                break;
+        }
+    }
+
+
+    private void turnPhase_Commands(String mex, String senderNick, Command command){
+        switch (command){
+
+            case SEND_CONTAINER:
+                SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
+                System.out.println("Arrivato: " + sendContainer);
+                break;
+
+            case PICK_FROM_MARKET:
                 break;
 
             case SHOW_DEPOSIT:
                 view.printReply_uni(game.getCurrentPlayer().getPlayerBoard().getDeposit().toString(), senderNick);
                 break;
+
             case END_TURN:
                 //if (ha eseguitoalmeno  una azione primaria )
+                game.nextTurn();
                 view.printItsYourTurn(game.getCurrentPlayerNick());
                 break;
 
@@ -115,6 +140,7 @@ public class Controller implements ObserverController {
                 break;
         }
     }
+
 
     /**
      * Checks if "nick" is the current player

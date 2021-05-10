@@ -225,6 +225,10 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
                     break;
 
+                case "END_TURN":
+                    send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
+                    break;
+
                 case "QUIT":
                     send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
                     return false;
@@ -235,6 +239,7 @@ public class Cli extends ClientView {
             }
 
         }catch (InputMismatchException e){
+            stdIn.nextLine();
             System.out.println("The command you submitted isn't valid, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands");
         }
 

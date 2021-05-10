@@ -6,19 +6,23 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class DepositSlotTest {
 
+    private HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
+
     @BeforeEach
     void clearStaticSet(){
-        DefaultDeposit clear = new DefaultDeposit(1);
+        DefaultDeposit clear = new DefaultDeposit(1,notAvailableResourceType);
         clear.clearSet();
     }
 
     @Test
     void canAdd() {
-        DefaultDeposit slot = new DefaultDeposit(3);
+        DefaultDeposit slot = new DefaultDeposit(3,notAvailableResourceType);
 
         assertTrue(slot.canAdd(2));
         assertTrue(slot.canAdd(3));
@@ -27,7 +31,7 @@ class DepositSlotTest {
 
     @Test
     void canAdd2() {
-        DefaultDeposit slot = new DefaultDeposit(3);
+        DefaultDeposit slot = new DefaultDeposit(3,notAvailableResourceType);
         ResourceContainer container = new ResourceContainer(ResourceType.SHIELD, 1);
 
         slot.addToDepositSlot(container);
@@ -59,7 +63,7 @@ class DepositSlotTest {
 
     @Test
     void canRemove() {
-        DefaultDeposit slot = new DefaultDeposit(2);
+        DefaultDeposit slot = new DefaultDeposit(2,notAvailableResourceType);
 
         assertFalse(slot.canRemove(1));
         assertFalse(slot.canRemove(3));
@@ -67,7 +71,7 @@ class DepositSlotTest {
 
     @Test
     void canRemove2() {
-        DefaultDeposit slot = new DefaultDeposit(2);
+        DefaultDeposit slot = new DefaultDeposit(2,notAvailableResourceType);
         ResourceContainer container = new ResourceContainer(ResourceType.MINION, 2);
 
         slot.addToDepositSlot(container);
@@ -99,7 +103,7 @@ class DepositSlotTest {
 
     @Test
     void isNullAndEmpty() {
-        DefaultDeposit slot = new DefaultDeposit(2);
+        DefaultDeposit slot = new DefaultDeposit(2,notAvailableResourceType);
 
         assertTrue(slot.isNull());
 
@@ -127,7 +131,7 @@ class DepositSlotTest {
 
     @Test
     void isEmpty() {
-        DefaultDeposit slot = new DefaultDeposit(2);
+        DefaultDeposit slot = new DefaultDeposit(2,notAvailableResourceType);
 
         assertTrue(slot.isEmpty());
 
@@ -181,12 +185,4 @@ class DepositSlotTest {
 
     }
 
-
-
-    /*@Test
-    void setDepositResourceType() {
-        LeaderDeposit slot = new LeaderDeposit(ResourceType.MINION, 2);
-
-        assertThrows( , () -> slot.setDepositResourceType(ResourceType.STONE));
-    }*/
 }
