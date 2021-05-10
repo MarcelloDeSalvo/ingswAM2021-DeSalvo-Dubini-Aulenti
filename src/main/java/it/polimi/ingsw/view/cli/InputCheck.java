@@ -26,6 +26,10 @@ public class InputCheck {
         return !x.toUpperCase().equals("TO");
     }
 
+    public static boolean not_row_or_column(String x){
+        return !x.toUpperCase().equals("ROW") && !x.toUpperCase().equals("COLUMN");
+    }
+
 
     /**
      * Checks if a string can be converted into a ResourceType

@@ -1,20 +1,20 @@
 package it.polimi.ingsw.network.commands;
 
 public class MarketMessage extends Message{
-    private final int row;
-    private final int column;
+    private final String selection;
+    private final int num;
 
-    public MarketMessage( int row, int column, String nickName) {
+    public MarketMessage(String selection, int num, String nickName) {
         super(new MessageBuilder().setNickname(nickName).setCommand(Command.PICK_FROM_MARKET));
-        this.row = row;
-        this.column = column;
+        this.selection = selection;
+        this.num = num;
     }
 
-    public int getRow() {
-        return row;
+    public String getSelection() {
+        return selection;
     }
 
-    public int getColumn() {
-        return column;
+    public int getNum() {
+        return num;
     }
 }

@@ -181,6 +181,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         UserManager.notifyUsers(players,
                 new Message.MessageBuilder().setCommand(Command.REPLY).
                         setInfo("You joined " + lobbyName + " correctly!").setNickname(newJoined.getNickname()).build());
+
+        System.out.println("# " + newJoined.getNickname() + " has joined " + lobbyName);
     }
 
     /**

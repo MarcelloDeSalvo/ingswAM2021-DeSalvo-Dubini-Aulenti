@@ -177,7 +177,15 @@ public class Cli extends ClientView {
                     break;
 
                 case "MARKET":
-                    MarketMessage marketMessage = new MarketMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
+                    String selection = stdIn.next(); //MUST BE ROW OR COLUMN
+                    int num = stdIn.nextInt();
+
+                    if(InputCheck.not_row_or_column(selection)) {
+                        default_case();
+                        break;
+                    }
+
+                    MarketMessage marketMessage = new MarketMessage(selection, num, this.getNickname());
                     send(marketMessage);
                     break;
 
