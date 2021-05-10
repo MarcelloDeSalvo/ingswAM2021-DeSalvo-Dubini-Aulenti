@@ -30,7 +30,7 @@ public class LobbyManager implements  ObserverViewIO {
         User currentUser = connectedPlayers.get(senderNick);
 
         if(!Command.canUseCommand(currentUser,command)){
-            if(currentUser.getStatus()==Status.IN_LOBBY_MANAGER) {
+            if(hasPermission(currentUser)) {
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("You can't use this command in the lobby manager!").setNickname(senderNick).build());
@@ -143,7 +143,6 @@ public class LobbyManager implements  ObserverViewIO {
     //LOBBY MANAGEMENT -------------------------------------------------------------------------------------------------
     /**
      * Retrieves every lobby name and sends them over using a specific message
-     * @param senderNick
      */
     public void sendLobbyList(String senderNick){
 
@@ -157,7 +156,6 @@ public class LobbyManager implements  ObserverViewIO {
     /**
      * Allows an user to join a specific lobby and sets the user status to "IN_LOBBY"
      * @param lobbyToJoinName is the lobby that the user wants to join
-     * @param currentUser
      * @return true if everything goes right, false if the User cannot join the lobby
      */
     private boolean joinLobby (String lobbyToJoinName, User currentUser) {
@@ -191,6 +189,7 @@ public class LobbyManager implements  ObserverViewIO {
 
     /**
      * Checks if the user has a specific level of permission
+     * @param user user to check
      * @return true if this is the case, false otherwise
      */
     public boolean hasPermission (User user) {

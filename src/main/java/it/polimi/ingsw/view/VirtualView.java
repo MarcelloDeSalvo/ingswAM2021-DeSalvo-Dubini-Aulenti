@@ -50,7 +50,7 @@ public class VirtualView implements View {
 
 
         if(!Command.canUseCommand(currentUser,command)){
-            if(currentUser.getStatus()==Status.IN_GAME) {
+            if(hasPermission(currentUser)) {
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("You can't use this command in game!").setNickname(senderNick).build());

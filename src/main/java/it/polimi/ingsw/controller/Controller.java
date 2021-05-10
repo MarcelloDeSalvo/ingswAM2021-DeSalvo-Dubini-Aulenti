@@ -151,7 +151,7 @@ public class Controller implements ObserverController {
             switch (player.getOrderID()) {
                 case 0:
                     player.setReady(true);
-                    view.printReply_uni("Please wait for the other players to select their bonus resources",player.getNickname());
+                    view.printReply_uni("Please wait for the other players to select their bonus resources", player.getNickname());
                     break;
 
                 case 1:
