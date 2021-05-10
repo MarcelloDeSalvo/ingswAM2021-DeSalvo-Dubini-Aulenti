@@ -6,10 +6,6 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-enum conversionMode{
-    INACTIVE, AUTOMATIC, CHOICE_REQUIRED
-}
-
 
 public class ConversionSite {
     /**
@@ -46,14 +42,14 @@ public class ConversionSite {
      * canConvert checks if and how many conversions are available
      * @return true if there's only one conversion
      */
-    public conversionMode canConvert (){
+    public ConversionMode canConvert (){
         switch (conversionsAvailable.size()){
             case 0:
-                return conversionMode.INACTIVE;
+                return ConversionMode.INACTIVE;
             case 1:
-                return conversionMode.AUTOMATIC;
+                return ConversionMode.AUTOMATIC;
             default:
-                return conversionMode.CHOICE_REQUIRED;
+                return ConversionMode.CHOICE_REQUIRED;
         }
     }
 

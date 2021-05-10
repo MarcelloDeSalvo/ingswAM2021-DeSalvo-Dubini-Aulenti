@@ -22,7 +22,7 @@ class ConversionSiteTest {
         marketOutput.add(new ResourceContainer(ResourceType.BLANK,1));
 
 
-        assertEquals(Enum.valueOf(conversionMode.class, "AUTOMATIC"), conversionSite.canConvert());
+        assertEquals(Enum.valueOf(ConversionMode.class, "AUTOMATIC"), conversionSite.canConvert());
 
         conversionSite.convertSingleElement(marketOutput.get(1), conversionSite.getConversionsAvailable().get(0));
         conversionSite.convertSingleElement(marketOutput.get(3), conversionSite.getConversionsAvailable().get(0));
@@ -41,13 +41,13 @@ class ConversionSiteTest {
         ConversionSite conversionSite = new ConversionSite();
 
         //case when conversionSite is still empty
-        assertEquals(Enum.valueOf(conversionMode.class, "INACTIVE"),conversionSite.canConvert());
+        assertEquals(Enum.valueOf(ConversionMode.class, "INACTIVE"),conversionSite.canConvert());
 
         conversionSite.addConversion(new ResourceContainer(ResourceType.STONE,2));
         conversionSite.addConversion(new ResourceContainer(ResourceType.GOLD,1));
 
 
-        assertEquals(Enum.valueOf(conversionMode.class, "CHOICE_REQUIRED"),conversionSite.canConvert());
+        assertEquals(Enum.valueOf(ConversionMode.class, "CHOICE_REQUIRED"),conversionSite.canConvert());
     }
 
     @Test
@@ -55,7 +55,7 @@ class ConversionSiteTest {
         ConversionSite conversionSite = new ConversionSite();
         conversionSite.addConversion(new ResourceContainer(ResourceType.MINION,3));
 
-        assertEquals(Enum.valueOf(conversionMode.class, "AUTOMATIC"),conversionSite.canConvert());
+        assertEquals(Enum.valueOf(ConversionMode.class, "AUTOMATIC"),conversionSite.canConvert());
 
         ArrayList<ResourceContainer> marketOutput = new ArrayList<>();
         marketOutput.add(new ResourceContainer(ResourceType.BLANK,1));

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.resources;
 
+import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.ObservableFaithPath;
 import it.polimi.ingsw.model.ObserverFaithPath;
 import it.polimi.ingsw.model.player.deposit.DepositSlot;
@@ -16,7 +17,7 @@ public class ResourceContainer implements ObservableFaithPath {
      */
     private int qty;
 
-    static ArrayList<ObserverFaithPath> observers = new ArrayList<>();
+    private static final ArrayList<ObserverFaithPath> observers = new ArrayList<>();
 
     public ResourceContainer(ResourceType resourceType, int qty) throws ArithmeticException {
 

@@ -227,6 +227,7 @@ public class ProductionSite {
     public void setDefaultNum(int defaultNum) {
         this.defaultNum = defaultNum;
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 }

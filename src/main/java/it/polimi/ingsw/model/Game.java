@@ -186,6 +186,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             faithPath.setCurrentPlayer(currentPlayer);
             turnNumber++;
         }
+
+        lorenzoPickAction();
     }
 
     /**

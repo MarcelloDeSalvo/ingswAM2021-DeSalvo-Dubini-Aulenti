@@ -2,9 +2,8 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
-import it.polimi.ingsw.model.exceptions.DifferentResourceType;
-import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
+import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.commands.*;
@@ -75,8 +74,8 @@ public class Controller implements ObserverController {
     }
 
     private void setUp_Commands(String mex, String senderNick, Command command){
-        int playerNumber = game.getPlayerListString().indexOf(senderNick);
 
+        int playerNumber = game.getPlayerListString().indexOf(senderNick);
 
         switch (command){
 
@@ -95,20 +94,31 @@ public class Controller implements ObserverController {
 
                 view.printReply_uni("Leader Discarded!", senderNick);
 
+                if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded())
+                    view.printReply_uni("You discarded 2 Leaders! Please wait for the other players to to so ", senderNick);
+
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
                     askForResources();
 
+
                 else if(checkIfAllLeadersHaveBeenDiscarded())   //IF SINGLE PLAYER THE GAME CAN BE STARTED IMMEDIATELY
                     startGame();
+
                 break;
 
 
             case SETUP_CONTAINER:
-                if(!checkIfAllLeadersHaveBeenDiscarded())
+                if(!checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer()){
+                    view.printReply_uni("Please discard 2 the leader first or wait the other players to do so ", senderNick);
                     return;
+                }
 
                 SendContainer sendContainer1 =  gson.fromJson(mex, SendContainer.class);
                 addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
+                break;
+
+            default:
+                view.printReply_uni("Please wait for the set-up phase to end!", senderNick);
                 break;
         }
     }
@@ -123,6 +133,47 @@ public class Controller implements ObserverController {
                 break;
 
             case PICK_FROM_MARKET:
+                MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
+
+                ArrayList<ResourceContainer> marketOut = new ArrayList<>();
+
+                if (marketMessage.getSelection().equals("COLUMN")){
+                    try {
+                        marketOut = game.getMarket().getColumn(marketMessage.getNum());
+                        System.out.println(marketOut.toString());
+                    }catch (InvalidColumnNumber e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+                /*
+                if (marketMessage.getSelection().equals("ROW")){
+                    try {
+                        marketOut = game.getMarket().getRow(marketMessage.getNum());
+                        System.out.println(marketOut.toString());
+                    }catch (InvalidRowNumber e){
+                        System.out.println(e.getMessage());
+                    }
+                }
+
+                if(game.getCurrentPlayer().getPlayerBoard().getConversionSite().canConvert() == ConversionMode.AUTOMATIC) {
+                    game.getCurrentPlayer().getPlayerBoard().getConversionSite().convert(marketOut);
+                    System.out.println(marketOut.toString());
+                }
+
+                if (game.getCurrentPlayer().getPlayerBoard().getConversionSite().canConvert() == ConversionMode.CHOICE_REQUIRED){
+                    for (ResourceContainer rc: marketOut) {
+                        if(game.getCurrentPlayer().getPlayerBoard().getConversionSite().getDefaultConverted() == rc.getResourceType()){
+
+
+                            if(p.getPlayerBoard().getConvertionSite().getConversionsAvailable().contains(ResourceType.valueOf(name)))
+                                p.getPlayerBoard().getConvertionSite().convertSingleBlank(rc,new ResourceContainer(ResourceType.valueOf(name),1));
+                            System.out.println("Non esiste");
+
+
+                        }
+                    }
+
+                } */
                 break;
 
             case SHOW_DEPOSIT:
@@ -136,7 +187,7 @@ public class Controller implements ObserverController {
                 break;
 
             default:
-                System.out.println("Invalid command, we are in controller update");
+                view.printReply_uni("Invalid command", senderNick);
                 break;
         }
     }
@@ -176,6 +227,12 @@ public class Controller implements ObserverController {
      */
     private void askForResources() {
 
+        if (game.getNumOfPlayers() > 2 )
+            view.notifyFaithPathProgression( 1,game.getPlayerListString().get(2));
+
+        if (game.getNumOfPlayers() > 3)
+            view.notifyFaithPathProgression( 1, game.getPlayerListString().get(3));
+
         for (Player player : game.getPlayerList()) {
 
             switch (player.getOrderID()) {
@@ -184,18 +241,12 @@ public class Controller implements ObserverController {
                     view.printReply_uni("Please wait for the other players to select their bonus resources", player.getNickname());
                     break;
 
-                case 1:
-                    view.askForResources(player.getNickname(), 1);
-                    break;
-
-                case 2:
-                    view.askForResources(player.getNickname(), 1);
-                    view.notifyFaithPathProgression( 1, player.getNickname());
-                    break;
-
                 case 3:
                     view.askForResources(player.getNickname(), 2);
-                    view.notifyFaithPathProgression( 1, player.getNickname());
+                    break;
+
+                default:
+                    view.askForResources(player.getNickname(), 1);
                     break;
             }
         }
