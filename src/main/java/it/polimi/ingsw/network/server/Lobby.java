@@ -30,6 +30,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
+    /**
+     * Adds a new user to this lobby after checking if this can be done. <br>
+     * Increments numOfPlayerConnected and if maxPlayers is reached the lobby is set to FULL
+     * @param user the user that needs to be added
+     * @return true if everything goes right and the user is actually added, false otherwise
+     */
     public boolean addUser(User user){
         if(isFull||isClosed)
             return false;
@@ -48,6 +54,13 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
     }
 
+    /**
+     * Remove an user from this lobby after checking if the user is actually present. <br>
+     * numOfPlayerConnected gets decremented and if the Lobby was full "isFull" is set to false. <br>
+     * If the user leaving the lobby is the last one in it, the lobby gets deleted. <br>
+     * If the user leaving the lobby is its owner, a new owner is selected between the users still in the lobby.
+     * @param user the user that need to be removed
+     */
     public void removeUser(User user){
         if(UserManager.removePlayer(players, user.getNickname())){
 
@@ -55,12 +68,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             notifySomeoneLeft(user);
 
             if(isFull)
-                isFull=false;
+                isFull = false;
 
             if(numOfPlayersConnected == 0) {
                deleteLobby(user);
-
-            }else{
+            }
+            else {
                 if(user.getNickname().equals(owner.getNickname())){
                     String key = players.entrySet().stream().findFirst().get().getKey();
                     owner = players.get(key);
@@ -72,9 +85,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             user.removeLobbyOrView(this);
             user.setStatus(Status.IN_LOBBY_MANAGER);
         }
-
     }
 
+    /**
+     * Delete this lobby and removes it from the user's list
+     * @param user
+     */
     private void deleteLobby (User user) {
         Lobby lobbyToDelete = getLobbies().get(lobbyName);
 
@@ -96,7 +112,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         User currentUser = players.get(senderNick);
 
         if(!Command.canUseCommand(currentUser,command)) {
-            if(currentUser.getStatus()==Status.IN_LOBBY) {
+            if(hasPermission(currentUser)) {
                 UserManager.notifyUsers(players,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("You can't use this command in the lobby!").setNickname(senderNick).build());
@@ -106,6 +122,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         if(command.getWhereToProcess()!=Status.IN_LOBBY)
             return;
+
 
         switch (command) {
             case EXIT_LOBBY:
@@ -140,6 +157,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         return user.getStatus() == Status.IN_LOBBY;
     }
 
+    /**
+     * Creates a new Controller, sets this Lobby to Closed and every player's status to "IN_GAME"
+     */
     private void startGame() {
         notifyTheGameIsStarted();
 
@@ -199,6 +219,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         );
     }
 
+
     public void notifyTheGameIsStarted(){
         UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
                 .setInfo("The Game is started! Have fun!").setTarget(Target.BROADCAST).build());
@@ -243,23 +264,23 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        String coloredFull,coloredClosed,available=Color.ANSI_GREEN.escape();;
+        String coloredFull, coloredClosed, available = Color.ANSI_GREEN.escape();;
         if(isFull ) {
             coloredFull = Color.ANSI_RED.escape();
             available = Color.ANSI_RED.escape();
         }
         else
-            coloredFull=Color.ANSI_GREEN.escape();
+            coloredFull = Color.ANSI_GREEN.escape();
         if(isClosed ) {
             coloredClosed = Color.ANSI_RED.escape();
             available = Color.ANSI_RED.escape();
         }
         else
-            coloredClosed=Color.ANSI_GREEN.escape();
+            coloredClosed = Color.ANSI_GREEN.escape();
 
 
 
-        return available+"\u06DD Lobby " +Color.ANSI_RESET.escape() + lobbyName +
+        return available+"\u06DD Lobby " + Color.ANSI_RESET.escape() + lobbyName +
                 ", connected=" + numOfPlayersConnected + "/" + maxPlayers +
                 ", Owner=" + owner.getNickname() +
                 ","+coloredFull+" isFull=" + isFull +Color.ANSI_RESET.escape()+

@@ -46,7 +46,7 @@ public class EchoServerClientHandler implements Runnable {
 
                     if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
                         out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
-                                setInfo("You inserted a valid nickname. Welcome to masters of renaissance! Here's a list of all available servers").
+                                setInfo("You inserted a valid nickname. \nWelcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies:").
                                     build().serialize());
 
                         out.flush();
@@ -63,7 +63,7 @@ public class EchoServerClientHandler implements Runnable {
                         serverReceiver.start();
                         serverSender.start();
 
-                        System.out.println("# " + nickname+ " has logged into the server \n");
+                        System.out.println("# " + nickname + " has logged into the server \n");
                         break;
 
                     }
