@@ -32,6 +32,8 @@ public class Controller implements ObserverController {
         try {
             if(numOfPlayers > 1) {
                 game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
+                game.addView(view);
+
                 view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
@@ -41,6 +43,7 @@ public class Controller implements ObserverController {
             }
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
+                game.addView(view);
 
                 view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.printLeaderCardRequest(game.getPlayer(0).getNickname());

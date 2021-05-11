@@ -14,18 +14,6 @@ class LorenzoTest {
 
     static Game game;
     static Lorenzo lorenzo;
-    static ArrayList<ActionToken> actionTokens;
-
-    @BeforeAll
-    static void setUp() throws FileNotFoundException {
-        game = new Game("Lupo Lucio", true);
-        game.startGame();
-
-        lorenzo = game.getLorenzo();
-        actionTokens = lorenzo.getActionTokens();
-
-        game.nextTurn();
-    }
 
     @Test
     void shuffleActionTokens() {
@@ -35,23 +23,22 @@ class LorenzoTest {
 
     @Test
     void pickAction_1() throws FileNotFoundException {
-        game = new Game("Lennon", true); //No shuffle mode (Gson inserts the tokens from the file without shuffling them)
+        game = new Game("Lupo Lucio", true); //No shuffle mode (Gson inserts the tokens from the file without shuffling them)
         lorenzo = game.getLorenzo();
         game.startGame();
 
-        //Player does something
-        //game.nextTurn(); //Player ends his turn
-
         Assertions.assertEquals(lorenzo.getActionTokens().get(0).getColour(), Colour.GREEN);
-        game.lorenzoPickAction();
+
+        //Player does something
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
+
         assertEquals(game.getCardgrid().getNumOfColor(Colour.GREEN),10); //Lorenzo removed two GREEN CARDS
         Assertions.assertEquals(lorenzo.getActionTokens().get(0).getColour(), Colour.BLUE); //The previous token has been moved to the end of the list
         Assertions.assertEquals(lorenzo.getActionTokens().get(6).getColour(), Colour.GREEN);
 
         //Player does something
-        //game.nextTurn();//Player ends his turn
+        game.nextTurn();//Player ends his turn,, Lorenzo plays and ends his turn
 
-        game.lorenzoPickAction();
         assertEquals(game.getCardgrid().getNumOfColor(Colour.BLUE),10); //Lorenzo removed two BLUE CARDS
 
     }
@@ -63,24 +50,27 @@ class LorenzoTest {
         game.startGame();
 
         //Player does something
-        game.nextTurn(); //Player ends his turn
-
-        lorenzo.pickAction(game);
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
         assertEquals(game.getCardgrid().getNumOfColor(Colour.GREEN),10); //Lorenzo removed two GREEN CARDS
-        lorenzo.pickAction(game);
+
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
         assertEquals(game.getCardgrid().getNumOfColor(Colour.BLUE),10); //Lorenzo removed two BLUE CARDS
-        lorenzo.pickAction(game);
+
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
         assertEquals(game.getCardgrid().getNumOfColor(Colour.YELLOW),10); //Lorenzo removed two YELLOW CARDS
-        lorenzo.pickAction(game);
+
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
         assertEquals(game.getCardgrid().getNumOfColor(Colour.PURPLE),10); //Lorenzo removed two PURPLE CARDS
 
-        lorenzo.pickAction(game);
-        assertEquals(game.getFaithPath().getPositions(0),0);
-        assertEquals(game.getFaithPath().getPositions(1),2); //Lorenzo has moved by 2 squares
-        lorenzo.pickAction(game);
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
+        assertEquals(0, game.getFaithPath().getPositions(0));
+        assertEquals(2, game.getFaithPath().getPositions(1)); //Lorenzo has moved by 2 squares
+
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
         assertEquals(game.getFaithPath().getPositions(0),0);
         assertEquals(game.getFaithPath().getPositions(1),4); //Lorenzo has moved by 2 squares
-        lorenzo.pickAction(game);
+
+        game.nextTurn(); //Player ends his turn, Lorenzo plays and ends his turn
         assertEquals(game.getFaithPath().getPositions(0),0);
         assertEquals(game.getFaithPath().getPositions(1),5); //Lorenzo has moved by 2 squares
         //THE LIST HAS BEEN SHUFFLED

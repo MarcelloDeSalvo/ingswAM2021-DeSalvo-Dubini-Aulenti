@@ -15,7 +15,7 @@ public class ActionToken {
     private int amountOfCards;
     private int faithPoints;
 
-    private ArrayList<Action> actions = new ArrayList<>();
+    private final ArrayList<Action> actions = new ArrayList<>();
 
     public ActionToken() {
         Action removeCards = (game) -> {

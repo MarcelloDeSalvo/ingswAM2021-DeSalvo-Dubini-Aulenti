@@ -42,6 +42,7 @@ public interface ObserverModel {
     void printLobby(ArrayList<String> lobbiesInfos);
     void printDeposit(String depositInfo);
     void printHand(ArrayList<Integer> leaderIDs, String nickname);
+    void printItsYourTurn(String nickname);
 
     void askForResources(String nickname, int qty);
     void notifyFaithPathProgression(int qty, String nickname);

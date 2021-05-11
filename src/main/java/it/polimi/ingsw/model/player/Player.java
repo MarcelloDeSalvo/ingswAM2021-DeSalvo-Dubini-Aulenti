@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Player implements ObservableModel {
 
-    private final ArrayList<ObserverModel> observers;
+    private ObserverModel view;
 
     private String nickname;
     private ArrayList<LeaderCard> hand;
@@ -33,8 +33,6 @@ public class Player implements ObservableModel {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
         hand = new ArrayList<>();
-
-        observers = new ArrayList<>();
     }
 
     public Player(String nickname, int orderID, FaithPath faithPath) {
@@ -42,8 +40,6 @@ public class Player implements ObservableModel {
         this.playerBoard = new PlayerBoard(3,3, faithPath);
         this.orderID = orderID;
         hand = new ArrayList<>();
-
-        observers = new ArrayList<>();
     }
 
     public Player(String nickname, int pyramidHeight, int prodSlotNum) {
@@ -51,7 +47,6 @@ public class Player implements ObservableModel {
         this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
         hand = new ArrayList<>();
 
-        observers = new ArrayList<>();
     }
 
     public Player(String nickname, int pyramidHeight, int prodSlotNum, int orderID, FaithPath faithPath) {
@@ -60,7 +55,6 @@ public class Player implements ObservableModel {
         this.orderID = orderID;
         hand = new ArrayList<>();
 
-        observers = new ArrayList<>();
     }
 
     //PLAYER METHODS----------------------------------------------------------------------------------------------------
@@ -101,9 +95,8 @@ public class Player implements ObservableModel {
             }
 
             if (hand.remove(leaderCardToRemove)) {
-                for (ObserverModel obs: observers) {
-                    obs.printHand(leaderListToInt(), nickname);
-                }
+
+                view.printHand(leaderListToInt(), nickname);
 
                 if(hand.size() == 2)
                     setLeadersHaveBeenDiscarded(true);
@@ -338,7 +331,7 @@ public class Player implements ObservableModel {
 
     @Override
     public void addView(ObserverModel view) {
-        observers.add(view);
+        this.view = view;
     }
 
 

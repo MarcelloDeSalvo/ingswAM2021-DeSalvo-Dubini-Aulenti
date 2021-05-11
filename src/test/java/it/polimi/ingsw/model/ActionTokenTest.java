@@ -26,7 +26,6 @@ class ActionTokenTest {
         faithPath = game.getFaithPath();
         actionTokens = lorenzo.getActionTokens();
 
-        game.nextTurn();
     }
 
 
@@ -104,6 +103,9 @@ class ActionTokenTest {
 
     @Test
     void incrementFaithPointsTest() {
+
+        game.setCurrentPlayer(1);
+        game.getFaithPath().setCurrentPlayer(1);
         actionTokens.get(4).getActions().get(1).doAction(game);
         assertEquals(2, faithPath.getPositions().get(1));
 
@@ -125,14 +127,19 @@ class ActionTokenTest {
 
         actionTokens.get(4).getActions().get(1).doAction(game); //END OF FAITHPATH
 
+
         //CHECKS IF THE GAME ENDS
         assertTrue(game.isFinalTurn());
+        game.setCurrentPlayer(0);
+        game.getFaithPath().setCurrentPlayer(0);
         game.nextTurn();
         assertTrue(game.isGameEnded());
     }
 
     @Test
     void incrementFaithPointsTest2() {
+        game.setCurrentPlayer(1);
+        game.getFaithPath().setCurrentPlayer(1);
         actionTokens.get(6).getActions().get(1).doAction(game);
         assertEquals(1, faithPath.getPositions().get(1));
 

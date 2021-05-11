@@ -43,7 +43,8 @@ public enum Command {
     SHOW_MAKET      (false, false, true, Status.IN_GAME),
     SHOW_POINTS     (false, false, true, Status.IN_GAME),
     SHOW_ORDER      (false, false, true, Status.IN_GAME),
-    SHOW_HAND       (false,false,true,null);
+    SHOW_HAND       (false,false,true,null),
+    SHOW_TURN_HELP  (false,false,true,null);
 
 
     private final boolean usableInLobbyManager;

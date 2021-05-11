@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.observers.ObservableModel;
+import it.polimi.ingsw.observers.ObserverModel;
+import it.polimi.ingsw.view.View;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -16,7 +19,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Game implements ObserverEndGame, Game_TokensAccess{
+public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel {
 
     private int numOfPlayers;
 
@@ -44,6 +47,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
     private ArrayList<String> winner;
 
+    private ObserverModel view;
 
     /**
      * Test Constructor
@@ -435,8 +439,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         playerList.get(0).getPlayerBoard().addObserver(this);
 
-        //ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
-        //resourceContainer.addObserver(faithPath);
     }
 
     /**
@@ -449,8 +451,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             p.getPlayerBoard().addObserver(this);
         }
 
-        //ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
-        //resourceContainer.addObserver(faithPath);
+    }
+
+    @Override
+    public void addView(ObserverModel view) {
+        this.view = view;
+
+        for (Player player: playerList) {
+            player.addView(view);
+        }
     }
     //------------------------------------------------------------------------------------------------------------------
 

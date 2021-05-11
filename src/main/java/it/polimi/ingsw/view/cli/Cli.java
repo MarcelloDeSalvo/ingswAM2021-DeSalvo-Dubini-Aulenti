@@ -31,6 +31,8 @@ public class Cli extends ClientView {
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();
+        String senderNick = deserializedMex.getSenderNickname();
+
         System.out.println();
 
         switch (command){
@@ -49,9 +51,14 @@ public class Cli extends ClientView {
                 printLobby(lobbyListMessage.getLobbiesInfos());
                 break;
 
+            case SHOW_TURN_HELP:
+                printItsYourTurn(senderNick);
+                break;
+
+
             case SHOW_HAND:
                 ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                printHand(showHandMessage.getCardsID(), showHandMessage.getSenderNickname());
+                printHand(showHandMessage.getCardsID(), senderNick);
                 break;
 
             case REPLY:
@@ -59,7 +66,7 @@ public class Cli extends ClientView {
                 break;
 
             case CHAT_ALL:
-                System.out.print(Color.ANSI_PURPLE.escape() + deserializedMex.getSenderNickname() + " in ALL chat:" + Color.RESET);
+                System.out.print(Color.ANSI_PURPLE.escape() + senderNick + " in ALL chat:" + Color.RESET);
                 printReply(deserializedMex.getInfo());
                 break;
 
@@ -377,6 +384,19 @@ public class Cli extends ClientView {
     @Override
     public void printLeaderCardRequest(String nickname) {
 
+    }
+
+    @Override
+    public void printItsYourTurn(String nickname){
+        printReply_uni("It is your turn, chose an action: " + "" +
+                        "\n1)BUY A CARD (>BUY Row Column ProductionSlotID) " +
+                        "\n2)SELECT FROM MARKET (>MARKET Row||Column number)" +
+                        "\n3)PRODUCE (>PRODUCE cardID)"+
+                        "\n4)ACTIVATE LEADER (>ACTIVATE leaderID)"+
+                        "\n5)MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
+                        "\n6)END TURN (>END_TURN)" +
+                        "\n7)SHOW (>SHOW_objectToShow)" +
+                        "\nType HELP to see the full command list ", nickname);
     }
 
     @Override
