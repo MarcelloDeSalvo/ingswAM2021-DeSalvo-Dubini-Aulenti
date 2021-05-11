@@ -11,8 +11,8 @@ import java.util.Collections;
 
 public class Cardgrid {
     private final Deck[][] deckGrid;
-    static final int rows = 3;
-    static final int columns = 4;
+    private static final int rows = 3;
+    private static final int columns = 4;
 
 
     public Cardgrid(ArrayList<DevelopmentCard> fileCards){

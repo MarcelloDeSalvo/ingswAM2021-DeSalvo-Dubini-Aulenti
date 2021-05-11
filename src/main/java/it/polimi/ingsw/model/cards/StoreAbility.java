@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.resources.ResourceType;
 
 public class StoreAbility implements Ability {
     private final ResourceType resourceType;
-    int maxDim;
+    private int maxDim;
 
     public StoreAbility(ResourceType resourceType, int maxDim) {
         this.resourceType = resourceType;

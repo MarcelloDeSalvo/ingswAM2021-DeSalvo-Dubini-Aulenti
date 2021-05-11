@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Market {
-    static final int columns=4;
-    static final int rows=3;
+    private static final int columns=4;
+    private static final int rows=3;
 
-    ResourceContainer[][] market= new ResourceContainer[columns][rows];
-    ResourceContainer vacant;
+    private ResourceContainer[][] market= new ResourceContainer[columns][rows];
+    private ResourceContainer vacant;
 
     public Market(ArrayList<ResourceContainer> marblesMarket){
         Collections.shuffle(marblesMarket);

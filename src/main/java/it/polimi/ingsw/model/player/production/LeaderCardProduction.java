@@ -13,17 +13,17 @@ public class LeaderCardProduction implements ProductionSlot {
     /**
      * Contains all the defined inputs
      */
-    ArrayList<ResourceContainer> input;
+    private final ArrayList<ResourceContainer> input;
 
     /**
      * Contains the number of the definable inputs
      */
-    int questionMarkOnInput;
+    private final int questionMarkOnInput;
 
     /**
      * Contains all the defined outputs
      */
-    ArrayList<ResourceContainer> output;
+    private final ArrayList<ResourceContainer> output;
 
     /**
      * Contains the number of the definable outputs
@@ -125,16 +125,8 @@ public class LeaderCardProduction implements ProductionSlot {
         return inputBuffer;
     }
 
-    public void setInputBuffer(ArrayList<ResourceContainer> inputBuffer) {
-        this.inputBuffer = inputBuffer;
-    }
-
     public ArrayList<ResourceContainer> getOutputBuffer() {
         return outputBuffer;
-    }
-
-    public void setOutputBuffer(ArrayList<ResourceContainer> outputBuffer) {
-        this.outputBuffer = outputBuffer;
     }
 
     public ArrayList<ResourceContainer> getInput() {

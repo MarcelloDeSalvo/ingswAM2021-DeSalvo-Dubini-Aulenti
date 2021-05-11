@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.exceptions.*;
-import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.commands.*;
@@ -125,6 +124,7 @@ public class Controller implements ObserverController {
 
 
     private void turnPhase_Commands(String mex, String senderNick, Command command){
+
         switch (command){
 
             case SEND_CONTAINER:
