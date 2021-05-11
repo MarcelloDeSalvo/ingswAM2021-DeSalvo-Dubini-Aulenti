@@ -18,21 +18,21 @@ public class ActionToken {
     private ArrayList<Action> actions = new ArrayList<>();
 
     public ActionToken() {
-        Action removeCards = (g) -> {
+        Action removeCards = (game) -> {
             if(colour != null) {
-                g.getCardgrid().removeAmountOfDevelopmentCardWithColour(amountOfCards, colour);
-                if(!g.getCardgrid().getIfAColourIsPresent(colour))
-                    g.getLorenzo().notifyEndGame();
+                game.getCardgrid().removeAmountOfDevelopmentCardWithColour(amountOfCards, colour);
+                if(!game.getCardgrid().getIfAColourIsPresent(colour))
+                    game.getLorenzo().notifyEndGame();
             }
         };
 
-        Action addFaithPoints = (g) -> {
+        Action addFaithPoints = (game) -> {
             if(faithPoints != 0) {
                 if(faithPoints == 1)
-                    g.getLorenzo().shuffleActionTokens();
+                    game.getLorenzo().shuffleActionTokens();
 
                 ResourceContainer container = new ResourceContainer(ResourceType.FAITHPOINT, faithPoints);
-                container.addToFaithPath();
+                container.addToFaithPath(game.getFaithPath());
             }
         };
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player.production;
 
+import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
@@ -18,14 +19,18 @@ public class ProductionSite {
     private final HashMap<ResourceType, ResourceContainer> bufferInputMap;
     private final HashMap<ResourceType, ResourceContainer> bufferOutputMap;
 
+    private FaithPath faithPath;
+
     int defaultNum;
 
     /**
+     * Main Constructor
      * Builds a new Production site with a maximum number of DevelopmentCards defaultNum
      * @param defaultNum is the default number of slots (3 by the standard rules)
      */
-    public ProductionSite(int defaultNum) {
+    public ProductionSite(int defaultNum, FaithPath faithPath) {
         this.defaultNum = defaultNum;
+        this.faithPath = faithPath;
         this.productionSlots = new ArrayList<>();
 
         productionSlots.add(new BaseProduction());
@@ -38,6 +43,27 @@ public class ProductionSite {
         this.bufferOutputMap = new HashMap<>();
         this.bufferSelectedResources = new HashMap<>();
     }
+
+    /**
+     * Used for testing
+     */
+    public ProductionSite(int defaultNum) {
+        this.defaultNum = defaultNum;
+        this.faithPath = faithPath;
+        this.productionSlots = new ArrayList<>();
+
+        productionSlots.add(new BaseProduction());
+
+        for(int i=0; i<defaultNum; i++){
+            productionSlots.add(new DevelopmentCardProduction());
+        }
+
+        this.bufferInputMap = new HashMap<>();
+        this.bufferOutputMap = new HashMap<>();
+        this.bufferSelectedResources = new HashMap<>();
+    }
+
+
 
 
     //PRODUCTION PIPELINE-----------------------------------------------------------------------------------------------
@@ -130,7 +156,7 @@ public class ProductionSite {
         for (ResourceType key : bufferOutputMap.keySet()){
 
             bufferOutputMap.get(key).addToVault(vault);
-            bufferOutputMap.get(key).addToFaithPath();
+            bufferOutputMap.get(key).addToFaithPath(faithPath);
 
         }
         return true;

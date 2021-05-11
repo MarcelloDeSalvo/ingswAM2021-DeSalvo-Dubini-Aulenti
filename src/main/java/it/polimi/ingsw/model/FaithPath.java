@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
-public class FaithPath implements ObserverFaithPath, ObservableEndGame {
+public class FaithPath implements ObservableEndGame {
     private final ArrayList<Integer> positions;
     private int numOfPlayers;
     private int currentPlayer;
@@ -96,8 +96,11 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
 
 
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
-    @Override
-    public void update(int faithPoints) {
+    /**
+     * Update FaithPath so that the right amount of FAITHPOINTs is added to a player position
+     * @param faithPoints qty of FAITHPOINTs
+     */
+    public void incrementPosition(int faithPoints) {
         for(int i = 0; i < faithPoints; i++){
             if(positions.get(currentPlayer) != length-1) {
                 positions.set(currentPlayer, positions.get(currentPlayer) + 1);
@@ -107,11 +110,14 @@ public class FaithPath implements ObserverFaithPath, ObservableEndGame {
                 victoryConditions();
             }
         }
-
     }
 
-    @Override
-    public void updateEveryOneElse(int faithPoints) {
+    /**
+     * Method called when a player overflows Resources in Deposit. It updates the position of every other player by <br>
+     * the param
+     * @param faithPoints qty of FAITHPOINTs
+     */
+    public void incrementOthersPositions(int faithPoints) {
         for(int j = 0; j < faithPoints; j++) {
             for (int i = 0; i < numOfPlayers; i++) {
                 if (i != currentPlayer && positions.get(i) != length - 1) {
@@ -233,7 +239,7 @@ class playerFavour{
     }
 
     /**
-     * Sums all the integers that represent all the Favoure a player has collected over the game.
+     * Sums all the integers that represent all the Favours a player has collected over the game.
      */
     public int favourVictoryTotal(){
         int c=0;

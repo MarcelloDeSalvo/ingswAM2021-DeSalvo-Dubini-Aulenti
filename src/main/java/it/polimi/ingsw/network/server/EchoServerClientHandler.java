@@ -51,7 +51,7 @@ public class EchoServerClientHandler implements Runnable {
                         ServerSender serverSender = new ServerSender(socket, out);
 
                         User user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
-                        user.addLobbyOrView(lobbyManager);
+                        user.addServerArea(lobbyManager);
 
                         UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
                         lobbyManager.sendLobbyList(nickname);

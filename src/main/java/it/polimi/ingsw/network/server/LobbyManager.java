@@ -162,7 +162,7 @@ public class LobbyManager implements  ObserverViewIO {
         if(!lobbyToJoin.addUser(currentUser))
             return false;
 
-        currentUser.addLobbyOrView(lobbyToJoin);
+        currentUser.addServerArea(lobbyToJoin);
         currentUser.setStatus(Status.IN_LOBBY);
 
         return true;
@@ -179,7 +179,7 @@ public class LobbyManager implements  ObserverViewIO {
 
         newLobby.addUser(currentUser);
         lobbies.put(newLobbyName, newLobby);
-        currentUser.addLobbyOrView(newLobby);
+        currentUser.addServerArea(newLobby);
 
         currentUser.setStatus(Status.IN_LOBBY);
     }

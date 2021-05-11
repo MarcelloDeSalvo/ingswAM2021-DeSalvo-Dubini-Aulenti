@@ -20,10 +20,12 @@ class ActionTokenTest {
     void setUp() throws FileNotFoundException {
         game = new Game("Bandit", true);
         game.startGame();
+
         lorenzo = game.getLorenzo();
         cardgrid = game.getCardgrid();
         faithPath = game.getFaithPath();
         actionTokens = lorenzo.getActionTokens();
+
         game.nextTurn();
     }
 

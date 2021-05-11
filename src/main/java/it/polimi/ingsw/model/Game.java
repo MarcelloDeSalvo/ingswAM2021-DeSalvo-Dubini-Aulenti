@@ -21,7 +21,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
     private int numOfPlayers;
 
     private int currentPlayer = 0;
-    public int turnNumber = 0;
+    private int turnNumber = 0;
 
     private ArrayList<Player> playerList;
 
@@ -217,7 +217,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         String current;
         while(iter.hasNext()){
             current=iter.next();
-            playerList.add(new Player(current, i));
+            playerList.add(new Player(current, i, faithPath));
 
             if(i > 1) {
                 faithPath.getPositions().set(i, 1);
@@ -244,7 +244,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         String current;
         while(iter.hasNext()){
             current=iter.next();
-            playerList.add(new Player(current,pyramidHeight,prodSlotNum,i));
+            playerList.add(new Player(current, pyramidHeight, prodSlotNum, i, faithPath));
 
             if(i > 1) {
                 faithPath.getPositions().set(i, 1);
@@ -283,8 +283,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         lorenzo.shuffleActionTokens();
 
         playerList = new ArrayList<>();
-        playerList.add(new Player(nickname,0));
-        playerList.add(new Player("LORENZO",1));
+        playerList.add(new Player(nickname, 0, faithPath));
+        playerList.add(new Player("LORENZO", 1, faithPath));
 
         currentPlayer = 0;
         setUpObservers_singlePlayer();
@@ -301,8 +301,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
         //lorenzo.shuffleActionTokens();
 
         playerList = new ArrayList<>();
-        playerList.add(new Player(nickname,0));
-        playerList.add(new Player("LORENZO",1));
+        playerList.add(new Player(nickname, 0, faithPath));
+        playerList.add(new Player("LORENZO", 1, faithPath));
 
         setUpObservers_singlePlayer();
         distributeRandomLeadersToPlayer();
@@ -435,8 +435,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
 
         playerList.get(0).getPlayerBoard().addObserver(this);
 
-        ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
-        resourceContainer.addObserver(faithPath);
+        //ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
+        //resourceContainer.addObserver(faithPath);
     }
 
     /**
@@ -449,8 +449,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess{
             p.getPlayerBoard().addObserver(this);
         }
 
-        ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
-        resourceContainer.addObserver(faithPath);
+        //ResourceContainer resourceContainer = new ResourceContainer(ResourceType.BLANK,1);
+        //resourceContainer.addObserver(faithPath);
     }
     //------------------------------------------------------------------------------------------------------------------
 

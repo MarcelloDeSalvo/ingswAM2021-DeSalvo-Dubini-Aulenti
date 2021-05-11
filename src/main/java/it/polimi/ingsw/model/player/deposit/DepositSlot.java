@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-import it.polimi.ingsw.view.cli.Color;
 
 public abstract class  DepositSlot {
     private int maxDim;

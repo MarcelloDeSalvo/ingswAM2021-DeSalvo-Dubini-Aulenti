@@ -1,14 +1,10 @@
 package it.polimi.ingsw.model.resources;
 
 import it.polimi.ingsw.model.FaithPath;
-import it.polimi.ingsw.model.ObservableFaithPath;
-import it.polimi.ingsw.model.ObserverFaithPath;
 import it.polimi.ingsw.model.player.deposit.DepositSlot;
 import it.polimi.ingsw.model.player.Vault;
 
-import java.util.ArrayList;
-
-public class ResourceContainer implements ObservableFaithPath {
+public class ResourceContainer {
 
     private ResourceType resourceType;
 
@@ -16,8 +12,6 @@ public class ResourceContainer implements ObservableFaithPath {
      * Quantity of resources inside the container
      */
     private int qty;
-
-    private static final ArrayList<ObserverFaithPath> observers = new ArrayList<>();
 
     public ResourceContainer(ResourceType resourceType, int qty) throws ArithmeticException {
 
@@ -99,34 +93,13 @@ public class ResourceContainer implements ObservableFaithPath {
      * Increments the current player position by notifying FaithPath with an Observer
      * @return true if the resource has the permission
      */
-    public boolean addToFaithPath (){
+    public boolean addToFaithPath (FaithPath faithPath){
         if(this.getResourceType().canAddToFaithPath()) {
-            notifyFaithPath(this.getQty());
+            faithPath.incrementPosition(this.getQty());
             return true;
         }
         else
             return false;
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-
-
-    //OBSERVER METHODS--------------------------------------------------------------------------------------------------
-    @Override
-    public void addObserver(ObserverFaithPath observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void removeObserver(ObserverFaithPath observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyFaithPath(int faithPoints) {
-        for (ObserverFaithPath observer : observers) {
-            observer.update(faithPoints);
-        }
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -150,10 +123,6 @@ public class ResourceContainer implements ObservableFaithPath {
             throw new ArithmeticException("ResourceContainer can't have a negative qty");
         else
             this.qty = qty;
-    }
-
-    public ArrayList<ObserverFaithPath> getObservers() {
-        return observers;
     }
     //------------------------------------------------------------------------------------------------------------------
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 
 public class Player implements ObservableModel {
 
-    private ArrayList<ObserverModel> observers;
+    private final ArrayList<ObserverModel> observers;
 
     private String nickname;
     private ArrayList<LeaderCard> hand;
@@ -36,9 +37,9 @@ public class Player implements ObservableModel {
         observers = new ArrayList<>();
     }
 
-    public Player(String nickname, int orderID) {
+    public Player(String nickname, int orderID, FaithPath faithPath) {
         this.nickname = nickname;
-        this.playerBoard = new PlayerBoard(3,3);
+        this.playerBoard = new PlayerBoard(3,3, faithPath);
         this.orderID = orderID;
         hand = new ArrayList<>();
 
@@ -53,9 +54,9 @@ public class Player implements ObservableModel {
         observers = new ArrayList<>();
     }
 
-    public Player(String nickname, int pyramidHeight, int prodSlotNum, int orderID) {
+    public Player(String nickname, int pyramidHeight, int prodSlotNum, int orderID, FaithPath faithPath) {
         this.nickname = nickname;
-        this.playerBoard = new PlayerBoard(pyramidHeight,prodSlotNum);
+        this.playerBoard = new PlayerBoard(pyramidHeight, prodSlotNum, faithPath);
         this.orderID = orderID;
         hand = new ArrayList<>();
 

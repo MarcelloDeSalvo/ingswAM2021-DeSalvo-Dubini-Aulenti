@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.ObservableEndGame;
 import it.polimi.ingsw.model.ObserverEndGame;
 import it.polimi.ingsw.model.Util;
@@ -26,10 +27,28 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     private final ProductionSite productionSite;
     private final ConversionSite conversionSite;
     private final DiscountSite discountSite;
-    private ArrayList<ObserverEndGame> observersEndGame;
+    private final ArrayList<ObserverEndGame> observersEndGame;
     private int totalDevCards;
-    private int totalDevCardsForWinning;
+    private final int totalDevCardsForWinning;
 
+    /**
+     * Main constructor
+     */
+    public PlayerBoard(int pyramidHeight, int prodSlotNum, FaithPath faithPath) {
+        this.deposit = new Deposit(pyramidHeight);
+        this.vault = new Vault();
+        this.productionSite = new ProductionSite(prodSlotNum, faithPath);
+        this.conversionSite = new ConversionSite();
+        this.discountSite = new DiscountSite();
+
+        this.observersEndGame = new ArrayList<>();
+        this.totalDevCards = 0;
+        this.totalDevCardsForWinning = 7;
+    }
+
+    /**
+     * Used for testing
+     */
     public PlayerBoard(int pyramidHeight, int prodSlotNum) {
         this.deposit = new Deposit(pyramidHeight);
         this.vault = new Vault();
@@ -340,14 +359,17 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     public Deposit getDeposit() {
         return deposit;
     }
+
     @Override
     public ProductionSite getProductionSite() {
         return productionSite;
     }
+
     @Override
     public ConversionSite getConversionSite() {
         return conversionSite;
     }
+
     @Override
     public DiscountSite getDiscountSite() {
         return discountSite;

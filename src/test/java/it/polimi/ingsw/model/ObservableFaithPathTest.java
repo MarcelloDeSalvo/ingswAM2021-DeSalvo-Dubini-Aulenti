@@ -35,21 +35,21 @@ class ObservableFaithPathTest{
     @Test
     void notifyEndGame1() {
 
-        g.getFaithPath().update(23);
+        g.getFaithPath().incrementPosition(23);
         assertFalse(g.isFinalTurn());
-        g.getFaithPath().update(2);
+        g.getFaithPath().incrementPosition(2);
         assertTrue(g.isFinalTurn());
     }
 
     @Test
     void notifyEndGame2() {
 
-        g.getFaithPath().update(23);
+        g.getFaithPath().incrementPosition(23);
         g.getFaithPath().setCurrentPlayer(1);
-        g.getFaithPath().update(23);
+        g.getFaithPath().incrementPosition(23);
         assertFalse(g.isFinalTurn());
         g.getFaithPath().setCurrentPlayer(2);
-        g.getFaithPath().updateEveryOneElse(2);
+        g.getFaithPath().incrementOthersPositions(2);
     }
 
 }

@@ -18,11 +18,11 @@ class ObserverFaithPathTest {
     void updateTest(){
         assertEquals(0,faithPath.getPositions().get(0));
         assertEquals(0,faithPath.getPositions().get(1));
-        faithPath.update(1);
+        faithPath.incrementPosition(1);
         assertEquals(1,faithPath.getPositions().get(0));
         assertEquals(0,faithPath.getPositions().get(1));
         faithPath.setCurrentPlayer(2);
-        faithPath.update(15);
+        faithPath.incrementPosition(15);
         assertEquals(16,faithPath.getPositions().get(2));
 
 
@@ -33,7 +33,7 @@ class ObserverFaithPathTest {
         assertEquals(0,faithPath.getPositions().get(0));
         assertEquals(0,faithPath.getPositions().get(1));
 
-        faithPath.updateEveryOneElse(2);
+        faithPath.incrementOthersPositions(2);
 
         assertEquals(0,faithPath.getPositions().get(0));
         assertEquals(2,faithPath.getPositions().get(1));
@@ -41,7 +41,7 @@ class ObserverFaithPathTest {
         assertEquals(3,faithPath.getPositions().get(3));
 
         faithPath.setCurrentPlayer(1);
-        faithPath.updateEveryOneElse(1);
+        faithPath.incrementOthersPositions(1);
 
         assertEquals(1,faithPath.getPositions().get(0));
         assertEquals(2,faithPath.getPositions().get(1));

@@ -20,8 +20,10 @@ class LorenzoTest {
     static void setUp() throws FileNotFoundException {
         game = new Game("Lupo Lucio", true);
         game.startGame();
+
         lorenzo = game.getLorenzo();
         actionTokens = lorenzo.getActionTokens();
+
         game.nextTurn();
     }
 
@@ -38,7 +40,7 @@ class LorenzoTest {
         game.startGame();
 
         //Player does something
-        game.nextTurn(); //Player ends his turn
+        //game.nextTurn(); //Player ends his turn
 
         Assertions.assertEquals(lorenzo.getActionTokens().get(0).getColour(), Colour.GREEN);
         game.lorenzoPickAction();
@@ -47,7 +49,7 @@ class LorenzoTest {
         Assertions.assertEquals(lorenzo.getActionTokens().get(6).getColour(), Colour.GREEN);
 
         //Player does something
-        game.nextTurn();//Player ends his turn
+        //game.nextTurn();//Player ends his turn
 
         game.lorenzoPickAction();
         assertEquals(game.getCardgrid().getNumOfColor(Colour.BLUE),10); //Lorenzo removed two BLUE CARDS
@@ -92,7 +94,7 @@ class LorenzoTest {
         game = new Game("Lennon", true); //No shuffle mode (Gson inserts the tokens from the file without shuffling them)
         lorenzo = game.getLorenzo();
         game.startGame();
-        game.getFaithPath().updateEveryOneElse(25); //Lorenzo wins
+        game.getFaithPath().incrementOthersPositions(25); //Lorenzo wins
         game.nextTurn();
         assertTrue(game.isGameEnded());
         game.winnerCalculator();

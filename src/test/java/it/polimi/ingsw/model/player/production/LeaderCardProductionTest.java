@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.player.production;
 
+import it.polimi.ingsw.model.FaithPath;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -7,6 +9,7 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -140,8 +143,10 @@ class LeaderCardProductionTest {
     }
 
     @Test
-    void LeaderProduction() {
-        Player player = new Player("Ben Dover");
+    void LeaderProduction() throws FileNotFoundException {
+        Game game = new Game("Ben Dover");
+
+        Player player = game.getPlayer(0);
         PlayerBoard playerBoard = player.getPlayerBoard();
 
         //new leaderCardProduction gets added to ProductionSite

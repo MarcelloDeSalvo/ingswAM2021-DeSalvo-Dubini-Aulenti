@@ -120,7 +120,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 }
             }
 
-            user.removeLobbyOrView(this);
+            user.removeServerArea(this);
             user.setStatus(Status.IN_LOBBY_MANAGER);
         }
     }
@@ -133,7 +133,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         Lobby lobbyToDelete = getLobbies().get(lobbyName);
 
         getLobbies().remove(lobbyName, lobbyToDelete);
-        user.removeLobbyOrView(lobbyToDelete);
+        user.removeServerArea(lobbyToDelete);
     }
 
     /**
@@ -146,7 +146,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         for (String name: players.keySet()) {
             players.get(name).setStatus(Status.IN_GAME);
-            players.get(name).addLobbyOrView(controller.getView());
+            players.get(name).addServerArea(controller.getView());
         }
 
         isClosed = true;

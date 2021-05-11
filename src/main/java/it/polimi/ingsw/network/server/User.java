@@ -12,7 +12,7 @@ public class User implements ObserverThread, ObservableViewIO {
     private final String nickname;
     private final ServerReceiver serverReceiver;
     private final ServerSender serverSender;
-    private final List<ObserverViewIO> lobbies;
+    private final List<ObserverViewIO> serverAreas;
 
     private Status status;
 
@@ -22,29 +22,29 @@ public class User implements ObserverThread, ObservableViewIO {
         this.serverSender = serverSender;
         serverReceiver.addThreadObserver(this);
         this.status = status;
-        lobbies = new CopyOnWriteArrayList<>();
+        serverAreas = new CopyOnWriteArrayList<>();
     }
 
     @Override
     public void somethingHasBeenReceived(String message){
-        notifyLobbyOrView(message);
+        notifyServerAreas(message);
     }
 
     @Override
-    public void notifyLobbyOrView(String message) {
+    public void notifyServerAreas(String message) {
 
-        for (ObserverViewIO lobby: lobbies) {
-            lobby.update(message);
+        for (ObserverViewIO serverArea: serverAreas) {
+            serverArea.update(message);
         }
     }
 
     @Override
-    public void addLobbyOrView(ObserverViewIO lobby){
-        lobbies.add(lobby);
+    public void addServerArea(ObserverViewIO serverArea){
+        serverAreas.add(serverArea);
     }
 
-    public void removeLobbyOrView(ObserverViewIO lobby){
-        lobbies.remove(lobby);
+    public void removeServerArea(ObserverViewIO serverArea){
+        serverAreas.remove(serverArea);
     }
 
     public void userSend(Message message){

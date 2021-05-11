@@ -15,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceTypeTest {
     @BeforeEach
     void clear(){
-        ResourceContainer aCoin= new ResourceContainer(ResourceType.GOLD,1);
-        aCoin.getObservers().clear();
+        ResourceContainer aCoin = new ResourceContainer(ResourceType.GOLD,1);
     }
 
     @Test
@@ -49,10 +48,10 @@ class ResourceTypeTest {
         ResourceContainer faithPoint = new ResourceContainer(ResourceType.FAITHPOINT, 1);
         ResourceContainer gold = new ResourceContainer(ResourceType.GOLD, 1);
 
-        assertTrue(faithPoint.addToFaithPath());
-        assertTrue(faithPoint.addToFaithPath());
+        assertTrue(faithPoint.addToFaithPath(game.getFaithPath()));
+        assertTrue(faithPoint.addToFaithPath(game.getFaithPath()));
 
-        assertFalse(gold.addToFaithPath());
+        assertFalse(gold.addToFaithPath(game.getFaithPath()));
 
         assertEquals(faithPath.getPositions().get(0), 2);
     }
