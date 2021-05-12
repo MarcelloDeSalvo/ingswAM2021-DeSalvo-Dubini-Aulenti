@@ -157,15 +157,6 @@ public class Controller implements ObserverController {
 
         switch (command){
 
-            case SEND_CONTAINER:
-                SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
-                System.out.println("Arrived: " + sendContainer);
-
-                if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick, currPlayer))
-                    return;
-
-                break;
-
             case BUY:
                 BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
 
@@ -174,23 +165,6 @@ public class Controller implements ObserverController {
 
                 currPlayer.setPlayerStatus(PlayerStatus.SELECTING_BUY_RESOURCES);
 
-                break;
-
-            case DONE:
-                if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
-                    buyDevelopmentCard(senderNick, currPlayer);
-                    currPlayer.setPlayerStatus(PlayerStatus.IDLE);
-                    return;
-                }
-
-                /*if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
-                    produce();
-                    currPlayer.setPlayerStatus(PlayerStatus.IDLE);
-                    //message
-                    return;
-                }*/
-
-                //error message
                 break;
 
             case PICK_FROM_MARKET:
