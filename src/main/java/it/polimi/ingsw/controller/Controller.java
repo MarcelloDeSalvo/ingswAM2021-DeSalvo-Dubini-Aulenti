@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
@@ -80,7 +81,6 @@ public class Controller implements ObserverController {
 
         if (!isTheCurrentPlayer(senderNick))
             return;
-        }
 
         turnPhase_Commands(mex, senderNick, command);
     }
