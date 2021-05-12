@@ -3,7 +3,9 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.exceptions.*;
+import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.PlayerStatus;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
@@ -20,6 +22,10 @@ public class Controller implements ObserverController {
     private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
     private final Gson gson;
+
+    //BUFFERS
+    private ArrayList<ResourceContainer> marketOut;
+    private int marketOutCont = 0;
 
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
@@ -128,6 +134,11 @@ public class Controller implements ObserverController {
 
     private void turnPhase_Commands(String mex, String senderNick, Command command){
 
+        if (game.getCurrentPlayer().getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET)
+            selectDestinationAfterMarket( mex, senderNick, command);
+
+
+
         switch (command){
 
             case SEND_CONTAINER:
@@ -138,45 +149,33 @@ public class Controller implements ObserverController {
             case PICK_FROM_MARKET:
                 MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
 
-                ArrayList<ResourceContainer> marketOut = new ArrayList<>();
+                try {
+                    marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
+                    System.out.println(marketOut);
 
-                if (marketMessage.getSelection().equals("COLUMN")){
-                    try {
-                        marketOut = game.getMarket().getColumn(marketMessage.getNum());
-                        System.out.println(marketOut.toString());
-                    }catch (InvalidColumnNumber e){
-                        System.out.println(e.getMessage());
-                    }
-                }
-                /*
-                if (marketMessage.getSelection().equals("ROW")){
-                    try {
-                        marketOut = game.getMarket().getRow(marketMessage.getNum());
-                        System.out.println(marketOut.toString());
-                    }catch (InvalidRowNumber e){
-                        System.out.println(e.getMessage());
-                    }
+                }catch (InvalidColumnNumber | InvalidRowNumber e ){
+                    view.printReply_uni(e.getMessage(), senderNick);
+                    return;
                 }
 
-                if(game.getCurrentPlayer().getPlayerBoard().getConversionSite().canConvert() == ConversionMode.AUTOMATIC) {
-                    game.getCurrentPlayer().getPlayerBoard().getConversionSite().convert(marketOut);
-                    System.out.println(marketOut.toString());
+                if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
+                    view.printReply_uni("You selected: " + marketOut.toString() + "\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
+                    game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+                    return;
                 }
 
-                if (game.getCurrentPlayer().getPlayerBoard().getConversionSite().canConvert() == ConversionMode.CHOICE_REQUIRED){
-                    for (ResourceContainer rc: marketOut) {
-                        if(game.getCurrentPlayer().getPlayerBoard().getConversionSite().getDefaultConverted() == rc.getResourceType()){
+                if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
+                    game.getCurrentPlayer().convert(marketOut);
+                    view.printReply_uni("All blank marbles have been converted: " + marketOut.toString() + "\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
+                    game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+                    return;
+                }
 
-
-                            if(p.getPlayerBoard().getConvertionSite().getConversionsAvailable().contains(ResourceType.valueOf(name)))
-                                p.getPlayerBoard().getConvertionSite().convertSingleBlank(rc,new ResourceContainer(ResourceType.valueOf(name),1));
-                            System.out.println("Non esiste");
-
-
-                        }
-                    }
-
-                } */
+                if(game.getCurrentPlayer().canConvert() == ConversionMode.CHOICE_REQUIRED) {
+                    view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
+                    game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
+                    return;
+                }
                 break;
 
             case SHOW_DEPOSIT:
@@ -345,6 +344,31 @@ public class Controller implements ObserverController {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //SELECT A DEPOSIT ID AFTER PICKING FROM MARKET---------------------------------------------------------------------
+    public boolean selectDestinationAfterMarket(String mex, String senderNick, Command command) {
+        view.printReply_uni("Where do you want to put" + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+
+        if (command != Command.SEND_DEPOSIT_ID){
+            view.printReply_uni("Please select a depositID", senderNick);
+            return false;
+        }
+
+        Message leaderID = gson.fromJson(mex, Message.class);
+
+        try {
+            game.getCurrentPlayer().getDepositSlotByID(Integer.parseInt(leaderID.getInfo())).canAddToDepositSlot(marketOut.get(marketOutCont));
+        }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored e){
+            view.printReply_uni(e.getMessage(), senderNick);
+            return false;
+        }
+
+        game.getCurrentPlayer().getDepositSlotByID(Integer.parseInt(leaderID.getInfo())).addToDepositSlot(marketOut.get(marketOutCont));
+        marketOutCont++;
+
+        return true;
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
 
     //GETTERS-----------------------------------------------------------------------------------------------------------

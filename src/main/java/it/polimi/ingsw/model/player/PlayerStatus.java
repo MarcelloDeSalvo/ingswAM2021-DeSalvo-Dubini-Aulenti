@@ -1,0 +1,8 @@
+package it.polimi.ingsw.model.player;
+
+public enum  PlayerStatus {
+    SELECTING_DESTINATION_AFTER_MARKET,
+    SELECTING_CONVERSION,
+    SELECTING_BUY_RESOURCES,
+    SELECTING_PRODUCTION_RESOURCES
+}

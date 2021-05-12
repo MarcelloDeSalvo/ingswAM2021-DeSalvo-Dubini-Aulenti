@@ -20,11 +20,13 @@ public class Player implements ObservableModel {
 
     private ObserverModel view;
 
-    private String nickname;
-    private ArrayList<LeaderCard> hand;
-    private PlayerBoard playerBoard;
+    private final String nickname;
+    private final ArrayList<LeaderCard> hand;
+    private final PlayerBoard playerBoard;
     private int orderID;
+    private PlayerStatus playerStatus;
 
+    //set-up phase flags
     private boolean leadersHaveBeenDiscarded = false;
     private int selectedResources = 0;
     private boolean ready = false;
@@ -96,7 +98,8 @@ public class Player implements ObservableModel {
 
             if (hand.remove(leaderCardToRemove)) {
 
-                view.printHand(leaderListToInt(), nickname);
+                if (view!=null)
+                    view.printHand(leaderListToInt(), nickname);
 
                 if(hand.size() == 2)
                     setLeadersHaveBeenDiscarded(true);
@@ -174,6 +177,27 @@ public class Player implements ObservableModel {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+    //CONVERT METHODS---(Calls the methods of the lowest levels)------------------------------------------------------------
+    /**
+     * canConvert checks if and how many conversions are available
+     * @return INACTIVE if the player has no active conversion leader <br>
+     *         AUTOMATIC if he has only one active conversion leader <br>
+     *         CHOICE REQUIRED if he has two conversion leader
+     */
+    public ConversionMode canConvert() {
+        return playerBoard.getConversionSite().canConvert();
+    }
+
+    /**
+     * Method called for conversion when there's only one a single conversion available, thus no choice by the user is needed.
+     * @return The converted input array
+     */
+    public boolean convert(ArrayList<ResourceContainer> marketOutput) {
+        return playerBoard.getConversionSite().convert(marketOutput);
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
 
     //PRODUCTION PIPELINE---(Calls the methods of the lowest levels)----------------------------------------------------
     /**
@@ -224,16 +248,8 @@ public class Player implements ObservableModel {
         return nickname;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public PlayerBoard getPlayerBoard() {
         return playerBoard;
-    }
-
-    public void setPlayerBoard(PlayerBoard playerBoard) {
-        this.playerBoard = playerBoard;
     }
 
     public int getOrderID() {
@@ -272,16 +288,8 @@ public class Player implements ObservableModel {
         return playerBoard.getDepositSlotByID(id);
     }
 
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
-    }
-
     public ArrayList<LeaderCard> getHand() {
         return hand;
-    }
-
-    public void setHand(ArrayList<LeaderCard> hand) {
-        this.hand = hand;
     }
 
     public boolean isLeadersHaveBeenDiscarded() {
@@ -313,6 +321,22 @@ public class Player implements ObservableModel {
         this.ready = ready;
     }
 
+    public PlayerStatus getPlayerStatus() {
+        return playerStatus;
+    }
+
+    public void setPlayerStatus(PlayerStatus playerStatus) {
+        this.playerStatus = playerStatus;
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    //OBSERVABLE MODEL--------------------------------------------------------------------------------------------------
+    @Override
+    public void addView(ObserverModel view) {
+        this.view = view;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -327,12 +351,6 @@ public class Player implements ObservableModel {
                 '}';
     }
     //------------------------------------------------------------------------------------------------------------------
-
-
-    @Override
-    public void addView(ObserverModel view) {
-        this.view = view;
-    }
 
 
 

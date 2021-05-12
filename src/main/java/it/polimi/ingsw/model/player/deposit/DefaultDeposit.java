@@ -35,17 +35,17 @@ public class DefaultDeposit extends DepositSlot {
         int quantityThatIWantToAdd = inputContainer.getQty();
 
         if(isTheResourceTypeAlreadyTaken(inputContainer.getResourceType()))
-            throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type");
+            throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type, please select another deposit or discard the resource");
 
 
         if(this.isEmpty() || inputContainer.isTheSameType(this.getDepositContainer())){
             if(canAdd(quantityThatIWantToAdd))
                 return true;
             else
-                throw new DepositSlotMaxDimExceeded("Max dimension Exceeded");
+                throw new DepositSlotMaxDimExceeded("This deposit has reached the maximum dimension, please select another one");
         }
 
-        throw new DifferentResourceType("Not the same type");
+        throw new DifferentResourceType("This deposit is already storing a different resourceType, please select another one");
     }
 
     @Override

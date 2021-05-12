@@ -162,6 +162,10 @@ public class Cli extends ClientView {
 
                     break;
 
+                case "DEPOSIT":
+                    send(new Message.MessageBuilder().setCommand(Command.SEND_DEPOSIT_ID).setInfo(stdIn.next()).setNickname(this.getNickname()).build());
+                    break;
+
                 case "GIVE":
                     if (!giveContainer(stdIn))
                         default_case();

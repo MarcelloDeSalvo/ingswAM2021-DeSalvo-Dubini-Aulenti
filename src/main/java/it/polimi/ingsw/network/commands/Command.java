@@ -27,6 +27,7 @@ public enum Command {
     PRODUCE         (false, false, true, Status.IN_GAME),
     FILL_QM         (false, false, true, Status.IN_GAME),
     PICK_FROM_MARKET(false, false,true, Status.IN_GAME ),
+    SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME ),
     MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),
     SEND_CONTAINER  (false,false,true,Status.IN_GAME),
     SETUP_CONTAINER (false, false, true, Status.IN_GAME),

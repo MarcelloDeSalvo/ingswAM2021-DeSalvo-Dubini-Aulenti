@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Market {
-    private static final int columns=4;
-    private static final int rows=3;
+    private final int columns=4;
+    private final int rows=3;
 
     private ResourceContainer[][] market= new ResourceContainer[columns][rows];
     private ResourceContainer vacant;
@@ -70,6 +70,16 @@ public class Market {
         market[selectedColumn-1][rows-1]=vacantCopy;
 
         return outputColumn;
+    }
+
+    public ArrayList<ResourceContainer> getRowOrColumn(String selection, int num) throws InvalidColumnNumber, InvalidRowNumber {
+        if (selection.toUpperCase().equals("COLUMNS"))
+            return getColumn(num);
+
+        if (selection.toUpperCase().equals("ROWS"))
+            return getRow(num);
+
+        return null;
     }
 
     public ResourceContainer getMarketCell (int rowNum,int columnNum){
