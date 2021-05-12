@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.player.PlayerBoard_AbilityAccess;
 import it.polimi.ingsw.model.player.production.LeaderCardProduction;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
@@ -44,11 +45,18 @@ public class ProductionAbility implements Ability {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "\nProductionAbility: " +
-                "Input =" + input +
-                ", QuestionMarkOnInput = " + questionMarkOnInput +
-                ", Output = " + output +
-                ", QuestionMarkOnOutput = " + questionMarkOnOutput;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("\nProduction Ability: ").append(input);
+
+        if(questionMarkOnInput != 0)
+            stringBuilder.append(" + ").append(questionMarkOnInput).append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
+
+        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape()).append(output);
+
+        if(questionMarkOnOutput != 0)
+            stringBuilder.append(" + ").append(questionMarkOnOutput).append(" ").append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
+
+        return stringBuilder.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

@@ -114,10 +114,10 @@ public class Market {
         for(int i=-1; i<rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if(i == -1)
-                    markeToString.append("\t").append("\t").append("\t").append("  ").append(j).append("\t").append("\t");
+                    markeToString.append("\t").append("\t").append("\t").append("  ").append(j+1).append("\t").append("\t");
                 else{
                     if(j == 0)
-                        markeToString.append(i).append("\t").append("|").append("\t").append("\t");
+                        markeToString.append(i+1).append("\t").append("|").append("\t").append("\t");
                     markeToString.append(market[j][i].getResourceType()).append("\t").append("\t").append("|").append("\t").append("\t");
                 }
             }

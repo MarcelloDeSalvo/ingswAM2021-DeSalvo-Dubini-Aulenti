@@ -25,7 +25,7 @@ public class ConversionAbility implements Ability {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "\nConversionAbility: " +
+        return "\nConversion Ability: " +
                 "Output = " + output;
     }
     //------------------------------------------------------------------------------------------------------------------

@@ -51,7 +51,7 @@ public class ResourceRequirement implements Requirement{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "\nResourceRequirement: " +
+        return "\nResource Requirement: " +
                 resourceContainer;
     }
     //------------------------------------------------------------------------------------------------------------------

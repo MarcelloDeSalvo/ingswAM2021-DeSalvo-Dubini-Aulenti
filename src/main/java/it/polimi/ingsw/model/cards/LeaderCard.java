@@ -100,14 +100,16 @@ public class LeaderCard extends Card{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return Color.ANSI_BLUE.escape() +
-                "\nLeaderCard " +
-                Color.ANSI_RESET.escape() +
-                super.toString() +
-                Color.ANSI_CYAN.escape() +
-                "\nAbilities: " +
-                Color.ANSI_RESET.escape() +
-                abilities;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(Color.ANSI_BLUE.escape()).append("LeaderCard ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(super.toString());
+        stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nAbilities: ").append(Color.ANSI_RESET.escape());
+
+        for(Ability ability : abilities)
+            stringBuilder.append(ability.toString());
+
+        return stringBuilder.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

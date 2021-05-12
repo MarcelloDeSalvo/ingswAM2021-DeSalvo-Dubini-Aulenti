@@ -52,7 +52,7 @@ public class DevelopmentRequirement implements Requirement {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\nDevelopmentRequirement: ");
+        stringBuilder.append("\nDevelopment Requirement: ");
 
         if(number != 0)
             stringBuilder.append("Number = ").append(number).append(", ");
