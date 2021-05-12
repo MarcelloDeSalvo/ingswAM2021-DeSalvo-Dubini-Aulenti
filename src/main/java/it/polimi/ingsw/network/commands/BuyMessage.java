@@ -4,13 +4,13 @@ public class BuyMessage extends Message{
     private final int row;
     private final int column;
 
-    private final int ProductionSlotID;
+    private final int productionSlotID;
 
     public BuyMessage(int row, int column, int productionSlotID, String senderNick) {
         super(new Message.MessageBuilder().setNickname(senderNick).setCommand(Command.BUY));
         this.row = row;
         this.column = column;
-        ProductionSlotID = productionSlotID;
+        this.productionSlotID = productionSlotID;
     }
 
     public int getRow() {
@@ -22,6 +22,6 @@ public class BuyMessage extends Message{
     }
 
     public int getProductionSlotID() {
-        return ProductionSlotID;
+        return productionSlotID;
     }
 }

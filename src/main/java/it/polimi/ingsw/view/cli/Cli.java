@@ -163,7 +163,7 @@ public class Cli extends ClientView {
                     break;
 
                 case "DEPOSIT":
-                    send(new Message.MessageBuilder().setCommand(Command.SEND_DEPOSIT_ID).setInfo(stdIn.next()).setNickname(this.getNickname()).build());
+                    send(new IdMessage(Command.SEND_DEPOSIT_ID, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "GIVE":
@@ -212,11 +212,11 @@ public class Cli extends ClientView {
                     break;
 
                 case "DISCARD":
-                    send(new LeaderIdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
+                    send(new IdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "ACTIVATE":
-                    send(new LeaderIdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
+                    send(new IdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "MOVE":

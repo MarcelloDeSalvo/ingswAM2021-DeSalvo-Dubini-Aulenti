@@ -31,7 +31,7 @@ public class ActionToken {
                 if(faithPoints == 1)
                     game.getLorenzo().shuffleActionTokens();
 
-                ResourceContainer container = new ResourceContainer(ResourceType.FAITHPOINT, faithPoints);
+                ResourceContainer container = new ResourceContainer(ResourceType.FAITH, faithPoints);
                 container.addToFaithPath(game.getFaithPath());
             }
         };

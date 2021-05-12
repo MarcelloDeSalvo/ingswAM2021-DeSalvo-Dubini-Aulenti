@@ -92,7 +92,7 @@ public class Vault {
             if(!Util.isPresent(current.getResourceType(),vaultMap))
                 throw new NotEnoughResources("There are currently 0 " + current.getResourceType() + " in the Vault!");
             else if(!vaultMap.get(current.getResourceType()).hasEnough(current, bufferMap.get(current.getResourceType())))
-                throw new NotEnoughResources("Not enough resources");
+                throw new NotEnoughResources("Not enough resources in Vault");
         }
 
         bufferMap = Util.arraylistToMap(inputArr);
@@ -111,7 +111,7 @@ public class Vault {
         if(!Util.isPresent(inputContainer.getResourceType(),vaultMap))
             throw new NotEnoughResources("There are currently 0 " + inputContainer.getResourceType() + " in the Vault!");
         else if(!vaultMap.get(inputContainer.getResourceType()).hasEnough(inputContainer, bufferMap.get(inputContainer.getResourceType())))
-            throw new NotEnoughResources("Not enough resources");
+            throw new NotEnoughResources("Not enough resources in Vault");
 
 
         if(Util.isPresent(inputContainer.getResourceType(), bufferMap))

@@ -25,7 +25,7 @@ public class Controller implements ObserverController {
 
     //BUFFERS
     private ArrayList<ResourceContainer> marketOut;
-    private int marketOutCont = 1;
+    private int marketOutCont = 0;
 
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
@@ -88,14 +88,14 @@ public class Controller implements ObserverController {
         switch (command){
 
             case DISCARD_LEADER:
-                LeaderIdMessage leaderIdMessage = gson.fromJson(mex, LeaderIdMessage.class);
+                IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
 
                 if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
                     view.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
                     return;
                 }
 
-                if (!game.getPlayer(playerNumber).discardFromHand(leaderIdMessage.getLeaderID())) {
+                if (!game.getPlayer(playerNumber).discardFromHand(idMessage.getId())) {
                     view.printReply_uni("Wrong Leader ID", senderNick);
                     return;
                 }
@@ -136,14 +136,8 @@ public class Controller implements ObserverController {
 
         if (game.getCurrentPlayer().getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
             selectDestinationAfterMarket( mex, senderNick, command);
-            if (marketOutCont > marketOut.size()) {
-                view.printReply_uni("Ok, now you can do another action", senderNick);
-                game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
-                marketOut = null;
-                marketOutCont = 1;
-            }
+            return;
         }
-
 
         switch (command){
 
@@ -153,37 +147,7 @@ public class Controller implements ObserverController {
                 break;
 
             case PICK_FROM_MARKET:
-                MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
-
-                try {
-                    marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
-                    System.out.println(marketOut);
-
-                }catch (InvalidColumnNumber | InvalidRowNumber e ){
-                    view.printReply_uni(e.getMessage(), senderNick);
-                    return;
-                }
-
-                if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
-                    view.printReply_uni("You selected: " + marketOut.toString() + "\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
-                    view.printReply_uni("The first one: " + marketOut.get(0).toString(), senderNick);
-                    game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
-                    return;
-                }
-
-                if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
-                    game.getCurrentPlayer().convert(marketOut);
-                    view.printReply_uni("All blank marbles have been converted to " + game.getCurrentPlayer().getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString() + "\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
-                    view.printReply_uni("The first one: " + marketOut.get(0).toString(), senderNick);
-                    game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
-                    return;
-                }
-
-                if(game.getCurrentPlayer().canConvert() == ConversionMode.CHOICE_REQUIRED) {
-                    view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
-                    game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
-                    return;
-                }
+                pickFromMarket(mex, senderNick);
                 break;
 
             case SHOW_DEPOSIT:
@@ -356,29 +320,97 @@ public class Controller implements ObserverController {
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //SELECT A DEPOSIT ID AFTER PICKING FROM MARKET---------------------------------------------------------------------
-    public void selectDestinationAfterMarket(String mex, String senderNick, Command command) {
-
-        if (command != Command.SEND_DEPOSIT_ID){
-            view.printReply_uni("Please select a depositID", senderNick);
-            return;
-        }
-
-        Message leaderID = gson.fromJson(mex, Message.class);
+    //MARKET ACTION CONTROLLER------------------------------------------------------------------------------------------
+    public void pickFromMarket(String mex, String senderNick){
+        MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
 
         try {
-            game.getCurrentPlayer().getDepositSlotByID(Integer.parseInt(leaderID.getInfo())).canAddToDepositSlot(marketOut.get(marketOutCont));
-        }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored e){
+            marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
+            System.out.println(marketOut);
+
+        }catch (InvalidColumnNumber | InvalidRowNumber e ){
             view.printReply_uni(e.getMessage(), senderNick);
             return;
         }
 
-        game.getCurrentPlayer().getDepositSlotByID(Integer.parseInt(leaderID.getInfo())).addToDepositSlot(marketOut.get(marketOutCont));
-        marketOutCont++;
+        if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
+            view.printReply_uni("You selected: " + marketOut.toString() +
+                    "\n\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
 
-        view.printReply_uni("Where do you want to put" + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+            marketAddDepositController(senderNick);
+
+            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+            return;
+        }
+
+        if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
+            game.getCurrentPlayer().convert(marketOut);
+
+            view.printReply_uni("All blank marbles have been converted to " + game.getCurrentPlayer().getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString() +
+                    "\n\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
+
+            marketAddDepositController(senderNick);
+
+            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+            return;
+        }
+
+        if(game.getCurrentPlayer().canConvert() == ConversionMode.CHOICE_REQUIRED) {
+            view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
+
+            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
+        }
+
     }
 
+    public void selectDestinationAfterMarket(String mex, String senderNick, Command command) {
+
+        if (command != Command.SEND_DEPOSIT_ID){
+            view.printReply_uni("Please select a depositID", senderNick);
+            return ;
+        }
+
+        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
+
+        try {
+            game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).canAddToDepositSlot(marketOut.get(marketOutCont));
+        }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException e){
+            view.printReply_uni(e.getMessage(), senderNick);
+            return ;
+        }
+
+        game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).addToDepositSlot(marketOut.get(marketOutCont));
+        marketOutCont++;
+
+        marketAddDepositController(senderNick);
+
+    }
+
+    public void increaseMarketOut_NotAddableResources(){
+        if (marketOutCont==marketOut.size())
+            return;
+
+       while (!marketOut.get(marketOutCont).getResourceType().canAddToDeposit()){
+           marketOutCont++;
+           if (marketOutCont==marketOut.size())
+               break;
+       }
+
+    }
+
+    public void marketAddDepositController(String senderNick){
+        increaseMarketOut_NotAddableResources();
+
+        if (marketOutCont < marketOut.size()){
+            view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+            return;
+        }
+
+        view.printReply_uni("All the resources that can be added to a deposit are finished. You can continue your turn", senderNick);
+        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
+        marketOut = null;
+        marketOutCont = 0;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

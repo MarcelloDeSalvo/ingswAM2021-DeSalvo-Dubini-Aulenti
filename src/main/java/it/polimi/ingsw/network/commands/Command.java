@@ -25,6 +25,7 @@ public enum Command {
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),
     PRODUCE         (false, false, true, Status.IN_GAME),
+    DONE            (false, false, true, Status.IN_GAME),
     FILL_QM         (false, false, true, Status.IN_GAME),
     PICK_FROM_MARKET(false, false,true, Status.IN_GAME ),
     SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME ),

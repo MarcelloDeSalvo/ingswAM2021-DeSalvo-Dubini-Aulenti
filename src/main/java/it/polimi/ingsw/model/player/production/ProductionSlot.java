@@ -39,9 +39,16 @@ public interface ProductionSlot {
      * if the queue already has elements in it and if level+1 of the element on top == new card level
      * the method sets the first element of the queue to "ACTIVE" and then adds the new one
      * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
-     * @return true
+     * @return true if everything goes right, false if you can't add the newDevelopmentCard for some reasons
      */
      boolean insertOnTop(DevelopmentCard newDevelopmentCard);
+
+    /**
+     * Used to check if a specific Development Card can be put "ON_TOP" of a Production Slot
+     * @param newDevelopmentCard the DevelopmentCard to checj
+     * @return true if everything goes right, false if you can't add the newDevelopmentCard for some reasons
+     */
+     boolean canInsertOnTop(DevelopmentCard newDevelopmentCard);
 
     /**
      * Checks the amount and the type of development cards active

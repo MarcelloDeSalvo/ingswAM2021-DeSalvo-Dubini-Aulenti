@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.player.production;
 
-import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
@@ -23,7 +22,7 @@ class LeaderCardProductionTest {
         input = new ArrayList<>();
         output = new ArrayList<>();
         input.add(new ResourceContainer(ResourceType.GOLD, 1));
-        output.add(new ResourceContainer(ResourceType.FAITHPOINT, 1));
+        output.add(new ResourceContainer(ResourceType.FAITH, 1));
     }
 
     @Test
@@ -58,7 +57,7 @@ class LeaderCardProductionTest {
 
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD);
 
-        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITHPOINT);
+        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITH);
         assertEquals(leaderCardProduction.getOutputBuffer().get(1).getResourceType(), ResourceType.SHIELD);
     }
 
@@ -70,7 +69,7 @@ class LeaderCardProductionTest {
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE);
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD);
 
-        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITHPOINT);
+        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITH);
         assertEquals(leaderCardProduction.getOutputBuffer().get(1).getResourceType(), ResourceType.GOLD);
         assertEquals(leaderCardProduction.getOutputBuffer().get(2).getResourceType(), ResourceType.STONE);
         assertEquals(leaderCardProduction.getOutputBuffer().get(3).getResourceType(), ResourceType.SHIELD);
@@ -100,7 +99,7 @@ class LeaderCardProductionTest {
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE);
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD);
 
-        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITHPOINT);
+        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITH);
         assertEquals(leaderCardProduction.getOutputBuffer().get(1).getResourceType(), ResourceType.STONE);
         assertEquals(leaderCardProduction.getOutputBuffer().get(2).getResourceType(), ResourceType.SHIELD);
 
@@ -120,7 +119,7 @@ class LeaderCardProductionTest {
         assertEquals(leaderCardProduction.getInputBuffer().get(0).getResourceType(), ResourceType.GOLD);
         assertEquals(leaderCardProduction.getInputBuffer().get(1).getResourceType(), ResourceType.STONE);
 
-        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITHPOINT);
+        assertEquals(leaderCardProduction.getOutputBuffer().get(0).getResourceType(), ResourceType.FAITH);
         assertEquals(leaderCardProduction.getOutputBuffer().get(1).getResourceType(), ResourceType.SHIELD);
 
         assertTrue(leaderCardProduction.clearCurrentBuffer());

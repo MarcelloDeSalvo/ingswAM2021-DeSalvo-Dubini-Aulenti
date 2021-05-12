@@ -11,10 +11,12 @@ import it.polimi.ingsw.model.player.deposit.DepositSlot;
 import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.player.production.ProductionSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player implements ObservableModel {
 
@@ -175,6 +177,13 @@ public class Player implements ObservableModel {
     public boolean insertBoughtCardOn(int id, DevelopmentCard developmentCard){
         return playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard);
     }
+
+    /**
+     * Clears all the buffers when the selected resources are wrong and we have to cancel the payment
+     */
+    public boolean emptyBuffers(){
+        return playerBoard.emptyBuffers();
+    }
     //------------------------------------------------------------------------------------------------------------------
 
     //CONVERT METHODS---(Calls the methods of the lowest levels)------------------------------------------------------------
@@ -225,6 +234,57 @@ public class Player implements ObservableModel {
      */
     public boolean produce(){
        return playerBoard.produce();
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //CHECKS ------(Calls the methods of the lowest levels)-------------------------------------------------------------
+    /**
+     * Uses the current quantity of the single requested ResourceContainer (sum of deposit and vault)
+     * @return true if the user has enough resources
+     */
+    public boolean hasEnoughResources(ResourceContainer requested){
+        return playerBoard.hasEnoughResources(requested);
+    }
+
+    /**
+     * Returns the  current quantity of the requested ArrayList of resources (sum of deposit and vault)
+     * @return true if the user has enough resources
+     */
+    public boolean hasEnoughResources (ArrayList<ResourceContainer> requested) {
+        return playerBoard.hasEnoughResources(requested);
+    }
+
+    /**
+     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
+     * @return true if the user has enough resources
+     */
+    public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
+        return playerBoard.hasEnoughResources(requested);
+    }
+
+    /**
+     * Checks if a specific element inside of inputArr is present in the HashMap and if they can be subtracted <br>
+     * If everything goes right the element is added bufferArr
+     * @return true if the ResourceType of inputContainer is present as a Key and if the quantity can be removed
+     * @throws NotEnoughResources if it doesn't contain a specific ResourceType OR if it doesn't contain enough resources
+     * of that specific ResourceType
+     */
+    public boolean canRemoveFromVault(ResourceContainer inputContainer) throws NotEnoughResources {
+        return playerBoard.getVault().canRemoveFromVault(inputContainer);
+    }
+
+    /**
+     * Checks if a series of elements inside of inputArr is present in the HashMap and if they can be subtracted <br>
+     * if everything goes right bufferMap is put "=" to inputArr
+     * @param inputArr is an array of ResourceContainer. It contains a list of elements <br>
+     * (they must be different from each other) and we need to check if they are in the Vault
+     * @return true if the elements in inputArr are present in the HashMap
+     * @throws NotEnoughResources if it doesn't contain a specific ResourceType OR if it doesn't contain enough resources
+     * of that specific ResourceType
+     */
+    public boolean canRemoveFromVault(ArrayList<ResourceContainer> inputArr) throws NotEnoughResources {
+        return playerBoard.getVault().canRemoveFromVault(inputArr);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -284,7 +344,7 @@ public class Player implements ObservableModel {
         return playerBoard.getLeaderDepositNumberX(x);
     }
 
-    public DepositSlot getDepositSlotByID(int id){
+    public DepositSlot getDepositSlotByID(int id) throws IndexOutOfBoundsException{
         return playerBoard.getDepositSlotByID(id);
     }
 
