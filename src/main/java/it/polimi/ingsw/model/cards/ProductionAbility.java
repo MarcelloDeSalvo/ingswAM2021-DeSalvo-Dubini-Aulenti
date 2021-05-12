@@ -46,12 +46,20 @@ public class ProductionAbility implements Ability {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\nProduction Ability: ").append(input);
+        stringBuilder.append("\nProduction Ability: ");
+
+        for (ResourceContainer container : input) {
+            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+        }
 
         if(questionMarkOnInput != 0)
             stringBuilder.append(" + ").append(questionMarkOnInput).append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
 
-        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape()).append(output);
+        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+
+        for (ResourceContainer container : output) {
+            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+        }
 
         if(questionMarkOnOutput != 0)
             stringBuilder.append(" + ").append(questionMarkOnOutput).append(" ").append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
