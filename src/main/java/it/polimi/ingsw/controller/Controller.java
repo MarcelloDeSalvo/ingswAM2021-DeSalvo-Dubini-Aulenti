@@ -450,6 +450,22 @@ public class Controller implements ObserverController {
 
 
     //MARKET ACTION CONTROLLER------------------------------------------------------------------------------------------
+    public void marketAddDepositController(String senderNick){
+        increaseMarketOut_NotAddableResources();
+
+        System.out.println(marketOutCont);
+
+        if (marketOutCont < marketOut.size()){
+            view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+            return;
+        }
+
+        view.printReply_uni("All the resources that can be added to a deposit are finished. You can continue your turn", senderNick);
+        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
+        marketOut = null;
+        marketOutCont = 0;
+    }
+
     public void pickFromMarket(String mex, String senderNick){
         MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
 
@@ -469,8 +485,7 @@ public class Controller implements ObserverController {
         }
 
         if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
-            view.printReply_uni("You selected: " + marketOut.toString() +
-                    "\n\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
+            view.printReply_uni("\n\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
         }
 
         if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
@@ -514,28 +529,13 @@ public class Controller implements ObserverController {
             return;
 
        while (!marketOut.get(marketOutCont).getResourceType().canAddToDeposit()){
+           if (marketOut.get(marketOutCont).getResourceType().canAddToFaithPath())
+               incPosOfCurrentPlayer(1);
            marketOutCont++;
-           System.out.println("ee");
            if (marketOutCont==marketOut.size())
                break;
        }
 
-    }
-
-    public void marketAddDepositController(String senderNick){
-        increaseMarketOut_NotAddableResources();
-
-        System.out.println(marketOutCont);
-
-        if (marketOutCont < marketOut.size()){
-            view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
-            return;
-        }
-
-        view.printReply_uni("All the resources that can be added to a deposit are finished. You can continue your turn", senderNick);
-        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
-        marketOut = null;
-        marketOutCont = 0;
     }
 
     public boolean mustDiscardCheck(String senderNick) {

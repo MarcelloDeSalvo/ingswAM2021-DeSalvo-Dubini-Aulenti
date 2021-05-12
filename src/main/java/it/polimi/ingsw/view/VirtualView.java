@@ -181,11 +181,11 @@ public class VirtualView implements View {
     public void notifyFaithPathProgression(int qty, String nickname) {
 
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
-                .setInfo("Your current position has been incremented of " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
+                .setInfo("Your current position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
                     .setNickname(nickname).build());
 
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
-                .setInfo(nickname + "'s position has been incremented of " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
+                .setInfo(nickname + "'s position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
                     .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
     }
 
