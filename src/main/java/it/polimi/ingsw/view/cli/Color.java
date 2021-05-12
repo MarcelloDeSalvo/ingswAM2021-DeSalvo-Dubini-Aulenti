@@ -5,8 +5,8 @@ public enum Color {
     ANSI_YELLOW ("\u001B[33m"),
     ANSI_BLUE ("\u001B[34m"),
     ANSI_PURPLE ("\u001B[35m"),
-    ANSI_GRAY ("\u001B[0;37m"),
-    ANSI_WHITE ("\u001B[37m"),
+    ANSI_GRAY ("\u001B[37m"),
+    ANSI_WHITE ("\u001B[0;1m"),
 
     ANSI_GREEN ("\u001B[32m"),
     ANSI_CYAN ("\u001B[36m"),

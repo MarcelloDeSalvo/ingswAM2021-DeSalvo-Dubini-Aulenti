@@ -111,13 +111,19 @@ public class Market {
         StringBuilder markeToString = new StringBuilder();
         markeToString.append(Color.ANSI_CYAN.escape()).append("MARKET:").append(Color.ANSI_RESET.escape()).append("\n");
 
-        for(int i=0; i<rows;i++) {
+        for(int i=-1; i<rows; i++) {
             for (int j = 0; j < columns; j++) {
-                markeToString.append(market[j][i].getResourceType()).append("\t").append("\t").append("|").append("\t").append("\t");
+                if(i == -1)
+                    markeToString.append("\t").append("\t").append("\t").append("  ").append(j).append("\t").append("\t");
+                else{
+                    if(j == 0)
+                        markeToString.append(i).append("\t").append("|").append("\t").append("\t");
+                    markeToString.append(market[j][i].getResourceType()).append("\t").append("\t").append("|").append("\t").append("\t");
+                }
             }
             markeToString.append("\n");
         }
-        markeToString.append("Il vacant è: ").append(vacant.getResourceType());
+        markeToString.append("\nThe vacant is: ").append(vacant.getResourceType());
 
         return markeToString.toString();
     }
