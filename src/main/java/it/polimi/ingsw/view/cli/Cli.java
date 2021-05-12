@@ -236,6 +236,10 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
                     break;
 
+                case "SHOW_MARKET":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_MAKET).setNickname(this.getNickname()).build());
+                    break;
+
                 case "END_TURN":
                     send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
                     break;

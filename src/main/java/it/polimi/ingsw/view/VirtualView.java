@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -167,9 +168,13 @@ public class VirtualView implements View {
 
     @Override
     public void askForResources(String nickname, int qty) {
-            notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
+    }
+
+    public void printMarket(Market market, String nickname){
+        printReply_uni(market.toString(), nickname);
     }
 
     @Override

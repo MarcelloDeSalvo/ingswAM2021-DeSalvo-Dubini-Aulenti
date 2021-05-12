@@ -4,13 +4,14 @@ import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
 import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Market {
     private final int columns=4;
     private final int rows=3;
 
-    private ResourceContainer[][] market= new ResourceContainer[columns][rows];
+    private final ResourceContainer[][] market= new ResourceContainer[columns][rows];
     private ResourceContainer vacant;
 
     public Market(ArrayList<ResourceContainer> marblesMarket){
@@ -73,10 +74,10 @@ public class Market {
     }
 
     public ArrayList<ResourceContainer> getRowOrColumn(String selection, int num) throws InvalidColumnNumber, InvalidRowNumber {
-        if (selection.toUpperCase().equals("COLUMNS"))
+        if (selection.toUpperCase().equals("COLUMN"))
             return getColumn(num);
 
-        if (selection.toUpperCase().equals("ROWS"))
+        if (selection.toUpperCase().equals("ROW"))
             return getRow(num);
 
         return null;
@@ -101,6 +102,20 @@ public class Market {
             System.out.println();
         }
         System.out.println("Il vacant è: "+vacant.getResourceType());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder markeToString = new StringBuilder();
+        for(int i=0; i<rows;i++) {
+            for (int j = 0; j < columns; j++) {
+                markeToString.append(market[j][i].getResourceType()).append("   |   ");
+            }
+            markeToString.append("\n");
+        }
+        markeToString.append("Il vacant è: ").append(vacant.getResourceType());
+
+        return markeToString.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

@@ -25,7 +25,7 @@ public class Controller implements ObserverController {
 
     //BUFFERS
     private ArrayList<ResourceContainer> marketOut;
-    private int marketOutCont = 0;
+    private int marketOutCont = 1;
 
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
@@ -134,9 +134,15 @@ public class Controller implements ObserverController {
 
     private void turnPhase_Commands(String mex, String senderNick, Command command){
 
-        if (game.getCurrentPlayer().getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET)
+        if (game.getCurrentPlayer().getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
             selectDestinationAfterMarket( mex, senderNick, command);
-
+            if (marketOutCont > marketOut.size()) {
+                view.printReply_uni("Ok, now you can do another action", senderNick);
+                game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
+                marketOut = null;
+                marketOutCont = 1;
+            }
+        }
 
 
         switch (command){
@@ -160,13 +166,15 @@ public class Controller implements ObserverController {
 
                 if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
                     view.printReply_uni("You selected: " + marketOut.toString() + "\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
+                    view.printReply_uni("The first one: " + marketOut.get(0).toString(), senderNick);
                     game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
                     return;
                 }
 
                 if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
                     game.getCurrentPlayer().convert(marketOut);
-                    view.printReply_uni("All blank marbles have been converted: " + marketOut.toString() + "\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
+                    view.printReply_uni("All blank marbles have been converted to " + game.getCurrentPlayer().getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString() + "\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
+                    view.printReply_uni("The first one: " + marketOut.get(0).toString(), senderNick);
                     game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
                     return;
                 }
@@ -180,6 +188,10 @@ public class Controller implements ObserverController {
 
             case SHOW_DEPOSIT:
                 view.printReply_uni(game.getCurrentPlayer().getPlayerBoard().getDeposit().toString(), senderNick);
+                break;
+
+            case SHOW_MAKET:
+                view.printMarket(game.getMarket(), senderNick);
                 break;
 
             case END_TURN:
@@ -345,12 +357,11 @@ public class Controller implements ObserverController {
 
 
     //SELECT A DEPOSIT ID AFTER PICKING FROM MARKET---------------------------------------------------------------------
-    public boolean selectDestinationAfterMarket(String mex, String senderNick, Command command) {
-        view.printReply_uni("Where do you want to put" + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+    public void selectDestinationAfterMarket(String mex, String senderNick, Command command) {
 
         if (command != Command.SEND_DEPOSIT_ID){
             view.printReply_uni("Please select a depositID", senderNick);
-            return false;
+            return;
         }
 
         Message leaderID = gson.fromJson(mex, Message.class);
@@ -359,13 +370,13 @@ public class Controller implements ObserverController {
             game.getCurrentPlayer().getDepositSlotByID(Integer.parseInt(leaderID.getInfo())).canAddToDepositSlot(marketOut.get(marketOutCont));
         }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored e){
             view.printReply_uni(e.getMessage(), senderNick);
-            return false;
+            return;
         }
 
         game.getCurrentPlayer().getDepositSlotByID(Integer.parseInt(leaderID.getInfo())).addToDepositSlot(marketOut.get(marketOutCont));
         marketOutCont++;
 
-        return true;
+        view.printReply_uni("Where do you want to put" + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
     }
 
     //------------------------------------------------------------------------------------------------------------------

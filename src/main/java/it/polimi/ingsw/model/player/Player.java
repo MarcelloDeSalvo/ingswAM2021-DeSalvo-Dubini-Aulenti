@@ -24,7 +24,7 @@ public class Player implements ObservableModel {
     private final ArrayList<LeaderCard> hand;
     private final PlayerBoard playerBoard;
     private int orderID;
-    private PlayerStatus playerStatus;
+    private PlayerStatus playerStatus = PlayerStatus.IDLE;
 
     //set-up phase flags
     private boolean leadersHaveBeenDiscarded = false;

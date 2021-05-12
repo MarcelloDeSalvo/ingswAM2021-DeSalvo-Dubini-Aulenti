@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 public enum  PlayerStatus {
+    IDLE,
     SELECTING_DESTINATION_AFTER_MARKET,
     SELECTING_CONVERSION,
     SELECTING_BUY_RESOURCES,
