@@ -22,6 +22,19 @@ public class DefaultDeposit extends DepositSlot {
 
 
     //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
+    @Override
+    public boolean simpleCanAddToDepositSlot(ResourceContainer inputContainer) {
+        int quantityThatIWantToAdd = inputContainer.getQty();
+
+        if(isTheResourceTypeAlreadyTaken(inputContainer.getResourceType()))
+            return false;
+
+        if(this.isEmpty() || inputContainer.isTheSameType(this.getDepositContainer())){
+            return canAdd(quantityThatIWantToAdd);
+        }
+
+        return false;
+    }
 
     /**
      * It's the function that gives the permission to add or not to the Controller

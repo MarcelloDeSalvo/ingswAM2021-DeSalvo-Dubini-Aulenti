@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerStatus;
+import it.polimi.ingsw.model.player.deposit.DepositSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
@@ -26,7 +27,7 @@ public class Controller implements ObserverController {
 
     //BUFFERS ----------------------------------------------------------------------------------------------------------
     private ArrayList<ResourceContainer> marketOut;
-    private int marketOutCont = 1;
+    private int marketOutCont = 0;
 
     private DevelopmentCard newDevelopmentCard;
     private int productionSlotId;
@@ -461,14 +462,15 @@ public class Controller implements ObserverController {
             return;
         }
 
+        if(game.getCurrentPlayer().canConvert() == ConversionMode.CHOICE_REQUIRED) {
+            view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
+            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
+            return;
+        }
+
         if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
             view.printReply_uni("You selected: " + marketOut.toString() +
                     "\n\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
-
-            marketAddDepositController(senderNick);
-
-            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
-            return;
         }
 
         if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
@@ -476,19 +478,10 @@ public class Controller implements ObserverController {
 
             view.printReply_uni("All blank marbles have been converted to " + game.getCurrentPlayer().getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString() +
                     "\n\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
-
-            marketAddDepositController(senderNick);
-
-            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
-            return;
         }
 
-        if(game.getCurrentPlayer().canConvert() == ConversionMode.CHOICE_REQUIRED) {
-            view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
-
-            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
-        }
-
+        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+        marketAddDepositController(senderNick);
     }
 
     public void selectDestinationAfterMarket(String mex, String senderNick, Command command) {
@@ -501,15 +494,17 @@ public class Controller implements ObserverController {
         IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
 
         try {
-            game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).canAddToDepositSlot(marketOut.get(marketOutCont));
+            if(!mustDiscardCheck(senderNick)){
+                game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).canAddToDepositSlot(marketOut.get(marketOutCont));
+                game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).addToDepositSlot(marketOut.get(marketOutCont));
+            }
+
         }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException e){
             view.printReply_uni(e.getMessage(), senderNick);
             return ;
         }
 
-        game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).addToDepositSlot(marketOut.get(marketOutCont));
         marketOutCont++;
-
         marketAddDepositController(senderNick);
 
     }
@@ -520,6 +515,7 @@ public class Controller implements ObserverController {
 
        while (!marketOut.get(marketOutCont).getResourceType().canAddToDeposit()){
            marketOutCont++;
+           System.out.println("ee");
            if (marketOutCont==marketOut.size())
                break;
        }
@@ -528,6 +524,8 @@ public class Controller implements ObserverController {
 
     public void marketAddDepositController(String senderNick){
         increaseMarketOut_NotAddableResources();
+
+        System.out.println(marketOutCont);
 
         if (marketOutCont < marketOut.size()){
             view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
@@ -538,6 +536,32 @@ public class Controller implements ObserverController {
         game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
         marketOut = null;
         marketOutCont = 0;
+    }
+
+    public boolean mustDiscardCheck(String senderNick) {
+        boolean canAdd = false;
+        for (DepositSlot depositSlot: game.getCurrentPlayer().getDeposit().getDepositList()) {
+            if (depositSlot.simpleCanAddToDepositSlot(marketOut.get(marketOutCont)))
+                canAdd = true;
+        }
+
+        if (!canAdd){
+            view.printReply_uni("You cant add this resource anywhere, it will be discarded..", senderNick);
+            incPosOfOthers(1);
+        }
+
+        return !canAdd;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //FAITPATH CONTROLLER-----------------------------------------------------------------------------------------------
+    public void incPosOfCurrentPlayer(int qty){
+        game.addFaithPointsToCurrentPLayer(qty);
+    }
+
+    public void incPosOfOthers(int qty){
+        game.addFaithPointsToOtherPlayers(qty);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -550,4 +574,5 @@ public class Controller implements ObserverController {
     public Game getGame() {
         return game;
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

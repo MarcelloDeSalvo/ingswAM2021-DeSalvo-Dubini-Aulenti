@@ -326,10 +326,19 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
 
     //------------------------------------------------------------------------------------------------------------------
-    /*public void addFaithPointsToCurrentPLayer(int qty) {
-        ResourceContainer faithPoints = new ResourceContainer(ResourceType.FAITHPOINT, qty);
-        faithPoints.addToFaithPath();
-    }*/
+    public void addFaithPointsToCurrentPLayer(int qty) {
+        faithPath.incrementPosition(qty);
+        view.notifyFaithPathProgression(qty, getCurrentPlayerNick());
+    }
+
+    public void addFaithPointsToOtherPlayers(int qty) {
+        faithPath.incrementOthersPositions(qty);
+
+        for (String nicks: getPlayerListString()) {
+            if(!nicks.equals(getCurrentPlayerNick()))
+                view.notifyFaithPathProgression(qty, nicks);
+        }
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

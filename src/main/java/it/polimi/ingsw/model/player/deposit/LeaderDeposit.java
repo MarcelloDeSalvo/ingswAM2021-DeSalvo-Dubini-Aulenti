@@ -23,6 +23,17 @@ public class LeaderDeposit extends DepositSlot {
     }
 
     @Override
+    public boolean simpleCanAddToDepositSlot(ResourceContainer inputContainer){
+        int quantityThatIWantToAdd = inputContainer.getQty();
+
+        if (!this.getDepositContainer().isTheSameType(inputContainer))
+            return false;
+
+        return canAdd(quantityThatIWantToAdd);
+
+    }
+
+    @Override
     public boolean canAddToDepositSlot(ResourceContainer inputContainer) throws DifferentResourceType, DepositSlotMaxDimExceeded {
         int quantityThatIWantToAdd = inputContainer.getQty();
 

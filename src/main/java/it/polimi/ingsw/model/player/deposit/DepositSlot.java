@@ -30,6 +30,12 @@ public abstract class  DepositSlot {
     /**
      * It's the function that gives the permission to add or not to the Controller
      * @return true if he can add the resources
+     */
+    public abstract boolean simpleCanAddToDepositSlot(ResourceContainer inputContainer);
+
+    /**
+     * It's the function that gives the permission to add or not to the Controller
+     * @return true if he can add the resources
      * @throws DifferentResourceType when there is a ResourceType mismatch
      * @throws DepositSlotMaxDimExceeded when it would add too many resources
      */

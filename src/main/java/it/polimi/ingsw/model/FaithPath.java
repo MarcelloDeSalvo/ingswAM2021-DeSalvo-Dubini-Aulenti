@@ -97,7 +97,7 @@ public class FaithPath implements ObservableEndGame {
 
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
     /**
-     * Update FaithPath so that the right amount of FAITHPOINTs is added to a player position
+     * Update FaithPath so that the right amount of FAITHPOINTs is added to the current player
      * @param faithPoints qty of FAITHPOINTs
      */
     public void incrementPosition(int faithPoints) {
