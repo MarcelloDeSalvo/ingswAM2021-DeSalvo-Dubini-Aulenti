@@ -213,7 +213,7 @@
         ],
         "output": [
           {
-            "resourceType": "FAITHPOINT",
+            "resourceType": "FAITH",
             "qty": 1
           }
         ],
@@ -245,7 +245,7 @@
         ],
         "output": [
           {
-            "resourceType": "FAITHPOINT",
+            "resourceType": "FAITH",
             "qty": 1
           }
         ],
@@ -277,7 +277,7 @@
         ],
         "output": [
           {
-            "resourceType": "FAITHPOINT",
+            "resourceType": "FAITH",
             "qty": 1
           }
         ],
@@ -309,7 +309,7 @@
         ],
         "output": [
           {
-            "resourceType": "FAITHPOINT",
+            "resourceType": "FAITH",
             "qty": 1
           }
         ],

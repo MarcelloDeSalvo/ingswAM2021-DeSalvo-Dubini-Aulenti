@@ -23,7 +23,7 @@ class UtilTest {
         assertEquals(myCard.getInput().get(0).getQty(),2);
         assertEquals(myCard.getOutput().get(0).getResourceType(),ResourceType.MINION);
         assertEquals(myCard.getOutput().get(0).getQty(),3);
-        assertEquals(myCard.getOutput().get(1).getResourceType(),ResourceType.FAITHPOINT);
+        assertEquals(myCard.getOutput().get(1).getResourceType(),ResourceType.FAITH);
         assertEquals(myCard.getOutput().get(1).getQty(),2);
     }
     @Test
@@ -35,7 +35,7 @@ class UtilTest {
         assertEquals(myCard.getPrice().get(0).getQty(), 2);
         assertEquals(myCard.getInput().get(0).getResourceType(),ResourceType.STONE);
         assertEquals(myCard.getInput().get(0).getQty(),1);
-        assertEquals(myCard.getOutput().get(0).getResourceType(),ResourceType.FAITHPOINT);
+        assertEquals(myCard.getOutput().get(0).getResourceType(),ResourceType.FAITH);
         assertEquals(myCard.getOutput().get(0).getQty(),1);
 
     }

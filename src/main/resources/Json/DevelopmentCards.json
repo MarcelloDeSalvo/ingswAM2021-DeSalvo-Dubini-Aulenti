@@ -47,7 +47,7 @@
       { "resourceType": "GOLD",
         "qty": 1
       },
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 3
       }
     ],
@@ -84,7 +84,7 @@
         "resourceType": "STONE",
         "qty": 2
       },
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -116,7 +116,7 @@
       { "resourceType": "STONE",
         "qty": 3
       },
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -145,7 +145,7 @@
       { "resourceType": "SHIELD",
         "qty": 2
       },
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -177,7 +177,7 @@
       { "resourceType": "STONE",
         "qty": 2
       },
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -236,7 +236,7 @@
       }],
 
     "output": [
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -270,7 +270,7 @@
       { "resourceType": "GOLD",
         "qty": 2
       },
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -358,7 +358,7 @@
       }],
 
     "output": [
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -423,7 +423,7 @@
         "qty": 1
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 3
       }
     ],
@@ -461,7 +461,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -493,7 +493,7 @@
         "qty": 3
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -523,7 +523,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -556,7 +556,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -615,7 +615,7 @@
 
     "output": [
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -649,7 +649,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -742,7 +742,7 @@
       }],
 
     "output": [
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -802,7 +802,7 @@
       { "resourceType": "MINION",
         "qty": 1
       },
-      {"resourceType": "FAITHPOINT",
+      {"resourceType": "FAITH",
         "qty": 3
       }
     ],
@@ -837,7 +837,7 @@
       {"resourceType": "SHIELD",
         "qty": 2
       },
-      {"resourceType": "FAITHPOINT",
+      {"resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -867,7 +867,7 @@
       { "resourceType": "MINION",
         "qty": 3
       },
-      {"resourceType": "FAITHPOINT",
+      {"resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -895,7 +895,7 @@
       { "resourceType": "GOLD",
         "qty": 2
       },
-      {"resourceType": "FAITHPOINT",
+      {"resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -925,7 +925,7 @@
       { "resourceType": "MINION",
         "qty": 2
       },
-      {"resourceType": "FAITHPOINT",
+      {"resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -980,7 +980,7 @@
       }],
 
     "output": [
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -1012,7 +1012,7 @@
       { "resourceType": "SHIELD",
         "qty": 2
       },
-      {"resourceType": "FAITHPOINT",
+      {"resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -1100,7 +1100,7 @@
       }],
 
     "output": [
-      { "resourceType": "FAITHPOINT",
+      { "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -1167,7 +1167,7 @@
         "qty": 1
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 3
       }
     ],
@@ -1205,7 +1205,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -1239,7 +1239,7 @@
         "qty": 3
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -1270,7 +1270,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -1304,7 +1304,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -1364,7 +1364,7 @@
 
     "output": [
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 2
       }
     ],
@@ -1399,7 +1399,7 @@
         "qty": 2
       },
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],
@@ -1497,7 +1497,7 @@
 
     "output": [
       {
-        "resourceType": "FAITHPOINT",
+        "resourceType": "FAITH",
         "qty": 1
       }
     ],

@@ -89,6 +89,11 @@ public class LeaderCardProduction implements ProductionSlot {
     }
 
     @Override
+    public boolean canInsertOnTop(DevelopmentCard newDevelopmentCard) {
+        return false;
+    }
+
+    @Override
     public int countCardsWith(int level, Colour c) {
         return 0;
     }

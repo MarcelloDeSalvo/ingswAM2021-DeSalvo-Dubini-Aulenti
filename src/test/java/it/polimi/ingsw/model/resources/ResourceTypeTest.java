@@ -21,7 +21,7 @@ class ResourceTypeTest {
     @Test
     void goldToDepositTest(){
         ResourceContainer aCoin= new ResourceContainer(ResourceType.GOLD,1);
-        ResourceContainer aFP= new ResourceContainer(ResourceType.FAITHPOINT,1);
+        ResourceContainer aFP= new ResourceContainer(ResourceType.FAITH,1);
 
         assertTrue(aCoin.getResourceType().canAddToDeposit());
         assertTrue(aCoin.getResourceType().canAddToVault());
@@ -45,7 +45,7 @@ class ResourceTypeTest {
         FaithPath faithPath = game.getFaithPath();
         assertEquals(faithPath.getLength(),25);
         assertEquals(faithPath.getPlayersFavourList().size(),4);
-        ResourceContainer faithPoint = new ResourceContainer(ResourceType.FAITHPOINT, 1);
+        ResourceContainer faithPoint = new ResourceContainer(ResourceType.FAITH, 1);
         ResourceContainer gold = new ResourceContainer(ResourceType.GOLD, 1);
 
         assertTrue(faithPoint.addToFaithPath(game.getFaithPath()));

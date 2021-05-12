@@ -20,12 +20,13 @@ public class DevelopmentCardProduction implements ProductionSlot {
     //SLOT MANAGEMENT---------------------------------------------------------------------------------------------------
     /**
      * When the stack is empty it checks if newDevelopmentCard's level is '1' when this is the case
-     * it simply sets the new card status to "ON_TOP" and adds the new card in the stack
-     * if the stack already has elements in it and if level+1 of the element on top == new card level
+     * it simply sets the new card status to "ON_TOP" and adds the new card in the stack.
+     * If the stack already has elements in it and if level+1 of the element on top == new card level
      * the method sets the first element of the stack to "ACTIVE" and then adds the new one
      * @param newDevelopmentCard a new DevelopmentCard to add to the queue in Deck
      * @return true if everything goes right, false if you can't add the newDevelopmentCard for some reasons
      */
+    @Override
     public boolean insertOnTop (DevelopmentCard newDevelopmentCard) {
         if(dev.getDeck().peekLast() != null) {
             if(dev.getDeck().element().getLevel()+1 == newDevelopmentCard.getLevel()) {
@@ -46,6 +47,15 @@ public class DevelopmentCardProduction implements ProductionSlot {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean canInsertOnTop (DevelopmentCard newDevelopmentCard) {
+
+        if(dev.getDeck().peekLast() != null)
+            return dev.getDeck().element().getLevel() + 1 == newDevelopmentCard.getLevel();
+        else
+            return newDevelopmentCard.getLevel() == 1;
     }
 
 

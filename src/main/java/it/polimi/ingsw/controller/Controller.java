@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
@@ -23,9 +24,14 @@ public class Controller implements ObserverController {
     private Game game;
     private final Gson gson;
 
-    //BUFFERS
+    //BUFFERS ----------------------------------------------------------------------------------------------------------
     private ArrayList<ResourceContainer> marketOut;
     private int marketOutCont = 1;
+
+    private DevelopmentCard newDevelopmentCard;
+    private int productionSlotId;
+    //------------------------------------------------------------------------------------------------------------------
+
 
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
@@ -73,10 +79,8 @@ public class Controller implements ObserverController {
             return;
         }
 
-        if (!game.getCurrentPlayerNick().equals(senderNick)){
-            view.printReply_uni("It's not your turn!", senderNick);
+        if (!isTheCurrentPlayer(senderNick))
             return;
-        }
 
         turnPhase_Commands(mex, senderNick, command);
     }
@@ -133,8 +137,9 @@ public class Controller implements ObserverController {
 
 
     private void turnPhase_Commands(String mex, String senderNick, Command command){
+        Player currPlayer = game.getCurrentPlayer();
 
-        if (game.getCurrentPlayer().getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
+        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
             selectDestinationAfterMarket( mex, senderNick, command);
             if (marketOutCont > marketOut.size()) {
                 view.printReply_uni("Ok, now you can do another action", senderNick);
@@ -144,12 +149,48 @@ public class Controller implements ObserverController {
             }
         }
 
+        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES){
+            selectResources(mex, senderNick, command, currPlayer);
+            return;
+        }
+
 
         switch (command){
 
             case SEND_CONTAINER:
                 SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
-                System.out.println("Arrivato: " + sendContainer);
+                System.out.println("Arrived: " + sendContainer);
+
+                if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick, currPlayer))
+                    return;
+
+                break;
+
+            case BUY:
+                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
+
+                if(!checkBuy(buyMessage.getRow(), buyMessage.getColumn(), buyMessage.getProductionSlotID(), senderNick, currPlayer))
+                    return;
+
+                currPlayer.setPlayerStatus(PlayerStatus.SELECTING_BUY_RESOURCES);
+
+                break;
+
+            case DONE:
+                if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
+                    buyDevelopmentCard(senderNick, currPlayer);
+                    currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+                    return;
+                }
+
+                /*if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
+                    produce();
+                    currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+                    //message
+                    return;
+                }*/
+
+                //error message
                 break;
 
             case PICK_FROM_MARKET:
@@ -211,8 +252,8 @@ public class Controller implements ObserverController {
      * Checks if "nick" is the current player
      */
     public boolean isTheCurrentPlayer(String nick) {
-        if (!game.getPlayerList().get(game.getCurrentPlayerNumber()).getNickname().equals(nick)){
-            view.printReply_uni("Not the current Player", nick);
+        if (!game.getCurrentPlayerNick().equals(nick)){
+            view.printReply_uni("It's not your turn", nick);
             return false;
         }
         return true;
@@ -352,6 +393,118 @@ public class Controller implements ObserverController {
         view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
         view.printItsYourTurn(game.getCurrentPlayerNick());
         //PRINT VARIE DI TUTTE LE PORCHERIE
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //BUY PHASE --------------------------------------------------------------------------------------------------------
+    private boolean checkBuy(int row, int column, int id, String senderNick, Player currPlayer) {
+
+        try {
+            DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
+
+            if(!currPlayer.hasEnoughResources(selectedCard.getPrice())) {
+                view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
+                return false;
+            }
+
+            if(!currPlayer.getProductionSlotByID(id).canInsertOnTop(selectedCard)){
+                view.printReply_uni("You can't insert the this card in the selected Production Slot!", senderNick);
+                return false;
+            }
+
+            newDevelopmentCard = selectedCard;
+            this.productionSlotId = id;
+
+            return true;
+
+        } catch (InvalidColumnNumber | InvalidRowNumber exception) {
+
+            view.printReply_uni(exception.getMessage(), senderNick);
+
+            return false;
+        }
+    }
+
+
+    private void selectResources(String mex, String senderNick, Command command, Player currPlayer) {
+
+        if(command == Command.SEND_CONTAINER) {
+            SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
+            System.out.println("Arrived: " + sendContainer);
+
+            if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick, currPlayer))
+                return;
+        }
+
+        if(command == Command.DONE) {
+            if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
+                buyDevelopmentCard(senderNick, currPlayer);
+                currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+                return;
+            }
+        }
+
+        view.printReply_uni("Please select resources as a payment or type 'DONE' if you already did!", senderNick);
+    }
+
+
+    private boolean removeContainer(ResourceContainer resourceContainer, String destination, int destinationID, String senderNick, Player currPlayer){
+
+        if(!currPlayer.hasEnoughResources(resourceContainer)) {
+            view.printReply_uni("You don't own the selected resources!", senderNick);
+            return false;
+        }
+
+        if(destination.equalsIgnoreCase("VAULT")) {
+            try {
+                currPlayer.canRemoveFromVault(resourceContainer);
+
+                view.printReply_uni("Resources accepted!", senderNick);
+
+                return true;
+
+            } catch (NotEnoughResources exception) {
+
+                view.printReply_uni(exception.getMessage(), senderNick);
+
+                return false;
+            }
+        }
+
+        if(destination.equalsIgnoreCase("DEPOSIT")) {
+            try {
+                currPlayer.getDepositSlotByID(destinationID).canRemoveFromDepositSlot(resourceContainer);
+
+                view.printReply_uni("Resources accepted!", senderNick);
+
+                return true;
+
+            } catch (DifferentResourceType | NotEnoughResources exception) {
+
+                view.printReply_uni(exception.getMessage(), senderNick);
+
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+
+    private boolean buyDevelopmentCard(String senderNick, Player currPlayer) {
+
+        if(!currPlayer.canBuy(newDevelopmentCard)) {
+            view.printReply_uni("The resources you selected aren't correct!", senderNick);
+            currPlayer.emptyBuffers();
+            return false;
+        }
+
+        currPlayer.buy();
+        currPlayer.insertBoughtCardOn(productionSlotId, newDevelopmentCard);
+        view.printReply_uni("You bought the card correctly!", senderNick);
+        //print production site
+        return true;
     }
     //------------------------------------------------------------------------------------------------------------------
 

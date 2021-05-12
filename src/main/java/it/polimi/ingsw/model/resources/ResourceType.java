@@ -7,7 +7,7 @@ public enum ResourceType{
     MINION(true,true,false, Color.ANSI_PURPLE),
     STONE(true,true,false, Color.ANSI_GRAY),
     SHIELD(true,true,false, Color.ANSI_BLUE),
-    FAITHPOINT(false,false,true, Color.ANSI_RED),
+    FAITH(false,false,true, Color.ANSI_RED),
     BLANK(false,false,false, Color.ANSI_WHITE);
 
     /**

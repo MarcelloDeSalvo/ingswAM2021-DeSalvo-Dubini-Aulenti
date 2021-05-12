@@ -103,7 +103,6 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
                 else
                     bufferMap.get(key).addQty(ds.getBufferContainer().getQty());
             }
-
         }
     }
 
@@ -142,6 +141,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
         return false;
     }
     //BUY METHODS END---------------------------------------------------------------------------------------------------
+
 
 
     //PRODUCTION PIPELINE ----------------------------------------------------------------------------------------------
@@ -208,11 +208,19 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     }
 
     /**
-     * clears all the deposits' and vault's buffers
+     * Clears all the deposits' and vault's buffers when everything goes right
      */
     public boolean clearAllBuffers(){
         return deposit.removeAllBuffers() && vault.removeFromVault() && productionSite.clearBuffers();
     }
+
+    /**
+     * Clears all the buffers when the selected resources are wrong and we have to cancel the payment
+     */
+    public boolean emptyBuffers(){
+        return deposit.clearBuffer() && vault.clearBuffer();
+    }
+
     //PRODUCTION PIPELINE END-------------------------------------------------------------------------------------------
 
 
@@ -256,7 +264,15 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
 
     //SUPPORT METHODS---------------------------------------------------------------------------------------------------
     /**
-     * Returns the  current quantity of the requested ArrayList of resources (sum of deposit and vault)
+     * Uses the current quantity of the single requested ResourceContainer (sum of deposit and vault)
+     * @return true if the user has enough resources
+     */
+    public boolean hasEnoughResources(ResourceContainer requested){
+        return requested.getQty() <= checkResources(requested.getResourceType());
+    }
+
+    /**
+     * Uses the current quantity of the requested ArrayList of resources (sum of deposit and vault)
      * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
@@ -266,7 +282,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     }
 
     /**
-     * Returns the  current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
+     * Uses the current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
      * @return true if the user has enough resources
      */
     public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){

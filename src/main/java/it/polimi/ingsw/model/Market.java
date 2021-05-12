@@ -3,6 +3,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
 import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -107,9 +109,11 @@ public class Market {
     @Override
     public String toString() {
         StringBuilder markeToString = new StringBuilder();
+        markeToString.append(Color.ANSI_CYAN.escape()).append("MARKET:").append(Color.ANSI_RESET.escape()).append("\n");
+
         for(int i=0; i<rows;i++) {
             for (int j = 0; j < columns; j++) {
-                markeToString.append(market[j][i].getResourceType()).append("   |   ");
+                markeToString.append(market[j][i].getResourceType()).append("\t").append("\t").append("|").append("\t").append("\t");
             }
             markeToString.append("\n");
         }

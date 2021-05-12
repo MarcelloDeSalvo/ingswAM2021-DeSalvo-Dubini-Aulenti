@@ -16,7 +16,7 @@ class MarketSetUpParserTest {
         ArrayList<ResourceContainer> marbles ;
         marbles = MarketSetUpParser.deserializeMarketElements();
 
-        assertEquals(marbles.get(0).getResourceType(), ResourceType.FAITHPOINT);
+        assertEquals(marbles.get(0).getResourceType(), ResourceType.FAITH);
         assertEquals(marbles.get(1).getResourceType(), ResourceType.BLANK);
         assertEquals(marbles.get(2).getResourceType(), ResourceType.BLANK);
         assertEquals(marbles.get(3).getResourceType(), ResourceType.BLANK);
