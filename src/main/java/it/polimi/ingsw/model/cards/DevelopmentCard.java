@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
@@ -89,12 +90,50 @@ public class  DevelopmentCard extends Card{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "Development Card: " +
-                super.toString() +
-                "Level =" + level +
-                ", Colour =" + colour +
-                ", Input =" + input +
-                ", Output =" + output + '\n';
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(colour.getColor().escape()).append("\nDevelopment Card: ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append("(ID: ").append(getId()).append(") \n");
+        stringBuilder.append(" - VictoryPoints: ").append(getVictoryPoints()).append("\n");
+        stringBuilder.append(" - Level: ").append(level).append("\n");
+
+        if(getStatus() != null)
+            stringBuilder.append(" - Status: ").append(getStatus()).append("\n");
+
+        ArrayList<ResourceContainer> price = getPrice();
+        if(price != null) {
+            stringBuilder.append(" - Price: ");
+            int i = 0;
+            for (ResourceContainer container : price) {
+                if(i == 0)
+                    stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+                else
+                    stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+                i++;
+            }
+        }
+
+        stringBuilder.append("\n - Production: ");
+        int i = 0;
+        for (ResourceContainer container : input) {
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+            i++;
+        }
+        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+
+        i = 0;
+        for (ResourceContainer container : output) {
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+            i++;
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override
