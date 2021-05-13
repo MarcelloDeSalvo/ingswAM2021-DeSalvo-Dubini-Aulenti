@@ -56,7 +56,6 @@ public class Cli extends ClientView {
                 printItsYourTurn(senderNick);
                 break;
 
-
             case SHOW_HAND:
                 ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
                 printHand(showHandMessage.getCardsID(), senderNick);
@@ -236,6 +235,10 @@ public class Cli extends ClientView {
                     send(new ManageDepositMessage(qty,sourceId, destId, this.getNickname()));
                     break;
 
+                case "DONE":
+                    send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(this.getNickname()).build());
+                    break;
+
                 case "SHOW_HAND":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_HAND).setNickname(this.getNickname()).build());
                     break;
@@ -358,7 +361,7 @@ public class Cli extends ClientView {
 
                 "\n" + "--------LOBBY MANAGER COMMANDS---------" + "\n" +
                 "> JOIN lobby_name" + "\n" +
-                "> CREATE lobby_name" + "\n" +
+                "> CREATE lobby_name max_num_of_players" + "\n" +
                 "> REFRESH" + "\n" +
 
                 "\n" + "--------LOBBY COMMANDS---------" + "\n" +
@@ -369,20 +372,20 @@ public class Cli extends ClientView {
                 "\n" +"\n" + "##############################[GAME]##############################" +
                 "\n" + "--------SET_UP PHASE COMMANDS---------" + "\n" +
                 "> DISCARD leaderID"+ "\n" +
-                "> SELECT ResourceType"+ "\n" +
+                "> SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
 
                 "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
                 "> BUY Row Column ProductionSlotID " + "\n" +
-                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID || 'VAULT') " + "\n" +
+                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
-                "> MARKET 'Row'||'Column' number" + "\n" +
+                "> MARKET 'Row' or 'Column' number" + "\n" +
                 "> DEPOSIT depositID" + "\n" +
                 "> CONVERSION ResourceType" + "\n" + "\n" +
 
                 "> PRODUCE cardID "+ "\n" +
                 "> FILL ResourceType " + "\n" +
-                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID || 'VAULT') " + "\n" +
+                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
                 "> ACTIVATE leaderID"+ "\n" + "\n" +
@@ -391,14 +394,20 @@ public class Cli extends ClientView {
                 "> END_TURN" + "\n" +
 
                 "\n" + "--------SHOW COMMANDS---------" + "\n" +
+
                 "> SHOW_MARKET" + "\n" +
-                "> SHOW_DEPOSIT" + "\n" +
-                "> SHOW_BOARD" + "\n" +
-                "> SHOW_HAND" + "\n" +
-                "> SHOW_VAULT" + "\n" +
                 "> SHOW_CARDGRID" + "\n" +
                 "> SHOW_FAITHPATH" + "\n" +
+
+                "> SHOW_BOARD" + "\n" +
+                "> SHOW_DEPOSIT" + "\n" +
+                "> SHOW_VAULT" + "\n" +
+                "> SHOW_PRODUCTION" + "\n" +
+
+                "> SHOW_HAND" + "\n" +
+
                 "> SHOW_PLAYER nickname" + "\n"
+
                 );
     }
 

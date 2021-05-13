@@ -171,7 +171,6 @@ public class VirtualView implements View {
         printReply_uni(productionSite.toString(), nickname);
     }
 
-
     public void printMarket(Market market, String nickname){
         printReply_uni(market.toString(), nickname);
     }

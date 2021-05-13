@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
@@ -79,6 +80,11 @@ public class LeaderCardProduction implements ProductionSlot {
     public int countCardsWith(int level, Colour c) {
         return 0;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -121,7 +127,7 @@ public class LeaderCardProduction implements ProductionSlot {
     //TO-STRING---------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "DEVELOPMENT SLOT " + "\n" +
+        return Color.ANSI_WHITE.escape() + "# DEVELOPMENT SLOT-----------------#" + Color.ANSI_RESET + "\n" +
                 productionAbility.toString();
     }
     //------------------------------------------------------------------------------------------------------------------

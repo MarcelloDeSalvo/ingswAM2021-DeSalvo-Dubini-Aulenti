@@ -55,6 +55,12 @@ public interface ProductionSlot {
      * @return the number of cards with level "level" and colour "c"
      */
     int countCardsWith(int level, Colour c);
+
+    /**
+     *
+     * @return
+     */
+    boolean isEmpty();
     //------------------------------------------------------------------------------------------------------------------
 
 

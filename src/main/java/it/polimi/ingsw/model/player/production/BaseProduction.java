@@ -94,25 +94,30 @@ public class BaseProduction implements ProductionSlot {
     public int getVictoryPoints() {
         return 0;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
     //TO-STRING---------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         StringBuilder prodSlots = new StringBuilder();
-        prodSlots.append("BASIC PRODUCTION"+"\n");
+        prodSlots.append(Color.ANSI_WHITE.escape()).append("# BASIC PRODUCTION ------------------ #"+"\n").append(Color.ANSI_RESET.escape());
 
         for (int i=0; i<QMI; i++){
             prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
         }
 
-        prodSlots.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+        prodSlots.append(Color.ANSI_WHITE.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
 
-        for (int i=0; i<QMI; i++){
+        for (int i=0; i<QMO; i++){
             prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
         }
 
-
+        prodSlots.append("\n");
         return prodSlots.toString();
     }
     //------------------------------------------------------------------------------------------------------------------

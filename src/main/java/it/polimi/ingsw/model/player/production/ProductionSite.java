@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.Vault;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -262,7 +263,9 @@ public class ProductionSite {
     public String toString() {
         StringBuilder prodSlots = new StringBuilder();
         for (ProductionSlot prod: productionSlots) {
-            prodSlots.append(prod.toString());
+            if (!prod.isEmpty())
+                prodSlots.append(prod.toString());
+
         }
 
         return prodSlots.toString();

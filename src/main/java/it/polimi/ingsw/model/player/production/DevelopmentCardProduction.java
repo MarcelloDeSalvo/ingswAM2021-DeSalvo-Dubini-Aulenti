@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
+
 import java.util.ArrayList;
 
 public class DevelopmentCardProduction implements ProductionSlot {
@@ -104,6 +106,26 @@ public class DevelopmentCardProduction implements ProductionSlot {
         }
         return tot;
     }
+
+    @Override
+    public boolean isEmpty() {
+        return dev.getDeck().size() == 0;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //TO-STRING---------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        StringBuilder prodSlots = new StringBuilder();
+        prodSlots.append(Color.ANSI_WHITE.escape()).append("# DEVELOPMENT SLOT----------------- #"+"\n").append(Color.ANSI_RESET.escape());
+
+        for (DevelopmentCard developmentCard: dev.getDeck()){
+            prodSlots.append(developmentCard.toString());
+        }
+        prodSlots.append("\n");
+        return prodSlots.toString();
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -162,19 +184,5 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return 0;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
-
-    //TO-STRING---------------------------------------------------------------------------------------------------------
-    @Override
-    public String toString() {
-        StringBuilder prodSlots = new StringBuilder();
-        prodSlots.append("DEVELOPMENT SLOT "+"\n");
-
-        for (DevelopmentCard developmentCard: dev.getDeck()){
-            prodSlots.append(developmentCard.toString());
-        }
-
-        return prodSlots.toString();
-    }
     //------------------------------------------------------------------------------------------------------------------
 }
