@@ -22,7 +22,7 @@ public class Cardgrid {
         int c=0;
         for(int i=0;i<columns;i++){
             for(int j=0;j<rows;j++){
-                Deck tempDeck=new Deck();
+                Deck tempDeck = new Deck();
                 for(int z=0;z<4;z++){
                     tempDeck.getDeck().push(fileCards.get(c));
                     c++;
@@ -189,7 +189,7 @@ public class Cardgrid {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(Color.ANSI_RED.escape()).append("CARD GRID: \n").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_CYAN.escape()).append("CARD GRID: \n").append(Color.ANSI_RESET.escape());
 
         for(int i = 0; i < columns; i++){
             for(int j = 0; j < rows; j++){

@@ -300,7 +300,7 @@ public class Player implements ObservableModel {
         return handIDs;
     }
 
-    public ProductionSlot getProductionSlotByID(int n){
+    public ProductionSlot getProductionSlotByID(int n) throws IndexOutOfBoundsException {
         return playerBoard.getProductionSlotByID(n);
     }
 

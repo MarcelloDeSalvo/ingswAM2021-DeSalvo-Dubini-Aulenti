@@ -58,7 +58,7 @@ public class ProductionAbility implements Ability {
         if(questionMarkOnInput != 0)
             stringBuilder.append(" + ").append(questionMarkOnInput).append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
 
-        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_WHITE.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
 
         for (ResourceContainer container : output) {
             stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());

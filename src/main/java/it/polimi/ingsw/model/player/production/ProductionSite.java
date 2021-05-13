@@ -216,7 +216,7 @@ public class ProductionSite {
     }
 
     public ProductionSlot getProductionSlotByID(int id) throws IndexOutOfBoundsException{
-        if(id>=0 && id<productionSlots.size())
+        if(id >= 0 && id < productionSlots.size())
             return productionSlots.get(id);
         return null;
     }

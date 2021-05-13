@@ -364,10 +364,15 @@ public class Controller implements ObserverController {
                 return false;
             }
 
-            if(!currPlayer.getProductionSlotByID(id).canInsertOnTop(selectedCard)){
-                view.printReply_uni("You can't insert the this card in the selected Production Slot!", senderNick);
-                return false;
+            try {
+                if(!currPlayer.getProductionSlotByID(id).canInsertOnTop(selectedCard)){
+                    view.printReply_uni("You can't insert the this card in the selected Production Slot!", senderNick);
+                    return false;
+                }
+            } catch (IndexOutOfBoundsException exception) {
+                view.printReply_uni("The selected Production Slot does not exists!", senderNick);
             }
+
 
             newDevelopmentCard = selectedCard;
             this.productionSlotId = id;

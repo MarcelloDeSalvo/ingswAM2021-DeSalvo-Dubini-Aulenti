@@ -122,7 +122,7 @@ public class  DevelopmentCard extends Card{
                 stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
             i++;
         }
-        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_WHITE.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
 
         i = 0;
         for (ResourceContainer container : output) {

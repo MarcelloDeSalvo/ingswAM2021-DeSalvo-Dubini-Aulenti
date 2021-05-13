@@ -58,7 +58,7 @@ public class DevelopmentRequirement implements Requirement {
             stringBuilder.append("Number = ").append(number).append(", ");
         stringBuilder.append("Colour = ").append(colour);
         if(level != 0)
-            stringBuilder.append(", Level = ").append(level).append(".");
+            stringBuilder.append(", Level = ").append(level);
 
         return stringBuilder.toString();
     }
