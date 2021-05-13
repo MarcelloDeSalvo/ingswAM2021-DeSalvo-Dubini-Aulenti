@@ -25,7 +25,7 @@ public class LobbyManager implements  ObserverViewIO {
     }
 
     @Override
-    public void update(String mex){
+    public synchronized void update(String mex){
 
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
@@ -48,6 +48,11 @@ public class LobbyManager implements  ObserverViewIO {
 
                 System.out.println("# " + senderNick + " has disconnected");
                 break;
+
+            case PONG:
+                currentUser.pongReceived();
+                break;
+
 
 
             case HELLO:

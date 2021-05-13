@@ -33,7 +33,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
     @Override
-    public void update(String mex) {
+    public synchronized void update(String mex) {
 
         Message deserializedMex = gson.fromJson(mex, Message.class);
 

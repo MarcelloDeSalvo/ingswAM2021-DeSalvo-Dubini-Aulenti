@@ -35,7 +35,7 @@ public class ClientSender extends Thread implements ObserverController {
     }
 
     @Override
-    public void update(String mex) {
+    public synchronized void update(String mex) {
         out.println(mex);
         out.flush();
     }

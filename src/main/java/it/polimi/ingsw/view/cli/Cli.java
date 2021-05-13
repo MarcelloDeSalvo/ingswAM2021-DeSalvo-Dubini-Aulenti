@@ -34,7 +34,8 @@ public class Cli extends ClientView {
         Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
-        System.out.println();
+        if(command!= Command.PING)
+            System.out.println();
 
         switch (command){
 
@@ -45,6 +46,11 @@ public class Cli extends ClientView {
 
             case HELLO:
                 printHello();
+                break;
+
+            case PING:
+                send(new Message.MessageBuilder().setCommand(Command.PONG).
+                        setNickname(this.getNickname()).build());
                 break;
 
             case LOBBY_LIST:
