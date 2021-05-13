@@ -189,11 +189,11 @@ public class Cardgrid {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(Color.ANSI_RED.escape()).append("Card Grid: ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_RED.escape()).append("CARD GRID: \n").append(Color.ANSI_RESET.escape());
 
         for(int i = 0; i < columns; i++){
             for(int j = 0; j < rows; j++){
-                stringBuilder.append(deckGrid[i][j].getDeck().toString());
+                stringBuilder.append(deckGrid[i][j].getDeck().getFirst().toString()).append("\n");
             }
         }
 

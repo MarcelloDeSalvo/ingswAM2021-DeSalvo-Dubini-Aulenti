@@ -92,19 +92,45 @@ public class  DevelopmentCard extends Card{
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(Color.ANSI_RED.escape()).append("Development Card: ").append(Color.ANSI_RESET.escape());
-        stringBuilder.append(super.toString());
-        stringBuilder.append("Level: ").append(level).append("\n");
-        stringBuilder.append("Colour: ").append(colour).append("\n");
+        stringBuilder.append(colour.getColor().escape()).append("\nDevelopment Card: ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append("(ID: ").append(getId()).append(") \n");
+        stringBuilder.append(" - VictoryPoints: ").append(getVictoryPoints()).append("\n");
+        stringBuilder.append(" - Level: ").append(level).append("\n");
 
-        stringBuilder.append("Production:\n ");
+        if(getStatus() != null)
+            stringBuilder.append(" - Status: ").append(getStatus()).append("\n");
+
+        ArrayList<ResourceContainer> price = getPrice();
+        if(price != null) {
+            stringBuilder.append(" - Price: ");
+            int i = 0;
+            for (ResourceContainer container : price) {
+                if(i == 0)
+                    stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+                else
+                    stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+                i++;
+            }
+        }
+
+        stringBuilder.append("\n - Production: ");
+        int i = 0;
         for (ResourceContainer container : input) {
-            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+            i++;
         }
         stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
 
+        i = 0;
         for (ResourceContainer container : output) {
-            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+            i++;
         }
 
         return stringBuilder.toString();

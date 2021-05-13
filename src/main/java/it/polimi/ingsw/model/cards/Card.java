@@ -147,15 +147,26 @@ abstract class Card {
         stringBuilder.append(" - VictoryPoints: ").append(victoryPoints);
 
         if(status != null)
-            stringBuilder.append(", Status: ").append(status);
+            stringBuilder.append("\n - Status: ").append(status);
+
         if(requirements != null){
             stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nRequirements: ").append(Color.ANSI_RESET.escape());
             for (Requirement req: requirements) {
                 stringBuilder.append(req);
             }
         }
-        if(price != null)
-            stringBuilder.append("Price:\n").append(price).append(".");
+
+        if(price != null) {
+            stringBuilder.append("\n - Price: ");
+            int i = 0;
+            for (ResourceContainer container : price) {
+                if(i == 0)
+                    stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+                else
+                    stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+                i++;
+            }
+        }
 
         return stringBuilder.toString();
     }
