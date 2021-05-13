@@ -2,7 +2,11 @@ package it.polimi.ingsw.view;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.Market;
+import it.polimi.ingsw.model.player.Vault;
+import it.polimi.ingsw.model.player.deposit.Deposit;
+import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -155,8 +159,25 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void printDeposit(String nickname) {
+    public void printDeposit(Deposit deposit, String nickname) {
+        printReply_uni(deposit.toString(), nickname);
+    }
 
+    public void printVault(Vault vault, String nickname) {
+        printReply_uni(vault.toString(), nickname);
+    }
+
+    public void printProduction(ProductionSite productionSite, String nickname) {
+        printReply_uni(productionSite.toString(), nickname);
+    }
+
+
+    public void printMarket(Market market, String nickname){
+        printReply_uni(market.toString(), nickname);
+    }
+
+    public void printCardGrid(Cardgrid cardgrid, String nickname){
+        printReply_uni(cardgrid.toString(), nickname);
     }
 
     @Override
@@ -171,10 +192,6 @@ public class VirtualView implements View {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
-    }
-
-    public void printMarket(Market market, String nickname){
-        printReply_uni(market.toString(), nickname);
     }
 
     @Override

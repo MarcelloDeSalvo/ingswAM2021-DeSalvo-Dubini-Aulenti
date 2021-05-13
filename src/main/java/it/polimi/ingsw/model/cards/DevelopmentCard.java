@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
@@ -89,12 +90,24 @@ public class  DevelopmentCard extends Card{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "Development Card: " +
-                super.toString() +
-                "Level =" + level +
-                ", Colour =" + colour +
-                ", Input =" + input +
-                ", Output =" + output + '\n';
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(Color.ANSI_RED.escape()).append("Development Card: ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(super.toString());
+        stringBuilder.append("Level: ").append(level).append("\n");
+        stringBuilder.append("Colour: ").append(colour).append("\n");
+
+        stringBuilder.append("Production:\n ");
+        for (ResourceContainer container : input) {
+            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+        }
+        stringBuilder.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+
+        for (ResourceContainer container : output) {
+            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+        }
+
+        return stringBuilder.toString();
     }
 
     @Override

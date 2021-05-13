@@ -32,11 +32,14 @@ public class Deck{
 
 
     //JAVA--------------------------------------------------------------------------------------------------------------
-    @Override
-    public String toString() {
+    public String toStringAll() {
         return "Deck{" +
                 "deck=" + deck +
                 '}';
+    }
+
+    public String toStringOnTop() {
+        return deck.getFirst().toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

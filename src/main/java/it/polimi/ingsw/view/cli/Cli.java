@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
@@ -235,12 +236,28 @@ public class Cli extends ClientView {
                     send(new ManageDepositMessage(qty,sourceId, destId, this.getNickname()));
                     break;
 
+                case "SHOW_HAND":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_HAND).setNickname(this.getNickname()).build());
+                    break;
+
                 case "SHOW_DEPOSIT":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
                     break;
 
+                case "SHOW_VAULT":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_VAULT).setNickname(this.getNickname()).build());
+                    break;
+
+                case "SHOW_PRODUCTION":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_PRODUCTION).setNickname(this.getNickname()).build());
+                    break;
+
                 case "SHOW_MARKET":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_MAKET).setNickname(this.getNickname()).build());
+                    break;
+
+                case "SHOW_CARDGRID":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
                     break;
 
                 case "END_TURN":
@@ -435,7 +452,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printDeposit(String depositInfo) {
+    public void printDeposit(Deposit deposit, String depositInfo) {
 
     }
 

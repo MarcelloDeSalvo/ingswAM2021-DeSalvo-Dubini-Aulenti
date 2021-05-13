@@ -167,12 +167,28 @@ public class Controller implements ObserverController {
                 pickFromMarket(mex, senderNick);
                 break;
 
+            case SHOW_HAND:
+                view.printHand(currPlayer.leaderListToInt(), senderNick);
+                break;
+
             case SHOW_DEPOSIT:
-                view.printReply_uni(game.getCurrentPlayer().getPlayerBoard().getDeposit().toString(), senderNick);
+                view.printDeposit(game.getCurrentPlayer().getPlayerBoard().getDeposit(), senderNick);
+                break;
+
+            case SHOW_VAULT:
+                view.printVault(game.getCurrentPlayer().getPlayerBoard().getVault(), senderNick);
+                break;
+
+            case SHOW_PRODUCTION:
+                view.printProduction(game.getCurrentPlayer().getPlayerBoard().getProductionSite(), senderNick);
                 break;
 
             case SHOW_MAKET:
                 view.printMarket(game.getMarket(), senderNick);
+                break;
+
+            case SHOW_CARDGRID:
+                view.printCardGrid(game.getCardgrid(), senderNick);
                 break;
 
             case END_TURN:

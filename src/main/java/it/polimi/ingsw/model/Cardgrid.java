@@ -4,8 +4,10 @@ import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
 import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -183,4 +185,18 @@ public class Cardgrid {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(Color.ANSI_RED.escape()).append("Card Grid: ").append(Color.ANSI_RESET.escape());
+
+        for(int i = 0; i < columns; i++){
+            for(int j = 0; j < rows; j++){
+                stringBuilder.append(deckGrid[i][j].getDeck().toString());
+            }
+        }
+
+        return stringBuilder.toString();
+    }
 }

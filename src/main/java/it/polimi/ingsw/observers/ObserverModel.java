@@ -1,5 +1,6 @@
 package it.polimi.ingsw.observers;
 
+import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.network.commands.Target;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public interface ObserverModel {
     void printOrder(ArrayList<String> randomOrder);
 
     void printLobby(ArrayList<String> lobbiesInfos);
-    void printDeposit(String depositInfo);
+    void printDeposit(Deposit deposit, String depositInfo);
     void printHand(ArrayList<Integer> leaderIDs, String nickname);
     void printItsYourTurn(String nickname);
 

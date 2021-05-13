@@ -114,7 +114,7 @@ public class Player implements ObservableModel {
     }
 
 
-    private ArrayList<Integer>  leaderListToInt () {
+    public ArrayList<Integer> leaderListToInt () {
         ArrayList<Integer> leaderListInt = new ArrayList<>();
 
         for (LeaderCard leader : hand)
