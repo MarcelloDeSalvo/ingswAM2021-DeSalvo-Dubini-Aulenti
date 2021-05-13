@@ -46,7 +46,7 @@ public class ProductionAbility implements Ability {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\nProduction Ability: ");
+        stringBuilder.append("\n - Production Ability: ");
 
         for (ResourceContainer container : input) {
             stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());

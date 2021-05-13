@@ -144,7 +144,7 @@ abstract class Card {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("(ID: ").append(id).append(") \n");
-        stringBuilder.append("VictoryPoints: ").append(victoryPoints);
+        stringBuilder.append(" - VictoryPoints: ").append(victoryPoints);
 
         if(status != null)
             stringBuilder.append(", Status: ").append(status);

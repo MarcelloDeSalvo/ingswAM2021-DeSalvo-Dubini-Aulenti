@@ -104,7 +104,7 @@ public class LeaderCard extends Card{
 
         stringBuilder.append(Color.ANSI_BLUE.escape()).append("LeaderCard ").append(Color.ANSI_RESET.escape());
         stringBuilder.append(super.toString());
-        stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nAbilities: ").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nAbilities: : ").append(Color.ANSI_RESET.escape());
 
         for(Ability ability : abilities)
             stringBuilder.append(ability.toString());

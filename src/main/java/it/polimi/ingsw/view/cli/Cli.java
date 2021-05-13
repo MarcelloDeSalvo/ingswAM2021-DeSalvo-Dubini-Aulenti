@@ -107,6 +107,9 @@ public class Cli extends ClientView {
                             setInfo("Hello all!").setNickname(this.getNickname()).build());
                     break;
 
+                case "HELP":
+                    printHelp();
+                break;
 
                 //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
                 case "LOGIN":
@@ -328,6 +331,60 @@ public class Cli extends ClientView {
 
 
     //PRINTS AND NOTIFIES OF THE VIEW ----------------------------------------------------------------------------------
+    public void printHelp(){
+        System.out.println("#_HELP SECTION_#" + "\n" + "\n" +
+                "##############################[NETWORK]##############################" + "\n" +
+                "--------GLOBAL COMMANDS (can be used everywhere)---------" + "\n" +
+                "> QUIT " + "\n" +
+                "> CHAT receiver_nickname message" + "\n" +
+                "> CHAT_ALL message" + "\n" +
+
+                "\n" + "--------LOBBY MANAGER COMMANDS---------" + "\n" +
+                "> JOIN lobby_name" + "\n" +
+                "> CREATE lobby_name" + "\n" +
+                "> REFRESH" + "\n" +
+
+                "\n" + "--------LOBBY COMMANDS---------" + "\n" +
+                "> EXIT_LOBBY " + "\n" +
+                "> PLAYER_LIST " + "\n" +
+                "> START_GAME " + "\n" +
+
+                "\n" +"\n" + "##############################[GAME]##############################" +
+                "\n" + "--------SET_UP PHASE COMMANDS---------" + "\n" +
+                "> DISCARD leaderID"+ "\n" +
+                "> SELECT ResourceType"+ "\n" +
+
+                "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
+                "> BUY Row Column ProductionSlotID " + "\n" +
+                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID || 'VAULT') " + "\n" +
+                "> DONE" + "\n" + "\n" +
+
+                "> MARKET 'Row'||'Column' number" + "\n" +
+                "> DEPOSIT depositID" + "\n" +
+                "> CONVERSION ResourceType" + "\n" + "\n" +
+
+                "> PRODUCE cardID "+ "\n" +
+                "> FILL ResourceType " + "\n" +
+                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID || 'VAULT') " + "\n" +
+                "> DONE" + "\n" + "\n" +
+
+                "> ACTIVATE leaderID"+ "\n" + "\n" +
+
+                "> MOVE Qty Source_DepositID 'TO' Destination_DepositID)"+ "\n" + "\n" +
+                "> END_TURN" + "\n" +
+
+                "\n" + "--------SHOW COMMANDS---------" + "\n" +
+                "> SHOW_MARKET" + "\n" +
+                "> SHOW_DEPOSIT" + "\n" +
+                "> SHOW_BOARD" + "\n" +
+                "> SHOW_HAND" + "\n" +
+                "> SHOW_VAULT" + "\n" +
+                "> SHOW_CARDGRID" + "\n" +
+                "> SHOW_FAITHPATH" + "\n" +
+                "> SHOW_PLAYER nickname" + "\n"
+                );
+    }
+
     @Override
     public void printHello() {
         System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET);

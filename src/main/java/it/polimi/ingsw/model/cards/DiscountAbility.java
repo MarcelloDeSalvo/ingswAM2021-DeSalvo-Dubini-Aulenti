@@ -39,7 +39,7 @@ public class DiscountAbility implements Ability{
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        return "\nDiscount Ability: " +
+        return "\n - Discount Ability: " +
                 "ResourceType = " + resourceType +
                 ", Discount = " + discount;
     }
