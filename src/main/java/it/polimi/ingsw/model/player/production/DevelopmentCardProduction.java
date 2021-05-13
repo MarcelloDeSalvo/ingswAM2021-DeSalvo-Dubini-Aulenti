@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.model.resources.ResourceContainer;
-
 import java.util.ArrayList;
 
 public class DevelopmentCardProduction implements ProductionSlot {
@@ -163,5 +162,19 @@ public class DevelopmentCardProduction implements ProductionSlot {
         return 0;
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    //TO-STRING---------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        StringBuilder prodSlots = new StringBuilder();
+        prodSlots.append("DEVELOPMENT SLOT "+"\n");
+
+        for (DevelopmentCard developmentCard: dev.getDeck()){
+            prodSlots.append(developmentCard.toString());
+        }
+
+        return prodSlots.toString();
+    }
     //------------------------------------------------------------------------------------------------------------------
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player.production;
 
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 
@@ -11,36 +12,17 @@ import java.util.ArrayList;
 public class LeaderCardProduction implements ProductionSlot {
 
     /**
-     * Contains all the defined inputs
+     * Contains the reference to the production input/output and the questionMarks
      */
-    private final ArrayList<ResourceContainer> input;
+    private final ProductionAbility productionAbility;
 
-    /**
-     * Contains the number of the definable inputs
-     */
-    private final int questionMarkOnInput;
+    private final ArrayList<ResourceContainer> inputBuffer;
+    private final ArrayList<ResourceContainer> outputBuffer;
 
-    /**
-     * Contains all the defined outputs
-     */
-    private final ArrayList<ResourceContainer> output;
-
-    /**
-     * Contains the number of the definable outputs
-     */
-    int questionMarkOnOut;
-
-    ArrayList<ResourceContainer> inputBuffer;
-    ArrayList<ResourceContainer> outputBuffer;
-
-    public LeaderCardProduction(ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, int QMI, int QMO) {
-        this.input = new ArrayList<>(input);
-        this.output = new ArrayList<>(output);
-        this.inputBuffer = input;
-        this.outputBuffer = output;
-
-        this.questionMarkOnInput = QMI;
-        this.questionMarkOnOut = QMO;
+    public LeaderCardProduction(ProductionAbility productionAbility) {
+        this.inputBuffer = new ArrayList<>(productionAbility.getInput());
+        this.outputBuffer = new ArrayList<>(productionAbility.getOutput());
+        this.productionAbility = productionAbility;
 
     }
 
@@ -48,7 +30,7 @@ public class LeaderCardProduction implements ProductionSlot {
     //SLOT MANAGEMENT---------------------------------------------------------------------------------------------------
     @Override
     public boolean hasQuestionMarks(){
-        return (questionMarkOnInput>0 || questionMarkOnOut >0);
+        return (productionAbility.getQuestionMarkOnInput()>0 || productionAbility.getQuestionMarkOnOutput() >0);
     }
 
     @Override
@@ -70,12 +52,12 @@ public class LeaderCardProduction implements ProductionSlot {
         inputBuffer.clear();
         outputBuffer.clear();
 
-        for (ResourceContainer rs: input) {
+        for (ResourceContainer rs: productionAbility.getInput()) {
             if(!inputBuffer.add(rs))
                 return false;
         }
 
-        for (ResourceContainer rs: output) {
+        for (ResourceContainer rs: productionAbility.getOutput()) {
             if(!outputBuffer.add(rs))
                 return false;
         }
@@ -103,27 +85,22 @@ public class LeaderCardProduction implements ProductionSlot {
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     @Override
     public ArrayList<ResourceContainer> getProductionInput(){
-        return getInputBuffer();
+        return inputBuffer;
     }
 
     @Override
     public ArrayList<ResourceContainer> getProductionOutput(){
-        return getOutputBuffer();
+        return outputBuffer;
     }
 
     @Override
     public int getQMI() {
-        return questionMarkOnInput;
+        return productionAbility.getQuestionMarkOnInput();
     }
 
     @Override
     public int getQMO() {
-        return questionMarkOnOut;
-    }
-
-
-    public void setQuestionMarkOnOut(int getQuestionMarkOnOut) {
-        this.questionMarkOnOut = getQuestionMarkOnOut;
+        return productionAbility.getQuestionMarkOnOutput();
     }
 
     public ArrayList<ResourceContainer> getInputBuffer() {
@@ -134,14 +111,6 @@ public class LeaderCardProduction implements ProductionSlot {
         return outputBuffer;
     }
 
-    public ArrayList<ResourceContainer> getInput() {
-        return input;
-    }
-
-    public ArrayList<ResourceContainer> getOutput() {
-        return output;
-    }
-
     @Override
     public int getVictoryPoints() {
         return 0;
@@ -149,4 +118,11 @@ public class LeaderCardProduction implements ProductionSlot {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //TO-STRING---------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        return "DEVELOPMENT SLOT " + "\n" +
+                productionAbility.toString();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }

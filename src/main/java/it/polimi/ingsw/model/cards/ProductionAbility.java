@@ -26,7 +26,7 @@ public class ProductionAbility implements Ability {
      */
     @Override
     public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, questionMarkOnInput, questionMarkOnOutput);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(this);
         playerBoard.getProductionSite().addProductionSlot(leaderCardProduction);
         return true;
     }
@@ -39,6 +39,9 @@ public class ProductionAbility implements Ability {
     public ArrayList<ResourceContainer> getOutput() {
         return output;
     }
+
+    public int getQuestionMarkOnInput() { return questionMarkOnInput; }
+    public int getQuestionMarkOnOutput() { return questionMarkOnOutput; }
     //------------------------------------------------------------------------------------------------------------------
 
 

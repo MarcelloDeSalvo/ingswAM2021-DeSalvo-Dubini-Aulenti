@@ -256,6 +256,18 @@ public class ProductionSite {
 
     //------------------------------------------------------------------------------------------------------------------
 
+
+    //TO-STRING---------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        StringBuilder prodSlots = new StringBuilder();
+        for (ProductionSlot prod: productionSlots) {
+            prodSlots.append(prod.toString());
+        }
+
+        return prodSlots.toString();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }
 
 

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
@@ -95,5 +96,25 @@ public class BaseProduction implements ProductionSlot {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+    //TO-STRING---------------------------------------------------------------------------------------------------------
+    @Override
+    public String toString() {
+        StringBuilder prodSlots = new StringBuilder();
+        prodSlots.append("BASIC PRODUCTION"+"\n");
+
+        for (int i=0; i<QMI; i++){
+            prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
+        }
+
+        prodSlots.append(Color.WHITE_BOLD_BRIGHT.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
+
+        for (int i=0; i<QMI; i++){
+            prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
+        }
+
+
+        return prodSlots.toString();
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }
 

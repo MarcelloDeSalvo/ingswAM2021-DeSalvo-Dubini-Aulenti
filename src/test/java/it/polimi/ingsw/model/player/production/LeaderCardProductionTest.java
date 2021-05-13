@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player.production;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -27,7 +28,8 @@ class LeaderCardProductionTest {
 
     @Test
     void fillQuestionMarkInput() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 1, 0);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 1, 0);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkInput(ResourceType.MINION);
 
@@ -38,7 +40,8 @@ class LeaderCardProductionTest {
 
     @Test
     void fillQuestionMarkInput2() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 3, 0);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 3, 0);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkInput(ResourceType.MINION);
         leaderCardProduction.fillQuestionMarkInput(ResourceType.GOLD);
@@ -53,7 +56,8 @@ class LeaderCardProductionTest {
 
     @Test
     void fillQuestionMarkOutput() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 0, 1);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 0, 1);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD);
 
@@ -63,7 +67,8 @@ class LeaderCardProductionTest {
 
     @Test
     void fillQuestionMarkOutput2() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 0, 3);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 0, 3);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.GOLD);
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE);
@@ -77,7 +82,8 @@ class LeaderCardProductionTest {
 
     @Test
     void clearCurrentBuffer() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 2, 0);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 2, 0);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkInput(ResourceType.MINION);
         leaderCardProduction.fillQuestionMarkInput(ResourceType.GOLD);
@@ -88,13 +94,14 @@ class LeaderCardProductionTest {
 
         assertTrue(leaderCardProduction.clearCurrentBuffer());
 
-        assertEquals(leaderCardProduction.getInputBuffer(), input);
+        assertEquals( input, leaderCardProduction.getInputBuffer());
 
     }
 
     @Test
     void clearCurrentBuffer2() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 0, 2);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 0, 2);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE);
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD);
@@ -105,13 +112,14 @@ class LeaderCardProductionTest {
 
         assertTrue(leaderCardProduction.clearCurrentBuffer());
 
-        assertEquals(leaderCardProduction.getOutputBuffer(), output);
+        assertEquals( output, leaderCardProduction.getOutputBuffer());
 
     }
 
     @Test
     void clearCurrentBuffer3() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 1, 1);
+        ProductionAbility productionAbility = new ProductionAbility(input, output, 1, 1);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility);
 
         leaderCardProduction.fillQuestionMarkInput(ResourceType.STONE);
         leaderCardProduction.fillQuestionMarkOutput(ResourceType.SHIELD);
@@ -131,13 +139,16 @@ class LeaderCardProductionTest {
 
     @Test
     void hasQuestionMarks() {
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 0, 0);
+        ProductionAbility productionAbility1 = new ProductionAbility(input, output, 0, 0);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility1);
         assertFalse(leaderCardProduction.hasQuestionMarks());
 
-        LeaderCardProduction leaderCardProduction2 = new LeaderCardProduction(input, output, 2, 0);
+        ProductionAbility productionAbility2 = new ProductionAbility(input, output, 2, 1);
+        LeaderCardProduction leaderCardProduction2 = new LeaderCardProduction(productionAbility2);
         assertTrue(leaderCardProduction2.hasQuestionMarks());
 
-        LeaderCardProduction leaderCardProduction3 = new LeaderCardProduction(input, output, 0, 3);
+        ProductionAbility productionAbility3 = new ProductionAbility(input, output, 0, 3);
+        LeaderCardProduction leaderCardProduction3 = new LeaderCardProduction(productionAbility3);
         assertTrue(leaderCardProduction3.hasQuestionMarks());
     }
 
@@ -149,7 +160,8 @@ class LeaderCardProductionTest {
         PlayerBoard playerBoard = player.getPlayerBoard();
 
         //new leaderCardProduction gets added to ProductionSite
-        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(input, output, 1, 5);
+        ProductionAbility productionAbility3 = new ProductionAbility(input, output, 1, 5);
+        LeaderCardProduction leaderCardProduction = new LeaderCardProduction(productionAbility3);
         leaderCardProduction.fillQuestionMarkInput(ResourceType.MINION);
         assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE));
         assertTrue(leaderCardProduction.fillQuestionMarkOutput(ResourceType.STONE));
