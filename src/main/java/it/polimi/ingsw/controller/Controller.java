@@ -419,7 +419,15 @@ public class Controller implements ObserverController {
         }
     }
 
-    
+    /**
+     * When the player is in PlayerStatus.SELECTING_BUY_RESOURCES the method is used to receive the resources selected and checking <br>
+     * if the removing of the container goes right.
+     * When the command 'DONE' is received calls buyDevelopmentCard() method
+     * @param mex message received
+     * @param senderNick current player nickname
+     * @param command command received
+     * @param currPlayer the current player
+     */
     private void selectResources(String mex, String senderNick, Command command, Player currPlayer) {
 
         if(command == Command.SEND_CONTAINER) {
@@ -441,7 +449,19 @@ public class Controller implements ObserverController {
         view.printReply_uni("Please keep selecting the resources or type 'DONE'", senderNick);
     }
 
-
+    /**
+     * Checks if the curr player owns enough resources to remove 'resourceContainer'.
+     * Then if the 'destination' is:
+     *  - 'vault', vault's buffer gets filled
+     *  - 'deposit', the specific deposit id's buffer gets filled
+     * This method also notifies the view on what happens using specific messages
+     * @param resourceContainer the container that i want to remove (use as a payment)
+     * @param destination 'deposit' or 'vault'
+     * @param destinationID the
+     * @param senderNick current player nickname
+     * @param currPlayer the current player
+     * @return true if the container is correctly removed, false otherwise
+     */
     private boolean removeContainer(ResourceContainer resourceContainer, String destination, int destinationID, String senderNick, Player currPlayer){
 
         if(!currPlayer.hasEnoughResources(resourceContainer)) {
@@ -489,7 +509,14 @@ public class Controller implements ObserverController {
         return false;
     }
 
-
+    /**
+     * Used to actually buy the Development Card but only after checking with the method 'canBuy()' if you can do it.
+     * If the card is correctly bought it is inserted in a specific 'productionSlotId' and removed from the Cardgrid
+     * This method also notifies the view on what happens using specific messages
+     * @param senderNick current player nickname
+     * @param currPlayer the current player
+     * @return true if the card is correctly bought, false otherwise
+     */
     private boolean buyDevelopmentCard(String senderNick, Player currPlayer) {
 
         if(!currPlayer.canBuy(newDevelopmentCard)) {
@@ -501,8 +528,13 @@ public class Controller implements ObserverController {
 
         currPlayer.buy();
         currPlayer.insertBoughtCardOn(productionSlotId, newDevelopmentCard);
+        game.getCardgrid().removeDevelopmentCard(newDevelopmentCard.getId());
+
+        newDevelopmentCard = null;
+        productionSlotId = -1;
+
         view.printReply_uni("You bought the card correctly!", senderNick);
-        //print production site
+        view.printProduction(currPlayer.getProductionSite(), senderNick);
         return true;
     }
     //------------------------------------------------------------------------------------------------------------------/

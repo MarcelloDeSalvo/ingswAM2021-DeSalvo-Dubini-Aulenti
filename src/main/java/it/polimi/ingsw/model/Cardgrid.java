@@ -52,6 +52,24 @@ public class Cardgrid {
         return false;
     }
 
+
+    /**
+     * Removes a specific Development Card (using the ID) from the top of a deck in the cardGrid.
+     * @return false if a deck with the chosen parameters isn't found or is empty
+     */
+    public boolean removeDevelopmentCard(int cardID){
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getId() == cardID) {
+                    deckGrid[i][j].getDeck().remove();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     /**
      * Removes a card of a specific colour from the top of a deck in the cardGrid starting with the cards with the lowest level
      */
@@ -65,10 +83,11 @@ public class Cardgrid {
         }
     }
 
+
     /**
      * This method deletes the current card on top of its respective deck. The deck is chosen by the position on the grid defined by the two parameters
      */
-    public boolean removeDevelopmentCard( int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
+    public boolean removeDevelopmentCard(int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
         if(rowNumber<=0|| rowNumber>3)
             throw new InvalidRowNumber ("Selected row isn't valid");
         if(columnNumber<=0|| rowNumber>4)
@@ -90,7 +109,7 @@ public class Cardgrid {
      * with two integers between 1-4
      * @return null if the card isn't found
      */
-    public DevelopmentCard getDevelopmentCardOnTop( int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
+    public DevelopmentCard getDevelopmentCardOnTop(int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
         if(rowNumber<=0 || rowNumber>3)
             throw new InvalidRowNumber ("Selected row isn't valid");
         if(columnNumber<=0 || columnNumber>4)
