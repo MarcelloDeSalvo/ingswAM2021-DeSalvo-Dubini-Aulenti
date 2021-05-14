@@ -34,5 +34,9 @@ public class ServerSender extends Thread {
         out.flush();
     }
 
+    public void exit(){
+        out.close();
+    }
+
 }
 

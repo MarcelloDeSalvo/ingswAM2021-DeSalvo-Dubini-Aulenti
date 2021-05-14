@@ -13,8 +13,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class User implements ObserverThread, ObservableViewIO {
     private final String nickname;
-    private final ServerReceiver serverReceiver;
-    private final ServerSender serverSender;
+    private  ServerReceiver serverReceiver;
+    private  ServerSender serverSender;
     private final List<ObserverViewIO> serverAreas;
     private boolean active=true;
     private boolean received;
@@ -33,8 +33,23 @@ public class User implements ObserverThread, ObservableViewIO {
         serverConnectionCheck.start();
     }
 
+    public User getThis(){
+        return this;
+    }
+
     //USER CONNECTION STABILITY-----------------------------------------------------------------------------------------
 
+    public void reconnect(ServerReceiver serverReceiver, ServerSender serverSender){
+        this.serverReceiver=serverReceiver;
+        this.serverSender=serverSender;
+        active=true;
+        ServerConnectionCheck serverConnectionCheck=new ServerConnectionCheck();
+        serverConnectionCheck.start();
+    }
+
+    /**
+     * ServerConnectionCheck is a thread with a timer that pings the user back and forth to see if he's still connected.
+     */
     public class ServerConnectionCheck extends Thread{
         public void run(){
             Timer timer = new Timer();
@@ -45,25 +60,33 @@ public class User implements ObserverThread, ObservableViewIO {
                     if (received) {
                         received = false;
                         userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
+                        System.out.println(nickname + "Ping sent");
 
                     } else {
                         active = false;
                         System.out.println(nickname+" disconnected!");
+                        serverReceiver.exit();
+                        serverSender.exit();
+                        for (ObserverViewIO obs:serverAreas) {
+                            obs.onDisconnect(getThis());
+                        }
                         this.cancel();
-                        //Vari metodi sulla disconessione
                     }
                 }
             };
 
             received=true;
             int initialDelay = 1000;
-            int delta = 15000;
+            int delta = 7500;
             timer.scheduleAtFixedRate(task,initialDelay,delta);
 
         }
 
     }
 
+    /**
+     * Updates the user when a Pong is successfully received.
+     */
     public void pongReceived(){ received=true; }
 
 
@@ -86,6 +109,8 @@ public class User implements ObserverThread, ObservableViewIO {
     public void addServerArea(ObserverViewIO serverArea){
         serverAreas.add(serverArea);
     }
+
+
 
     public void removeServerArea(ObserverViewIO serverArea){
         serverAreas.remove(serverArea);
@@ -125,4 +150,5 @@ public class User implements ObserverThread, ObservableViewIO {
     public void setReceived(boolean received) {
         this.received = received;
     }
+
 }

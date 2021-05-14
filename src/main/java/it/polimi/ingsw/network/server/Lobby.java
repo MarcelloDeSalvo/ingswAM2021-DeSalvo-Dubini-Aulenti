@@ -168,6 +168,13 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         return command.getWhereToProcess() == Status.IN_LOBBY;
     }
+
+    @Override
+    public void onDisconnect(User user) {
+        if(user.getStatus()==Status.IN_LOBBY){
+            removeUser(user);
+        }
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

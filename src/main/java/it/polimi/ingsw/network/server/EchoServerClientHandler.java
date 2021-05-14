@@ -40,10 +40,10 @@ public class EchoServerClientHandler implements Runnable {
 
                 if (nickMex.getCommand() == Command.LOGIN) {
 
-                    if(!lobbyManager.getConnectedPlayers().containsKey(nickname)){
+                    if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
                         out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
-                                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() +"---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
-                                    build().serialize());
+                                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() + "---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
+                                build().serialize());
 
                         out.flush();
 
@@ -62,18 +62,39 @@ public class EchoServerClientHandler implements Runnable {
                         System.out.println("# " + nickname + " has logged into the server \n");
                         break;
 
+                    } else {
+
+
+                        if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
+                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                                    .setInfo("Sorry, but the nickname is already in use. Try submitting another one again:").build().serialize());
+                        else {
+                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                                    .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
+
+                            ServerReceiver serverReceiver = new ServerReceiver(socket, in);
+                            ServerSender serverSender = new ServerSender(socket, out);
+
+                            lobbyManager.getConnectedPlayers().get(nickname).reconnect(serverReceiver,serverSender);
+
+                            serverReceiver.start();
+                            serverSender.start();
+
+                            System.out.println("# " + nickname + " has reconnected into the server \n");
+                            break;
+
+
+                        }
                     }
-                    else{
-                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                .setInfo("Sorry, but the nickname is already in use. Try submitting another one again:").build().serialize());
-                    }
-                }
-                else {
+                } else {
                     out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
                             .setInfo("Incorrect command, please use the LOGIN command").build().serialize());
-                }
 
+                }
             }
+
+
+
 
 
         }catch (IllegalThreadStateException | IOException e){

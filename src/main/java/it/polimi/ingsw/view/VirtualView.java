@@ -79,6 +79,11 @@ public class VirtualView implements View {
 
         return command.getWhereToProcess() == Status.IN_GAME;
     }
+
+    @Override
+    public void onDisconnect(User user) {
+
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

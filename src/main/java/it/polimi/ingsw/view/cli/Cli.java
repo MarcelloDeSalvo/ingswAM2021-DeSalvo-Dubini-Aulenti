@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
+import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
@@ -352,6 +353,10 @@ public class Cli extends ClientView {
         //System.out.println(sendContainer);
         send(sendContainer);
         return true;
+    }
+
+    @Override
+    public void onDisconnect(User user) {
     }
     //------------------------------------------------------------------------------------------------------------------
 

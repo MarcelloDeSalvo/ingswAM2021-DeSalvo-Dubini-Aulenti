@@ -54,7 +54,6 @@ public class LobbyManager implements  ObserverViewIO {
                 break;
 
 
-
             case HELLO:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.HELLO).
@@ -71,7 +70,7 @@ public class LobbyManager implements  ObserverViewIO {
 
             case CHAT:
                 ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
-                System.out.println(chatMessage.toString());
+                //System.out.println(chatMessage.toString());
                 String receiver = chatMessage.getReceiver();
                 if(!UserManager.isNamePresent(connectedPlayers,receiver)){
                     UserManager.notifyUsers(connectedPlayers,
@@ -209,7 +208,13 @@ public class LobbyManager implements  ObserverViewIO {
         return command.getWhereToProcess() == Status.IN_LOBBY_MANAGER;
     }
 
-    //------------------------------------------------------------------------------------------------------------------
+    @Override
+    public void onDisconnect(User user) {
+        if(user.getStatus()!=Status.IN_GAME)
+            UserManager.removePlayer(connectedPlayers, user.getNickname());
+
+    }
+//------------------------------------------------------------------------------------------------------------------
 
 
     //GETTERS AND SETTERS-----------------------------------------------------------------------------------------------
