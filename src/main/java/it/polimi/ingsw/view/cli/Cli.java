@@ -443,9 +443,9 @@ public class Cli extends ClientView {
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
         System.out.println("These the Leader Cards in your " + Color.ANSI_CYAN.escape() + "HAND" + Color.ANSI_RESET.escape() + ":\n");
         for (int id: leaderIDs) {
-            System.out.println("----------------------------------------------------------------\\");
+            System.out.println("-------------------------------------------------------------------\\");
             System.out.println(leaderCards.get(id-1).toString());
-            System.out.println("----------------------------------------------------------------/\n\n");
+            System.out.println("-------------------------------------------------------------------/\n\n");
         }
         System.out.println();
     }
