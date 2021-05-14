@@ -14,6 +14,11 @@ public enum Color {
     ANSI_WHITE_BOLD_FRAMED("\u001B[51;1m"),
     WHITE_BOLD_BRIGHT ("\u001B[1;97m"),
 
+    ANSI_WHITE_FRAMED_BACKGROUND ("\u001B[51;97m"),
+    ANSI_YELLOW_FRAMED_BACKGROUND ("\u001B[51;93m"),
+    ANSI_RED_FRAMED_BACKGROUND ("\u001B[51;91m"),
+
+
     ANSI_RESET ("\u001B[0m");
 
     static final String RESET = "\u001B[0m";

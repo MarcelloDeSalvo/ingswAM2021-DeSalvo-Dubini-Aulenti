@@ -173,42 +173,43 @@ public class FaithPath implements ObservableEndGame {
     public String toString(ArrayList<String> nicks){
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(Color.ANSI_RED.escape()).append("FAITHPATH: \n").append(Color.ANSI_RESET.escape());
-        int c=0;
+        stringBuilder.append(Color.ANSI_RED.escape()).append("FAITHPATH: \n\n").append(Color.ANSI_RESET.escape());
+
+        int c = 0;
+
         for(int i=0;i<length;i++){
-            if(victoryPoints.get(i)!=c){
-                stringBuilder.append(c+" \t");
-                c=victoryPoints.get(i);
+
+            if(victoryPoints.get(i) != c){
+                c = victoryPoints.get(i);
+                stringBuilder.append(c + " \t");
             }else{
                 stringBuilder.append("  \t");
             }
-            String color;
+
             switch (vaticanReports.get(i)) {
                 case ('E'):
-                    stringBuilder.append(Color.ANSI_WHITE.escape());
+                    stringBuilder.append(Color.ANSI_WHITE_FRAMED_BACKGROUND.escape());
                     break;
 
                 case('X'):
-                    stringBuilder.append(Color.ANSI_YELLOW.escape());
+                    stringBuilder.append(Color.ANSI_YELLOW_FRAMED_BACKGROUND.escape());
                     break;
 
                 case('P'):
-                    stringBuilder.append(Color.ANSI_RED.escape());
+                    stringBuilder.append(Color.ANSI_RED_FRAMED_BACKGROUND.escape());
                     break;
 
-            }if(i<10)
-            stringBuilder.append("║ "+i+"║"+Color.ANSI_RESET.escape());
-            else
-                stringBuilder.append("║"+i+"║"+Color.ANSI_RESET.escape());
+            }
+
+            stringBuilder.append("   "+Color.ANSI_RESET.escape());
 
             int var=0;
             for (Integer in: positions){
-                if(i==in)
+                if(i == in)
                     stringBuilder.append(Color.ANSI_RED.escape()+" ✞ "+Color.ANSI_RESET.escape()+nicks.get(var)+ "\t");
                 var++;
             }
             stringBuilder.append("\n");
-
 
         }
         return stringBuilder.toString();
