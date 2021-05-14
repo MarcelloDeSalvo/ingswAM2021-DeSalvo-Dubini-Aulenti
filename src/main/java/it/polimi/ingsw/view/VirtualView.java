@@ -158,6 +158,10 @@ public class VirtualView implements View {
         printReply_everyOneElse("@ It is "+ nickname +"'s turn", nickname);
     }
 
+    public void printTurnHelp(String nickname){
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
+    }
+
     @Override
     public void printDeposit(Deposit deposit, String nickname) {
         printReply_uni(deposit.toString(), nickname);

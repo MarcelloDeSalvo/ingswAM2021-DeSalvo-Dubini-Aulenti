@@ -108,16 +108,20 @@ public class BaseProduction implements ProductionSlot {
         prodSlots.append(Color.ANSI_WHITE.escape()).append("# BASIC PRODUCTION ------------------ #"+"\n").append(Color.ANSI_RESET.escape());
 
         for (int i=0; i<QMI; i++){
+            if (i!=0)
+                prodSlots.append(" + ");
             prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
         }
 
         prodSlots.append(Color.ANSI_WHITE.escape()).append(" --> ").append(Color.ANSI_RESET.escape());
 
         for (int i=0; i<QMO; i++){
+            if (i!=0)
+                prodSlots.append(" + ");
             prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
         }
 
-        prodSlots.append("\n");
+        prodSlots.append("\n"+"\n");
         return prodSlots.toString();
     }
     //------------------------------------------------------------------------------------------------------------------

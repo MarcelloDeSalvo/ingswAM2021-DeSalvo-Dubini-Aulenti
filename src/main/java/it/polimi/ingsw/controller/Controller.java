@@ -57,7 +57,7 @@ public class Controller implements ObserverController {
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
                 game.addView(view);
-
+                view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
                 view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.printLeaderCardRequest(game.getPlayer(0).getNickname());
             }
@@ -86,6 +86,13 @@ public class Controller implements ObserverController {
         turnPhase_Commands(mex, senderNick, command);
     }
 
+
+    /**
+     * This function manages all the commands that can be sent during the set-up phase
+     * @param mex is the message received
+     * @param senderNick is the player that sent the message
+     * @param command is the command that the user typed
+     */
     private void setUp_Commands(String mex, String senderNick, Command command){
 
         int playerNumber = game.getPlayerListString().indexOf(senderNick);
@@ -107,8 +114,12 @@ public class Controller implements ObserverController {
 
                 view.printReply_uni("Leader Discarded!", senderNick);
 
-                if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded())
-                    view.printReply_uni("You discarded 2 Leaders! Please wait for the other players to to so ", senderNick);
+                if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
+                    view.printReply_uni("You discarded 2 Leaders!" , senderNick);
+                    if (!game.isSinglePlayer())
+                        view.printReply_uni("Please wait the other players to do so" , senderNick);
+                }
+
 
                 if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
                     askForResources();
@@ -137,6 +148,12 @@ public class Controller implements ObserverController {
     }
 
 
+    /**
+     * This function manages all the commands that can be sent during the turn phase
+     * @param mex is the message received
+     * @param senderNick is the player that sent the message
+     * @param command is the command that the user typed
+     */
     private void turnPhase_Commands(String mex, String senderNick, Command command){
         Player currPlayer = game.getCurrentPlayer();
 
@@ -344,6 +361,9 @@ public class Controller implements ObserverController {
     }
 
 
+    /**
+     * Starts the turn phase
+     */
     private void startGame() {
         game.startGame();
         view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
@@ -354,6 +374,14 @@ public class Controller implements ObserverController {
 
 
     //BUY PHASE --------------------------------------------------------------------------------------------------------
+    /**
+     * Checks if the user has enough resources in total before asking him to type where does he want to
+     * @param row is the selected row number
+     * @param column is the selected column number
+     * @param id is the ID of the card on the row/column position on the grid
+     * @param senderNick is the player's nickname that wants to buy the card
+     * @return true if he has selected a valid number for the row and column
+     */
     private boolean checkBuy(int row, int column, int id, String senderNick, Player currPlayer) {
 
         try {
@@ -364,30 +392,29 @@ public class Controller implements ObserverController {
                 return false;
             }
 
-            try {
-                if(!currPlayer.getProductionSlotByID(id).canInsertOnTop(selectedCard)){
-                    view.printReply_uni("You can't insert the this card in the selected Production Slot!", senderNick);
-                    return false;
-                }
-            } catch (IndexOutOfBoundsException exception) {
-                view.printReply_uni("The selected Production Slot does not exists!", senderNick);
+            if(!currPlayer.getProductionSlotByID(id).canInsertOnTop(selectedCard)){
+                view.printReply_uni("You can't insert the this card in the selected Production Slot!", senderNick);
+                return false;
             }
-
 
             newDevelopmentCard = selectedCard;
             this.productionSlotId = id;
 
+            view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
             return true;
 
         } catch (InvalidColumnNumber | InvalidRowNumber exception) {
-
             view.printReply_uni(exception.getMessage(), senderNick);
-
             return false;
+
+        }catch (IndexOutOfBoundsException exception){
+            view.printReply_uni("The selected Production Slot does not exists!", senderNick);
+            return false;
+
         }
     }
 
-
+    
     private void selectResources(String mex, String senderNick, Command command, Player currPlayer) {
 
         if(command == Command.SEND_CONTAINER) {
@@ -406,7 +433,7 @@ public class Controller implements ObserverController {
             }
         }
 
-        view.printReply_uni("Please select resources as a payment or type 'DONE' if you already did!", senderNick);
+        view.printReply_uni("Please keep selecting the resources or type 'DONE'", senderNick);
     }
 
 
@@ -457,6 +484,7 @@ public class Controller implements ObserverController {
 
         if(!currPlayer.canBuy(newDevelopmentCard)) {
             view.printReply_uni("The resources you selected aren't correct!", senderNick);
+            view.printTurnHelp(senderNick);
             currPlayer.emptyBuffers();
             return false;
         }
@@ -474,7 +502,6 @@ public class Controller implements ObserverController {
     public void marketAddDepositController(String senderNick){
         increaseMarketOut_NotAddableResources();
 
-        System.out.println(marketOutCont);
 
         if (marketOutCont < marketOut.size()){
             view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
@@ -492,7 +519,6 @@ public class Controller implements ObserverController {
 
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
-            System.out.println(marketOut);
 
         }catch (InvalidColumnNumber | InvalidRowNumber e ){
             view.printReply_uni(e.getMessage(), senderNick);
