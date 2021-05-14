@@ -388,8 +388,6 @@ public class Player implements ObservableModel {
     public void setPlayerStatus(PlayerStatus playerStatus) {
         this.playerStatus = playerStatus;
     }
-
-
     //------------------------------------------------------------------------------------------------------------------
 
     //OBSERVABLE MODEL--------------------------------------------------------------------------------------------------

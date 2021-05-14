@@ -370,11 +370,8 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
 
     }
 
-    public DepositSlot getDepositSlotByID(int id){
-        if (id >= 0 && id < deposit.getDepositList().size())
-            return deposit.getDepositList().get(id);
-
-        throw new IndexOutOfBoundsException("Such DepositSlot does not exist! Please select a valid one");
+    public DepositSlot getDepositSlotByID(int id) throws IndexOutOfBoundsException{
+        return deposit.getDepositList().get(id-1);
     }
 
     @Override

@@ -77,7 +77,7 @@ public class User implements ObserverThread, ObservableViewIO {
 
             received=true;
             int initialDelay = 1000;
-            int delta = 7500;
+            int delta = 30000;
             timer.scheduleAtFixedRate(task,initialDelay,delta);
 
         }
