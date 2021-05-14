@@ -69,6 +69,7 @@ public class DefaultDeposit extends DepositSlot {
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
         this.getDepositContainer().setResourceType(inputType);
         getNotAvailableResourceType().add(inputType);
+        System.out.println("BUFFER" + getBufferContainer());
         return true;
     }
 
@@ -139,7 +140,6 @@ public class DefaultDeposit extends DepositSlot {
 
         //if(isTheResourceTypeAlreadyTaken(destination.getDepositResourceType()))   Pensare a come farlo bene tra due default
             //throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type");
-
 
         return true;
     }

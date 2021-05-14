@@ -211,6 +211,7 @@ public class Deposit {
     public ArrayList<DepositSlot> getDepositList() {
         return depositList;
     }
+
     public int getDefaultDepositNumber() {
         return defaultDepositNumber;
     }
@@ -225,17 +226,20 @@ public class Deposit {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //TO STRING---------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-
+        int i = 1;
         for (DepositSlot depositSlot : depositList) {
-            stringBuilder.append(depositSlot.toString()).append("----------------------------------");
+            stringBuilder.append("----------------------------------\n")
+            .append(Color.ANSI_CYAN.escape()).append("ID - ").append(i).append(Color.ANSI_RESET.escape()).append("\n").append(depositSlot.toString());
+            i++;
         }
 
-        return Color.ANSI_CYAN.escape() + "DEPOSIT: " + Color.ANSI_RESET.escape() +
+        return Color.ANSI_BLUE.escape() + "DEPOSIT: " + Color.ANSI_RESET.escape() +
                 "\n" +
-                "----------------------------------" +
-                stringBuilder.toString();
+                stringBuilder.append("----------------------------------\n").toString();
     }
+    //------------------------------------------------------------------------------------------------------------------
 }

@@ -81,7 +81,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void onDisconnect(User user) {
+    public synchronized void onDisconnect(User user) {
 
     }
     //------------------------------------------------------------------------------------------------------------------

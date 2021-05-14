@@ -170,7 +170,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     }
 
     @Override
-    public void onDisconnect(User user) {
+    public synchronized void onDisconnect(User user) {
         if(user.getStatus()==Status.IN_LOBBY){
             removeUser(user);
         }

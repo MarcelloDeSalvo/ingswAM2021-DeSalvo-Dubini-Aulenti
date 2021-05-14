@@ -390,8 +390,6 @@ public class Controller implements ObserverController {
         try {
             DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
 
-            System.out.println(selectedCard.toString());
-
             if(!currPlayer.hasEnoughResources(selectedCard.getPrice())) {
                 view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
                 return false;
@@ -424,7 +422,7 @@ public class Controller implements ObserverController {
 
         if(command == Command.SEND_CONTAINER) {
             SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
-            System.out.println("Arrived: " + sendContainer);
+            //System.out.println("Arrived: " + sendContainer);
 
             if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick, currPlayer))
                 return;
@@ -500,6 +498,7 @@ public class Controller implements ObserverController {
         }
 
         currPlayer.buy();
+        currPlayer.emptyBuffers();
         currPlayer.insertBoughtCardOn(productionSlotId, newDevelopmentCard);
         view.printReply_uni("You bought the card correctly!", senderNick);
         //print production site
@@ -557,6 +556,7 @@ public class Controller implements ObserverController {
         increaseMarketOut_NotAddableResources();
 
         if (marketOutCont < marketOut.size()){
+            view.printDeposit(game.getCurrentPlayer().getDeposit(), senderNick);
             view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
             return;
         }

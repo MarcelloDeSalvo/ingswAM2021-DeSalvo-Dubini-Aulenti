@@ -38,7 +38,6 @@ public class User implements ObserverThread, ObservableViewIO {
     }
 
     //USER CONNECTION STABILITY-----------------------------------------------------------------------------------------
-
     public void reconnect(ServerReceiver serverReceiver, ServerSender serverSender){
         this.serverReceiver=serverReceiver;
         this.serverSender=serverSender;
@@ -60,7 +59,7 @@ public class User implements ObserverThread, ObservableViewIO {
                     if (received) {
                         received = false;
                         userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
-                        System.out.println(nickname + "Ping sent");
+                        //System.out.println(nickname + "Ping sent");
 
                     } else {
                         active = false;
@@ -88,8 +87,6 @@ public class User implements ObserverThread, ObservableViewIO {
      * Updates the user when a Pong is successfully received.
      */
     public void pongReceived(){ received=true; }
-
-
 
 
     @Override
@@ -150,5 +147,5 @@ public class User implements ObserverThread, ObservableViewIO {
     public void setReceived(boolean received) {
         this.received = received;
     }
-
+    //------------------------------------------------------------------------------------------------------------------
 }
