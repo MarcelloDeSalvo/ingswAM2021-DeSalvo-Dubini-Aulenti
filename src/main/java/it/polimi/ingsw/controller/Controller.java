@@ -387,6 +387,8 @@ public class Controller implements ObserverController {
         try {
             DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
 
+            System.out.println(selectedCard.toString());
+
             if(!currPlayer.hasEnoughResources(selectedCard.getPrice())) {
                 view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
                 return false;
@@ -463,6 +465,8 @@ public class Controller implements ObserverController {
         if(destination.equalsIgnoreCase("DEPOSIT")) {
             try {
                 currPlayer.getDepositSlotByID(destinationID).canRemoveFromDepositSlot(resourceContainer);
+
+                System.out.println("Buffer container: " + currPlayer.getDepositSlotByID(destinationID).getBufferContainer().toString());
 
                 view.printReply_uni("Resources accepted!", senderNick);
 

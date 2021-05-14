@@ -77,6 +77,9 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
 
         cardPriceMap = Util.arraylistToMap(cardPrice);
 
+        System.out.println("Buffer map: " + bufferMap);
+        System.out.println("Price map: " + cardPriceMap);
+
         return cardPriceMap!= null && cardPriceMap.equals(bufferMap);
     }
 
@@ -97,11 +100,14 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     private void addDepositBuffer (HashMap<ResourceType, ResourceContainer> bufferMap) {
         for (DepositSlot ds: deposit.getDepositList()) {
             ResourceType key = ds.getDepositResourceType();
+            int qty = ds.getBufferContainer().getQty();
             if(key != null) {
-                if(!bufferMap.containsKey(key))
-                    bufferMap.put(key, new ResourceContainer(key, ds.getBufferContainer().getQty()));
-                else
-                    bufferMap.get(key).addQty(ds.getBufferContainer().getQty());
+                if(qty != 0) {
+                    if(!bufferMap.containsKey(key))
+                        bufferMap.put(key, new ResourceContainer(key, ds.getBufferContainer().getQty()));
+                    else
+                        bufferMap.get(key).addQty(ds.getBufferContainer().getQty());
+                }
             }
         }
     }

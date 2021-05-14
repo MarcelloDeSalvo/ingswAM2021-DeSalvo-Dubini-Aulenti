@@ -338,7 +338,7 @@ public class Cli extends ClientView {
         String destination = stdIn.next();
         if (InputCheck.not_vault_or_deposit(destination)) return false;
 
-        if(destination.equals("DEPOSIT")){
+        if(destination.equalsIgnoreCase("DEPOSIT")){
             int destinationID = stdIn.nextInt();
 
             ResourceContainer container = new ResourceContainer(resType, qty);
