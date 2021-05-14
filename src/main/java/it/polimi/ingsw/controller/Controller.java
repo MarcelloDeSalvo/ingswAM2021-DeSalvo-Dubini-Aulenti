@@ -233,7 +233,7 @@ public class Controller implements ObserverController {
     }
 
 
-    //GAME SETUP PHASE -------------------------------------------------------------------------------------------------
+    //GAME SETUP PHASE---------------------------------------------------------------------------------------------------------------GAME SETUP PHASE----#
     /**
      * Check if every player in game has already discarded 2 LeaderCards
      */
@@ -352,11 +352,14 @@ public class Controller implements ObserverController {
 
             return true;
 
-        } catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException exception) {
-
+        } catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored exception) {
             view.printReply_uni(exception.getMessage(), currNickname);
-
             return false;
+
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException){
+            view.printReply_uni("The selected Deposit Slot does not exists!", currNickname);
+            return false;
+
         }
     }
 
@@ -370,10 +373,10 @@ public class Controller implements ObserverController {
         view.printItsYourTurn(game.getCurrentPlayerNick());
         //PRINT VARIE DI TUTTE LE PORCHERIE
     }
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------/
 
 
-    //BUY PHASE --------------------------------------------------------------------------------------------------------
+    //BUY PHASE ---------------------------------------------------------------------------------------------------------------------BUY PHASE---------#
     /**
      * Checks if the user has enough resources in total before asking him to type where does he want to
      * @param row is the selected row number
@@ -473,10 +476,13 @@ public class Controller implements ObserverController {
                 return true;
 
             } catch (DifferentResourceType | NotEnoughResources exception) {
-
                 view.printReply_uni(exception.getMessage(), senderNick);
-
                 return false;
+
+            } catch (IndexOutOfBoundsException indexOutOfBoundsException){
+                view.printReply_uni("The selected Deposit Slot does not exists!", senderNick);
+                return false;
+
             }
         }
 
@@ -499,25 +505,16 @@ public class Controller implements ObserverController {
         //print production site
         return true;
     }
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------/
 
 
-    //MARKET ACTION CONTROLLER------------------------------------------------------------------------------------------
-    public void marketAddDepositController(String senderNick){
-        increaseMarketOut_NotAddableResources();
-
-
-        if (marketOutCont < marketOut.size()){
-            view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
-            return;
-        }
-
-        view.printReply_uni("All the resources that can be added to a deposit are finished. You can continue your turn", senderNick);
-        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
-        marketOut = null;
-        marketOutCont = 0;
-    }
-
+    //MARKET ACTION CONTROLLER-------------------------------------------------------------------------------------------------------PICK FROM MARKET--#
+    /**
+     * Manages the user action 'Pick From Market' :<br>
+     * - Checks if the user selected a valid row/column number <br>
+     * - Checks if the user has one or more active conversion <br>
+     * - Sets the playerStatus to SELECTING_DESTINATION_AFTER_MARKET in order to force him to sends only certain commands
+     */
     public void pickFromMarket(String mex, String senderNick){
         MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
 
@@ -550,6 +547,30 @@ public class Controller implements ObserverController {
         marketAddDepositController(senderNick);
     }
 
+    /**
+     * Manages the sending of resources to the deposits after taking them from the market:<br>
+     * -At the beginning scrolls the array until an addable resource is found (canAddToDeposit==true) <br>
+     * -If there is at least one addable resource it asks the user where does he want to put her <br>
+     * -When the users
+     */
+    public void marketAddDepositController(String senderNick){
+        increaseMarketOut_NotAddableResources();
+
+        if (marketOutCont < marketOut.size()){
+            view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+            return;
+        }
+
+        view.printTurnHelp(senderNick);
+        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
+        marketOut = null;
+        marketOutCont = 0;
+    }
+
+
+    /**
+     * Checks if the user typed the SEND_DEPOSIT_ID command that contains the infos about the deposit in which he wants to place the resource
+     */
     public void selectDestinationAfterMarket(String mex, String senderNick, Command command) {
 
         if (command != Command.SEND_DEPOSIT_ID){
@@ -565,9 +586,13 @@ public class Controller implements ObserverController {
                 game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).addToDepositSlot(marketOut.get(marketOutCont));
             }
 
-        }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored | IndexOutOfBoundsException e){
+        }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored  e){
             view.printReply_uni(e.getMessage(), senderNick);
             return ;
+
+        }catch (IndexOutOfBoundsException exception){
+            view.printReply_uni("The selected Deposit Slot does not exists!", senderNick);
+            return;
         }
 
         marketOutCont++;
@@ -575,6 +600,9 @@ public class Controller implements ObserverController {
 
     }
 
+    /**
+     * Scrolls the marketOutput array and skips the resources that cannot be added to a deposit
+     */
     public void increaseMarketOut_NotAddableResources(){
         if (marketOutCont==marketOut.size())
             return;
@@ -589,6 +617,10 @@ public class Controller implements ObserverController {
 
     }
 
+    /**
+     * Checks automatically if the user has no place where to put the resource and force him to discard her if there aren't any
+     * @return true if he must discard the current resource on the marketOutput array
+     */
     public boolean mustDiscardCheck(String senderNick) {
         boolean canAdd = false;
         for (DepositSlot depositSlot: game.getCurrentPlayer().getDeposit().getDepositList()) {
@@ -606,7 +638,7 @@ public class Controller implements ObserverController {
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //FAITPATH CONTROLLER-----------------------------------------------------------------------------------------------
+    //FAITPATH CONTROLLER------------------------------------------------------------------------------------------------------------FAITPATH CONTROLLER--#
     public void incPosOfCurrentPlayer(int qty){
         game.addFaithPointsToCurrentPLayer(qty);
     }
@@ -614,7 +646,7 @@ public class Controller implements ObserverController {
     public void incPosOfOthers(int qty){
         game.addFaithPointsToOtherPlayers(qty);
     }
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------/
 
 
     //GETTERS-----------------------------------------------------------------------------------------------------------
