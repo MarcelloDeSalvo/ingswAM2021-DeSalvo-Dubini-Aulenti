@@ -163,4 +163,10 @@ class FaithPathTest {
 
     }
 
+    @Test
+    void toStringTest(){
+        faithPath.incrementPosition(4);
+        System.out.println(faithPath.toString());
+    }
+
 }

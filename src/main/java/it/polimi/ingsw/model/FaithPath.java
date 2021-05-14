@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.view.cli.Color;
+
 import java.util.ArrayList;
 
 public class FaithPath implements ObservableEndGame {
@@ -165,6 +167,51 @@ public class FaithPath implements ObservableEndGame {
     @Override
     public void removeObserver(ObserverEndGame observerEndGame) {
         observersEndGame.remove(observerEndGame);
+    }
+
+
+    public String toString(ArrayList<String> nicks){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(Color.ANSI_RED.escape()).append("FAITHPATH: \n").append(Color.ANSI_RESET.escape());
+        int c=0;
+        for(int i=0;i<length;i++){
+            if(victoryPoints.get(i)!=c){
+                stringBuilder.append(c+" \t");
+                c=victoryPoints.get(i);
+            }else{
+                stringBuilder.append("  \t");
+            }
+            String color;
+            switch (vaticanReports.get(i)) {
+                case ('E'):
+                    stringBuilder.append(Color.ANSI_WHITE.escape());
+                    break;
+
+                case('X'):
+                    stringBuilder.append(Color.ANSI_YELLOW.escape());
+                    break;
+
+                case('P'):
+                    stringBuilder.append(Color.ANSI_RED.escape());
+                    break;
+
+            }if(i<10)
+            stringBuilder.append("║ "+i+"║"+Color.ANSI_RESET.escape());
+            else
+                stringBuilder.append("║"+i+"║"+Color.ANSI_RESET.escape());
+
+            int var=0;
+            for (Integer in: positions){
+                if(i==in)
+                    stringBuilder.append(Color.ANSI_RED.escape()+" ✞ "+Color.ANSI_RESET.escape()+nicks.get(var)+ "\t");
+                var++;
+            }
+            stringBuilder.append("\n");
+
+
+        }
+        return stringBuilder.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

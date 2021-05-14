@@ -208,6 +208,10 @@ public class Controller implements ObserverController {
                 view.printCardGrid(game.getCardgrid(), senderNick);
                 break;
 
+            case SHOW_FAITHPATH:
+                view.printFaithPath(game.getFaithPath(),senderNick,game.getPlayerListString());
+                break;
+
             case END_TURN:
                 //if (ha eseguitoalmeno  una azione primaria )
                 game.nextTurn();

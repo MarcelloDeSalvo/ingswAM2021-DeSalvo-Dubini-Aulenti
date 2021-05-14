@@ -270,6 +270,10 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
                     break;
 
+                case "SHOW_FAITHPATH":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_FAITHPATH).setNickname(this.getNickname()).build());
+                    break;
+
                 case "END_TURN":
                     send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
                     break;
