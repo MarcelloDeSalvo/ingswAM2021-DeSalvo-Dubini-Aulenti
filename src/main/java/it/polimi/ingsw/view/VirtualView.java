@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Cardgrid;
+import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.player.Vault;
 import it.polimi.ingsw.model.player.deposit.Deposit;
@@ -186,6 +187,10 @@ public class VirtualView implements View {
 
     public void printCardGrid(Cardgrid cardgrid, String nickname){
         printReply_uni(cardgrid.toString(), nickname);
+    }
+
+    public void printFaithPath(FaithPath faithPath, String nickname, ArrayList<String> nicks){
+        printReply_uni(faithPath.toString(nicks),nickname);
     }
 
     @Override

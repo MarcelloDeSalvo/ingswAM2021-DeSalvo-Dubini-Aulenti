@@ -55,10 +55,15 @@ public class DevelopmentRequirement implements Requirement {
         stringBuilder.append("\n - Development Requirement: ");
 
         if(number != 0)
-            stringBuilder.append("Number = ").append(number).append(", ");
-        stringBuilder.append("Colour = ").append(colour);
+            stringBuilder.append(number).append(" ");
+
+        stringBuilder.append(colour).append(" Development Card");
+
+        if(number > 1)
+            stringBuilder.append("s");
+
         if(level != 0)
-            stringBuilder.append(", Level = ").append(level);
+            stringBuilder.append(" with Level = ").append(level);
 
         return stringBuilder.toString();
     }

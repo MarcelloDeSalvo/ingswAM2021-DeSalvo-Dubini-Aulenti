@@ -270,6 +270,10 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
                     break;
 
+                case "SHOW_FAITHPATH":
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_FAITHPATH).setNickname(this.getNickname()).build());
+                    break;
+
                 case "END_TURN":
                     send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
                     break;
@@ -443,9 +447,9 @@ public class Cli extends ClientView {
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
         System.out.println("These the Leader Cards in your " + Color.ANSI_CYAN.escape() + "HAND" + Color.ANSI_RESET.escape() + ":\n");
         for (int id: leaderIDs) {
-            System.out.println("----------------------------------------------------------------\\");
+            System.out.println("-------------------------------------------------------------------\\");
             System.out.println(leaderCards.get(id-1).toString());
-            System.out.println("----------------------------------------------------------------/\n\n");
+            System.out.println("-------------------------------------------------------------------/\n\n");
         }
         System.out.println();
     }
