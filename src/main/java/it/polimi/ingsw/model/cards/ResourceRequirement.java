@@ -52,7 +52,7 @@ public class ResourceRequirement implements Requirement{
     @Override
     public String toString() {
         return "\n - Resource Requirement: " +
-                resourceContainer;
+                resourceContainer.getQty() + " " + resourceContainer.getResourceType();
     }
     //------------------------------------------------------------------------------------------------------------------
 

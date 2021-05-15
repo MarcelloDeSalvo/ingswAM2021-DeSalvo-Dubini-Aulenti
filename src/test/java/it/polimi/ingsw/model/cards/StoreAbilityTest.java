@@ -32,15 +32,15 @@ class StoreAbilityTest {
     @Test
     void useAbility_1() {
         assertTrue(leaderCardG.executeAbility(f_PlayerBoard));
-        assertEquals(f_PlayerBoard.getDepositSlotByID(3).getMaxDim(), 3);
-        assertEquals(f_PlayerBoard.getDepositSlotByID(3).getDepositResourceType(), ResourceType.GOLD);
+        assertEquals( 3, f_PlayerBoard.getDepositSlotByID(4).getMaxDim());
+        assertEquals( ResourceType.GOLD, f_PlayerBoard.getDepositSlotByID(4).getDepositResourceType());
     }
 
     @Test
     void useAbility_2() {
         assertTrue(leaderCardM.executeAbility(f_PlayerBoard));
-        assertEquals(f_PlayerBoard.getDepositSlotByID(3).getMaxDim(), 9);
-        assertEquals(f_PlayerBoard.getDepositSlotByID(3).getDepositResourceType(), ResourceType.MINION);
+        assertEquals( 9, f_PlayerBoard.getDepositSlotByID(4).getMaxDim());
+        assertEquals( ResourceType.MINION, f_PlayerBoard.getDepositSlotByID(4).getDepositResourceType());
     }
 
     @Test
@@ -48,12 +48,12 @@ class StoreAbilityTest {
         int size = f_PlayerBoard.getDeposit().getDepositList().size();
 
         assertTrue(leaderCardM.executeAbility(f_PlayerBoard));
-        assertEquals(f_PlayerBoard.getDeposit().getDepositList().size(), size+1);
+        assertEquals( size+1, f_PlayerBoard.getDeposit().getDepositList().size());
         assertTrue(leaderCardG.executeAbility(f_PlayerBoard));
-        assertEquals(f_PlayerBoard.getDeposit().getDepositList().size(), size+2);
+        assertEquals( size+2, f_PlayerBoard.getDeposit().getDepositList().size());
 
-        assertEquals(f_PlayerBoard.getDepositSlotByID(3).getMaxDim(), 9);
-        assertEquals(f_PlayerBoard.getDepositSlotByID(4).getDepositResourceType(), ResourceType.GOLD);
+        assertEquals(9, f_PlayerBoard.getDepositSlotByID(4).getMaxDim());
+        assertEquals( ResourceType.GOLD, f_PlayerBoard.getDepositSlotByID(5).getDepositResourceType());
     }
 
     @Test
@@ -64,8 +64,8 @@ class StoreAbilityTest {
         assertTrue(doublePower.executeAbility(f_PlayerBoard));
         assertEquals(f_PlayerBoard.getDeposit().getDepositList().size(), size+2);
 
-        assertEquals(f_PlayerBoard.getDepositSlotByID(3).getDepositResourceType(), ResourceType.MINION);
-        assertEquals(f_PlayerBoard.getDepositSlotByID(4).getDepositResourceType(), ResourceType.GOLD);
+        assertEquals( ResourceType.MINION, f_PlayerBoard.getDepositSlotByID(4).getDepositResourceType());
+        assertEquals( ResourceType.GOLD, f_PlayerBoard.getDepositSlotByID(5).getDepositResourceType());
 
     }
 

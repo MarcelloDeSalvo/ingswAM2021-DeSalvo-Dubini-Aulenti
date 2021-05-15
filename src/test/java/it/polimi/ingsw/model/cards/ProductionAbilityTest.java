@@ -24,7 +24,7 @@ class ProductionAbilityTest {
         assertEquals(gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(4).getProductionInput().get(0).getResourceType(), ResourceType.GOLD);
         assertEquals(gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(4).getProductionOutput().get(0).getResourceType(), ResourceType.MINION);
 
-        assertThrows(NullPointerException.class, ()-> gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(5).getProductionInput().get(0).getResourceType());
+        assertThrows(IndexOutOfBoundsException.class, ()-> gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(5).getProductionInput().get(0).getResourceType());
 
     }
 
@@ -53,7 +53,7 @@ class ProductionAbilityTest {
         assertEquals(gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(5).getProductionInput().get(0).getResourceType(), ResourceType.STONE);
         assertEquals(gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(5).getProductionOutput().get(0).getResourceType(), ResourceType.GOLD);
 
-        assertThrows(NullPointerException.class, ()-> gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(6).getProductionInput().get(0).getResourceType());
+        assertThrows(IndexOutOfBoundsException.class, ()-> gianEnrico.getPlayerBoard().getProductionSite().getProductionSlotByID(6).getProductionInput().get(0).getResourceType());
 
     }
 

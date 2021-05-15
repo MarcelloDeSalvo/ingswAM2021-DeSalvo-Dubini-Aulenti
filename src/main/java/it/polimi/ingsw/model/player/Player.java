@@ -156,7 +156,7 @@ public class Player implements ObservableModel {
      * @return true if the selected resources are equals to the card's price
      */
     public boolean canBuy(DevelopmentCard developmentCard) {
-        return playerBoard.canBuy(developmentCard.getPrice());
+        return playerBoard.canBuy(developmentCard.getDiscountedPrice(playerBoard));
     }
 
     /**

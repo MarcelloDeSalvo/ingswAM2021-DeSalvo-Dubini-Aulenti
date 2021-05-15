@@ -69,7 +69,7 @@ public class DefaultDeposit extends DepositSlot {
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
         this.getDepositContainer().setResourceType(inputType);
         getNotAvailableResourceType().add(inputType);
-        System.out.println("BUFFER" + getBufferContainer());
+
         return true;
     }
 

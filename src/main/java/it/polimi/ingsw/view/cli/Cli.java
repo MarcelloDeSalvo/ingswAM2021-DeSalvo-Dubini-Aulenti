@@ -20,16 +20,17 @@ public class Cli extends ClientView {
     private final ArrayList<LeaderCard> leaderCards;
     private String nicknameTemp = null;
     private final Scanner stdIn;
+    private final Gson gson ;
 
     public Cli() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
         stdIn = new Scanner(System.in);
+        gson = new Gson();
     }
 
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
     @Override
     public void readUpdates(String mex){
-        Gson gson = new Gson();
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();

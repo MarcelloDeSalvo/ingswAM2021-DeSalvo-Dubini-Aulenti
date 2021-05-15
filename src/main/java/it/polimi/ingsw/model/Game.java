@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.parser.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -268,6 +269,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         int j=0;
         for (Player p: playerList) {
             for (int i = 0; i<4; i++){
+                leaderCards.get(j).setStatus(Status.HAND);
                 p.addToHand(leaderCards.get(j));
                 j++;
             }
@@ -318,6 +320,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     public void distributeRandomLeadersToPlayer(){
         Collections.shuffle(leaderCards);
         for (int i = 0; i<4; i++){
+            leaderCards.get(i).setStatus(Status.HAND);
             playerList.get(0).addToHand(leaderCards.get(i));
         }
     }

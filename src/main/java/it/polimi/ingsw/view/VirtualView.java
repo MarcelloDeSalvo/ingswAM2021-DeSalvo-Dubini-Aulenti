@@ -26,10 +26,12 @@ public class VirtualView implements View {
 
     private final HashMap<String, User> connectedPlayers;
     private final ArrayList<ObserverController> observerControllers;
+    private final Gson gson;
 
     public VirtualView(HashMap<String, User> connectedPlayers) {
         this.connectedPlayers = new HashMap<>(connectedPlayers);
         observerControllers = new ArrayList<>();
+        gson = new Gson();
     }
 
     /**
@@ -42,7 +44,6 @@ public class VirtualView implements View {
     //OBSERVER VIEW IO-------(RECEIVED DATA)----------------------------------------------------------------------------
     @Override
     public synchronized void update(String mex){
-        Gson gson = new Gson();
         Message deserializedMex = gson.fromJson(mex, Message.class);
         Command command = deserializedMex.getCommand();
 
@@ -52,7 +53,6 @@ public class VirtualView implements View {
             return;
 
         User currentUser = connectedPlayers.get(senderNick);
-
 
         if(!hasPermission(currentUser, command))
             return;

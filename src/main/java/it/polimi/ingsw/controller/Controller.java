@@ -400,7 +400,7 @@ public class Controller implements ObserverController {
         try {
             DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
 
-            if(!currPlayer.hasEnoughResources(selectedCard.getPrice())) {
+            if(!currPlayer.hasEnoughResources(selectedCard.getDiscountedPrice(game.getCurrentPlayer().getPlayerBoard()))) {
                 view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
                 return false;
             }
@@ -496,8 +496,6 @@ public class Controller implements ObserverController {
         if(destination.equalsIgnoreCase("DEPOSIT")) {
             try {
                 currPlayer.getDepositSlotByID(destinationID).canRemoveFromDepositSlot(resourceContainer);
-
-                System.out.println("Buffer container: " + currPlayer.getDepositSlotByID(destinationID).getBufferContainer().toString());
 
                 view.printReply_uni("Resources accepted!", senderNick);
 
@@ -659,30 +657,6 @@ public class Controller implements ObserverController {
 
     }
 
-    public boolean activateLeader(String mex , String nickname){
-        isTheCurrentPlayer(nickname);
-        if(game.getCurrentPlayer().getNickname()==nickname)
-            System.out.println("Tutto ok coi nick!");
-        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
-        int id=idMessage.getId();
-
-        for (LeaderCard lc:game.getCurrentPlayer().getHand()) {
-
-            if(lc.getId()==id){
-                if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
-                    game.getCurrentPlayer().activateLeader(lc);
-                    view.printReply_uni("Leader activated!", nickname);
-                    return true;
-                }else {
-                    view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);
-                    return false;
-                }
-            }
-        }
-        view.printReply_uni("You do not own a leader with this id!", nickname);
-        return false;
-    }
-
     /**
      * Checks automatically if the user has no place where to put the resource and force him to discard her if there aren't any
      * @return true if he must discard the current resource on the marketOutput array
@@ -703,8 +677,29 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+    //ACTIVATE LEADER---------------------------------------------------------------------------------------------------
+    public boolean activateLeader(String mex , String nickname){
+        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
+        int id=idMessage.getId();
 
-    //FAITPATH CONTROLLER------------------------------------------------------------------------------------------------------------FAITPATH CONTROLLER--#
+        for (LeaderCard lc:game.getCurrentPlayer().getHand()) {
+            if(lc.getId()==id){
+                if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
+                    game.getCurrentPlayer().activateLeader(lc);
+                    view.printReply_uni("Leader activated!", nickname);
+                    return true;
+                }else {
+                    view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);
+                    return false;
+                }
+            }
+        }
+        view.printReply_uni("You do not own a leader with this id!", nickname);
+        return false;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+    //FAITPATH CONTROLLER------------------------------------------------------------------------------------------------------------FAITHPATH CONTROLLER--#
     public void incPosOfCurrentPlayer(int qty){
         game.addFaithPointsToCurrentPLayer(qty);
     }

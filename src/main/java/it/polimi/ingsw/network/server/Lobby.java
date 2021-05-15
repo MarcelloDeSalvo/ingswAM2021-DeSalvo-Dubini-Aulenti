@@ -15,7 +15,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     private final String lobbyName;
     private final HashMap<String, User> players;
     private User owner;
-    private Gson gson;
+    private final Gson gson;
 
     private final int maxPlayers;
     private int numOfPlayersConnected;
