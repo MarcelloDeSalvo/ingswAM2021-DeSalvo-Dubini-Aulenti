@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
@@ -185,7 +186,12 @@ public class Controller implements ObserverController {
                 break;
 
             case SHOW_HAND:
-                view.printHand(currPlayer.leaderListToInt(), senderNick);
+                //view.printHand(game.getCurrentPlayer().leaderListToInt(), senderNick);
+                view.printHand(game.getCurrentPlayer().getHandIDs(), senderNick);
+                break;
+
+            case ACTIVATE_LEADER:
+                activateLeader(mex,senderNick);
                 break;
 
             case SHOW_DEPOSIT:
@@ -651,6 +657,30 @@ public class Controller implements ObserverController {
                break;
        }
 
+    }
+
+    public boolean activateLeader(String mex , String nickname){
+        isTheCurrentPlayer(nickname);
+        if(game.getCurrentPlayer().getNickname()==nickname)
+            System.out.println("Tutto ok coi nick!");
+        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
+        int id=idMessage.getId();
+
+        for (LeaderCard lc:game.getCurrentPlayer().getHand()) {
+
+            if(lc.getId()==id){
+                if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
+                    game.getCurrentPlayer().activateLeader(lc);
+                    view.printReply_uni("Leader activated!", nickname);
+                    return true;
+                }else {
+                    view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);
+                    return false;
+                }
+            }
+        }
+        view.printReply_uni("You do not own a leader with this id!", nickname);
+        return false;
     }
 
     /**
