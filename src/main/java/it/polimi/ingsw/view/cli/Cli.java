@@ -220,6 +220,11 @@ public class Cli extends ClientView {
                         }
                     }
 
+                    if(InputCheck.duplicatedElement(productionIDs)) {
+                        System.out.println("You cannot insert the same Production Slot IDs multiple times!");
+                        break;
+                    }
+
                     ProduceMessage produceMessage = new ProduceMessage(productionIDs, this.getNickname());
                     send(produceMessage);
                     break;

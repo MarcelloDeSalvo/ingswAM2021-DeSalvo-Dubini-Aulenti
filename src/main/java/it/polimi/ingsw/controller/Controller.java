@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerStatus;
+import it.polimi.ingsw.model.player.production.ProductionSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
@@ -139,41 +141,45 @@ public class Controller implements ObserverController {
             return;
         }
 
-        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES){
-            selectResources(mex, senderNick, command);
-            return;
-        }
-
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_CONVERSION){
             mustConvert(mex, command, senderNick);
             return;
         }
 
+        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES){
+            selectResources(mex, senderNick, command);
+            return;
+        }
 
 
         switch (command){
 
             case BUY:
-                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-
-                if(!checkBuy(buyMessage.getRow(), buyMessage.getColumn(), buyMessage.getProductionSlotID(), senderNick, currPlayer))
+                if(!checkBuy(mex, senderNick, currPlayer))
                     return;
 
                 currPlayer.setPlayerStatus(PlayerStatus.SELECTING_BUY_RESOURCES);
 
                 break;
 
+            case PRODUCE:
+                checkQuestionMarks(mex, senderNick);
+
+                ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
+                System.out.println(produceMessage.getIDs().toString());
+                break;
+
             case PICK_FROM_MARKET:
                 pickFromMarket(mex, senderNick);
+                break;
+
+            case ACTIVATE_LEADER:
+                activateLeader(mex,senderNick);
                 break;
 
             case SHOW_HAND:
                 //view.printHand(game.getCurrentPlayer().leaderListToInt(), senderNick);
                 view.printHand(currPlayer.getHandIDs(), senderNick);
-                break;
-
-            case ACTIVATE_LEADER:
-                activateLeader(mex,senderNick);
                 break;
 
             case SHOW_DEPOSIT:
@@ -411,13 +417,16 @@ public class Controller implements ObserverController {
     //BUY PHASE ---------------------------------------------------------------------------------------------------------------------BUY PHASE---------#
     /**
      * Checks if the user has enough resources in total before asking him to type where does he want to
-     * @param row is the selected row number
-     * @param column is the selected column number
-     * @param id is the ID of the card on the row/column position on the grid
+     * @param mex  message received
      * @param senderNick is the player's nickname that wants to buy the card
+     * @param currPlayer current player
      * @return true if he has selected a valid number for the row and column
      */
-    private boolean checkBuy(int row, int column, int id, String senderNick, Player currPlayer) {
+    private boolean checkBuy(String mex, String senderNick, Player currPlayer) {
+        BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
+        int row = buyMessage.getRow();
+        int column = buyMessage.getColumn();
+        int id = buyMessage.getProductionSlotID();
 
         try {
             DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
@@ -559,6 +568,44 @@ public class Controller implements ObserverController {
 
         view.printReply_uni("You bought the card correctly!", senderNick);
         view.printProduction(currPlayer.getProductionSite(), senderNick);
+    }
+    //------------------------------------------------------------------------------------------------------------------/
+
+    //PRODUCE PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCE PHASE---------#
+
+    /**
+     * Checks if the selected Production Slot are valid and if at least one of the Production Slots has QM to fill, <br>
+     * the current PlayerStatus is set to 'SELECTING_QM' otherwise is set to 'SELECTING_PRODUCTION_RESOURCES'
+     */
+    private void checkQuestionMarks(String mex, String senderNick) {
+        ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
+        ArrayList<Integer> productionSlotIDs = produceMessage.getIDs();
+
+        if(productionSlotIDs.size() > currPlayer.getProductionSite().getProductionSlots().size()) {
+            view.printReply_uni("You don't own this many ProductionSlots! Please type in a valid amount!", senderNick);
+            return;
+        }
+
+        try{
+            for (int id : productionSlotIDs) {
+                ProductionSlot currProductionSlot = currPlayer.getProductionSlotByID(id);
+
+                if(currProductionSlot.isEmpty()){
+                    currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+                    view.printReply_uni("The selected Production Slot is empty so you cannot use it for production!", senderNick);
+                    return;
+                }
+                else if(currProductionSlot.hasQuestionMarks())
+                    currPlayer.setPlayerStatus(PlayerStatus.SELECTING_QM);
+            }
+
+        }catch (IndexOutOfBoundsException exception) {
+            view.printReply_uni("The selected Production Slot does not exists!", senderNick);
+            return;
+        }
+
+        if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE)
+            currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
     }
     //------------------------------------------------------------------------------------------------------------------/
 

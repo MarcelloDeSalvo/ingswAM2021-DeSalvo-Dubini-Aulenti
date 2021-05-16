@@ -50,7 +50,6 @@ public class ProductionSite {
      */
     public ProductionSite(int defaultNum) {
         this.defaultNum = defaultNum;
-        this.faithPath = faithPath;
         this.productionSlots = new ArrayList<>();
 
         productionSlots.add(new BaseProduction());

@@ -2,6 +2,8 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.resources.ResourceType;
 
+import java.util.ArrayList;
+
 public class InputCheck {
 
     //INPUT CHECK-------------------------------------------------------------------------------------------------------
@@ -28,6 +30,19 @@ public class InputCheck {
 
     public static boolean not_row_or_column(String x){
         return !x.toUpperCase().equals("ROW") && !x.toUpperCase().equals("COLUMN");
+    }
+
+    public static boolean duplicatedElement(ArrayList<Integer> x) {
+        for(int i = 0; i < x.size(); i++) {
+            int currElement = x.get(i);
+
+            for(int j = 0; j < x.size(); j++) {
+                if(i != j && currElement == x.get(j))
+                    return true;
+            }
+        }
+
+        return false;
     }
 
 
