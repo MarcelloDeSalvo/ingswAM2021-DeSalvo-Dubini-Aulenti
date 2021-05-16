@@ -181,7 +181,7 @@ public class FaithPath implements ObservableEndGame {
 
             if(victoryPoints.get(i) != c){
                 c = victoryPoints.get(i);
-                stringBuilder.append(c + " \t");
+                stringBuilder.append(c).append(" \t");
             }else{
                 stringBuilder.append("  \t");
             }
@@ -201,12 +201,12 @@ public class FaithPath implements ObservableEndGame {
 
             }
 
-            stringBuilder.append("   "+Color.ANSI_RESET.escape());
+            stringBuilder.append("   ").append(Color.ANSI_RESET.escape());
 
             int var=0;
             for (Integer in: positions){
                 if(i == in)
-                    stringBuilder.append(Color.ANSI_RED.escape()+" ✞ "+Color.ANSI_RESET.escape()+nicks.get(var)+ "\t");
+                    stringBuilder.append(Color.ANSI_RED.escape()).append(" ✞ ").append(Color.ANSI_RESET.escape()).append(nicks.get(var)).append("\t");
                 var++;
             }
             stringBuilder.append("\n");

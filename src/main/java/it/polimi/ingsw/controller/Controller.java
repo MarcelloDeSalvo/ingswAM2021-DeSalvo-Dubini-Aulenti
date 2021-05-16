@@ -8,7 +8,6 @@ import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerStatus;
-import it.polimi.ingsw.model.player.deposit.DepositSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
@@ -107,36 +106,8 @@ public class Controller implements ObserverController {
         switch (command){
 
             case DISCARD_LEADER:
-                IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
-
-                if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
-                    view.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
-                    return;
-                }
-
-                if (!game.getPlayer(playerNumber).discardFromHand(idMessage.getId())) {
-                    view.printReply_uni("Wrong Leader ID", senderNick);
-                    return;
-                }
-
-                view.printReply_uni("Leader Discarded!", senderNick);
-
-                if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
-                    view.printReply_uni("You discarded 2 Leaders!" , senderNick);
-                    if (!game.isSinglePlayer())
-                        view.printReply_uni("Please wait the other players to do so" , senderNick);
-                }
-
-
-                if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
-                    askForResources();
-
-
-                else if(checkIfAllLeadersHaveBeenDiscarded())   //IF SINGLE PLAYER THE GAME CAN BE STARTED IMMEDIATELY
-                    startGame();
-
+                discardLeader(mex, senderNick, playerNumber);
                 break;
-
 
             case SETUP_CONTAINER:
                 if(!checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer()){
@@ -256,6 +227,45 @@ public class Controller implements ObserverController {
 
 
     //GAME SETUP PHASE---------------------------------------------------------------------------------------------------------------GAME SETUP PHASE----#
+    /**
+     * This method is used to discard a specific leader but only after checking that the player trying to do so meets all the criteria.
+     * When every leader has been discarded calls 'askForResources()' method.
+     * This method also notifies the view on what happens using specific messages
+     * @param mex message received
+     * @param senderNick current player nickname
+     * @param playerNumber player number
+     */
+    public void discardLeader (String mex, String senderNick, int playerNumber) {
+        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
+
+        if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
+            view.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
+            return;
+        }
+
+        if (!game.getPlayer(playerNumber).discardFromHand(idMessage.getId())) {
+            view.printReply_uni("Wrong Leader ID", senderNick);
+            return;
+        }
+
+        view.printReply_uni("Leader Discarded!", senderNick);
+
+        if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
+            view.printReply_uni("You discarded 2 Leaders!" , senderNick);
+            if (!game.isSinglePlayer())
+                view.printReply_uni("Please wait the other players to do so" , senderNick);
+        }
+
+
+        if(checkIfAllLeadersHaveBeenDiscarded() && !game.isSinglePlayer())
+            askForResources();
+
+
+        else if(checkIfAllLeadersHaveBeenDiscarded())   //IF SINGLE PLAYER THE GAME CAN BE STARTED IMMEDIATELY
+            startGame();
+    }
+
+
     /**
      * Check if every player in game has already discarded 2 LeaderCards
      */
@@ -530,15 +540,13 @@ public class Controller implements ObserverController {
      * If the card is correctly bought it is inserted in a specific 'productionSlotId' and removed from the Cardgrid
      * This method also notifies the view on what happens using specific messages
      * @param senderNick current player nickname
-     * @return true if the card is correctly bought, false otherwise
      */
-    private boolean buyDevelopmentCard(String senderNick) {
+    private void buyDevelopmentCard(String senderNick) {
 
         if(!currPlayer.canBuy(newDevelopmentCard)) {
             view.printReply_uni("The resources you selected aren't correct!", senderNick);
             view.printTurnHelp(senderNick);
             currPlayer.emptyBuffers();
-            return false;
         }
 
         currPlayer.buy();
@@ -551,7 +559,6 @@ public class Controller implements ObserverController {
 
         view.printReply_uni("You bought the card correctly!", senderNick);
         view.printProduction(currPlayer.getProductionSite(), senderNick);
-        return true;
     }
     //------------------------------------------------------------------------------------------------------------------/
 
@@ -577,7 +584,7 @@ public class Controller implements ObserverController {
         if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
             view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
             game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
-            conersionController(senderNick);
+            conversionController(senderNick);
             return;
         }
 
@@ -696,7 +703,7 @@ public class Controller implements ObserverController {
     /**
      * Counts the convertible marbles
      */
-    public void conersionController(String nick){
+    public void conversionController(String nick){
         view.printReply_uni("You Have "+ currPlayer.getConversionSite().countConvertible(marketOut)+ " "+
                 currPlayer.getConversionSite().getDefaultConverted()+ " to convert, type >CONVERT ResourceType for each one", nick);
     }
@@ -752,7 +759,7 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    //FAITHPATH CONTROLLER-----------------------------------------------------------------------------------------------------------FAITHPATH CONTROLLER--#
+    //FAITH PATH CONTROLLER-----------------------------------------------------------------------------------------------------------FAITHPATH CONTROLLER--#
     public void incPosOfCurrentPlayer(int qty){
         game.addFaithPointsToCurrentPLayer(qty);
     }
