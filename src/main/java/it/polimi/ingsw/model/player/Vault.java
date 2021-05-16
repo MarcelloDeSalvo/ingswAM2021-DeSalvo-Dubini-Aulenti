@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,6 +142,27 @@ public class Vault {
 
         }
         return c;
+    }
+
+
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(Color.ANSI_BLUE.escape()+"VAULT: \n\n"+Color.ANSI_RESET.escape());
+
+        if(vaultMap.isEmpty())
+            stringBuilder.append(Color.ANSI_RED.escape()+"EMPTY!"+Color.ANSI_RESET.escape());
+        else{
+            stringBuilder.append("--------------------\n");
+            for (ResourceType key:vaultMap.keySet()) {
+                if(vaultMap.get(key).getQty()!=0) {
+                    stringBuilder.append(key.toString() + ": ");
+                    stringBuilder.append(vaultMap.get(key).getQty() + "\n");
+                    stringBuilder.append("--------------------\n");
+                }
+            }
+
+        }
+        return stringBuilder.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 
