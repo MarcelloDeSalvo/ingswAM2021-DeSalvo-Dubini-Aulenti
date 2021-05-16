@@ -4,10 +4,9 @@ import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
 import it.polimi.ingsw.model.exceptions.DifferentResourceType;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
+import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
-
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -159,7 +158,7 @@ public class Deposit {
 
     //OTHER METHODS-----------------------------------------------------------------------------------------------------
     /**
-     * Check deposit returns the quantity of a chosen resourceType present in the deposit
+     * Returns the quantity of a chosen resourceType present in the deposit
      * @return num
      */
     public int checkDeposit (ResourceType requested){
@@ -175,7 +174,7 @@ public class Deposit {
     }
 
     /**
-     * adds a LeaderDeposit to the depositList
+     * Adds a LeaderDeposit to the depositList
      * @param lds LeaderDeposit to add
      * @return false if there is an argument exception (NoSuchElementException)
      */
@@ -191,6 +190,17 @@ public class Deposit {
      */
     public boolean removeDepositSlot(DepositSlot depositSlot){
         return depositSlot != null && depositList.remove(depositSlot);
+    }
+
+    public boolean mustDiscardResource(ResourceContainer marketOutCont){
+        boolean mustDiscard = true;
+
+        for (DepositSlot depositSlot: depositList) {
+            if (depositSlot.simpleCanAddToDepositSlot(marketOutCont))
+                mustDiscard=false;
+        }
+
+        return mustDiscard;
     }
     //------------------------------------------------------------------------------------------------------------------
 

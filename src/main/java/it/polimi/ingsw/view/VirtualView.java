@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.player.Vault;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.player.production.ProductionSite;
+import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -184,6 +185,15 @@ public class VirtualView implements View {
     public void printMarket(Market market, String nickname){
         printReply_uni(market.toString(), nickname);
     }
+
+    public void printMarketOut(ArrayList<ResourceContainer> containers, String nickname){
+        StringBuilder marketOutChoice = new StringBuilder("Where do you want to put: ");
+        for (ResourceContainer res: containers) {
+            marketOutChoice.append(res.getResourceType()).append("  ");
+        }
+        printReply_uni(marketOutChoice.toString(), nickname);
+    }
+
 
     public void printCardGrid(Cardgrid cardgrid, String nickname){
         printReply_uni(cardgrid.toString(), nickname);

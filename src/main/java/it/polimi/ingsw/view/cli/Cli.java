@@ -96,6 +96,7 @@ public class Cli extends ClientView {
         try {
             switch (userInput.toUpperCase()) {
 
+
                 //GENERAL-----------------------------------------------------------------------------------------------
                 case "CHAT":
                     send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
@@ -173,8 +174,17 @@ public class Cli extends ClientView {
 
                     break;
 
-                case "DEPOSIT":
-                    send(new IdMessage(Command.SEND_DEPOSIT_ID, stdIn.nextInt(), this.getNickname()));
+                case "PUT":
+                    ResourceType marketRes = InputCheck.resourceType_null(stdIn.next());
+                    if (marketRes == null) return false;
+
+                    String tO = stdIn.next();
+                    if (InputCheck.not_to(tO)) return false;
+
+                    String destination = stdIn.next();
+                    if (InputCheck.not_deposit(destination)) return false;
+
+                    send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(marketRes,1), destination, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "GIVE":

@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerStatus;
 import it.polimi.ingsw.model.player.deposit.DepositSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.ObserverController;
@@ -25,10 +26,10 @@ public class Controller implements ObserverController {
     private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
     private final Gson gson;
+    private Player currPlayer;
 
     //BUFFERS ----------------------------------------------------------------------------------------------------------
     private ArrayList<ResourceContainer> marketOut;
-    private int marketOutCont = 0;
 
     private DevelopmentCard newDevelopmentCard;
     private int productionSlotId;
@@ -54,13 +55,18 @@ public class Controller implements ObserverController {
                     view.printHand(player.getHandIDs(), player.getNickname());
                     view.printLeaderCardRequest(player.getNickname());
                 }
+
+                currPlayer = game.getPlayer(0);
             }
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
                 game.addView(view);
+
                 view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
                 view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.printLeaderCardRequest(game.getPlayer(0).getNickname());
+
+                currPlayer = game.getPlayer(0);
             }
 
         }catch (FileNotFoundException e){
@@ -156,7 +162,6 @@ public class Controller implements ObserverController {
      * @param command is the command that the user typed
      */
     private void turnPhase_Commands(String mex, String senderNick, Command command){
-        Player currPlayer = game.getCurrentPlayer();
 
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
             selectDestinationAfterMarket( mex, senderNick, command);
@@ -164,9 +169,15 @@ public class Controller implements ObserverController {
         }
 
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES){
-            selectResources(mex, senderNick, command, currPlayer);
+            selectResources(mex, senderNick, command);
             return;
         }
+
+        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_CONVERSION){
+            mustConvert(mex, command, senderNick);
+            return;
+        }
+
 
 
         switch (command){
@@ -187,7 +198,7 @@ public class Controller implements ObserverController {
 
             case SHOW_HAND:
                 //view.printHand(game.getCurrentPlayer().leaderListToInt(), senderNick);
-                view.printHand(game.getCurrentPlayer().getHandIDs(), senderNick);
+                view.printHand(currPlayer.getHandIDs(), senderNick);
                 break;
 
             case ACTIVATE_LEADER:
@@ -195,15 +206,15 @@ public class Controller implements ObserverController {
                 break;
 
             case SHOW_DEPOSIT:
-                view.printDeposit(game.getCurrentPlayer().getPlayerBoard().getDeposit(), senderNick);
+                view.printDeposit(currPlayer.getPlayerBoard().getDeposit(), senderNick);
                 break;
 
             case SHOW_VAULT:
-                view.printVault(game.getCurrentPlayer().getPlayerBoard().getVault(), senderNick);
+                view.printVault(currPlayer.getPlayerBoard().getVault(), senderNick);
                 break;
 
             case SHOW_PRODUCTION:
-                view.printProduction(game.getCurrentPlayer().getPlayerBoard().getProductionSite(), senderNick);
+                view.printProduction(currPlayer.getPlayerBoard().getProductionSite(), senderNick);
                 break;
 
             case SHOW_MAKET:
@@ -221,6 +232,7 @@ public class Controller implements ObserverController {
             case END_TURN:
                 //if (ha eseguitoalmeno  una azione primaria )
                 game.nextTurn();
+                currPlayer = game.getCurrentPlayer();
                 view.printItsYourTurn(game.getCurrentPlayerNick());
                 break;
 
@@ -400,7 +412,7 @@ public class Controller implements ObserverController {
         try {
             DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
 
-            if(!currPlayer.hasEnoughResources(selectedCard.getDiscountedPrice(game.getCurrentPlayer().getPlayerBoard()))) {
+            if(!currPlayer.hasEnoughResources(selectedCard.getDiscountedPrice(currPlayer.getPlayerBoard()))) {
                 view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
                 return false;
             }
@@ -434,21 +446,20 @@ public class Controller implements ObserverController {
      * @param mex message received
      * @param senderNick current player nickname
      * @param command command received
-     * @param currPlayer the current player
      */
-    private void selectResources(String mex, String senderNick, Command command, Player currPlayer) {
+    private void selectResources(String mex, String senderNick, Command command) {
 
         if(command == Command.SEND_CONTAINER) {
             SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
             //System.out.println("Arrived: " + sendContainer);
 
-            if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick, currPlayer))
+            if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick))
                 return;
         }
 
         if(command == Command.DONE) {
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
-                buyDevelopmentCard(senderNick, currPlayer);
+                buyDevelopmentCard(senderNick);
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                 return;
             }
@@ -467,10 +478,9 @@ public class Controller implements ObserverController {
      * @param destination 'deposit' or 'vault'
      * @param destinationID the
      * @param senderNick current player nickname
-     * @param currPlayer the current player
      * @return true if the container is correctly removed, false otherwise
      */
-    private boolean removeContainer(ResourceContainer resourceContainer, String destination, int destinationID, String senderNick, Player currPlayer){
+    private boolean removeContainer(ResourceContainer resourceContainer, String destination, int destinationID, String senderNick){
 
         if(!currPlayer.hasEnoughResources(resourceContainer)) {
             view.printReply_uni("You don't own the selected resources!", senderNick);
@@ -520,10 +530,9 @@ public class Controller implements ObserverController {
      * If the card is correctly bought it is inserted in a specific 'productionSlotId' and removed from the Cardgrid
      * This method also notifies the view on what happens using specific messages
      * @param senderNick current player nickname
-     * @param currPlayer the current player
      * @return true if the card is correctly bought, false otherwise
      */
-    private boolean buyDevelopmentCard(String senderNick, Player currPlayer) {
+    private boolean buyDevelopmentCard(String senderNick) {
 
         if(!currPlayer.canBuy(newDevelopmentCard)) {
             view.printReply_uni("The resources you selected aren't correct!", senderNick);
@@ -552,7 +561,7 @@ public class Controller implements ObserverController {
      * Manages the user action 'Pick From Market' :<br>
      * - Checks if the user selected a valid row/column number <br>
      * - Checks if the user has one or more active conversion <br>
-     * - Sets the playerStatus to SELECTING_DESTINATION_AFTER_MARKET in order to force him to sends only certain commands
+     * - Sets the playerStatus to SELECTING_DESTINATION_AFTER_MARKET
      */
     public void pickFromMarket(String mex, String senderNick){
         MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
@@ -565,46 +574,51 @@ public class Controller implements ObserverController {
             return;
         }
 
-        if(game.getCurrentPlayer().canConvert() == ConversionMode.CHOICE_REQUIRED) {
+        if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
             view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
             game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
+            conersionController(senderNick);
             return;
         }
 
-        if(game.getCurrentPlayer().canConvert() == ConversionMode.INACTIVE) {
-            view.printReply_uni("\n\nNow select where do you want to place them by typing >DEPOSIT deposit_id", senderNick);
+        if(currPlayer.canConvert() == ConversionMode.AUTOMATIC) {
+            currPlayer.convert(marketOut);
+            view.printReply_uni("All blank marbles have been converted to " + currPlayer.getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString(), senderNick);
         }
 
-        if(game.getCurrentPlayer().canConvert() == ConversionMode.AUTOMATIC) {
-            game.getCurrentPlayer().convert(marketOut);
+        beginMarketDestinationSelection(senderNick);
+    }
 
-            view.printReply_uni("All blank marbles have been converted to " + game.getCurrentPlayer().getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString() +
-                    "\n\nNow select where do you want to place them them by typing >DEPOSIT deposit_id", senderNick);
+    /**
+     * Filters the marketOutput and tells the user that now he can select the destinations
+     */
+    public void beginMarketDestinationSelection(String senderNick){
+        filterNonAddableResources();
+
+        if (marketOut.isEmpty()){
+            view.printTurnHelp(senderNick);
+            return;
         }
 
-        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+        view.printReply_uni("\n\nNow select where do you want to place them by typing >PUT ResourceType 'to deposit' deposit_id", senderNick);
+        currPlayer.setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
+
         marketAddDepositController(senderNick);
     }
 
     /**
-     * Manages the sending of resources to the deposits after taking them from the market:<br>
-     * -At the beginning scrolls the array until an addable resource is found (canAddToDeposit==true) <br>
-     * -If there is at least one addable resource it asks the user where does he want to put her <br>
-     * -When the users
+     * Manages the sending of resources to the deposits after taking them from the market
      */
     public void marketAddDepositController(String senderNick){
-        increaseMarketOut_NotAddableResources();
-
-        if (marketOutCont < marketOut.size()){
-            view.printDeposit(game.getCurrentPlayer().getDeposit(), senderNick);
-            view.printReply_uni("Where do you want to put " + marketOut.get(marketOutCont).getResourceType().toString(), senderNick);
+        if (marketOut.size()>0){
+            view.printDeposit(currPlayer.getDeposit(), senderNick);
+            view.printMarketOut(marketOut, senderNick);
             return;
         }
 
         view.printTurnHelp(senderNick);
-        game.getCurrentPlayer().setPlayerStatus(PlayerStatus.IDLE);
+        currPlayer.setPlayerStatus(PlayerStatus.IDLE);
         marketOut = null;
-        marketOutCont = 0;
     }
 
 
@@ -618,12 +632,23 @@ public class Controller implements ObserverController {
             return ;
         }
 
-        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
+        SendContainer putMessage = gson.fromJson(mex, SendContainer.class);
+        ResourceContainer container = putMessage.getContainer();
+
+        ResourceContainer selected;
+
+        try{
+            selected = marketOut.get(marketOut.indexOf(container));
+        }catch (IndexOutOfBoundsException e){
+            view.printReply_uni("Wrong selection", senderNick);
+            return;
+        }
 
         try {
-            if(!mustDiscardCheck(senderNick)){
-                game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).canAddToDepositSlot(marketOut.get(marketOutCont));
-                game.getCurrentPlayer().getDepositSlotByID(idMessage.getId()).addToDepositSlot(marketOut.get(marketOutCont));
+            if(!mustDiscardCheck(container, senderNick)){
+                currPlayer.getDepositSlotByID(putMessage.getDestinationID()).canAddToDepositSlot(selected);
+                currPlayer.getDepositSlotByID(putMessage.getDestinationID()).addToDepositSlot(selected);
+                marketOut.remove(container);
             }
 
         }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored  e){
@@ -635,45 +660,73 @@ public class Controller implements ObserverController {
             return;
         }
 
-        marketOutCont++;
         marketAddDepositController(senderNick);
 
     }
 
     /**
-     * Scrolls the marketOutput array and skips the resources that cannot be added to a deposit
+     * Filters all the resources that cannot be added to a deposit and checks if they can increase the player position on the faithpath
      */
-    public void increaseMarketOut_NotAddableResources(){
-        if (marketOutCont==marketOut.size())
-            return;
+    public void filterNonAddableResources(){
+        for (ResourceContainer cont: marketOut) {
+            if (cont.getResourceType().canAddToFaithPath())
+                incPosOfCurrentPlayer(cont.getQty());
+        }
 
-       while (!marketOut.get(marketOutCont).getResourceType().canAddToDeposit()){
-           if (marketOut.get(marketOutCont).getResourceType().canAddToFaithPath())
-               incPosOfCurrentPlayer(1);
-           marketOutCont++;
-           if (marketOutCont==marketOut.size())
-               break;
-       }
-
+        marketOut.removeIf(res -> !res.getResourceType().canAddToDeposit());
     }
+
 
     /**
      * Checks automatically if the user has no place where to put the resource and force him to discard her if there aren't any
      * @return true if he must discard the current resource on the marketOutput array
      */
-    public boolean mustDiscardCheck(String senderNick) {
-        boolean canAdd = false;
-        for (DepositSlot depositSlot: game.getCurrentPlayer().getDeposit().getDepositList()) {
-            if (depositSlot.simpleCanAddToDepositSlot(marketOut.get(marketOutCont)))
-                canAdd = true;
-        }
+    public boolean mustDiscardCheck(ResourceContainer container, String senderNick) {
 
-        if (!canAdd){
+        if (currPlayer.getDeposit().mustDiscardResource(container)){
             view.printReply_uni("You cant add this resource anywhere, it will be discarded..", senderNick);
+            marketOut.remove(container);
             incPosOfOthers(1);
+            return true;
         }
 
-        return !canAdd;
+        return false;
+    }
+
+    /**
+     * Counts the convertible marbles
+     */
+    public void conersionController(String nick){
+        view.printReply_uni("You Have "+ currPlayer.getConversionSite().countConvertible(marketOut)+ " "+
+                currPlayer.getConversionSite().getDefaultConverted()+ " to convert, type >CONVERT ResourceType for each one", nick);
+    }
+
+    /**
+     * Called when the current player has more than one conversion available
+     */
+    public void mustConvert(String mex, Command command, String senderNick){
+        if (command != Command.CONVERSION){
+            view.printReply_uni("Please select a valid conversion", senderNick);
+            return;
+        }
+
+        ResourceTypeSend resourceTypeSend = gson.fromJson(mex, ResourceTypeSend.class);
+        ResourceType conversionSelected = resourceTypeSend.getResourceType();
+
+        if(currPlayer.getPlayerBoard().getConversionSite().getConversionsAvailable().contains(conversionSelected)){
+            currPlayer.getConversionSite().convertSingleElement(
+                    marketOut.get(marketOut.indexOf(new ResourceContainer(currPlayer.getConversionSite().getDefaultConverted(), 1))),
+                    new ResourceContainer(conversionSelected, 1)
+            );
+
+            view.printReply_uni("Conversion done", senderNick);
+            if (currPlayer.canConvert() != ConversionMode.CHOICE_REQUIRED)
+                beginMarketDestinationSelection(senderNick);
+            return;
+        }
+
+        view.printReply_uni("You don't have this conversion available", senderNick);
+
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -682,10 +735,10 @@ public class Controller implements ObserverController {
         IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
         int id=idMessage.getId();
 
-        for (LeaderCard lc:game.getCurrentPlayer().getHand()) {
+        for (LeaderCard lc : currPlayer.getHand()) {
             if(lc.getId()==id){
                 if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
-                    game.getCurrentPlayer().activateLeader(lc);
+                    currPlayer.activateLeader(lc);
                     view.printReply_uni("Leader activated!", nickname);
                     return true;
                 }else {
@@ -699,7 +752,7 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    //FAITPATH CONTROLLER------------------------------------------------------------------------------------------------------------FAITHPATH CONTROLLER--#
+    //FAITHPATH CONTROLLER-----------------------------------------------------------------------------------------------------------FAITHPATH CONTROLLER--#
     public void incPosOfCurrentPlayer(int qty){
         game.addFaithPointsToCurrentPLayer(qty);
     }

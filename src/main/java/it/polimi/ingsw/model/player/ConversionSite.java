@@ -78,6 +78,20 @@ public class ConversionSite {
         input.setResourceType(chosenConversion.getResourceType());
         return true;
     }
+
+    /**
+     * Counts the convertible marbles inside an array
+     * @return the counter
+     */
+    public int countConvertible(ArrayList<ResourceContainer> marketOut){
+        int i=0;
+        for (ResourceContainer c: marketOut ) {
+            if (c.getResourceType() == defaultConverted)
+                i++;
+        }
+
+        return i;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

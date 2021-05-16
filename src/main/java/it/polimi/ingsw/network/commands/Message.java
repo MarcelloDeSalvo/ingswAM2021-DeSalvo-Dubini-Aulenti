@@ -17,11 +17,8 @@ public class Message {
     }
 
     public static class MessageBuilder{
-        //required parameters
         private Command command;
         private String senderNickname;
-
-        //optional parameters
         private String info;
         private Target target = Target.UNICAST;
 
@@ -44,6 +41,7 @@ public class Message {
             this.target = target;
             return this;
         }
+
 
         public Message build(){
             return new Message(this);
