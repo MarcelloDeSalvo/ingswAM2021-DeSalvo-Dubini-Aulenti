@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerStatus;
+import it.polimi.ingsw.model.player.deposit.DepositSlot;
 import it.polimi.ingsw.model.player.production.ProductionSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
@@ -175,6 +176,14 @@ public class Controller implements ObserverController {
 
             case ACTIVATE_LEADER:
                 activateLeader(mex,senderNick);
+                break;
+
+            case MANAGE_DEPOSIT:
+                manageDeposit(mex,senderNick,Command.MANAGE_DEPOSIT);
+                break;
+
+            case SWITCH_DEPOSIT:
+                manageDeposit(mex,senderNick,Command.SWITCH_DEPOSIT);
                 break;
 
             case SHOW_HAND:
@@ -563,6 +572,7 @@ public class Controller implements ObserverController {
         currPlayer.insertBoughtCardOn(productionSlotId, newDevelopmentCard);
         game.getCardgrid().removeDevelopmentCard(newDevelopmentCard.getId());
 
+
         newDevelopmentCard = null;
         productionSlotId = -1;
 
@@ -571,7 +581,7 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------/
 
-    //PRODUCE PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCE PHASE---------#
+    //PRODUCTION PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCTION PHASE---------#
 
     /**
      * Checks if the selected Production Slot are valid and if at least one of the Production Slots has QM to fill, <br>
@@ -608,6 +618,40 @@ public class Controller implements ObserverController {
             currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
     }
     //------------------------------------------------------------------------------------------------------------------/
+
+    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
+
+    public void manageDeposit(String mex, String senderNick, Command commandType){
+        int qty;
+        int sourceID;
+        int destinationID;
+        if(commandType==Command.MANAGE_DEPOSIT){
+            ManageDepositMessage manageDepositMessage=gson.fromJson(mex,ManageDepositMessage.class);
+            qty=manageDepositMessage.getQty();
+            sourceID=manageDepositMessage.getSourceID()-1;
+            destinationID=manageDepositMessage.getDestinationID()-1;
+        }else {
+            SwitchDepositMessage switchDepositMessage=gson.fromJson(mex,SwitchDepositMessage.class);
+            sourceID=switchDepositMessage.getSourceID()-1;
+            destinationID=switchDepositMessage.getDestinationID()-1;
+            qty=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(sourceID).getResourceQty();
+        }
+        DepositSlot sourceDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(sourceID);
+        //System.out.println("Source is: "+sourceDepositSlot.getDepositContainer().getResourceType());
+        DepositSlot destinationDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(destinationID);
+
+        try {
+            currPlayer.getPlayerBoard().getDeposit().canTransferDeposit(sourceDepositSlot,qty,destinationDepositSlot);
+            currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot,qty,destinationDepositSlot);
+
+        }
+        catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){
+            view.printReply_uni(e.getMessage(), senderNick);
+        }
+
+    }
+
+        //------------------------------------------------------------------------------------------------------------------/
 
 
     //MARKET ACTION CONTROLLER-------------------------------------------------------------------------------------------------------PICK FROM MARKET--#

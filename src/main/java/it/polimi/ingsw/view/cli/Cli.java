@@ -283,6 +283,17 @@ public class Cli extends ClientView {
                     send(new ManageDepositMessage(qty, sourceId, destId, this.getNickname()));
                     break;
 
+                case "SWITCH":
+                    int source=stdIn.nextInt();
+                    String with = stdIn.next();
+                    if (InputCheck.not_with(with)){
+                        default_case();
+                        break;
+                    }
+                    int destin=stdIn.nextInt();
+                    send(new SwitchDepositMessage(source,destin,this.getNickname()));
+                    break;
+
                 case "DONE":
                     send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(this.getNickname()).build());
                     break;

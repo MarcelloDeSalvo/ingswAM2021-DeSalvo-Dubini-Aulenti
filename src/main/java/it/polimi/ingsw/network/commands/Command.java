@@ -36,6 +36,7 @@ public enum Command {
     SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME ),
     MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),
     SEND_CONTAINER  (false,false,true,Status.IN_GAME),
+    SWITCH_DEPOSIT  (false,false,true,Status.IN_GAME),
     SETUP_CONTAINER (false, false, true, Status.IN_GAME),
     CONVERSION      (false, false, true, Status.IN_GAME),
     END_TURN        (false, false, true, Status.IN_GAME),
