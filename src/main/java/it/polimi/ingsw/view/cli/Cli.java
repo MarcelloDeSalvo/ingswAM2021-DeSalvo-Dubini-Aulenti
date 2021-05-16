@@ -121,6 +121,7 @@ public class Cli extends ClientView {
                 break;
 
                 //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
+                case "L":
                 case "LOGIN":
                     nicknameTemp = stdIn.next();
                     stdIn.nextLine();
@@ -135,6 +136,7 @@ public class Cli extends ClientView {
                     send(login);
                     break;
 
+                case "CR":
                 case "CREATE":
                     CreateLobbyMessage createLobbyMessage = new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname());
                     if(createLobbyMessage.getNumOfPlayers()>4 || createLobbyMessage.getNumOfPlayers()<1){
@@ -144,6 +146,7 @@ public class Cli extends ClientView {
                     send(createLobbyMessage);
                     break;
 
+                case "J":
                 case "JOIN":
                     send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
                     break;
@@ -158,10 +161,12 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
                     break;
 
+                case "SG":
                 case "START_GAME":
                     send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
                     break;
 
+                case "SPL":
                 case "SHOW_PLAYERS":
                     send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
                     break;
@@ -198,6 +203,7 @@ public class Cli extends ClientView {
                     send(buyMessage);
                     break;
 
+                case "P":
                 case "PRODUCE":
                     ProduceMessage produceMessage = new ProduceMessage(stdIn.nextInt(), this.getNickname());
                     send(produceMessage);
@@ -211,6 +217,7 @@ public class Cli extends ClientView {
                     send(resourceTypeSend);
                     break;
 
+                case "M":
                 case "MARKET":
                     String selection = stdIn.next(); //MUST BE ROW OR COLUMN
                     int num = stdIn.nextInt();
@@ -224,6 +231,7 @@ public class Cli extends ClientView {
                     send(marketMessage);
                     break;
 
+                case "C":
                 case "CONVERSION":
                     ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
                     if (conversionType == null) return false;
@@ -232,17 +240,19 @@ public class Cli extends ClientView {
                     send(convTypeSend);
                     break;
 
+                case "D":
                 case "DISCARD":
                     send(new IdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
+                case "A":
                 case "ACTIVATE":
                     send(new IdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
                 case "MOVE":
                     int qty = stdIn.nextInt();
-                    int sourceId =stdIn.nextInt();
+                    int sourceId = stdIn.nextInt();
                     String to = stdIn.next();
                     if (InputCheck.not_to(to)){
                         default_case();
@@ -250,41 +260,49 @@ public class Cli extends ClientView {
                     }
                     int destId = stdIn.nextInt();
 
-                    send(new ManageDepositMessage(qty,sourceId, destId, this.getNickname()));
+                    send(new ManageDepositMessage(qty, sourceId, destId, this.getNickname()));
                     break;
 
                 case "DONE":
                     send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(this.getNickname()).build());
                     break;
 
+                case "SH":
                 case "SHOW_HAND":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_HAND).setNickname(this.getNickname()).build());
                     break;
 
+                case "SD":
                 case "SHOW_DEPOSIT":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
                     break;
 
+                case "SV":
                 case "SHOW_VAULT":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_VAULT).setNickname(this.getNickname()).build());
                     break;
 
+                case "SP":
                 case "SHOW_PRODUCTION":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_PRODUCTION).setNickname(this.getNickname()).build());
                     break;
 
+                case "SM":
                 case "SHOW_MARKET":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_MAKET).setNickname(this.getNickname()).build());
                     break;
 
+                case "SC":
                 case "SHOW_CARDGRID":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
                     break;
 
+                case "SF":
                 case "SHOW_FAITHPATH":
                     send(new Message.MessageBuilder().setCommand(Command.SHOW_FAITHPATH).setNickname(this.getNickname()).build());
                     break;
 
+                case "ET":
                 case "END_TURN":
                     send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
                     break;
