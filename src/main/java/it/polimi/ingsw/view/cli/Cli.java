@@ -132,7 +132,6 @@ public class Cli extends ClientView {
                     else
                         login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
 
-
                     send(login);
                     break;
 
@@ -206,7 +205,22 @@ public class Cli extends ClientView {
 
                 case "P":
                 case "PRODUCE":
-                    ProduceMessage produceMessage = new ProduceMessage(stdIn.nextInt(), this.getNickname());
+                    ArrayList<Integer> productionIDs = new ArrayList<>();
+
+                    while(stdIn.hasNext()) {
+                        String input = stdIn.next();
+                        if(input.equalsIgnoreCase("STOP"))
+                            break;
+
+                        try{
+                            productionIDs.add(Integer.parseInt(input));
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("'" + input + "'" + " is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs");
+                        }
+                    }
+
+                    ProduceMessage produceMessage = new ProduceMessage(productionIDs, this.getNickname());
                     send(produceMessage);
                     break;
 

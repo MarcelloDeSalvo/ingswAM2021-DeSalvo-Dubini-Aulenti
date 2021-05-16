@@ -48,7 +48,6 @@ public enum ResourceType{
         return this.color.escape() + super.toString() + Color.ANSI_RESET.escape();
     }
 
-
 }
 
 

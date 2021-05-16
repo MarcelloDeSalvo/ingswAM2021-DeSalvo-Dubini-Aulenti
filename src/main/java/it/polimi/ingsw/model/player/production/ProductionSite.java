@@ -102,8 +102,8 @@ public class ProductionSite {
      * @return true if the add() finish without errors
      */
     public boolean fillProductionBuffers(ProductionSlot ps){
-            if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
-                return false;
+        if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
+            return false;
 
         return Util.arraylistToMap(ps.getProductionOutput(), bufferOutputMap);
     }
