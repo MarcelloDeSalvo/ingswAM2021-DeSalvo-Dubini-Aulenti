@@ -198,6 +198,7 @@ public class Cli extends ClientView {
 
                     break;
 
+                case "B":
                 case "BUY":
                     BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
                     send(buyMessage);
