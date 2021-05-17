@@ -37,8 +37,6 @@ public class Controller implements ObserverController {
 
     private ArrayList<Integer> productionSlotIDs;
     //------------------------------------------------------------------------------------------------------------------/
-
-
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
@@ -166,6 +164,8 @@ public class Controller implements ObserverController {
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 999));
+
+                view.printVault(currPlayer.getVault(), senderNick);
                 break;
 
             case BUY:
@@ -494,7 +494,7 @@ public class Controller implements ObserverController {
             }
 
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
-                //produce(senderNick);
+                produce(senderNick);
                 System.out.println("PRODUZIONE");
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                 return;
@@ -592,7 +592,7 @@ public class Controller implements ObserverController {
     //PRODUCTION PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCTION PHASE---------#
     /**
      * Checks if the selected Production Slot are valid and if at least one of the Production Slots has QM to fill, <br>
-     * the current PlayerStatus is set to 'SELECTING_QM' otherwise is set to 'SELECTING_PRODUCTION_RESOURCES'
+     * the currentPlayer PlayerStatus is set to 'SELECTING_QM' otherwise is set to 'SELECTING_PRODUCTION_RESOURCES'
      */
     private void checkQuestionMarks(String mex, String senderNick) {
         ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
@@ -625,16 +625,22 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_QM){
-            view.printReply_uni("Please start filling the Production Slots N: " + firstID + " with resources of your choice", senderNick);
+            view.printReply_uni("Please start filling the Production Slots N: " + firstID + " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE) {
-            currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
-            view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+            setUpProduction(senderNick);
         }
-
     }
 
+    /**
+     * Used for selecting the ResourceTypes to put in the QMs
+     * The first ResourceTypes Selected are put in QMI, then when QMI is full, the left over ResourceTypes are put in QMO.
+     * When every QM of every ProductionSlot is selected the method setUpProduction() is called
+     * @param mex message received
+     * @param senderNick current player nickname
+     * @param command command received
+     */
     private void selectQM(String mex, String senderNick, Command command){
         if(command != Command.FILL_QM) {
             view.printReply_uni("You cannot do this action! Please keep filling the Production Slots with resources of your choice!", senderNick);
@@ -667,25 +673,71 @@ public class Controller implements ObserverController {
                     currProductionSlot.fillQuestionMarkOutput(selectedResources.get(x));
                     x++;
                 }
-            }
 
-            view.printReply_uni("Resources of your choice for Production Slot N: " + id + " have been filled correctly!", senderNick);
+                view.printReply_uni("Resources of your choice for Production Slot N: " + id + " have been filled correctly!", senderNick);
+            }
         }
 
         for (int id : productionSlotIDs) {
             if(currPlayer.getProductionSlotByID(id).hasStillQuestionMarks()) {
-                view.printReply_uni("Please start filling the Production Slots N: " + id + " with resources of your choice", senderNick);
+                view.printReply_uni("Please start filling the Production Slots N: " + id + " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
                 return;
             }
+        }
+
+        setUpProduction(senderNick);
+    }
+
+    /**
+     * This method fills the buffers and checks if the currPlayer has enough resources altogether to activate the selected ProductionSlots.
+     * If everything goes right currPlayer PlayerStatus is set to 'SELECTING_PRODUCTION_RESOURCES'
+     * @param senderNick current player nickname
+     */
+    private void setUpProduction(String senderNick) {
+        ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
+
+        for (int id : productionSlotIDs) {
+            selectedProductionCards.add(currPlayer.getProductionSlotByID(id));
+        }
+
+        currPlayer.fillProductionBuffers(selectedProductionCards);
+
+        if(!currPlayer.hasEnoughResourcesForProduction())  {
+            currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+            view.printReply_uni("You don't own enough resources altogether to activate the selected Production Slots!", senderNick);
+            return;
         }
 
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
         view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
     }
+
+    /**
+     * Used to actually produce but only after checking with the method 'canProduce()' if you can do it.
+     * This method also notifies the view on what happens using specific messages
+     * @param senderNick current player nickname
+     */
+    private void produce(String senderNick) {
+        try{
+            currPlayer.canProduce();
+            currPlayer.produce();
+
+            //currPlayer.emptyBuffers();
+
+            view.printReply_uni("Production executed correctly!", senderNick);
+            view.printVault(currPlayer.getVault(), senderNick);
+
+        } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
+            view.printReply_uni(exception.getMessage(), senderNick);
+
+            view.printTurnHelp(senderNick);
+
+            currPlayer.emptyBuffers();
+        }
+    }
     //------------------------------------------------------------------------------------------------------------------/
 
-    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
-
+    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------\
     public void manageDeposit(String mex, String senderNick, Command commandType){
         int qty;
         int sourceID;
@@ -712,7 +764,6 @@ public class Controller implements ObserverController {
         }
 
     }
-
     //------------------------------------------------------------------------------------------------------------------/
 
 

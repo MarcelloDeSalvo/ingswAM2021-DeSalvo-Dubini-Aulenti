@@ -196,6 +196,28 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     }
 
     /**
+     * Tells the controller if the user has selected the right quantity of resources in order to produce
+     * the activated production cards
+     * @return True if the selected resources are equals to the input resources needed to produce
+     * @throws NotEnoughResources if there are missing resources
+     * @throws DepositSlotMaxDimExceeded if the user selected too many resources
+     */
+    public boolean canProduce() throws NotEnoughResources, DepositSlotMaxDimExceeded {
+        HashMap<ResourceType, ResourceContainer> bufferMap = new HashMap<>();
+
+        addDepositBuffer(bufferMap);
+        addVaultBuffer(bufferMap);
+
+        ArrayList<ResourceContainer> selectedResources = new ArrayList<>();
+
+        for (ResourceType key : bufferMap.keySet()) {
+            selectedResources.add(bufferMap.get(key));
+        }
+
+        return productionSite.canProduce(selectedResources);
+    }
+
+    /**
      * Execute the production of the selected cards <br>
      * Adds to the current player's vault the output resources
      * @return true if the production is completed without problems
@@ -217,7 +239,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
      * Clears all the buffers when the selected resources are wrong and we have to cancel the payment
      */
     public boolean emptyBuffers(){
-        return deposit.clearBuffer() && vault.clearBuffer();
+        return deposit.clearBuffer() && vault.clearBuffer() && productionSite.clearBuffers();
     }
 
     //PRODUCTION PIPELINE END-------------------------------------------------------------------------------------------

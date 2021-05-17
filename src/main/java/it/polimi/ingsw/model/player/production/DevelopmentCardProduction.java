@@ -118,7 +118,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
     @Override
     public String toString() {
         StringBuilder prodSlots = new StringBuilder();
-        prodSlots.append(Color.ANSI_WHITE.escape()).append("# DEVELOPMENT SLOT----------------- #"+"\n").append(Color.ANSI_RESET.escape());
+        prodSlots.append(Color.ANSI_WHITE.escape()).append("\n# DEVELOPMENT SLOT----------------- #"+"\n").append(Color.ANSI_RESET.escape());
 
         for (DevelopmentCard developmentCard: dev.getDeck()){
             prodSlots.append(developmentCard.toString());
