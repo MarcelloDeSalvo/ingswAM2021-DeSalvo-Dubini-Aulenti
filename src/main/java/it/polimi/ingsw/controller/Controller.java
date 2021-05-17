@@ -630,6 +630,14 @@ public class Controller implements ObserverController {
         }
     }
 
+    /**
+     * Used for selecting the ResourceTypes to put in the QMs
+     * The first ResourceTypes Selected are put in QMI, then when QMI is full, the left over ResourceTypes are put in QMO.
+     * When every QM of every ProductionSlot is selected the method setUpProduction() is called
+     * @param mex message received
+     * @param senderNick current player nickname
+     * @param command command received
+     */
     private void selectQM(String mex, String senderNick, Command command){
         if(command != Command.FILL_QM) {
             view.printReply_uni("You cannot do this action! Please keep filling the Production Slots with resources of your choice!", senderNick);
@@ -677,6 +685,11 @@ public class Controller implements ObserverController {
         setUpProduction(senderNick);
     }
 
+    /**
+     * This method fills the buffers and checks if the currPlayer has enough resources altogether to activate the selected ProductionSlots.
+     * If everything goes right currPlayer PlayerStatus is set to 'SELECTING_PRODUCTION_RESOURCES'
+     * @param senderNick current player nickname
+     */
     private void setUpProduction(String senderNick) {
         ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
 
@@ -696,12 +709,17 @@ public class Controller implements ObserverController {
         view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
     }
 
+    /**
+     * Used to actually produce but only after checking with the method 'canProduce()' if you can do it.
+     * This method also notifies the view on what happens using specific messages
+     * @param senderNick current player nickname
+     */
     private void produce(String senderNick) {
         try{
             currPlayer.canProduce();
             currPlayer.produce();
 
-            currPlayer.emptyBuffers();
+            //currPlayer.emptyBuffers();
 
             view.printReply_uni("Production executed correctly!", senderNick);
             view.printVault(currPlayer.getVault(), senderNick);
