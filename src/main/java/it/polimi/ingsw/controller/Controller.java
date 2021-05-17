@@ -581,8 +581,8 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------/
 
-    //PRODUCTION PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCTION PHASE---------#
 
+    //PRODUCTION PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCTION PHASE---------#
     /**
      * Checks if the selected Production Slot are valid and if at least one of the Production Slots has QM to fill, <br>
      * the current PlayerStatus is set to 'SELECTING_QM' otherwise is set to 'SELECTING_PRODUCTION_RESOURCES'
@@ -651,7 +651,7 @@ public class Controller implements ObserverController {
 
     }
 
-        //------------------------------------------------------------------------------------------------------------------/
+    //------------------------------------------------------------------------------------------------------------------/
 
 
     //MARKET ACTION CONTROLLER-------------------------------------------------------------------------------------------------------PICK FROM MARKET--#

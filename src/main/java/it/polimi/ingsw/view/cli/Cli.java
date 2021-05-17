@@ -180,13 +180,13 @@ public class Cli extends ClientView {
 
                 case "PUT":
                     ResourceType marketRes = InputCheck.resourceType_null(stdIn.next());
-                    if (marketRes == null) return false;
+                    if (marketRes == null) break;
 
                     String tO = stdIn.next();
-                    if (InputCheck.not_to(tO)) return false;
+                    if (InputCheck.not_to(tO)) break;
 
                     String destination = stdIn.next();
-                    if (InputCheck.not_deposit(destination)) return false;
+                    if (InputCheck.not_deposit(destination)) break;
 
                     send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(marketRes,1), destination, stdIn.nextInt(), this.getNickname()));
                     break;
@@ -231,7 +231,7 @@ public class Cli extends ClientView {
 
                 case "FILL":
                     ResourceType questionMarkType = InputCheck.resourceType_null(stdIn.next());
-                    if (questionMarkType == null) return false;
+                    if (questionMarkType == null) break;
 
                     ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, questionMarkType, this.getNickname());
                     send(resourceTypeSend);
@@ -254,7 +254,7 @@ public class Cli extends ClientView {
                 case "C":
                 case "CONVERSION":
                     ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
-                    if (conversionType == null) return false;
+                    if (conversionType == null) break;
 
                     ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, conversionType, this.getNickname());
                     send(convTypeSend);
