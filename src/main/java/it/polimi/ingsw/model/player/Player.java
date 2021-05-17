@@ -100,8 +100,7 @@ public class Player implements ObservableModel {
 
             if (hand.remove(leaderCardToRemove)) {
 
-                if (view!=null)
-                    view.printHand(leaderListToInt(), nickname);
+                view.notifyLeaderDiscarded(id, nickname);
 
                 if(hand.size() == 2)
                     setLeadersHaveBeenDiscarded(true);
@@ -131,6 +130,7 @@ public class Player implements ObservableModel {
 
         if(leaderCard.checkRequirements(playerBoard)){
             leaderCard.changeStatus(Status.ACTIVE);
+            view.notifyLeaderActivated(leaderCard.getId(), nickname);
             return leaderCard.executeAbility(playerBoard);
         }
         return false;
@@ -165,6 +165,7 @@ public class Player implements ObservableModel {
      * @return true if the subtraction is successful
      */
     public boolean buy(){
+        view.notifyBoughtCard(nickname);
         return playerBoard.buy();
     }
 

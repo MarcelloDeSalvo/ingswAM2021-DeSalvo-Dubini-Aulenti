@@ -4,6 +4,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
+import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
+import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
 import it.polimi.ingsw.model.parser.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -145,7 +147,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
-        view.notifyGameSetup(cardgrid.getIDsOnTop(), getNicknames());
     }
 
     /**
@@ -327,7 +328,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
 
 
-    //------------------------------------------------------------------------------------------------------------------
+    //FAITHPATH OBSERVERS---------------------------------------------------------------------------------------------------------
     public void addFaithPointsToCurrentPLayer(int qty) {
         faithPath.incrementPosition(qty);
         view.notifyFaithPathProgression(qty, getCurrentPlayerNick());
@@ -427,6 +428,18 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //OTHER METHODS-----------------------------------------------------------------------------------------------------
+    public boolean removeCardFromCardgrid(int id) {
+
+        if (cardgrid.removeDevelopmentCard(id)){
+            view.notifyCardGridChanges(id, cardgrid.getDevelopmentCardOnTop(developmentCards.get(id-1).getColour(), developmentCards.get(id-1).getLevel()).getId());
+            return true;
+        }
+        return false;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
     //OBSERVER METHODS---(end game notify)------------------------------------------------------------------------------
     @Override
     public void update() {
@@ -476,7 +489,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
-
     public ArrayList<String> getNicknames(){
         ArrayList<String> nicknames = new ArrayList<>();
 

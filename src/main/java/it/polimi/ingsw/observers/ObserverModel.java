@@ -1,6 +1,9 @@
 package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.model.player.deposit.Deposit;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.IdMessage;
+import it.polimi.ingsw.network.commands.NotifyCardGrid;
 import it.polimi.ingsw.network.commands.Target;
 
 import java.util.ArrayList;
@@ -46,9 +49,13 @@ public interface ObserverModel {
     void printItsYourTurn(String nickname);
 
     void askForResources(String nickname, int qty);
-    void notifyFaithPathProgression(int qty, String nickname);
-    void printLeaderCardRequest(String nickname);
+    void askForLeaderCardID(String nickname);
 
+    void notifyCardGridChanges(int oldID, int newID);
+    void notifyFaithPathProgression(int qty, String nickname);
+    void notifyBoughtCard(String nickname);
     void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
+    void notifyLeaderDiscarded(int id, String nickname);
+    void notifyLeaderActivated(int id, String nickname);
 
 }

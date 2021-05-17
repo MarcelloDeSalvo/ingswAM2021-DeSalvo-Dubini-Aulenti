@@ -125,7 +125,7 @@ public class Cardgrid {
      * This method returns the current card on top of its respective deck. The deck is chosen by the parameters: Colour and level
      * @return null if the card isn't found
      */
-    public DevelopmentCard getDevelopmentCardOnTop( Colour desiredColour, int desiredLevel) {
+    public DevelopmentCard getDevelopmentCardOnTop(Colour desiredColour, int desiredLevel) {
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel)

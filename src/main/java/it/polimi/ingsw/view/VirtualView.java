@@ -136,19 +136,6 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
-        notifyUsers(new ShowHandMessage(leaderIDs, nickname));
-    }
-
-    public void printDiscardLeader(int id, String nickname){
-        notifyUsers(new IdMessage(Command.DISCARD_OK, id, nickname));
-    }
-
-    public void printActivateLeader(int id, String nickname){
-        notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
-    }
-
-    @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
 
     }
@@ -175,6 +162,13 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
+        notifyUsers(new ShowHandMessage(leaderIDs, nickname));
+    }
+
+
+
+    @Override
     public void printDeposit(Deposit deposit, String nickname) {
         printReply_uni(deposit.toString(), nickname);
     }
@@ -199,17 +193,14 @@ public class VirtualView implements View {
         printReply_uni(marketOutChoice.toString(), nickname);
     }
 
-
-    public void printCardGrid(Cardgrid cardgrid, String nickname){
-        printReply_uni(cardgrid.toString(), nickname);
-    }
-
     public void printFaithPath(FaithPath faithPath, String nickname, ArrayList<String> nicks){
         printReply_uni(faithPath.toString(nicks),nickname);
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+    //SERVER REQUESTS---------------------------------------------------------------------------------------------------
     @Override
-    public void printLeaderCardRequest(String nickname) {
+    public void askForLeaderCardID(String nickname) {
         UserManager.notifyUsers(connectedPlayers,
                 new Message.MessageBuilder().setCommand(Command.REPLY)
                         .setInfo("Please select 2 Leader Cards to discard by typing 'DISCARD id'").setNickname(nickname).build());
@@ -221,7 +212,9 @@ public class VirtualView implements View {
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+    //NOTIFIES----------------------------------------------------------------------------------------------------------
     @Override
     public void notifyFaithPathProgression(int qty, String nickname) {
 
@@ -234,11 +227,32 @@ public class VirtualView implements View {
                     .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
     }
 
+    public void notifyBoughtCard(String nickname) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
+                .setInfo(nickname + " bought a new card!")
+                .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
+
+        printReply_uni("You bought the card correctly!", nickname);
+    }
+
+    public void notifyCardGridChanges(int oldID, int newID){
+        notifyUsers(new NotifyCardGrid(oldID, newID));
+    }
+
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames){
         notifyUsers(new GameSetUp(cardGridIDs,nicknames));
     }
 
+    @Override
+    public void notifyLeaderDiscarded(int id, String nickname){
+        notifyUsers(new IdMessage(Command.DISCARD_OK, id, nickname));
+    }
+
+    @Override
+    public void notifyLeaderActivated(int id, String nickname){
+        notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

@@ -70,6 +70,8 @@ public abstract class ClientView implements View, UserInput {
         return leaderCards;
     }
 
+    public ArrayList<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
+
     public void setHand(LiteHand hand) {
         this.hand = hand;
     }
@@ -82,5 +84,4 @@ public abstract class ClientView implements View, UserInput {
 
     public void setLiteCardGrid(LiteCardGrid liteCardGrid) { this.liteCardGrid = liteCardGrid; }
 
-    public ArrayList<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
 }

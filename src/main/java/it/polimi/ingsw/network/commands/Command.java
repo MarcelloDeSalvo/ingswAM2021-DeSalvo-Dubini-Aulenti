@@ -47,7 +47,9 @@ public enum Command {
     CONVERSION      (false, false, true, Status.IN_GAME),
     END_TURN        (false, false, true, Status.IN_GAME),
 
-    SHOW_CARDGRID   (false, false, true, Status.IN_GAME),
+    NOTIFY_CARDGRID (false, false, true, Status.IN_GAME),
+    NOTIFY_HAND     (false,false,true,Status.IN_GAME),
+
     SHOW_FAITHPATH  (false, false, true, Status.IN_GAME),
     SHOW_MYBOARD    (false, false, true, Status.IN_GAME),
     SHOW_PLAYER     (false, false, true, Status.IN_GAME),
@@ -57,7 +59,7 @@ public enum Command {
     SHOW_MAKET      (false, false, true, Status.IN_GAME),
     SHOW_POINTS     (false, false, true, Status.IN_GAME),
     SHOW_ORDER      (false, false, true, Status.IN_GAME),
-    SHOW_HAND       (false,false,true,Status.IN_GAME),
+
     SHOW_TURN_HELP  (false,false,true,Status.IN_GAME);
 
 

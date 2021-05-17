@@ -49,8 +49,11 @@ public class LiteCardGrid {
 
     @Override
     public String toString() {
-        return "LiteCardGrid{" +
-                "developmentCards=" + developmentCards +
-                '}';
+        StringBuilder cardGrid = new StringBuilder("\n");
+        for (Integer id : cardIDs) {
+            cardGrid.append(developmentCards.get(id-1));
+            cardGrid.append("\n");
+        }
+        return cardGrid.toString();
     }
 }

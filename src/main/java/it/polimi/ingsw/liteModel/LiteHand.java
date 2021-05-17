@@ -12,7 +12,7 @@ public class LiteHand {
 
     public LiteHand(ArrayList<Integer> hand, ArrayList<LeaderCard> leaderCards) {
         this.hand = hand;
-        this.leaderCards = new ArrayList<>();
+        this.leaderCards = leaderCards;
 
         for (Integer id : hand) {
             leaderCards.add(leaderCards.get(id-1));
@@ -36,7 +36,7 @@ public class LiteHand {
         for (int id: hand) {
             s.append("-------------------------------------------------------------------\\");
             s.append("\n");
-            s.append(leaderCards.get(id - 1).toString());
+            s.append(leaderCards.get(id-1).toString());
             s.append("\n");
             s.append("-------------------------------------------------------------------/\n\n");
         }

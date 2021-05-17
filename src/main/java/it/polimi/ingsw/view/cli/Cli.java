@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
+import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
@@ -55,6 +56,17 @@ public class Cli extends ClientView {
                         setNickname(this.getNickname()).build());
                 break;
 
+            case NOTIFY_CARDGRID:
+                NotifyCardGrid notifyCardGrid = gson.fromJson(mex, NotifyCardGrid.class);
+                notifyCardGridChanges(notifyCardGrid.getOldID(), notifyCardGrid.getNewID());
+                break;
+
+            case NOTIFY_HAND:
+                ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
+                setHand(new LiteHand(showHandMessage.getCardsID(), getLeaderCards()));
+                printHand(null, "");
+                break;
+
             case GAME_SETUP:
                 GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
                 notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames());
@@ -69,20 +81,14 @@ public class Cli extends ClientView {
                 printItsYourTurn(senderNick);
                 break;
 
-            case SHOW_HAND:
-                ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                setHand(new LiteHand(showHandMessage.getCardsID(), getLeaderCards()));
-                printHand(null, "");
-                break;
-
             case DISCARD_OK:
                 IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
-                printDiscardLeader(idMessage.getId(),"");
+                notifyLeaderDiscarded(idMessage.getId(),"");
                 break;
 
             case ACTIVATE_OK:
                 IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
-                printActivateLeader(activatedLeader.getId(), "");
+                notifyLeaderActivated(activatedLeader.getId(), "");
                 break;
 
             case REPLY:
@@ -154,9 +160,9 @@ public class Cli extends ClientView {
                 case "CREATE":
                     CreateLobbyMessage createLobbyMessage = new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname());
                     if(createLobbyMessage.getNumOfPlayers()>4 || createLobbyMessage.getNumOfPlayers()<1){
-                        System.out.println("You cannot play with more than 4 people, please select a valid number");
-                        break;
+                        throw new InputMismatchException("You cannot play with more than 4 people, please select a valid number");
                     }
+
                     send(createLobbyMessage);
                     break;
 
@@ -189,27 +195,27 @@ public class Cli extends ClientView {
                 //GAME PHASE--------------------------------------------------------------------------------------------
                 case "SELECT":
                     if (!set_up_Container(stdIn))
-                        default_case();
+                        throw new InputMismatchException();
 
                     break;
 
                 case "PUT":
                     ResourceType marketRes = InputCheck.resourceType_null(stdIn.next());
-                    if (marketRes == null) break;
+                    if (marketRes == null)  throw new InputMismatchException("Invalid resourceType");
 
                     String in = stdIn.next();
-                    if (InputCheck.not_in(in)) break;
+                    if (InputCheck.not_in(in)) throw new InputMismatchException("Wrong syntax");
 
                     String destination = stdIn.next();
-                    if (InputCheck.not_deposit(destination)) break;
+                    if (InputCheck.not_deposit(destination))  throw new InputMismatchException("Invalid destination");
 
                     send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(marketRes,1), destination, stdIn.nextInt(), this.getNickname()));
                     break;
 
+                case "G":
                 case "GIVE":
                     if (!giveContainer(stdIn))
-                        default_case();
-
+                        throw new InputMismatchException();
                     break;
 
                 case "B":
@@ -231,13 +237,12 @@ public class Cli extends ClientView {
                             productionIDs.add(Integer.parseInt(input));
                         }
                         catch(NumberFormatException e){
-                            System.out.println("'" + input + "' is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs");
+                            throw new InputMismatchException("\"'\" + input + \"' is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs\"");
                         }
                     }
 
                     if(InputCheck.duplicatedElement(productionIDs)) {
-                        System.out.println("You cannot insert the same Production Slot IDs multiple times!");
-                        break;
+                        throw new InputMismatchException("You cannot insert the same Production Slot IDs multiple times!");
                     }
 
                     System.out.println(productionIDs.toString());
@@ -258,14 +263,12 @@ public class Cli extends ClientView {
                         ResourceType questionMarkType = InputCheck.resourceType_null(input);
 
                         if (questionMarkType == null) {
-                            System.out.println("'" + input + "' is not a valid input! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
                             QMs.clear();
-                            break;
+                            throw new InputMismatchException("'" + input + "' is not a valid input! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
                         }
                         else if(!questionMarkType.canAddToVault()) {
-                            System.out.println("ResourceType '" + input + "' cannot be selected for production! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
                             QMs.clear();
-                            break;
+                            throw new InputMismatchException("ResourceType '" + input + "' cannot be selected for production! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
                         }
                         else
                             QMs.add(questionMarkType);
@@ -287,10 +290,8 @@ public class Cli extends ClientView {
                     String selection = stdIn.next(); //MUST BE ROW OR COLUMN
                     int num = stdIn.nextInt();
 
-                    if(InputCheck.not_row_or_column(selection)) {
-                        default_case();
-                        break;
-                    }
+                    if(InputCheck.not_row_or_column(selection))
+                        throw new InputMismatchException("Invalid syntax");
 
                     MarketMessage marketMessage = new MarketMessage(selection, num, this.getNickname());
                     send(marketMessage);
@@ -299,7 +300,7 @@ public class Cli extends ClientView {
                 case "C":
                 case "CONVERSION":
                     ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
-                    if (conversionType == null) break;
+                    if (conversionType == null) throw new InputMismatchException("Invalid resourceType");
 
                     ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, conversionType, this.getNickname());
                     send(convTypeSend);
@@ -319,10 +320,9 @@ public class Cli extends ClientView {
                     int qty = stdIn.nextInt();
                     int sourceId = stdIn.nextInt();
                     String to = stdIn.next();
-                    if (InputCheck.not_to(to)){
-                        default_case();
-                        break;
-                    }
+                    if (InputCheck.not_to(to))
+                        throw new InputMismatchException("Invalid syntax");
+
                     int destId = stdIn.nextInt();
 
                     send(new ManageDepositMessage(qty, sourceId, destId, this.getNickname()));
@@ -331,10 +331,9 @@ public class Cli extends ClientView {
                 case "SWITCH":
                     int source=stdIn.nextInt();
                     String with = stdIn.next();
-                    if (InputCheck.not_with(with)){
-                        default_case();
-                        break;
-                    }
+                    if (InputCheck.not_with(with))
+                        throw new InputMismatchException("Invalid syntax");
+
                     int destin = stdIn.nextInt();
                     send(new SwitchDepositMessage(source,destin,this.getNickname()));
                     break;
@@ -370,8 +369,7 @@ public class Cli extends ClientView {
 
                 case "SC":
                 case "SHOW_CARDGRID":
-                    System.out.println(getLiteCardGrid().toString());
-                    //send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
+                    printCardGrid(null, "");
                     break;
 
                 case "SF":
@@ -394,22 +392,20 @@ public class Cli extends ClientView {
 
                 default:
                     stdIn.nextLine();
-                    default_case();
+                    System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
             }
 
         }catch (InputMismatchException e){
             stdIn.nextLine();
-            System.out.println("The command you submitted isn't valid, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands");
+            System.out.println(e.getMessage()+"\n");
+            System.out.println("The command you submitted has some wrong parameters, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands"+"\n");
         }
-
+    /*
+        String skipped;
+        if ((skipped= stdIn.nextLine()).length()>0)
+            System.out.println("Wrong param number: " + skipped);*/
         return true;
     }
-
-
-    private void default_case(){
-        System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
-    }
-
 
     /**
      * Validates the input when the player has to choose a free resourceType during the game setup Phase
@@ -589,30 +585,38 @@ public class Cli extends ClientView {
         System.out.println(getHand().toString());
     }
 
-    public void printDiscardLeader(int id, String nickname){
-        System.out.println("Leader discarded!\n");
-        getHand().discardFromHand(id);
-        printHand(null, "");
-    }
-
-    public void printActivateLeader(int id, String nickname){
-        System.out.println("Leader activated\n");
-        getHand().activateLeader(id);
-    }
-
-
-    @Override
-    public void printOrder(ArrayList<String> randomOrder) {
-
-    }
-
     @Override
     public void printDeposit(Deposit deposit, String depositInfo) {
 
     }
 
+    public void printCardGrid(Cardgrid cardgrid, String nickname){
+        System.out.println(getLiteCardGrid().toString());
+    }
+
+    @Override
+    public void printOrder(ArrayList<String> randomOrder) {
+
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
+
+    }
+
+    @Override
+    public void askForLeaderCardID(String nickname) {
+
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    @Override
+    public void notifyBoughtCard(String nickname) {
 
     }
 
@@ -622,15 +626,29 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printLeaderCardRequest(String nickname) {
-
-    }
-
-    @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         //remaining lightModel
     }
+
+    @Override
+    public void notifyCardGridChanges(int oldID, int newID) {
+        getLiteCardGrid().gridUpdated(oldID, newID);
+    }
+
+    @Override
+    public void notifyLeaderDiscarded(int id, String nickname){
+        System.out.println("Leader discarded!\n");
+        getHand().discardFromHand(id);
+        printHand(null, "");
+    }
+
+    @Override
+    public void notifyLeaderActivated(int id, String nickname){
+        System.out.println("Leader activated\n");
+        getHand().activateLeader(id);
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     //------------------------------------------------------------------------------------------------------------------

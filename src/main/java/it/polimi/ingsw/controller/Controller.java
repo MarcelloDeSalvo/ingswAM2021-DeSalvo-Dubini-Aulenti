@@ -52,11 +52,12 @@ public class Controller implements ObserverController {
                 game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
                 game.addView(view);
 
+                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames());
                 view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
                     view.printHand(player.getHandIDs(), player.getNickname());
-                    view.printLeaderCardRequest(player.getNickname());
+                    view.askForLeaderCardID(player.getNickname());
                 }
 
             }
@@ -64,9 +65,10 @@ public class Controller implements ObserverController {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
                 game.addView(view);
 
+                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames());
                 view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
                 view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
-                view.printLeaderCardRequest(game.getPlayer(0).getNickname());
+                view.askForLeaderCardID(game.getPlayer(0).getNickname());
 
             }
 
@@ -210,10 +212,6 @@ public class Controller implements ObserverController {
                 view.printMarket(game.getMarket(), senderNick);
                 break;
 
-            case SHOW_CARDGRID:
-                view.printCardGrid(game.getCardgrid(), senderNick);
-                break;
-
             case SHOW_FAITHPATH:
                 view.printFaithPath(game.getFaithPath(),senderNick,game.getNicknames());
                 break;
@@ -265,8 +263,6 @@ public class Controller implements ObserverController {
             view.printReply_uni("Wrong Leader ID", senderNick);
             return;
         }
-
-        view.printDiscardLeader(idMessage.getId(), senderNick);
 
         if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
             view.printReply_uni("You discarded 2 Leaders!" , senderNick);
@@ -482,7 +478,7 @@ public class Controller implements ObserverController {
 
         if(command == Command.SEND_CONTAINER) {
             SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
-            //System.out.println("Arrived: " + sendContainer);
+            System.out.println("Arrived: " + sendContainer);
 
             if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick))
                 return;
@@ -581,13 +577,11 @@ public class Controller implements ObserverController {
         currPlayer.buy();
         currPlayer.emptyBuffers();
         currPlayer.insertBoughtCardOn(productionSlotId, newDevelopmentCard);
-        game.getCardgrid().removeDevelopmentCard(newDevelopmentCard.getId());
-
+        game.removeCardFromCardgrid(newDevelopmentCard.getId());
 
         newDevelopmentCard = null;
         productionSlotId = -1;
 
-        view.printReply_uni("You bought the card correctly!", senderNick);
         view.printProduction(currPlayer.getProductionSite(), senderNick);
     }
     //------------------------------------------------------------------------------------------------------------------/
@@ -893,7 +887,7 @@ public class Controller implements ObserverController {
     //------------------------------------------------------------------------------------------------------------------
 
     //ACTIVATE LEADER---------------------------------------------------------------------------------------------------
-    public boolean activateLeader(String mex , String nickname){
+    public void activateLeader(String mex , String nickname){
         IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
         int id=idMessage.getId();
 
@@ -901,16 +895,13 @@ public class Controller implements ObserverController {
             if(lc.getId()==id){
                 if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
                     currPlayer.activateLeader(lc);
-                    view.printActivateLeader(id,nickname);
-                    return true;
                 }else {
                     view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);
-                    return false;
                 }
+                return;
             }
         }
         view.printReply_uni("You do not own a leader with this id!", nickname);
-        return false;
     }
     //------------------------------------------------------------------------------------------------------------------
 
