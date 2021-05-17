@@ -175,6 +175,11 @@ public class DevelopmentCardProduction implements ProductionSlot {
     }
 
     @Override
+    public boolean hasStillQuestionMarks() {
+        return false;
+    }
+
+    @Override
     public int getQMI() {
         return 0;
     }
