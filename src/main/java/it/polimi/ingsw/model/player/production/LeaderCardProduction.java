@@ -20,6 +20,9 @@ public class LeaderCardProduction implements ProductionSlot {
     private final ArrayList<ResourceContainer> inputBuffer;
     private final ArrayList<ResourceContainer> outputBuffer;
 
+    private int QMI_buff = 0;
+    private int QMO_buff = 0;
+
     public LeaderCardProduction(ProductionAbility productionAbility) {
         this.inputBuffer = new ArrayList<>(productionAbility.getInput());
         this.outputBuffer = new ArrayList<>(productionAbility.getOutput());
@@ -35,17 +38,35 @@ public class LeaderCardProduction implements ProductionSlot {
     }
 
     @Override
+    public boolean hasStillQuestionMarks() {
+        return QMI_buff < productionAbility.getQuestionMarkOnInput() || QMO_buff < productionAbility.getQuestionMarkOnOutput();
+    }
+
+    @Override
     public boolean fillQuestionMarkInput(ResourceType definedInput) throws NullPointerException, IllegalArgumentException{
-        return definedInput != null && inputBuffer.add(new ResourceContainer(definedInput, 1));
+        if(definedInput != null && inputBuffer.add(new ResourceContainer(definedInput, 1))){
+            QMI_buff++;
+            return true;
+        }
+
+        return false;
+
+        //return definedInput != null && inputBuffer.add(new ResourceContainer(definedInput, 1));
     }
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType definedOutput) throws NullPointerException, IllegalArgumentException{
-        return definedOutput != null && outputBuffer.add((new ResourceContainer(definedOutput, 1)));
+        if(definedOutput != null && outputBuffer.add((new ResourceContainer(definedOutput, 1)))){
+            QMO_buff++;
+            return true;
+        }
+
+        return false;
+        //return definedOutput != null && outputBuffer.add((new ResourceContainer(definedOutput, 1)));
     }
 
     /**
-     * clears the current buffer and then sets them to the original input/output's data
+     * Clears the current buffer and then sets them to the original input/output's data
      * @return true if the add executes without errors
      */
     @Override
@@ -62,6 +83,9 @@ public class LeaderCardProduction implements ProductionSlot {
             if(!outputBuffer.add(rs))
                 return false;
         }
+
+        QMI_buff = 0;
+        QMO_buff = 0;
 
         return true;
     }

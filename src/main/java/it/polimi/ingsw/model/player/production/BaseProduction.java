@@ -15,6 +15,9 @@ public class BaseProduction implements ProductionSlot {
     private final int QMI;
     private final int QMO;
 
+    private int QMI_buff = 0;
+    private int QMO_buff = 0;
+
 
     public BaseProduction() {
         this.input = new ArrayList<>();
@@ -38,19 +41,40 @@ public class BaseProduction implements ProductionSlot {
     }
 
     @Override
+    public boolean hasStillQuestionMarks() {
+        return QMI_buff < QMI || QMO_buff < QMO;
+    }
+
+    @Override
     public boolean fillQuestionMarkInput(ResourceType resourceType) throws NullPointerException,IllegalArgumentException{
-        return resourceType != null && input.add(new ResourceContainer(resourceType, 1));
+        if(QMI_buff < QMI && resourceType != null && input.add(new ResourceContainer(resourceType, 1))) {
+            QMI_buff++;
+            return true;
+        }
+
+        return false;
+        //return resourceType != null && input.add(new ResourceContainer(resourceType, 1));
     }
 
     @Override
     public boolean fillQuestionMarkOutput(ResourceType resourceType) throws NullPointerException,IllegalArgumentException{
-        return resourceType != null && output.add(new ResourceContainer(resourceType, 1));
+        if(QMO_buff < QMO && resourceType != null && output.add(new ResourceContainer(resourceType, 1))){
+            QMO_buff++;
+            return true;
+        }
+
+        return false;
+        //return resourceType != null && output.add(new ResourceContainer(resourceType, 1));
     }
 
     @Override
     public boolean clearCurrentBuffer() {
         input.clear();
         output.clear();
+
+        QMI_buff = 0;
+        QMO_buff = 0;
+
         return true;
     }
 

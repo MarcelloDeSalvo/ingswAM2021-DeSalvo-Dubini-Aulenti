@@ -96,7 +96,6 @@ public class Cli extends ClientView {
         try {
             switch (userInput.toUpperCase()) {
 
-
                 //GENERAL-----------------------------------------------------------------------------------------------
                 case "CHAT":
                     send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
@@ -216,7 +215,7 @@ public class Cli extends ClientView {
                             productionIDs.add(Integer.parseInt(input));
                         }
                         catch(NumberFormatException e){
-                            System.out.println("'" + input + "'" + " is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs");
+                            System.out.println("'" + input + "' is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs");
                         }
                     }
 
@@ -225,16 +224,46 @@ public class Cli extends ClientView {
                         break;
                     }
 
+                    System.out.println(productionIDs.toString());
+
                     ProduceMessage produceMessage = new ProduceMessage(productionIDs, this.getNickname());
                     send(produceMessage);
                     break;
 
                 case "FILL":
-                    ResourceType questionMarkType = InputCheck.resourceType_null(stdIn.next());
-                    if (questionMarkType == null) break;
+                    ArrayList<ResourceType> QMs = new ArrayList<>();
 
-                    ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, questionMarkType, this.getNickname());
-                    send(resourceTypeSend);
+                    while(stdIn.hasNext()) {
+                        String input = stdIn.next();
+
+                        if(input.equalsIgnoreCase("STOP"))
+                            break;
+
+                        ResourceType questionMarkType = InputCheck.resourceType_null(input);
+
+                        if (questionMarkType == null) {
+                            System.out.println("'" + input + "' is not a valid input! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
+                            QMs.clear();
+                            break;
+                        }
+                        else if(!questionMarkType.canAddToVault()) {
+                            System.out.println("ResourceType '" + input + "' cannot be selected for production! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
+                            QMs.clear();
+                            break;
+                        }
+                        else
+                            QMs.add(questionMarkType);
+                    }
+
+                    /*ResourceType questionMarkType = InputCheck.resourceType_null(stdIn.next());
+                    if (questionMarkType == null) break;*/
+                    System.out.println(QMs.toString());
+
+                    if(!QMs.isEmpty()) {
+                        ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, QMs, this.getNickname());
+                        send(resourceTypeSend);
+                    }
+
                     break;
 
                 case "M":

@@ -17,6 +17,11 @@ public interface ProductionSlot {
      boolean hasQuestionMarks();
 
     /**
+     * Checks if all the QM have been filled
+     */
+    boolean hasStillQuestionMarks();
+
+    /**
      * This method is used by the controller to insert the user's requested resources instead of the question marks  (Production input only)
      * @param resourceType is the user's selected resourceType
      */

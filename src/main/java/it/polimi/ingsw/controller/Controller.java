@@ -30,12 +30,14 @@ public class Controller implements ObserverController {
     private final Gson gson;
     private Player currPlayer;
 
-    //BUFFERS ----------------------------------------------------------------------------------------------------------
+    //BUFFERS ----------------------------------------------------------------------------------------------------------\
     private ArrayList<ResourceContainer> marketOut;
 
     private DevelopmentCard newDevelopmentCard;
     private int productionSlotId;
-    //------------------------------------------------------------------------------------------------------------------
+
+    private ArrayList<Integer> productionSlotIDs;
+    //------------------------------------------------------------------------------------------------------------------/
 
 
     public Controller (HashMap<String, User> connectedPlayers){
@@ -147,11 +149,15 @@ public class Controller implements ObserverController {
             return;
         }
 
-        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES){
+        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES || currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES){
             selectResources(mex, senderNick, command);
             return;
         }
 
+        if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_QM){
+            selectQM(mex, senderNick, command);
+            return;
+        }
 
         switch (command){
 
@@ -165,9 +171,6 @@ public class Controller implements ObserverController {
 
             case PRODUCE:
                 checkQuestionMarks(mex, senderNick);
-
-                ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
-                System.out.println(produceMessage.getIDs().toString());
                 break;
 
             case PICK_FROM_MARKET:
@@ -468,9 +471,9 @@ public class Controller implements ObserverController {
     }
 
     /**
-     * When the player is in PlayerStatus.SELECTING_BUY_RESOURCES the method is used to receive the resources selected and checking <br>
+     * When the player is in 'PlayerStatus.SELECTING_BUY_RESOURCES' or 'PlayerStatus.PlayerStatus.SELECTING_PRODUCTION_RESOURCES' the method is used to receive the resources selected and checking <br>
      * if the removing of the container goes right.
-     * When the command 'DONE' is received calls buyDevelopmentCard() method
+     * When the command 'DONE' is received calls buyDevelopmentCard() or produce() method
      * @param mex message received
      * @param senderNick current player nickname
      * @param command command received
@@ -488,6 +491,13 @@ public class Controller implements ObserverController {
         if(command == Command.DONE) {
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
                 buyDevelopmentCard(senderNick);
+                currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+                return;
+            }
+
+            if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
+                //produce(senderNick);
+                System.out.println("PRODUZIONE");
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                 return;
             }
@@ -589,7 +599,8 @@ public class Controller implements ObserverController {
      */
     private void checkQuestionMarks(String mex, String senderNick) {
         ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
-        ArrayList<Integer> productionSlotIDs = produceMessage.getIDs();
+        productionSlotIDs = produceMessage.getIDs();
+        int firstID = -1;
 
         if(productionSlotIDs.size() > currPlayer.getProductionSite().getProductionSlots().size()) {
             view.printReply_uni("You don't own this many ProductionSlots! Please type in a valid amount!", senderNick);
@@ -605,8 +616,10 @@ public class Controller implements ObserverController {
                     view.printReply_uni("The selected Production Slot is empty so you cannot use it for production!", senderNick);
                     return;
                 }
-                else if(currProductionSlot.hasQuestionMarks())
+                else if(currProductionSlot.hasQuestionMarks()) {
+                    firstID = id;
                     currPlayer.setPlayerStatus(PlayerStatus.SELECTING_QM);
+                }
             }
 
         }catch (IndexOutOfBoundsException exception) {
@@ -614,8 +627,63 @@ public class Controller implements ObserverController {
             return;
         }
 
-        if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE)
+        if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_QM){
+            view.printReply_uni("Please start filling the Production Slots N: " + firstID + " with resources of your choice", senderNick);
+        }
+
+        if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE) {
             currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
+            view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+        }
+
+    }
+
+    private void selectQM(String mex, String senderNick, Command command){
+        if(command != Command.FILL_QM) {
+            view.printReply_uni("You cannot do this action! Please keep filling the Production Slots with resources of your choice!", senderNick);
+            return;
+        }
+
+        ResourceTypeSend message = gson.fromJson(mex, ResourceTypeSend.class);
+        ArrayList<ResourceType> selectedResources = message.getResourceTypeArrayList();
+        System.out.println(selectedResources);
+
+        for (int id : productionSlotIDs) {
+            ProductionSlot currProductionSlot = currPlayer.getProductionSlotByID(id);
+            int x = 0;      //used to iterate selectedResources
+
+            if(currProductionSlot.hasStillQuestionMarks()) {
+                int QMI = currProductionSlot.getQMI();
+                int QMO = currProductionSlot.getQMO();
+
+                if(QMI + QMO != selectedResources.size()) {
+                    view.printReply_uni("You didn't select the right amount of ResourceType!", senderNick);
+                    return;
+                }
+
+                for(int i = 0; i < QMI; i++) {
+                    currProductionSlot.fillQuestionMarkInput(selectedResources.get(x));
+                    x++;
+                }
+
+                for(int i = 0; i < QMO; i++) {
+                    currProductionSlot.fillQuestionMarkOutput(selectedResources.get(x));
+                    x++;
+                }
+            }
+
+            view.printReply_uni("Resources of your choice for Production Slot N: " + id + " have been filled correctly!", senderNick);
+        }
+
+        for (int id : productionSlotIDs) {
+            if(currPlayer.getProductionSlotByID(id).hasStillQuestionMarks()) {
+                view.printReply_uni("Please start filling the Production Slots N: " + id + " with resources of your choice", senderNick);
+                return;
+            }
+        }
+
+        currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
+        view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
     }
     //------------------------------------------------------------------------------------------------------------------/
 
@@ -719,7 +787,6 @@ public class Controller implements ObserverController {
         marketOut = null;
     }
 
-
     /**
      * Checks if the user typed the SEND_DEPOSIT_ID command that contains the infos about the deposit in which he wants to place the resource
      */
@@ -773,7 +840,6 @@ public class Controller implements ObserverController {
 
         marketOut.removeIf(res -> !res.getResourceType().canAddToDeposit());
     }
-
 
     /**
      * Checks automatically if the user has no place where to put the resource and force him to discard her if there aren't any
