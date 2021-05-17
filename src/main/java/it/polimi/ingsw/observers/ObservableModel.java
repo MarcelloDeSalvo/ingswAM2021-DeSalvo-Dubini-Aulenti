@@ -6,4 +6,6 @@ public interface ObservableModel {
      * Adds a view that observes the Model
      */
     void addView(ObserverModel view);
+
+
 }

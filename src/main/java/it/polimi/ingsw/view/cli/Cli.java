@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -52,6 +53,11 @@ public class Cli extends ClientView {
             case PING:
                 send(new Message.MessageBuilder().setCommand(Command.PONG).
                         setNickname(this.getNickname()).build());
+                break;
+
+            case GAME_SETUP:
+                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
+                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames());
                 break;
 
             case LOBBY_LIST:
@@ -364,7 +370,8 @@ public class Cli extends ClientView {
 
                 case "SC":
                 case "SHOW_CARDGRID":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
+                    System.out.println(getLiteCardGrid().toString());
+                    //send(new Message.MessageBuilder().setCommand(Command.SHOW_CARDGRID).setNickname(this.getNickname()).build());
                     break;
 
                 case "SF":
@@ -617,6 +624,12 @@ public class Cli extends ClientView {
     @Override
     public void printLeaderCardRequest(String nickname) {
 
+    }
+
+    @Override
+    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
+        setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
+        //remaining lightModel
     }
 
 

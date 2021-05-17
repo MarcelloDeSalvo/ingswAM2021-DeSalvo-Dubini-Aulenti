@@ -7,12 +7,10 @@ import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.parser.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.model.resources.ResourceType;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
-import it.polimi.ingsw.view.View;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -147,6 +145,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
+        view.notifyGameSetup(cardgrid.getIDsOnTop(), getNicknames());
     }
 
     /**
@@ -337,7 +336,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     public void addFaithPointsToOtherPlayers(int qty) {
         faithPath.incrementOthersPositions(qty);
 
-        for (String nicks: getPlayerListString()) {
+        for (String nicks: getNicknames()) {
             if(!nicks.equals(getCurrentPlayerNick()))
                 view.notifyFaithPathProgression(qty, nicks);
         }
@@ -478,7 +477,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
 
-    public ArrayList<String> getPlayerListString(){
+    public ArrayList<String> getNicknames(){
         ArrayList<String> nicknames = new ArrayList<>();
 
         for (Player player : playerList) {

@@ -234,6 +234,11 @@ public class VirtualView implements View {
                     .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
     }
 
+    @Override
+    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames){
+        notifyUsers(new GameSetUp(cardGridIDs,nicknames));
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

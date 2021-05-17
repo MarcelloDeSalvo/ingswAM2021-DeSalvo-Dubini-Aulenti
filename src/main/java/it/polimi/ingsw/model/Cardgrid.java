@@ -178,6 +178,19 @@ public class Cardgrid {
 
         return count;
     }
+
+    /**
+     * @returns the ids of the cards that are currently on top
+     */
+    public ArrayList<Integer> getIDsOnTop(){
+        ArrayList<Integer> myIDs= new ArrayList<>();
+        for(int i = 0; i < columns; i++){
+            for(int j = 0; j < rows; j++){
+                myIDs.add(deckGrid[i][j].getDeck().getFirst().getId());
+            }
+        }
+        return  myIDs;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

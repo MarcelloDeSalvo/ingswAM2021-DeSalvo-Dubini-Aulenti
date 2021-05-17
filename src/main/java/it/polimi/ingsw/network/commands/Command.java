@@ -24,6 +24,7 @@ public enum Command {
 
     EXIT_LOBBY      (false,true,false, Status.IN_LOBBY),
     START_GAME      (false,true,false, Status.IN_LOBBY),
+    GAME_SETUP      (false,false,false, Status.IN_GAME),
     PLAYER_LIST     (false, true, false, Status.IN_LOBBY),
 
     DISCARD_LEADER  (false,false,true, Status.IN_GAME),

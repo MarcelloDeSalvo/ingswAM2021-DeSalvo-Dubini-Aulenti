@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view;
 
 
+import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
+import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverController;
@@ -15,7 +18,10 @@ public abstract class ClientView implements View, UserInput {
     private final ArrayList<ObserverController> observerControllers;
 
     private final ArrayList<LeaderCard> leaderCards;
+    private final ArrayList<DevelopmentCard> developmentCards;
+
     private LiteHand hand;
+    private LiteCardGrid liteCardGrid;
 
     public String getNickname() {
         return nickname;
@@ -26,6 +32,7 @@ public abstract class ClientView implements View, UserInput {
 
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
+        developmentCards= DevelopmentCardParser.deserializeDevelopmentList();
         observerControllers = new ArrayList<>();
     }
 
@@ -70,4 +77,10 @@ public abstract class ClientView implements View, UserInput {
     public LiteHand getHand() {
         return hand;
     }
+
+    public LiteCardGrid getLiteCardGrid() { return liteCardGrid; }
+
+    public void setLiteCardGrid(LiteCardGrid liteCardGrid) { this.liteCardGrid = liteCardGrid; }
+
+    public ArrayList<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
 }

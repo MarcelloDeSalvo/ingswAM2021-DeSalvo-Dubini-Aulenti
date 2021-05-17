@@ -8,40 +8,43 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LiteCardGrid {
-    private HashMap<Integer, DevelopmentCard> cardIDs;
+    private ArrayList<Integer> cardIDs;
     private final ArrayList<DevelopmentCard> developmentCards;
 
-    public LiteCardGrid(ArrayList<Integer> initialGrid)throws FileNotFoundException {
-        developmentCards= DevelopmentCardParser.deserializeDevelopmentList();
-        for (Integer id:initialGrid) {
-            cardIDs.put(id, developmentCards.get(id-1));
-        }
+    public LiteCardGrid(ArrayList<Integer> initialGrid, ArrayList<DevelopmentCard> developmentCards){
+        this.developmentCards=developmentCards;
+        cardIDs= new ArrayList<>();
+        cardIDs.addAll(initialGrid);
     }
 
     /**
      * Removes from the gridIDs the passedID and replaces it with the appropriate DevelopmentCard
      */
-    public boolean gridUpdated(int deletedID, int newID) {
-        if (cardIDs.containsKey(deletedID)) {
+    public boolean gridUpdated(Integer deletedID, Integer newID) {
+            int pos=cardIDs.indexOf(deletedID);
             cardIDs.remove(deletedID);
             if(newID!=0)
-                cardIDs.put(newID, developmentCards.get(newID - 1));
+                cardIDs.add(pos, newID);
             return true;
-        }
-        System.out.println("An error occured with the card grid update");
-        return false;
     }
 
 
+
+    /* depends on how Gui works
     /**
      * @returns an arraylist of the current DevelopmentCards
-     */
+     **/
+    /* depends on how Gui works
     public ArrayList<DevelopmentCard> getCardGrid(){
         ArrayList <DevelopmentCard> currentGrid=new ArrayList<>();
         for (Integer id:cardIDs.keySet()) {
             currentGrid.add(cardIDs.get(id));
         }
         return currentGrid;
+    }*/
+
+    public ArrayList<Integer> getCardIDs() {
+        return cardIDs;
     }
 
     @Override

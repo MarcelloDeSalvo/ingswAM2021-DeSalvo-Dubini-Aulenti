@@ -49,4 +49,6 @@ public interface ObserverModel {
     void notifyFaithPathProgression(int qty, String nickname);
     void printLeaderCardRequest(String nickname);
 
+    void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
+
 }

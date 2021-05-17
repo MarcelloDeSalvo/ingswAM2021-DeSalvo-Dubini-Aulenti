@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
@@ -106,7 +105,7 @@ public class Controller implements ObserverController {
      */
     private void setUp_Commands(String mex, String senderNick, Command command){
 
-        int playerNumber = game.getPlayerListString().indexOf(senderNick);
+        int playerNumber = game.getNicknames().indexOf(senderNick);
 
         switch (command){
 
@@ -216,7 +215,7 @@ public class Controller implements ObserverController {
                 break;
 
             case SHOW_FAITHPATH:
-                view.printFaithPath(game.getFaithPath(),senderNick,game.getPlayerListString());
+                view.printFaithPath(game.getFaithPath(),senderNick,game.getNicknames());
                 break;
 
             case END_TURN:
@@ -307,10 +306,10 @@ public class Controller implements ObserverController {
     private void askForResources() {
 
         if (game.getNumOfPlayers() > 2 )
-            view.notifyFaithPathProgression( 1,game.getPlayerListString().get(2));
+            view.notifyFaithPathProgression( 1,game.getNicknames().get(2));
 
         if (game.getNumOfPlayers() > 3)
-            view.notifyFaithPathProgression( 1, game.getPlayerListString().get(3));
+            view.notifyFaithPathProgression( 1, game.getNicknames().get(3));
 
         for (Player player : game.getPlayerList()) {
 
