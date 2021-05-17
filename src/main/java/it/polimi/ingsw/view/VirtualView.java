@@ -216,17 +216,28 @@ public class VirtualView implements View {
 
     //NOTIFIES----------------------------------------------------------------------------------------------------------
     @Override
-    public void notifyFaithPathProgression(int qty, String nickname) {
+    public void notifyCurrentPlayerIncrease(int qty, String nickname) {
 
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
                 .setInfo("Your current position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
-                    .setNickname(nickname).build());
+                .setNickname(nickname).build());
 
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
                 .setInfo(nickname + "'s position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
-                    .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
+                .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
     }
 
+    @Override
+    public void notifyOthersIncrease(int faithpoints, String nickname) {
+
+    }
+
+    @Override
+    public void notifyPapalFavour() {
+
+    }
+
+    @Override
     public void notifyBoughtCard(String nickname) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
                 .setInfo(nickname + " bought a new card!")
@@ -235,6 +246,7 @@ public class VirtualView implements View {
         printReply_uni("You bought the card correctly!", nickname);
     }
 
+    @Override
     public void notifyCardGridChanges(int oldID, int newID){
         notifyUsers(new NotifyCardGrid(oldID, newID));
     }

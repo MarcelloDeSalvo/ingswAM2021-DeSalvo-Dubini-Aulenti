@@ -169,11 +169,11 @@ public class Controller implements ObserverController {
                 break;
 
             case BUY:
+                System.out.println("buy arrived");
                 if(!checkBuy(mex, senderNick, currPlayer))
                     return;
 
                 currPlayer.setPlayerStatus(PlayerStatus.SELECTING_BUY_RESOURCES);
-
                 break;
 
             case PRODUCE:
@@ -302,10 +302,10 @@ public class Controller implements ObserverController {
     private void askForResources() {
 
         if (game.getNumOfPlayers() > 2 )
-            view.notifyFaithPathProgression( 1,game.getNicknames().get(2));
+            view.notifyCurrentPlayerIncrease( 1,game.getNicknames().get(2));
 
         if (game.getNumOfPlayers() > 3)
-            view.notifyFaithPathProgression( 1, game.getNicknames().get(3));
+            view.notifyCurrentPlayerIncrease( 1, game.getNicknames().get(3));
 
         for (Player player : game.getPlayerList()) {
 
@@ -478,7 +478,6 @@ public class Controller implements ObserverController {
 
         if(command == Command.SEND_CONTAINER) {
             SendContainer sendContainer =  gson.fromJson(mex, SendContainer.class);
-            System.out.println("Arrived: " + sendContainer);
 
             if(!removeContainer(sendContainer.getContainer(), sendContainer.getDestination(), sendContainer.getDestinationID(), senderNick))
                 return;

@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.observers.FaithPathListener;
+import it.polimi.ingsw.observers.FaithPathSubject;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 
-public class FaithPath implements ObservableEndGame {
+public class FaithPath implements ObservableEndGame, FaithPathSubject {
     private final ArrayList<Integer> positions;
     private int numOfPlayers;
     private int currentPlayer;
@@ -14,8 +16,10 @@ public class FaithPath implements ObservableEndGame {
     private ArrayList<Character> vaticanReports;
     private ArrayList<Integer> victoryPoints;
     private final ArrayList<ObserverEndGame> observersEndGame;
+    private FaithPathListener faithPathListener;
     private ArrayList<Integer> papalFavours;
     private final ArrayList<playerFavour> playersFavourList;
+    private ArrayList<String> nicknames;
 
 
     /**
@@ -49,7 +53,7 @@ public class FaithPath implements ObservableEndGame {
 
 
     //FAITHPATH METHODS-------------------------------------------------------------------------------------------------
-    public void setUpPositions(int numOfPlayers) {
+    public void setUpPositions(int numOfPlayers, ArrayList<String> nicknames) {
         this.numOfPlayers = numOfPlayers;
         this.currentPlayer = 0;
 
@@ -57,6 +61,8 @@ public class FaithPath implements ObservableEndGame {
             playersFavourList.add(new playerFavour());
             positions.add(0);
         }
+
+        this.nicknames = nicknames;
     }
 
     /**
@@ -82,6 +88,8 @@ public class FaithPath implements ObservableEndGame {
         }
         lastPActivated=positions.get(thisPlayer);
         papalFavours.remove(0);
+
+        faithPathListener.notifyPapalFavour();
 
         return true;
     }
@@ -109,6 +117,7 @@ public class FaithPath implements ObservableEndGame {
                 if (isFirstOnPopeSpace(currentPlayer)) {
                     activatePapalFavour(currentPlayer);
                 }
+                faithPathListener.notifyCurrentPlayerIncrease(faithPoints, nicknames.get(currentPlayer));
                 victoryConditions();
             }
         }
@@ -132,6 +141,7 @@ public class FaithPath implements ObservableEndGame {
                 }
             }
         }
+        faithPathListener.notifyOthersIncrease(faithPoints, nicknames.get(currentPlayer));
         victoryConditions();
     }
 
@@ -162,6 +172,11 @@ public class FaithPath implements ObservableEndGame {
     @Override
     public void addObserver(ObserverEndGame observerEndGame) {
         observersEndGame.add(observerEndGame);
+    }
+
+    @Override
+    public void addListeners(FaithPathListener faithPathListener) {
+        this.faithPathListener = faithPathListener;
     }
 
     @Override

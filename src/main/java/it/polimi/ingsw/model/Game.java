@@ -143,7 +143,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         marbles = MarketSetUpParser.deserializeMarketElements();
 
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp();
-        faithPath.setUpPositions(numOfPlayers);
+        faithPath.setUpPositions(numOfPlayers, getNicknames());
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
@@ -163,7 +163,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         marbles = MarketSetUpParser.deserializeMarketElements(customFiles.get(2));
 
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(customFiles.get(3));
-        faithPath.setUpPositions(numOfPlayers);
+        faithPath.setUpPositions(numOfPlayers, getNicknames());
 
         market = new Market(marbles);
         cardgrid = new Cardgrid(developmentCards);
@@ -331,16 +331,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     //FAITHPATH OBSERVERS---------------------------------------------------------------------------------------------------------
     public void addFaithPointsToCurrentPLayer(int qty) {
         faithPath.incrementPosition(qty);
-        view.notifyFaithPathProgression(qty, getCurrentPlayerNick());
     }
 
     public void addFaithPointsToOtherPlayers(int qty) {
         faithPath.incrementOthersPositions(qty);
-
-        for (String nicks: getNicknames()) {
-            if(!nicks.equals(getCurrentPlayerNick()))
-                view.notifyFaithPathProgression(qty, nicks);
-        }
     }
     //------------------------------------------------------------------------------------------------------------------
 

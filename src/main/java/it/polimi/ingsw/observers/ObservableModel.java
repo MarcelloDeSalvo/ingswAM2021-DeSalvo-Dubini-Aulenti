@@ -7,5 +7,4 @@ public interface ObservableModel {
      */
     void addView(ObserverModel view);
 
-
 }

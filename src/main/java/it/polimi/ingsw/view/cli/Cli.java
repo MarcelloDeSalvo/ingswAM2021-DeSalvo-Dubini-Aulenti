@@ -137,6 +137,7 @@ public class Cli extends ClientView {
                             setInfo("Hello all!").setNickname(this.getNickname()).build());
                     break;
 
+                case "H":
                 case "HELP":
                     printHelp();
                 break;
@@ -171,12 +172,14 @@ public class Cli extends ClientView {
                     send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
                     break;
 
+                case "R":
                 case "REFRESH":
                     send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
                     break;
 
 
                 //LOBBY PHASE-------------------------------------------------------------------------------------------
+                case "EL":
                 case "EXIT_LOBBY":
                     send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
                     break;
@@ -193,6 +196,7 @@ public class Cli extends ClientView {
 
 
                 //GAME PHASE--------------------------------------------------------------------------------------------
+                case "S":
                 case "SELECT":
                     if (!set_up_Container(stdIn))
                         throw new InputMismatchException();
@@ -251,6 +255,7 @@ public class Cli extends ClientView {
                     send(produceMessage);
                     break;
 
+                case "F":
                 case "FILL":
                     ArrayList<ResourceType> QMs = new ArrayList<>();
 
@@ -316,6 +321,7 @@ public class Cli extends ClientView {
                     send(new IdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
                     break;
 
+                case "MV":
                 case "MOVE":
                     int qty = stdIn.nextInt();
                     int sourceId = stdIn.nextInt();
@@ -328,6 +334,7 @@ public class Cli extends ClientView {
                     send(new ManageDepositMessage(qty, sourceId, destId, this.getNickname()));
                     break;
 
+                case "SW":
                 case "SWITCH":
                     int source=stdIn.nextInt();
                     String with = stdIn.next();
@@ -470,61 +477,64 @@ public class Cli extends ClientView {
 
     //PRINTS AND NOTIFIES OF THE VIEW ----------------------------------------------------------------------------------
     public void printHelp(){
-        System.out.println("#_HELP SECTION_#" + "\n" + "\n" +
+        System.out.println(
+                "#_HELP SECTION_#" + "\n" + "\n" +
+                "Syntax: "+"\n"+
+                "[Short Command] COMMAND parameter1 parameter2 ecc.." + "\n" + "\n" +
                 "##############################[NETWORK]##############################" + "\n" +
                 "--------GLOBAL COMMANDS (can be used everywhere)---------" + "\n" +
-                "> QUIT " + "\n" +
+                "> [Q] QUIT " + "\n" +
                 "> CHAT receiver_nickname message" + "\n" +
                 "> CHAT_ALL message" + "\n" +
 
                 "\n" + "--------LOBBY MANAGER COMMANDS---------" + "\n" +
-                "> JOIN lobby_name" + "\n" +
-                "> CREATE lobby_name max_num_of_players" + "\n" +
-                "> REFRESH" + "\n" +
+                "> [J] JOIN lobby_name" + "\n" +
+                "> [CR] CREATE lobby_name max_num_of_players" + "\n" +
+                "> [R] REFRESH" + "\n" +
 
                 "\n" + "--------LOBBY COMMANDS---------" + "\n" +
-                "> EXIT_LOBBY " + "\n" +
-                "> PLAYER_LIST " + "\n" +
-                "> START_GAME " + "\n" +
+                "> [EL] EXIT_LOBBY " + "\n" +
+                "> [SPL] PLAYER_LIST " + "\n" +
+                "> [SG] START_GAME " + "\n" +
 
                 "\n" +"\n" + "##############################[GAME]##############################" +
                 "\n" + "--------SET_UP PHASE COMMANDS---------" + "\n" +
-                "> DISCARD leaderID"+ "\n" +
-                "> SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
+                "> [D] DISCARD leaderID"+ "\n" +
+                "> [S] SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
 
                 "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
-                "> BUY Row Column ProductionSlotID " + "\n" +
-                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
+                "> [B] BUY Row Column ProductionSlotID " + "\n" +
+                "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
-                "> MARKET 'Row' or 'Column' number" + "\n" +
-                "> DEPOSIT depositID" + "\n" +
-                "> CONVERSION ResourceType" + "\n" + "\n" +
+                "> [M] MARKET 'Row' or 'Column' number" + "\n" +
+                "> [D] PUT ResourceType 'IN DEPOSIT' depositID" + "\n" +
+                "> [C] CONVERSION ResourceType" + "\n" + "\n" +
 
-                "> PRODUCE cardID "+ "\n" +
-                "> FILL ResourceType " + "\n" +
-                "> GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
+                "> [P] PRODUCE cardID "+ "\n" +
+                "> [F] FILL ResourceType " + "\n" +
+                "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
-                "> ACTIVATE leaderID"+ "\n" + "\n" +
+                "> [A] ACTIVATE leaderID"+ "\n" + "\n" +
 
-                "> MOVE Qty Source_DepositID 'TO' Destination_DepositID)"+ "\n" + "\n" +
-                "> END_TURN" + "\n" +
+                "> [MV] MOVE Qty Source_DepositID 'TO' Destination_DepositID)"+ "\n" + "\n" +
+                "> [ET] END_TURN" + "\n" +
 
                 "\n" + "--------SHOW COMMANDS---------" + "\n" +
 
-                "> SHOW_MARKET" + "\n" +
-                "> SHOW_CARDGRID" + "\n" +
-                "> SHOW_FAITHPATH" + "\n" +
+                "> [SM] SHOW_MARKET" + "\n" +
+                "> [SC] SHOW_CARDGRID" + "\n" +
+                "> [SF] SHOW_FAITHPATH" + "\n" +
 
-                "> SHOW_BOARD" + "\n" +
-                "> SHOW_DEPOSIT" + "\n" +
-                "> SHOW_VAULT" + "\n" +
-                "> SHOW_PRODUCTION" + "\n" +
+                "> [SB] SHOW_BOARD" + "\n" +
+                "> [SD] SHOW_DEPOSIT" + "\n" +
+                "> [SV] SHOW_VAULT" + "\n" +
+                "> [SP] SHOW_PRODUCTION" + "\n" +
 
-                "> SHOW_HAND" + "\n" +
+                "> [SH] SHOW_HAND" + "\n" +
 
-                "> SHOW_PLAYER nickname" + "\n"
+                "> [SP] SHOW_PLAYER nickname" + "\n"
 
                 );
     }
@@ -566,13 +576,13 @@ public class Cli extends ClientView {
     @Override
     public void printItsYourTurn(String nickname){
         printReply_uni("It is your turn, chose an action: " + "" +
-                "\n1)BUY A CARD (>BUY Row Column ProductionSlotID) " +
-                "\n2)SELECT FROM MARKET (>MARKET Row||Column number)" +
-                "\n3)PRODUCE (>PRODUCE cardID)"+
-                "\n4)ACTIVATE LEADER (>ACTIVATE leaderID)"+
-                "\n5)MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
-                "\n6)END TURN (>END_TURN)" +
-                "\n7)SHOW (>SHOW_objectToShow)" +
+                "\n1) BUY A CARD (>BUY Row Column ProductionSlotID) " +
+                "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
+                "\n3) PRODUCE (>PRODUCE cardID)"+
+                "\n4) ACTIVATE LEADER (>ACTIVATE leaderID)"+
+                "\n5) MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
+                "\n6) END TURN (>END_TURN)" +
+                "\n7) SHOW (>SHOW_objectToShow)" +
                 "\nType HELP to see the full command list ", nickname);
     }
 
@@ -618,7 +628,17 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyFaithPathProgression(int qty, String nickname) {
+    public void notifyCurrentPlayerIncrease(int faithpoints, String nickname) {
+
+    }
+
+    @Override
+    public void notifyOthersIncrease(int faithpoints, String nickname) {
+
+    }
+
+    @Override
+    public void notifyPapalFavour() {
 
     }
 

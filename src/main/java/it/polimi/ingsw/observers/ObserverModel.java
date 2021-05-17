@@ -52,7 +52,6 @@ public interface ObserverModel {
     void askForLeaderCardID(String nickname);
 
     void notifyCardGridChanges(int oldID, int newID);
-    void notifyFaithPathProgression(int qty, String nickname);
     void notifyBoughtCard(String nickname);
     void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
     void notifyLeaderDiscarded(int id, String nickname);
