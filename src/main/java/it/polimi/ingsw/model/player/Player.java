@@ -214,10 +214,19 @@ public class Player implements ObservableModel {
     //PRODUCTION PIPELINE---(Calls the methods of the lowest levels)----------------------------------------------------
     /**
      * Puts all the resources needed to activate the selected production cards and all the resources produced by those cards into a buffer
-     * @param selectedProductionCard is the list of the cards selected by the user
+     * @param selectedProductionCards is the list of the cards selected by the user
      */
-    public boolean fillProductionBuffers(ArrayList<ProductionSlot> selectedProductionCard){
-        return playerBoard.fillProductionBuffers(selectedProductionCard);
+    public boolean fillProductionBuffers(ArrayList<ProductionSlot> selectedProductionCards){
+        return playerBoard.fillProductionBuffers(selectedProductionCards);
+    }
+
+    /**
+     * Checks if the user has enough resources altogether before the user starts to selected them (vault + deposit)
+     *  in order to activate the production
+     * @return true if he has enough total resources
+     */
+    public  boolean hasEnoughResourcesForProduction(){
+        return playerBoard.hasEnoughResourcesForProduction();
     }
 
     /**
@@ -229,6 +238,16 @@ public class Player implements ObservableModel {
      */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded {
         return playerBoard.canProduce(selectedResources);
+    }
+
+    /**
+     * Checks if the resources selected before and now present in the buffers are equal to the ones needed to produce
+     * @return true if he can produce the previously selected cards
+     * @throws NotEnoughResources if the user has not enough resources
+     * @throws DepositSlotMaxDimExceeded if the user selected too many resources
+     */
+    public boolean canProduce() throws NotEnoughResources, DepositSlotMaxDimExceeded {
+        return playerBoard.canProduce();
     }
 
     /**

@@ -37,8 +37,6 @@ public class Controller implements ObserverController {
 
     private ArrayList<Integer> productionSlotIDs;
     //------------------------------------------------------------------------------------------------------------------/
-
-
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
@@ -166,6 +164,8 @@ public class Controller implements ObserverController {
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 999));
+
+                view.printVault(currPlayer.getVault(), senderNick);
                 break;
 
             case BUY:
@@ -491,7 +491,7 @@ public class Controller implements ObserverController {
             }
 
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
-                //produce(senderNick);
+                produce(senderNick);
                 System.out.println("PRODUZIONE");
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                 return;
@@ -589,7 +589,7 @@ public class Controller implements ObserverController {
     //PRODUCTION PHASE ---------------------------------------------------------------------------------------------------------------------PRODUCTION PHASE---------#
     /**
      * Checks if the selected Production Slot are valid and if at least one of the Production Slots has QM to fill, <br>
-     * the current PlayerStatus is set to 'SELECTING_QM' otherwise is set to 'SELECTING_PRODUCTION_RESOURCES'
+     * the currentPlayer PlayerStatus is set to 'SELECTING_QM' otherwise is set to 'SELECTING_PRODUCTION_RESOURCES'
      */
     private void checkQuestionMarks(String mex, String senderNick) {
         ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
@@ -626,10 +626,8 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE) {
-            currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
-            view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+            setUpProduction(senderNick);
         }
-
     }
 
     private void selectQM(String mex, String senderNick, Command command){
@@ -676,13 +674,49 @@ public class Controller implements ObserverController {
             }
         }
 
+        setUpProduction(senderNick);
+    }
+
+    private void setUpProduction(String senderNick) {
+        ArrayList<ProductionSlot> selectedProductionCards = new ArrayList<>();
+
+        for (int id : productionSlotIDs) {
+            selectedProductionCards.add(currPlayer.getProductionSlotByID(id));
+        }
+
+        currPlayer.fillProductionBuffers(selectedProductionCards);
+
+        if(!currPlayer.hasEnoughResourcesForProduction())  {
+            currPlayer.setPlayerStatus(PlayerStatus.IDLE);
+            view.printReply_uni("You don't own enough resources altogether to activate the selected Production Slots!", senderNick);
+            return;
+        }
+
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
         view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
     }
+
+    private void produce(String senderNick) {
+        try{
+            currPlayer.canProduce();
+            currPlayer.produce();
+
+            currPlayer.emptyBuffers();
+
+            view.printReply_uni("Production executed correctly!", senderNick);
+            view.printVault(currPlayer.getVault(), senderNick);
+
+        } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
+            view.printReply_uni(exception.getMessage(), senderNick);
+
+            view.printTurnHelp(senderNick);
+
+            currPlayer.emptyBuffers();
+        }
+    }
     //------------------------------------------------------------------------------------------------------------------/
 
-    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
-
+    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------\
     public void manageDeposit(String mex, String senderNick, Command commandType){
         int qty;
         int sourceID;
@@ -709,7 +743,6 @@ public class Controller implements ObserverController {
         }
 
     }
-
     //------------------------------------------------------------------------------------------------------------------/
 
 
