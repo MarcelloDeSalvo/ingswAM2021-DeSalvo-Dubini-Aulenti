@@ -198,9 +198,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
             currentPlayer = (currentPlayer+1) % numOfPlayers;
             faithPath.setCurrentPlayer(currentPlayer);
             turnNumber++;
+            lorenzoPickAction();
         }
-
-        lorenzoPickAction();
     }
 
     /**
@@ -209,7 +208,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     public void lorenzoPickAction(){
         if (singlePlayer && currentPlayer == 1){
             lorenzo.pickAction(this);
-            nextTurn();
+            if (!gameEnded)
+                nextTurn();
+            else
+                winnerCalculator();
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -436,21 +438,12 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //OTHER METHODS-----------------------------------------------------------------------------------------------------
-    public boolean removeCardFromCardgrid(int id) {
-
-        if (cardgrid.removeDevelopmentCard(id)){
-            view.notifyCardGridChanges(id, cardgrid.getDevelopmentCardOnTop(developmentCards.get(id-1).getColour(), developmentCards.get(id-1).getLevel()).getId());
-            return true;
-        }
-        return false;
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
-
     //OBSERVER METHODS---(end game notify)------------------------------------------------------------------------------
     @Override
     public void updateEndGame() {
+        if (currentPlayer==1 && singlePlayer)
+            lorenzoWon = true;
+
         if (singlePlayer)
             lorenzoWon = faithPath.getPositions(1) == faithPath.getLength()-1;
 

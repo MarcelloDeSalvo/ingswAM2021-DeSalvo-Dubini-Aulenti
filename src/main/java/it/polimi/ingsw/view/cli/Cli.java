@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.model.Cardgrid;
+import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
@@ -667,7 +668,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyCardRemoved(String nick) {
+    public void notifyCardRemoved(int amount, Colour color, int level) {
 
     }
 

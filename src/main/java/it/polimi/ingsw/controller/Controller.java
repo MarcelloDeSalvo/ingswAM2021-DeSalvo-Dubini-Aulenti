@@ -169,7 +169,6 @@ public class Controller implements ObserverController {
                 break;
 
             case BUY:
-                System.out.println("buy arrived");
                 if(!checkBuy(mex, senderNick, currPlayer))
                     return;
 
@@ -218,6 +217,10 @@ public class Controller implements ObserverController {
 
             case END_TURN:
                 //if (ha eseguitoalmeno  una azione primaria )
+                if (game.isGameEnded()){
+                    game.winnerCalculator();
+                    return;
+                }
                 game.nextTurn();
                 currPlayer = game.getCurrentPlayer();
                 view.printItsYourTurn(game.getCurrentPlayerNick());
@@ -576,7 +579,7 @@ public class Controller implements ObserverController {
         currPlayer.buy();
         currPlayer.emptyBuffers();
         currPlayer.insertBoughtCardOn(productionSlotId, newDevelopmentCard);
-        game.removeCardFromCardgrid(newDevelopmentCard.getId());
+        game.getCardgrid().removeDevelopmentCard(newDevelopmentCard.getId());
 
         newDevelopmentCard = null;
         productionSlotId = -1;

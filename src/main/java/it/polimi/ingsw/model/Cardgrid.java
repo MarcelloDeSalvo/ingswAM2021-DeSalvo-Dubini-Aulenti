@@ -44,10 +44,17 @@ public class Cardgrid implements CardGridSubject {
      * @return false if a deck with the chosen parameters isn't found or is empty
      */
     public boolean removeDevelopmentCard(Colour desiredColour, int desiredLevel){
+        int newID;
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getColour()==desiredColour && deckGrid[i][j].getDeck().peek().getLevel()==desiredLevel) {
+                    newID = deckGrid[i][j].getDeck().peek().getId();
                     deckGrid[i][j].getDeck().remove();
+                    if (!deckGrid[i][j].getDeck().isEmpty()){
+                        cardGridListener.notifyCardGridChanges(newID, deckGrid[i][j].getDeck().peek().getId());
+                        return true;
+                    }
+                    cardGridListener.notifyCardGridChanges(newID, -1);
                     return true;
                 }
             }
@@ -65,6 +72,11 @@ public class Cardgrid implements CardGridSubject {
             for (int j = 0; j < rows; j++) {
                 if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getId() == cardID) {
                     deckGrid[i][j].getDeck().remove();
+                    if (!deckGrid[i][j].getDeck().isEmpty()){
+                        cardGridListener.notifyCardGridChanges(cardID, deckGrid[i][j].getDeck().peek().getId());
+                        return true;
+                    }
+                    cardGridListener.notifyCardGridChanges(cardID, -1);
                     return true;
                 }
             }
@@ -77,14 +89,17 @@ public class Cardgrid implements CardGridSubject {
      * Removes a card of a specific colour from the top of a deck in the cardGrid starting with the cards with the lowest level
      */
     public void removeAmountOfDevelopmentCardWithColour(int amount, Colour desiredColour){
+        int l= 0;
         for(int i = 0; i < amount; i++) {
             for (int level = 1; level < 4; level++) {
-                if (removeDevelopmentCard(desiredColour, level))
+                if (removeDevelopmentCard(desiredColour, level)){
+                    l = level;
                     break;
+                }
             }
         }
 
-        cardGridListener.notifyCardRemoved("S");
+        cardGridListener.notifyCardRemoved(amount, desiredColour, l);
     }
 
 

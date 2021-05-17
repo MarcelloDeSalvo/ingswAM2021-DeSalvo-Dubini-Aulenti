@@ -2,6 +2,7 @@ package it.polimi.ingsw.liteModel;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
+import it.polimi.ingsw.view.cli.Color;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -51,8 +52,12 @@ public class LiteCardGrid {
     public String toString() {
         StringBuilder cardGrid = new StringBuilder("\n");
         for (Integer id : cardIDs) {
-            cardGrid.append(developmentCards.get(id-1));
-            cardGrid.append("\n");
+            if (id.equals(-1))
+                cardGrid.append("\n").append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
+            else{
+                cardGrid.append(developmentCards.get(id-1));
+                cardGrid.append("\n");
+            }
         }
         return cardGrid.toString();
     }
