@@ -397,13 +397,10 @@ public class Cli extends ClientView {
 
         }catch (InputMismatchException e){
             stdIn.nextLine();
-            System.out.println(e.getMessage()+"\n");
+            if (e.getMessage()!=null) System.out.println(e.getMessage()+"\n");
             System.out.println("The command you submitted has some wrong parameters, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands"+"\n");
         }
-    /*
-        String skipped;
-        if ((skipped= stdIn.nextLine()).length()>0)
-            System.out.println("Wrong param number: " + skipped);*/
+
         return true;
     }
 

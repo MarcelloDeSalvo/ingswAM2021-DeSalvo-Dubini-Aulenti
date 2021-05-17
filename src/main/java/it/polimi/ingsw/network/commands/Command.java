@@ -8,10 +8,8 @@ public enum Command {
     PING            (true,true,true, Status.IN_LOBBY_MANAGER),
     PONG            (true,true,true, Status.IN_LOBBY_MANAGER),
 
-
-
     QUIT            (true,true,true, Status.IN_LOBBY_MANAGER),
-    HELLO           (true,false,false, Status.IN_LOBBY_MANAGER),
+    HELLO           (true,true,true, Status.IN_LOBBY_MANAGER),
     HELLO_ALL       (true,false,false, Status.IN_LOBBY_MANAGER),
     REPLY           (true,true,true,null),
     CHAT            (true,true,true, Status.IN_LOBBY_MANAGER),
