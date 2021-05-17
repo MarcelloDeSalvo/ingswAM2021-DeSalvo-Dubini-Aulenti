@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
 import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
+import it.polimi.ingsw.observers.gameListeners.CardGridListener;
+import it.polimi.ingsw.observers.gameListeners.CardGridSubject;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
@@ -11,10 +13,11 @@ import java.util.Arrays;
 import java.util.Collections;
 
 
-public class Cardgrid {
+public class Cardgrid implements CardGridSubject {
     private final Deck[][] deckGrid;
     private static final int rows = 3;
     private static final int columns = 4;
+    private CardGridListener cardGridListener;
 
 
     public Cardgrid(ArrayList<DevelopmentCard> fileCards){
@@ -75,12 +78,13 @@ public class Cardgrid {
      */
     public void removeAmountOfDevelopmentCardWithColour(int amount, Colour desiredColour){
         for(int i = 0; i < amount; i++) {
-            second:
-            for(int level = 1; level < 4; level++) {
-                if(removeDevelopmentCard(desiredColour, level))
-                    break second;
+            for (int level = 1; level < 4; level++) {
+                if (removeDevelopmentCard(desiredColour, level))
+                    break;
             }
         }
+
+        cardGridListener.notifyCardRemoved("S");
     }
 
 
@@ -216,6 +220,11 @@ public class Cardgrid {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
+    @Override
+    public void addCardGridListener(CardGridListener cardGridListener) {
+        this.cardGridListener = cardGridListener;
+    }
 
     @Override
     public String toString() {

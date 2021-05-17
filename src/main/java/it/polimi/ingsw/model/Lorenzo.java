@@ -49,7 +49,7 @@ public class Lorenzo implements ObservableEndGame{
     @Override
     public void notifyEndGame() {
         for (ObserverEndGame observer : this.observersEndGame) {
-            observer.update();
+            observer.updateEndGame();
             observer.lorenzoWon();
         }
 

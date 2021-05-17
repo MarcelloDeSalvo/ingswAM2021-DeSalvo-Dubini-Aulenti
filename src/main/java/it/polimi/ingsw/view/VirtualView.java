@@ -26,6 +26,12 @@ public class VirtualView implements View {
     private final ArrayList<ObserverController> observerControllers;
     private final Gson gson;
 
+    public VirtualView() {
+        this.connectedPlayers = new HashMap<>();
+        observerControllers = new ArrayList<>();
+        gson = new Gson();
+    }
+
     public VirtualView(HashMap<String, User> connectedPlayers) {
         this.connectedPlayers = new HashMap<>(connectedPlayers);
         observerControllers = new ArrayList<>();
@@ -264,6 +270,21 @@ public class VirtualView implements View {
     @Override
     public void notifyLeaderActivated(int id, String nickname){
         notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
+    }
+
+    @Override
+    public void notifyCardRemoved(String nick) {
+        printReply("LORENZO has removed a card");
+    }
+
+    @Override
+    public void notifyEndGame(){
+        printReply("# THIS IS THE LAST TURN");
+    }
+
+    @Override
+    public void notifyWinner(ArrayList<String> winners){
+        printReply("[#-_- Winner: "+ winners +" -_-#");
     }
     //------------------------------------------------------------------------------------------------------------------
 

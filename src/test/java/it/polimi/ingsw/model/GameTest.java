@@ -133,7 +133,7 @@ class GameTest {
         game.nextTurn();
 
         nextTurn_check(game, 1);  //first Player
-        game.update();                      //he activates some win conditions
+        game.updateEndGame();                      //he activates some win conditions
         assertTrue(game.isFinalTurn());
         game.nextTurn();                    //ends his turn, but since he's the one sitting to the left of the first player, the game will end in two rounds
 
@@ -164,7 +164,7 @@ class GameTest {
         game.nextTurn();
 
         nextTurn_check(game, 3);  //third Player
-        game.update(); //FinalTurn          //he activates some win conditions
+        game.updateEndGame(); //FinalTurn          //he activates some win conditions
         game.nextTurn();                    //ends his turn, but since he's the one sitting to the right of the first player, the game ends
 
         assertTrue(game.isFinalTurn());

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.observers.FaithPathListener;
-import it.polimi.ingsw.observers.FaithPathSubject;
+import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
+import it.polimi.ingsw.observers.gameListeners.FaithPathSubject;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
 
 
     //FAITHPATH METHODS-------------------------------------------------------------------------------------------------
-    public void setUpPositions(int numOfPlayers, ArrayList<String> nicknames) {
+    public void setUpPositions(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
         this.currentPlayer = 0;
 
@@ -117,10 +117,11 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
                 if (isFirstOnPopeSpace(currentPlayer)) {
                     activatePapalFavour(currentPlayer);
                 }
-                faithPathListener.notifyCurrentPlayerIncrease(faithPoints, nicknames.get(currentPlayer));
                 victoryConditions();
             }
         }
+
+        faithPathListener.notifyCurrentPlayerIncrease(faithPoints, nicknames.get(currentPlayer));
     }
 
     /**
@@ -165,7 +166,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
     @Override
     public void notifyEndGame() {
         for (ObserverEndGame observer : this.observersEndGame) {
-            observer.update();
+            observer.updateEndGame();
         }
     }
 
@@ -176,6 +177,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
 
     @Override
     public void addListeners(FaithPathListener faithPathListener) {
+        System.out.println(faithPathListener);
         this.faithPathListener = faithPathListener;
     }
 
@@ -280,6 +282,9 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
 
     public ArrayList<ObserverEndGame> getObserversEndGame() { return observersEndGame; }
 
+    public void setNicknames(ArrayList<String> nicknames) {
+        this.nicknames = nicknames;
+    }
     //------------------------------------------------------------------------------------------------------------------
 }
 

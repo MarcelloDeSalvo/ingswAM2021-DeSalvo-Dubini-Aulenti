@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
 import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
+import it.polimi.ingsw.view.VirtualView;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -71,7 +72,7 @@ class CardgridTest {
     void actionTokenActivitiesTest() {
         Cardgrid cardgrid = new Cardgrid(developmentCards);
         //cardgrid.printGrid();
-
+        cardgrid.addCardGridListener(new VirtualView());
         cardgrid.removeAmountOfDevelopmentCardWithColour(4, Colour.YELLOW);
         assertNull(cardgrid.getDevelopmentCardOnTop(Colour.YELLOW, 1));
 

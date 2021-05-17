@@ -13,6 +13,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
+import it.polimi.ingsw.view.VirtualView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -62,6 +63,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         standard_deck_start(4);
         newPlayerOrder(strings);
+
+        view = new VirtualView();
+        addView(view);
     }
 
 
@@ -124,6 +128,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         standard_deck_start(2);
         test_single_player_start(playerNickname);
         singlePlayer = true;
+
+        view = new VirtualView();
+        addView(view);
+        faithPath.setNicknames(getNicknames());
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -143,7 +151,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         marbles = MarketSetUpParser.deserializeMarketElements();
 
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp();
-        faithPath.setUpPositions(numOfPlayers, getNicknames());
+        faithPath.setUpPositions(numOfPlayers);
 
         cardgrid = new Cardgrid(developmentCards);
         market = new Market(marbles);
@@ -163,7 +171,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         marbles = MarketSetUpParser.deserializeMarketElements(customFiles.get(2));
 
         faithPath = FaithPathSetUpParser.deserializeFaithPathSetUp(customFiles.get(3));
-        faithPath.setUpPositions(numOfPlayers, getNicknames());
+        faithPath.setUpPositions(numOfPlayers);
 
         market = new Market(marbles);
         cardgrid = new Cardgrid(developmentCards);
@@ -230,6 +238,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
             i++;
         }
 
+        faithPath.setNicknames(playersNicknames);
         distributeRandomLeadersToHands();
         setUpObservers();
     }
@@ -257,6 +266,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
             i++;
         }
 
+        faithPath.setNicknames(playersNicknames);
         distributeRandomLeadersToHands();
         setUpObservers();
     }
@@ -291,6 +301,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         playerList = new ArrayList<>();
         playerList.add(new Player(nickname, 0, faithPath));
         playerList.add(new Player("LORENZO", 1, faithPath));
+
+        faithPath.setNicknames(getNicknames());
 
         currentPlayer = 0;
         setUpObservers_singlePlayer();
@@ -418,6 +430,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         if(evenCounter>1)
             drawDecider(maxPointPlayer);
+
+        view.notifyWinner(winner);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -436,11 +450,12 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
     //OBSERVER METHODS---(end game notify)------------------------------------------------------------------------------
     @Override
-    public void update() {
+    public void updateEndGame() {
         if (singlePlayer)
             lorenzoWon = faithPath.getPositions(1) == faithPath.getLength()-1;
 
         finalTurn = true;
+        view.notifyEndGame();
     }
 
     @Override
@@ -478,6 +493,9 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         for (Player player: playerList) {
             player.addView(view);
         }
+
+        faithPath.addListeners(view);
+        cardgrid.addCardGridListener(view);
     }
     //------------------------------------------------------------------------------------------------------------------
 

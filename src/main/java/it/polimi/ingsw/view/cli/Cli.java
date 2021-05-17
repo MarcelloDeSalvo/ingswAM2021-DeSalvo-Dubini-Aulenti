@@ -665,6 +665,22 @@ public class Cli extends ClientView {
         System.out.println("Leader activated\n");
         getHand().activateLeader(id);
     }
+
+    @Override
+    public void notifyCardRemoved(String nick) {
+
+    }
+
+    @Override
+    public void notifyEndGame() {
+
+    }
+
+    @Override
+    public void notifyWinner(ArrayList<String> winner) {
+
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

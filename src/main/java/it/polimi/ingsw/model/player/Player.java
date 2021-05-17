@@ -14,6 +14,7 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
+import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class Player implements ObservableModel {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
         hand = new ArrayList<>();
+        view = new VirtualView();
     }
 
     public Player(String nickname, int orderID, FaithPath faithPath) {

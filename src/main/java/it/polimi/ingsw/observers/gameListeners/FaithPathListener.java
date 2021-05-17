@@ -1,4 +1,4 @@
-package it.polimi.ingsw.observers;
+package it.polimi.ingsw.observers.gameListeners;
 
 public interface FaithPathListener {
 

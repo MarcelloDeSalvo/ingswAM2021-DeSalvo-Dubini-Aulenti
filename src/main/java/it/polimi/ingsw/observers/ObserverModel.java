@@ -1,14 +1,13 @@
 package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.model.player.deposit.Deposit;
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.IdMessage;
-import it.polimi.ingsw.network.commands.NotifyCardGrid;
-import it.polimi.ingsw.network.commands.Target;
+import it.polimi.ingsw.observers.gameListeners.CardGridListener;
+import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
-public interface ObserverModel {
+public interface ObserverModel extends FaithPathListener, CardGridListener {
     void printHello();
     void printQuit(String nickname);
 
@@ -56,5 +55,7 @@ public interface ObserverModel {
     void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
     void notifyLeaderDiscarded(int id, String nickname);
     void notifyLeaderActivated(int id, String nickname);
+    void notifyEndGame();
+    void notifyWinner(ArrayList<String> winners);
 
 }

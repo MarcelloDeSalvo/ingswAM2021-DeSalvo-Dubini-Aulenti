@@ -154,7 +154,7 @@ class LeaderCardProductionTest {
 
     @Test
     void LeaderProduction() throws FileNotFoundException {
-        Game game = new Game("Ben Dover");
+        Game game = new Game("Ben Dover", true);
 
         Player player = game.getPlayer(0);
         PlayerBoard playerBoard = player.getPlayerBoard();

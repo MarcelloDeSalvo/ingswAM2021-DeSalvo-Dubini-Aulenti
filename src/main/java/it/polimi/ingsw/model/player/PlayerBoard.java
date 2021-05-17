@@ -227,7 +227,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     @Override
     public void notifyEndGame() {
         for (ObserverEndGame observerEndGame: observersEndGame) {
-            observerEndGame.update();
+            observerEndGame.updateEndGame();
         }
     }
 
