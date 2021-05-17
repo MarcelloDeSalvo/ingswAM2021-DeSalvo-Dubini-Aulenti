@@ -234,7 +234,7 @@ public class Cli extends ClientView {
 
                     while(stdIn.hasNext()) {
                         String input = stdIn.next();
-                        if(input.equalsIgnoreCase("STOP"))
+                        if(input.equalsIgnoreCase("DONE"))
                             break;
 
                         try{
@@ -262,7 +262,7 @@ public class Cli extends ClientView {
                     while(stdIn.hasNext()) {
                         String input = stdIn.next();
 
-                        if(input.equalsIgnoreCase("STOP"))
+                        if(input.equalsIgnoreCase("DONE"))
                             break;
 
                         ResourceType questionMarkType = InputCheck.resourceType_null(input);
@@ -511,8 +511,8 @@ public class Cli extends ClientView {
                 "> [D] PUT ResourceType 'IN DEPOSIT' depositID" + "\n" +
                 "> [C] CONVERSION ResourceType" + "\n" + "\n" +
 
-                "> [P] PRODUCE cardID "+ "\n" +
-                "> [F] FILL ResourceType " + "\n" +
+                "> [P] PRODUCE cardID1 cardID2  ...  'DONE' "+ "\n" +
+                "> [F] FILL ResourceType1 ResourceType2  ...  'DONE' " + "\n" +
                 "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
@@ -578,7 +578,7 @@ public class Cli extends ClientView {
         printReply_uni("It is your turn, chose an action: " + "" +
                 "\n1) BUY A CARD (>BUY Row Column ProductionSlotID) " +
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
-                "\n3) PRODUCE (>PRODUCE cardID)"+
+                "\n3) PRODUCE (>PRODUCE cardID1 cardID2 ... 'DONE')"+
                 "\n4) ACTIVATE LEADER (>ACTIVATE leaderID)"+
                 "\n5) MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
                 "\n6) END TURN (>END_TURN)" +
