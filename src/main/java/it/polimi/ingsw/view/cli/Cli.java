@@ -181,8 +181,8 @@ public class Cli extends ClientView {
                     ResourceType marketRes = InputCheck.resourceType_null(stdIn.next());
                     if (marketRes == null) break;
 
-                    String tO = stdIn.next();
-                    if (InputCheck.not_to(tO)) break;
+                    String in = stdIn.next();
+                    if (InputCheck.not_in(in)) break;
 
                     String destination = stdIn.next();
                     if (InputCheck.not_deposit(destination)) break;

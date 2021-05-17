@@ -30,6 +30,9 @@ public class InputCheck {
 
     public static boolean not_with(String x){ return !x.toUpperCase().equals("WITH"); }
 
+    public static boolean not_in(String x){ return !x.toUpperCase().equals("IN"); }
+
+
     public static boolean not_row_or_column(String x){
         return !x.toUpperCase().equals("ROW") && !x.toUpperCase().equals("COLUMN");
     }

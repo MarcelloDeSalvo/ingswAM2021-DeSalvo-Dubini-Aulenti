@@ -705,11 +705,9 @@ public class Controller implements ObserverController {
             qty=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(sourceID).getResourceQty();
         }
         DepositSlot sourceDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(sourceID);
-        //System.out.println("Source is: "+sourceDepositSlot.getDepositContainer().getResourceType());
         DepositSlot destinationDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(destinationID);
 
         try {
-            currPlayer.getPlayerBoard().getDeposit().canTransferDeposit(sourceDepositSlot,qty,destinationDepositSlot);
             currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot,qty,destinationDepositSlot);
 
         }
