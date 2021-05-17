@@ -1,6 +1,5 @@
 package it.polimi.ingsw.liteModel;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 
@@ -8,11 +7,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class liteCardGrid {
+public class LiteCardGrid {
     private HashMap<Integer, DevelopmentCard> cardIDs;
     private final ArrayList<DevelopmentCard> developmentCards;
 
-    public liteCardGrid(ArrayList<Integer> initialGrid)throws FileNotFoundException {
+    public LiteCardGrid(ArrayList<Integer> initialGrid)throws FileNotFoundException {
         developmentCards= DevelopmentCardParser.deserializeDevelopmentList();
         for (Integer id:initialGrid) {
             cardIDs.put(id, developmentCards.get(id-1));
@@ -45,5 +44,10 @@ public class liteCardGrid {
         return currentGrid;
     }
 
-
+    @Override
+    public String toString() {
+        return "LiteCardGrid{" +
+                "developmentCards=" + developmentCards +
+                '}';
+    }
 }

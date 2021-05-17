@@ -58,7 +58,6 @@ public class Controller implements ObserverController {
                     view.printLeaderCardRequest(player.getNickname());
                 }
 
-                currPlayer = game.getPlayer(0);
             }
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
@@ -68,8 +67,9 @@ public class Controller implements ObserverController {
                 view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.printLeaderCardRequest(game.getPlayer(0).getNickname());
 
-                currPlayer = game.getPlayer(0);
             }
+
+            currPlayer = game.getPlayer(0);
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
@@ -154,6 +154,12 @@ public class Controller implements ObserverController {
 
 
         switch (command){
+            case CHEAT_VAULT:
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.STONE, 999));
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 999));
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 999));
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 999));
+                break;
 
             case BUY:
                 if(!checkBuy(mex, senderNick, currPlayer))
@@ -184,11 +190,6 @@ public class Controller implements ObserverController {
 
             case SWITCH_DEPOSIT:
                 manageDeposit(mex,senderNick,Command.SWITCH_DEPOSIT);
-                break;
-
-            case SHOW_HAND:
-                //view.printHand(game.getCurrentPlayer().leaderListToInt(), senderNick);
-                view.printHand(currPlayer.getHandIDs(), senderNick);
                 break;
 
             case SHOW_DEPOSIT:
@@ -263,7 +264,7 @@ public class Controller implements ObserverController {
             return;
         }
 
-        view.printReply_uni("Leader Discarded!", senderNick);
+        view.printDiscardLeader(idMessage.getId(), senderNick);
 
         if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
             view.printReply_uni("You discarded 2 Leaders!" , senderNick);
@@ -565,6 +566,7 @@ public class Controller implements ObserverController {
             view.printReply_uni("The resources you selected aren't correct!", senderNick);
             view.printTurnHelp(senderNick);
             currPlayer.emptyBuffers();
+            return;
         }
 
         currPlayer.buy();
@@ -641,9 +643,7 @@ public class Controller implements ObserverController {
         DepositSlot destinationDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(destinationID);
 
         try {
-            currPlayer.getPlayerBoard().getDeposit().canTransferDeposit(sourceDepositSlot,qty,destinationDepositSlot);
             currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot,qty,destinationDepositSlot);
-
         }
         catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){
             view.printReply_uni(e.getMessage(), senderNick);
@@ -837,7 +837,7 @@ public class Controller implements ObserverController {
             if(lc.getId()==id){
                 if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
                     currPlayer.activateLeader(lc);
-                    view.printReply_uni("Leader activated!", nickname);
+                    view.printActivateLeader(id,nickname);
                     return true;
                 }else {
                     view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);

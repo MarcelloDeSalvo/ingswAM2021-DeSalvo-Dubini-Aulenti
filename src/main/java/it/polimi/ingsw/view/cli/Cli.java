@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.cards.LeaderCard;
-import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
@@ -17,13 +16,13 @@ import java.util.Scanner;
 
 public class Cli extends ClientView {
 
-    private final ArrayList<LeaderCard> leaderCards;
+
     private String nicknameTemp = null;
     private final Scanner stdIn;
     private final Gson gson ;
 
     public Cli() throws FileNotFoundException {
-        leaderCards = LeaderCardParser.deserializeLeaderList();
+        super();
         stdIn = new Scanner(System.in);
         gson = new Gson();
     }
@@ -66,7 +65,18 @@ public class Cli extends ClientView {
 
             case SHOW_HAND:
                 ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                printHand(showHandMessage.getCardsID(), senderNick);
+                setHand(new LiteHand(showHandMessage.getCardsID(), getLeaderCards()));
+                printHand(null, "");
+                break;
+
+            case DISCARD_OK:
+                IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
+                printDiscardLeader(idMessage.getId(),"");
+                break;
+
+            case ACTIVATE_OK:
+                IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
+                printActivateLeader(activatedLeader.getId(), "");
                 break;
 
             case REPLY:
@@ -290,7 +300,7 @@ public class Cli extends ClientView {
                         default_case();
                         break;
                     }
-                    int destin=stdIn.nextInt();
+                    int destin = stdIn.nextInt();
                     send(new SwitchDepositMessage(source,destin,this.getNickname()));
                     break;
 
@@ -300,7 +310,7 @@ public class Cli extends ClientView {
 
                 case "SH":
                 case "SHOW_HAND":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_HAND).setNickname(this.getNickname()).build());
+                    printHand(null, "");
                     break;
 
                 case "SD":
@@ -341,6 +351,10 @@ public class Cli extends ClientView {
                 case "QUIT":
                     send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
                     return false;
+
+                case "CHEAT":           //CHEAT COMMAND
+                    send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(getNickname()).build());
+                    break;
 
                 default:
                     stdIn.nextLine();
@@ -486,6 +500,8 @@ public class Cli extends ClientView {
                 );
     }
 
+
+    //GENERIC PRINTS----------------------------------------------------------------------------------------------------
     @Override
     public void printHello() {
         System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET);
@@ -502,19 +518,6 @@ public class Cli extends ClientView {
         System.out.println(payload + "\n");
     }
 
-
-    @Override
-    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
-        System.out.println("These the Leader Cards in your " + Color.ANSI_CYAN.escape() + "HAND" + Color.ANSI_RESET.escape() + ":\n");
-        for (int id: leaderIDs) {
-            System.out.println("-------------------------------------------------------------------\\");
-            System.out.println(leaderCards.get(id-1).toString());
-            System.out.println("-------------------------------------------------------------------/\n\n");
-        }
-        System.out.println();
-    }
-
-
     @Override
     public void printLobby(ArrayList<String> lobbiesInfos) {
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
@@ -529,6 +532,38 @@ public class Cli extends ClientView {
         }
         System.out.println();
     }
+
+    //GAME PRINTS-------------------------------------------------------------------------------------------------------
+    @Override
+    public void printItsYourTurn(String nickname){
+        printReply_uni("It is your turn, chose an action: " + "" +
+                "\n1)BUY A CARD (>BUY Row Column ProductionSlotID) " +
+                "\n2)SELECT FROM MARKET (>MARKET Row||Column number)" +
+                "\n3)PRODUCE (>PRODUCE cardID)"+
+                "\n4)ACTIVATE LEADER (>ACTIVATE leaderID)"+
+                "\n5)MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
+                "\n6)END TURN (>END_TURN)" +
+                "\n7)SHOW (>SHOW_objectToShow)" +
+                "\nType HELP to see the full command list ", nickname);
+    }
+
+    //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
+    @Override
+    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
+        System.out.println(getHand().toString());
+    }
+
+    public void printDiscardLeader(int id, String nickname){
+        System.out.println("Leader discarded!\n");
+        getHand().discardFromHand(id);
+        printHand(null, "");
+    }
+
+    public void printActivateLeader(int id, String nickname){
+        System.out.println("Leader activated\n");
+        getHand().activateLeader(id);
+    }
+
 
     @Override
     public void printOrder(ArrayList<String> randomOrder) {
@@ -555,19 +590,8 @@ public class Cli extends ClientView {
 
     }
 
-    @Override
-    public void printItsYourTurn(String nickname){
-        printReply_uni("It is your turn, chose an action: " + "" +
-                        "\n1)BUY A CARD (>BUY Row Column ProductionSlotID) " +
-                        "\n2)SELECT FROM MARKET (>MARKET Row||Column number)" +
-                        "\n3)PRODUCE (>PRODUCE cardID)"+
-                        "\n4)ACTIVATE LEADER (>ACTIVATE leaderID)"+
-                        "\n5)MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
-                        "\n6)END TURN (>END_TURN)" +
-                        "\n7)SHOW (>SHOW_objectToShow)" +
-                        "\nType HELP to see the full command list ", nickname);
-    }
 
+    //------------------------------------------------------------------------------------------------------------------
     @Override
     public void printReply_uni(String payload, String nickname) {
         printReply(payload);

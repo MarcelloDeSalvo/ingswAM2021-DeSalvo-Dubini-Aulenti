@@ -10,10 +10,7 @@ import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.network.UserManager;
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.ShowHandMessage;
-import it.polimi.ingsw.network.commands.Target;
+import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
@@ -141,6 +138,14 @@ public class VirtualView implements View {
     @Override
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
         notifyUsers(new ShowHandMessage(leaderIDs, nickname));
+    }
+
+    public void printDiscardLeader(int id, String nickname){
+        notifyUsers(new IdMessage(Command.DISCARD_OK, id, nickname));
+    }
+
+    public void printActivateLeader(int id, String nickname){
+        notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
     }
 
     @Override

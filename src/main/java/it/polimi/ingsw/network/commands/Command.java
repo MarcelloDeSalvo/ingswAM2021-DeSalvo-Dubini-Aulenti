@@ -27,6 +27,11 @@ public enum Command {
     PLAYER_LIST     (false, true, false, Status.IN_LOBBY),
 
     DISCARD_LEADER  (false,false,true, Status.IN_GAME),
+    DISCARD_OK      (false,false,true, Status.IN_GAME),
+    ACTIVATE_OK     (false,false,true, Status.IN_GAME),
+
+    CHEAT_VAULT     (false,false,true, Status.IN_GAME),
+
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),
     PRODUCE         (false, false, true, Status.IN_GAME),
