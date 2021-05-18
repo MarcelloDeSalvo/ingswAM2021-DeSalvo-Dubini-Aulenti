@@ -259,10 +259,10 @@ public class ProductionSite {
     @Override
     public String toString() {
         StringBuilder prodSlots = new StringBuilder();
+        int id = 0;
         for (ProductionSlot prod: productionSlots) {
-            if (!prod.isEmpty())
-                prodSlots.append(prod.toString());
-
+            prodSlots.append(prod.toString(id));
+            id++;
         }
 
         return prodSlots.toString();

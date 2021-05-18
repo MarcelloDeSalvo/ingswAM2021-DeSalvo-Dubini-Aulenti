@@ -159,8 +159,8 @@ abstract class Card {
         stringBuilder.append("(ID: ").append(id).append(") \n");
         stringBuilder.append(" - VictoryPoints: ").append(victoryPoints);
 
-        if(status != null)
-            stringBuilder.append("\n - Status: ").append(status);
+        if(status == Status.ACTIVE)
+            stringBuilder.append("\n - Status: ").append(Color.ANSI_GREEN.escape()).append(status).append(Color.ANSI_RESET.escape());
 
         if(requirements != null){
             stringBuilder.append(Color.ANSI_CYAN.escape()).append("\nRequirements: ").append(Color.ANSI_RESET.escape());

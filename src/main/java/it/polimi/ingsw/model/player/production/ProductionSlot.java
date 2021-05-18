@@ -97,6 +97,8 @@ public interface ProductionSlot {
      * @return the sum of the victoryPoints
      */
     int getVictoryPoints();
+
+    String toString(int id);
     //------------------------------------------------------------------------------------------------------------------
 
 

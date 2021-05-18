@@ -762,7 +762,6 @@ public class Controller implements ObserverController {
         catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){
             view.printReply_uni(e.getMessage(), senderNick);
         }
-
     }
     //------------------------------------------------------------------------------------------------------------------/
 

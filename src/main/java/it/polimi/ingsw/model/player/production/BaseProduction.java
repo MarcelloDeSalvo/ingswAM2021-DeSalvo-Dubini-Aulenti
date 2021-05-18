@@ -127,9 +127,9 @@ public class BaseProduction implements ProductionSlot {
 
     //TO-STRING---------------------------------------------------------------------------------------------------------
     @Override
-    public String toString() {
+    public String toString(int id) {
         StringBuilder prodSlots = new StringBuilder();
-        prodSlots.append(Color.ANSI_WHITE.escape()).append("# BASIC PRODUCTION ------------------ #"+"\n").append(Color.ANSI_RESET.escape());
+        prodSlots.append(Color.ANSI_WHITE.escape()).append("# BASIC PRODUCTION ID: ").append(id).append(" ----------------- #").append(Color.ANSI_RESET.escape()).append("\n").append("\n");
 
         for (int i=0; i<QMI; i++){
             if (i!=0)
@@ -145,7 +145,7 @@ public class BaseProduction implements ProductionSlot {
             prodSlots.append(Color.ANSI_WHITE_BOLD_FRAMED.escape()).append(" ? ").append(Color.ANSI_RESET.escape());
         }
 
-        prodSlots.append("\n"+"\n");
+        prodSlots.append("\n");
         return prodSlots.toString();
     }
     //------------------------------------------------------------------------------------------------------------------

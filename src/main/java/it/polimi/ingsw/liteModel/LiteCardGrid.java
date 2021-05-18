@@ -80,7 +80,7 @@ public class LiteCardGrid {
 
         for (Integer id : cardIDs) {
             if (id.equals(-1))
-                cardGrid.append("\n").append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
+                cardGrid.append("\n").append(Color.ANSI_RED.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
             else{
                 cardGrid.append(developmentCards.get(id-1));
                 cardGrid.append("\n");

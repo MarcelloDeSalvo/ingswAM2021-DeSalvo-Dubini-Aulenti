@@ -150,8 +150,8 @@ public class LeaderCardProduction implements ProductionSlot {
 
     //TO-STRING---------------------------------------------------------------------------------------------------------
     @Override
-    public String toString() {
-        return Color.ANSI_WHITE.escape() + "# DEVELOPMENT SLOT-----------------#" + Color.ANSI_RESET + "\n" +
+    public String toString(int id) {
+        return Color.ANSI_WHITE.escape() + "\n# DEVELOPMENT SLOT ID: " + id + " -----------------#" + Color.ANSI_RESET.escape() + "\n" +
                 productionAbility.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
