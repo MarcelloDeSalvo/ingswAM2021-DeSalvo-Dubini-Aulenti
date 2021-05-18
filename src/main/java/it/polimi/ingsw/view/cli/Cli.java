@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
+import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.cards.Colour;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -66,6 +68,21 @@ public class Cli extends ClientView {
                 ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
                 setHand(new LiteHand(showHandMessage.getCardsID(), getLeaderCards()));
                 printHand(null, "");
+                break;
+
+            case NOTIFY_FAITHPATH_CURRENT:
+                FaithPathUpdateMessage faithPathUpdateMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
+                getLiteFaithPath().incrementPosition(faithPathUpdateMessage.getId(),faithPathUpdateMessage.getSenderNickname());
+                break;
+
+            case NOTIFY_FAITHPATH_OTHERS:
+                FaithPathUpdateMessage faithPathUpdateOthersMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
+                getLiteFaithPath().incrementOthersPositions(faithPathUpdateOthersMessage.getId(),faithPathUpdateOthersMessage.getSenderNickname());
+                break;
+
+            case NOTIFY_FAITHPATH_FAVOURS:
+                PapalFavourUpdateMessage papalFavourUpdateMessage=gson.fromJson(mex, PapalFavourUpdateMessage.class);
+                getLiteFaithPath().incrementPlayerFavours(papalFavourUpdateMessage.getPlayerFavours());
                 break;
 
             case GAME_SETUP:
@@ -382,7 +399,8 @@ public class Cli extends ClientView {
 
                 case "SF":
                 case "SHOW_FAITHPATH":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_FAITHPATH).setNickname(this.getNickname()).build());
+                    printFaithPath();
+                    //send(new Message.MessageBuilder().setCommand(Command.SHOW_FAITHPATH).setNickname(this.getNickname()).build());
                     break;
 
                 case "ET":
@@ -394,6 +412,7 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
                     return false;
 
+                case "BARBAGIALLA":
                 case "CHEAT":           //CHEAT COMMAND
                     send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(getNickname()).build());
                     break;
@@ -602,6 +621,9 @@ public class Cli extends ClientView {
         System.out.println(getLiteCardGrid().toString());
     }
 
+    public void printFaithPath(){ System.out.println(getLiteFaithPath().toString()); }
+
+
     @Override
     public void printOrder(ArrayList<String> randomOrder) {
 
@@ -639,14 +661,14 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyPapalFavour() {
+    public void notifyPapalFavour(ArrayList<Integer> playerFavours, String senderNick) {
 
     }
 
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
-        //remaining lightModel
+        setLiteFaithPathSetUp(nicknames); // Should i be creating a new one each time through parsing?
     }
 
     @Override

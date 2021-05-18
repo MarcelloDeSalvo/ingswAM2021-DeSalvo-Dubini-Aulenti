@@ -2,10 +2,12 @@ package it.polimi.ingsw.view;
 
 
 import it.polimi.ingsw.liteModel.LiteCardGrid;
+import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
+import it.polimi.ingsw.model.parser.FaithPathSetUpParser;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverController;
@@ -19,6 +21,7 @@ public abstract class ClientView implements View, UserInput {
 
     private final ArrayList<LeaderCard> leaderCards;
     private final ArrayList<DevelopmentCard> developmentCards;
+    private LiteFaithPath liteFaithPath;
 
     private LiteHand hand;
     private LiteCardGrid liteCardGrid;
@@ -33,8 +36,11 @@ public abstract class ClientView implements View, UserInput {
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
         developmentCards= DevelopmentCardParser.deserializeDevelopmentList();
+        liteFaithPath= FaithPathSetUpParser.deserializeLiteFaithPathSetUp();
         observerControllers = new ArrayList<>();
     }
+
+    public void setLiteFaithPathSetUp(ArrayList<String> nicknames){ liteFaithPath.setUpPositions(nicknames); }
 
 
     @Override
@@ -84,4 +90,5 @@ public abstract class ClientView implements View, UserInput {
 
     public void setLiteCardGrid(LiteCardGrid liteCardGrid) { this.liteCardGrid = liteCardGrid; }
 
+    public LiteFaithPath getLiteFaithPath() { return liteFaithPath;  }
 }

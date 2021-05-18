@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.parser;
 
+import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.model.FaithPath;
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
@@ -26,6 +27,11 @@ public class FaithPathSetUpParser {
         return FaithPathSetUpParser.deserializeFaithPathSetUp(path);
     }
 
+    public static LiteFaithPath deserializeLiteFaithPathSetUp() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        String path = "src/main/resources/Json/FaithPathSetUp.json";
+        return FaithPathSetUpParser.deserializeLiteFaithPathSetUp(path);
+    }
+
     /**
      * Reads the custom JSON file containing the initial faithpath
      * @return An initialized faithpath without players
@@ -46,6 +52,38 @@ public class FaithPathSetUpParser {
 
         try {
             setUp = gson.fromJson(reader, FaithPath.class);
+
+        }catch (JsonIOException jsonIOException){
+            jsonIOException.printStackTrace();
+            throw new JsonIOException( path + ": File cannot be read by Json");
+
+        }catch (JsonSyntaxException jsonSyntaxException){
+            jsonSyntaxException.printStackTrace();
+            throw new JsonSyntaxException( path + ": File is malformed");
+        }
+
+        return setUp;
+    }
+
+    /**
+     * Reads the custom JSON file containing the initial LiteFaithpath
+     * @throws FileNotFoundException if the file cannot be opened or it's missing
+     * @throws JsonSyntaxException if the file contains some syntax errors;
+     * @throws JsonIOException if the file cannot be read by Json
+     */
+    public static LiteFaithPath deserializeLiteFaithPathSetUp(String path) throws FileNotFoundException,JsonIOException, JsonSyntaxException {
+        Gson gson = new Gson();
+        Reader reader;
+        LiteFaithPath setUp;
+
+        try {
+            reader = new FileReader(path);
+        }catch (FileNotFoundException e){
+            throw new FileNotFoundException( path +  ": File not found");
+        }
+
+        try {
+            setUp = gson.fromJson(reader, LiteFaithPath.class);
 
         }catch (JsonIOException jsonIOException){
             jsonIOException.printStackTrace();

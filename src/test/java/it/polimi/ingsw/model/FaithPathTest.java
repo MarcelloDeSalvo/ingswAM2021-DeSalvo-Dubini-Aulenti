@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -163,10 +164,15 @@ class FaithPathTest {
 
     }
 
-    @Test
+    /*@Test
     void toStringTest(){
-        faithPath.incrementPosition(4);
-        System.out.println(faithPath.toString());
-    }
+        faithPath.incrementPosition(15);
+        ArrayList<String> nicks= new ArrayList<>();
+        nicks.add("Pippo");
+        nicks.add("Pino");
+        nicks.add("Gigi");
+        nicks.add("Francesco");
+        System.out.println(faithPath.toString(nicks));
+    }*/
 
 }

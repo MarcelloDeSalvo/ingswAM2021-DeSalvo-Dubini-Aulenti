@@ -47,6 +47,12 @@ public enum Command {
 
     NOTIFY_CARDGRID (false, false, true, Status.IN_GAME),
     NOTIFY_HAND     (false,false,true,Status.IN_GAME),
+    NOTIFY_FAITHPATH_CURRENT(false,false,true,Status.IN_GAME),
+    NOTIFY_FAITHPATH_OTHERS(false,false,true,Status.IN_GAME),
+    NOTIFY_FAITHPATH_FAVOURS(false,false,true,Status.IN_GAME),
+
+
+
 
     SHOW_FAITHPATH  (false, false, true, Status.IN_GAME),
     SHOW_MYBOARD    (false, false, true, Status.IN_GAME),

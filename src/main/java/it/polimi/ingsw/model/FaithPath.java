@@ -18,7 +18,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
     private final ArrayList<ObserverEndGame> observersEndGame;
     private FaithPathListener faithPathListener;
     private ArrayList<Integer> papalFavours;
-    private final ArrayList<playerFavour> playersFavourList;
+    private final ArrayList<PlayerFavour> playersFavourList;
     private ArrayList<String> nicknames;
 
 
@@ -58,7 +58,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
         this.currentPlayer = 0;
 
         for(int i = 0; i < numOfPlayers; i++){
-            playersFavourList.add(new playerFavour());
+            playersFavourList.add(new PlayerFavour());
             positions.add(0);
         }
 
@@ -82,14 +82,19 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
     public boolean activatePapalFavour(int thisPlayer){
         if(papalFavours.isEmpty())
             return false;
+        ArrayList<Integer> favoursToUpdate=new ArrayList<>();
         for(int i=0;i<numOfPlayers;i++){
-            if((vaticanReports.get(positions.get(i)) == 'P' || vaticanReports.get(positions.get(i)) == 'X') && positions.get(i)>lastPActivated)
+            if((vaticanReports.get(positions.get(i)) == 'P' || vaticanReports.get(positions.get(i)) == 'X') && positions.get(i)>lastPActivated) {
                 playersFavourList.get(i).addFavour(papalFavours.get(0));
+                favoursToUpdate.add(papalFavours.get(0));
+            }
+            else
+                favoursToUpdate.add(0);
         }
         lastPActivated=positions.get(thisPlayer);
         papalFavours.remove(0);
 
-        faithPathListener.notifyPapalFavour();
+        faithPathListener.notifyPapalFavour(favoursToUpdate, nicknames.get(currentPlayer));
 
         return true;
     }
@@ -229,11 +234,21 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
             stringBuilder.append("\n");
 
         }
+        stringBuilder.append("\n");
+
+        stringBuilder.append(Color.ANSI_BLUE.escape()).append("PAPAL FAVOURS: \n").append(Color.ANSI_RESET.escape());
+        int nickNum=0;
+        for (String nickname:nicks) {
+            stringBuilder.append(nickname).append(" : ");
+            for (Integer in:playersFavourList.get(nickNum).getFavours()) {
+                stringBuilder.append(in).append("\t");
+            }
+            stringBuilder.append("\n");
+            nickNum++;
+        }
         return stringBuilder.toString();
     }
     //------------------------------------------------------------------------------------------------------------------
-
-
 
     //GETTERS AND SETTERS-----------------------------------------------------------------------------------------------
     public int getLength() {
@@ -260,7 +275,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
         return papalFavours;
     }
 
-    public ArrayList<playerFavour> getPlayersFavourList() {
+    public ArrayList<PlayerFavour> getPlayersFavourList() {
         return playersFavourList;
     }
 
@@ -290,36 +305,3 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
 
 
 
-//PlayerFavour (Support class)------------------------------------------------------------------------------------------
-class playerFavour{
-    private ArrayList<Integer> Favours;
-
-    public playerFavour() {
-        Favours = new ArrayList<>();
-    }
-
-    public boolean addFavour(int favourAmount){
-        Favours.add(favourAmount);
-        return true;
-    }
-    public boolean isEmpty(){
-        return(Favours.isEmpty());
-    }
-
-    /**
-     * Sums all the integers that represent all the Favours a player has collected over the game.
-     */
-    public int favourVictoryTotal(){
-        int c=0;
-        for (int i :Favours ) {
-            c=c+i;
-        }
-        return c;
-
-    }
-
-    public ArrayList<Integer> getFavours() {
-            return Favours;
-    }
-
-}

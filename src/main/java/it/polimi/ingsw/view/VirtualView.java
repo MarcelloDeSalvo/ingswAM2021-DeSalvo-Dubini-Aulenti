@@ -228,6 +228,8 @@ public class VirtualView implements View {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
                 .setInfo("Your current position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
                 .setNickname(nickname).build());
+        notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_CURRENT,qty,nickname));
+
 
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
                 .setInfo(nickname + "'s position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
@@ -236,11 +238,12 @@ public class VirtualView implements View {
 
     @Override
     public void notifyOthersIncrease(int faithpoints, String nickname) {
-
+        notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_OTHERS,faithpoints,nickname));
     }
 
     @Override
-    public void notifyPapalFavour() {
+    public void notifyPapalFavour(ArrayList<Integer> playerFavours, String nickname) {
+        notifyUsers(new PapalFavourUpdateMessage(playerFavours,nickname));
 
     }
 
