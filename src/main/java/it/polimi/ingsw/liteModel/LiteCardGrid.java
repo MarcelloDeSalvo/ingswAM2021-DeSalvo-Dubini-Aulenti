@@ -29,6 +29,31 @@ public class LiteCardGrid {
             return true;
     }
 
+    public void printGridIDs(){
+        StringBuilder IDGrid = new StringBuilder();
+        IDGrid.append(Color.ANSI_CYAN.escape()).append("CARD IDs:").append(Color.ANSI_RESET.escape()).append("\n");
+        IDGrid.append("          ");
+
+        for(int i=-1; i<3; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(i == -1) {
+                    if(j!=3)
+                        IDGrid.append("\t").append("\t").append("  ").append(developmentCards.get((j * 12) + 1).getColour().toString()).append("\t");
+                    else
+                        IDGrid.append("\t").append("  ").append(developmentCards.get((j * 12) + 1).getColour().toString()).append("\t");
+                }
+
+                else{
+                    if(j == 0)
+                        IDGrid.append("LEVEL: ").append(i+1).append("\t").append("|").append("\t").append("\t");
+                    IDGrid.append(cardIDs.get(i+j*3)).append("\t").append("\t").append("|").append("\t").append("\t");
+                }
+            }
+            IDGrid.append("\n");
+        }
+        System.out.println(IDGrid.toString());
+    }
+
 
 
     /* depends on how Gui works
@@ -51,6 +76,8 @@ public class LiteCardGrid {
     @Override
     public String toString() {
         StringBuilder cardGrid = new StringBuilder("\n");
+        cardGrid.append(Color.ANSI_CYAN.escape()).append("CARDS:").append(Color.ANSI_RESET.escape()).append("\n");
+
         for (Integer id : cardIDs) {
             if (id.equals(-1))
                 cardGrid.append("\n").append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");

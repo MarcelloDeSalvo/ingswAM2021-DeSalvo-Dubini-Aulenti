@@ -321,7 +321,7 @@ public class Cli extends ClientView {
                     break;
 
                 case "C":
-                case "CONVERSION":
+                case "CONVERT":
                     ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
                     if (conversionType == null) throw new InputMismatchException("Invalid resourceType");
 
@@ -619,6 +619,7 @@ public class Cli extends ClientView {
 
     public void printCardGrid(Cardgrid cardgrid, String nickname){
         System.out.println(getLiteCardGrid().toString());
+        getLiteCardGrid().printGridIDs();
     }
 
     public void printFaithPath(){ System.out.println(getLiteFaithPath().toString()); }

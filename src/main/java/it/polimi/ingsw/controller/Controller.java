@@ -454,8 +454,8 @@ public class Controller implements ObserverController {
 
             newDevelopmentCard = selectedCard;
             this.productionSlotId = id;
-
-            view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+            view.printReply_uni("The card you selected requires: " +selectedCard.priceToString()+
+                    "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
             return true;
 
         } catch (InvalidColumnNumber | InvalidRowNumber exception) {
