@@ -54,7 +54,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener {
     void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
     void notifyLeaderDiscarded(int id, String nickname);
     void notifyLeaderActivated(int id, String nickname);
-    void notifyEndGame();
+    void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
 
 }

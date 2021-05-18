@@ -727,7 +727,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyEndGame() {
+    public void notifyLastTurn() {
         printReply("# THIS IS THE LAST TURN");
     }
 

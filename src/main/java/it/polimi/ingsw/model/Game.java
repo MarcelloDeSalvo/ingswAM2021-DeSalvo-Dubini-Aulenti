@@ -4,8 +4,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
-import it.polimi.ingsw.model.exceptions.InvalidColumnNumber;
-import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
 import it.polimi.ingsw.model.parser.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -183,37 +181,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     public void startGame(){
         gameStarted = true;
     }
-
-    /**
-     * Ends the round and changes the current player
-     */
-    public void nextTurn(){
-
-        if (  (((currentPlayer+1)%numOfPlayers == 0) || (currentPlayer==0 && singlePlayer )) && finalTurn){
-            gameEnded = true;
-            gameStarted = false;
-        }
-
-        if(!gameEnded && gameStarted) {
-            currentPlayer = (currentPlayer+1) % numOfPlayers;
-            faithPath.setCurrentPlayer(currentPlayer);
-            turnNumber++;
-            lorenzoPickAction();
-        }
-    }
-
-    /**
-     * Lorenzo's turn
-     */
-    public void lorenzoPickAction(){
-        if (singlePlayer && currentPlayer == 1){
-            lorenzo.pickAction(this);
-            if (!gameEnded)
-                nextTurn();
-            else
-                winnerCalculator();
-        }
-    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -341,8 +308,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     //------------------------------------------------------------------------------------------------------------------
 
 
-
-    //FAITHPATH OBSERVERS---------------------------------------------------------------------------------------------------------
+    //FAITHPATH OBSERVERS-----------------------------------------------------------------------------------------------
     public void addFaithPointsToCurrentPLayer(int qty) {
         faithPath.incrementPosition(qty);
     }
@@ -352,6 +318,40 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
+    //TURN MANAGER------------------------------------------------------------------------------------------------------
+    /**
+     * Ends the round and changes the current player
+     */
+    public void nextTurn(){
+
+        if(!gameEnded && gameStarted) {
+            currentPlayer = (currentPlayer+1) % numOfPlayers;
+            faithPath.setCurrentPlayer(currentPlayer);
+            turnNumber++;
+            lorenzoPickAction();
+        }
+
+        if (  (((currentPlayer+1)%numOfPlayers == 0) || (currentPlayer==0 && singlePlayer )) && finalTurn){
+            gameEnded = true;
+            gameStarted = false;
+        }
+
+        if (gameEnded&&!singlePlayer)
+            winnerCalculator();
+    }
+
+    /**
+     * Lorenzo's turn
+     */
+    public void lorenzoPickAction(){
+        if (singlePlayer && currentPlayer == 1){
+            view.printItsYourTurn(getCurrentPlayerNick());
+            lorenzo.pickAction(this);
+            nextTurn();
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
 
     //PICKING THE WINNERS-----------------------------------------------------------------------------------------------
@@ -364,7 +364,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         if(singlePlayer) {
             winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
-            return calculatePlayerVictoryPoints(playerList.get(1));
+            return calculatePlayerVictoryPoints(playerList.get(0));
         }
 
         int max = 0;
@@ -441,14 +441,22 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     //OBSERVER METHODS---(end game notify)------------------------------------------------------------------------------
     @Override
     public void updateEndGame() {
-        if (currentPlayer==1 && singlePlayer)
-            lorenzoWon = true;
 
-        if (singlePlayer)
-            lorenzoWon = faithPath.getPositions(1) == faithPath.getLength()-1;
+        if (singlePlayer){
+            if (currentPlayer==1)
+                lorenzoWon();
+            else if(faithPath.getPositions(1) == faithPath.getLength()-1)
+                lorenzoWon();
+
+            System.out.println("POINTS " + winnerCalculator());
+            view.notifyWinner(winner);
+            gameEnded = true;
+            gameStarted = false;
+            return;
+        }
 
         finalTurn = true;
-        view.notifyEndGame();
+        view.notifyLastTurn();
     }
 
     @Override

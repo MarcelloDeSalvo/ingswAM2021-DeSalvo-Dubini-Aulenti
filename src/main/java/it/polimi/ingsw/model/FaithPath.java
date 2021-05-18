@@ -116,6 +116,8 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
      * @param faithPoints qty of FAITHPOINTs
      */
     public void incrementPosition(int faithPoints) {
+        faithPathListener.notifyCurrentPlayerIncrease(faithPoints, nicknames.get(currentPlayer));
+
         for(int i = 0; i < faithPoints; i++){
             if(positions.get(currentPlayer) != length-1) {
                 positions.set(currentPlayer, positions.get(currentPlayer) + 1);
@@ -125,8 +127,6 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
                 victoryConditions();
             }
         }
-
-        faithPathListener.notifyCurrentPlayerIncrease(faithPoints, nicknames.get(currentPlayer));
     }
 
     /**
@@ -135,6 +135,8 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
      * @param faithPoints qty of FAITHPOINTs
      */
     public void incrementOthersPositions(int faithPoints) {
+        faithPathListener.notifyOthersIncrease(faithPoints, nicknames.get(currentPlayer));
+
         for(int j = 0; j < faithPoints; j++) {
             for (int i = 0; i < numOfPlayers; i++) {
                 if (i != currentPlayer && positions.get(i) != length - 1) {
@@ -147,7 +149,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
                 }
             }
         }
-        faithPathListener.notifyOthersIncrease(faithPoints, nicknames.get(currentPlayer));
+
         victoryConditions();
     }
 
@@ -159,13 +161,6 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
             if (position == length-1)
                 notifyEndGame();
         }
-
-        if(positions.get(1) == length-1){
-            for (ObserverEndGame observer : this.observersEndGame) {
-                observer.lorenzoWon();
-            }
-        }
-
     }
 
     @Override

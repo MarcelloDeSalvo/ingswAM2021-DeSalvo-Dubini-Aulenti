@@ -273,7 +273,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyEndGame(){
+    public void notifyLastTurn(){
         printReply("# THIS IS THE LAST TURN");
     }
 
@@ -284,7 +284,7 @@ public class VirtualView implements View {
             winnerz+=winner;
             winnerz+=" ";
         }
-        printReply("[#-_- Winners: "+ winnerz +" -_-#");
+        printReply("[#-_- Winners: "+ winnerz +" -_-#]");
     }
     //------------------------------------------------------------------------------------------------------------------
 

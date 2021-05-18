@@ -50,7 +50,6 @@ public class Lorenzo implements ObservableEndGame{
     public void notifyEndGame() {
         for (ObserverEndGame observer : this.observersEndGame) {
             observer.updateEndGame();
-            observer.lorenzoWon();
         }
 
     }

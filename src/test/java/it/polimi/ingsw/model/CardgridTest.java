@@ -31,7 +31,7 @@ class CardgridTest {
     }
 
     @Test
-    void cardGridGetDevelopmentCardOnTopTest() throws FileNotFoundException, InvalidRowNumber, InvalidColumnNumber {
+    void cardGridGetDevelopmentCardOnTopTest() throws InvalidRowNumber, InvalidColumnNumber {
         Cardgrid cardgrid=new Cardgrid(developmentCards);
         //cardgrid.printGreenCardsLevel1();
         DevelopmentCard tempCard;
@@ -42,8 +42,10 @@ class CardgridTest {
     }
 
     @Test
-    void removeDevelopmentCardTest()throws FileNotFoundException{
+    void removeDevelopmentCardTest(){
         Cardgrid cardgrid=new Cardgrid(developmentCards);
+        cardgrid.addCardGridListener(new VirtualView());
+
         Deck greenLevel3s;
         greenLevel3s = cardgrid.getDeckFromGrid(Colour.GREEN,3);
         DevelopmentCard cardNum1=greenLevel3s.getDeck().get(0);

@@ -140,13 +140,13 @@ public class Controller implements ObserverController {
     private void turnPhase_Commands(String mex, String senderNick, Command command){
 
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
+            if (command==Command.MANAGE_DEPOSIT||command==Command.SWITCH_DEPOSIT)
+                manageDeposit(mex,senderNick,Command.MANAGE_DEPOSIT);
             selectDestinationAfterMarket( mex, senderNick, command);
             return;
         }
 
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_CONVERSION){
-            if (command==Command.MANAGE_DEPOSIT||command==Command.SWITCH_DEPOSIT)
-                manageDeposit(mex,senderNick,Command.MANAGE_DEPOSIT);
             mustConvert(mex, command, senderNick);
             return;
         }
@@ -167,7 +167,7 @@ public class Controller implements ObserverController {
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 999));
-
+                game.addFaithPointsToCurrentPLayer(12);
                 view.printVault(currPlayer.getVault(), senderNick);
                 break;
 
@@ -217,11 +217,14 @@ public class Controller implements ObserverController {
 
             case END_TURN:
                 //if (ha eseguitoalmeno  una azione primaria )
+                game.nextTurn();
+
                 if (game.isGameEnded()){
-                    game.winnerCalculator();
+                    view.printReply_uni("The game is ended", senderNick);
+                    //sistemare qua con printEnd che porta i giocatori nella lobby
                     return;
                 }
-                game.nextTurn();
+
                 currPlayer = game.getCurrentPlayer();
                 view.printItsYourTurn(game.getCurrentPlayerNick());
                 break;
