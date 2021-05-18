@@ -242,7 +242,7 @@ public class Cli extends ClientView {
 
                 case "B":
                 case "BUY":
-                    BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
+                    BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
                     send(buyMessage);
                     break;
 
@@ -523,7 +523,7 @@ public class Cli extends ClientView {
                 "> [S] SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
 
                 "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
-                "> [B] BUY Row Column ProductionSlotID " + "\n" +
+                "> [B] BUY DevelopmentCardID ProductionSlotID " + "\n" +
                 "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
@@ -596,7 +596,7 @@ public class Cli extends ClientView {
     @Override
     public void printItsYourTurn(String nickname){
         printReply_uni("It is your turn, chose an action: " + "" +
-                "\n1) BUY A CARD (>BUY Row Column ProductionSlotID) " +
+                "\n1) BUY A CARD (>BUY DevelopmentCardID ProductionSlotID) " +
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
                 "\n3) PRODUCE (>PRODUCE productionID1 productionID2 ... 'DONE')"+
                 "\n4) ACTIVATE LEADER (>ACTIVATE leaderID)"+

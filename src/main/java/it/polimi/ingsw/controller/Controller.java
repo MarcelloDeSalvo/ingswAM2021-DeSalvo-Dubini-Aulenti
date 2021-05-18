@@ -435,12 +435,16 @@ public class Controller implements ObserverController {
      */
     private boolean checkBuy(String mex, String senderNick, Player currPlayer) {
         BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-        int row = buyMessage.getRow();
-        int column = buyMessage.getColumn();
+        int cardID = buyMessage.getCardID();
         int id = buyMessage.getProductionSlotID();
 
         try {
-            DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
+            DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(cardID);
+
+            if(selectedCard == null) {
+                view.printReply_uni("The card selected is not purchasable at the moment OR does not exist! Please select another ID", senderNick);
+                return false;
+            }
 
             if(!currPlayer.hasEnoughResources(selectedCard.getDiscountedPrice(currPlayer.getPlayerBoard()))) {
                 view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
@@ -454,18 +458,13 @@ public class Controller implements ObserverController {
 
             newDevelopmentCard = selectedCard;
             this.productionSlotId = id;
-            view.printReply_uni("The card you selected requires: " +selectedCard.priceToString()+
+            view.printReply_uni("The card you selected requires: " + selectedCard.priceToString() +
                     "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
             return true;
 
-        } catch (InvalidColumnNumber | InvalidRowNumber exception) {
-            view.printReply_uni(exception.getMessage(), senderNick);
-            return false;
-
-        }catch (IndexOutOfBoundsException exception){
+        } catch (IndexOutOfBoundsException exception) {
             view.printReply_uni("The selected Production Slot does not exists!", senderNick);
             return false;
-
         }
     }
 
@@ -495,7 +494,6 @@ public class Controller implements ObserverController {
 
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
                 produce(senderNick);
-                System.out.println("PRODUZIONE");
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                 return;
             }
