@@ -538,6 +538,7 @@ public class Cli extends ClientView {
                 "> [A] ACTIVATE leaderID"+ "\n" + "\n" +
 
                 "> [MV] MOVE Qty Source_DepositID 'TO' Destination_DepositID)"+ "\n" + "\n" +
+                "> [SW] SWITCH Source_DepositID 'WITH' Destination_DepositID)"+ "\n" + "\n" +
                 "> [ET] END_TURN" + "\n" +
 
                 "\n" + "--------SHOW COMMANDS---------" + "\n" +
@@ -599,7 +600,7 @@ public class Cli extends ClientView {
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
                 "\n3) PRODUCE (>PRODUCE productionID1 productionID2 ... 'DONE')"+
                 "\n4) ACTIVATE LEADER (>ACTIVATE leaderID)"+
-                "\n5) MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID)"+
+                "\n5) MANAGE DEPOSIT (>MOVE Qty Source_DepositID TO Destination_DepositID, SWITCH DepositID1 'WITH' DepositID2)"+
                 "\n6) END TURN (>END_TURN)" +
                 "\n7) SHOW (>SHOW_objectToShow)" +
                 "\nType HELP to see the full command list ", nickname);

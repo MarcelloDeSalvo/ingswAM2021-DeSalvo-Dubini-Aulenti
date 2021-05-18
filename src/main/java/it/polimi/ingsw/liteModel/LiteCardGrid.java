@@ -42,8 +42,10 @@ public class LiteCardGrid {
                 else{
                     if(j == 0)
                         IDGrid.append("LEVEL: ").append(i+1).append("\t").append("|").append("\t").append("\t");
-                    IDGrid.append(cardIDs.get(c+j*3)).append("\t").append("\t").append("|").append("\t").append("\t");
-
+                    if(cardIDs.get(c+j*3)!= -1)
+                        IDGrid.append(cardIDs.get(c+j*3)).append("\t").append("\t").append("|").append("\t").append("\t");
+                    else
+                        IDGrid.append(Color.ANSI_RED.escape()).append("X").append(Color.ANSI_RESET.escape()).append("\t").append("\t").append("|").append("\t").append("\t");
                 }
             }
             c++;
