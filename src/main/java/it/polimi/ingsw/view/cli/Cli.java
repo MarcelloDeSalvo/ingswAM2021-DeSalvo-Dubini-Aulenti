@@ -394,7 +394,7 @@ public class Cli extends ClientView {
 
                 case "SC":
                 case "SHOW_CARDGRID":
-                    printCardGrid(null, "");
+                    printCardGrid();
                     break;
 
                 case "SF":
@@ -617,7 +617,7 @@ public class Cli extends ClientView {
 
     }
 
-    public void printCardGrid(Cardgrid cardgrid, String nickname){
+    public void printCardGrid(){
         System.out.println(getLiteCardGrid().toString());
         getLiteCardGrid().printGridIDs();
     }
