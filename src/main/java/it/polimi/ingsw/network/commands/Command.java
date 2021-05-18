@@ -51,10 +51,6 @@ public enum Command {
     NOTIFY_FAITHPATH_OTHERS(false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_FAVOURS(false,false,true,Status.IN_GAME),
 
-
-
-
-    SHOW_FAITHPATH  (false, false, true, Status.IN_GAME),
     SHOW_MYBOARD    (false, false, true, Status.IN_GAME),
     SHOW_PLAYER     (false, false, true, Status.IN_GAME),
     SHOW_DEPOSIT    (false, false, true, Status.IN_GAME),

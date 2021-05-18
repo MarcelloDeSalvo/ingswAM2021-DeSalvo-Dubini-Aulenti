@@ -173,8 +173,6 @@ public class VirtualView implements View {
         notifyUsers(new ShowHandMessage(leaderIDs, nickname));
     }
 
-
-
     @Override
     public void printDeposit(Deposit deposit, String nickname) {
         printReply_uni(deposit.toString(), nickname);
@@ -205,6 +203,7 @@ public class VirtualView implements View {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
     //SERVER REQUESTS---------------------------------------------------------------------------------------------------
     @Override
     public void askForLeaderCardID(String nickname) {
@@ -221,19 +220,11 @@ public class VirtualView implements View {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
     //NOTIFIES----------------------------------------------------------------------------------------------------------
     @Override
     public void notifyCurrentPlayerIncrease(int qty, String nickname) {
-
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
-                .setInfo("Your current position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
-                .setNickname(nickname).build());
-        notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_CURRENT,qty,nickname));
-
-
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY) //AL POSTO DI Command.REPLY DOVREMMO METTERE QUELLO CHE MOSTRA IL TRACCIATO FEDE IN CLI
-                .setInfo(nickname + "'s position has been incremented by " + qty + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape())
-                .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
+        notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_CURRENT, qty, nickname));
     }
 
     @Override
@@ -288,7 +279,12 @@ public class VirtualView implements View {
 
     @Override
     public void notifyWinner(ArrayList<String> winners){
-        printReply("[#-_- Winner: "+ winners +" -_-#");
+        String winnerz="";
+        for (String winner : winners) {
+            winnerz+=winner;
+            winnerz+=" ";
+        }
+        printReply("[#-_- Winners: "+ winnerz +" -_-#");
     }
     //------------------------------------------------------------------------------------------------------------------
 
