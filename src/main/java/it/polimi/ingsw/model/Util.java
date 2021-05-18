@@ -85,4 +85,22 @@ public class Util {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+    //UTILITY ----------------------------------------------------------------------------------------------------------
+    public static String mapToString (HashMap<ResourceType, ResourceContainer> inputMap) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = 0;
+
+        for(ResourceType key : inputMap.keySet()){
+            stringBuilder.append(inputMap.get(key).getQty()).append(" ").append(key);
+
+            i++;
+
+            if(i < inputMap.size())
+                stringBuilder.append(" + ");
+        }
+
+        return stringBuilder.toString();
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 }

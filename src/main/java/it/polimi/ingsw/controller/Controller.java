@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.*;
@@ -425,7 +426,7 @@ public class Controller implements ObserverController {
 
     //BUY PHASE ---------------------------------------------------------------------------------------------------------------------BUY PHASE---------#
     /**
-     * Checks if the user has enough resources in total before asking him to type where does he want to
+     * Checks if the user has enough resources in total to buy the selected DevelopmentCard
      * @param mex  message received
      * @param senderNick is the player's nickname that wants to buy the card
      * @param currPlayer current player
@@ -469,7 +470,7 @@ public class Controller implements ObserverController {
     /**
      * When the player is in 'PlayerStatus.SELECTING_BUY_RESOURCES' or 'PlayerStatus.PlayerStatus.SELECTING_PRODUCTION_RESOURCES' the method is used to receive the resources selected and checking <br>
      * if the removing of the container goes right.
-     * When the command 'DONE' is received calls buyDevelopmentCard() or produce() method
+     * When the command 'DONE' is received calls 'buyDevelopmentCard()' or 'produce()' method
      * @param mex message received
      * @param senderNick current player nickname
      * @param command command received
@@ -504,8 +505,8 @@ public class Controller implements ObserverController {
     /**
      * Checks if the curr player owns enough resources to remove 'resourceContainer'.
      * Then if the 'destination' is:
-     *  - 'vault', vault's buffer gets filled
-     *  - 'deposit', the specific deposit id's buffer gets filled
+     *  - 'VAULT', vault's buffer gets filled
+     *  - 'DEPOSIT', the specific deposit id's buffer gets filled
      * This method also notifies the view on what happens using specific messages
      * @param resourceContainer the container that i want to remove (use as a payment)
      * @param destination 'deposit' or 'vault'
@@ -706,7 +707,9 @@ public class Controller implements ObserverController {
         }
 
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
-        view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+
+        view.printReply_uni("The ProductionSlots you selected requires: " + Util.mapToString(currPlayer.getProductionSite().getBufferInputMap()) +
+        "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
     }
 
     /**
