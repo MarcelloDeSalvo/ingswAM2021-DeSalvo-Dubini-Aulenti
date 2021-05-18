@@ -98,7 +98,7 @@ public class  DevelopmentCard extends Card{
         stringBuilder.append(" - Level: ").append(level).append("\n");
 
         if(getStatus() == Status.ON_TOP)
-            stringBuilder.append(" - Status: ").append(Color.ANSI_GREEN.escape()).append(getStatus()).append(Color.ANSI_RESET.escape()).append("\n");
+            stringBuilder.append(" - Status: ").append(Color.ANSI_CYAN.escape()).append(getStatus()).append(Color.ANSI_RESET.escape()).append("\n");
 
         ArrayList<ResourceContainer> price = getPrice();
         if(price != null) {

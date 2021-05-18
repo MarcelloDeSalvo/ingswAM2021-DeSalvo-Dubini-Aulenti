@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.exceptions.*;
@@ -144,6 +145,8 @@ public class Controller implements ObserverController {
         }
 
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_CONVERSION){
+            if (command==Command.MANAGE_DEPOSIT||command==Command.SWITCH_DEPOSIT)
+                manageDeposit(mex,senderNick,Command.MANAGE_DEPOSIT);
             mustConvert(mex, command, senderNick);
             return;
         }
@@ -169,6 +172,7 @@ public class Controller implements ObserverController {
                 break;
 
             case BUY:
+                //System.out.println("BUY ARRIVED");
                 if(!checkBuy(mex, senderNick, currPlayer))
                     return;
 
@@ -211,10 +215,6 @@ public class Controller implements ObserverController {
                 view.printMarket(game.getMarket(), senderNick);
                 break;
 
-            case SHOW_FAITHPATH:
-                view.printFaithPath(game.getFaithPath(),senderNick,game.getNicknames());
-                break;
-
             case END_TURN:
                 //if (ha eseguitoalmeno  una azione primaria )
                 if (game.isGameEnded()){
@@ -243,7 +243,6 @@ public class Controller implements ObserverController {
         }
         return true;
     }
-
 
     //GAME SETUP PHASE---------------------------------------------------------------------------------------------------------------GAME SETUP PHASE----#
     /**
@@ -427,7 +426,7 @@ public class Controller implements ObserverController {
 
     //BUY PHASE ---------------------------------------------------------------------------------------------------------------------BUY PHASE---------#
     /**
-     * Checks if the user has enough resources in total before asking him to type where does he want to
+     * Checks if the user has enough resources in total to buy the selected DevelopmentCard
      * @param mex  message received
      * @param senderNick is the player's nickname that wants to buy the card
      * @param currPlayer current player
@@ -435,12 +434,16 @@ public class Controller implements ObserverController {
      */
     private boolean checkBuy(String mex, String senderNick, Player currPlayer) {
         BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-        int row = buyMessage.getRow();
-        int column = buyMessage.getColumn();
+        int cardID = buyMessage.getCardID();
         int id = buyMessage.getProductionSlotID();
 
         try {
-            DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(row, column);
+            DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(cardID);
+
+            if(selectedCard == null) {
+                view.printReply_uni("The card selected is not purchasable at the moment OR does not exist! Please select another ID", senderNick);
+                return false;
+            }
 
             if(!currPlayer.hasEnoughResources(selectedCard.getDiscountedPrice(currPlayer.getPlayerBoard()))) {
                 view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
@@ -454,25 +457,20 @@ public class Controller implements ObserverController {
 
             newDevelopmentCard = selectedCard;
             this.productionSlotId = id;
-            view.printReply_uni("The card you selected requires: " +selectedCard.priceToString()+
+            view.printReply_uni("The card you selected requires: " + selectedCard.priceToString() +
                     "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
             return true;
 
-        } catch (InvalidColumnNumber | InvalidRowNumber exception) {
-            view.printReply_uni(exception.getMessage(), senderNick);
-            return false;
-
-        }catch (IndexOutOfBoundsException exception){
+        } catch (IndexOutOfBoundsException exception) {
             view.printReply_uni("The selected Production Slot does not exists!", senderNick);
             return false;
-
         }
     }
 
     /**
      * When the player is in 'PlayerStatus.SELECTING_BUY_RESOURCES' or 'PlayerStatus.PlayerStatus.SELECTING_PRODUCTION_RESOURCES' the method is used to receive the resources selected and checking <br>
      * if the removing of the container goes right.
-     * When the command 'DONE' is received calls buyDevelopmentCard() or produce() method
+     * When the command 'DONE' is received calls 'buyDevelopmentCard()' or 'produce()' method
      * @param mex message received
      * @param senderNick current player nickname
      * @param command command received
@@ -487,6 +485,7 @@ public class Controller implements ObserverController {
         }
 
         if(command == Command.DONE) {
+            //System.out.println("Done arrived");
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
                 buyDevelopmentCard(senderNick);
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
@@ -495,7 +494,6 @@ public class Controller implements ObserverController {
 
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
                 produce(senderNick);
-                System.out.println("PRODUZIONE");
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                 return;
             }
@@ -507,8 +505,8 @@ public class Controller implements ObserverController {
     /**
      * Checks if the curr player owns enough resources to remove 'resourceContainer'.
      * Then if the 'destination' is:
-     *  - 'vault', vault's buffer gets filled
-     *  - 'deposit', the specific deposit id's buffer gets filled
+     *  - 'VAULT', vault's buffer gets filled
+     *  - 'DEPOSIT', the specific deposit id's buffer gets filled
      * This method also notifies the view on what happens using specific messages
      * @param resourceContainer the container that i want to remove (use as a payment)
      * @param destination 'deposit' or 'vault'
@@ -709,7 +707,9 @@ public class Controller implements ObserverController {
         }
 
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
-        view.printReply_uni("Please select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+
+        view.printReply_uni("The ProductionSlots you selected requires: " + Util.mapToString(currPlayer.getProductionSite().getBufferInputMap()) +
+        "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
     }
 
     /**
@@ -810,7 +810,7 @@ public class Controller implements ObserverController {
             return;
         }
 
-        view.printReply_uni("\n\nNow select where do you want to place them by typing >PUT ResourceType 'to deposit' deposit_id", senderNick);
+        view.printReply_uni("\n\nNow select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id", senderNick);
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
 
         marketAddDepositController(senderNick);
@@ -907,6 +907,7 @@ public class Controller implements ObserverController {
     public void conversionController(String nick){
         view.printReply_uni("You Have "+ currPlayer.getConversionSite().countConvertible(marketOut)+ " "+
                 currPlayer.getConversionSite().getDefaultConverted()+ " to convert, type >CONVERT ResourceType for each one", nick);
+        view.printReply_uni("Conversion available: "+ currPlayer.getConversionSite().getConversionsAvailable().toString(), nick);
     }
 
     /**
@@ -921,15 +922,18 @@ public class Controller implements ObserverController {
         ResourceTypeSend resourceTypeSend = gson.fromJson(mex, ResourceTypeSend.class);
         ResourceType conversionSelected = resourceTypeSend.getResourceType();
 
-        if(currPlayer.getPlayerBoard().getConversionSite().getConversionsAvailable().contains(conversionSelected)){
+        if(currPlayer.getPlayerBoard().getConversionSite().getConversionsAvailable().contains(new ResourceContainer(conversionSelected,1))){
             currPlayer.getConversionSite().convertSingleElement(
                     marketOut.get(marketOut.indexOf(new ResourceContainer(currPlayer.getConversionSite().getDefaultConverted(), 1))),
                     new ResourceContainer(conversionSelected, 1)
             );
 
-            view.printReply_uni("Conversion done", senderNick);
-            if (currPlayer.canConvert() != ConversionMode.CHOICE_REQUIRED)
-                beginMarketDestinationSelection(senderNick);
+            if (currPlayer.getConversionSite().countConvertible(marketOut)!=0){
+                view.printReply_uni("Conversion done. You must convert another marble", senderNick);
+                return;
+            }
+
+            beginMarketDestinationSelection(senderNick);
             return;
         }
 

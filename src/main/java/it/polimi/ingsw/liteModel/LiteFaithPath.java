@@ -79,6 +79,9 @@ public class LiteFaithPath {
         }
     }
 
+    public ArrayList<String> getNicknames() {
+        return nicknames;
+    }
 
     @Override
     public String toString(){

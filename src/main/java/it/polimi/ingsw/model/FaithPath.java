@@ -182,7 +182,6 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
 
     @Override
     public void addListeners(FaithPathListener faithPathListener) {
-        System.out.println(faithPathListener);
         this.faithPathListener = faithPathListener;
     }
 

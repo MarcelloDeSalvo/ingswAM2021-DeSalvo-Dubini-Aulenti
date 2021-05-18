@@ -72,17 +72,17 @@ public class Cli extends ClientView {
 
             case NOTIFY_FAITHPATH_CURRENT:
                 FaithPathUpdateMessage faithPathUpdateMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
-                getLiteFaithPath().incrementPosition(faithPathUpdateMessage.getId(),faithPathUpdateMessage.getSenderNickname());
+                notifyCurrentPlayerIncrease(faithPathUpdateMessage.getId(), senderNick);
                 break;
 
             case NOTIFY_FAITHPATH_OTHERS:
                 FaithPathUpdateMessage faithPathUpdateOthersMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
-                getLiteFaithPath().incrementOthersPositions(faithPathUpdateOthersMessage.getId(),faithPathUpdateOthersMessage.getSenderNickname());
+                notifyOthersIncrease(faithPathUpdateOthersMessage.getId(), senderNick);
                 break;
 
             case NOTIFY_FAITHPATH_FAVOURS:
                 PapalFavourUpdateMessage papalFavourUpdateMessage=gson.fromJson(mex, PapalFavourUpdateMessage.class);
-                getLiteFaithPath().incrementPlayerFavours(papalFavourUpdateMessage.getPlayerFavours());
+                notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
                 break;
 
             case GAME_SETUP:
@@ -242,7 +242,7 @@ public class Cli extends ClientView {
 
                 case "B":
                 case "BUY":
-                    BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
+                    BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
                     send(buyMessage);
                     break;
 
@@ -394,13 +394,12 @@ public class Cli extends ClientView {
 
                 case "SC":
                 case "SHOW_CARDGRID":
-                    printCardGrid(null, "");
+                    printCardGrid();
                     break;
 
                 case "SF":
                 case "SHOW_FAITHPATH":
                     printFaithPath();
-                    //send(new Message.MessageBuilder().setCommand(Command.SHOW_FAITHPATH).setNickname(this.getNickname()).build());
                     break;
 
                 case "ET":
@@ -428,6 +427,7 @@ public class Cli extends ClientView {
             System.out.println("The command you submitted has some wrong parameters, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands"+"\n");
         }
 
+        //System.out.println("#Wrote:" + userInput);
         return true;
     }
 
@@ -484,7 +484,6 @@ public class Cli extends ClientView {
 
         }
 
-        //System.out.println(sendContainer);
         send(sendContainer);
         return true;
     }
@@ -523,7 +522,7 @@ public class Cli extends ClientView {
                 "> [S] SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
 
                 "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
-                "> [B] BUY Row Column ProductionSlotID " + "\n" +
+                "> [B] BUY DevelopmentCardID ProductionSlotID " + "\n" +
                 "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
                 "> DONE" + "\n" + "\n" +
 
@@ -596,7 +595,7 @@ public class Cli extends ClientView {
     @Override
     public void printItsYourTurn(String nickname){
         printReply_uni("It is your turn, chose an action: " + "" +
-                "\n1) BUY A CARD (>BUY Row Column ProductionSlotID) " +
+                "\n1) BUY A CARD (>BUY DevelopmentCardID ProductionSlotID) " +
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
                 "\n3) PRODUCE (>PRODUCE productionID1 productionID2 ... 'DONE')"+
                 "\n4) ACTIVATE LEADER (>ACTIVATE leaderID)"+
@@ -617,7 +616,7 @@ public class Cli extends ClientView {
 
     }
 
-    public void printCardGrid(Cardgrid cardgrid, String nickname){
+    public void printCardGrid(){
         System.out.println(getLiteCardGrid().toString());
         getLiteCardGrid().printGridIDs();
     }
@@ -653,17 +652,48 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyCurrentPlayerIncrease(int faithpoints, String nickname) {
+        getLiteFaithPath().incrementPosition(faithpoints, nickname);
 
+        if (!nickname.equals(getNickname()))
+            System.out.println(nickname + "'s position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+        else
+            System.out.println("Your current position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
     }
 
     @Override
     public void notifyOthersIncrease(int faithpoints, String nickname) {
+        getLiteFaithPath().incrementOthersPositions(faithpoints, nickname);
 
+        if (!nickname.equals(getNickname()))
+            System.out.println(nickname+ " has discarded " + faithpoints+ " resources\nYour current position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+
+        System.out.println("Everybody's position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
     }
 
     @Override
     public void notifyPapalFavour(ArrayList<Integer> playerFavours, String senderNick) {
+        getLiteFaithPath().incrementPlayerFavours(playerFavours);
+        StringBuilder playersThatGotThePoints = new StringBuilder();
+        playersThatGotThePoints.append("A papal favour has been activated: ");
+        int i=0;
+        int eligiblePlayer=0;
+        int point = 0 ;
+        for (String nick: getLiteFaithPath().getNicknames()) {
+            if(playerFavours.get(i)!=0){
+                playersThatGotThePoints.append(nick).append(" ");
+                point = playerFavours.get(i);
+                eligiblePlayer++;
+            }
+            i++;
+        }
 
+        if (eligiblePlayer>1)
+            playersThatGotThePoints.append("were ");
+        else
+            playersThatGotThePoints.append("was ");
+
+        playersThatGotThePoints.append("eligible and received ").append(point).append(Color.ANSI_YELLOW.escape()).append(" VICTORY POINTS").append(Color.ANSI_RESET.escape());
+        System.out.println(playersThatGotThePoints);
     }
 
     @Override
@@ -692,17 +722,17 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
-
+        printReply("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
     }
 
     @Override
     public void notifyEndGame() {
-
+        printReply("# THIS IS THE LAST TURN");
     }
 
     @Override
     public void notifyWinner(ArrayList<String> winner) {
-
+        printReply("[#-_- Winner: "+ winner.toString() +" -_-#");
     }
 
     //------------------------------------------------------------------------------------------------------------------

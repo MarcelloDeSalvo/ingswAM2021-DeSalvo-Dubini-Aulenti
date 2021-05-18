@@ -31,6 +31,7 @@ public class UserManager {
                 break;
         }
     }
+
     /**
      * Adds an active player to a map of players players
      * @return true if the player is successfully added, false if it fails if there's another player connected <br>

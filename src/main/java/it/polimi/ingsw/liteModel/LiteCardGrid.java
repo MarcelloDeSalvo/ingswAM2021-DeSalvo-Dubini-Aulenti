@@ -1,15 +1,11 @@
 package it.polimi.ingsw.liteModel;
 
 import it.polimi.ingsw.model.cards.DevelopmentCard;
-import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import it.polimi.ingsw.view.cli.Color;
-
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LiteCardGrid {
-    private ArrayList<Integer> cardIDs;
+    private final ArrayList<Integer> cardIDs;
     private final ArrayList<DevelopmentCard> developmentCards;
 
     public LiteCardGrid(ArrayList<Integer> initialGrid, ArrayList<DevelopmentCard> developmentCards){

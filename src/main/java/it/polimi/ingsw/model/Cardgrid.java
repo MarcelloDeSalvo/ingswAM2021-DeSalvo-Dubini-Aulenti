@@ -155,6 +155,20 @@ public class Cardgrid implements CardGridSubject {
     }
 
     /**
+     * This method returns the card with a specific ID on top of a deck
+     * @return null if the card isn't found
+     */
+    public DevelopmentCard getDevelopmentCardOnTop(int cardID) {
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (!deckGrid[i][j].getDeck().isEmpty() && deckGrid[i][j].getDeck().peek().getId() == cardID)
+                    return(deckGrid[i][j].getDeck().peekFirst());
+            }
+        }
+        return null;
+    }
+
+    /**
      * Returns an entire deck from the card grid. The deck is selected with the parameters:Colour and Level
      * @return null if the deck isn't present
      */
