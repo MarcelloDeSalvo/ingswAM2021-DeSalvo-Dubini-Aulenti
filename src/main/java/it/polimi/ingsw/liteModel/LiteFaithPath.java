@@ -16,16 +16,16 @@ public class LiteFaithPath {
     private ArrayList<String>  nicknames;
 
     public LiteFaithPath(){
-        this.nicknames=new ArrayList<>();
-        this.playersFavourList=new ArrayList<>();
-        this.positions=new ArrayList<>();
+        this.nicknames = new ArrayList<>();
+        this.playersFavourList = new ArrayList<>();
+        this.positions = new ArrayList<>();
     }
 
     /**
      * Sets up the positions and playerFavoursList  arrays to the correct length
      */
     public void setUpPositions(ArrayList<String> nicknames) {
-        this.nicknames=nicknames;
+        this.nicknames = nicknames;
         for(int i = 0; i < nicknames.size(); i++){
             playersFavourList.add(new PlayerFavour());
             positions.add(0);
@@ -36,7 +36,7 @@ public class LiteFaithPath {
      * Increments the position of the player with the given nickname
      */
     public void incrementPosition(int faithPoints, String nickname) {
-        int movingPlayer=nicknames.indexOf(nickname);
+        int movingPlayer = nicknames.indexOf(nickname);
         for(int i = 0; i < faithPoints; i++){
             if(positions.get(movingPlayer) != length-1) {
                 positions.set(movingPlayer, positions.get(movingPlayer) + 1);
@@ -48,7 +48,7 @@ public class LiteFaithPath {
      * Increments the position of all the players but the given one
      */
     public void incrementOthersPositions(int faithPoints, String nickname) {
-        int standingPlayer=nicknames.indexOf(nickname);
+        int standingPlayer = nicknames.indexOf(nickname);
         for(int j = 0; j < faithPoints; j++) {
             for (int i = 0; i < nicknames.size(); i++) {
                 if (i != standingPlayer && positions.get(i) != length - 1) {
@@ -142,8 +142,6 @@ public class LiteFaithPath {
         }
         return stringBuilder.toString();
     }
-
-
 }
 
 

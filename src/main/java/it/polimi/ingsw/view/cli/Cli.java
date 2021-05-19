@@ -359,13 +359,13 @@ public class Cli extends ClientView {
 
                 case "SW":
                 case "SWITCH":
-                    int source=stdIn.nextInt();
+                    int source = stdIn.nextInt();
                     String with = stdIn.next();
                     if (InputCheck.not_with(with))
                         throw new InputMismatchException("Invalid syntax");
 
                     int destin = stdIn.nextInt();
-                    send(new SwitchDepositMessage(source,destin,this.getNickname()));
+                    send(new SwitchDepositMessage(source, destin, this.getNickname()));
                     break;
 
                 case "DONE":
@@ -542,8 +542,8 @@ public class Cli extends ClientView {
 
                 "> [A] ACTIVATE leaderID"+ "\n" + "\n" +
 
-                "> [MV] MOVE Qty Source_DepositID 'TO' Destination_DepositID)"+ "\n" + "\n" +
-                "> [SW] SWITCH Source_DepositID 'WITH' Destination_DepositID)"+ "\n" + "\n" +
+                "> [MV] MOVE Qty Source_DepositID 'TO' Destination_DepositID"+ "\n" + "\n" +
+                "> [SW] SWITCH Source_DepositID 'WITH' Destination_DepositID"+ "\n" + "\n" +
                 "> [ET] END_TURN" + "\n" +
 
                 "\n" + "--------SHOW COMMANDS---------" + "\n" +
