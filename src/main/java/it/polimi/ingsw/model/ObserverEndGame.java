@@ -7,9 +7,4 @@ public interface ObserverEndGame {
      */
     void updateEndGame();
 
-    /**
-     * Notifies that Lorenzo has won the game
-     */
-    void lorenzoWon();
-
 }

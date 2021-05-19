@@ -20,6 +20,7 @@ import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class VirtualView implements View {
 
@@ -286,6 +287,21 @@ public class VirtualView implements View {
         }
         printReply("[#-_- Winners: "+ winnerz +" -_-#]");
     }
+
+    @Override
+    public void notifyScores(List<Integer> playersTotalVictoryPoints){
+        printReply("Scoreboard\n"+playersTotalVictoryPoints.toString());
+    }
+
+    @Override
+    public void notifyGameEnded(){
+        notifyUsers( new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.END_GAME).build());
+        for (String nick: connectedPlayers.keySet()) {
+            connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);
+            connectedPlayers.get(nick).removeServerArea(this);
+        }
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

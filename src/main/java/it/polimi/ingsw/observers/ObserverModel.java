@@ -5,6 +5,7 @@ import it.polimi.ingsw.observers.gameListeners.CardGridListener;
 import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public interface ObserverModel extends FaithPathListener, CardGridListener {
@@ -56,5 +57,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener {
     void notifyLeaderActivated(int id, String nickname);
     void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
+    void notifyScores(List<Integer> playersTotalVictoryPoints);
+    void notifyGameEnded();
 
 }

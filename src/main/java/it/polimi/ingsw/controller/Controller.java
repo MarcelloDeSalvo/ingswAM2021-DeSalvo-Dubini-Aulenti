@@ -219,11 +219,7 @@ public class Controller implements ObserverController {
                 //if (ha eseguitoalmeno  una azione primaria )
                 game.nextTurn();
 
-                if (game.isGameEnded()){
-                    view.printReply_uni("The game is ended", senderNick);
-                    //sistemare qua con printEnd che porta i giocatori nella lobby
-                    return;
-                }
+                if (game.isGameEnded()) break;
 
                 currPlayer = game.getCurrentPlayer();
                 view.printItsYourTurn(game.getCurrentPlayerNick());
@@ -234,7 +230,6 @@ public class Controller implements ObserverController {
                 break;
         }
     }
-
 
     /**
      * Checks if "nick" is the current player

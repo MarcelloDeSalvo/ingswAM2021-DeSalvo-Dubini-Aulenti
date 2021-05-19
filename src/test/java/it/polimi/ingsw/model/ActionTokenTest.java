@@ -53,10 +53,6 @@ class ActionTokenTest {
         actionTokens.get(0).getActions().get(0).doAction(game);
 
         assertEquals(0, cardgrid.getNumOfColor(actionTokens.get(0).getColour())); //GREEN
-
-        //CHECKS IF THE GAME ENDS
-        assertTrue(game.isFinalTurn());
-        game.nextTurn();
         assertTrue(game.isGameEnded());
     }
 
@@ -127,12 +123,6 @@ class ActionTokenTest {
 
         actionTokens.get(4).getActions().get(1).doAction(game); //END OF FAITHPATH
 
-
-        //CHECKS IF THE GAME ENDS
-        assertTrue(game.isFinalTurn());
-        game.setCurrentPlayer(0);
-        game.getFaithPath().setCurrentPlayer(0);
-        game.nextTurn();
         assertTrue(game.isGameEnded());
     }
 

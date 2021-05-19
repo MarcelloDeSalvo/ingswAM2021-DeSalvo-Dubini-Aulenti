@@ -40,9 +40,6 @@ public abstract class ClientView implements View, UserInput {
         observerControllers = new ArrayList<>();
     }
 
-    public void setLiteFaithPathSetUp(ArrayList<String> nicknames){ liteFaithPath.setUpPositions(nicknames); }
-
-
     @Override
     public void send(Message mex){
         String stringToSend = mex.serialize();

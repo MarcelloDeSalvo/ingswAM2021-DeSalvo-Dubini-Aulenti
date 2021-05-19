@@ -1,15 +1,8 @@
 package it.polimi.ingsw.liteModel;
 
-import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.PlayerFavour;
-import it.polimi.ingsw.model.parser.FaithPathSetUpParser;
-import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
-import it.polimi.ingsw.observers.gameListeners.FaithPathSubject;
 import it.polimi.ingsw.view.cli.Color;
-
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LiteFaithPath {
     private int length;
@@ -38,7 +31,6 @@ public class LiteFaithPath {
             positions.add(0);
         }
     }
-
 
     /**
      * Increments the position of the player with the given nickname
@@ -77,6 +69,16 @@ public class LiteFaithPath {
                 playersFavourList.get(c).addFavour(in);
             c++;
         }
+    }
+
+    /**
+     * Resets the liteFaithPath for a new Game
+     */
+    public void reset(ArrayList<String> nicknames){
+        this.nicknames=new ArrayList<>();
+        this.playersFavourList=new ArrayList<>();
+        this.positions=new ArrayList<>();
+        setUpPositions(nicknames);
     }
 
     public ArrayList<String> getNicknames() {

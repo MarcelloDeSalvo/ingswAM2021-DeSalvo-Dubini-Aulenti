@@ -45,6 +45,8 @@ public enum Command {
     CONVERSION      (false, false, true, Status.IN_GAME),
     END_TURN        (false, false, true, Status.IN_GAME),
 
+    END_GAME        (false, false, false, null),
+
     NOTIFY_CARDGRID (false, false, true, Status.IN_GAME),
     NOTIFY_HAND     (false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_CURRENT(false,false,true,Status.IN_GAME),

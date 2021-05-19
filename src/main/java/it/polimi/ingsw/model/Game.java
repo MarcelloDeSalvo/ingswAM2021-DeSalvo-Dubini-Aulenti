@@ -325,6 +325,11 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
      */
     public void nextTurn(){
 
+        if (((currentPlayer+1)%numOfPlayers == 0) && isFinalTurn() && !singlePlayer){
+            winnerCalculator();
+            return;
+        }
+
         if(!gameEnded && gameStarted) {
             currentPlayer = (currentPlayer+1) % numOfPlayers;
             faithPath.setCurrentPlayer(currentPlayer);
@@ -332,13 +337,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
             lorenzoPickAction();
         }
 
-        if (  (((currentPlayer+1)%numOfPlayers == 0) || (currentPlayer==0 && singlePlayer )) && finalTurn){
-            gameEnded = true;
-            gameStarted = false;
-        }
 
-        if (gameEnded&&!singlePlayer)
-            winnerCalculator();
     }
 
     /**
@@ -356,26 +355,48 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
     //PICKING THE WINNERS-----------------------------------------------------------------------------------------------
     /**
-     *Tells the controller who won
-     *@return the maximum score
+     * Ends the game, calculates the player's points and notifies who's the winner
      */
-    public int winnerCalculator(){
+    public void winnerCalculatorSinglePlayer(){
+        gameEnded = true;
+        gameStarted = false;
+
         winner = new ArrayList<>();
+        List<Integer> playersTotalVictoryPoints= new ArrayList<>();
 
-        if(singlePlayer) {
-            winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
-            return calculatePlayerVictoryPoints(playerList.get(0));
-        }
+        if (currentPlayer==1)
+            lorenzoWon = true;
+        else if(faithPath.getPositions(1) == faithPath.getLength()-1)
+            lorenzoWon = true;
 
-        int max = 0;
+        winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
+        playersTotalVictoryPoints.add(calculatePlayerVictoryPoints(playerList.get(0)));
+
+        view.notifyScores(playersTotalVictoryPoints);
+        view.notifyWinner(winner);
+        view.notifyGameEnded();
+    }
+
+    /**
+     * Ends the game, calculates all the players' points and notifies who's the winner
+     */
+    public void winnerCalculator(){
+        gameEnded = true;
+        gameStarted = false;
+
+        winner = new ArrayList<>();
         ArrayList<Player> maxPointPlayer=new ArrayList<>();
         List<Integer> playersTotalVictoryPoints= new ArrayList<>();
+
+        int max = 0;
 
         calcAllPlayerPoints(playersTotalVictoryPoints);
         max = playersTotalVictoryPoints.stream().max(Integer::compare).get();
         setWinners(maxPointPlayer, max);
 
-        return max;
+        view.notifyScores(playersTotalVictoryPoints);
+        view.notifyWinner(winner);
+        view.notifyGameEnded();
     }
 
     /**
@@ -416,7 +437,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         }
     }
 
-
     /**
      * Sets the nicknames of the winners
      */
@@ -432,8 +452,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         if(evenCounter>1)
             drawDecider(maxPointPlayer);
-
-        view.notifyWinner(winner);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -441,27 +459,13 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
     //OBSERVER METHODS---(end game notify)------------------------------------------------------------------------------
     @Override
     public void updateEndGame() {
-
         if (singlePlayer){
-            if (currentPlayer==1)
-                lorenzoWon();
-            else if(faithPath.getPositions(1) == faithPath.getLength()-1)
-                lorenzoWon();
-
-            System.out.println("POINTS " + winnerCalculator());
-            view.notifyWinner(winner);
-            gameEnded = true;
-            gameStarted = false;
+            winnerCalculatorSinglePlayer();
             return;
         }
 
         finalTurn = true;
         view.notifyLastTurn();
-    }
-
-    @Override
-    public void lorenzoWon() {
-        lorenzoWon = true;
     }
 
     /**

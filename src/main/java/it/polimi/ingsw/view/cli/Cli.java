@@ -17,11 +17,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Cli extends ClientView {
 
-
+    private boolean isInGame = false;
     private String nicknameTemp = null;
     private final Scanner stdIn;
     private final Gson gson ;
@@ -88,6 +89,10 @@ public class Cli extends ClientView {
             case GAME_SETUP:
                 GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
                 notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames());
+                break;
+
+            case END_GAME:
+                notifyGameEnded();
                 break;
 
             case LOBBY_LIST:
@@ -609,20 +614,24 @@ public class Cli extends ClientView {
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
     @Override
     public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
+        if (!isInGame) return;
         System.out.println(getHand().toString());
     }
 
     @Override
     public void printDeposit(Deposit deposit, String depositInfo) {
-
     }
 
     public void printCardGrid(){
+        if (!isInGame) return;
         System.out.println(getLiteCardGrid().toString());
         getLiteCardGrid().printGridIDs();
     }
 
-    public void printFaithPath(){ System.out.println(getLiteFaithPath().toString()); }
+    public void printFaithPath(){
+        if (!isInGame) return;
+        System.out.println(getLiteFaithPath().toString());
+    }
 
 
     @Override
@@ -700,7 +709,8 @@ public class Cli extends ClientView {
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
-        setLiteFaithPathSetUp(nicknames); // Should i be creating a new one each time through parsing?
+        getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+        isInGame = true;
     }
 
     @Override
@@ -736,6 +746,16 @@ public class Cli extends ClientView {
         printReply("[#-_- Winner: "+ winner.toString() +" -_-#");
     }
 
+    @Override
+    public void notifyScores(List<Integer> playersTotalVictoryPoints) {
+
+    }
+
+    @Override
+    public void notifyGameEnded() {
+        printReply("# The game is ended, you are now in the lobby");
+        isInGame= false;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
