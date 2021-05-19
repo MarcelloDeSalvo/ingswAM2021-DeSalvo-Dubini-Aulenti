@@ -140,9 +140,10 @@ public class Controller implements ObserverController {
     private void turnPhase_Commands(String mex, String senderNick, Command command){
 
         if (currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET){
-            if (command==Command.MANAGE_DEPOSIT||command==Command.SWITCH_DEPOSIT)
-                manageDeposit(mex,senderNick,Command.MANAGE_DEPOSIT);
-            selectDestinationAfterMarket( mex, senderNick, command);
+            if (command == Command.MANAGE_DEPOSIT || command == Command.SWITCH_DEPOSIT)
+                manageDeposit(mex, senderNick, command);
+            else
+                selectDestinationAfterMarket( mex, senderNick, command);
             return;
         }
 
@@ -188,15 +189,15 @@ public class Controller implements ObserverController {
                 break;
 
             case ACTIVATE_LEADER:
-                activateLeader(mex,senderNick);
+                activateLeader(mex, senderNick);
                 break;
 
             case MANAGE_DEPOSIT:
-                manageDeposit(mex,senderNick,Command.MANAGE_DEPOSIT);
+                manageDeposit(mex, senderNick, Command.MANAGE_DEPOSIT);
                 break;
 
             case SWITCH_DEPOSIT:
-                manageDeposit(mex,senderNick,Command.SWITCH_DEPOSIT);
+                manageDeposit(mex, senderNick, Command.SWITCH_DEPOSIT);
                 break;
 
             case SHOW_DEPOSIT:
@@ -216,7 +217,7 @@ public class Controller implements ObserverController {
                 break;
 
             case END_TURN:
-                //if (ha eseguitoalmeno  una azione primaria )
+                //if (ha eseguito almeno  una azione primaria )
                 game.nextTurn();
 
                 if (game.isGameEnded()){
@@ -740,34 +741,6 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------/
 
-    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------\
-    public void manageDeposit(String mex, String senderNick, Command commandType){
-        int qty;
-        int sourceID;
-        int destinationID;
-        if(commandType==Command.MANAGE_DEPOSIT){
-            ManageDepositMessage manageDepositMessage=gson.fromJson(mex,ManageDepositMessage.class);
-            qty=manageDepositMessage.getQty();
-            sourceID=manageDepositMessage.getSourceID()-1;
-            destinationID=manageDepositMessage.getDestinationID()-1;
-        }else {
-            SwitchDepositMessage switchDepositMessage=gson.fromJson(mex,SwitchDepositMessage.class);
-            sourceID=switchDepositMessage.getSourceID()-1;
-            destinationID=switchDepositMessage.getDestinationID()-1;
-            qty=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(sourceID).getResourceQty();
-        }
-        DepositSlot sourceDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(sourceID);
-        DepositSlot destinationDepositSlot=currPlayer.getPlayerBoard().getDeposit().getDepositList().get(destinationID);
-
-        try {
-            currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot,qty,destinationDepositSlot);
-        }
-        catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){
-            view.printReply_uni(e.getMessage(), senderNick);
-        }
-    }
-    //------------------------------------------------------------------------------------------------------------------/
-
 
     //MARKET ACTION CONTROLLER-------------------------------------------------------------------------------------------------------PICK FROM MARKET--#
     /**
@@ -813,7 +786,6 @@ public class Controller implements ObserverController {
             return;
         }
 
-        view.printReply_uni("\n\nNow select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id", senderNick);
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_DESTINATION_AFTER_MARKET);
 
         marketAddDepositController(senderNick);
@@ -825,6 +797,7 @@ public class Controller implements ObserverController {
     public void marketAddDepositController(String senderNick){
         if (marketOut.size()>0){
             view.printDeposit(currPlayer.getDeposit(), senderNick);
+            view.printReply_uni("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id", senderNick);
             view.printMarketOut(marketOut, senderNick);
             return;
         }
@@ -841,7 +814,7 @@ public class Controller implements ObserverController {
 
         if (command != Command.SEND_DEPOSIT_ID){
             view.printReply_uni("Please select a depositID", senderNick);
-            return ;
+            return;
         }
 
         SendContainer putMessage = gson.fromJson(mex, SendContainer.class);
@@ -945,13 +918,64 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    //ACTIVATE LEADER---------------------------------------------------------------------------------------------------
+
+    //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------\
+    /**
+     * This method is used for both 'MANAGE_DEPOSIT' and 'SWITCH_DEPOSIT' commands.
+     * Executes the selected command after checking that the currPlayer can do it.
+     * @param mex message received containing all the info
+     * @param senderNick currPlayer nickname
+     * @param commandType 'Command.MANAGE_DEPOSIT' or 'Command.SWITCH_DEPOSIT'
+     */
+    public void manageDeposit(String mex, String senderNick, Command commandType){
+        int qty;
+        int sourceID;
+        int destinationID;
+
+        if(commandType == Command.MANAGE_DEPOSIT){
+            ManageDepositMessage manageDepositMessage = gson.fromJson(mex,ManageDepositMessage.class);
+
+            qty = manageDepositMessage.getQty();
+            sourceID = manageDepositMessage.getSourceID();
+            destinationID = manageDepositMessage.getDestinationID();
+        }else {
+            SwitchDepositMessage switchDepositMessage = gson.fromJson(mex,SwitchDepositMessage.class);
+
+            sourceID = switchDepositMessage.getSourceID();
+            destinationID = switchDepositMessage.getDestinationID();
+            qty = currPlayer.getDepositSlotByID(sourceID).getResourceQty();
+        }
+
+        DepositSlot sourceDepositSlot = currPlayer.getDepositSlotByID(sourceID);
+        DepositSlot destinationDepositSlot = currPlayer.getDepositSlotByID(destinationID);
+
+        try {
+            currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot, qty, destinationDepositSlot);
+
+            view.printDeposit(currPlayer.getDeposit(), senderNick);
+            view.printReply_uni("The action on deposit has been executed correctly!", senderNick);
+        }
+        catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){
+            view.printReply_uni(e.getMessage(), senderNick);
+        }
+    }
+    //------------------------------------------------------------------------------------------------------------------/
+
+
+    //ACTIVATE LEADER---------------------------------------------------------------------------------------------------\
+    /**
+     * Called when the player wants to activate a Leader Card in his hand.
+     * If the player meets the criteria to activate the selected card, the leader is correctly activated.
+     * Otherwise the view gets notified with specific error messages
+     * @param mex message received, containing info about the Leader to activate
+     * @param nickname currPlayer nickname
+     */
     public void activateLeader(String mex , String nickname){
         IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
-        int id=idMessage.getId();
+        int id = idMessage.getId();
 
         for (LeaderCard lc : currPlayer.getHand()) {
-            if(lc.getId()==id){
+            if(lc.getId() == id){
                 if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
                     currPlayer.activateLeader(lc);
                 }else {
@@ -962,7 +986,8 @@ public class Controller implements ObserverController {
         }
         view.printReply_uni("You do not own a leader with this id!", nickname);
     }
-    //------------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------/
+
 
     //FAITH PATH CONTROLLER-----------------------------------------------------------------------------------------------------------FAITHPATH CONTROLLER--#
     public void incPosOfCurrentPlayer(int qty){
