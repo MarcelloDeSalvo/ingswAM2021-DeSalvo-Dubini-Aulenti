@@ -29,6 +29,7 @@ public class Controller implements ObserverController {
     private Game game;
     private final Gson gson;
     private Player currPlayer;
+    private boolean mainActionAvailable=true;
 
     //BUFFERS ----------------------------------------------------------------------------------------------------------\
     private ArrayList<ResourceContainer> marketOut;
@@ -173,7 +174,8 @@ public class Controller implements ObserverController {
                 break;
 
             case BUY:
-                //System.out.println("BUY ARRIVED");
+                if (!mainActionHandler(senderNick))
+                    break;
                 if(!checkBuy(mex, senderNick, currPlayer))
                     return;
 
@@ -181,10 +183,14 @@ public class Controller implements ObserverController {
                 break;
 
             case PRODUCE:
+                if (!mainActionHandler(senderNick))
+                    break;
                 checkQuestionMarks(mex, senderNick);
                 break;
 
             case PICK_FROM_MARKET:
+                if (!mainActionHandler(senderNick))
+                    break;
                 pickFromMarket(mex, senderNick);
                 break;
 
@@ -217,8 +223,12 @@ public class Controller implements ObserverController {
                 break;
 
             case END_TURN:
-                //if (ha eseguito almeno  una azione primaria )
+                if(mainActionAvailable) {
+                    view.printReply_uni("You can't pass yet, you have to perform at least a main action!", senderNick);
+                    break;
+                }
                 game.nextTurn();
+                mainActionAvailable=true;
 
                 if (game.isGameEnded()) break;
 
@@ -418,9 +428,19 @@ public class Controller implements ObserverController {
         game.startGame();
         view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
         view.printItsYourTurn(game.getCurrentPlayerNick());
-        //PRINT VARIE DI TUTTE LE PORCHERIE
     }
     //------------------------------------------------------------------------------------------------------------------/
+
+    //TURN HANDLING -----------------------------------------------------------------------------------------------------------------------------------#
+        public boolean mainActionHandler(String senderNick){
+            if(!mainActionAvailable) {
+                view.printReply_uni("You can't do that, you already used your action this turn!", senderNick);
+                return false;
+            }
+            return true;
+        }
+    //------------------------------------------------------------------------------------------------------------------/
+
 
 
     //BUY PHASE ---------------------------------------------------------------------------------------------------------------------BUY PHASE---------#
@@ -582,6 +602,7 @@ public class Controller implements ObserverController {
         productionSlotId = -1;
 
         view.printProduction(currPlayer.getProductionSite(), senderNick);
+        mainActionAvailable=false;
     }
     //------------------------------------------------------------------------------------------------------------------/
 
@@ -725,6 +746,7 @@ public class Controller implements ObserverController {
 
             view.printReply_uni("Production executed correctly!", senderNick);
             view.printVault(currPlayer.getVault(), senderNick);
+            mainActionAvailable=false;
 
         } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
             view.printReply_uni(exception.getMessage(), senderNick);
@@ -749,6 +771,7 @@ public class Controller implements ObserverController {
 
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
+            mainActionAvailable=false;
 
         }catch (InvalidColumnNumber | InvalidRowNumber e ){
             view.printReply_uni(e.getMessage(), senderNick);
@@ -1003,5 +1026,8 @@ public class Controller implements ObserverController {
     public Game getGame() {
         return game;
     }
+
+    public void setMainActionAvailable(boolean mainActionAvailable) { this.mainActionAvailable = mainActionAvailable; }
+
     //------------------------------------------------------------------------------------------------------------------
 }

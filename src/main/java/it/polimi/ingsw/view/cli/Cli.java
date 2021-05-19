@@ -743,7 +743,7 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyWinner(ArrayList<String> winner) {
-        printReply("[#-_- Winner: "+ winner.toString() +" -_-#");
+        printReply("[#-_- "+Color.ANSI_YELLOW.escape()+"Winner"+Color.ANSI_RESET.escape()+":"+ winner.toString() +" -_-#");
     }
 
     @Override
