@@ -25,8 +25,9 @@ public class LiteMarket {
 
     public void liteMarketUpdate(String rowOrColumn, int selected){
 
+        ResourceContainer vacantCopy=new ResourceContainer(vacant.getResourceType(),1);
+
         if(rowOrColumn.toUpperCase().equals("ROW")){
-            ResourceContainer vacantCopy=new ResourceContainer(vacant.getResourceType(),1);
             vacant=market[0][selected-1];
             for(int i=0;i<columns-1;i++){
                 market[i][selected-1]=market[i+1][selected-1];
@@ -34,8 +35,6 @@ public class LiteMarket {
             market[columns-1][selected-1]=vacantCopy;
         }
         else if(rowOrColumn.toUpperCase().equals("COLUMN")){
-            System.out.println(rowOrColumn);
-            ResourceContainer vacantCopy=new ResourceContainer(vacant.getResourceType(),1);
             vacant=market[selected-1][0];
             System.arraycopy(market[selected - 1], 1, market[selected - 1], 0, rows - 1);
             market[selected-1][rows-1]=vacantCopy;

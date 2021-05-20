@@ -281,7 +281,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyLastTurn(){
-        printReply("# THIS IS THE LAST TURN");
+        printReply("# THIS IS THE LAST ROUND");
     }
 
     @Override
@@ -295,8 +295,14 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints){
-        printReply("Scoreboard\n"+playersTotalVictoryPoints.toString());
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames){
+        StringBuilder scoreboard= new StringBuilder("\n#_SCORE BOARD_#\n");
+        int i = 0;
+        for (String nick: nicknames) {
+            scoreboard.append(" °-> ").append(nick);
+            scoreboard.append(" scored { ").append(playersTotalVictoryPoints.get(i)).append(" } points").append("\n");
+        }
+        printReply(scoreboard.toString());
     }
 
     @Override

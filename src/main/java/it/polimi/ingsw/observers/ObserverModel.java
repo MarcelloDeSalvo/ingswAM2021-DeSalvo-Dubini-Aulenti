@@ -77,7 +77,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
     void notifyMarketUpdate(String selection, int selected);
     void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
-    void notifyScores(List<Integer> playersTotalVictoryPoints);
+    void notifyScores(List<Integer> playersTotalVictoryPoints,ArrayList<String> nicknames);
     void notifyGameEnded();
 
 }

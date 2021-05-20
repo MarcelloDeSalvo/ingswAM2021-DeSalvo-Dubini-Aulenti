@@ -848,7 +848,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints) {
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
 
     }
 

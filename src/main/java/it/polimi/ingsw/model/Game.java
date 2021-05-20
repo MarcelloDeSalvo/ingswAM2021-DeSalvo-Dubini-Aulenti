@@ -330,14 +330,15 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
             return;
         }
 
+        if (finalTurn)
+            view.notifyLastTurn();
+
         if(!gameEnded && gameStarted) {
             currentPlayer = (currentPlayer+1) % numOfPlayers;
             faithPath.setCurrentPlayer(currentPlayer);
             turnNumber++;
             lorenzoPickAction();
         }
-
-
     }
 
     /**
@@ -372,7 +373,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
         playersTotalVictoryPoints.add(calculatePlayerVictoryPoints(playerList.get(0)));
 
-        view.notifyScores(playersTotalVictoryPoints);
+        view.notifyScores(playersTotalVictoryPoints, winner);
         view.notifyWinner(winner);
         view.notifyGameEnded();
     }
@@ -394,7 +395,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         max = playersTotalVictoryPoints.stream().max(Integer::compare).get();
         setWinners(maxPointPlayer, max);
 
-        view.notifyScores(playersTotalVictoryPoints);
+        view.notifyScores(playersTotalVictoryPoints, getNicknames());
         view.notifyWinner(winner);
         view.notifyGameEnded();
     }
@@ -465,7 +466,6 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         }
 
         finalTurn = true;
-        view.notifyLastTurn();
     }
 
     /**
