@@ -268,14 +268,14 @@ public class Deposit implements DepositSubject {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 1;
         for (DepositSlot depositSlot : depositList) {
-            stringBuilder.append("----------------------------------\n")
+            stringBuilder.append("\n----------------------------------\n")
             .append(Color.ANSI_CYAN.escape()).append("ID - ").append(i).append(Color.ANSI_RESET.escape()).append("\n").append(depositSlot.toString());
             i++;
         }
 
         return Color.ANSI_BLUE.escape() + "DEPOSIT: " + Color.ANSI_RESET.escape() +
                 "\n" +
-                stringBuilder.append("----------------------------------\n").toString();
+                stringBuilder.append("\n----------------------------------\n").toString();
     }
     //------------------------------------------------------------------------------------------------------------------
 

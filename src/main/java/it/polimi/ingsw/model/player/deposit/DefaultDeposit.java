@@ -74,6 +74,7 @@ public class DefaultDeposit extends DepositSlot {
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
         this.getDepositContainer().setResourceType(inputType);
         getNotAvailableResourceType().add(inputType);
+
         getDepositListener().notifyDepositChanges(getId(), inputContainer, true, null);
 
         return true;
@@ -200,20 +201,21 @@ public class DefaultDeposit extends DepositSlot {
 
 
     //JAVA--------------------------------------------------------------------------------------------------------------
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("\nMaxDim: ").append(getMaxDim()).append("\n");
+        stringBuilder.append("MaxDim: ").append(getMaxDim()).append("\n").append("\n");
+        int qty = getDepositContainer().getQty();
+        if(qty != 0) {
+            for (int i = 0; i < qty; i++)
+                stringBuilder.append(getDepositContainer().getResourceType()).append("  ");
 
-        if(getDepositContainer().getQty() != 0) {
-            stringBuilder.append(getDepositContainer()).append("\n");
             if(getDepositContainer().getQty() == getMaxDim())
-               stringBuilder.append(Color.ANSI_RED.escape()).append("FULL").append(Color.ANSI_RESET.escape()).append("\n");
+               stringBuilder.append("\n").append(Color.ANSI_RED.escape()).append("FULL").append(Color.ANSI_RESET.escape());
         }
         else
-            stringBuilder.append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
+            stringBuilder.append("\n").append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape());
 
         return stringBuilder.toString();
     }

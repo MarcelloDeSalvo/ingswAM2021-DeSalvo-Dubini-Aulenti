@@ -104,8 +104,8 @@ public class Cli extends ClientView {
                  break;
 
             case ASK_FOR_RESOURCES:
-                printReply(deserializedMex.getInfo());
                 askForResources(senderNick, 0);
+                printReply(deserializedMex.getInfo());
                 break;
 
             case DISCARD_OK:

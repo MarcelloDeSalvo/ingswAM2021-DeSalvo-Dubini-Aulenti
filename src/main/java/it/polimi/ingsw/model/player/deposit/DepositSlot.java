@@ -22,7 +22,7 @@ public abstract class DepositSlot implements DepositSubject {
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(depositResourceType,0);
         this.bufferContainer = new ResourceContainer(null,0);
-
+        this.id = id;
     }
 
     public DepositSlot(int maxDim, int id) {

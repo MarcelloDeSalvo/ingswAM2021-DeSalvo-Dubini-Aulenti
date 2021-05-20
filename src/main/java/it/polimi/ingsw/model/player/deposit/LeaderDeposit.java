@@ -53,6 +53,8 @@ public class LeaderDeposit extends DepositSlot {
         int quantityThatIWantToAdd = inputContainer.getQty();
 
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
+
+        System.out.println(" leader deposit: " + getId());
         getDepositListener().notifyDepositChanges(getId(), inputContainer, true,null);
 
         return true;
@@ -119,13 +121,15 @@ public class LeaderDeposit extends DepositSlot {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("\nMaxDim: ").append(getMaxDim()).append("\n");
-        stringBuilder.append(getDepositContainer().toString()).append("\n");
+        stringBuilder.append("MaxDim: ").append(getMaxDim()).append("\n").append("\n");
+
+        for(int i = 0; i < getDepositContainer().getQty(); i++)
+            stringBuilder.append(getDepositContainer().getResourceType()).append("  ");
 
         if(getDepositContainer().getQty() == getMaxDim())
-            stringBuilder.append(Color.ANSI_RED.escape()).append("FULL").append(Color.ANSI_RESET.escape()).append("\n");
+            stringBuilder.append("\n").append(Color.ANSI_RED.escape()).append("FULL").append(Color.ANSI_RESET.escape());
         else if(getDepositContainer().getQty() == 0)
-            stringBuilder.append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
+            stringBuilder.append("\n").append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape());
 
         return stringBuilder.toString();
     }

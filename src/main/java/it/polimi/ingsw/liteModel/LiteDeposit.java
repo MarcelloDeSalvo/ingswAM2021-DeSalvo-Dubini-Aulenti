@@ -14,7 +14,6 @@ public class LiteDeposit {
         this.deposits = new ArrayList<>();
         for(int i = 0; i<3; i++)
             deposits.add(new MiniDeposit(i+1));
-
     }
 
     private class MiniDeposit  {
@@ -73,19 +72,28 @@ public class LiteDeposit {
             return maxDim;
         }
 
+        public ResourceContainer getContainer() {
+            return container;
+        }
+
+
+
         @Override
         public String toString() {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.append("\nMaxDim: ").append(getMaxDim()).append("\n");
+            stringBuilder.append(" MaxDim: ").append(getMaxDim()).append("\n").append("\n");
 
-            if(container.getQty() != 0 || leaderType) {
-                stringBuilder.append(container).append("\n");
-                if(container.getQty() == getMaxDim())
-                    stringBuilder.append(Color.ANSI_RED.escape()).append("FULL").append(Color.ANSI_RESET.escape()).append("\n");
+            int qty = container.getQty();
+
+            if(qty != 0) {
+                for(int i = 0; i < qty; i++)
+                    stringBuilder.append(" ").append(container.getResourceType());
+                if(qty == getMaxDim())
+                    stringBuilder.append("\n").append("\n").append(Color.ANSI_RED.escape()).append(" FULL").append(Color.ANSI_RESET.escape());
             }
             else
-                stringBuilder.append(Color.ANSI_GREEN.escape()).append("EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
+                stringBuilder.append(Color.ANSI_GREEN.escape()).append(" EMPTY").append(Color.ANSI_RESET.escape());
 
             return stringBuilder.toString();
         }
@@ -99,6 +107,7 @@ public class LiteDeposit {
     }
 
     public void addRes(ResourceContainer resourceContainer, int id){
+        System.out.println("ID: " + id);
         deposits.get(id-1).addToDepositSlot(resourceContainer);
     }
 
@@ -111,14 +120,19 @@ public class LiteDeposit {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 1;
         for (MiniDeposit depositSlot : deposits) {
-            stringBuilder.append("----------------------------------\n")
-                    .append(Color.ANSI_CYAN.escape()).append("ID - ").append(i).append(Color.ANSI_RESET.escape()).append("\n").append(depositSlot.toString());
+            stringBuilder.append("\n----------------------------------\n")
+                    .append(Color.ANSI_CYAN.escape()).append(" ID - ").append(i).append(Color.ANSI_RESET.escape());
+
+                    if(depositSlot.leaderType)
+                        stringBuilder.append("\t\t\tOnly: ").append(depositSlot.getContainer().getResourceType());
+
+                    stringBuilder.append("\n").append(depositSlot.toString());
             i++;
         }
 
-        return Color.ANSI_BLUE.escape() + "DEPOSIT: " + Color.ANSI_RESET.escape() +
+        return "\n" + Color.ANSI_BLUE.escape() + "DEPOSIT: " + Color.ANSI_RESET.escape() +
                 "\n" +
-                stringBuilder.append("----------------------------------\n").toString();
+                stringBuilder.append("\n----------------------------------\n").toString();
     }
 
 }

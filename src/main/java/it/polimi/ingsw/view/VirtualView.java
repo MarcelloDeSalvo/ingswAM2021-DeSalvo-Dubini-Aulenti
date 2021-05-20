@@ -180,7 +180,8 @@ public class VirtualView implements View {
 
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname){
-        StringBuilder marketOutChoice = new StringBuilder("Where do you want to put: ");
+        StringBuilder marketOutChoice = new StringBuilder("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id").append("\n");
+        marketOutChoice.append("Where do you want to put: ");
         for (ResourceContainer res: containers) {
             marketOutChoice.append(res.getResourceType()).append("  ");
         }

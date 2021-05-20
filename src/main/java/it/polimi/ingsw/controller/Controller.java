@@ -799,7 +799,6 @@ public class Controller implements ObserverController {
     public void marketAddDepositController(String senderNick){
         if (marketOut.size()>0){
             //view.printDeposit(currPlayer.getDeposit(), senderNick);
-            view.printReply_uni("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id", senderNick);
             view.askForMarketDestination(marketOut, senderNick);
             return;
         }
