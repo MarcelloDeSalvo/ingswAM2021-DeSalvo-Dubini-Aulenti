@@ -59,7 +59,6 @@ public class ServerReceiver extends Thread implements ObservableThread {
         for (ObserverThread obs: observerThreads) {
             obs.somethingHasBeenReceived(message);
         }
-
     }
 
     /**

@@ -9,32 +9,32 @@ public class InputCheck {
     //INPUT CHECK-------------------------------------------------------------------------------------------------------
 
     public static boolean not_vault_or_deposit(String x){
-        return !x.toUpperCase().equals("DEPOSIT") && !x.toUpperCase().equals("VAULT");
+        return !x.equalsIgnoreCase("DEPOSIT") && !x.equalsIgnoreCase("VAULT");
     }
 
     public static boolean not_vault(String x){
-        return !x.toUpperCase().equals("VAULT");
+        return !x.equalsIgnoreCase("VAULT");
     }
 
     public static boolean not_deposit(String x){
-        return !x.toUpperCase().equals("DEPOSIT");
+        return !x.equalsIgnoreCase("DEPOSIT");
     }
 
     public static boolean not_from(String x){
-        return !x.toUpperCase().equals("FROM");
+        return !x.equalsIgnoreCase("FROM");
     }
 
     public static boolean not_to(String x){
-        return !x.toUpperCase().equals("TO");
+        return !x.equalsIgnoreCase("TO");
     }
 
-    public static boolean not_with(String x){ return !x.toUpperCase().equals("WITH"); }
+    public static boolean not_with(String x){ return !x.equalsIgnoreCase("WITH"); }
 
-    public static boolean not_in(String x){ return !x.toUpperCase().equals("IN"); }
+    public static boolean not_in(String x){ return !x.equalsIgnoreCase("IN"); }
 
 
     public static boolean not_row_or_column(String x){
-        return !x.toUpperCase().equals("ROW") && !x.toUpperCase().equals("COLUMN");
+        return !x.equalsIgnoreCase("ROW") && !x.equalsIgnoreCase("COLUMN");
     }
 
     public static boolean duplicatedElement(ArrayList<Integer> x) {

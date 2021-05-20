@@ -6,8 +6,8 @@ public class ShowHandMessage extends Message {
     private final ArrayList<Integer> cardsID;
 
     /**
-     * reply from the server
-     * @param cardsID
+     * Reply from the server
+     * @param cardsID updated cardsID
      */
     public ShowHandMessage(ArrayList<Integer> cardsID, String senderNick) {
         super(new MessageBuilder().setCommand(Command.NOTIFY_HAND).setNickname(senderNick));

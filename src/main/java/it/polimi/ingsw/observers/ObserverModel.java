@@ -7,7 +7,6 @@ import it.polimi.ingsw.observers.gameListeners.VaultListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener {
     /**
@@ -17,7 +16,6 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
 
     /**
      * Says goodbye
-     * @param nickname
      */
     void printQuit(String nickname);
 

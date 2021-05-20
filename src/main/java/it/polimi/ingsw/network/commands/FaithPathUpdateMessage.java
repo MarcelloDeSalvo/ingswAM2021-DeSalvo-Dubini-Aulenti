@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.commands;
 
 public class FaithPathUpdateMessage extends Message{
-    private int qty;
+    private final int qty;
 
     public FaithPathUpdateMessage(Command command, int qty, String senderNickname) {
         super(new MessageBuilder().setNickname(senderNickname).setTarget(Target.BROADCAST).setCommand(command));

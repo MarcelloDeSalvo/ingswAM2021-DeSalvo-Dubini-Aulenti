@@ -53,7 +53,7 @@ public class ServerMain {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.err.println(e.getMessage()); // Porta non disponibile
+            System.err.println(e.getMessage()); // Port not available
             return;
         }
         System.out.println("Server ready"+'\n');

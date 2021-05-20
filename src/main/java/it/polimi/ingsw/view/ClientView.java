@@ -23,7 +23,7 @@ public abstract class ClientView implements View, UserInput {
 
     private final ArrayList<LeaderCard> leaderCards;
     private final ArrayList<DevelopmentCard> developmentCards;
-    private LiteFaithPath liteFaithPath;
+    private final LiteFaithPath liteFaithPath;
 
     private LiteHand hand;
     private LiteCardGrid liteCardGrid;
@@ -38,8 +38,8 @@ public abstract class ClientView implements View, UserInput {
 
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
-        developmentCards= DevelopmentCardParser.deserializeDevelopmentList();
-        liteFaithPath= FaithPathSetUpParser.deserializeLiteFaithPathSetUp();
+        developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
+        liteFaithPath = FaithPathSetUpParser.deserializeLiteFaithPathSetUp();
         observerControllers = new ArrayList<>();
     }
 

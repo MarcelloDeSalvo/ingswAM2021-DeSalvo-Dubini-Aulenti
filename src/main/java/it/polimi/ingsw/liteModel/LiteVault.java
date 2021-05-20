@@ -45,16 +45,16 @@ public class LiteVault {
 
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Color.ANSI_BLUE.escape()+"VAULT: \n\n"+Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_BLUE.escape()).append("VAULT: \n\n").append(Color.ANSI_RESET.escape());
 
         if(vaultMap.isEmpty())
-            stringBuilder.append(Color.ANSI_RED.escape()+"EMPTY!"+Color.ANSI_RESET.escape());
+            stringBuilder.append(Color.ANSI_RED.escape()).append("EMPTY!").append(Color.ANSI_RESET.escape());
         else{
             stringBuilder.append("--------------------\n");
             for (ResourceType key:vaultMap.keySet()) {
                 if(vaultMap.get(key).getQty()!=0) {
-                    stringBuilder.append(key.toString() + ": ");
-                    stringBuilder.append(vaultMap.get(key).getQty() + "\n");
+                    stringBuilder.append(key.toString()).append(": ");
+                    stringBuilder.append(vaultMap.get(key).getQty()).append("\n");
                     stringBuilder.append("--------------------\n");
                 }
             }

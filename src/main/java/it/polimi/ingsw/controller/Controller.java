@@ -25,11 +25,11 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
+    private final Gson gson;
     private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
-    private final Gson gson;
     private Player currPlayer;
-    private boolean mainActionAvailable=true;
+    private boolean mainActionAvailable = true;
 
     //BUFFERS ----------------------------------------------------------------------------------------------------------\
     private ArrayList<ResourceContainer> marketOut;
@@ -118,7 +118,7 @@ public class Controller implements ObserverController {
                     return;
                 }
 
-                SendContainer sendContainer1 =  gson.fromJson(mex, SendContainer.class);
+                SendContainer sendContainer1 = gson.fromJson(mex, SendContainer.class);
                 addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
                 break;
 
@@ -127,7 +127,6 @@ public class Controller implements ObserverController {
                 break;
         }
     }
-
 
     /**
      * This function manages all the commands that can be sent during the turn phase
@@ -173,6 +172,7 @@ public class Controller implements ObserverController {
             case BUY:
                 if (!mainActionHandler(senderNick))
                     break;
+
                 if(!checkBuy(mex, senderNick, currPlayer))
                     return;
 
@@ -182,12 +182,14 @@ public class Controller implements ObserverController {
             case PRODUCE:
                 if (!mainActionHandler(senderNick))
                     break;
+
                 checkQuestionMarks(mex, senderNick);
                 break;
 
             case PICK_FROM_MARKET:
                 if (!mainActionHandler(senderNick))
                     break;
+
                 pickFromMarket(mex, senderNick);
                 break;
 
@@ -221,7 +223,7 @@ public class Controller implements ObserverController {
                     break;
                 }
                 game.nextTurn();
-                mainActionAvailable=true;
+                mainActionAvailable = true;
 
                 if (game.isGameEnded()) break;
 
@@ -283,7 +285,6 @@ public class Controller implements ObserverController {
             startGame();
     }
 
-
     /**
      * Check if every player in game has already discarded 2 LeaderCards
      */
@@ -298,7 +299,6 @@ public class Controller implements ObserverController {
         }
         return true;
     }
-
 
     /**
      * Used for sending messages about the gameSetUpPhase to every player
@@ -329,7 +329,6 @@ public class Controller implements ObserverController {
             }
         }
     }
-
 
     /**
      * Checks if the current player can add a container to his deposit and notifies the Client by sending specific messages thru the Virtual View <br>
@@ -381,7 +380,6 @@ public class Controller implements ObserverController {
             startGame();
     }
 
-
     /**
      * Adds to currPlayer a ResourceContainer in a specific depositSlotID after checking that everything goes right.
      * This method also notifies the Client by sending specific messages thru the Virtual View
@@ -413,7 +411,6 @@ public class Controller implements ObserverController {
         }
     }
 
-
     /**
      * Starts the turn phase
      */
@@ -424,16 +421,21 @@ public class Controller implements ObserverController {
     }
     //------------------------------------------------------------------------------------------------------------------/
 
-    //TURN HANDLING -----------------------------------------------------------------------------------------------------------------------------------#
-        public boolean mainActionHandler(String senderNick){
-            if(!mainActionAvailable) {
-                view.printReply_uni("You can't do that, you already used your action this turn!", senderNick);
-                return false;
-            }
-            return true;
-        }
-    //------------------------------------------------------------------------------------------------------------------/
 
+    //TURN HANDLING -----------------------------------------------------------------------------------------------------------------------------------#
+    /**
+     * Used for checking if the player can do his main action.
+     * @param senderNick currPLayer nick
+     * @return true if the player can do his main action, false if he already did it
+     */
+    public boolean mainActionHandler(String senderNick){
+        if(!mainActionAvailable) {
+            view.printReply_uni("You can't do that, you already used your main action this turn!", senderNick);
+            return false;
+        }
+        return true;
+    }
+    //------------------------------------------------------------------------------------------------------------------/
 
 
     //BUY PHASE ---------------------------------------------------------------------------------------------------------------------BUY PHASE---------#
@@ -595,7 +597,7 @@ public class Controller implements ObserverController {
         productionSlotId = -1;
 
         view.printProduction(currPlayer.getProductionSite(), senderNick);
-        mainActionAvailable=false;
+        mainActionAvailable = false;
     }
     //------------------------------------------------------------------------------------------------------------------/
 
@@ -735,7 +737,7 @@ public class Controller implements ObserverController {
             currPlayer.canProduce();
             currPlayer.produce();
             view.notifyProductionOk(senderNick);
-            mainActionAvailable=false;
+            mainActionAvailable = false;
 
         } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
             view.printReply_uni(exception.getMessage(), senderNick);
@@ -760,7 +762,7 @@ public class Controller implements ObserverController {
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
             view.printReply_everyOneElse(senderNick+" has extracted the "+marketMessage.getSelection()+" "+marketMessage.getNum()+" from the market!", senderNick);
-            mainActionAvailable=false;
+            mainActionAvailable = false;
 
         }catch (InvalidColumnNumber | InvalidRowNumber e ){
             view.printReply_uni(e.getMessage(), senderNick);

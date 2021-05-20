@@ -29,7 +29,7 @@ public class ServerSender extends Thread {
      * Sends a message to the ClientReceiver
      */
     public void send(String mex){
-        //passa al server il comando
+        //sends the message to the server
         out.println(mex);
         out.flush();
     }

@@ -3,10 +3,8 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.view.ClientView;
-import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
-import it.polimi.ingsw.view.gui.Gui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -108,7 +106,7 @@ public class ClientMain {
                         System.exit(1);
                     }
 
-                    if (!( options.get(s).get(0).toUpperCase().equals("CLI") || options.get(s).get(0).toUpperCase().equals("GUI"))){
+                    if (!( options.get(s).get(0).equalsIgnoreCase("CLI") || options.get(s).get(0).equalsIgnoreCase("GUI"))){
                         System.err.println("Please select 'GUI' or 'CLI'");
                         System.exit(1);
                     }

@@ -2,10 +2,8 @@ package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
-import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.liteModel.LiteVault;
-import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -14,7 +12,6 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -285,8 +282,6 @@ public class Cli extends ClientView {
                         throw new InputMismatchException("You cannot insert the same Production Slot IDs multiple times!");
                     }
 
-                    System.out.println(productionIDs.toString());
-
                     ProduceMessage produceMessage = new ProduceMessage(productionIDs, this.getNickname());
                     send(produceMessage);
                     break;
@@ -314,10 +309,6 @@ public class Cli extends ClientView {
                         else
                             QMs.add(questionMarkType);
                     }
-
-                    /*ResourceType questionMarkType = InputCheck.resourceType_null(stdIn.next());
-                    if (questionMarkType == null) break;*/
-                    System.out.println(QMs.toString());
 
                     if(!QMs.isEmpty()) {
                         ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, QMs, this.getNickname());
@@ -688,13 +679,13 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyCurrentPlayerIncrease(int faithpoints, String nickname) {
-        getLiteFaithPath().incrementPosition(faithpoints, nickname);
+    public void notifyCurrentPlayerIncrease(int faithPoints, String nickname) {
+        getLiteFaithPath().incrementPosition(faithPoints, nickname);
 
         if (!nickname.equals(getNickname()))
-            System.out.println(nickname + "'s position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+            System.out.println(nickname + "'s position has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
         else
-            System.out.println("Your current position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+            System.out.println("Your current position has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
     }
 
     @Override
@@ -708,13 +699,13 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyOthersIncrease(int faithpoints, String nickname) {
-        getLiteFaithPath().incrementOthersPositions(faithpoints, nickname);
+    public void notifyOthersIncrease(int faithPoints, String nickname) {
+        getLiteFaithPath().incrementOthersPositions(faithPoints, nickname);
 
         if (!nickname.equals(getNickname()))
-            System.out.println(nickname+ " has discarded " + faithpoints+ " resources\nYour current position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+            System.out.println(nickname+ " has discarded " + faithPoints+ " resources\nYour current position has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
 
-        System.out.println("Everybody's position (except "+ nickname+") has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+        System.out.println("Everybody's position (except "+ nickname+") has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
     }
 
     @Override

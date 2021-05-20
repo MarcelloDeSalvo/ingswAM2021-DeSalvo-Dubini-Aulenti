@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
@@ -15,7 +14,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     private final String lobbyName;
     private final HashMap<String, User> players;
     private User owner;
-    private final Gson gson;
 
     private final int maxPlayers;
     private int numOfPlayersConnected;
@@ -28,7 +26,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         this.maxPlayers = maxPlayers;
         this.owner = owner;
         players = new HashMap<>();
-        gson = new Gson();
     }
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
@@ -121,7 +118,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
     /**
      * Delete this lobby and removes it from the user's list
-     * @param user
+     * @param user user
      */
     private void deleteLobby (User user) {
         Lobby lobbyToDelete = getLobbies().get(lobbyName);
@@ -274,7 +271,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     //JAVA--------------------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-        String coloredFull, coloredClosed, available = Color.ANSI_GREEN.escape();;
+        String coloredFull, coloredClosed, available = Color.ANSI_GREEN.escape();
         if(isFull ) {
             coloredFull = Color.ANSI_RED.escape();
             available = Color.ANSI_RED.escape();

@@ -2,11 +2,8 @@ package it.polimi.ingsw.view;
 
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.Cardgrid;
-import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.cards.Colour;
-import it.polimi.ingsw.model.player.Vault;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -15,7 +12,6 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
-import it.polimi.ingsw.view.cli.Color;
 
 
 import java.util.ArrayList;
@@ -187,9 +183,6 @@ public class VirtualView implements View {
         printReply_uni(marketOutChoice.toString(), nickname);
     }
 
-    public void printFaithPath(FaithPath faithPath, String nickname, ArrayList<String> nicks){
-        printReply_uni(faithPath.toString(nicks),nickname);
-    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -222,8 +215,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyOthersIncrease(int faithpoints, String nickname) {
-        notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_OTHERS,faithpoints,nickname));
+    public void notifyOthersIncrease(int faithPoints, String nickname) {
+        notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_OTHERS, faithPoints, nickname));
     }
 
     @Override
@@ -296,7 +289,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyGameEnded(){
-        //CICLO I PLAYER E VEDO SE SONO DISCONNESSI, SE LO SONO GLI CHIAMO LA ON DISCONNECT CON STATUS IN LOBBY MANAGER
+        //CICLO I PLAYER E VEDO SE SONO DISCONNESSI, SE LO SONO GLI CHIAMO LA ON DISCONNECT CON STATUS IN LOBBY
         notifyUsers( new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.END_GAME).build());
         for (String nick: connectedPlayers.keySet()) {
             connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);

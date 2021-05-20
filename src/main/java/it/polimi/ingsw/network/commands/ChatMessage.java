@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.commands;
 
-import it.polimi.ingsw.view.cli.Color;
-
 public class ChatMessage extends Message {
     private final String receiver;
 
