@@ -54,7 +54,6 @@ public class LeaderDeposit extends DepositSlot {
 
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
 
-        System.out.println(" leader deposit: " + getId());
         getDepositListener().notifyDepositChanges(getId(), inputContainer, true,null);
 
         return true;

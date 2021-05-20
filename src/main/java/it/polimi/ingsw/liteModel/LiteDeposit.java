@@ -107,7 +107,6 @@ public class LiteDeposit {
     }
 
     public void addRes(ResourceContainer resourceContainer, int id){
-        System.out.println("ID: " + id);
         deposits.get(id-1).addToDepositSlot(resourceContainer);
     }
 

@@ -19,7 +19,6 @@ public class StoreAbility implements Ability {
     @Override
     public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
         int id = playerBoard.getDeposit().getDepositList().size()+1;
-        System.out.println("store ability: " + id);
         playerBoard.getDeposit().addDepositSlot(new LeaderDeposit(resourceType, maxDim, id));
         return true;
     }
