@@ -319,5 +319,11 @@ public class VirtualView implements View {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+    public String getCurrPlayer() {
+        return currPlayer;
+    }
 
+    public void setCurrPlayer(String currPlayer) {
+        this.currPlayer = currPlayer;
+    }
 }

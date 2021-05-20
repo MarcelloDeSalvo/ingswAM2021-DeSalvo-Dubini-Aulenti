@@ -384,8 +384,9 @@ public class Controller implements ObserverController {
     public boolean addContainerToPlayer(int currPlayerNum, ResourceContainer container, int depositSlotID, String currNickname) {
 
         try {
-            game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
 
+            view.setCurrPlayer(currNickname);
+            game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
             game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
 
             view.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID, currNickname);
@@ -407,6 +408,7 @@ public class Controller implements ObserverController {
      * Starts the turn phase
      */
     private void startGame() {
+        view.setCurrPlayer(game.getCurrentPlayerNick());
         game.startGame();
         view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
         view.printItsYourTurn(game.getCurrentPlayerNick());

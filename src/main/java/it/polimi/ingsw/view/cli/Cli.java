@@ -857,7 +857,6 @@ public class Cli extends ClientView {
         printReply("# The game is ended, you are now in the lobby");
         isInGame= false;
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -872,4 +871,6 @@ public class Cli extends ClientView {
         printReply(payload);
     }
     //------------------------------------------------------------------------------------------------------------------
+
+
 }
