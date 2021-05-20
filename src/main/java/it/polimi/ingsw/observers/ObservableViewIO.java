@@ -10,7 +10,12 @@ public interface ObservableViewIO {
     void notifyServerAreas(String message);
 
     /**
-     * adds a lobby or a view to the observers list
+     * Adds a lobby or a view to the observers list
      */
     void addServerArea(ObserverViewIO obs);
+
+    /**
+     * Removes a lobby or a view to the observers list
+     */
+    void removeServerArea(ObserverViewIO serverArea);
 }

@@ -25,15 +25,10 @@ public class LobbyManager implements  ObserverViewIO {
     }
 
     @Override
-    public synchronized void update(String mex){
-
-        Message deserializedMex = gson.fromJson(mex, Message.class);
-
-        Command command = deserializedMex.getCommand();
-        String senderNick = deserializedMex.getSenderNickname();
+    public synchronized void update(String mex, Command command, String senderNick){
 
         User currentUser = connectedPlayers.get(senderNick);
-
+        Message deserializedMex = gson.fromJson(mex, Message.class);
 
         if(!hasPermission (currentUser, command))
             return;

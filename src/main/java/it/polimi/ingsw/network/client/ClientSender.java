@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.ClientView;
 
@@ -35,7 +36,7 @@ public class ClientSender extends Thread implements ObserverController {
     }
 
     @Override
-    public synchronized void update(String mex) {
+    public synchronized void update(String mex, Command command, String senderNick) {
         out.println(mex);
         out.flush();
     }

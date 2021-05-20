@@ -86,6 +86,20 @@ public class Cli extends ClientView {
                 notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
                 break;
 
+            case DISCARD_OK:
+                IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
+                notifyLeaderDiscarded(idMessage.getId(),"");
+                break;
+
+            case ACTIVATE_OK:
+                IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
+                notifyLeaderActivated(activatedLeader.getId(), "");
+                break;
+
+            case BUY_OK:
+                notifyBoughtCard(senderNick);
+                break;
+
             case GAME_SETUP:
                 GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
                 notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames());
@@ -102,16 +116,6 @@ public class Cli extends ClientView {
 
             case SHOW_TURN_HELP:
                 printItsYourTurn(senderNick);
-                break;
-
-            case DISCARD_OK:
-                IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
-                notifyLeaderDiscarded(idMessage.getId(),"");
-                break;
-
-            case ACTIVATE_OK:
-                IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
-                notifyLeaderActivated(activatedLeader.getId(), "");
                 break;
 
             case REPLY:
@@ -459,7 +463,6 @@ public class Cli extends ClientView {
         return true;
     }
 
-
     /**
      * Validates the input when the player has to choose a ResourceContainer in order to Produce or Buy
      */
@@ -576,7 +579,6 @@ public class Cli extends ClientView {
         System.out.println("Disconnected");
     }
 
-
     @Override
     public void printReply(String payload) {
         System.out.println(payload + "\n");
@@ -657,7 +659,10 @@ public class Cli extends ClientView {
     //------------------------------------------------------------------------------------------------------------------
     @Override
     public void notifyBoughtCard(String nickname) {
-
+        if (!nickname.equals(getNickname()))
+            System.out.println(nickname + " bought a new card!");
+        else
+            printReply_uni("You bought the card correctly!", nickname);
     }
 
     @Override
@@ -677,7 +682,7 @@ public class Cli extends ClientView {
         if (!nickname.equals(getNickname()))
             System.out.println(nickname+ " has discarded " + faithpoints+ " resources\nYour current position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
 
-        System.out.println("Everybody's position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+        System.out.println("Everybody's position (except "+ nickname+") has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
     }
 
     @Override
@@ -734,6 +739,16 @@ public class Cli extends ClientView {
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
         printReply("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
+    }
+
+    @Override
+    public void notifyVaultAdd(ResourceContainer added) {
+
+    }
+
+    @Override
+    public void notifyVaultRemove(ResourceContainer removed) {
+
     }
 
     @Override

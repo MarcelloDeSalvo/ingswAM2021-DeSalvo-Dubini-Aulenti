@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import it.polimi.ingsw.model.parser.FaithPathSetUpParser;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
+import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverController;
 
@@ -43,7 +44,7 @@ public abstract class ClientView implements View, UserInput {
     @Override
     public void send(Message mex){
         String stringToSend = mex.serialize();
-        notifyController(stringToSend);
+        notifyController(stringToSend, null, null);
     }
 
 
@@ -55,16 +56,16 @@ public abstract class ClientView implements View, UserInput {
     }
 
     @Override
-    public void notifyController(String message) {
+    public void notifyController(String mex, Command command, String senderNick) {
         for (ObserverController obs: observerControllers) {
-            obs.update(message);
+            obs.update(mex,command, senderNick);
         }
     }
 
     @Override
-    public void update(String message) {
+    public void update(String mex, Command command, String senderNick) {
         //OFFLINE NOT YET IMPLEMENTED
-        readUpdates(message);
+        readUpdates(mex);
     }
     //------------------------------------------------------------------------------------------------------------------
 

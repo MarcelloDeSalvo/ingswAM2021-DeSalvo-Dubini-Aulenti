@@ -39,6 +39,7 @@ public class Controller implements ObserverController {
 
     private ArrayList<Integer> productionSlotIDs;
     //------------------------------------------------------------------------------------------------------------------/
+
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
@@ -81,11 +82,7 @@ public class Controller implements ObserverController {
     }
 
     @Override
-    public void update(String mex) {
-
-        Message deserializedMex = gson.fromJson(mex, Message.class);
-        Command command = deserializedMex.getCommand();
-        String senderNick = deserializedMex.getSenderNickname();
+    public void update(String mex, Command command, String senderNick) {
 
         if (!game.isGameStarted()){
             setUp_Commands(mex, senderNick, command);
@@ -997,12 +994,11 @@ public class Controller implements ObserverController {
 
         for (LeaderCard lc : currPlayer.getHand()) {
             if(lc.getId() == id){
-                if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
+                if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard()))
                     currPlayer.activateLeader(lc);
-                    view.printReply_everyOneElse(nickname+" has activated the "+id+"ID leader!", nickname);
-                }else {
+                else
                     view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);
-                }
+
                 return;
             }
         }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObservableViewIO;
@@ -18,11 +19,12 @@ public class User implements ObserverThread, ObservableViewIO {
     private final List<ObserverViewIO> serverAreas;
     private boolean active=true;
     private boolean received;
-
+    private Gson gson;
 
     private Status status;
 
     public User(String nickname, ServerReceiver serverReceiver, ServerSender serverSender, Status status) {
+        gson = new Gson();
         this.nickname = nickname;
         this.serverReceiver = serverReceiver;
         this.serverSender = serverSender;
@@ -88,7 +90,6 @@ public class User implements ObserverThread, ObservableViewIO {
      */
     public void pongReceived(){ received=true; }
 
-
     @Override
     public void somethingHasBeenReceived(String message){
         notifyServerAreas(message);
@@ -96,9 +97,11 @@ public class User implements ObserverThread, ObservableViewIO {
 
     @Override
     public void notifyServerAreas(String message) {
+        Message deserializedMex = gson.fromJson(message, Message.class);
+        Command command = deserializedMex.getCommand();
 
         for (ObserverViewIO serverArea: serverAreas) {
-            serverArea.update(message);
+            serverArea.update(message, command, nickname);
         }
     }
 
@@ -107,8 +110,7 @@ public class User implements ObserverThread, ObservableViewIO {
         serverAreas.add(serverArea);
     }
 
-
-
+    @Override
     public void removeServerArea(ObserverViewIO serverArea){
         serverAreas.remove(serverArea);
     }

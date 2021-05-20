@@ -27,6 +27,7 @@ public class VirtualView implements View {
     private final HashMap<String, User> connectedPlayers;
     private final ArrayList<ObserverController> observerControllers;
     private final Gson gson;
+    private String currPlayer;
 
     public VirtualView() {
         this.connectedPlayers = new HashMap<>();
@@ -49,11 +50,7 @@ public class VirtualView implements View {
 
     //OBSERVER VIEW IO-------(RECEIVED DATA)----------------------------------------------------------------------------
     @Override
-    public synchronized void update(String mex){
-        Message deserializedMex = gson.fromJson(mex, Message.class);
-        Command command = deserializedMex.getCommand();
-
-        String senderNick = deserializedMex.getSenderNickname();
+    public synchronized void update(String mex, Command command, String senderNick){
 
         if(!UserManager.isNamePresent(connectedPlayers, senderNick))
             return;
@@ -63,8 +60,7 @@ public class VirtualView implements View {
         if(!hasPermission(currentUser, command))
             return;
 
-
-        notifyController(mex);
+        notifyController(mex, command, senderNick);
     }
 
     /**
@@ -103,9 +99,9 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyController(String message) {
+    public void notifyController(String mex, Command command, String senderNick) {
         for (ObserverController obs: observerControllers) {
-            obs.update(message);
+            obs.update(mex, command, senderNick);
         }
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -161,6 +157,7 @@ public class VirtualView implements View {
 
     @Override
     public void printItsYourTurn(String nickname){
+        currPlayer = nickname;
         notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
         printReply_everyOneElse("@ It is "+ nickname +"'s turn", nickname);
     }
@@ -241,11 +238,8 @@ public class VirtualView implements View {
 
     @Override
     public void notifyBoughtCard(String nickname) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
-                .setInfo(nickname + " bought a new card!")
-                .setTarget(Target.EVERYONE_ELSE).setNickname(nickname).build());
-
-        printReply_uni("You bought the card correctly!", nickname);
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.BUY_OK).setTarget(Target.BROADCAST)
+                .setNickname(nickname).build());
     }
 
     @Override
@@ -266,11 +260,22 @@ public class VirtualView implements View {
     @Override
     public void notifyLeaderActivated(int id, String nickname){
         notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
+        printReply_everyOneElse(nickname+" has activated the "+id+"ID leader!", nickname);
     }
 
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
         printReply("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
+    }
+
+    @Override
+    public void notifyVaultAdd(ResourceContainer added) {
+
+    }
+
+    @Override
+    public void notifyVaultRemove(ResourceContainer removed) {
+
     }
 
     @Override
@@ -295,13 +300,13 @@ public class VirtualView implements View {
 
     @Override
     public void notifyGameEnded(){
+        //CICLO I PLAYER E VEDO SE SONO DISCONNESSI, SE LO SONO GLI CHIAMO LA ON DISCONNECT CON STATUS IN LOBBY MANAGER
         notifyUsers( new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.END_GAME).build());
         for (String nick: connectedPlayers.keySet()) {
             connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);
             connectedPlayers.get(nick).removeServerArea(this);
         }
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 

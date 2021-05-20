@@ -25,12 +25,10 @@ public enum Command {
     GAME_SETUP      (false,false,false, Status.IN_GAME),
     PLAYER_LIST     (false, true, false, Status.IN_LOBBY),
 
-    DISCARD_LEADER  (false,false,true, Status.IN_GAME),
-    DISCARD_OK      (false,false,true, Status.IN_GAME),
-    ACTIVATE_OK     (false,false,true, Status.IN_GAME),
 
     CHEAT_VAULT     (false,false,true, Status.IN_GAME),
 
+    DISCARD_LEADER  (false,false,true, Status.IN_GAME),
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),
     PRODUCE         (false, false, true, Status.IN_GAME),
@@ -46,6 +44,10 @@ public enum Command {
     END_TURN        (false, false, true, Status.IN_GAME),
 
     END_GAME        (false, false, false, null),
+
+    DISCARD_OK      (false,false,true, Status.IN_GAME),
+    ACTIVATE_OK     (false,false,true, Status.IN_GAME),
+    BUY_OK          (false,false,true, Status.IN_GAME),
 
     NOTIFY_CARDGRID (false, false, true, Status.IN_GAME),
     NOTIFY_HAND     (false,false,true,Status.IN_GAME),

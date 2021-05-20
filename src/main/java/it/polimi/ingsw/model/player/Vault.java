@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
+import it.polimi.ingsw.observers.gameListeners.VaultListener;
+import it.polimi.ingsw.observers.gameListeners.VaultSubject;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
@@ -11,13 +14,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Vault {
+public class Vault implements VaultSubject {
 
     /**
      * vaultMap is an HashMap used to store ResourceContainers (Resources and their quantity) using ResourceType as key
      */
     private final HashMap<ResourceType, ResourceContainer> vaultMap;
     private HashMap<ResourceType, ResourceContainer> bufferMap;
+    private VaultListener vaultListener;
 
     public Vault() {
         vaultMap = new HashMap<>();
@@ -72,6 +76,7 @@ public class Vault {
      */
     public boolean removeFromVault(ResourceContainer inputContainer) {
         vaultMap.get(inputContainer.getResourceType()).addQty(-inputContainer.getQty());
+        vaultListener.notifyVaultRemove(inputContainer);
         return true;
     }
 
@@ -185,5 +190,8 @@ public class Vault {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-
+    @Override
+    public void addListeners(VaultListener vaultListener) {
+        this.vaultListener = vaultListener;
+    }
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.observers;
 
+import it.polimi.ingsw.network.commands.Command;
+
 public interface ObservableController {
 
     /**
@@ -10,6 +12,6 @@ public interface ObservableController {
     /**
      * Notifies all the controllers
      */
-    void notifyController(String message);
+    void notifyController(String message, Command command, String senderNick);
 
 }

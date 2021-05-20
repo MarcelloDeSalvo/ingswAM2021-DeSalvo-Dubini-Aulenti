@@ -3,12 +3,13 @@ package it.polimi.ingsw.observers;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.observers.gameListeners.CardGridListener;
 import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
+import it.polimi.ingsw.observers.gameListeners.VaultListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public interface ObserverModel extends FaithPathListener, CardGridListener {
+public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener {
     void printHello();
     void printQuit(String nickname);
 

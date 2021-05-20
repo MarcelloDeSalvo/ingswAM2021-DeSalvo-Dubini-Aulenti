@@ -7,7 +7,6 @@ public class LiteModel {
     public LiteHand getHand() {
         return hand;
     }
-
     public LiteCardGrid getLiteCardGrid() {
         return liteCardGrid;
     }

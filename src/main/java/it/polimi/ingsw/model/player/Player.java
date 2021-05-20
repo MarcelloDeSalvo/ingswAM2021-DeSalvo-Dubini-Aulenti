@@ -115,6 +115,9 @@ public class Player implements ObservableModel {
     }
 
 
+    /**
+     * @return All the leaders' id in the player's hand
+     */
     public ArrayList<Integer> leaderListToInt () {
         ArrayList<Integer> leaderListInt = new ArrayList<>();
 
@@ -125,6 +128,10 @@ public class Player implements ObservableModel {
     }
 
 
+    /**
+     * Activates a leader if his requirements are met
+     * @return if the leader is activated
+     */
     public boolean activateLeader(LeaderCard leaderCard) throws NullPointerException {
 
         if (leaderCard == null)
@@ -150,6 +157,7 @@ public class Player implements ObservableModel {
         return c;
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
     //BUY METHODS---(Calls the methods of the lowest levels)------------------------------------------------------------
     /**
@@ -189,7 +197,8 @@ public class Player implements ObservableModel {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    //CONVERT METHODS---(Calls the methods of the lowest levels)------------------------------------------------------------
+
+    //CONVERT METHODS---(Calls the methods of the lowest levels)--------------------------------------------------------
     /**
      * canConvert checks if and how many conversions are available
      * @return INACTIVE if the player has no active conversion leader <br>
@@ -207,9 +216,8 @@ public class Player implements ObservableModel {
     public boolean convert(ArrayList<ResourceContainer> marketOutput) {
         return playerBoard.getConversionSite().convert(marketOutput);
     }
-
-
     //------------------------------------------------------------------------------------------------------------------
+
 
     //PRODUCTION PIPELINE---(Calls the methods of the lowest levels)----------------------------------------------------
     /**
@@ -225,7 +233,7 @@ public class Player implements ObservableModel {
      *  in order to activate the production
      * @return true if he has enough total resources
      */
-    public  boolean hasEnoughResourcesForProduction(){
+    public boolean hasEnoughResourcesForProduction(){
         return playerBoard.hasEnoughResourcesForProduction();
     }
 
@@ -411,6 +419,7 @@ public class Player implements ObservableModel {
         this.playerStatus = playerStatus;
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
     //OBSERVABLE MODEL--------------------------------------------------------------------------------------------------
     @Override

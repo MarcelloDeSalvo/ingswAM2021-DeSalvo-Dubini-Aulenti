@@ -33,18 +33,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
     //LOBBY MANAGEMENT--------------------------------------------------------------------------------------------------
     @Override
-    public synchronized void update(String mex) {
-
-        Message deserializedMex = gson.fromJson(mex, Message.class);
-
-        Command command = deserializedMex.getCommand();
-        String senderNick = deserializedMex.getSenderNickname();
+    public synchronized void update(String mex, Command command, String senderNick) {
 
         if(!UserManager.isNamePresent(players, senderNick))
             return;
 
         User currentUser = players.get(senderNick);
-
 
         if(!hasPermission(currentUser, command))
             return;
@@ -179,7 +173,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
 
     //NOTIFICATIONS-----------------------------------------------------------------------------------------------------
-
     /**
      * Notifies all the player in the lobby that a new player has joined
      */
@@ -206,7 +199,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 new Message.MessageBuilder().setCommand(Command.REPLY)
                         .setTarget(Target.EVERYONE_ELSE).setNickname(owner.getNickname()).setInfo("The Owner has left, the new Owner is: " + owner.getNickname()).build());
     }
-
 
     /**
      * Notifies all the players in the lobby the nickname of everyone
