@@ -126,6 +126,10 @@ public class Cli extends ClientView {
                 notifyProductionOk(senderNick);
                 break;
 
+            case MANAGE_DEPOSIT_OK:
+                notifyMoveOk(senderNick);
+                break;
+
             case GAME_SETUP:
                 GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
                 notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
@@ -418,8 +422,7 @@ public class Cli extends ClientView {
 
                 case "SM":
                 case "SHOW_MARKET":
-                    System.out.println(getLiteMarket().toString());
-                    //send(new Message.MessageBuilder().setCommand(Command.SHOW_MARKET).setNickname(this.getNickname()).build());
+                    printMarket();
                     break;
 
                 case "SC":
@@ -634,6 +637,11 @@ public class Cli extends ClientView {
                 "\nType HELP to see the full command list ", nickname);
     }
 
+    @Override
+    public void printOrder(ArrayList<String> randomOrder) {
+
+    }
+
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
     public void printHand() {
         if (!isInGame) return;
@@ -661,15 +669,14 @@ public class Cli extends ClientView {
         System.out.println(getLiteDeposit().toString());
     }
 
-
-    @Override
-    public void printOrder(ArrayList<String> randomOrder) {
-
+    public void printMarket(){
+        if (!isInGame) return;
+        System.out.println(getLiteMarket().toString());
     }
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //------------------------------------------------------------------------------------------------------------------
+    //ASK---------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
         printDeposit();
@@ -724,6 +731,12 @@ public class Cli extends ClientView {
             System.out.println("Production executed correctly!");
             printVault();
         }
+    }
+
+    @Override
+    public void notifyMoveOk(String senderNick) {
+        printDeposit();
+        System.out.println("The action on deposit has been executed correctly!\n");
     }
 
     @Override

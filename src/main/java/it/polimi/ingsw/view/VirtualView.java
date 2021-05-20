@@ -1,9 +1,5 @@
 package it.polimi.ingsw.view;
 
-
-import com.google.gson.Gson;
-import it.polimi.ingsw.model.FaithPath;
-import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -23,19 +19,16 @@ public class VirtualView implements View {
 
     private final HashMap<String, User> connectedPlayers;
     private final ArrayList<ObserverController> observerControllers;
-    private final Gson gson;
     private String currPlayer;
 
     public VirtualView() {
         this.connectedPlayers = new HashMap<>();
         observerControllers = new ArrayList<>();
-        gson = new Gson();
     }
 
     public VirtualView(HashMap<String, User> connectedPlayers) {
         this.connectedPlayers = new HashMap<>(connectedPlayers);
         observerControllers = new ArrayList<>();
-        gson = new Gson();
     }
 
     /**
@@ -166,15 +159,6 @@ public class VirtualView implements View {
     public void printProduction(ProductionSite productionSite, String nickname) {
         printReply_uni(productionSite.toString(), nickname);
     }
-
-    public void printMarket(Market market, String nickname){
-        printReply_uni(market.toString(), nickname);
-    }
-
-    public void printFaithPath(FaithPath faithPath, String nickname, ArrayList<String> nicks){
-        printReply_uni(faithPath.toString(nicks),nickname);
-    }
-
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -265,6 +249,11 @@ public class VirtualView implements View {
     @Override
     public void notifyProductionOk(String senderNick) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_OK).setNickname(senderNick).build());
+    }
+
+    @Override
+    public void notifyMoveOk(String senderNick) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.MANAGE_DEPOSIT_OK).setNickname(senderNick).build());
     }
 
     @Override

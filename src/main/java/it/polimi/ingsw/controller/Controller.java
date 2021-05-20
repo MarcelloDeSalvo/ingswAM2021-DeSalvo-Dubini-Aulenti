@@ -208,10 +208,6 @@ public class Controller implements ObserverController {
                 view.printProduction(currPlayer.getPlayerBoard().getProductionSite(), senderNick);
                 break;
 
-            case SHOW_MARKET:
-                view.printMarket(game.getMarket(), senderNick);
-                break;
-
             case END_TURN:
                 if(mainActionAvailable) {
                     view.printReply_uni("You can't pass yet, you have to perform at least a main action!", senderNick);
@@ -957,9 +953,7 @@ public class Controller implements ObserverController {
 
         try {
             currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot, qty, destinationDepositSlot);
-
-            //view.printDeposit(currPlayer.getDeposit(), senderNick);
-            view.printReply_uni("The action on deposit has been executed correctly!", senderNick);
+            view.notifyMoveOk(senderNick);
         }
         catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){
             view.printReply_uni(e.getMessage(), senderNick);

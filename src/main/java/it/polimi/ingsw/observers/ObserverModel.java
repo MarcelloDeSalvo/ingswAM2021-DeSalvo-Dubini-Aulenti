@@ -73,6 +73,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
     void notifyLeaderDiscarded(int id, String nickname);
     void notifyLeaderActivated(int id, String nickname);
     void notifyProductionOk(String senderNick);
+    void notifyMoveOk(String senderNick);
     void notifyMarketUpdate(String selection, int selected);
     void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
