@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 
 public interface VaultListener {
 
-    void notifyVaultAdd(ResourceContainer added);
-    void notifyVaultRemove(ResourceContainer removed);
+    /**
+     * Updates the listener (View) that a resourceContainer is added or removed
+     * @param added true if the container was added, false if it was removed
+     */
+    void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick);
 }

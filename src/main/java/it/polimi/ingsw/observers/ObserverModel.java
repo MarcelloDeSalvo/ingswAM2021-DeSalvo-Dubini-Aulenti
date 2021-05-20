@@ -10,7 +10,15 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener {
+    /**
+     * Simple reply from the server
+     */
     void printHello();
+
+    /**
+     * Says goodbye
+     * @param nickname
+     */
     void printQuit(String nickname);
 
     /**
@@ -46,16 +54,17 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
 
     void printLobby(ArrayList<String> lobbiesInfos);
     void printDeposit(Deposit deposit, String depositInfo);
-    void printHand(ArrayList<Integer> leaderIDs, String nickname);
     void printItsYourTurn(String nickname);
 
     void askForResources(String nickname, int qty);
     void askForLeaderCardID(String nickname);
 
+    void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname);
     void notifyBoughtCard(String nickname);
     void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
     void notifyLeaderDiscarded(int id, String nickname);
     void notifyLeaderActivated(int id, String nickname);
+    void notifyProductionOk(String senderNick);
     void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
     void notifyScores(List<Integer> playersTotalVictoryPoints);

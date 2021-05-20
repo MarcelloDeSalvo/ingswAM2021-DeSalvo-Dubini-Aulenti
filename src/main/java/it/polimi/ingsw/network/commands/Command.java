@@ -29,9 +29,13 @@ public enum Command {
     CHEAT_VAULT     (false,false,true, Status.IN_GAME),
 
     DISCARD_LEADER  (false,false,true, Status.IN_GAME),
+    DISCARD_OK      (false,false,true, Status.IN_GAME),
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
+    ACTIVATE_OK     (false,false,true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),
+    BUY_OK          (false,false,true, Status.IN_GAME),
     PRODUCE         (false, false, true, Status.IN_GAME),
+    PRODUCE_OK         (false, false, true, Status.IN_GAME),
     DONE            (false, false, true, Status.IN_GAME),
     FILL_QM         (false, false, true, Status.IN_GAME),
     PICK_FROM_MARKET(false, false,true, Status.IN_GAME ),
@@ -45,11 +49,8 @@ public enum Command {
 
     END_GAME        (false, false, false, null),
 
-    DISCARD_OK      (false,false,true, Status.IN_GAME),
-    ACTIVATE_OK     (false,false,true, Status.IN_GAME),
-    BUY_OK          (false,false,true, Status.IN_GAME),
-
     NOTIFY_CARDGRID (false, false, true, Status.IN_GAME),
+    NOTIFY_VAULT_UPDATE (false, false, true, Status.IN_GAME),
     NOTIFY_HAND     (false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_CURRENT(false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_OTHERS(false,false,true,Status.IN_GAME),
@@ -58,7 +59,6 @@ public enum Command {
     SHOW_MYBOARD    (false, false, true, Status.IN_GAME),
     SHOW_PLAYER     (false, false, true, Status.IN_GAME),
     SHOW_DEPOSIT    (false, false, true, Status.IN_GAME),
-    SHOW_VAULT      (false, false, true, Status.IN_GAME),
     SHOW_PRODUCTION (false, false, true, Status.IN_GAME),
     SHOW_MARKET      (false, false, true, Status.IN_GAME),
     SHOW_POINTS     (false, false, true, Status.IN_GAME),

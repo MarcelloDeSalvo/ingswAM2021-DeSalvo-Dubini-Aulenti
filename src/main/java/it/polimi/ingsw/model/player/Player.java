@@ -39,6 +39,7 @@ public class Player implements ObservableModel {
         this.playerBoard = new PlayerBoard(3,3);
         hand = new ArrayList<>();
         view = new VirtualView();
+        getVault().addListeners(view);
     }
 
     public Player(String nickname, int orderID, FaithPath faithPath) {
@@ -425,6 +426,7 @@ public class Player implements ObservableModel {
     @Override
     public void addView(ObserverModel view) {
         this.view = view;
+        getVault().addListeners(view);
     }
     //------------------------------------------------------------------------------------------------------------------
 

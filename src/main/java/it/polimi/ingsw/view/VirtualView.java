@@ -167,17 +167,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
-        notifyUsers(new ShowHandMessage(leaderIDs, nickname));
-    }
-
-    @Override
     public void printDeposit(Deposit deposit, String nickname) {
         printReply_uni(deposit.toString(), nickname);
-    }
-
-    public void printVault(Vault vault, String nickname) {
-        printReply_uni(vault.toString(), nickname);
     }
 
     public void printProduction(ProductionSite productionSite, String nickname) {
@@ -221,6 +212,11 @@ public class VirtualView implements View {
 
     //NOTIFIES----------------------------------------------------------------------------------------------------------
     @Override
+    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames){
+        notifyUsers(new GameSetUp(cardGridIDs,nicknames));
+    }
+
+    @Override
     public void notifyCurrentPlayerIncrease(int qty, String nickname) {
         notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_CURRENT, qty, nickname));
     }
@@ -248,8 +244,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames){
-        notifyUsers(new GameSetUp(cardGridIDs,nicknames));
+    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+        notifyUsers(new ShowHandMessage(leaderIDs, nickname));
     }
 
     @Override
@@ -269,13 +265,13 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyVaultAdd(ResourceContainer added) {
-
+    public void notifyProductionOk(String senderNick) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_OK).setNickname(senderNick).build());
     }
 
     @Override
-    public void notifyVaultRemove(ResourceContainer removed) {
-
+    public void notifyVaultChanges(ResourceContainer container, boolean added, String nick) {
+        notifyUsers(new SendContainer(Command.NOTIFY_VAULT_UPDATE, container, currPlayer, added));
     }
 
     @Override

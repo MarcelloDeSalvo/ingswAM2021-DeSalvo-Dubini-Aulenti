@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.liteModel.LiteHand;
+import it.polimi.ingsw.liteModel.LiteVault;
 import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.player.deposit.Deposit;
@@ -67,8 +68,7 @@ public class Cli extends ClientView {
 
             case NOTIFY_HAND:
                 ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                setHand(new LiteHand(showHandMessage.getCardsID(), getLeaderCards()));
-                printHand(null, "");
+                notifyCardsInHand(showHandMessage.getCardsID(), senderNick);
                 break;
 
             case NOTIFY_FAITHPATH_CURRENT:
@@ -86,6 +86,11 @@ public class Cli extends ClientView {
                 notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
                 break;
 
+            case NOTIFY_VAULT_UPDATE:
+                SendContainer vaultChanges = gson.fromJson(mex, SendContainer.class);
+                notifyVaultChanges(vaultChanges.getContainer(), vaultChanges.isAdded(), senderNick);
+                break;
+
             case DISCARD_OK:
                 IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
                 notifyLeaderDiscarded(idMessage.getId(),"");
@@ -98,6 +103,10 @@ public class Cli extends ClientView {
 
             case BUY_OK:
                 notifyBoughtCard(senderNick);
+                break;
+
+            case PRODUCE_OK:
+                notifyProductionOk(senderNick);
                 break;
 
             case GAME_SETUP:
@@ -378,7 +387,7 @@ public class Cli extends ClientView {
 
                 case "SH":
                 case "SHOW_HAND":
-                    printHand(null, "");
+                    printHand();
                     break;
 
                 case "SD":
@@ -388,7 +397,7 @@ public class Cli extends ClientView {
 
                 case "SV":
                 case "SHOW_VAULT":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_VAULT).setNickname(this.getNickname()).build());
+                    printVault();
                     break;
 
                 case "SP":
@@ -614,14 +623,14 @@ public class Cli extends ClientView {
     }
 
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
-    @Override
-    public void printHand(ArrayList<Integer> leaderIDs, String nickname) {
+    public void printHand() {
         if (!isInGame) return;
         System.out.println(getHand().toString());
     }
 
-    @Override
-    public void printDeposit(Deposit deposit, String depositInfo) {
+    public void printVault(){
+        if (!isInGame) return;
+        System.out.println(getLiteVault().toString());
     }
 
     public void printCardGrid(){
@@ -633,6 +642,10 @@ public class Cli extends ClientView {
     public void printFaithPath(){
         if (!isInGame) return;
         System.out.println(getLiteFaithPath().toString());
+    }
+
+    @Override
+    public void printDeposit(Deposit deposit, String depositInfo) {
     }
 
 
@@ -658,6 +671,15 @@ public class Cli extends ClientView {
 
     //------------------------------------------------------------------------------------------------------------------
     @Override
+    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
+        setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
+        setLiteVault(new LiteVault());
+
+        getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+        isInGame = true;
+    }
+
+    @Override
     public void notifyBoughtCard(String nickname) {
         if (!nickname.equals(getNickname()))
             System.out.println(nickname + " bought a new card!");
@@ -673,6 +695,16 @@ public class Cli extends ClientView {
             System.out.println(nickname + "'s position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
         else
             System.out.println("Your current position has been incremented by " + faithpoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+    }
+
+    @Override
+    public void notifyProductionOk(String senderNick) {
+        if (!senderNick.equals(getNickname()))
+            System.out.println(senderNick+" has used the production this turn!");
+        else{
+            System.out.println("Production executed correctly!");
+            printVault();
+        }
     }
 
     @Override
@@ -712,13 +744,6 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
-        setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
-        getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
-        isInGame = true;
-    }
-
-    @Override
     public void notifyCardGridChanges(int oldID, int newID) {
         getLiteCardGrid().gridUpdated(oldID, newID);
     }
@@ -727,7 +752,13 @@ public class Cli extends ClientView {
     public void notifyLeaderDiscarded(int id, String nickname){
         System.out.println("Leader discarded!\n");
         getHand().discardFromHand(id);
-        printHand(null, "");
+        printHand();
+    }
+
+    @Override
+    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+        setHand(new LiteHand(leaderIDs, getLeaderCards()));
+        printHand();
     }
 
     @Override
@@ -742,13 +773,13 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyVaultAdd(ResourceContainer added) {
+    public void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick) {
+        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
 
-    }
-
-    @Override
-    public void notifyVaultRemove(ResourceContainer removed) {
-
+        if (added)
+            getLiteVault().addToVault(container);
+        else
+            getLiteVault().removeFromVault(container);
     }
 
     @Override

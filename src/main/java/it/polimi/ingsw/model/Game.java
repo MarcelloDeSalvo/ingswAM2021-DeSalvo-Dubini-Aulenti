@@ -501,6 +501,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
 
         faithPath.addListeners(view);
         cardgrid.addCardGridListener(view);
+
     }
     //------------------------------------------------------------------------------------------------------------------
 

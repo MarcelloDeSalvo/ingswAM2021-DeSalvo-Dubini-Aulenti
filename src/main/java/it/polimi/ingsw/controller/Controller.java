@@ -57,7 +57,7 @@ public class Controller implements ObserverController {
                 view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
-                    view.printHand(player.getHandIDs(), player.getNickname());
+                    view.notifyCardsInHand(player.getHandIDs(), player.getNickname());
                     view.askForLeaderCardID(player.getNickname());
                 }
 
@@ -68,7 +68,7 @@ public class Controller implements ObserverController {
 
                 view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames());
                 view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
-                view.printHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
+                view.notifyCardsInHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.askForLeaderCardID(game.getPlayer(0).getNickname());
 
             }
@@ -167,7 +167,7 @@ public class Controller implements ObserverController {
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 999));
                 currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 999));
                 game.addFaithPointsToCurrentPLayer(12);
-                view.printVault(currPlayer.getVault(), senderNick);
+                view.printReply_uni(currPlayer.getVault().toString(), currPlayer.getNickname());
                 break;
 
             case BUY:
@@ -205,10 +205,6 @@ public class Controller implements ObserverController {
 
             case SHOW_DEPOSIT:
                 view.printDeposit(currPlayer.getPlayerBoard().getDeposit(), senderNick);
-                break;
-
-            case SHOW_VAULT:
-                view.printVault(currPlayer.getPlayerBoard().getVault(), senderNick);
                 break;
 
             case SHOW_PRODUCTION:
@@ -738,18 +734,11 @@ public class Controller implements ObserverController {
         try{
             currPlayer.canProduce();
             currPlayer.produce();
-
-            //currPlayer.emptyBuffers();
-
-            view.printReply_uni("Production executed correctly!", senderNick);
-            view.printReply_everyOneElse(senderNick+" has used the production this turn!", senderNick);
-
-            view.printVault(currPlayer.getVault(), senderNick);
+            view.notifyProductionOk(senderNick);
             mainActionAvailable=false;
 
         } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
             view.printReply_uni(exception.getMessage(), senderNick);
-
             view.printTurnHelp(senderNick);
 
             currPlayer.emptyBuffers();

@@ -37,7 +37,10 @@ public class Vault implements VaultSubject {
      */
     public boolean addToVault(ArrayList<ResourceContainer> inputArr) {
 
-        for (ResourceContainer resourceContainer : inputArr) addToVault(resourceContainer);
+        for (ResourceContainer resourceContainer : inputArr){
+            addToVault(resourceContainer);
+            if (vaultListener!= null) vaultListener.notifyVaultChanges(resourceContainer, true, "");
+        }
 
         return true;
     }
@@ -53,6 +56,7 @@ public class Vault implements VaultSubject {
         else
             vaultMap.put(container.getResourceType(), container);
 
+        if (vaultListener!= null) vaultListener.notifyVaultChanges(container, true, "");
         return true;
     }
 
@@ -76,7 +80,7 @@ public class Vault implements VaultSubject {
      */
     public boolean removeFromVault(ResourceContainer inputContainer) {
         vaultMap.get(inputContainer.getResourceType()).addQty(-inputContainer.getQty());
-        vaultListener.notifyVaultRemove(inputContainer);
+        if (vaultListener!= null) vaultListener.notifyVaultChanges(inputContainer, false, "");
         return true;
     }
 
@@ -172,6 +176,13 @@ public class Vault implements VaultSubject {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //VAULT LISTENERS---------------------------------------------------------------------------------------------------
+    @Override
+    public void addListeners(VaultListener vaultListener) {
+        this.vaultListener = vaultListener;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public HashMap<ResourceType, ResourceContainer> getVaultMap() {
@@ -190,8 +201,5 @@ public class Vault implements VaultSubject {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public void addListeners(VaultListener vaultListener) {
-        this.vaultListener = vaultListener;
-    }
+
 }

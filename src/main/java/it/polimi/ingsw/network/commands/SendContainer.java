@@ -9,7 +9,18 @@ public class SendContainer extends Message{
 
     private final String destination; //Vault or Deposit
     private int destinationID;
+    private boolean added;
 
+
+    /**
+     * Notifies if a container is added or removed inside the Vault
+     */
+    public SendContainer(Command command, ResourceContainer container, String sendNickname, boolean add) {
+        super(new MessageBuilder().setTarget(Target.BROADCAST).setNickname(sendNickname).setCommand(command));
+        this.container = container;
+        this.added = add;
+        this.destination = "VAULT";
+    }
 
     public SendContainer(Command command, ResourceContainer container, String destination, int destinationID, String senderNickname) {
         super( new MessageBuilder().setCommand(command).setNickname(senderNickname));
@@ -35,6 +46,8 @@ public class SendContainer extends Message{
     public int getDestinationID() {
         return destinationID;
     }
+
+    public boolean isAdded() { return added; }
 
     @Override
     public String toString() {
