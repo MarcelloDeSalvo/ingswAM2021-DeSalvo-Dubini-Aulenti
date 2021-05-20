@@ -1,10 +1,7 @@
 package it.polimi.ingsw.view;
 
 
-import it.polimi.ingsw.liteModel.LiteCardGrid;
-import it.polimi.ingsw.liteModel.LiteFaithPath;
-import it.polimi.ingsw.liteModel.LiteHand;
-import it.polimi.ingsw.liteModel.LiteVault;
+import it.polimi.ingsw.liteModel.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
@@ -28,6 +25,7 @@ public abstract class ClientView implements View, UserInput {
     private LiteHand hand;
     private LiteCardGrid liteCardGrid;
     private LiteVault liteVault;
+    private LiteMarket liteMarket;
 
     public String getNickname() {
         return nickname;
@@ -100,4 +98,8 @@ public abstract class ClientView implements View, UserInput {
     public void setLiteVault(LiteVault liteVault) {
         this.liteVault = liteVault;
     }
+
+    public LiteMarket getLiteMarket(){return liteMarket;}
+
+    public void setLiteMarket(LiteMarket liteMarket) { this.liteMarket = liteMarket; }
 }

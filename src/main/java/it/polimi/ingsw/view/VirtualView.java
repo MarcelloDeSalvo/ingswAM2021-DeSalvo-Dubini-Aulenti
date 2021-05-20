@@ -205,8 +205,8 @@ public class VirtualView implements View {
 
     //NOTIFIES----------------------------------------------------------------------------------------------------------
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames){
-        notifyUsers(new GameSetUp(cardGridIDs,nicknames));
+    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames,ArrayList<ResourceContainer> marketSetUp){
+        notifyUsers(new GameSetUp(cardGridIDs,nicknames,marketSetUp));
     }
 
     @Override
@@ -260,6 +260,11 @@ public class VirtualView implements View {
     @Override
     public void notifyProductionOk(String senderNick) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_OK).setNickname(senderNick).build());
+    }
+
+    @Override
+    public void notifyMarketUpdate(String selection, int selected) {
+
     }
 
     @Override

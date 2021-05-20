@@ -1,9 +1,8 @@
 package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.liteModel.LiteCardGrid;
-import it.polimi.ingsw.liteModel.LiteHand;
-import it.polimi.ingsw.liteModel.LiteVault;
+import it.polimi.ingsw.liteModel.*;
+import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -12,6 +11,7 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -88,6 +88,11 @@ public class Cli extends ClientView {
                 notifyVaultChanges(vaultChanges.getContainer(), vaultChanges.isAdded(), senderNick);
                 break;
 
+            case PICK_FROM_MARKET:
+                MarketMessage marketMessage=gson.fromJson(mex,MarketMessage.class);
+                notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
+                break;
+
             case DISCARD_OK:
                 IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
                 notifyLeaderDiscarded(idMessage.getId(),"");
@@ -108,7 +113,7 @@ public class Cli extends ClientView {
 
             case GAME_SETUP:
                 GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
-                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames());
+                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
                 break;
 
             case END_GAME:
@@ -398,7 +403,8 @@ public class Cli extends ClientView {
 
                 case "SM":
                 case "SHOW_MARKET":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_MARKET).setNickname(this.getNickname()).build());
+                    System.out.println(getLiteMarket().toString());
+                    //send(new Message.MessageBuilder().setCommand(Command.SHOW_MARKET).setNickname(this.getNickname()).build());
                     break;
 
                 case "SC":
@@ -662,10 +668,10 @@ public class Cli extends ClientView {
 
     //------------------------------------------------------------------------------------------------------------------
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames) {
+    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         setLiteVault(new LiteVault());
-
+        setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
         isInGame = true;
     }
@@ -696,6 +702,12 @@ public class Cli extends ClientView {
             System.out.println("Production executed correctly!");
             printVault();
         }
+    }
+
+    @Override
+    public void notifyMarketUpdate(String selection, int selected) {
+        System.out.println("Sto qua");
+        getLiteMarket().liteMarketUpdate(selection,selected);
     }
 
     @Override

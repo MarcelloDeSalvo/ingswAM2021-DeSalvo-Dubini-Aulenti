@@ -1,6 +1,7 @@
 package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.model.player.deposit.Deposit;
+import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.observers.gameListeners.CardGridListener;
 import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
 import it.polimi.ingsw.observers.gameListeners.VaultListener;
@@ -59,10 +60,11 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
 
     void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname);
     void notifyBoughtCard(String nickname);
-    void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames);
+    void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp);
     void notifyLeaderDiscarded(int id, String nickname);
     void notifyLeaderActivated(int id, String nickname);
     void notifyProductionOk(String senderNick);
+    void notifyMarketUpdate(String selection, int selected);
     void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
     void notifyScores(List<Integer> playersTotalVictoryPoints);

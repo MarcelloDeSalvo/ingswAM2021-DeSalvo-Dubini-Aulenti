@@ -25,11 +25,11 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
-    private final Gson gson;
     private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
+    private final Gson gson;
     private Player currPlayer;
-    private boolean mainActionAvailable = true;
+    private boolean mainActionAvailable=true;
 
     //BUFFERS ----------------------------------------------------------------------------------------------------------\
     private ArrayList<ResourceContainer> marketOut;
@@ -53,7 +53,7 @@ public class Controller implements ObserverController {
                 game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
                 game.addView(view);
 
-                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames());
+                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
                 view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
@@ -66,7 +66,7 @@ public class Controller implements ObserverController {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
                 game.addView(view);
 
-                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames());
+                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
                 view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
                 view.notifyCardsInHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
                 view.askForLeaderCardID(game.getPlayer(0).getNickname());
@@ -762,6 +762,7 @@ public class Controller implements ObserverController {
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
             view.printReply_everyOneElse(senderNick+" has extracted the "+marketMessage.getSelection()+" "+marketMessage.getNum()+" from the market!", senderNick);
+            view.notifyUsers(marketMessage);
             mainActionAvailable = false;
 
         }catch (InvalidColumnNumber | InvalidRowNumber e ){

@@ -5,7 +5,7 @@ public class MarketMessage extends Message{
     private final int num;
 
     public MarketMessage(String selection, int num, String nickName) {
-        super(new MessageBuilder().setNickname(nickName).setCommand(Command.PICK_FROM_MARKET));
+        super(new MessageBuilder().setNickname(nickName).setCommand(Command.PICK_FROM_MARKET).setTarget(Target.BROADCAST));
         this.selection = selection;
         this.num = num;
     }

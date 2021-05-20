@@ -85,6 +85,20 @@ public class Market {
         return null;
     }
 
+    /**
+     * Returns the market as an arrayList of Resources
+     */
+    public ArrayList<ResourceContainer> getMarketSetUp(){
+        ArrayList<ResourceContainer> myMarket=new ArrayList<>();
+        for(int i=0; i<columns;i++){
+            for(int j=0;j<rows;j++){
+                myMarket.add(market[i][j]);
+            }
+        }
+        myMarket.add(vacant);
+        return myMarket;
+    }
+
     public ResourceContainer getMarketCell (int rowNum,int columnNum){
       return market[columnNum][rowNum];
     }
