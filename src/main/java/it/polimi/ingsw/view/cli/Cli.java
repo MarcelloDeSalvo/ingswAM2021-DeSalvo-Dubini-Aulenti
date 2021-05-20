@@ -394,7 +394,7 @@ public class Cli extends ClientView {
 
                 case "SM":
                 case "SHOW_MARKET":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_MAKET).setNickname(this.getNickname()).build());
+                    send(new Message.MessageBuilder().setCommand(Command.SHOW_MARKET).setNickname(this.getNickname()).build());
                     break;
 
                 case "SC":

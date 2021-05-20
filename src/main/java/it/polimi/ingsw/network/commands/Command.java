@@ -58,7 +58,7 @@ public enum Command {
     SHOW_DEPOSIT    (false, false, true, Status.IN_GAME),
     SHOW_VAULT      (false, false, true, Status.IN_GAME),
     SHOW_PRODUCTION (false, false, true, Status.IN_GAME),
-    SHOW_MAKET      (false, false, true, Status.IN_GAME),
+    SHOW_MARKET      (false, false, true, Status.IN_GAME),
     SHOW_POINTS     (false, false, true, Status.IN_GAME),
     SHOW_ORDER      (false, false, true, Status.IN_GAME),
 

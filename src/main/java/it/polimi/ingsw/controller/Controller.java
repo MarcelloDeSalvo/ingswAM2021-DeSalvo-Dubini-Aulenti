@@ -218,7 +218,7 @@ public class Controller implements ObserverController {
                 view.printProduction(currPlayer.getPlayerBoard().getProductionSite(), senderNick);
                 break;
 
-            case SHOW_MAKET:
+            case SHOW_MARKET:
                 view.printMarket(game.getMarket(), senderNick);
                 break;
 
@@ -745,6 +745,8 @@ public class Controller implements ObserverController {
             //currPlayer.emptyBuffers();
 
             view.printReply_uni("Production executed correctly!", senderNick);
+            view.printReply_everyOneElse(senderNick+" has used the production this turn!", senderNick);
+
             view.printVault(currPlayer.getVault(), senderNick);
             mainActionAvailable=false;
 
@@ -771,6 +773,7 @@ public class Controller implements ObserverController {
 
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
+            view.printReply_everyOneElse(senderNick+" has extracted the "+marketMessage.getSelection()+" "+marketMessage.getNum()+" from the market!", senderNick);
             mainActionAvailable=false;
 
         }catch (InvalidColumnNumber | InvalidRowNumber e ){
@@ -996,6 +999,7 @@ public class Controller implements ObserverController {
             if(lc.getId() == id){
                 if(lc.checkRequirements(game.getCurrentPlayer().getPlayerBoard())){
                     currPlayer.activateLeader(lc);
+                    view.printReply_everyOneElse(nickname+" has activated the "+id+"ID leader!", nickname);
                 }else {
                     view.printReply_uni("Sorry, you do not meet the requirements to activate this leader.", nickname);
                 }
