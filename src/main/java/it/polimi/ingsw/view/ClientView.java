@@ -23,8 +23,8 @@ public abstract class ClientView implements View, UserInput {
 
     private final ArrayList<LeaderCard> leaderCards;
     private final ArrayList<DevelopmentCard> developmentCards;
-    private final LiteFaithPath liteFaithPath;
 
+    private final LiteFaithPath liteFaithPath;
     private LiteHand hand;
     private LiteCardGrid liteCardGrid;
     private LiteVault liteVault;
@@ -32,6 +32,7 @@ public abstract class ClientView implements View, UserInput {
     public String getNickname() {
         return nickname;
     }
+
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }

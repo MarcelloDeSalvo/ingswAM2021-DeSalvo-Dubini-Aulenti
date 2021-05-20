@@ -31,7 +31,7 @@ public class User implements ObserverThread, ObservableViewIO {
         serverReceiver.addThreadObserver(this);
         this.status = status;
         serverAreas = new CopyOnWriteArrayList<>();
-        ServerConnectionCheck serverConnectionCheck=new ServerConnectionCheck();
+        ServerConnectionCheck serverConnectionCheck = new ServerConnectionCheck();
         serverConnectionCheck.start();
     }
 
@@ -119,6 +119,16 @@ public class User implements ObserverThread, ObservableViewIO {
         String stringToSend = message.serialize();
         serverSender.send(stringToSend);
     }
+
+    /**
+     * This method is used to notify when the game ends so that the Lobby can set itself to 'isClosed = false'
+     */
+    public void notifyEndGame(Message message) {
+        for (ObserverViewIO serverArea: serverAreas) {
+            serverArea.update(" ", message.getCommand(), nickname);
+        }
+    }
+
     //@override on disconnected
 
     public void killThreads(){

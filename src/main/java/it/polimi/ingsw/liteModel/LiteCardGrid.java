@@ -54,8 +54,6 @@ public class LiteCardGrid {
         System.out.println(IDGrid.toString());
     }
 
-
-
     /* depends on how Gui works
     /**
      * @returns an arraylist of the current DevelopmentCards

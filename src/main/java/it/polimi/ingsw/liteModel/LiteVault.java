@@ -18,30 +18,23 @@ public class LiteVault {
     }
 
     /**
-     * The method removes a specific quantity of a specific resource type from the HashMap <br>
-     * this method needs to be called after canRemoveFrom Vault
+     * The method removes a specific quantity of a specific resource type from the HashMap.
      * @param inputContainer is a single ResourceContainer
-     * @return true
      */
-    public boolean removeFromVault(ResourceContainer inputContainer) {
+    public void removeFromVault(ResourceContainer inputContainer) {
         vaultMap.get(inputContainer.getResourceType()).addQty(-inputContainer.getQty());
-        return true;
     }
 
     /**
      * If a container for a specific ResourceType already exists, the method simply adds the quantity to it <br>
      * otherwise it creates the relative ResourceType key element in the HashMap
-     * @return true
      */
-    public boolean addToVault(ResourceContainer container) {
+    public void addToVault(ResourceContainer container) {
         if(Util.isPresent(container.getResourceType(), vaultMap))
             vaultMap.get(container.getResourceType()).addQty(container.getQty());
         else
             vaultMap.put(container.getResourceType(), container);
-
-        return true;
     }
-
 
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
@@ -58,7 +51,6 @@ public class LiteVault {
                     stringBuilder.append("--------------------\n");
                 }
             }
-
         }
         return stringBuilder.toString();
     }

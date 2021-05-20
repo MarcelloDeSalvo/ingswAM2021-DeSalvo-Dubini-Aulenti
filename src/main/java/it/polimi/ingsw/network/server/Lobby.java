@@ -56,7 +56,10 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                             setInfo("Only " + owner.getNickname() +" (the owner of the lobby) can start the game!").setNickname(senderNick).build());
                 else
                     startGame();
+                break;
 
+            case END_GAME:
+                isClosed = false;
                 break;
         }
     }

@@ -28,16 +28,17 @@ public class LobbyManager implements  ObserverViewIO {
     public synchronized void update(String mex, Command command, String senderNick){
 
         User currentUser = connectedPlayers.get(senderNick);
-        Message deserializedMex = gson.fromJson(mex, Message.class);
 
         if(!hasPermission (currentUser, command))
             return;
 
+        Message deserializedMex = gson.fromJson(mex, Message.class);
+
         switch (command) {
             case QUIT:
                 UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).
-                                setInfo("Bye!").setNickname(senderNick).build());
+                        new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").setNickname(senderNick).build());
+
                 currentUser.killThreads();
                 UserManager.removePlayer(connectedPlayers, senderNick);
 
@@ -48,20 +49,17 @@ public class LobbyManager implements  ObserverViewIO {
                 currentUser.pongReceived();
                 break;
 
-
             case HELLO:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.HELLO).
                                 setInfo("Hello!").setNickname(senderNick).build());
                 break;
 
-
             case HELLO_ALL:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).
                                 setInfo("Hello all!").setTarget(Target.EVERYONE_ELSE).setNickname(senderNick).build());
                 break;
-
 
             case CHAT:
                 ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
@@ -76,18 +74,15 @@ public class LobbyManager implements  ObserverViewIO {
                         new ChatMessage(senderNick,deserializedMex.getInfo(),receiver));
                 break;
 
-
             case CHAT_ALL:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.CHAT_ALL).
                                 setInfo(deserializedMex.getInfo()).setNickname(senderNick).setTarget(Target.EVERYONE_ELSE).build());
                 break;
 
-
             case LOBBY_LIST:
                 sendLobbyList(senderNick);
                 break;
-
 
             case JOIN_LOBBY:
                 JoinLobbyMessage joinLobbyMessage = gson.fromJson(mex, JoinLobbyMessage.class);
@@ -100,7 +95,7 @@ public class LobbyManager implements  ObserverViewIO {
                     else
                         UserManager.notifyUsers(connectedPlayers,
                                 new Message.MessageBuilder().setCommand(Command.REPLY).
-                                        setInfo("The lobby " + lobbyToJoinName + " is already full! Please select another lobby").setNickname(senderNick).build());
+                                        setInfo("The lobby " + lobbyToJoinName + " is closed or is already full! Please select another lobby").setNickname(senderNick).build());
                 }
                 else
                     UserManager.notifyUsers(connectedPlayers,
@@ -108,7 +103,6 @@ public class LobbyManager implements  ObserverViewIO {
                                     setInfo("The lobby " + lobbyToJoinName + " does not exist! Please select a valid Lobby").setNickname(senderNick).build());
 
                 break;
-
 
             case CREATE_LOBBY:
                 CreateLobbyMessage createLobbyMessage = gson.fromJson(mex, CreateLobbyMessage.class);

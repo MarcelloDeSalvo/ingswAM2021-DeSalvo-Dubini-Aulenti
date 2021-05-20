@@ -249,7 +249,7 @@ public class VirtualView implements View {
     @Override
     public void notifyLeaderActivated(int id, String nickname){
         notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
-        printReply_everyOneElse(nickname+" has activated the "+id+"ID leader!", nickname);
+        printReply_everyOneElse(nickname + " has activated the " + id + " ID leader!", nickname);
     }
 
     @Override
@@ -289,12 +289,20 @@ public class VirtualView implements View {
 
     @Override
     public void notifyGameEnded(){
-        //CICLO I PLAYER E VEDO SE SONO DISCONNESSI, SE LO SONO GLI CHIAMO LA ON DISCONNECT CON STATUS IN LOBBY
-        notifyUsers( new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.END_GAME).build());
+        //CICLO I PLAYER E VEDO SE SONO DISCONNESSI, SE LO SONO GLI CHIAMO LA ON DISCONNECT CON STATUS IN LOBBY MANAGER
+        String nickname = null;
+
+        notifyUsers(new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.END_GAME).build());
+
         for (String nick: connectedPlayers.keySet()) {
             connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);
             connectedPlayers.get(nick).removeServerArea(this);
+            nickname = nick;
         }
+
+        System.out.println(nickname);
+
+        connectedPlayers.get(nickname).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 

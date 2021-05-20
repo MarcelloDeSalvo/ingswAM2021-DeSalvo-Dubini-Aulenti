@@ -11,7 +11,7 @@ public class LiteFaithPath {
     private ArrayList<Integer> papalFavours;
 
 
-    private  ArrayList<PlayerFavour> playersFavourList;
+    private ArrayList<PlayerFavour> playersFavourList;
     private ArrayList<Integer> positions;
     private ArrayList<String>  nicknames;
 

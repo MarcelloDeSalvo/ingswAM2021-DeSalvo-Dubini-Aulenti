@@ -521,7 +521,7 @@ public class Cli extends ClientView {
 
                 "\n" + "--------LOBBY COMMANDS---------" + "\n" +
                 "> [EL] EXIT_LOBBY " + "\n" +
-                "> [SPL] PLAYER_LIST " + "\n" +
+                "> [SPL] SHOW_PLAYERS " + "\n" +
                 "> [SG] START_GAME " + "\n" +
 
                 "\n" +"\n" + "##############################[GAME]##############################" +

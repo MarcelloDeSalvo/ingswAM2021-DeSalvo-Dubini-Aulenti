@@ -95,7 +95,6 @@ public class Controller implements ObserverController {
         turnPhase_Commands(mex, senderNick, command);
     }
 
-
     /**
      * This function manages all the commands that can be sent during the set-up phase
      * @param mex is the message received
@@ -222,6 +221,7 @@ public class Controller implements ObserverController {
                     view.printReply_uni("You can't pass yet, you have to perform at least a main action!", senderNick);
                     break;
                 }
+
                 game.nextTurn();
                 mainActionAvailable = true;
 
@@ -1019,6 +1019,5 @@ public class Controller implements ObserverController {
     }
 
     public void setMainActionAvailable(boolean mainActionAvailable) { this.mainActionAvailable = mainActionAvailable; }
-
     //------------------------------------------------------------------------------------------------------------------
 }
