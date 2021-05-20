@@ -14,11 +14,6 @@ class DepositSlotTest {
 
     private HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
 
-    @BeforeEach
-    void clearStaticSet(){
-        DefaultDeposit clear = new DefaultDeposit(1,notAvailableResourceType);
-        clear.clearSet();
-    }
 
     @Test
     void canAdd() {
@@ -162,7 +157,7 @@ class DepositSlotTest {
 
     @Test
     void canSwitchWithTest1() {
-        Deposit deposit = new Deposit(5);
+        Deposit deposit = new Deposit(5, true);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
         deposit.getDefaultSlot_WithDim(4).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 2));
         assertEquals(2,deposit.getDefaultSlot_WithDim(2).getResourceQty());
@@ -179,7 +174,7 @@ class DepositSlotTest {
 
     @Test
     void canSwitchWithTest2(){
-        Deposit deposit = new Deposit(5);
+        Deposit deposit = new Deposit(5, true);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
         deposit.getDefaultSlot_WithDim(4).addToDepositSlot(new ResourceContainer(ResourceType.MINION, 2));
 

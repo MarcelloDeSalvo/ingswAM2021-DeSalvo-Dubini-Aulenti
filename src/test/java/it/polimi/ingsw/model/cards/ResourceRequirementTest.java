@@ -3,6 +3,9 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.VirtualView;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,6 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourceRequirementTest {
 
     PlayerBoard playerBoard = new PlayerBoard(3, 0);
+
+    @BeforeEach
+    void addListeners(){
+        playerBoard.getDeposit().addListeners(new VirtualView());
+        playerBoard.getVault().addListeners(new VirtualView());
+    }
 
     @Test
     void checkRequirements() {

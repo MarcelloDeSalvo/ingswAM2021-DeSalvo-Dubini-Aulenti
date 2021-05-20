@@ -93,6 +93,21 @@ public class Cli extends ClientView {
                 notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
                 break;
 
+            case NOTIFY_NEW_DEPOSIT:
+                NewDepositMessage newDepositMessage = gson.fromJson(mex, NewDepositMessage.class);
+                notifyNewDepositSlot(newDepositMessage.getMaxDim(), newDepositMessage.getResourceType(), senderNick);
+                break;
+
+            case NOTIFY_DEPOSIT_UPDATE:
+                 SendContainer depositUpdate = gson.fromJson(mex, SendContainer.class);
+                 notifyDepositChanges(depositUpdate.getDestinationID(), depositUpdate.getContainer(), depositUpdate.isAdded(), senderNick);
+                 break;
+
+            case ASK_FOR_RESOURCES:
+                printReply(deserializedMex.getInfo());
+                askForResources(senderNick, 0);
+                break;
+
             case DISCARD_OK:
                 IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
                 notifyLeaderDiscarded(idMessage.getId(),"");
@@ -388,7 +403,7 @@ public class Cli extends ClientView {
 
                 case "SD":
                 case "SHOW_DEPOSIT":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_DEPOSIT).setNickname(this.getNickname()).build());
+                    printDeposit();
                     break;
 
                 case "SV":
@@ -641,8 +656,9 @@ public class Cli extends ClientView {
         System.out.println(getLiteFaithPath().toString());
     }
 
-    @Override
-    public void printDeposit(Deposit deposit, String depositInfo) {
+    public void printDeposit() {
+        if (!isInGame) return;
+        System.out.println(getLiteDeposit().toString());
     }
 
 
@@ -656,21 +672,27 @@ public class Cli extends ClientView {
     //------------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
-
+        printDeposit();
     }
 
     @Override
     public void askForLeaderCardID(String nickname) {
 
     }
+
+    @Override
+    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
+
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //------------------------------------------------------------------------------------------------------------------
+    //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         setLiteVault(new LiteVault());
+        setLiteDeposit(new LiteDeposit());
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
         isInGame = true;
@@ -706,7 +728,6 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
-        System.out.println("Sto qua");
         getLiteMarket().liteMarketUpdate(selection,selected);
     }
 
@@ -786,6 +807,24 @@ public class Cli extends ClientView {
     }
 
     @Override
+    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
+        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
+
+        getLiteDeposit().addSlot(maxDim, resourceType);
+    }
+
+    @Override
+    public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
+        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
+
+        if (added)
+            getLiteDeposit().addRes(resourceContainer, id);
+        else
+            getLiteDeposit().removeRes(resourceContainer, id);
+    }
+
+
+    @Override
     public void notifyLastTurn() {
         printReply("# THIS IS THE LAST TURN");
     }
@@ -805,6 +844,7 @@ public class Cli extends ClientView {
         printReply("# The game is ended, you are now in the lobby");
         isInGame= false;
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

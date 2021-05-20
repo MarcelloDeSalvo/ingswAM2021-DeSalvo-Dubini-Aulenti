@@ -204,10 +204,6 @@ public class Controller implements ObserverController {
                 manageDeposit(mex, senderNick, Command.SWITCH_DEPOSIT);
                 break;
 
-            case SHOW_DEPOSIT:
-                view.printDeposit(currPlayer.getPlayerBoard().getDeposit(), senderNick);
-                break;
-
             case SHOW_PRODUCTION:
                 view.printProduction(currPlayer.getPlayerBoard().getProductionSite(), senderNick);
                 break;
@@ -806,9 +802,9 @@ public class Controller implements ObserverController {
      */
     public void marketAddDepositController(String senderNick){
         if (marketOut.size()>0){
-            view.printDeposit(currPlayer.getDeposit(), senderNick);
+            //view.printDeposit(currPlayer.getDeposit(), senderNick);
             view.printReply_uni("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id", senderNick);
-            view.printMarketOut(marketOut, senderNick);
+            view.askForMarketDestination(marketOut, senderNick);
             return;
         }
 
@@ -962,7 +958,7 @@ public class Controller implements ObserverController {
         try {
             currPlayer.getPlayerBoard().getDeposit().moveTo(sourceDepositSlot, qty, destinationDepositSlot);
 
-            view.printDeposit(currPlayer.getDeposit(), senderNick);
+            //view.printDeposit(currPlayer.getDeposit(), senderNick);
             view.printReply_uni("The action on deposit has been executed correctly!", senderNick);
         }
         catch (DepositSlotMaxDimExceeded | DifferentResourceType | NotEnoughResources | ResourceTypeAlreadyStored e){

@@ -16,12 +16,6 @@ class DepositTest {
 
     private HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
 
-    @BeforeEach
-    void clearStaticSet(){
-        DefaultDeposit clear = new DefaultDeposit(1, notAvailableResourceType);
-        clear.clearSet();
-    }
-
     @Test
     void pyramid3() {
         Deposit deposit = new Deposit(3);
@@ -46,7 +40,7 @@ class DepositTest {
 
     @Test
     void addDepositSlot() {
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         LeaderDeposit lds = new LeaderDeposit(ResourceType.STONE,2);
         assertTrue(deposit.addDepositSlot(lds));
@@ -59,7 +53,7 @@ class DepositTest {
 
     @Test
     void moveTo_1(){
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         LeaderDeposit lds1 = new LeaderDeposit(ResourceType.STONE,2);
         lds1.addToDepositSlot(new ResourceContainer(ResourceType.STONE, 2));
@@ -85,7 +79,7 @@ class DepositTest {
 
     @Test
     void moveTo_2(){
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         LeaderDeposit lds1 = new LeaderDeposit(ResourceType.STONE,2);
         lds1.addToDepositSlot(new ResourceContainer(ResourceType.STONE, 2));
@@ -103,7 +97,7 @@ class DepositTest {
 
     @Test
     void canTransferDeposit_1() {
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
@@ -115,7 +109,7 @@ class DepositTest {
 
     @Test
     void canTransferDeposit_2() {
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
         LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
 
@@ -125,7 +119,7 @@ class DepositTest {
 
     @Test
     void canTransferDeposit_3() {
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,2);
         lds.addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
@@ -143,7 +137,7 @@ class DepositTest {
 
     @Test
     void canTransferDeposit_4() {
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
         LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD,2);
         deposit.addDepositSlot(lds);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD, 2));
@@ -156,7 +150,7 @@ class DepositTest {
 
     @Test
     void canSwitchDeposit(){
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         ResourceContainer container1 = new ResourceContainer(ResourceType.STONE, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 1);
@@ -171,7 +165,7 @@ class DepositTest {
 
     @Test
     void TypeAlreadyStored_1(){
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
 
         ResourceContainer container1 = new ResourceContainer(ResourceType.GOLD, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 2);
@@ -182,7 +176,7 @@ class DepositTest {
 
     @Test
     void TypeAlreadyStored_2(){
-        Deposit deposit = new Deposit(3);
+        Deposit deposit = new Deposit(3, true);
         LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD, 1);
         ResourceContainer container1 = new ResourceContainer(ResourceType.GOLD, 1);
         ResourceContainer container2 = new ResourceContainer(ResourceType.GOLD, 2);
@@ -192,7 +186,7 @@ class DepositTest {
     }
     @Test
     void checkDeposit(){
-        Deposit deposit = new Deposit(2);
+        Deposit deposit = new Deposit(2, true);
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
         assertEquals(deposit.checkDeposit(ResourceType.GOLD),2);
         LeaderDeposit lds = new LeaderDeposit(ResourceType.GOLD, 2);
@@ -203,7 +197,7 @@ class DepositTest {
 
     @Test
     void totalQuantityOfResourcesInDeposit(){
-        Deposit deposit = new Deposit(2);
+        Deposit deposit = new Deposit(2, true);
         assertEquals(0,deposit.totalQuantityOfResourcesInDeposit());
         deposit.getDefaultSlot_WithDim(2).addToDepositSlot(new ResourceContainer(ResourceType.GOLD,2));
         assertEquals(2,deposit.totalQuantityOfResourcesInDeposit());

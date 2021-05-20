@@ -6,13 +6,16 @@ import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.observers.gameListeners.DepositListener;
+import it.polimi.ingsw.observers.gameListeners.DepositSubject;
+import it.polimi.ingsw.view.VirtualView;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
 
-public class Deposit {
+public class Deposit implements DepositSubject {
 
     /**
      * It's the list of the user's deposits
@@ -29,6 +32,22 @@ public class Deposit {
      */
     private int pyramidMaxCells;
 
+    private DepositListener depositListener;
+
+    public Deposit(int pyramidHeight, boolean test) {
+        this.depositList = new ArrayList<>();
+        this.defaultDepositNumber = pyramidHeight;
+        this.pyramidMaxCells = 1;
+        HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
+        VirtualView virtualView = new VirtualView();
+        for(int i=0; i<pyramidHeight; i++){
+            DefaultDeposit defaultDeposit = new DefaultDeposit(pyramidMaxCells, notAvailableResourceType, i+1);
+            depositList.add(defaultDeposit);
+            pyramidMaxCells++;
+        }
+        addListeners(virtualView);
+    }
+
     public Deposit(int pyramidHeight) {
         this.depositList = new ArrayList<>();
         this.defaultDepositNumber = pyramidHeight;
@@ -36,7 +55,8 @@ public class Deposit {
         HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
 
         for(int i=0; i<pyramidHeight; i++){
-            depositList.add(new DefaultDeposit(pyramidMaxCells, notAvailableResourceType));
+            DefaultDeposit defaultDeposit = new DefaultDeposit(pyramidMaxCells, notAvailableResourceType, i+1);
+            depositList.add(defaultDeposit);
             pyramidMaxCells++;
         }
     }
@@ -179,7 +199,13 @@ public class Deposit {
      * @return false if there is an argument exception (NoSuchElementException)
      */
     public boolean addDepositSlot(LeaderDeposit lds) {
-        return lds != null && depositList.add(lds);
+        if (lds != null && depositList.add(lds)){
+            lds.addListeners(depositListener);
+            depositListener.notifyNewDepositSlot(lds.getMaxDim(), lds.getDepositResourceType(), "");
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -252,4 +278,13 @@ public class Deposit {
                 stringBuilder.append("----------------------------------\n").toString();
     }
     //------------------------------------------------------------------------------------------------------------------
+
+
+    @Override
+    public void addListeners(DepositListener depositListener) {
+        this.depositListener = depositListener;
+        for (DepositSlot depositSlot: depositList) {
+            depositSlot.addListeners(depositListener);
+        }
+    }
 }

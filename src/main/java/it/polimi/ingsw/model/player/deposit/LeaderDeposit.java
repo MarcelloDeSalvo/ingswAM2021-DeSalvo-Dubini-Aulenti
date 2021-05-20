@@ -15,6 +15,7 @@ public class LeaderDeposit extends DepositSlot {
         super(depositResourceType, maxDim);
     }
 
+    public LeaderDeposit(ResourceType depositResourceType, int maxDim, int id) { super(depositResourceType, maxDim, id); }
 
     //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
     @Override
@@ -52,6 +53,7 @@ public class LeaderDeposit extends DepositSlot {
         int quantityThatIWantToAdd = inputContainer.getQty();
 
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, true,null);
 
         return true;
     }
@@ -75,6 +77,8 @@ public class LeaderDeposit extends DepositSlot {
         int quantityThatIWantToRemove = inputContainer.getQty();
 
         this.getDepositContainer().addQty(-quantityThatIWantToRemove);
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, false, null);
+
         return true;
 
     }

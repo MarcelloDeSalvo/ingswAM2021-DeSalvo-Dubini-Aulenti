@@ -18,7 +18,8 @@ public class StoreAbility implements Ability {
      */
     @Override
     public boolean useAbility(PlayerBoard_AbilityAccess playerBoard) {
-        playerBoard.getDeposit().addDepositSlot(new LeaderDeposit(resourceType, maxDim));
+        int id = playerBoard.getDeposit().getDepositList().size()+1;
+        playerBoard.getDeposit().addDepositSlot(new LeaderDeposit(resourceType, maxDim, id));
         return true;
     }
 

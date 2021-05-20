@@ -13,7 +13,7 @@ class  VaultTest {
 
     @Test
     void TestAddToVault() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ResourceContainer container1 = new ResourceContainer(ResourceType.GOLD, 5);
         ResourceContainer container2 = new ResourceContainer(ResourceType.STONE, 5);
         ResourceContainer container3 = new ResourceContainer(ResourceType.GOLD, 2);
@@ -31,7 +31,7 @@ class  VaultTest {
 
     @Test
     void getNotExistingResourceFromVault(){
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         assertThrows(NullPointerException.class, ()-> vault.getVaultMap().get(ResourceType.SHIELD).getQty());
         assertEquals(vault.getResourceQuantity(ResourceType.SHIELD),0 );
 
@@ -40,7 +40,7 @@ class  VaultTest {
 
     @Test
     void removeFromVault_1() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ResourceContainer resourceContainer = new ResourceContainer(ResourceType.GOLD, 5);
         vault.addToVault(resourceContainer);
 
@@ -52,7 +52,7 @@ class  VaultTest {
 
     @Test
     void removeFromVault_2() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ResourceContainer resourceContainer = new ResourceContainer(ResourceType.GOLD, 5);
         vault.addToVault(resourceContainer);
 
@@ -65,7 +65,7 @@ class  VaultTest {
 
     @Test
     void canRemoveFromVault_1() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ResourceContainer resourceContainer = new ResourceContainer(ResourceType.GOLD, 5);
         vault.addToVault(resourceContainer);
 
@@ -79,7 +79,7 @@ class  VaultTest {
 
     @Test
     void canRemoveFromVault_2() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ResourceContainer resourceContainer = new ResourceContainer(ResourceType.GOLD, 5);
         vault.addToVault(resourceContainer);
 
@@ -92,7 +92,7 @@ class  VaultTest {
 
     @Test
     void canRemoveFromVault_3_List() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ArrayList<ResourceContainer> selectedResources = new ArrayList<ResourceContainer>();
 
         ResourceContainer vContainer1 = new ResourceContainer(ResourceType.GOLD, 5);
@@ -123,7 +123,7 @@ class  VaultTest {
 
     @Test
     void canRemoveFromVault_4_List() {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ArrayList<ResourceContainer> selectedResources = new ArrayList<ResourceContainer>();
 
         ResourceContainer vContainer1 = new ResourceContainer(ResourceType.GOLD, 5);
@@ -148,7 +148,7 @@ class  VaultTest {
 
     @Test
     void canRemoveFromVault_5() throws NotEnoughResources {
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         ArrayList<ResourceContainer> selectedResources = new ArrayList<ResourceContainer>();
 
         ResourceContainer vContainer1 = new ResourceContainer(ResourceType.MINION, 5);
@@ -177,7 +177,7 @@ class  VaultTest {
 
     @Test
     void totalQuantityOfResourcesInVault(){
-        Vault vault = new Vault();
+        Vault vault = new Vault(true);
         assertEquals(0,vault.totalQuantityOfResourcesInVault());
         vault.addToVault(new ResourceContainer(ResourceType.GOLD,2));
         assertEquals(2,vault.totalQuantityOfResourcesInVault());

@@ -50,15 +50,18 @@ public enum Command {
     END_GAME        (false, true, false, Status.IN_LOBBY),
 
     NOTIFY_CARDGRID (false, false, true, Status.IN_GAME),
+    NOTIFY_DEPOSIT_UPDATE (false, false, true, Status.IN_GAME),
+    NOTIFY_NEW_DEPOSIT (false, false, true, Status.IN_GAME),
     NOTIFY_VAULT_UPDATE (false, false, true, Status.IN_GAME),
     NOTIFY_HAND     (false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_CURRENT(false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_OTHERS(false,false,true,Status.IN_GAME),
     NOTIFY_FAITHPATH_FAVOURS(false,false,true,Status.IN_GAME),
 
+    ASK_FOR_RESOURCES (false, false, false, null),
+
     SHOW_MYBOARD    (false, false, true, Status.IN_GAME),
     SHOW_PLAYER     (false, false, true, Status.IN_GAME),
-    SHOW_DEPOSIT    (false, false, true, Status.IN_GAME),
     SHOW_PRODUCTION (false, false, true, Status.IN_GAME),
     SHOW_MARKET      (false, false, true, Status.IN_GAME),
     SHOW_POINTS     (false, false, true, Status.IN_GAME),

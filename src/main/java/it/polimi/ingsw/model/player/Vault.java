@@ -4,9 +4,9 @@ import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
 import it.polimi.ingsw.observers.gameListeners.VaultListener;
 import it.polimi.ingsw.observers.gameListeners.VaultSubject;
+import it.polimi.ingsw.view.VirtualView;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
@@ -22,6 +22,12 @@ public class Vault implements VaultSubject {
     private final HashMap<ResourceType, ResourceContainer> vaultMap;
     private HashMap<ResourceType, ResourceContainer> bufferMap;
     private VaultListener vaultListener;
+
+    public Vault(boolean test) {
+        vaultMap = new HashMap<>();
+        bufferMap = new HashMap<>();
+        vaultListener = new VirtualView();
+    }
 
     public Vault() {
         vaultMap = new HashMap<>();
@@ -39,7 +45,7 @@ public class Vault implements VaultSubject {
 
         for (ResourceContainer resourceContainer : inputArr){
             addToVault(resourceContainer);
-            if (vaultListener!= null) vaultListener.notifyVaultChanges(resourceContainer, true, "");
+            vaultListener.notifyVaultChanges(resourceContainer, true, "");
         }
 
         return true;
@@ -56,7 +62,7 @@ public class Vault implements VaultSubject {
         else
             vaultMap.put(container.getResourceType(), container);
 
-        if (vaultListener!= null) vaultListener.notifyVaultChanges(container, true, "");
+        vaultListener.notifyVaultChanges(container, true, "");
         return true;
     }
 
@@ -80,7 +86,7 @@ public class Vault implements VaultSubject {
      */
     public boolean removeFromVault(ResourceContainer inputContainer) {
         vaultMap.get(inputContainer.getResourceType()).addQty(-inputContainer.getQty());
-        if (vaultListener!= null) vaultListener.notifyVaultChanges(inputContainer, false, "");
+        vaultListener.notifyVaultChanges(inputContainer, false, "");
         return true;
     }
 

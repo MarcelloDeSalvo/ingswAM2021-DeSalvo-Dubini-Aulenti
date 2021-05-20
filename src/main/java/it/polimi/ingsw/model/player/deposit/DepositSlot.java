@@ -6,24 +6,54 @@ import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.observers.gameListeners.DepositListener;
+import it.polimi.ingsw.observers.gameListeners.DepositSubject;
+import it.polimi.ingsw.view.VirtualView;
 
-public abstract class  DepositSlot {
+public abstract class DepositSlot implements DepositSubject {
+    private int id;
     private int maxDim;
     private final ResourceContainer depositContainer;
     private final ResourceContainer bufferContainer;
 
-    public DepositSlot(ResourceType depositResourceType, int maxDim) {
+    private DepositListener depositListener;
+
+    public DepositSlot(ResourceType depositResourceType, int maxDim, int id) {
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(depositResourceType,0);
         this.bufferContainer = new ResourceContainer(null,0);
 
     }
 
+    public DepositSlot(int maxDim, int id) {
+        this.id = id;
+        this.maxDim = maxDim;
+        this.depositContainer = new ResourceContainer(null,0);
+        this.bufferContainer = new ResourceContainer(null,0);
+
+    }
+
+    /**
+     * Test constructor
+     */
+    public DepositSlot(ResourceType depositResourceType, int maxDim) {
+        depositListener = new VirtualView();
+        this.maxDim = maxDim;
+        this.depositContainer = new ResourceContainer(depositResourceType,0);
+        this.bufferContainer = new ResourceContainer(null,0);
+
+    }
+
+    /**
+     * Test constructor
+     */
     public DepositSlot(int maxDim) {
+        depositListener = new VirtualView();
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(null,0);
         this.bufferContainer = new ResourceContainer(null,0);
     }
+
 
 
     //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
@@ -113,6 +143,12 @@ public abstract class  DepositSlot {
         destination.getDepositContainer().addQty(-hisQty);
         this.getDepositContainer().addQty(hisQty);
         this.setDepositResourceType(hisResType);
+
+        depositListener.notifyDepositChanges(getId(), new ResourceContainer(myResType, myQty), false, null);
+        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(hisResType, hisQty), false, null);
+        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(myResType, myQty), true,null);
+        depositListener.notifyDepositChanges(getId(), new ResourceContainer(hisResType, hisQty), true, null);
+
         return true;
     }
 
@@ -199,6 +235,18 @@ public abstract class  DepositSlot {
     public ResourceContainer getBufferContainer() {
         return bufferContainer;
     }
+
+    public DepositListener getDepositListener() {
+        return depositListener;
+    }
+
+    public int getId() {
+        return id;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
+    @Override
+    public void addListeners(DepositListener depositListener) {
+        this.depositListener = depositListener;
+    }
 }

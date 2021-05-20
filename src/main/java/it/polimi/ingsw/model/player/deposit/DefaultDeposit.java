@@ -20,6 +20,11 @@ public class DefaultDeposit extends DepositSlot {
         this.notAvailableResourceType = notAvailableResourceType;
     }
 
+    public DefaultDeposit(int maxDim, HashSet<ResourceType> notAvailableResourceType, int id) {
+        super(maxDim, id);
+        this.notAvailableResourceType = notAvailableResourceType;
+    }
+
 
     //DEPOSIT MANAGEMENT------------------------------------------------------------------------------------------------
     @Override
@@ -69,6 +74,7 @@ public class DefaultDeposit extends DepositSlot {
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
         this.getDepositContainer().setResourceType(inputType);
         getNotAvailableResourceType().add(inputType);
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, true, null);
 
         return true;
     }
@@ -95,6 +101,7 @@ public class DefaultDeposit extends DepositSlot {
 
         this.getDepositContainer().addQty(-quantityThatIWantToRemove);
         remakeTypeAvailableIfEmpty();
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, false, null);
 
         return true;
     }

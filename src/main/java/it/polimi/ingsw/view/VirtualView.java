@@ -2,11 +2,12 @@ package it.polimi.ingsw.view;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.Market;
 import it.polimi.ingsw.model.cards.Colour;
-import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.Status;
@@ -162,11 +163,6 @@ public class VirtualView implements View {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
     }
 
-    @Override
-    public void printDeposit(Deposit deposit, String nickname) {
-        printReply_uni(deposit.toString(), nickname);
-    }
-
     public void printProduction(ProductionSite productionSite, String nickname) {
         printReply_uni(productionSite.toString(), nickname);
     }
@@ -175,12 +171,8 @@ public class VirtualView implements View {
         printReply_uni(market.toString(), nickname);
     }
 
-    public void printMarketOut(ArrayList<ResourceContainer> containers, String nickname){
-        StringBuilder marketOutChoice = new StringBuilder("Where do you want to put: ");
-        for (ResourceContainer res: containers) {
-            marketOutChoice.append(res.getResourceType()).append("  ");
-        }
-        printReply_uni(marketOutChoice.toString(), nickname);
+    public void printFaithPath(FaithPath faithPath, String nickname, ArrayList<String> nicks){
+        printReply_uni(faithPath.toString(nicks),nickname);
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -199,6 +191,19 @@ public class VirtualView implements View {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
+
+    }
+
+    @Override
+    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname){
+        StringBuilder marketOutChoice = new StringBuilder("Where do you want to put: ");
+        for (ResourceContainer res: containers) {
+            marketOutChoice.append(res.getResourceType()).append("  ");
+        }
+
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.ASK_FOR_RESOURCES)
+                        .setInfo(marketOutChoice.toString()).setNickname(nickname).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -269,7 +274,19 @@ public class VirtualView implements View {
 
     @Override
     public void notifyVaultChanges(ResourceContainer container, boolean added, String nick) {
-        notifyUsers(new SendContainer(Command.NOTIFY_VAULT_UPDATE, container, currPlayer, added));
+        notifyUsers( new SendContainer(Command.NOTIFY_VAULT_UPDATE, container, currPlayer, added));
+    }
+
+    @Override
+    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
+        notifyUsers( new NewDepositMessage(
+                new Message.MessageBuilder().setCommand(Command.NOTIFY_NEW_DEPOSIT).setTarget(Target.BROADCAST).
+                setNickname(currPlayer), maxDim, resourceType));
+    }
+
+    @Override
+    public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
+        notifyUsers( new SendContainer(Command.NOTIFY_DEPOSIT_UPDATE, resourceContainer, id, currPlayer, added));
     }
 
     @Override
@@ -307,7 +324,8 @@ public class VirtualView implements View {
 
         System.out.println(nickname);
 
-        connectedPlayers.get(nickname).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
+        if (nickname!=null)
+            connectedPlayers.get(nickname).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 

@@ -13,10 +13,6 @@ import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceTypeTest {
-    @BeforeEach
-    void clear(){
-        ResourceContainer aCoin = new ResourceContainer(ResourceType.GOLD,1);
-    }
 
     @Test
     void goldToDepositTest(){
@@ -27,8 +23,8 @@ class ResourceTypeTest {
         assertTrue(aCoin.getResourceType().canAddToVault());
         assertFalse(aCoin.getResourceType().canAddToFaithPath());
 
-        Deposit deposit = new Deposit(2);
-        Vault vault = new Vault();
+        Deposit deposit = new Deposit(2, true);
+        Vault vault = new Vault(true);
 
         assertTrue(deposit.getDefaultSlot_WithDim(1).addToDepositSlot(aCoin));
         assertTrue(vault.addToVault(aCoin));

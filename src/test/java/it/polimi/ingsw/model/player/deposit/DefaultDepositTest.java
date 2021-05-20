@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.exceptions.DifferentResourceType;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.view.VirtualView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +16,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class DefaultDepositTest {
 
     HashSet<ResourceType> notAvailableResType = new HashSet<>();
-
-    @BeforeEach
-    void clearStaticSet(){
-
-        DefaultDeposit clear = new DefaultDeposit(1,notAvailableResType);
-        clear.clearSet();
-    }
 
     @Test
     void canAddToDepositSlot() {
