@@ -40,6 +40,7 @@ public class Controller implements ObserverController {
     private ArrayList<Integer> productionSlotIDs;
     //------------------------------------------------------------------------------------------------------------------/
 
+
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
