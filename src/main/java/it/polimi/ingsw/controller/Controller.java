@@ -801,7 +801,6 @@ public class Controller implements ObserverController {
      */
     public void marketAddDepositController(String senderNick){
         if (marketOut.size()>0){
-            //view.printDeposit(currPlayer.getDeposit(), senderNick);
             view.askForMarketDestination(marketOut, senderNick);
             return;
         }

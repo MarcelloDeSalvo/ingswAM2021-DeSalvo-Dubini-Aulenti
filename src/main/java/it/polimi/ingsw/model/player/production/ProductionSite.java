@@ -9,12 +9,14 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.player.Vault;
+import it.polimi.ingsw.observers.gameListeners.ProductionListener;
+import it.polimi.ingsw.observers.gameListeners.ProductionSubject;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ProductionSite {
+public class ProductionSite implements ProductionSubject {
     private final ArrayList<ProductionSlot> productionSlots;
     private final HashMap<ResourceType, ResourceContainer> bufferSelectedResources;
     private final HashMap<ResourceType, ResourceContainer> bufferInputMap;
@@ -23,6 +25,8 @@ public class ProductionSite {
     private FaithPath faithPath;
 
     int defaultNum;
+
+    private ProductionListener productionListener;
 
     /**
      * Main Constructor
@@ -197,7 +201,11 @@ public class ProductionSite {
      * @return true if it can be added
      */
     public boolean addProductionSlot(ProductionSlot productionSlot){
-        return productionSlot != null && productionSlots.add(productionSlot);
+        if (productionSlot != null && productionSlots.add(productionSlot)){
+            if(productionListener!= null) productionListener.notifyNewProductionSlot(productionSlot.getProductionAbility(), "");
+            return true;
+        }
+        return false;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -266,6 +274,14 @@ public class ProductionSite {
         }
 
         return prodSlots.toString();
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //LISTENERS---------------------------------------------------------------------------------------------------------
+    @Override
+    public void addListeners(ProductionListener productionListener) {
+        this.productionListener = productionListener;
     }
     //------------------------------------------------------------------------------------------------------------------
 }

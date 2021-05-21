@@ -145,6 +145,11 @@ public class LeaderCardProduction implements ProductionSlot {
     public int getVictoryPoints() {
         return 0;
     }
+
+    @Override
+    public ProductionAbility getProductionAbility() {
+        return productionAbility;
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

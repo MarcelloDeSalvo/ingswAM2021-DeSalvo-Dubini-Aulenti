@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player.production;
 import it.polimi.ingsw.model.Deck;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -110,6 +111,11 @@ public class DevelopmentCardProduction implements ProductionSlot {
     @Override
     public boolean isEmpty() {
         return dev.getDeck().size() == 0;
+    }
+
+    @Override
+    public ProductionAbility getProductionAbility() {
+        return null;
     }
     //------------------------------------------------------------------------------------------------------------------
 

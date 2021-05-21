@@ -2,15 +2,12 @@ package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.observers.gameListeners.CardGridListener;
-import it.polimi.ingsw.observers.gameListeners.DepositListener;
-import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
-import it.polimi.ingsw.observers.gameListeners.VaultListener;
+import it.polimi.ingsw.observers.gameListeners.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener, DepositListener {
+public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener, DepositListener, ProductionListener {
 
     /**
      * Simple reply from the server
@@ -63,9 +60,21 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
      */
     void printItsYourTurn(String nickname);
 
+    /**
+     * Asks the player a certain number of resources
+     */
     void askForResources(String nickname, int qty);
+
+    /**
+     * Asks the player that he should send a leaderID
+     */
     void askForLeaderCardID(String nickname);
+
+    /**
+     * Asks the player where does he want to put the resources after the selection from the market
+     */
     void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname);
+
 
     void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname);
     void notifyBuyOk(String nickname, int slotID, int cardID);
