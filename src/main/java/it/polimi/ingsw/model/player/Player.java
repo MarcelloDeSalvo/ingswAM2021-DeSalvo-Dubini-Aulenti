@@ -433,6 +433,7 @@ public class Player implements ObservableModel {
         this.view = view;
         getVault().addListeners(view);
         getDeposit().addListeners(view);
+        getProductionSite().addListeners(view);
     }
     //------------------------------------------------------------------------------------------------------------------
 

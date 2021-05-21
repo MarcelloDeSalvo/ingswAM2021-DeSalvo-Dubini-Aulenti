@@ -123,6 +123,7 @@ public class Cli extends ClientView {
 
             case BUY_OK:
                 BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
+                System.out.println(buyMessage.getProductionSlotID()+" dd "+ buyMessage.getCardID());
                 notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
                 break;
 
@@ -652,6 +653,7 @@ public class Cli extends ClientView {
     }
 
     public void printOrder() {
+        if (!isInGame) return;
         ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
         StringBuilder orderBuild = new StringBuilder();
         orderBuild.append("This is the Turn Order \n");
@@ -731,6 +733,7 @@ public class Cli extends ClientView {
         setLiteProduction(new LiteProduction(getDevelopmentCards()));
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+
         isInGame = true;
         printOrder();
     }
@@ -741,6 +744,7 @@ public class Cli extends ClientView {
             System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
         else {
             printReply_uni("You bought the card correctly!", nickname);
+            getLiteProduction().addCardToSlot(slotID, cardID);
             printProduction();
         }
     }

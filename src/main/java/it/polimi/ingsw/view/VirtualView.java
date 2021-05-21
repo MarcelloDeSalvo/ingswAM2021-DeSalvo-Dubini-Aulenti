@@ -2,7 +2,6 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
-import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.UserManager;
@@ -223,7 +222,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyBuyOk(String nickname, int slotID, int cardID) {
-        notifyUsers(new BuyMessage(Command.BUY_OK, slotID, cardID, nickname));
+        notifyUsers(new BuyMessage(Command.BUY_OK, cardID, slotID, nickname));
     }
 
     @Override
@@ -245,7 +244,7 @@ public class VirtualView implements View {
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
         notifyUsers(
                 new NewProductionSlotMessage(
-                new Message.MessageBuilder().setCommand(Command.NOTIFY_NEW_PRODSLOT).setTarget(Target.BROADCAST).setNickname(senderNick),
+                new Message.MessageBuilder().setCommand(Command.NOTIFY_NEW_PRODSLOT).setTarget(Target.BROADCAST).setNickname(currPlayer),
                 productionAbility)
         );
     }

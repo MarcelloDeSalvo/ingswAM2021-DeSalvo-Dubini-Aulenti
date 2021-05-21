@@ -12,7 +12,7 @@ public class LiteHand {
 
     public LiteHand(ArrayList<Integer> hand, ArrayList<LeaderCard> leaderCards) {
         this.hand = hand;
-        this.leaderCards = leaderCards;
+        this.leaderCards = new ArrayList<>(leaderCards);
 
         for (Integer id : hand) {
             leaderCards.add(leaderCards.get(id-1));

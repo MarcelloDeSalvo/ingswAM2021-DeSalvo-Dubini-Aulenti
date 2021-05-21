@@ -8,12 +8,12 @@ import java.util.ArrayList;
 
 public class LiteProduction {
 
-    private final ArrayList<LiteProduction.MiniSlot> productionSlots;
+    private final ArrayList<MiniSlot> productionSlots;
     private final ArrayList<DevelopmentCard> developmentCards;
 
     public LiteProduction(ArrayList<DevelopmentCard> developmentCards) {
         this.productionSlots = new ArrayList<>();
-        this.developmentCards = developmentCards;
+        this.developmentCards = new ArrayList<>(developmentCards);
 
         for(int i = 0; i < 3; i++)
             productionSlots.add(new MiniSlot());
@@ -59,13 +59,14 @@ public class LiteProduction {
             prodSlots.append(Color.ANSI_WHITE.escape()).append("\n# DEVELOPMENT SLOT ID: ").append(id).append(" ---------------- # \n").append(Color.ANSI_RESET.escape());
 
             if(!leaderType) {
+                prodSlots.append(Color.ANSI_CYAN.escape()).append("\nON TOP:").append(Color.ANSI_RESET.escape());
                 if(isEmpty()) {
                     prodSlots.append("\n").append(Color.ANSI_GREEN.escape()).append(" EMPTY").append(Color.ANSI_RESET.escape()).append("\n");
                     return prodSlots.toString();
                 }
 
-                for (int cardID = cardIDs.size(); cardID > 0; cardID --) {
-                    prodSlots.append(developmentCards.get(cardID).toString()).append("\n");
+                for (int cardID = cardIDs.size()-1; cardID >= 0; cardID --) {
+                    prodSlots.append(developmentCards.get(cardIDs.get(cardID)).toString()).append("\n");
                 }
             }
             else {
@@ -76,7 +77,7 @@ public class LiteProduction {
     }
 
     public void addCardToSlot (int slotID, int cardID) {
-        productionSlots.get(slotID).addCard(cardID);
+        productionSlots.get(slotID-1).addCard(cardID-1);
     }
 
     public void addProductionSlot (ProductionAbility productionAbility) {

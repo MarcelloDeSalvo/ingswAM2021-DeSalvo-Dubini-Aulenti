@@ -727,6 +727,8 @@ public class Controller implements ObserverController {
         try{
             currPlayer.canProduce();
             currPlayer.produce();
+            currPlayer.emptyBuffers();
+
             view.notifyProductionOk(senderNick);
             mainActionAvailable = false;
 
