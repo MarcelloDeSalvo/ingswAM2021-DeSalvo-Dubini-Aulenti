@@ -71,7 +71,7 @@ public abstract class ClientView implements View, UserInput {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-
+    
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }

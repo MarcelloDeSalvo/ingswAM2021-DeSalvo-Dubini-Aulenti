@@ -2,16 +2,13 @@ package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.*;
-import it.polimi.ingsw.model.Cardgrid;
 import it.polimi.ingsw.model.cards.Colour;
-import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -119,7 +116,8 @@ public class Cli extends ClientView {
                 break;
 
             case BUY_OK:
-                notifyBoughtCard(senderNick);
+                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
+                notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
                 break;
 
             case PRODUCE_OK:
@@ -683,14 +681,10 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void askForLeaderCardID(String nickname) {
-
-    }
+    public void askForLeaderCardID(String nickname) { }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
-
-    }
+    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) { }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -706,9 +700,9 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyBoughtCard(String nickname) {
+    public void notifyBuyOk(String nickname, int slotID, int cardID) {
         if (!nickname.equals(getNickname()))
-            System.out.println(nickname + " bought a new card!");
+            System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
         else
             printReply_uni("You bought the card correctly!", nickname);
     }

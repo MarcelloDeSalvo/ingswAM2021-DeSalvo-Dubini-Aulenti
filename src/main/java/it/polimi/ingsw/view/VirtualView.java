@@ -215,9 +215,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyBoughtCard(String nickname) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.BUY_OK).setTarget(Target.BROADCAST)
-                .setNickname(nickname).build());
+    public void notifyBuyOk(String nickname, int slotID, int cardID) {
+        notifyUsers(new BuyMessage(Command.BUY_OK, slotID, cardID,nickname));
     }
 
     @Override

@@ -177,7 +177,6 @@ public class Player implements ObservableModel {
      * @return true if the subtraction is successful
      */
     public boolean buy(){
-        view.notifyBoughtCard(nickname);
         return playerBoard.buy();
     }
 
@@ -188,7 +187,12 @@ public class Player implements ObservableModel {
      * @return true if the insert is successful
      */
     public boolean insertBoughtCardOn(int id, DevelopmentCard developmentCard){
-        return playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard);
+        if (playerBoard.insertBoughtCard(getProductionSlotByID(id),developmentCard)){
+            view.notifyBuyOk(nickname, id, developmentCard.getId());
+            return true;
+        }
+
+        return false;
     }
 
     /**
