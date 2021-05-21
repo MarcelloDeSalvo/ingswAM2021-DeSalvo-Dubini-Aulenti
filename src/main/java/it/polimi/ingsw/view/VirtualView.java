@@ -243,7 +243,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
-        printReply("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
+        printReply("LORENZO has removed " + amount + " "+color+ " development cards with level = " + level);
     }
 
     @Override
