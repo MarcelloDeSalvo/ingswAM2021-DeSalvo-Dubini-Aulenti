@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.server.Status;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.*;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -301,6 +300,7 @@ public class VirtualView implements View {
         for (String nick: nicknames) {
             scoreboard.append(" °-> ").append(nick);
             scoreboard.append(" scored { ").append(playersTotalVictoryPoints.get(i)).append(" } points").append("\n");
+            i++;
         }
         printReply(scoreboard.toString());
     }
