@@ -404,6 +404,11 @@ public class Cli extends ClientView {
                     send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(this.getNickname()).build());
                     break;
 
+                case "SB":
+                case "SHOW_BOARD":
+                    printBoard();
+                    break;
+
                 case "SH":
                 case "SHOW_HAND":
                     printHand();
@@ -421,7 +426,7 @@ public class Cli extends ClientView {
 
                 case "SP":
                 case "SHOW_PRODUCTION":
-                    send(new Message.MessageBuilder().setCommand(Command.SHOW_PRODUCTION).setNickname(this.getNickname()).build());
+                    printProduction();
                     break;
 
                 case "SM":
@@ -437,6 +442,11 @@ public class Cli extends ClientView {
                 case "SF":
                 case "SHOW_FAITHPATH":
                     printFaithPath();
+                    break;
+
+                case "SO":
+                case "SHOW_ORDER":
+                    printOrder();
                     break;
 
                 case "ET":
@@ -612,7 +622,7 @@ public class Cli extends ClientView {
         System.out.println(payload + "\n");
     }
 
-    @Override
+
     public void printLobby(ArrayList<String> lobbiesInfos) {
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
@@ -641,9 +651,14 @@ public class Cli extends ClientView {
                 "\nType HELP to see the full command list ", nickname);
     }
 
-    @Override
-    public void printOrder(ArrayList<String> randomOrder) {
-
+    public void printOrder() {
+        ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
+        StringBuilder orderBuild = new StringBuilder();
+        orderBuild.append("This is the Turn Order \n");
+        for (int i = 0; i<randomOrder.size(); i++){
+            orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
+        }
+        System.out.println(orderBuild.toString());
     }
 
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
@@ -677,6 +692,18 @@ public class Cli extends ClientView {
         if (!isInGame) return;
         System.out.println(getLiteMarket().toString());
     }
+
+    public void printProduction(){
+
+    }
+
+    public void printBoard(){
+        printHand();
+        printDeposit();
+        printVault();
+        printProduction();
+    }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -703,6 +730,7 @@ public class Cli extends ClientView {
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
         isInGame = true;
+        printOrder();
     }
 
     @Override

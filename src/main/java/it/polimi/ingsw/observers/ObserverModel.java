@@ -46,16 +46,6 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
     void printReply_everyOneElse(String payload, String nickname);
 
     /**
-     * Prints the players' turn order
-     */
-    void printOrder(ArrayList<String> randomOrder);
-
-    /**
-     * Prints the list of lobbies
-     */
-    void printLobby(ArrayList<String> lobbiesInfos);
-
-    /**
      * Notifies a player that it's his turn
      */
     void printItsYourTurn(String nickname);

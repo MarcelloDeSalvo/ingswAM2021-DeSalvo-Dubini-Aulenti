@@ -55,7 +55,7 @@ public class Controller implements ObserverController {
                 game.addView(view);
 
                 view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
-                view.printOrder(playersNicknames);
+                //view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
                     view.notifyCardsInHand(player.getHandIDs(), player.getNickname());
@@ -203,10 +203,6 @@ public class Controller implements ObserverController {
 
             case SWITCH_DEPOSIT:
                 manageDeposit(mex, senderNick, Command.SWITCH_DEPOSIT);
-                break;
-
-            case SHOW_PRODUCTION:
-                view.printProduction(currPlayer.getPlayerBoard().getProductionSite(), senderNick);
                 break;
 
             case END_TURN:
@@ -591,7 +587,7 @@ public class Controller implements ObserverController {
         newDevelopmentCard = null;
         productionSlotId = -1;
 
-        view.printProduction(currPlayer.getProductionSite(), senderNick);
+        //view.printProduction(currPlayer.getProductionSite(), senderNick);
         mainActionAvailable = false;
     }
     //------------------------------------------------------------------------------------------------------------------/

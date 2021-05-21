@@ -130,22 +130,6 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void printLobby(ArrayList<String> lobbiesInfos) {
-
-    }
-
-    @Override
-    public void printOrder(ArrayList<String> randomOrder) {
-        StringBuilder orderBuild = new StringBuilder();
-        orderBuild.append("This is the Turn Order \n");
-        for (int i = 0; i<randomOrder.size(); i++){
-            orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
-        }
-        Message orderMex = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo(orderBuild.toString()).setTarget(Target.BROADCAST).build();
-        notifyUsers(orderMex);
-    }
-
-    @Override
     public void printItsYourTurn(String nickname){
         currPlayer = nickname;
         notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
@@ -154,10 +138,6 @@ public class VirtualView implements View {
 
     public void printTurnHelp(String nickname){
         notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
-    }
-
-    public void printProduction(ProductionSite productionSite, String nickname) {
-        printReply_uni(productionSite.toString(), nickname);
     }
     //------------------------------------------------------------------------------------------------------------------
 
