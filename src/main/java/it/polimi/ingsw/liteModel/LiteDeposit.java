@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class LiteDeposit {
 
-    ArrayList<MiniDeposit> deposits;
+    private final ArrayList<MiniDeposit> deposits;
 
     public LiteDeposit() {
         this.deposits = new ArrayList<>();
@@ -21,7 +21,7 @@ public class LiteDeposit {
         private boolean isEmpty ;
         private final int maxDim;
         private final ResourceContainer container;
-        private boolean leaderType;
+        private final boolean leaderType;
 
         public MiniDeposit(int maxDim) {
             this.isFull = false;

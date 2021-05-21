@@ -196,11 +196,6 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyBuyOk(String nickname, int slotID, int cardID) {
-        notifyUsers(new BuyMessage(Command.BUY_OK, slotID, cardID,nickname));
-    }
-
-    @Override
     public void notifyCardGridChanges(int oldID, int newID){
         notifyUsers(new NotifyCardGrid(oldID, newID));
     }
@@ -224,6 +219,11 @@ public class VirtualView implements View {
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
         printReply("LORENZO has removed " + amount + " "+color+ " development cards with level = " + level);
+    }
+
+    @Override
+    public void notifyBuyOk(String nickname, int slotID, int cardID) {
+        notifyUsers(new BuyMessage(Command.BUY_OK, slotID, cardID, nickname));
     }
 
     @Override

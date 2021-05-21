@@ -27,6 +27,7 @@ public abstract class ClientView implements View, UserInput {
     private LiteVault liteVault;
     private LiteMarket liteMarket;
     private LiteDeposit liteDeposit;
+    private LiteProduction liteProduction;
 
     public String getNickname() {
         return nickname;
@@ -111,4 +112,12 @@ public abstract class ClientView implements View, UserInput {
     public LiteMarket getLiteMarket(){return liteMarket;}
 
     public void setLiteMarket(LiteMarket liteMarket) { this.liteMarket = liteMarket; }
+
+    public LiteProduction getLiteProduction() {
+        return liteProduction;
+    }
+
+    public void setLiteProduction(LiteProduction liteProduction) {
+        this.liteProduction = liteProduction;
+    }
 }

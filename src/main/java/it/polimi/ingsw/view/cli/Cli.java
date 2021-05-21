@@ -688,13 +688,14 @@ public class Cli extends ClientView {
         System.out.println(getLiteDeposit().toString());
     }
 
+    public void printProduction(){
+        if (!isInGame) return;
+        System.out.println(getLiteProduction().toString());
+    }
+
     public void printMarket(){
         if (!isInGame) return;
         System.out.println(getLiteMarket().toString());
-    }
-
-    public void printProduction(){
-
     }
 
     public void printBoard(){
@@ -727,6 +728,7 @@ public class Cli extends ClientView {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         setLiteVault(new LiteVault());
         setLiteDeposit(new LiteDeposit());
+        setLiteProduction(new LiteProduction(getDevelopmentCards()));
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
         isInGame = true;
@@ -737,8 +739,10 @@ public class Cli extends ClientView {
     public void notifyBuyOk(String nickname, int slotID, int cardID) {
         if (!nickname.equals(getNickname()))
             System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
-        else
+        else {
             printReply_uni("You bought the card correctly!", nickname);
+            printProduction();
+        }
     }
 
     @Override
@@ -866,7 +870,10 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
+        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
 
+        getLiteProduction().addProductionSlot(productionAbility);
+        printProduction();
     }
 
     @Override
@@ -887,7 +894,7 @@ public class Cli extends ClientView {
     @Override
     public void notifyGameEnded() {
         printReply("# The game is ended, you are now in the lobby");
-        isInGame= false;
+        isInGame = false;
     }
     //------------------------------------------------------------------------------------------------------------------
 
