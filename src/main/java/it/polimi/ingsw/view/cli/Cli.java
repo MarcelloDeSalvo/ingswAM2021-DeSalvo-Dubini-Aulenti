@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.*;
 import it.polimi.ingsw.model.cards.Colour;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
@@ -830,6 +831,10 @@ public class Cli extends ClientView {
             getLiteDeposit().removeRes(resourceContainer, id);
     }
 
+    @Override
+    public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
+
+    }
 
     @Override
     public void notifyLastTurn() {

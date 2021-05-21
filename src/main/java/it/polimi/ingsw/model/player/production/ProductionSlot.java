@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player.production;
 
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 
@@ -97,6 +98,11 @@ public interface ProductionSlot {
      * @return the sum of the victoryPoints
      */
     int getVictoryPoints();
+
+    /**
+     * @return the production ability of the slot
+     */
+    ProductionAbility getProductionAbility();
 
     String toString(int id);
     //------------------------------------------------------------------------------------------------------------------

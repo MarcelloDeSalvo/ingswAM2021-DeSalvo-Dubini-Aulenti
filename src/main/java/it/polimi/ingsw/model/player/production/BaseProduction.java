@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player.production;
 
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
@@ -53,7 +54,6 @@ public class BaseProduction implements ProductionSlot {
         }
 
         return false;
-        //return resourceType != null && input.add(new ResourceContainer(resourceType, 1));
     }
 
     @Override
@@ -64,7 +64,6 @@ public class BaseProduction implements ProductionSlot {
         }
 
         return false;
-        //return resourceType != null && output.add(new ResourceContainer(resourceType, 1));
     }
 
     @Override
@@ -122,6 +121,11 @@ public class BaseProduction implements ProductionSlot {
     @Override
     public boolean isEmpty() {
         return false;
+    }
+
+    @Override
+    public ProductionAbility getProductionAbility() {
+        return null;
     }
     //------------------------------------------------------------------------------------------------------------------
 

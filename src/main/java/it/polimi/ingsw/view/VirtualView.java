@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.cards.Colour;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
@@ -258,6 +259,15 @@ public class VirtualView implements View {
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
 
+    }
+
+    @Override
+    public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
+        notifyUsers(
+                new NewProductionSlotMessage(
+                new Message.MessageBuilder().setCommand(Command.NOTIFY_NEW_PRODSLOT).setTarget(Target.BROADCAST).setNickname(senderNick),
+                productionAbility)
+        );
     }
 
     @Override
