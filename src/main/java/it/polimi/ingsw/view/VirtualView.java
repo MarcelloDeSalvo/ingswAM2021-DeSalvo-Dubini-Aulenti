@@ -248,7 +248,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyProductionOk(String senderNick) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_OK).setNickname(senderNick).build());
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_OK).setTarget(Target.BROADCAST).setNickname(senderNick).build());
     }
 
     @Override
