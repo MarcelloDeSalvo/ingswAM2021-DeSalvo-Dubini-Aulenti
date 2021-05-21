@@ -31,7 +31,7 @@ public class LiteHand {
     public String toString() {
         StringBuilder s = new StringBuilder("\n");
 
-        s.append("These the Leader Cards in your ").append(Color.ANSI_CYAN.escape()).append("HAND").append(Color.ANSI_RESET.escape()).append(":\n");
+        s.append("These the Leader Cards in your ").append(Color.ANSI_BLUE.escape()).append("HAND").append(Color.ANSI_RESET.escape()).append(":\n");
 
         for (int id: hand) {
             s.append("-------------------------------------------------------------------\\");

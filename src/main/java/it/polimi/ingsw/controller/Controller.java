@@ -490,7 +490,6 @@ public class Controller implements ObserverController {
         }
 
         if(command == Command.DONE) {
-            //System.out.println("Done arrived");
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_BUY_RESOURCES) {
                 buyDevelopmentCard(senderNick);
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
@@ -733,10 +732,10 @@ public class Controller implements ObserverController {
             mainActionAvailable = false;
 
         } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
+            currPlayer.emptyBuffers();
+
             view.printReply_uni(exception.getMessage(), senderNick);
             view.printTurnHelp(senderNick);
-
-            currPlayer.emptyBuffers();
         }
     }
     //------------------------------------------------------------------------------------------------------------------/
