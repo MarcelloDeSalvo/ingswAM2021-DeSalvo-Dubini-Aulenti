@@ -16,9 +16,17 @@ public class ServerMain {
     
     private int port;
 
-    public ServerMain()throws FileNotFoundException{
-        File file = new File("src/main/resources/ConfigurationFiles/ServerConfig");
-        Scanner sc = new Scanner(file);
+    public ServerMain(){
+        String configPath = "src/main/resources/ConfigurationFiles/ServerConfig";
+        Scanner sc = null;
+        try {
+            File file = new File("src/main/resources/ConfigurationFiles/ServerConfig");
+            sc = new Scanner(file);
+        }catch (FileNotFoundException | NullPointerException e){
+            System.out.println("Server configuration file not found: " + configPath);
+            System.exit(1);
+        }
+
         int i = 0;
         while (sc.hasNextLine()) {
             String data=sc.next();

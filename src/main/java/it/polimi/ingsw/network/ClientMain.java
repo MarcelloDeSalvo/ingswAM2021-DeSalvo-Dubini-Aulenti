@@ -26,7 +26,7 @@ public class ClientMain {
     private ClientSender clientSender;
     private ClientReceiver clientReceiver;
 
-    private final List<String> myParam = new ArrayList<>(Arrays.asList("-SERVER", "-PORT", "-VIEW", "--SOLO"));
+    private final List<String> myParam = new ArrayList<>(Arrays.asList("-CLIENT", "-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
     public ClientMain(){ }
 
@@ -77,6 +77,9 @@ public class ClientMain {
     private void commandLineCases(HashMap<String, List<String>> options){
         for (String s: options.keySet()) {
             switch (s){
+                case "-CLIENT":
+                    break;
+
                 case "-SERVER":
                     if (options.get(s).size()!=1){
                         System.err.println("Server param error");
