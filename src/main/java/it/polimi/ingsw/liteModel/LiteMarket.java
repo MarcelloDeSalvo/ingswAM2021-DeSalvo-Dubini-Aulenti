@@ -44,7 +44,7 @@ public class LiteMarket {
     @Override
     public String toString() {
         StringBuilder liteMarketToString = new StringBuilder();
-        liteMarketToString.append(Color.ANSI_CYAN.escape()).append("MARKET:").append(Color.ANSI_RESET.escape()).append("\n");
+        liteMarketToString.append(Color.ANSI_CYAN.escape()).append("\nMARKET:").append(Color.ANSI_RESET.escape()).append("\n");
 
         for(int i=-1; i<rows+1; i++) {
             for (int j = 0; j < columns+1; j++) {
@@ -70,7 +70,7 @@ public class LiteMarket {
             }
             liteMarketToString.append("\n");
         }
-        liteMarketToString.append("\nThe vacant is: ").append(vacant.getResourceType());
+        liteMarketToString.append("\nThe vacant is: ").append(vacant.getResourceType()).append("\n");
 
         return liteMarketToString.toString();
     }

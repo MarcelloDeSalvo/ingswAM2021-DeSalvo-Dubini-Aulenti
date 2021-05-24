@@ -685,7 +685,7 @@ public class Cli extends ClientView {
         System.out.println(getLiteFaithPath().toString());
     }
 
-    public void printDeposit() {
+    public void printDeposit(){
         if (!isInGame) return;
         System.out.println(getLiteDeposit().toString());
     }
