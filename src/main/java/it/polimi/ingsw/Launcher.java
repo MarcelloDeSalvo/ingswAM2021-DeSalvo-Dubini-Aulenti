@@ -7,12 +7,15 @@ public class Launcher {
 
     public static void main(String[] args){
 
-            if(args[0].equals("-Server")){
-                ServerMain.main(args);
-            }
-            else if (args[0].equals("-Client")){
-                ClientMain.main(args);
-            }
+        if (args[0] == null)
+            return;
+
+        if(args[0].equalsIgnoreCase("-Server")){
+            ServerMain.main(args);
+        }
+        else if (args[0].equalsIgnoreCase("-Client")){
+            ClientMain.main(args);
+        }
 
     }
 }

@@ -1,50 +1,30 @@
 package it.polimi.ingsw.network;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.network.server.EchoServerClientHandler;
 import it.polimi.ingsw.network.server.LobbyManager;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerMain {
     
-    private int port;
-
-    public ServerMain(){
-        String configPath = "src/main/resources/ConfigurationFiles/ServerConfig";
-        Scanner sc = null;
-        try {
-            File file = new File("src/main/resources/ConfigurationFiles/ServerConfig");
-            sc = new Scanner(file);
-        }catch (FileNotFoundException | NullPointerException e){
-            System.out.println("Server configuration file not found: " + configPath);
-            System.exit(1);
-        }
-
-        int i = 0;
-        while (sc.hasNextLine()) {
-            String data=sc.next();
-            i++;
-            if(i==2) {
-                try{
-                    port=Integer.parseInt(data);
-                }
-                catch (Exception e){
-                    System.out.println("There was an issue with reading port number from the file, shutting down.");
-                    System.exit(1);
-                }
-            }
-        }
-    }
+    private int port = 50623;
 
     public static void main(String[] args) {
         try{
+            /*
+            String jsonPath = "src/main/resources/ConfigurationFiles/ServerConfig.json";
+            Gson gson = new Gson();
+            Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
+            //Reader reader = new FileReader(ServerMain.class.getResourceAsStream(jsonPath).toString());
+            ServerMain serverMain = gson.fromJson(reader, ServerMain.class);+/
+             */
+
             ServerMain serverMain = new ServerMain();
             serverMain.startServer();
         }

@@ -70,7 +70,7 @@ public class LiteProduction {
                 }
             }
             else {
-                prodSlots.append("\n").append(productionAbility.toString());
+                prodSlots.append(productionAbility.toString()).append("\n");
             }
             return prodSlots.toString();
         }
@@ -88,7 +88,9 @@ public class LiteProduction {
     public String toString() {
         StringBuilder prodSlots = new StringBuilder();
 
-        prodSlots.append(Color.ANSI_WHITE.escape()).append("# BASIC PRODUCTION ID: ").append(0).append(" ----------------- #").append(Color.ANSI_RESET.escape()).append("\n").append("\n").append(" ");
+        prodSlots.append("\n").append(Color.ANSI_BLUE.escape()).append("PRODUCTION SITE:").append(Color.ANSI_RESET.escape()).append("\n");
+
+        prodSlots.append(Color.ANSI_WHITE.escape()).append("\n# BASIC PRODUCTION ID: ").append(0).append(" ----------------- #").append(Color.ANSI_RESET.escape()).append("\n").append("\n").append(" ");
 
         for (int i = 0; i < 2; i++){
             if (i != 0)

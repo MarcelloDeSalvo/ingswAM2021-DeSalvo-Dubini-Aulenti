@@ -33,7 +33,6 @@ public class ClientMain {
     public static void main(String[] args){
 
         ClientMain clientMain = new ClientMain();
-
         clientMain.commandLineParametersCheck(args);
 
         System.out.println("Hostname: " + clientMain.getHostName());

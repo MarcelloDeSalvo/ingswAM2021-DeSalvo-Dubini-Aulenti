@@ -179,7 +179,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
      *  in order to activate the production
      * @return true if he has enough total resources
      */
-    public  boolean hasEnoughResourcesForProduction(){
+    public boolean hasEnoughResourcesForProduction(){
         return productionSite.hasEnoughInputResources(this);
     }
 
