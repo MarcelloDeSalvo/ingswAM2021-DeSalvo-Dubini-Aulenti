@@ -7,7 +7,7 @@ public class Launcher {
 
     public static void main(String[] args){
 
-        if (args[0] == null)
+        if (args.length==0)
             return;
 
         if(args[0].equalsIgnoreCase("-Server")){
