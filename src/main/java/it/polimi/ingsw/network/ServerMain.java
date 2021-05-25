@@ -7,24 +7,20 @@ import it.polimi.ingsw.network.server.LobbyManager;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ServerMain {
-    
-    private int port = 50623;
+
+    private int port;
 
     public static void main(String[] args) {
         try{
-            /*
-            String jsonPath = "src/main/resources/ConfigurationFiles/ServerConfig.json";
+            String jsonPath = "/ConfigurationFiles/ServerConfig.json";
             Gson gson = new Gson();
             Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
-            //Reader reader = new FileReader(ServerMain.class.getResourceAsStream(jsonPath).toString());
-            ServerMain serverMain = gson.fromJson(reader, ServerMain.class);+/
-             */
-
-            ServerMain serverMain = new ServerMain();
+            ServerMain serverMain = gson.fromJson(reader, ServerMain.class);
             serverMain.startServer();
         }
         catch (Exception e){
