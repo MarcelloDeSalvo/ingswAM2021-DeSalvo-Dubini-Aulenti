@@ -41,6 +41,9 @@ public class LiteHand {
             s.append("-------------------------------------------------------------------/\n\n");
         }
 
+        if(hand.isEmpty())
+            s.append("\n").append(Color.ANSI_RED.escape()).append("EMPTY").append(Color.ANSI_RESET.escape());
+
         return s.toString();
     }
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.exceptions.*;
 import it.polimi.ingsw.model.player.ConversionMode;
 import it.polimi.ingsw.model.player.Player;
@@ -29,7 +30,8 @@ public class Controller implements ObserverController {
     private Game game;
     private final Gson gson;
     private Player currPlayer;
-    private boolean mainActionAvailable=true;
+
+    private boolean mainActionAvailable = true;
 
     //BUFFERS ----------------------------------------------------------------------------------------------------------\
     private ArrayList<ResourceContainer> marketOut;
@@ -109,7 +111,7 @@ public class Controller implements ObserverController {
         switch (command){
 
             case DISCARD_LEADER:
-                discardLeader(mex, senderNick, playerNumber);
+                discardLeaderSetUpPhase(mex, senderNick, playerNumber);
                 break;
 
             case SETUP_CONTAINER:
@@ -197,6 +199,10 @@ public class Controller implements ObserverController {
                 activateLeader(mex, senderNick);
                 break;
 
+            case DISCARD_LEADER:
+                discardLeader(mex, senderNick);
+                break;
+
             case MANAGE_DEPOSIT:
                 manageDeposit(mex, senderNick, Command.MANAGE_DEPOSIT);
                 break;
@@ -246,7 +252,7 @@ public class Controller implements ObserverController {
      * @param senderNick current player nickname
      * @param playerNumber player number
      */
-    public void discardLeader (String mex, String senderNick, int playerNumber) {
+    public void discardLeaderSetUpPhase(String mex, String senderNick, int playerNumber) {
         IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
 
         if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
@@ -960,7 +966,7 @@ public class Controller implements ObserverController {
     //------------------------------------------------------------------------------------------------------------------/
 
 
-    //ACTIVATE LEADER---------------------------------------------------------------------------------------------------\
+    //LEADER ACTIONS----------------------------------------------------------------------------------------------------\
     /**
      * Called when the player wants to activate a Leader Card in his hand.
      * If the player meets the criteria to activate the selected card, the leader is correctly activated.
@@ -984,6 +990,40 @@ public class Controller implements ObserverController {
         }
         view.printReply_uni("You do not own a leader with this id!", nickname);
     }
+
+    /**
+     * Called when the player wants to discard a Leader Card in his hand.
+     * If the player meets the criteria to discard the selected card, the leader is correctly discarded and the player's position incremented.
+     * Otherwise the view gets notified with specific error messages
+     * @param mex message received, containing info about the Leader to discard
+     * @param senderNick currPlayer nickname
+     */
+    public void discardLeader(String mex, String senderNick){
+        IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
+        int leaderCardID = idMessage.getId();
+
+
+        if(currPlayer.getHand().isEmpty()) {
+            view.printReply_uni("Your Hand is empty! You cannot discard nor activate Leader Cards!", senderNick);
+            return;
+        }
+
+        for (LeaderCard lc : currPlayer.getHand()) {
+            if(lc.getId() == leaderCardID){
+                if(lc.getStatus().equals(Status.ACTIVE)){
+                    view.printReply_uni("You cannot discard a Leader that is already active!", senderNick);
+                    return;
+                }
+            }
+        }
+
+        if (!currPlayer.discardFromHand(leaderCardID)) {
+            view.printReply_uni("Wrong Leader ID", senderNick);
+            return;
+        }
+
+        incPosOfCurrentPlayer(1);
+    }
     //------------------------------------------------------------------------------------------------------------------/
 
 
@@ -1006,7 +1046,5 @@ public class Controller implements ObserverController {
     public Game getGame() {
         return game;
     }
-
-    public void setMainActionAvailable(boolean mainActionAvailable) { this.mainActionAvailable = mainActionAvailable; }
     //------------------------------------------------------------------------------------------------------------------
 }

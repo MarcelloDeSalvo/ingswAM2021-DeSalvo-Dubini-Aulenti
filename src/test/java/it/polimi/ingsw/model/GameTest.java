@@ -84,10 +84,6 @@ class GameTest {
 
     }
 
-    @Test
-    void setUpObserves() {
-    }
-
 
     void nextTurn_check(Game game, int turnNumber){
         assertEquals(turnNumber%game.getNumOfPlayers(), game.getCurrentPlayerNumber());
@@ -200,7 +196,7 @@ class GameTest {
         game.startGame();
 
         DevelopmentCard dev1 = new DevelopmentCard(8,1, Colour.YELLOW);
-        game.getPlayer(0).insertBoughtCardOn(1,dev1);
+        game.getPlayer(0).insertBoughtCardOn(1, dev1);
         game.nextTurn();
 
         DevelopmentCard dev2 = new DevelopmentCard(3,1, Colour.YELLOW);
@@ -249,8 +245,5 @@ class GameTest {
 
         assertEquals(games[1].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).getDepositContainer().getQty(), 0);
         assertAll(()->games[1].getPlayer(0).getPlayerBoard().getDepositSlotWithDim(3).canAddToDepositSlot(new ResourceContainer(ResourceType.STONE, 3)));
-
-
     }
-
 }
