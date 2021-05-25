@@ -8,7 +8,9 @@ import com.google.gson.JsonSyntaxException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 
 public class FaithPathSetUpParser {
 
@@ -23,12 +25,12 @@ public class FaithPathSetUpParser {
      * @throws JsonIOException if the file cannot be read by Json
      */
     public static FaithPath deserializeFaithPathSetUp() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        String path = "src/main/resources/Json/FaithPathSetUp.json";
+        String path = "/Json/FaithPathSetUp.json";
         return FaithPathSetUpParser.deserializeFaithPathSetUp(path);
     }
 
     public static LiteFaithPath deserializeLiteFaithPathSetUp() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        String path = "src/main/resources/Json/FaithPathSetUp.json";
+        String path = "/Json/FaithPathSetUp.json";
         return FaithPathSetUpParser.deserializeLiteFaithPathSetUp(path);
     }
 
@@ -45,8 +47,8 @@ public class FaithPathSetUpParser {
         FaithPath setUp;
 
         try {
-            reader = new FileReader(path);
-        }catch (FileNotFoundException e){
+            reader = new InputStreamReader(FaithPathSetUpParser.class.getResourceAsStream(path), StandardCharsets.UTF_8);
+        }catch (NullPointerException e){
             throw new FileNotFoundException( path +  ": File not found");
         }
 
@@ -77,8 +79,8 @@ public class FaithPathSetUpParser {
         LiteFaithPath setUp;
 
         try {
-            reader = new FileReader(path);
-        }catch (FileNotFoundException e){
+            reader = new InputStreamReader(FaithPathSetUpParser.class.getResourceAsStream(path), StandardCharsets.UTF_8);
+        }catch (NullPointerException e){
             throw new FileNotFoundException( path +  ": File not found");
         }
 

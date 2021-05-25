@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MarketSetUpParser {
@@ -26,7 +27,7 @@ public class MarketSetUpParser {
      * @throws JsonIOException if the file cannot be read by Json
      */
     public static ArrayList<ResourceContainer> deserializeMarketElements() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        String path = "src/main/resources/Json/MarketSetUp.json";
+        String path = "/Json/MarketSetUp.json";
         return MarketSetUpParser.deserializeMarketElements(path);
     }
 
@@ -43,8 +44,8 @@ public class MarketSetUpParser {
         ArrayList<ResourceContainer> marbles;
 
         try {
-            reader = new FileReader(path);
-        }catch (FileNotFoundException e){
+            reader = new InputStreamReader(MarketSetUpParser.class.getResourceAsStream(path), StandardCharsets.UTF_8);
+        }catch (NullPointerException e){
             throw new FileNotFoundException( path +  ": File not found");
         }
 

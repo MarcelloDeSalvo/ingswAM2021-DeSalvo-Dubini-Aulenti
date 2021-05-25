@@ -8,8 +8,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class ActionTokensParser {
@@ -26,7 +28,7 @@ public class ActionTokensParser {
      * @throws JsonIOException if the file cannot be read by Json
      */
     public static ArrayList<ActionToken> deserializeActionTokens() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        String path = "src/main/resources/Json/ActionTokens.json";
+        String path = "/Json/ActionTokens.json";
         return ActionTokensParser.deserializeActionTokens(path);
     }
 
@@ -44,8 +46,8 @@ public class ActionTokensParser {
         ArrayList<ActionToken> actionTokens;
 
         try {
-            reader = new FileReader(path);
-        }catch (FileNotFoundException e){
+            reader = new InputStreamReader(ActionToken.class.getResourceAsStream(path), StandardCharsets.UTF_8);
+        }catch (NullPointerException e){
             throw new FileNotFoundException( path +  ": File not found");
         }
 

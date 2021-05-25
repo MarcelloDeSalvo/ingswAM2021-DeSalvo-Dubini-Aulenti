@@ -10,8 +10,10 @@ import com.google.gson.typeadapters.RuntimeTypeAdapterFactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class LeaderCardParser {
@@ -28,7 +30,7 @@ public class LeaderCardParser {
      * @throws JsonIOException if the file cannot be read by Json
      */
     public static ArrayList<LeaderCard> deserializeLeaderList() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        String path = "src/main/resources/Json/LeaderCards.json";
+        String path = "/Json/LeaderCards.json";
         return LeaderCardParser.deserializeLeaderList(path);
     }
 
@@ -59,8 +61,8 @@ public class LeaderCardParser {
                 .registerTypeAdapterFactory(abilityAdapterFactory).create();
 
         try {
-            reader = new FileReader(path);
-        }catch (FileNotFoundException e){
+            reader = new InputStreamReader(LeaderCardParser.class.getResourceAsStream(path), StandardCharsets.UTF_8);
+        }catch (NullPointerException e){
             throw new FileNotFoundException( path +  ": File not found");
         }
 

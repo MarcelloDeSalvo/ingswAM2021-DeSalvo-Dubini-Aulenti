@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class DevelopmentCardParser {
@@ -26,7 +27,7 @@ public class DevelopmentCardParser {
      * @throws JsonIOException if the file cannot be read by Json
      */
     public static ArrayList<DevelopmentCard> deserializeDevelopmentList() throws FileNotFoundException,JsonIOException, JsonSyntaxException {
-        String path = "src/main/resources/Json/DevelopmentCards.json";
+        String path = "/Json/DevelopmentCards.json";
         return DevelopmentCardParser.deserializeDevelopmentList(path);
     }
 
@@ -41,8 +42,8 @@ public class DevelopmentCardParser {
         ArrayList<DevelopmentCard> cards;
 
         try {
-            reader = new FileReader(path);
-        }catch (FileNotFoundException e){
+            reader = new InputStreamReader(DevelopmentCardParser.class.getResourceAsStream(path), StandardCharsets.UTF_8);
+        }catch (NullPointerException e){
             throw new FileNotFoundException( path +  ": File not found");
         }
 
