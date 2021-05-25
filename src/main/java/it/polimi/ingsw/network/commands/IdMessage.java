@@ -8,6 +8,11 @@ public class IdMessage extends Message{
         this.id = id;
     }
 
+    public IdMessage(MessageBuilder messageBuilder, int id){
+        super(messageBuilder);
+        this.id=id;
+    }
+
     public int getId() {
         return id;
     }

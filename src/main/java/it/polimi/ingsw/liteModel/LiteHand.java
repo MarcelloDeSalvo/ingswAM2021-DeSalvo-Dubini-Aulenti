@@ -19,12 +19,22 @@ public class LiteHand {
         }
     }
 
+    public LiteHand(ArrayList<LeaderCard> leaderCards) {
+        this.hand=new ArrayList<>();
+        this.leaderCards = new ArrayList<>(leaderCards);
+    }
+
+
     public void discardFromHand(Integer id) throws NullPointerException, IllegalArgumentException{
         hand.remove(id);
     }
 
     public void activateLeader(int id){
          leaderCards.get(id-1).setStatus(Status.ACTIVE);
+    }
+
+    public void addLeader(int id){
+        hand.add(id);
     }
 
     @Override

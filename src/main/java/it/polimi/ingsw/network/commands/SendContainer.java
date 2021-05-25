@@ -26,7 +26,7 @@ public class SendContainer extends Message{
      * Notifies the clients that a container is added or removed inside a Deposit
      */
     public SendContainer(Command command, ResourceContainer container, int destinationID, String senderNickname, boolean added) {
-        super( new MessageBuilder().setCommand(command).setNickname(senderNickname));
+        super( new MessageBuilder().setCommand(command).setTarget(Target.BROADCAST).setNickname(senderNickname));
         this.container = container;
         this.destination = "DEPOSIT";
         this.destinationID = destinationID;

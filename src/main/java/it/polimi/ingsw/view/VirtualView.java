@@ -211,8 +211,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyLeaderActivated(int id, String nickname){
-        notifyUsers(new IdMessage(Command.ACTIVATE_OK, id, nickname));
-        printReply_everyOneElse(nickname + " has activated the " + id + " ID leader!", nickname);
+        notifyUsers(new IdMessage(new Message.MessageBuilder().setNickname(nickname).setCommand(Command.ACTIVATE_OK).setTarget(Target.BROADCAST), id));
     }
 
     @Override

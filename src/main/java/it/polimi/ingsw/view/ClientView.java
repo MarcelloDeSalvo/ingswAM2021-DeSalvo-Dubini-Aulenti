@@ -13,6 +13,7 @@ import it.polimi.ingsw.observers.ObserverController;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class ClientView implements View, UserInput {
     private String nickname;
@@ -22,12 +23,12 @@ public abstract class ClientView implements View, UserInput {
     private final ArrayList<DevelopmentCard> developmentCards;
 
     private final LiteFaithPath liteFaithPath;
-    private LiteHand hand;
     private LiteCardGrid liteCardGrid;
-    private LiteVault liteVault;
     private LiteMarket liteMarket;
-    private LiteDeposit liteDeposit;
-    private LiteProduction liteProduction;
+
+    private HashMap<String,LitePlayerBoard> liteBoards;
+
+
 
     public String getNickname() {
         return nickname;
@@ -48,6 +49,13 @@ public abstract class ClientView implements View, UserInput {
     public void send(Message mex){
         String stringToSend = mex.serialize();
         notifyController(stringToSend, null, null);
+    }
+
+    public void litePlayerBoardsSetUp(ArrayList<String> nicknames){
+        this.liteBoards=new HashMap<>();
+        for (String nic:nicknames) {
+            liteBoards.put(nic,new LitePlayerBoard(leaderCards, developmentCards));
+        }
     }
 
 
@@ -72,20 +80,45 @@ public abstract class ClientView implements View, UserInput {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    
+
+    //GETTER AND SETTER METHODS FOR LITE MODEL--------------------------------------------------------------------------
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
 
-    public void setHand(LiteHand hand) {
-        this.hand = hand;
+    public void setMyHand(LiteHand hand) {
+        liteBoards.get(nickname).setLiteHand(hand);
     }
 
-    public LiteHand getHand() {
-        return hand;
+   public LiteHand getMyHand() {
+        return liteBoards.get(nickname).getLiteHand();
     }
+
+    public LiteVault getMyLiteVault() {
+        return liteBoards.get(nickname).getLiteVault();
+    }
+
+    public LiteDeposit getMyLiteDeposit() {
+        return  liteBoards.get(nickname).getLiteDeposit();
+    }
+
+    public LiteHand getSomeonesHand(String nickname){ return liteBoards.get(nickname).getLiteHand();}
+
+    public LiteVault getSomeonesLiteVault(String nickname) { return liteBoards.get(nickname).getLiteVault();  }
+
+    public LiteDeposit getSomeonesLiteDeposit(String nickname) {return  liteBoards.get(nickname).getLiteDeposit(); }
+
+    public LiteProduction getSomeonesLiteProduction(String nickname) { return liteBoards.get(nickname).getLiteProduction(); }
+
+    public LiteProduction getMyLiteProduction() {  return liteBoards.get(nickname).getLiteProduction(); }
+
+    public LitePlayerBoard getLitePlayerBoard(String nickname){   return liteBoards.get(nickname); }
+
+    public LiteMarket getLiteMarket(){return liteMarket;}
+
+    public void setLiteMarket(LiteMarket liteMarket) { this.liteMarket = liteMarket; }
 
     public LiteCardGrid getLiteCardGrid() { return liteCardGrid; }
 
@@ -93,31 +126,5 @@ public abstract class ClientView implements View, UserInput {
 
     public LiteFaithPath getLiteFaithPath() { return liteFaithPath;  }
 
-    public LiteVault getLiteVault() {
-        return liteVault;
-    }
 
-    public LiteDeposit getLiteDeposit() {
-        return liteDeposit;
-    }
-
-    public void setLiteDeposit(LiteDeposit liteDeposit) {
-        this.liteDeposit = liteDeposit;
-    }
-
-    public void setLiteVault(LiteVault liteVault) {
-        this.liteVault = liteVault;
-    }
-
-    public LiteMarket getLiteMarket(){return liteMarket;}
-
-    public void setLiteMarket(LiteMarket liteMarket) { this.liteMarket = liteMarket; }
-
-    public LiteProduction getLiteProduction() {
-        return liteProduction;
-    }
-
-    public void setLiteProduction(LiteProduction liteProduction) {
-        this.liteProduction = liteProduction;
-    }
 }

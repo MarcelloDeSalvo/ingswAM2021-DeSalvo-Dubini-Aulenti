@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -118,7 +119,7 @@ public class Cli extends ClientView {
 
             case ACTIVATE_OK:
                 IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
-                notifyLeaderActivated(activatedLeader.getId(), "");
+                notifyLeaderActivated(activatedLeader.getId(), activatedLeader.getSenderNickname());
                 break;
 
             case BUY_OK:
@@ -249,11 +250,6 @@ public class Cli extends ClientView {
                 case "SG":
                 case "START_GAME":
                     send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
-                    break;
-
-                case "SPL":
-                case "SHOW_PLAYERS":
-                    send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
                     break;
 
 
@@ -448,6 +444,16 @@ public class Cli extends ClientView {
                 case "SO":
                 case "SHOW_ORDER":
                     printOrder();
+                    break;
+
+                case "SPL":
+                case "SHOW_PLAYER":
+                    String pl=stdIn.next();
+                    if(!getLiteFaithPath().getNicknames().contains(pl)){
+                        System.out.println("Invalid nickname!");
+                        break;
+                    }
+                    System.out.println(getLitePlayerBoard(pl).toString());
                     break;
 
                 case "ET":
@@ -666,12 +672,12 @@ public class Cli extends ClientView {
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
     public void printHand() {
         if (!isInGame) return;
-        System.out.println(getHand().toString());
+        System.out.println(getMyHand().toString());
     }
 
     public void printVault(){
         if (!isInGame) return;
-        System.out.println(getLiteVault().toString());
+        System.out.println(getMyLiteVault().toString());
     }
 
     public void printCardGrid(){
@@ -687,12 +693,12 @@ public class Cli extends ClientView {
 
     public void printDeposit(){
         if (!isInGame) return;
-        System.out.println(getLiteDeposit().toString());
+        System.out.println(getMyLiteDeposit().toString());
     }
 
     public void printProduction(){
         if (!isInGame) return;
-        System.out.println(getLiteProduction().toString());
+        System.out.println(getMyLiteProduction().toString());
     }
 
     public void printMarket(){
@@ -728,9 +734,7 @@ public class Cli extends ClientView {
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
-        setLiteVault(new LiteVault());
-        setLiteDeposit(new LiteDeposit());
-        setLiteProduction(new LiteProduction(getDevelopmentCards()));
+        litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
 
@@ -740,13 +744,15 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyBuyOk(String nickname, int slotID, int cardID) {
+        getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
         if (!nickname.equals(getNickname()))
             System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
         else {
-            printReply_uni("You bought the card correctly!", nickname);
-            getLiteProduction().addCardToSlot(slotID, cardID);
+            //printReply_uni("You bought the card correctly!", nickname); ??
+            System.out.println("You bought the card correctly!");
             printProduction();
         }
+
     }
 
     @Override
@@ -824,20 +830,26 @@ public class Cli extends ClientView {
     @Override
     public void notifyLeaderDiscarded(int id, String nickname){
         System.out.println("Leader discarded!\n");
-        getHand().discardFromHand(id);
+        getMyHand().discardFromHand(id);
         printHand();
     }
 
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
-        setHand(new LiteHand(leaderIDs, getLeaderCards()));
+        setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
         printHand();
     }
 
     @Override
     public void notifyLeaderActivated(int id, String nickname){
-        System.out.println("Leader activated\n");
-        getHand().activateLeader(id);
+        if(nickname.equals(getNickname()))
+            System.out.println("Leader activated!\n");
+        else {
+            System.out.println(nickname + " has activated the " + id + " ID leader!\n");
+            getSomeonesHand(nickname).addLeader(id);
+        }
+        getSomeonesHand(nickname).activateLeader(id);
+
     }
 
     @Override
@@ -847,37 +859,38 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick) {
-        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
+        //if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
 
         if (added)
-            getLiteVault().addToVault(container);
+            getSomeonesLiteVault(senderNick).addToVault(container);
         else
-            getLiteVault().removeFromVault(container);
+            getSomeonesLiteVault(senderNick).removeFromVault(container);
     }
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
+        //if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
 
-        getLiteDeposit().addSlot(maxDim, resourceType);
+        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
     }
 
     @Override
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
-        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
+        //if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
 
         if (added)
-            getLiteDeposit().addRes(resourceContainer, id);
+            getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
         else
-            getLiteDeposit().removeRes(resourceContainer, id);
+            getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
     }
 
     @Override
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
-        if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
-
-        getLiteProduction().addProductionSlot(productionAbility);
-        printProduction();
+        getSomeonesLiteProduction(senderNick).addProductionSlot(productionAbility);
+        if(senderNick.equals(getNickname())){
+            System.out.println("You activated a new production!");
+            printProduction();
+        }
     }
 
     @Override
