@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
+import it.polimi.ingsw.view.gui.Gui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -148,7 +149,6 @@ public class ClientMain {
 
             view.addObserverController(clientSender);
 
-
             clientSender.start();
             clientReceiver.start();
 
@@ -178,8 +178,7 @@ public class ClientMain {
                 return cli;
 
             case "GUI":
-               // Gui gui = new Gui();
-               // return gui;
+                return new Gui();
 
             default:
                 System.out.println("Invalid view");
