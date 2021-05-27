@@ -11,12 +11,14 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class Gui extends ClientView {
 
@@ -76,10 +78,10 @@ public class Gui extends ClientView {
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         jPanel_lobbies = new JPanel();
         jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
-        jPanel_lobbies.setLayout(new GridLayout(0, 1));
+        jPanel_lobbies.setLayout(new GridLayout(2, 1));
 
-        JButton loginButton = new JButton("REFRESH");
-        loginButton.addActionListener(new ActionListener() {
+        JButton refreshButton = new JButton("REFRESH");
+        refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
@@ -93,24 +95,50 @@ public class Gui extends ClientView {
             jPanel_lobbies.add(label);
         }
 
+        JTable lobbyTable = new JTable();
+        DefaultTableModel model_table= new DefaultTableModel();
+        model_table.addColumn("Lobby Name");
+        model_table.addColumn("Owner");
+        model_table.addColumn("Connected Players");
+        model_table.addColumn("Full");
+        model_table.addColumn("Closed");
+        model_table.addColumn(" ");
+        lobbyTable.setModel(model_table);
+
         for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
+            Vector<Object> row=new Vector<>();
             JButton lobby_button = new JButton("["+lobby.getLobbyName()+"] "+ lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers() + " - "
                                                    + "isFull: "+ lobby.isFull() + ", isClosed: " + lobby.isClosed());
-            loginButton.addActionListener(new ActionListener() {
+            row.addElement(lobby.getLobbyName());
+            row.addElement(lobby.getOwner());
+            row.addElement(lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers());
+            row.addElement(String.valueOf(lobby.isFull()));
+            row.addElement(String.valueOf(lobby.isClosed()));
+
+
+            refreshButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     send(new Message.MessageBuilder().setCommand(Command.JOIN_LOBBY).build());
                 }
             });
-            jPanel_lobbies.add(lobby_button);
+            row.addElement(lobby_button);
+            model_table.addRow(row);
         }
+        lobbyTable.setBounds(5,10,100,0);
 
-        jPanel_lobbies.add(loginButton);
 
-        jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        frame.add(jScrollable_lobbies, BorderLayout.CENTER);
-        //frame.add(loginButton);
+        jScrollable_lobbies = new JScrollPane(lobbyTable);
+        jScrollable_lobbies.setBounds(5,10,100,500);
+        jScrollable_lobbies.setVisible(true);
+
+        jPanel_lobbies.add(refreshButton);
+
+        //jPanel_lobbies.add(jScrollable_lobbies);
+
+        frame.add(jScrollable_lobbies, BorderLayout.NORTH);
+
         frame.setVisible(true);
     }
 
