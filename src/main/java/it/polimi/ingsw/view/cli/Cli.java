@@ -11,7 +11,6 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -124,7 +123,6 @@ public class Cli extends ClientView {
 
             case BUY_OK:
                 BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-                System.out.println(buyMessage.getProductionSlotID()+" dd "+ buyMessage.getCardID());
                 notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
                 break;
 
