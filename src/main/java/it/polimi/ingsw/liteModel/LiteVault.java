@@ -38,7 +38,7 @@ public class LiteVault {
 
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Color.ANSI_BLUE.escape()).append("VAULT: \n\n").append(Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_BLUE.escape()).append("\nVAULT: \n\n").append(Color.ANSI_RESET.escape());
 
         if(vaultMap.isEmpty())
             stringBuilder.append(Color.ANSI_RED.escape()).append("EMPTY!").append(Color.ANSI_RESET.escape());

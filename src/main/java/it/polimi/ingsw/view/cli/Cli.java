@@ -203,7 +203,7 @@ public class Cli extends ClientView {
                 case "H":
                 case "HELP":
                     printHelp();
-                break;
+                    break;
 
                 //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
                 case "L":
@@ -458,7 +458,7 @@ public class Cli extends ClientView {
                         System.out.println("Invalid nickname!");
                         break;
                     }
-                    System.out.println(getLitePlayerBoard(pl).toString());
+                    System.out.println(getLitePlayerBoard(pl).toString(pl));
                     break;
 
                 case "ET":
