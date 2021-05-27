@@ -125,6 +125,6 @@ public abstract class ClientView implements View, UserInput {
     public void setLiteCardGrid(LiteCardGrid liteCardGrid) { this.liteCardGrid = liteCardGrid; }
 
     public LiteFaithPath getLiteFaithPath() { return liteFaithPath;  }
-
+    //------------------------------------------------------------------------------------------------------------------
 
 }

@@ -61,9 +61,6 @@ public enum Command {
 
     ASK_FOR_RESOURCES (false, false, false, null),
 
-    SHOW_PLAYER         (false, false, true, Status.IN_GAME),
-    SHOW_ORDER          (false, false, true, Status.IN_GAME),
-
     SHOW_TURN_HELP  (false,false,true,Status.IN_GAME);
 
 

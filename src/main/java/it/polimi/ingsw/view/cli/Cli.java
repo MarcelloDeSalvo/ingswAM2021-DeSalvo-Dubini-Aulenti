@@ -446,6 +446,11 @@ public class Cli extends ClientView {
                     printOrder();
                     break;
 
+                case "PL":
+                case "PLAYER_LIST":
+                    send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
+                    break;
+
                 case "SPL":
                 case "SHOW_PLAYER":
                     String pl=stdIn.next();
@@ -566,7 +571,7 @@ public class Cli extends ClientView {
 
                 "\n" + "--------LOBBY COMMANDS---------" + "\n" +
                 "> [EL] EXIT_LOBBY " + "\n" +
-                "> [SPL] SHOW_PLAYERS " + "\n" +
+                "> [PL] PLAYER_LIST " + "\n" +
                 "> [SG] START_GAME " + "\n" +
 
                 "\n" +"\n" + "##############################[GAME]##############################" +
@@ -607,7 +612,7 @@ public class Cli extends ClientView {
 
                 "> [SH] SHOW_HAND" + "\n" +
 
-                "> [SP] SHOW_PLAYER nickname" + "\n"
+                "> [SPL] SHOW_PLAYER nickname" + "\n"
 
                 );
     }
