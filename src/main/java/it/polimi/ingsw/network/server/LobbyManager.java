@@ -136,11 +136,12 @@ public class LobbyManager implements  ObserverViewIO {
      */
     public void sendLobbyList(String senderNick){
 
-        ArrayList<String> lobbiesInfo = new ArrayList<>();
+        LobbyListMessage lobbyListMessage = new LobbyListMessage(senderNick);
         for (String key: lobbies.keySet()) {
-            lobbiesInfo.add(lobbies.get(key).toString());
+            Lobby lobby = lobbies.get(key);
+            lobbyListMessage.addLobbyInfos(lobby.getLobbyName(), lobby.getOwnerNick(), lobby.getNumOfPlayersConnected(), lobby.getMaxPlayer(), lobby.isFull(), lobby.isClosed());
         }
-        UserManager.notifyUsers(connectedPlayers, new LobbyListMessage(lobbiesInfo, senderNick));
+        UserManager.notifyUsers(connectedPlayers, lobbyListMessage);
     }
 
     /**

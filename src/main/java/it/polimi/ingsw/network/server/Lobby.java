@@ -249,6 +249,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         return numOfPlayersConnected;
     }
 
+    public String getOwnerNick(){return owner.getNickname();}
+
     public boolean isFull() {
         return isFull;
     }
@@ -268,6 +270,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     public void setClosed(boolean closed) {
         isClosed = closed;
     }
+
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -297,4 +300,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 ","+coloredClosed+" isClosed=" + isClosed+Color.ANSI_RESET.escape();
     }
     //------------------------------------------------------------------------------------------------------------------
+
 }
+
+
+
+

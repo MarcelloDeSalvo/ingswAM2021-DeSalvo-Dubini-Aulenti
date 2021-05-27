@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
@@ -36,8 +37,6 @@ public class Gui extends ClientView {
             }
         });
     }
-
-
 
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
@@ -74,7 +73,7 @@ public class Gui extends ClientView {
         frame.setVisible(true);
     }
 
-    public void printLobby(ArrayList<String> lobbiesInfos) {
+    public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         jPanel_lobbies = new JPanel();
         jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
         jPanel_lobbies.setLayout(new GridLayout(0,1));
@@ -87,15 +86,23 @@ public class Gui extends ClientView {
             }
         });
 
-        if (lobbiesInfos.isEmpty()){
+        if (lobbyInfos.isEmpty()){
             JLabel label = new JLabel("NO LOBBIES AVAILABLE", JLabel.CENTER);
             label.setOpaque(true);
 
             jPanel_lobbies.add(label);
         }
 
-        for (String info : lobbiesInfos) {
-            System.out.println(info);
+        for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
+            JButton lobby_button = new JButton(lobby.getLobbyName()+": "+ lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers() + " - "
+                                                   +"IsFull: " + lobby.isFull() + ", isClosed: " + lobby.isClosed());
+            loginButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    send(new Message.MessageBuilder().setCommand(Command.JOIN_LOBBY).build());
+                }
+            });
+            jPanel_lobbies.add(lobby_button);
         }
 
         jPanel_lobbies.add(loginButton);
