@@ -152,6 +152,11 @@ public class Cli extends ClientView {
                 printItsYourTurn(senderNick);
                 break;
 
+            case EXIT_LOBBY:
+            case JOIN_LOBBY:
+            case PLAYER_LIST:
+            case USER_JOINED_LOBBY:
+            case USER_LEFT_LOBBY:
             case REPLY:
                 printReply(deserializedMex.getInfo());
                 break;
@@ -666,6 +671,7 @@ public class Cli extends ClientView {
 
         System.out.println();
     }
+
 
     //GAME PRINTS-------------------------------------------------------------------------------------------------------
     @Override

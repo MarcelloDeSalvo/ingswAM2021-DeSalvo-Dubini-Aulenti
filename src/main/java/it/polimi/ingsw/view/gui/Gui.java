@@ -23,10 +23,18 @@ public class Gui extends ClientView {
     private final Gson gson ;
     private final String nicknameTemp = null;
 
+    private JPanel mainPanel;
+
     private JPanel jPanel_login;
     private JPanel jPanel_lobbies;
+
+    private JPanel lobbyRoom;
+    private JPanel playerList;
+    private JPanel lobbyOptions;
+
     private JScrollPane jScrollable_lobbies;
     private JFrame frame;
+    private Label infoLabel;
 
     public Gui() throws FileNotFoundException{
         super();
@@ -42,6 +50,9 @@ public class Gui extends ClientView {
         frame = new JFrame("MASTER OF RENAISSANCE");
         //frame.setResizable(false);
 
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+
         //LOGIN PANEL------------------
         jPanel_login = new JPanel();
 
@@ -50,9 +61,14 @@ public class Gui extends ClientView {
         jPanel_login.setLayout(new GridLayout(0,1));
         label.setOpaque(true);
 
-        JTextField jTextField = new JTextField("Username..");
+        JTextField jTextField = new JTextField("Username...");
+        jTextField.setForeground(Color.GRAY);
+
         jTextField.setBounds(50,100, 200,30);
         JButton loginButton = new JButton("Login");
+        loginButton.setBorderPainted(false);
+        loginButton.setBackground(new Color(255,100,133));// inside the brackets your rgb color value like 255,255,255
+        loginButton.setFocusPainted(false);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -66,7 +82,15 @@ public class Gui extends ClientView {
         jPanel_login.add(loginButton);
         //------------------------------
 
-        frame.add(jPanel_login, BorderLayout.CENTER);
+        infoLabel = new Label("");
+        infoLabel.setSize(30,30);
+        infoLabel.setBackground(Color.GRAY);
+        infoLabel.setForeground(Color.BLACK);
+
+        mainPanel.add(jPanel_login);
+
+        frame.add(mainPanel, BorderLayout.CENTER);
+        frame.add(infoLabel, BorderLayout.PAGE_END);
 
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.pack();
@@ -74,6 +98,8 @@ public class Gui extends ClientView {
     }
 
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
+        mainPanel.removeAll();
+
         jPanel_lobbies = new JPanel();
         jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
         jPanel_lobbies.setLayout(new GridLayout(0 , 5));
@@ -94,7 +120,7 @@ public class Gui extends ClientView {
 
         for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
             JButton lobby_button = new JButton(lobby.getLobbyName());
-            //lobby_button.addActionListener(e -> send(new JoinLobbyMessage(lobby.getLobbyName(), getNickname())));
+            lobby_button.addActionListener(e -> send(new JoinLobbyMessage(lobby.getLobbyName(), getNickname())));
             jPanel_lobbies.add(lobby_button);
 
             jPanel_lobbies.add(new JLabel(lobby.getOwner(), JLabel.CENTER));
@@ -105,9 +131,7 @@ public class Gui extends ClientView {
 
         jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        //jScrollable_lobbies.add(refreshButton);
-
-        frame.add(jScrollable_lobbies, BorderLayout.WEST);
+        mainPanel.add(jScrollable_lobbies, BorderLayout.CENTER);
 
         // BOTTOM PANEL -----------------------------------------------------------------------
         JPanel final_panel = new JPanel();
@@ -118,13 +142,12 @@ public class Gui extends ClientView {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //frame.remove(jPanel_lobbies);
-                frame.remove(jScrollable_lobbies);
-                frame.remove(final_panel);
+                mainPanel.remove(jScrollable_lobbies);
+                mainPanel.remove(final_panel);
+
                 send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
             }
         });
-        //refreshButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build()));
 
         JButton createButton = new JButton("CREATE LOBBY");
         createButton.addActionListener(new ActionListener() {
@@ -138,12 +161,44 @@ public class Gui extends ClientView {
         final_panel.add(createButton);
         //------------------------------------------------------------------
 
-        frame.add(final_panel, BorderLayout.PAGE_END);
-        frame.validate();
-        frame.repaint();
-        frame.setVisible(true);
+        mainPanel.add(final_panel, BorderLayout.PAGE_END);
+
+        mainPanel.validate();
+        mainPanel.repaint();
+        mainPanel.setVisible(true);
     }
 
+    public void printWaitingRoom(){
+        mainPanel.removeAll();
+
+        lobbyRoom = new JPanel();
+        lobbyRoom.setLayout(new BorderLayout());
+
+        playerList = new JPanel();
+        playerList.setLayout(new GridLayout(4,1));
+
+        lobbyOptions = new JPanel();
+
+        JButton startButton = new JButton("START");
+        lobbyOptions.add(startButton);
+        startButton.addActionListener(e ->
+                send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(getNickname()).build()));
+
+        JButton exitButton = new JButton("EXIT");
+        lobbyOptions.add(exitButton);
+        exitButton.addActionListener(e ->
+                send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(getNickname()).build()));
+
+        lobbyRoom.add(playerList, BorderLayout.CENTER);
+        lobbyRoom.add(lobbyOptions, BorderLayout.SOUTH);
+
+        mainPanel.add(lobbyRoom, BorderLayout.CENTER);
+
+        mainPanel.validate();
+        mainPanel.repaint();
+        mainPanel.setVisible(true);
+
+    }
 
     @Override
     public void printHello() {
@@ -157,17 +212,18 @@ public class Gui extends ClientView {
 
     @Override
     public void printReply(String payload) {
-
+        if (frame!=null)
+            infoLabel.setText(payload);
     }
 
     @Override
     public void printReply_uni(String payload, String nickname) {
-
+        printReply(payload);
     }
 
     @Override
     public void printReply_everyOneElse(String payload, String nickname) {
-
+        printReply(payload);
     }
 
     @Override
@@ -335,6 +391,14 @@ public class Gui extends ClientView {
                         setNickname(this.getNickname()).build());
                 break;
 
+            case JOIN_LOBBY:
+                printWaitingRoom();
+                break;
+
+            case EXIT_LOBBY:
+                //printLobby();
+                break;
+
             case NOTIFY_CARDGRID:
                 NotifyCardGrid notifyCardGrid = gson.fromJson(mex, NotifyCardGrid.class);
                 notifyCardGridChanges(notifyCardGrid.getOldID(), notifyCardGrid.getNewID());
@@ -425,6 +489,13 @@ public class Gui extends ClientView {
             case LOBBY_LIST:
                 LobbyListMessage lobbyListMessage = gson.fromJson(mex, LobbyListMessage.class);
                 printLobby(lobbyListMessage.getLobbiesInfos());
+                break;
+
+            case PLAYER_LIST:
+                if (playerList!=null){
+                    playerList.removeAll();
+                    playerList.add(new Label(deserializedMex.getInfo()));
+                }
                 break;
 
             case SHOW_TURN_HELP:

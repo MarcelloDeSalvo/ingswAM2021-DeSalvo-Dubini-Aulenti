@@ -177,11 +177,11 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
      * Notifies all the player in the lobby that a new player has joined
      */
     public void notifyNewJoin(User newJoined){
-        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
+        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.USER_JOINED_LOBBY)
                 .setInfo("# The user: "+ newJoined.getNickname() + " has joined the lobby").setTarget(Target.EVERYONE_ELSE).setNickname(newJoined.getNickname()).build());
 
         UserManager.notifyUsers(players,
-                new Message.MessageBuilder().setCommand(Command.REPLY).
+                new Message.MessageBuilder().setCommand(Command.JOIN_LOBBY).
                         setInfo("You joined " + lobbyName + " correctly!").setNickname(newJoined.getNickname()).build());
 
         System.out.println("# " + newJoined.getNickname() + " has joined " + lobbyName);
@@ -204,7 +204,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
      * Notifies all the players in the lobby the nickname of everyone
      */
     public void notifyPlayerList(User user){
-        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.REPLY)
+        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.PLAYER_LIST)
                 .setInfo("Players connected in " + lobbyName + ":\n"+ players.keySet().toString()).setNickname(user.getNickname()).build());
     }
 
@@ -215,13 +215,13 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         String senderNick = userThatHasLeft.getNickname();
         if(players.size() > 0) {
             UserManager.notifyUsers(players,
-                    new Message.MessageBuilder().setCommand(Command.REPLY).
+                    new Message.MessageBuilder().setCommand(Command.USER_LEFT_LOBBY).
                             setInfo("# The user " + senderNick + " has left the lobby").setNickname(senderNick).
                             setTarget(Target.EVERYONE_ELSE).build());
         }
 
         userThatHasLeft.userSend(
-                new Message.MessageBuilder().setCommand(Command.REPLY).
+                new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).
                         setInfo("You left: " + lobbyName + " correctly!").setNickname(senderNick).build()
         );
     }

@@ -15,10 +15,12 @@ public enum Command {
     CHAT            (true,true,true, Status.IN_LOBBY_MANAGER),
     CHAT_ALL        (true,true,false, Status.IN_LOBBY_MANAGER),
 
-    LOGIN           (false,false,false,null),
-    CREATE_LOBBY    (true,false,false, Status.IN_LOBBY_MANAGER),
-    JOIN_LOBBY      (true,false,false, Status.IN_LOBBY_MANAGER),
-    LOBBY_LIST      (true,false,false, Status.IN_LOBBY_MANAGER),
+    LOGIN               (false,false,false,null),
+    CREATE_LOBBY        (true,false,false, Status.IN_LOBBY_MANAGER),
+    JOIN_LOBBY          (true,false,false, Status.IN_LOBBY_MANAGER),
+    LOBBY_LIST          (true,false,false, Status.IN_LOBBY_MANAGER),
+    USER_JOINED_LOBBY   (false, false, false, null),
+    USER_LEFT_LOBBY     (false, false, false, null),
 
     EXIT_LOBBY      (false,true,false, Status.IN_LOBBY),
     START_GAME      (false,true,false, Status.IN_LOBBY),
