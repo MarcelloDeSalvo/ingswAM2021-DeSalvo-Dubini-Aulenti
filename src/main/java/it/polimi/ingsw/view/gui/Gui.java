@@ -11,14 +11,12 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class Gui extends ClientView {
 
@@ -42,7 +40,7 @@ public class Gui extends ClientView {
 
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
-        frame.setResizable(false);
+        //frame.setResizable(false);
 
         //LOGIN PANEL------------------
         jPanel_login = new JPanel();
@@ -78,15 +76,7 @@ public class Gui extends ClientView {
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         jPanel_lobbies = new JPanel();
         jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
-        jPanel_lobbies.setLayout(new GridLayout(2, 1));
-
-        JButton refreshButton = new JButton("REFRESH");
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
-            }
-        });
+        jPanel_lobbies.setLayout(new GridLayout(0 , 5));
 
         if (lobbyInfos.isEmpty()){
             JLabel label = new JLabel("NO LOBBIES AVAILABLE", JLabel.CENTER);
@@ -94,51 +84,63 @@ public class Gui extends ClientView {
 
             jPanel_lobbies.add(label);
         }
-
-        JTable lobbyTable = new JTable();
-        DefaultTableModel model_table= new DefaultTableModel();
-        model_table.addColumn("Lobby Name");
-        model_table.addColumn("Owner");
-        model_table.addColumn("Connected Players");
-        model_table.addColumn("Full");
-        model_table.addColumn("Closed");
-        model_table.addColumn(" ");
-        lobbyTable.setModel(model_table);
+        else {
+            jPanel_lobbies.add(new JLabel("Lobby Name", JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel("Owner", JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel("Num of Players", JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel("Full", JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel("Closed", JLabel.CENTER));
+        }
 
         for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
-            Vector<Object> row=new Vector<>();
-            JButton lobby_button = new JButton("["+lobby.getLobbyName()+"] "+ lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers() + " - "
-                                                   + "isFull: "+ lobby.isFull() + ", isClosed: " + lobby.isClosed());
-            row.addElement(lobby.getLobbyName());
-            row.addElement(lobby.getOwner());
-            row.addElement(lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers());
-            row.addElement(String.valueOf(lobby.isFull()));
-            row.addElement(String.valueOf(lobby.isClosed()));
+            JButton lobby_button = new JButton(lobby.getLobbyName());
+            //lobby_button.addActionListener(e -> send(new JoinLobbyMessage(lobby.getLobbyName(), getNickname())));
+            jPanel_lobbies.add(lobby_button);
 
-
-            refreshButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    send(new Message.MessageBuilder().setCommand(Command.JOIN_LOBBY).build());
-                }
-            });
-            row.addElement(lobby_button);
-            model_table.addRow(row);
+            jPanel_lobbies.add(new JLabel(lobby.getOwner(), JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel(lobby.getNumOfPlayersConnected() + " / " + lobby.getMaxPlayers(), JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel(String.valueOf(lobby.isFull()), JLabel.CENTER));
+            jPanel_lobbies.add(new JLabel(String.valueOf(lobby.isClosed()), JLabel.CENTER));
         }
-        lobbyTable.setBounds(5,10,100,0);
 
+        jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
+        //jScrollable_lobbies.add(refreshButton);
 
-        jScrollable_lobbies = new JScrollPane(lobbyTable);
-        jScrollable_lobbies.setBounds(5,10,100,500);
-        jScrollable_lobbies.setVisible(true);
+        frame.add(jScrollable_lobbies, BorderLayout.WEST);
 
-        jPanel_lobbies.add(refreshButton);
+        // BOTTOM PANEL -----------------------------------------------------------------------
+        JPanel final_panel = new JPanel();
+        final_panel.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
+        final_panel.setLayout(new GridLayout(0 , 2));
 
-        //jPanel_lobbies.add(jScrollable_lobbies);
+        JButton refreshButton = new JButton("REFRESH");
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //frame.remove(jPanel_lobbies);
+                frame.remove(jScrollable_lobbies);
+                frame.remove(final_panel);
+                send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
+            }
+        });
+        //refreshButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build()));
 
-        frame.add(jScrollable_lobbies, BorderLayout.NORTH);
+        JButton createButton = new JButton("CREATE LOBBY");
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
+            }
+        });
 
+        final_panel.add(refreshButton);
+        final_panel.add(createButton);
+        //------------------------------------------------------------------
+
+        frame.add(final_panel, BorderLayout.PAGE_END);
+        frame.validate();
+        frame.repaint();
         frame.setVisible(true);
     }
 
