@@ -26,6 +26,7 @@ public class Gui extends ClientView {
 
     private JPanel jPanel_login;
     private JPanel jPanel_lobbies;
+    private JScrollPane jScrollable_lobbies;
     private JFrame frame;
 
     public Gui() throws FileNotFoundException{
@@ -76,7 +77,7 @@ public class Gui extends ClientView {
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         jPanel_lobbies = new JPanel();
         jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
-        jPanel_lobbies.setLayout(new GridLayout(0,1));
+        jPanel_lobbies.setLayout(new GridLayout(0, 1));
 
         JButton loginButton = new JButton("REFRESH");
         loginButton.addActionListener(new ActionListener() {
@@ -106,7 +107,11 @@ public class Gui extends ClientView {
         }
 
         jPanel_lobbies.add(loginButton);
-        frame.add(jPanel_lobbies, BorderLayout.CENTER);
+
+        jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        frame.add(jScrollable_lobbies, BorderLayout.CENTER);
+        //frame.add(loginButton);
         frame.setVisible(true);
     }
 
