@@ -101,7 +101,7 @@ public class Gui extends ClientView {
         mainPanel.removeAll();
 
         jPanel_lobbies = new JPanel();
-        jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,200,200,200));
+        jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,50,200,100));
         jPanel_lobbies.setLayout(new GridLayout(0 , 5));
 
         if (lobbyInfos.isEmpty()){
@@ -129,7 +129,7 @@ public class Gui extends ClientView {
             jPanel_lobbies.add(new JLabel(String.valueOf(lobby.isClosed()), JLabel.CENTER));
         }
 
-        jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         mainPanel.add(jScrollable_lobbies, BorderLayout.CENTER);
 
@@ -139,33 +139,43 @@ public class Gui extends ClientView {
         final_panel.setLayout(new GridLayout(0 , 2));
 
         JButton refreshButton = new JButton("REFRESH");
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainPanel.remove(jScrollable_lobbies);
-                mainPanel.remove(final_panel);
+        refreshButton.addActionListener(e -> {
+            mainPanel.remove(jScrollable_lobbies);
+            mainPanel.remove(final_panel);
 
-                send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
-            }
+            send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
         });
 
         JButton createButton = new JButton("CREATE LOBBY");
-        createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
-            }
-        });
+        createButton.addActionListener(e -> createLobbyWindow());
 
         final_panel.add(refreshButton);
         final_panel.add(createButton);
-        //------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------
 
         mainPanel.add(final_panel, BorderLayout.PAGE_END);
 
         mainPanel.validate();
         mainPanel.repaint();
         mainPanel.setVisible(true);
+    }
+
+    private void createLobbyWindow() {
+        JPanel pane = new JPanel();
+        pane.setLayout(new GridLayout(0, 2, 2, 2));
+
+        pane.add(new JLabel("Lobby name"));
+        JTextField lobbyName = new JTextField(5);
+        pane.add(lobbyName);
+
+        pane.add(new JLabel("Number of players"));
+        JComboBox<String> menu = new JComboBox<>(new String[] {"1", "2", "3", "4"});
+        pane.add(menu);
+
+        int option = JOptionPane.showConfirmDialog(mainPanel, pane, "CREATE LOBBY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
+
+        if(option == JOptionPane.OK_OPTION)
+            send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(menu.getSelectedItem().toString()), getNickname()));
     }
 
     public void printWaitingRoom(){

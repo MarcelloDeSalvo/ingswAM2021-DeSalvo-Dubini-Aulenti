@@ -109,10 +109,6 @@ public class LobbyManager implements  ObserverViewIO {
                 String newLobbyName = createLobbyMessage.getLobbyName();
 
                 if(!Util.isPresent(newLobbyName, lobbies)) {
-                    UserManager.notifyUsers(connectedPlayers,
-                            new Message.MessageBuilder().setCommand(Command.REPLY).
-                                    setInfo("The lobby " + newLobbyName + " has been created correctly!").setNickname(senderNick).build());
-
                     createLobby(newLobbyName, createLobbyMessage.getNumOfPlayers(), currentUser);
                 }
                 else
@@ -175,6 +171,12 @@ public class LobbyManager implements  ObserverViewIO {
         currentUser.addServerArea(newLobby);
 
         currentUser.setStatus(Status.IN_LOBBY);
+
+        UserManager.notifyUsers(connectedPlayers,
+                new Message.MessageBuilder().setCommand(Command.REPLY).
+                        setInfo("The lobby " + newLobbyName + " has been created correctly!").setNickname(currentUser.getNickname()).build());
+
+        newLobby.notifyNewJoin(currentUser);
     }
 
     /**
