@@ -633,17 +633,37 @@ public class Cli extends ClientView {
     }
 
 
-    public void printLobby(ArrayList<String> lobbiesInfos) {
+    public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
-        if (lobbiesInfos.isEmpty()){
+        if (lobbyInfos.isEmpty()){
             System.out.println("There are currently 0 active lobbies"+"\n");
             return;
         }
 
-        for (String info : lobbiesInfos) {
-            System.out.println(info);
+        for (LobbyListMessage.LobbyInfo info : lobbyInfos) {
+            String coloredFull, coloredClosed, available = Color.ANSI_GREEN.escape();
+            if(info.isFull() ) {
+                coloredFull = Color.ANSI_RED.escape();
+                available = Color.ANSI_RED.escape();
+            }
+            else
+                coloredFull = Color.ANSI_GREEN.escape();
+            if(info.isClosed() ) {
+                coloredClosed = Color.ANSI_RED.escape();
+                available = Color.ANSI_RED.escape();
+            }
+            else
+                coloredClosed = Color.ANSI_GREEN.escape();
+
+
+            System.out.println( available+"\u06DD Lobby " + Color.ANSI_RESET.escape() + info.getLobbyName() +
+                    ", connected=" + info.getNumOfPlayersConnected() + "/" + info.getMaxPlayers() +
+                    ", Owner=" + info.getOwner() +
+                    ","+coloredFull+" isFull=" + info.isFull() +Color.ANSI_RESET.escape()+
+                    ","+coloredClosed+" isClosed=" +  info.isClosed() +Color.ANSI_RESET.escape());
         }
+
         System.out.println();
     }
 
