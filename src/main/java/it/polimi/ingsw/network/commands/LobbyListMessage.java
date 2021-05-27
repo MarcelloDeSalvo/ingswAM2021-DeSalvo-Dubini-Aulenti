@@ -9,13 +9,13 @@ public class LobbyListMessage extends Message{
         private final String lobbyName;
         private final String owner ;
 
-        private int maxPlayers;
-        private int numOfPlayersConnected;
+        private final int maxPlayers;
+        private final int numOfPlayersConnected;
 
         private boolean isFull = false;
         private boolean isClosed = false;
 
-        public LobbyInfo(String lobbyName, String  owner, int maxPlayers, int numOfPlayersConnected, boolean isFull, boolean isClosed) {
+        public LobbyInfo(String lobbyName, String  owner, int numOfPlayersConnected, int maxPlayers, boolean isFull, boolean isClosed) {
             this.lobbyName = lobbyName;
             this.owner = owner;
             this.maxPlayers = maxPlayers;
@@ -54,8 +54,8 @@ public class LobbyListMessage extends Message{
         this.lobbyInfos = new ArrayList<>();
     }
 
-    public void addLobbyInfos(String lobbyName, String  owner, int maxPlayers, int numOfPlayersConnected, boolean isFull, boolean isClosed){
-        lobbyInfos.add(new LobbyInfo(lobbyName, owner, maxPlayers, numOfPlayersConnected, isFull, isClosed));
+    public void addLobbyInfos(String lobbyName, String  owner, int numOfPlayersConnected, int maxPlayers, boolean isFull, boolean isClosed){
+        lobbyInfos.add(new LobbyInfo(lobbyName, owner, numOfPlayersConnected, maxPlayers, isFull, isClosed));
     }
 
     public ArrayList<LobbyInfo> getLobbiesInfos() {

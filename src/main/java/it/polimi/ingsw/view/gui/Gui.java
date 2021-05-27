@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
-import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
@@ -95,8 +94,8 @@ public class Gui extends ClientView {
         }
 
         for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
-            JButton lobby_button = new JButton(lobby.getLobbyName()+": "+ lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers() + " - "
-                                                    + lobby.isFull() + " " + lobby.isClosed());
+            JButton lobby_button = new JButton("["+lobby.getLobbyName()+"] "+ lobby.getNumOfPlayersConnected()+"/"+ lobby.getMaxPlayers() + " - "
+                                                   + "isFull: "+ lobby.isFull() + ", isClosed: " + lobby.isClosed());
             loginButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
