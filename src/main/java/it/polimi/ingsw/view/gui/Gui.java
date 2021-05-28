@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -53,7 +54,19 @@ public class Gui extends ClientView {
         frame.setSize(1200,800);
         frame.setResizable(false);
 
-        mainPanel = new JPanel();
+        mainPanel = new JPanel(){
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                try {
+                    Image image = ImageIO.read(getClass().getResourceAsStream("/images/background.png"));
+                    g.drawImage(image, -650, -20, this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
         mainPanel.setLayout(new BorderLayout());
 
         //LOGIN PANEL------------------
@@ -98,16 +111,20 @@ public class Gui extends ClientView {
         mainPanel.removeAll();
 
         jPanel_lobbies = new JPanel();
-        jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(200,50,200,100));
-        jPanel_lobbies.setLayout(new GridLayout(0 , 5));
+        jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
+
+        jPanel_lobbies.setBackground(new Color(255, 255, 255, 150));
 
         if (lobbyInfos.isEmpty()){
             JLabel label = new JLabel("NO LOBBIES AVAILABLE", JLabel.CENTER);
-            label.setOpaque(true);
+            label.setFont(new Font("Helvetica", Font.PLAIN, 30));
+            label.setOpaque(false);
 
             jPanel_lobbies.add(label);
         }
         else {
+            jPanel_lobbies.setLayout(new GridLayout(0 , 5));
+
             jPanel_lobbies.add(new JLabel("Lobby Name", JLabel.CENTER));
             jPanel_lobbies.add(new JLabel("Owner", JLabel.CENTER));
             jPanel_lobbies.add(new JLabel("Num of Players", JLabel.CENTER));
@@ -126,7 +143,11 @@ public class Gui extends ClientView {
             jPanel_lobbies.add(new JLabel(String.valueOf(lobby.isClosed()), JLabel.CENTER));
         }
 
+        //jPanel_lobbies.setOpaque(false);
         jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jScrollable_lobbies.setBorder(BorderFactory.createEmptyBorder(100,100,50,100));
+        jScrollable_lobbies.setOpaque(false);
+        jScrollable_lobbies.getViewport().setOpaque(false);
 
         mainPanel.add(jScrollable_lobbies, BorderLayout.CENTER);
 
@@ -143,6 +164,7 @@ public class Gui extends ClientView {
 
         final_panel.add(refreshButton);
         final_panel.add(createButton);
+        final_panel.setOpaque(false);
         //--------------------------------------------------------------------------------------
 
         mainPanel.add(final_panel, BorderLayout.PAGE_END);

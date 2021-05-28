@@ -644,7 +644,6 @@ public class Cli extends ClientView {
         System.out.println();
     }
 
-
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
