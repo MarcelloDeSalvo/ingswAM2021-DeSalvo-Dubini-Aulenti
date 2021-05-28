@@ -4,10 +4,12 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.StringsMessage;
 import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.ObserverViewIO;
 import it.polimi.ingsw.view.cli.Color;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Lobby extends LobbyManager implements ObserverViewIO {
@@ -47,7 +49,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                 break;
 
             case PLAYER_LIST:
-                notifyPlayerList(currentUser);
+                notifyPlayerList(currentUser, Target.BROADCAST);
                 break;
 
             case START_GAME:
@@ -78,7 +80,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             return false;
 
         numOfPlayersConnected++;
-        notifyPlayerList(user);
+        notifyPlayerList(user, Target.BROADCAST);
 
         if(numOfPlayersConnected == maxPlayers)
             setFull(true);
@@ -203,9 +205,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     /**
      * Notifies all the players in the lobby the nickname of everyone
      */
-    public void notifyPlayerList(User user){
-        UserManager.notifyUsers(players, new Message.MessageBuilder().setCommand(Command.PLAYER_LIST)
-                .setInfo("Players connected in " + lobbyName + ":\n"+ players.keySet().toString()).setNickname(user.getNickname()).build());
+    public void notifyPlayerList(User user, Target target){
+        ArrayList<String> names = new ArrayList<>();
+        names.addAll(players.keySet());
+
+        UserManager.notifyUsers(players, new StringsMessage(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setTarget(target)
+                .setInfo("Players connected in " + lobbyName + ":").setNickname(user.getNickname()), names));
     }
 
     /**
@@ -218,6 +223,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
                     new Message.MessageBuilder().setCommand(Command.USER_LEFT_LOBBY).
                             setInfo("# The user " + senderNick + " has left the lobby").setNickname(senderNick).
                             setTarget(Target.EVERYONE_ELSE).build());
+
+            notifyPlayerList(userThatHasLeft, Target.EVERYONE_ELSE);
         }
 
         userThatHasLeft.userSend(
