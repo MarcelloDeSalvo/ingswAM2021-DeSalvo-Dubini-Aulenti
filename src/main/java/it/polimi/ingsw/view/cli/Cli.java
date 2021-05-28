@@ -37,8 +37,6 @@ public class Cli extends ClientView {
         Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
-        if(command!= Command.PING)
-            System.out.println();
 
         switch (command){
 

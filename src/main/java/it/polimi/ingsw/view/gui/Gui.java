@@ -26,7 +26,7 @@ public class Gui extends ClientView {
     private JPanel jPanel_login;
     private JPanel jPanel_lobbies;
 
-    private JPanel lobbyRoom;
+    private JPanel lobbyRoom; //= new JPanel();
     private JPanel playerList;
     private JPanel lobbyOptions;
 
@@ -37,6 +37,7 @@ public class Gui extends ClientView {
     public Gui() throws FileNotFoundException{
         super();
         gson = new Gson();
+        //lobbyRoom = new JPanel();
         SwingUtilities.invokeLater(() -> createAndShowGUI());
     }
 
@@ -44,7 +45,7 @@ public class Gui extends ClientView {
         frame = new JFrame("MASTER OF RENAISSANCE");
         frame.pack();
         frame.setSize(1200,800);
-        //frame.setResizable(false);
+        frame.setResizable(false);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
@@ -180,10 +181,13 @@ public class Gui extends ClientView {
         lobbyRoom.setLayout(new BorderLayout());
 
         playerList = new JPanel();
+        playerList.setBorder(BorderFactory.createEmptyBorder(200,50,200,100));
         playerList.setLayout(new GridLayout(4,1));
         playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
 
         lobbyOptions = new JPanel();
+        lobbyOptions.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
+        lobbyOptions.setLayout(new GridLayout(0 , 2));
 
         JButton startButton = new JButton("START");
         lobbyOptions.add(startButton);
@@ -196,9 +200,12 @@ public class Gui extends ClientView {
                 send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(getNickname()).build()));
 
         lobbyRoom.add(playerList, BorderLayout.CENTER);
-        lobbyRoom.add(lobbyOptions, BorderLayout.SOUTH);
+        lobbyRoom.add(lobbyOptions, BorderLayout.PAGE_END);
 
         mainPanel.add(lobbyRoom, BorderLayout.CENTER);
+
+        //mainPanel.add(playerList, BorderLayout.CENTER);
+        //mainPanel.add(lobbyOptions, BorderLayout.PAGE_END);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -378,14 +385,17 @@ public class Gui extends ClientView {
         Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
-        if(command!= Command.PING)
-            System.out.println();
-
         switch (command){
 
-            case LOGIN:
-                jPanel_login.setVisible(false);
-                this.setNickname(nicknameTemp);
+            case CHAT_ALL:
+                //System.out.print(it.polimi.ingsw.view.cli.Color.ANSI_PURPLE.escape() + senderNick + " in ALL chat:" + Color.ANSI_RESET);
+                printReply(deserializedMex.getInfo());
+                break;
+
+            case CHAT:
+                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
+                //System.out.print(Color.ANSI_BLUE.escape() + chatMessage.getReceiver() + Color.ANSI_RESET + " whispers you: ");
+                printReply(deserializedMex.getInfo());
                 break;
 
             case HELLO:
@@ -397,15 +407,51 @@ public class Gui extends ClientView {
                         setNickname(this.getNickname()).build());
                 break;
 
-            case JOIN_LOBBY:
+            case REPLY:
+                printReply(deserializedMex.getInfo());
+                break;
+
+            case LOGIN:
+                jPanel_login.setVisible(false);
+                this.setNickname(nicknameTemp);
+                break;
+
+            case GAME_SETUP:
+                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
+                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
+                break;
+
+            case LOBBY_LIST:
+                LobbyListMessage lobbyListMessage = gson.fromJson(mex, LobbyListMessage.class);
+                printLobby(lobbyListMessage.getLobbiesInfos());
+                break;
+
+            case PLAYER_LIST:
+                if (playerList != null)
+                    playerList.removeAll();
+
+                printWaitingRoom();
+                playerList.add(new Label(deserializedMex.getInfo(), JLabel.CENTER));
+                playerList.validate();
+                playerList.repaint();
+
+                //mainPanel.validate();
+                //mainPanel.repaint();
+                break;
+
+           /* case JOIN_LOBBY:
                 printWaitingRoom();
                 playerList.add(new Label(deserializedMex.getSenderNickname()));
                 playerList.validate();
                 playerList.repaint();
-                break;
+                break;*/
 
             case EXIT_LOBBY:
                 //printLobby();
+                break;
+
+            case SHOW_TURN_HELP:
+                printItsYourTurn(senderNick);
                 break;
 
             case NOTIFY_CARDGRID:
@@ -486,43 +532,8 @@ public class Gui extends ClientView {
                 notifyMoveOk(senderNick);
                 break;
 
-            case GAME_SETUP:
-                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
-                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
-                break;
-
             case END_GAME:
                 notifyGameEnded();
-                break;
-
-            case LOBBY_LIST:
-                LobbyListMessage lobbyListMessage = gson.fromJson(mex, LobbyListMessage.class);
-                printLobby(lobbyListMessage.getLobbiesInfos());
-                break;
-
-            case USER_JOINED_LOBBY:
-                playerList.add(new Label(deserializedMex.getSenderNickname()));
-                playerList.validate();
-                playerList.repaint();
-                break;
-
-            case SHOW_TURN_HELP:
-                printItsYourTurn(senderNick);
-                break;
-
-            case REPLY:
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case CHAT_ALL:
-                //System.out.print(it.polimi.ingsw.view.cli.Color.ANSI_PURPLE.escape() + senderNick + " in ALL chat:" + Color.ANSI_RESET);
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case CHAT:
-                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
-                //System.out.print(Color.ANSI_BLUE.escape() + chatMessage.getReceiver() + Color.ANSI_RESET + " whispers you: ");
-                printReply(deserializedMex.getInfo());
                 break;
 
         }
