@@ -104,20 +104,20 @@ public class LiteFaithPath {
 
             switch (vaticanReports.get(i)) {
                 case ('E'):
-                    stringBuilder.append(Color.ANSI_WHITE_FRAMED_BACKGROUND.escape());
+                    stringBuilder.append(Color.ANSI_WHITE.escape());
                     break;
 
                 case('X'):
-                    stringBuilder.append(Color.ANSI_YELLOW_FRAMED_BACKGROUND.escape());
+                    stringBuilder.append(Color.ANSI_YELLOW.escape());
                     break;
 
                 case('P'):
-                    stringBuilder.append(Color.ANSI_RED_FRAMED_BACKGROUND.escape());
+                    stringBuilder.append(Color.ANSI_RED.escape());
                     break;
 
             }
 
-            stringBuilder.append("   ").append(Color.ANSI_RESET.escape());
+            stringBuilder.append(" ▓▓ ").append(Color.ANSI_RESET.escape());
 
             int var=0;
             for (Integer in: positions){

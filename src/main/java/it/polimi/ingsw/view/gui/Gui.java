@@ -12,8 +12,6 @@ import it.polimi.ingsw.view.ClientView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +37,7 @@ public class Gui extends ClientView {
     public Gui() throws FileNotFoundException{
         super();
         gson = new Gson();
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
-        });
+        SwingUtilities.invokeLater(() -> createAndShowGUI());
     }
 
     public void createAndShowGUI(){
@@ -70,12 +64,7 @@ public class Gui extends ClientView {
         loginButton.setBackground(new Color(255,100,133));// inside the brackets your rgb color value like 255,255,255
         loginButton.setFocusPainted(false);
 
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build());
-            }
-        });
+        loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
 
         jPanel_login.add(label);
         jPanel_login.add(jTextField);
@@ -139,12 +128,7 @@ public class Gui extends ClientView {
         final_panel.setLayout(new GridLayout(0 , 2));
 
         JButton refreshButton = new JButton("REFRESH");
-        refreshButton.addActionListener(e -> {
-            mainPanel.remove(jScrollable_lobbies);
-            mainPanel.remove(final_panel);
-
-            send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build());
-        });
+        refreshButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build()));
 
         JButton createButton = new JButton("CREATE LOBBY");
         createButton.addActionListener(e -> createLobbyWindow());

@@ -28,16 +28,6 @@ public abstract class ClientView implements View, UserInput {
 
     private HashMap<String,LitePlayerBoard> liteBoards;
 
-
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
@@ -82,6 +72,14 @@ public abstract class ClientView implements View, UserInput {
 
 
     //GETTER AND SETTER METHODS FOR LITE MODEL--------------------------------------------------------------------------
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;
     }

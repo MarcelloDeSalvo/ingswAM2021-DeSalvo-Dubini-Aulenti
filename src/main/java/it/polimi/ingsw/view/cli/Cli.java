@@ -406,7 +406,7 @@ public class Cli extends ClientView {
 
                 case "SB":
                 case "SHOW_BOARD":
-                    printBoard();
+                    printBoard(getNickname());
                     break;
 
                 case "SH":
@@ -457,11 +457,7 @@ public class Cli extends ClientView {
                 case "SPL":
                 case "SHOW_PLAYER":
                     String pl=stdIn.next();
-                    if(!getLiteFaithPath().getNicknames().contains(pl)){
-                        System.out.println("Invalid nickname!");
-                        break;
-                    }
-                    System.out.println(getLitePlayerBoard(pl).toString(pl));
+                    printBoard(pl);
                     break;
 
                 case "ET":
@@ -701,7 +697,7 @@ public class Cli extends ClientView {
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
     public void printHand() {
         if (!isInGame) return;
-        System.out.println(getMyHand().toString());
+        System.out.println(getMyHand().toString(getNickname()));
     }
 
     public void printVault(){
@@ -735,11 +731,15 @@ public class Cli extends ClientView {
         System.out.println(getLiteMarket().toString());
     }
 
-    public void printBoard(){
-        printHand();
-        printDeposit();
-        printVault();
-        printProduction();
+    public void printBoard(String nickname){
+        if (!isInGame) return;
+
+        if(!getLiteFaithPath().getNicknames().contains(nickname)){
+            System.out.println("Invalid nickname!");
+            return;
+        }
+
+        System.out.println(getLitePlayerBoard(nickname).toString(nickname));
     }
 
     //------------------------------------------------------------------------------------------------------------------

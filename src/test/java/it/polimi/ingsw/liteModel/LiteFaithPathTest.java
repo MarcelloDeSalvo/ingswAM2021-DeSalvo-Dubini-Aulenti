@@ -31,7 +31,6 @@ class LiteFaithPathTest {
         mockFavours.add(2);
         liteFaithPath.incrementPlayerFavours(mockFavours);
         //System.out.println(liteFaithPath.toString());
-
     }
 
 

@@ -37,11 +37,10 @@ public class LiteHand {
         hand.add(id);
     }
 
-    @Override
-    public String toString() {
+    public String toString(String player) {
         StringBuilder s = new StringBuilder("\n");
 
-        s.append("These the Leader Cards in your ").append(Color.ANSI_BLUE.escape()).append("HAND").append(Color.ANSI_RESET.escape()).append(":\n");
+        s.append("These are the Leader Cards in ").append(player).append("'s ").append(Color.ANSI_BLUE.escape()).append("HAND").append(Color.ANSI_RESET.escape()).append(":\n");
 
         for (int id: hand) {
             s.append("-------------------------------------------------------------------\\");

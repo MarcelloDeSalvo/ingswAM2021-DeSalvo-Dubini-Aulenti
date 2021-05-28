@@ -48,7 +48,7 @@ public class LitePlayerBoard {
 
         s.append(player).append("'s ").append(Color.ANSI_BLUE.escape()).append("BOARD: \n").append(Color.ANSI_RESET.escape()).append(divider);
 
-        s.append(liteHand.toString()).append(divider).
+        s.append(liteHand.toString(player)).append(divider).
                 append(liteProduction.toString()).append(divider).
                 append(liteDeposit.toString()).append(divider).
                 append(liteVault.toString()).append("\n");
