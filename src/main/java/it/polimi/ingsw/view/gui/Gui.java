@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.ActionToken;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -10,9 +11,14 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,11 +72,7 @@ public class Gui extends ClientView {
         jTextField.setForeground(Color.GRAY);
         jTextField.setBounds(50,100, 200,30);
 
-        JButton loginButton = new JButton("Login");
-        loginButton.setBorderPainted(false);
-        loginButton.setBackground(new Color(255,100,133));// inside the brackets your rgb color value like 255,255,255
-        loginButton.setFocusPainted(false);
-
+        ButtonImage loginButton = new ButtonImage("/images/buttons/B_Login.png");
         loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
 
         mainPanel.add(title, BorderLayout.NORTH);
@@ -114,7 +116,7 @@ public class Gui extends ClientView {
         }
 
         for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
-            JButton lobby_button = new JButton(lobby.getLobbyName());
+            ButtonImage lobby_button = new ButtonImage(lobby.getLobbyName(), true);
             lobby_button.addActionListener(e -> send(new JoinLobbyMessage(lobby.getLobbyName(), getNickname())));
             jPanel_lobbies.add(lobby_button);
 
@@ -133,10 +135,10 @@ public class Gui extends ClientView {
         final_panel.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
         final_panel.setLayout(new GridLayout(0 , 2));
 
-        JButton refreshButton = new JButton("REFRESH");
+        ButtonImage refreshButton = new ButtonImage("/images/buttons/B_Refresh.png");
         refreshButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build()));
 
-        JButton createButton = new JButton("CREATE LOBBY");
+        ButtonImage createButton = new ButtonImage("/images/buttons/B_Create.png");
         createButton.addActionListener(e -> createLobbyWindow());
 
         final_panel.add(refreshButton);
@@ -188,12 +190,12 @@ public class Gui extends ClientView {
         lobbyOptions.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
         lobbyOptions.setLayout(new GridLayout(0 , 2));
 
-        JButton startButton = new JButton("START");
+        ButtonImage startButton = new ButtonImage("START", true);
         lobbyOptions.add(startButton);
         startButton.addActionListener(e ->
                 send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(getNickname()).build()));
 
-        JButton exitButton = new JButton("EXIT");
+        ButtonImage exitButton = new ButtonImage("EXIT",true);
         lobbyOptions.add(exitButton);
         exitButton.addActionListener(e ->
                 send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(getNickname()).build()));
