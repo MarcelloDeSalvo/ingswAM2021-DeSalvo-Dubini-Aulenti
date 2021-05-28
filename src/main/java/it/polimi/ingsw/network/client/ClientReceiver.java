@@ -7,11 +7,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 
 public class ClientReceiver extends Thread{
     private final Socket socket;
     private final ClientView view;
-    private boolean exit;
+    private boolean exit = false;
 
     public ClientReceiver (Socket socket, ClientView view){
         this.socket = socket;
@@ -25,19 +26,20 @@ public class ClientReceiver extends Thread{
 
             String receivedMex = "";
 
-            while ((receivedMex = in.readLine())!=null || !exit) {
-                view.readUpdates(receivedMex);
+            while (!exit) {
+                if((receivedMex = in.readLine()) != null)
+                    view.readUpdates(receivedMex);
+                else
+                    throw new IOException();
             }
 
             in.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Disconnected");
+            System.out.println("Disconnected from the server");
 
-        } catch (JsonSyntaxException e){
+        } catch (JsonSyntaxException e) {
             System.out.println("Wrong syntax, the message has been discarded");
-            e.printStackTrace();
 
         }
     }

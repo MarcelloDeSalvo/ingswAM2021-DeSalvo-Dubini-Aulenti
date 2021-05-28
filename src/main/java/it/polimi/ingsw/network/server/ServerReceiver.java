@@ -30,7 +30,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
 
             String receivedMex = "";
 
-            while ((receivedMex = in.readLine()) != null || !exit) {
+            while ((receivedMex = in.readLine()) != null && !exit) {
                 notifyThreadObserver(receivedMex);
             }
 

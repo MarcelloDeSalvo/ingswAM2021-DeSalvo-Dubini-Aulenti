@@ -42,6 +42,8 @@ public class Gui extends ClientView {
 
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
+        frame.pack();
+        frame.setSize(1200,800);
         //frame.setResizable(false);
 
         mainPanel = new JPanel();
@@ -50,15 +52,19 @@ public class Gui extends ClientView {
         //LOGIN PANEL------------------
         jPanel_login = new JPanel();
 
-        JLabel label = new JLabel("WELCOME TO MASTER OF RENAISSANCE", JLabel.CENTER);
-        jPanel_login.setBorder(BorderFactory.createEmptyBorder(300,300,300,300));
+        JLabel title = new JLabel("WELCOME TO MASTER OF RENAISSANCE", JLabel.CENTER);
+        title.setFont(new Font("Helvetica", Font.PLAIN, 44));
+        title.setForeground(new Color(240,150,100));
+        title.setBorder((BorderFactory.createEmptyBorder(150,0,0,0)));
+        title.setOpaque(true);
+
+        jPanel_login.setBorder(BorderFactory.createEmptyBorder(150,300,300,300));
         jPanel_login.setLayout(new GridLayout(0,1));
-        label.setOpaque(true);
 
         JTextField jTextField = new JTextField("Username...");
         jTextField.setForeground(Color.GRAY);
-
         jTextField.setBounds(50,100, 200,30);
+
         JButton loginButton = new JButton("Login");
         loginButton.setBorderPainted(false);
         loginButton.setBackground(new Color(255,100,133));// inside the brackets your rgb color value like 255,255,255
@@ -66,7 +72,7 @@ public class Gui extends ClientView {
 
         loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
 
-        jPanel_login.add(label);
+        mainPanel.add(title, BorderLayout.NORTH);
         jPanel_login.add(jTextField);
         jPanel_login.add(loginButton);
         //------------------------------
@@ -82,7 +88,6 @@ public class Gui extends ClientView {
         frame.add(infoLabel, BorderLayout.PAGE_END);
 
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.pack();
         frame.setVisible(true);
     }
 
@@ -158,11 +163,17 @@ public class Gui extends ClientView {
 
         int option = JOptionPane.showConfirmDialog(mainPanel, pane, "CREATE LOBBY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
-        if(option == JOptionPane.OK_OPTION)
-            send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(menu.getSelectedItem().toString()), getNickname()));
+        if(option == JOptionPane.OK_OPTION){
+            if (lobbyName.getText().length()==0)
+                printReply("Please select a non empty name");
+            else
+                send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(menu.getSelectedItem().toString()), getNickname()));
+        }
+
     }
 
     public void printWaitingRoom(){
+
         mainPanel.removeAll();
 
         lobbyRoom = new JPanel();
@@ -170,6 +181,7 @@ public class Gui extends ClientView {
 
         playerList = new JPanel();
         playerList.setLayout(new GridLayout(4,1));
+        playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
 
         lobbyOptions = new JPanel();
 
@@ -387,6 +399,9 @@ public class Gui extends ClientView {
 
             case JOIN_LOBBY:
                 printWaitingRoom();
+                playerList.add(new Label(deserializedMex.getSenderNickname()));
+                playerList.validate();
+                playerList.repaint();
                 break;
 
             case EXIT_LOBBY:
@@ -485,11 +500,10 @@ public class Gui extends ClientView {
                 printLobby(lobbyListMessage.getLobbiesInfos());
                 break;
 
-            case PLAYER_LIST:
-                if (playerList!=null){
-                    playerList.removeAll();
-                    playerList.add(new Label(deserializedMex.getInfo()));
-                }
+            case USER_JOINED_LOBBY:
+                playerList.add(new Label(deserializedMex.getSenderNickname()));
+                playerList.validate();
+                playerList.repaint();
                 break;
 
             case SHOW_TURN_HELP:

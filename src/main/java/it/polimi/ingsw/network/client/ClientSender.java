@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.ClientView;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 
 public class ClientSender extends Thread implements ObserverController {
     private final Socket serverSocket;
@@ -31,8 +32,10 @@ public class ClientSender extends Thread implements ObserverController {
             out.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
-        }
+            System.out.println("Disconnected");
+
+        } catch (NoSuchElementException ignored){}
+
     }
 
     @Override
