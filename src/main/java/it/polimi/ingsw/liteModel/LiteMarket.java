@@ -1,11 +1,8 @@
 package it.polimi.ingsw.liteModel;
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.network.commands.MarketMessage;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class LiteMarket {
     private final int columns=4;
@@ -49,7 +46,7 @@ public class LiteMarket {
         for(int i=-1; i<rows+1; i++) {
             for (int j = 0; j < columns+1; j++) {
                 if(i == -1&& j!=columns)
-                    liteMarketToString.append("\t").append("\t").append("\t").append("  ").append(j+1).append("\t").append("\t");
+                    liteMarketToString.append("\t").append("\t").append("\t").append("  ").append(j+1).append("\t");
                 else if(i == rows){
                     if(j == 0 )
                         liteMarketToString.append(" ").append("\t").append(" ").append("\t").append("\t");
