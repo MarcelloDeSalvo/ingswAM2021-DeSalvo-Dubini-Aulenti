@@ -274,6 +274,17 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+        frame.setSize(1920,980);
+        mainPanel.removeAll();
+        System.out.println("Pronto buonasera");
+        DiscardHandPanel discardLeaders=new DiscardHandPanel(leaderIDs);
+        mainPanel.add(discardLeaders);
+        discardLeaders.revalidate();
+        discardLeaders.repaint();
+        discardLeaders.setVisible(true);
+
+
+
 
     }
 
@@ -284,6 +295,8 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
+
+
 
     }
 
