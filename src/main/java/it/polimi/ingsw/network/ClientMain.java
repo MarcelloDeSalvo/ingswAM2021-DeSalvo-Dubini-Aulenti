@@ -174,12 +174,14 @@ public class ClientMain {
         } catch (UnknownHostException e) {
             System.err.println("Don't know about host " + hostName);
             System.exit(1);
+
         } catch (IOException e) {
-            //e.printStackTrace();
             System.err.println("Couldn't get I/O for the connection to " + hostName);
             System.exit(1);
+
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Thread InterruptedException error " + hostName);
+
         }
 
     }
