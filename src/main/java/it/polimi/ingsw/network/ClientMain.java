@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.view.ClientView;
@@ -10,8 +11,11 @@ import it.polimi.ingsw.view.gui.Gui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import java.util.stream.Collectors;
@@ -20,22 +24,32 @@ import java.util.stream.Collectors;
 public class ClientMain {
     private String hostName;
     private int portNumber;
-
-    private ClientView view;
     private String viewMode;
-
-    private ClientSender clientSender;
-    private ClientReceiver clientReceiver;
 
     private final List<String> myParam = new ArrayList<>(Arrays.asList("-CLIENT", "-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
-    public ClientMain(){ }
-
     public static void main(String[] args){
+        ClientMain clientMain = null;
 
-        ClientMain clientMain = new ClientMain();
+        if (args.length<=1){
+            try {
+                //reads the configuration from the file
+                String jsonPath = "/ConfigurationFiles/ClientConfig.json";
+                Gson gson = new Gson();
+                Reader reader = new InputStreamReader(ClientMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
+                clientMain = gson.fromJson(reader, ClientMain.class);
+
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("There was an issue with starting the Client.");
+                System.exit(1);
+            }
+
+        }else{
+            clientMain = new ClientMain();
+        }
+
         clientMain.commandLineParametersCheck(args);
-
         System.out.println("Hostname: " + clientMain.getHostName());
         System.out.println("Port: " + clientMain.getPortNumber());
         System.out.println("View: " + clientMain.getMode());
@@ -142,10 +156,10 @@ public class ClientMain {
         try {
 
             Socket echoSocket = new Socket(hostName, portNumber);
-            view = viewSelector();
+            ClientView view = viewSelector();
 
-            clientReceiver = new ClientReceiver(echoSocket, view);
-            clientSender = new ClientSender(echoSocket, view);
+            ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view);
+            ClientSender clientSender = new ClientSender(echoSocket, view);
 
             view.addObserverController(clientSender);
 
