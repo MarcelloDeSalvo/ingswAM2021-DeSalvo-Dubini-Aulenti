@@ -152,11 +152,15 @@ public class Cli extends ClientView {
 
             case EXIT_LOBBY:
             case JOIN_LOBBY:
-            case PLAYER_LIST:
             case USER_JOINED_LOBBY:
             case USER_LEFT_LOBBY:
             case REPLY:
                 printReply(deserializedMex.getInfo());
+                break;
+
+            case PLAYER_LIST:
+                StringsMessage stringsMessage = gson.fromJson(mex, StringsMessage.class);
+                printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
                 break;
 
             case CHAT_ALL:
@@ -629,6 +633,15 @@ public class Cli extends ClientView {
     @Override
     public void printReply(String payload) {
         System.out.println(payload + "\n");
+    }
+
+    @Override
+    public void printPlayerList(String info, ArrayList<String> names) {
+        System.out.println(info);
+        for(String name: names)
+            System.out.println(" - " + name);
+
+        System.out.println();
     }
 
 

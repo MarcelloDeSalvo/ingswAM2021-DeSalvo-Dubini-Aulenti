@@ -173,8 +173,7 @@ public class Gui extends ClientView {
 
     }
 
-    public void printWaitingRoom(){
-
+    public void printWaitingRoom(StringsMessage stringsMessage){
         mainPanel.removeAll();
 
         lobbyRoom = new JPanel();
@@ -199,6 +198,10 @@ public class Gui extends ClientView {
         exitButton.addActionListener(e ->
                 send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(getNickname()).build()));
 
+
+        printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
+
+
         lobbyRoom.add(playerList, BorderLayout.CENTER);
         lobbyRoom.add(lobbyOptions, BorderLayout.PAGE_END);
 
@@ -211,6 +214,14 @@ public class Gui extends ClientView {
         mainPanel.repaint();
         mainPanel.setVisible(true);
 
+    }
+
+    @Override
+    public void printPlayerList(String info, ArrayList<String> names) {
+        playerList.add(new Label(info + "\n", JLabel.CENTER));
+        for (String name: names) {
+            playerList.add(new Label("- " + name, JLabel.CENTER));
+        }
     }
 
     @Override
@@ -427,16 +438,15 @@ public class Gui extends ClientView {
                 break;
 
             case PLAYER_LIST:
+                StringsMessage stringsMessage = gson.fromJson(mex, StringsMessage.class);
+
                 if (playerList != null)
                     playerList.removeAll();
 
-                printWaitingRoom();
-                playerList.add(new Label(deserializedMex.getInfo(), JLabel.CENTER));
+                printWaitingRoom(stringsMessage);
+
                 playerList.validate();
                 playerList.repaint();
-
-                //mainPanel.validate();
-                //mainPanel.repaint();
                 break;
 
            /* case JOIN_LOBBY:

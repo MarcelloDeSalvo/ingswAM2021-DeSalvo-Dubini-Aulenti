@@ -1,6 +1,6 @@
 package it.polimi.ingsw.observers;
 
-import it.polimi.ingsw.model.player.deposit.Deposit;
+
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.observers.gameListeners.*;
 

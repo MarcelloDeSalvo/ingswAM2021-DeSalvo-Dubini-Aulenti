@@ -71,6 +71,13 @@ public abstract class ClientView implements View, UserInput {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //CLI AND GUI ------------------------------------------------------------------------------------------------------
+    public abstract void printPlayerList(String info, ArrayList<String> names);
+    //------------------------------------------------------------------------------------------------------------------
+
+
+
+
     //GETTER AND SETTER METHODS FOR LITE MODEL--------------------------------------------------------------------------
     public String getNickname() {
         return nickname;
