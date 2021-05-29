@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
+
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.ActionToken;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -8,6 +10,7 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +50,7 @@ public class Gui extends ClientView {
         //frame.pack();
         frame.setResizable(false);
 
-        mainPanel = new BackgroundImagePanel("/images/background.png", -650, -20);
+        mainPanel = new JPanel();
 
         mainPanel.setLayout(new BorderLayout());
 
@@ -73,7 +76,7 @@ public class Gui extends ClientView {
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
 
-
+        mainPanel.add(title, BorderLayout.NORTH);
         jPanel_login.add(jTextField);
         jPanel_login.add(loginButton);
         //-------------------------------------------------
@@ -95,6 +98,9 @@ public class Gui extends ClientView {
 
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         mainPanel.removeAll();
+
+        BackgroundImagePanel panel = new BackgroundImagePanel("/images/background.png", -650, -20);
+        panel.setLayout(new BorderLayout());
 
         jPanel_lobbies = new JPanel();
         jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
@@ -135,7 +141,7 @@ public class Gui extends ClientView {
         jScrollable_lobbies.setOpaque(false);
         jScrollable_lobbies.getViewport().setOpaque(false);
 
-        mainPanel.add(jScrollable_lobbies, BorderLayout.CENTER);
+        panel.add(jScrollable_lobbies, BorderLayout.CENTER);
 
         // BOTTOM PANEL -----------------------------------------------------------------------
         JPanel final_panel = new JPanel();
@@ -153,7 +159,9 @@ public class Gui extends ClientView {
         final_panel.setOpaque(false);
         //--------------------------------------------------------------------------------------
 
-        mainPanel.add(final_panel, BorderLayout.PAGE_END);
+        panel.add(final_panel, BorderLayout.PAGE_END);
+
+        mainPanel.add(panel, BorderLayout.CENTER);
 
         mainPanel.validate();
         mainPanel.repaint();
