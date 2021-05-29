@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -23,6 +22,7 @@ public class Gui extends ClientView {
     private final String nicknameTemp = null;
 
     private JPanel mainPanel;
+    private CardLayout cardLayout;      //used for changing scenes
 
     private LoginPanel loginPanel;
     private LobbyPanel lobbyPanel;
@@ -45,7 +45,8 @@ public class Gui extends ClientView {
         frame.setResizable(false);
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        cardLayout = new CardLayout();
+        mainPanel.setLayout(cardLayout);
 
         infoLabel = new Label("");
         infoLabel.setSize(30,30);
@@ -53,7 +54,9 @@ public class Gui extends ClientView {
         infoLabel.setForeground(Color.BLACK);
 
         loginPanel = new LoginPanel(this);
-        mainPanel.add(loginPanel);
+
+        mainPanel.add(loginPanel, "1");
+        cardLayout.show(mainPanel, "1");
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(infoLabel, BorderLayout.PAGE_END);
@@ -64,30 +67,31 @@ public class Gui extends ClientView {
     }
 
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
-        mainPanel.removeAll();
+        //mainPanel.removeAll();
 
         lobbyPanel = new LobbyPanel(this, lobbyInfos);
-        mainPanel.add(lobbyPanel, BorderLayout.CENTER);
 
-        mainPanel.validate();
-        mainPanel.repaint();
-        mainPanel.setVisible(true);
+        mainPanel.add(lobbyPanel, "2");
+        cardLayout.show(mainPanel, "2");
+
+        //mainPanel.validate();
+        //mainPanel.repaint();
+        //mainPanel.setVisible(true);
     }
 
 
-
     public void printWaitingRoom(StringsMessage stringsMessage){
-        mainPanel.removeAll();
+        //mainPanel.removeAll();
 
         lobbyRoomPanel = new LobbyRoomPanel(this);
         printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
 
-        mainPanel.add(lobbyRoomPanel, BorderLayout.CENTER);
+        mainPanel.add(lobbyRoomPanel, "3");
+        cardLayout.show(mainPanel, "3");
 
-        mainPanel.validate();
-        mainPanel.repaint();
-        mainPanel.setVisible(true);
-
+        //mainPanel.validate();
+        //mainPanel.repaint();
+        //mainPanel.setVisible(true);
     }
 
     @Override
@@ -144,10 +148,15 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
         frame.setSize(1920,980);
+
         mainPanel.removeAll();
+
         System.out.println("Pronto buonasera");
         DiscardHandPanel discardLeaders=new DiscardHandPanel(leaderIDs);
-        mainPanel.add(discardLeaders);
+
+        //mainPanel.add(discardLeaders, "4");
+        //cardLayout.show(mainPanel, "4");
+
         discardLeaders.revalidate();
         discardLeaders.repaint();
         discardLeaders.setVisible(true);
