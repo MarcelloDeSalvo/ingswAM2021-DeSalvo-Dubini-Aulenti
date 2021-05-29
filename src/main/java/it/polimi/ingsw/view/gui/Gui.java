@@ -148,18 +148,17 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
         frame.setSize(1920,980);
-
-        mainPanel.removeAll();
-
-        System.out.println("Pronto buonasera");
+        //mainPanel.removeAll();
         DiscardHandPanel discardLeaders=new DiscardHandPanel(leaderIDs);
 
-        //mainPanel.add(discardLeaders, "4");
-        //cardLayout.show(mainPanel, "4");
+        //discardLeaders.setVisible(true);
+        //mainPanel.add(discardLeaders);
+        //mainPanel.revalidate();
+        //mainPanel.repaint();
 
-        discardLeaders.revalidate();
-        discardLeaders.repaint();
-        discardLeaders.setVisible(true);
+        mainPanel.add(discardLeaders, "4");
+        cardLayout.show(mainPanel, "4");
+
 
     }
 
