@@ -27,7 +27,6 @@ public class ButtonImage extends JButton {
             ImageIcon ico = new ImageIcon(this.getClass().getResource(path));
             this.setIcon(ico);
             this.setBorderPainted(false);
-            this.setFocusPainted(false);
             this.setContentAreaFilled(false);
             this.setPreferredSize(new Dimension(ico.getIconWidth(), ico.getIconHeight()));
         } catch (Exception ex) {

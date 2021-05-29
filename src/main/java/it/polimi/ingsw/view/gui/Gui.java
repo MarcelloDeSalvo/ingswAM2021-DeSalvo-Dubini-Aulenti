@@ -48,12 +48,12 @@ public class Gui extends ClientView {
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
 
+        loginPanel = new LoginPanel(this);
+
         infoLabel = new Label("");
         infoLabel.setSize(30,30);
         infoLabel.setBackground(Color.GRAY);
         infoLabel.setForeground(Color.BLACK);
-
-        loginPanel = new LoginPanel(this);
 
         mainPanel.add(loginPanel, "1");
         cardLayout.show(mainPanel, "1");
@@ -148,6 +148,8 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
         frame.setSize(1920,980);
+        frame.setLocationRelativeTo(null);
+
         //mainPanel.removeAll();
         DiscardHandPanel discardLeaders=new DiscardHandPanel(leaderIDs);
 
