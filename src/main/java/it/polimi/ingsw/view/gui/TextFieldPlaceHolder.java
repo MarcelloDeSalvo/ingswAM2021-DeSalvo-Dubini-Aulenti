@@ -6,6 +6,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TextFieldPlaceHolder extends JTextField {
+
     public TextFieldPlaceHolder(String text) {
         super(text);
 
