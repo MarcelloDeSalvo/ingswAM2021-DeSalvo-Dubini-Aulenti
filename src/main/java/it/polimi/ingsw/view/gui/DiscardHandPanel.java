@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DiscardHandPanel extends JPanel {
+
     private ArrayList<Integer> IDs;
 
     DiscardHandPanel(ArrayList<Integer> IDs){
@@ -18,13 +19,10 @@ public class DiscardHandPanel extends JPanel {
     }
 
 
-
     public void paint(Graphics g) {
         System.out.println("Quante volte chiamo paint?");
         drawCards(g);
     }
-
-
 
     private void drawCards(Graphics g) {
         ClassLoader cl = this.getClass().getClassLoader();

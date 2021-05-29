@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui;
 
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.ActionToken;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -14,7 +13,6 @@ import it.polimi.ingsw.view.ClientView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,22 +24,18 @@ public class Gui extends ClientView {
 
     private JPanel mainPanel;
 
-    private JPanel jPanel_login;
-    private JPanel jPanel_lobbies;
+    private LoginPanel loginPanel;
+    private LobbyPanel lobbyPanel;
+    private LobbyRoomPanel lobbyRoomPanel;
 
-    private JPanel lobbyRoom; //= new JPanel();
-    private JPanel playerList;
-    private JPanel lobbyOptions;
-
-    private JScrollPane jScrollable_lobbies;
     private JFrame frame;
     private Label infoLabel;
 
     public Gui() throws FileNotFoundException{
         super();
         gson = new Gson();
-        //lobbyRoom = new JPanel();
-        SwingUtilities.invokeLater(() -> createAndShowGUI());
+
+        SwingUtilities.invokeLater(this::createAndShowGUI);
     }
 
     public void createAndShowGUI(){
@@ -51,42 +45,15 @@ public class Gui extends ClientView {
         frame.setResizable(false);
 
         mainPanel = new JPanel();
-
         mainPanel.setLayout(new BorderLayout());
-
-        //LOGIN PANEL-----------------------------------
-        JLabel title = new JLabel("WELCOME TO MASTER OF RENAISSANCE", JLabel.CENTER);
-        title.setFont(new Font("Helvetica", Font.PLAIN, 44));
-        title.setForeground(new Color(240,150,100));
-        title.setBorder((BorderFactory.createEmptyBorder(150,0,0,0)));
-        title.setOpaque(true);
-        mainPanel.add(title, BorderLayout.NORTH);
-
-        jPanel_login = new JPanel();
-        jPanel_login.setBorder(BorderFactory.createEmptyBorder(150,300,300,300));
-        jPanel_login.setLayout(new BoxLayout(jPanel_login, BoxLayout.Y_AXIS));
-
-        JTextField jTextField = new TextFieldPlaceHolder("Username...");
-        jTextField.setForeground(Color.GRAY);
-        jTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        jTextField.setMinimumSize(new Dimension(600,50));
-
-        ButtonImage loginButton = new ButtonImage("/images/buttons/B_Login.png");
-        loginButton.setMnemonic(KeyEvent.VK_ENTER);
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
-
-        mainPanel.add(title, BorderLayout.NORTH);
-        jPanel_login.add(jTextField);
-        jPanel_login.add(loginButton);
-        //-------------------------------------------------
 
         infoLabel = new Label("");
         infoLabel.setSize(30,30);
         infoLabel.setBackground(Color.GRAY);
         infoLabel.setForeground(Color.BLACK);
 
-        mainPanel.add(jPanel_login);
+        loginPanel = new LoginPanel(this);
+        mainPanel.add(loginPanel);
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(infoLabel, BorderLayout.PAGE_END);
@@ -99,134 +66,23 @@ public class Gui extends ClientView {
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         mainPanel.removeAll();
 
-        BackgroundImagePanel panel = new BackgroundImagePanel("/images/background.png", -650, -20);
-        panel.setLayout(new BorderLayout());
-
-        jPanel_lobbies = new JPanel();
-        jPanel_lobbies.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
-
-        jPanel_lobbies.setBackground(new Color(255, 255, 255, 150));
-
-        if (lobbyInfos.isEmpty()){
-            JLabel label = new JLabel("NO LOBBIES AVAILABLE", JLabel.CENTER);
-            label.setFont(new Font("Helvetica", Font.PLAIN, 30));
-            label.setOpaque(false);
-
-            jPanel_lobbies.add(label);
-        }
-        else {
-            jPanel_lobbies.setLayout(new GridLayout(0 , 5));
-
-            jPanel_lobbies.add(new JLabel("Lobby Name", JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel("Owner", JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel("Num of Players", JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel("Full", JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel("Closed", JLabel.CENTER));
-        }
-
-        for (LobbyListMessage.LobbyInfo lobby : lobbyInfos) {
-            ButtonImage lobby_button = new ButtonImage(lobby.getLobbyName(), true);
-            lobby_button.addActionListener(e -> send(new JoinLobbyMessage(lobby.getLobbyName(), getNickname())));
-            jPanel_lobbies.add(lobby_button);
-
-            jPanel_lobbies.add(new JLabel(lobby.getOwner(), JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel(lobby.getNumOfPlayersConnected() + " / " + lobby.getMaxPlayers(), JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel(String.valueOf(lobby.isFull()), JLabel.CENTER));
-            jPanel_lobbies.add(new JLabel(String.valueOf(lobby.isClosed()), JLabel.CENTER));
-        }
-
-        //jPanel_lobbies.setOpaque(false);
-        jScrollable_lobbies = new JScrollPane(jPanel_lobbies, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        jScrollable_lobbies.setBorder(BorderFactory.createEmptyBorder(100,100,50,100));
-        jScrollable_lobbies.setOpaque(false);
-        jScrollable_lobbies.getViewport().setOpaque(false);
-
-        panel.add(jScrollable_lobbies, BorderLayout.CENTER);
-
-        // BOTTOM PANEL -----------------------------------------------------------------------
-        JPanel final_panel = new JPanel();
-        final_panel.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
-        final_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 50,10));
-
-        ButtonImage refreshButton = new ButtonImage("/images/buttons/B_Refresh.png");
-        refreshButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build()));
-
-        ButtonImage createButton = new ButtonImage("/images/buttons/B_Create.png");
-        createButton.addActionListener(e -> createLobbyWindow());
-
-        final_panel.add(refreshButton);
-        final_panel.add(createButton);
-        final_panel.setOpaque(false);
-        //--------------------------------------------------------------------------------------
-
-        panel.add(final_panel, BorderLayout.PAGE_END);
-
-        mainPanel.add(panel, BorderLayout.CENTER);
+        lobbyPanel = new LobbyPanel(this, lobbyInfos);
+        mainPanel.add(lobbyPanel, BorderLayout.CENTER);
 
         mainPanel.validate();
         mainPanel.repaint();
         mainPanel.setVisible(true);
     }
 
-    private void createLobbyWindow() {
-        JPanel pane = new JPanel();
-        pane.setLayout(new GridLayout(0, 2, 2, 2));
 
-        pane.add(new JLabel("Lobby name"));
-        JTextField lobbyName = new JTextField(5);
-        pane.add(lobbyName);
-
-        pane.add(new JLabel("Number of players"));
-        JComboBox<String> menu = new JComboBox<>(new String[] {"1", "2", "3", "4"});
-        pane.add(menu);
-
-        int option = JOptionPane.showConfirmDialog(mainPanel, pane, "CREATE LOBBY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-
-        if(option == JOptionPane.OK_OPTION){
-            if (lobbyName.getText().length()==0)
-                printReply("Please select a non empty name");
-            else
-                send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(menu.getSelectedItem().toString()), getNickname()));
-        }
-
-    }
 
     public void printWaitingRoom(StringsMessage stringsMessage){
         mainPanel.removeAll();
 
-        lobbyRoom = new JPanel();
-        lobbyRoom.setLayout(new BorderLayout());
-
-        playerList = new JPanel();
-        playerList.setBorder(BorderFactory.createEmptyBorder(200,50,200,100));
-        playerList.setLayout(new GridLayout(4,1));
-        playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
-
-        lobbyOptions = new JPanel();
-        lobbyOptions.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
-        lobbyOptions.setLayout(new GridLayout(0 , 2));
-
-        ButtonImage startButton = new ButtonImage("START", true);
-        lobbyOptions.add(startButton);
-        startButton.addActionListener(e ->
-                send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(getNickname()).build()));
-
-        ButtonImage exitButton = new ButtonImage("EXIT",true);
-        lobbyOptions.add(exitButton);
-        exitButton.addActionListener(e ->
-                send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(getNickname()).build()));
-
-
+        lobbyRoomPanel = new LobbyRoomPanel(this);
         printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
 
-
-        lobbyRoom.add(playerList, BorderLayout.CENTER);
-        lobbyRoom.add(lobbyOptions, BorderLayout.PAGE_END);
-
-        mainPanel.add(lobbyRoom, BorderLayout.CENTER);
-
-        //mainPanel.add(playerList, BorderLayout.CENTER);
-        //mainPanel.add(lobbyOptions, BorderLayout.PAGE_END);
+        mainPanel.add(lobbyRoomPanel, BorderLayout.CENTER);
 
         mainPanel.validate();
         mainPanel.repaint();
@@ -236,10 +92,7 @@ public class Gui extends ClientView {
 
     @Override
     public void printPlayerList(String info, ArrayList<String> names) {
-        playerList.add(new Label(info + "\n", JLabel.CENTER));
-        for (String name: names) {
-            playerList.add(new Label("- " + name, JLabel.CENTER));
-        }
+        lobbyRoomPanel.printPlayerList(info, names);
     }
 
     @Override
@@ -451,7 +304,7 @@ public class Gui extends ClientView {
                 break;
 
             case LOGIN:
-                jPanel_login.setVisible(false);
+                loginPanel.setVisible(false);
                 this.setNickname(nicknameTemp);
                 break;
 
@@ -467,21 +320,11 @@ public class Gui extends ClientView {
 
             case PLAYER_LIST:
                 StringsMessage stringsMessage = gson.fromJson(mex, StringsMessage.class);
-
-                if (playerList != null)
-                    playerList.removeAll();
-
                 printWaitingRoom(stringsMessage);
-
-                playerList.validate();
-                playerList.repaint();
                 break;
 
-           /* case JOIN_LOBBY:
-                printWaitingRoom();
-                playerList.add(new Label(deserializedMex.getSenderNickname()));
-                playerList.validate();
-                playerList.repaint();
+            /*case JOIN_LOBBY:
+                //printWaitingRoom();
                 break;*/
 
             case EXIT_LOBBY:
