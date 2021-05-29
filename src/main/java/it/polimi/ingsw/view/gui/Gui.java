@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
-
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.ActionToken;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -11,15 +9,10 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,26 +52,28 @@ public class Gui extends ClientView {
         mainPanel.setLayout(new BorderLayout());
 
         //LOGIN PANEL-----------------------------------
-        jPanel_login = new JPanel();
-
         JLabel title = new JLabel("WELCOME TO MASTER OF RENAISSANCE", JLabel.CENTER);
         title.setFont(new Font("Helvetica", Font.PLAIN, 44));
         title.setForeground(new Color(240,150,100));
         title.setBorder((BorderFactory.createEmptyBorder(150,0,0,0)));
         title.setOpaque(true);
+        mainPanel.add(title, BorderLayout.NORTH);
 
+        jPanel_login = new JPanel();
         jPanel_login.setBorder(BorderFactory.createEmptyBorder(150,300,300,300));
-        jPanel_login.setLayout(new GridLayout(0,1));
+        jPanel_login.setLayout(new BoxLayout(jPanel_login, BoxLayout.Y_AXIS));
 
-        JTextField jTextField = new JTextField("Username...");
+        JTextField jTextField = new TextFieldPlaceHolder("Username...");
         jTextField.setForeground(Color.GRAY);
-        jTextField.setBounds(50,100, 200,30);
+        jTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jTextField.setMinimumSize(new Dimension(600,50));
 
         ButtonImage loginButton = new ButtonImage("/images/buttons/B_Login.png");
-        //loginButton.setPreferredSize(new Dimension(50,  50));
+        loginButton.setMnemonic(KeyEvent.VK_ENTER);
+        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
 
-        mainPanel.add(title, BorderLayout.NORTH);
+
         jPanel_login.add(jTextField);
         jPanel_login.add(loginButton);
         //-------------------------------------------------
@@ -94,6 +89,7 @@ public class Gui extends ClientView {
         frame.add(infoLabel, BorderLayout.PAGE_END);
 
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
@@ -144,7 +140,7 @@ public class Gui extends ClientView {
         // BOTTOM PANEL -----------------------------------------------------------------------
         JPanel final_panel = new JPanel();
         final_panel.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
-        final_panel.setLayout(new GridLayout(0 , 2));
+        final_panel.setLayout(new FlowLayout(FlowLayout.CENTER, 50,10));
 
         ButtonImage refreshButton = new ButtonImage("/images/buttons/B_Refresh.png");
         refreshButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).build()));
@@ -294,9 +290,6 @@ public class Gui extends ClientView {
         discardLeaders.revalidate();
         discardLeaders.repaint();
         discardLeaders.setVisible(true);
-
-
-
 
     }
 
