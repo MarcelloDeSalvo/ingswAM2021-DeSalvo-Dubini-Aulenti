@@ -50,26 +50,15 @@ public class Gui extends ClientView {
 
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
-        frame.pack();
         frame.setSize(1200,800);
+        //frame.pack();
         frame.setResizable(false);
 
-        mainPanel = new JPanel(){
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                try {
-                    Image image = ImageIO.read(getClass().getResourceAsStream("/images/background.png"));
-                    g.drawImage(image, -650, -20, this);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+        mainPanel = new BackgroundImagePanel("/images/background.png", -650, -20);
 
         mainPanel.setLayout(new BorderLayout());
 
-        //LOGIN PANEL------------------
+        //LOGIN PANEL-----------------------------------
         jPanel_login = new JPanel();
 
         JLabel title = new JLabel("WELCOME TO MASTER OF RENAISSANCE", JLabel.CENTER);
@@ -86,12 +75,13 @@ public class Gui extends ClientView {
         jTextField.setBounds(50,100, 200,30);
 
         ButtonImage loginButton = new ButtonImage("/images/buttons/B_Login.png");
+        //loginButton.setPreferredSize(new Dimension(50,  50));
         loginButton.addActionListener(e -> send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
 
         mainPanel.add(title, BorderLayout.NORTH);
         jPanel_login.add(jTextField);
         jPanel_login.add(loginButton);
-        //------------------------------
+        //-------------------------------------------------
 
         infoLabel = new Label("");
         infoLabel.setSize(30,30);
