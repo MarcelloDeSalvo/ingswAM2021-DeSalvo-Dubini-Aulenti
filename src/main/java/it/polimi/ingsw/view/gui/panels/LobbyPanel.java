@@ -1,6 +1,8 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.network.commands.*;
+import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,10 +11,10 @@ import java.util.ArrayList;
 public class LobbyPanel extends BackgroundImagePanel {
 
     private final Gui gui;
-    private JPanel lobbies;
+    private final JPanel lobbies;
 
-    public LobbyPanel(Gui gui,ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos ) {
-        super("/images/background.png", -650, -20);
+    public LobbyPanel(Gui gui, ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
+        super("/images/lobbyBackground.png", -685, 5);
 
         this.gui = gui;
         this.setLayout(new BorderLayout());

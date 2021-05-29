@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
+import it.polimi.ingsw.view.gui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,7 +80,6 @@ public class Gui extends ClientView {
         //mainPanel.setVisible(true);
     }
 
-
     public void printWaitingRoom(StringsMessage stringsMessage){
         //mainPanel.removeAll();
 
@@ -101,7 +101,25 @@ public class Gui extends ClientView {
 
     @Override
     public void printHello() {
+        /*frame.setSize(1920,980);
+        frame.setLocationRelativeTo(null);
 
+        System.out.println("hello");
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+        PlayerBoardPanel pl1 = new PlayerBoardPanel(this);
+        PlayerBoardPanel pl2 = new PlayerBoardPanel(this);
+        PlayerBoardPanel pl3 = new PlayerBoardPanel(this);
+        PlayerBoardPanel pl4 = new PlayerBoardPanel(this);
+
+        panel.add(pl1, BorderLayout.PAGE_START);
+        panel.add(pl2, BorderLayout.PAGE_END);
+        panel.add(pl3, BorderLayout.LINE_START);
+        panel.add(pl4, BorderLayout.LINE_END);
+
+        mainPanel.add(panel, "5");
+        cardLayout.show(mainPanel, "5");*/
     }
 
     @Override
@@ -151,17 +169,16 @@ public class Gui extends ClientView {
         frame.setLocationRelativeTo(null);
 
         //mainPanel.removeAll();
-        DiscardHandPanel discardLeaders=new DiscardHandPanel(leaderIDs);
+        DiscardHandPanel discardLeaders = new DiscardHandPanel(leaderIDs);
 
         //discardLeaders.setVisible(true);
+
         //mainPanel.add(discardLeaders);
         //mainPanel.revalidate();
         //mainPanel.repaint();
 
         mainPanel.add(discardLeaders, "4");
         cardLayout.show(mainPanel, "4");
-
-
     }
 
     @Override
@@ -171,8 +188,6 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
-
-
 
     }
 

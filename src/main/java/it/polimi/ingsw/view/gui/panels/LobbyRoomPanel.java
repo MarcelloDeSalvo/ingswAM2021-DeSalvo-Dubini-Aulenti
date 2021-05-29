@@ -1,7 +1,9 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +11,9 @@ import java.util.ArrayList;
 
 public class LobbyRoomPanel extends JPanel {
 
-    private Gui gui;
-    private JPanel playerList;
-    private JPanel lobbyOptions;
+    private final Gui gui;
+    private final JPanel playerList;
+    private final JPanel lobbyOptions;
 
     public LobbyRoomPanel(Gui gui) {
         super();
@@ -30,8 +32,8 @@ public class LobbyRoomPanel extends JPanel {
 
         ButtonImage startButton = new ButtonImage("START", true);
         lobbyOptions.add(startButton);
-        startButton.addActionListener(e ->
-                gui.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(gui.getNickname()).build()));
+        startButton.addActionListener(e -> gui.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(gui.getNickname()).build()));
+                                            //gui.printHello());
 
         ButtonImage exitButton = new ButtonImage("EXIT",true);
         lobbyOptions.add(exitButton);

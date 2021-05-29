@@ -1,4 +1,6 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
+
+import it.polimi.ingsw.view.gui.ButtonImage;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.BooleanControl;
