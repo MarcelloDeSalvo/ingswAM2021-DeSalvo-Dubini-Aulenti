@@ -49,7 +49,6 @@ public class DiscardHandPanel extends JPanel {
 
         for (Integer id : IDs) {
 
-            InputStream url = getClass().getResourceAsStream("/images/cardFrontJpgs/LeaderFront_"+id+".jpg");
             bottomPanel.add(Box.createHorizontalGlue());
             ButtonImage lc=new  ButtonImage("/images/cardFrontJpgs/LeaderFront_"+id+".jpg");
 
