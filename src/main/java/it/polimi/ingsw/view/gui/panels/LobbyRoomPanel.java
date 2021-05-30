@@ -33,7 +33,6 @@ public class LobbyRoomPanel extends JPanel {
         ButtonImage startButton = new ButtonImage("START", true);
         lobbyOptions.add(startButton);
         startButton.addActionListener(e -> gui.send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(gui.getNickname()).build()));
-                                            //gui.printHello());
 
         ButtonImage exitButton = new ButtonImage("EXIT",true);
         lobbyOptions.add(exitButton);

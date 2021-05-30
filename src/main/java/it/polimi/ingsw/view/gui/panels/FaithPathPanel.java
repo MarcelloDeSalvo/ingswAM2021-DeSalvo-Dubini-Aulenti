@@ -33,7 +33,7 @@ public class FaithPathPanel extends BackgroundImagePanel {
         int i = 0;
         for (String nickname: liteFaithPath.getNicknames()) {
             RedCrossImage redCrossImage = new RedCrossImage(gui, "/images/croceRossa.png",
-                    new Dimension(30, 30),points.get(i), this, nickname);
+                    new Dimension(30, 30), points.get(i), this, nickname);
 
             redCrossImages.add(redCrossImage);
             add(redCrossImage);

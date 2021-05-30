@@ -17,6 +17,7 @@ import it.polimi.ingsw.view.gui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class Gui extends ClientView {
         frame.setLocationRelativeTo(null);
 
         LayeredPanel layeredPanel = new LayeredPanel();
-        mainPanel.add(layeredPanel, "4");
+        mainPanel.add(layeredPanel, "4");*/
 
         /*
         FaithPathPanel faithPathPanel = new FaithPathPanel(this, getLiteFaithPath());
@@ -122,25 +123,6 @@ public class Gui extends ClientView {
 
     @Override
     public void printHello() {
-        /*frame.setSize(1920,980);
-        frame.setLocationRelativeTo(null);
-
-        System.out.println("hello");
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-
-        PlayerBoardPanel pl1 = new PlayerBoardPanel(this);
-        PlayerBoardPanel pl2 = new PlayerBoardPanel(this);
-        PlayerBoardPanel pl3 = new PlayerBoardPanel(this);
-        PlayerBoardPanel pl4 = new PlayerBoardPanel(this);
-
-        panel.add(pl1, BorderLayout.PAGE_START);
-        panel.add(pl2, BorderLayout.PAGE_END);
-        panel.add(pl3, BorderLayout.LINE_START);
-        panel.add(pl4, BorderLayout.LINE_END);
-
-        mainPanel.add(panel, "5");
-        cardLayout.show(mainPanel, "5");*/
     }
 
     @Override
@@ -192,7 +174,6 @@ public class Gui extends ClientView {
 
         //mainPanel.removeAll();
         DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
-
 
         //discardLeaders.setVisible(true);
 

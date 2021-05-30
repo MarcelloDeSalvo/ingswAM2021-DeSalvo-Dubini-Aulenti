@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 public class GamePanel extends JPanel {
 
     private final FaithPathPanel faithPathPanel;
+    private final PlayerBoardPanel playerBoardPanel;
 
     private JPanel main;
     private CardLayout cardLayout ;
@@ -27,7 +28,9 @@ public class GamePanel extends JPanel {
         main.setLayout(cardLayout);
 
         faithPathPanel = new FaithPathPanel(gui, liteFaithPath);
-        main.add(new JPanel(),"0");
+        playerBoardPanel = new PlayerBoardPanel(gui);
+
+        main.add(playerBoardPanel,"0");
         main.add(faithPathPanel,"1");
         cardLayout.show(main,"0");
 

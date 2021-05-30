@@ -14,11 +14,10 @@ public class LobbyPanel extends BackgroundImagePanel {
     private JPanel lobbies;
 
     public LobbyPanel(Gui gui,ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos ) {
-        super("/images/lobbyBackground.png", -650, -20, false);
+        super("/images/lobbyBackground.png", -688, 5, false);
 
         this.gui = gui;
         this.setLayout(new BorderLayout());
-
 
         lobbies = new JPanel();
         lobbies.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));

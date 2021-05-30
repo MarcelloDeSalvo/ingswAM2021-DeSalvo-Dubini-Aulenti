@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.panels;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class BackgroundImagePanel extends JPanel {
@@ -13,6 +14,9 @@ public class BackgroundImagePanel extends JPanel {
     private final int y;
     private Graphics2D graphics2D;
     private Point pivot;
+
+    private int width = 0;
+    private int height = 0;
 
     public BackgroundImagePanel(String path, int x, int y, boolean absolutePosition) {
         this.path = path;
@@ -40,6 +44,12 @@ public class BackgroundImagePanel extends JPanel {
         this.x = 0;
         this.y = 0;
 
+        try {
+            backGroundImg = ImageIO.read(getClass().getResourceAsStream(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (absolutePosition)
             setLayout(null);
 
@@ -54,7 +64,11 @@ public class BackgroundImagePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         graphics2D = (Graphics2D) g.create();
-        graphics2D.drawImage(backGroundImg, x, y, this);
+
+        if(width == 0 || height == 0)
+            graphics2D.drawImage(backGroundImg, x, y, this);
+        else
+            graphics2D.drawImage(backGroundImg, x, y, width, height, this);
     }
 
     public Graphics2D getGraphics2D(){
@@ -63,5 +77,13 @@ public class BackgroundImagePanel extends JPanel {
 
     public Point getPivot() {
         return pivot;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }
