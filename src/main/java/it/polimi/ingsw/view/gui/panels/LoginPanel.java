@@ -1,7 +1,10 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.TextFieldPlaceHolder;
 
 import javax.swing.*;
 import java.awt.*;
