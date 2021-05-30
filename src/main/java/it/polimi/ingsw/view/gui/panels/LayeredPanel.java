@@ -36,9 +36,12 @@ public class LayeredPanel extends JPanel {
         jLabelImg.setOpaque(false);
 
         DraggableImage draggableImage = new DraggableImage("/images/croceRossa.png");
-        draggableImage.setOpaque(true);
+        draggableImage.setOpaque(false);
+        //draggableImage.setBounds(0,0,draggableImage.getWidth(),draggableImage.getHeight());
 
-        System.out.println(draggableImage.getHeight());
+
+
+       //System.out.println(draggableImage.getHeight());
 
         jLabelImg.addMouseListener(new MouseAdapter() {
             @Override
@@ -49,9 +52,9 @@ public class LayeredPanel extends JPanel {
 
         layeredPane.add(playerBoard, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(jLabelImg, JLayeredPane.PALETTE_LAYER);
-        layeredPane.add(draggableImage, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(draggableImage, JLayeredPane.DRAG_LAYER);
 
-        this.add(layeredPane, BorderLayout.CENTER);
+        this.add(draggableImage, BorderLayout.CENTER);
 
 
     }
