@@ -31,6 +31,7 @@ public class Gui extends ClientView {
     private LoginPanel loginPanel;
     private LobbyPanel lobbyPanel;
     private LobbyRoomPanel lobbyRoomPanel;
+    private GamePanel gamePanel;
 
     private JFrame frame;
     private Label infoLabel;
@@ -93,7 +94,7 @@ public class Gui extends ClientView {
         cardLayout.show(mainPanel, "3");
 
         //-----------------------------------------
-        frame.setSize(1920,980);
+        /*frame.setSize(1920,980);
         frame.setLocationRelativeTo(null);
 
         LayeredPanel layeredPanel = new LayeredPanel();
@@ -104,7 +105,7 @@ public class Gui extends ClientView {
         mainPanel.add(faithPathPanel, "4");
          */
 
-        cardLayout.show(mainPanel, "4");
+        //cardLayout.show(mainPanel, "4");
         //-----------------------------------------
 
         //mainPanel.validate();
@@ -199,6 +200,14 @@ public class Gui extends ClientView {
 
         mainPanel.add(discardLeaders, "4");
         cardLayout.show(mainPanel, "4");
+    }
+
+    @Override
+    public void notifyGameIsStarted() {
+        gamePanel = new GamePanel(this, getLiteFaithPath());
+
+        mainPanel.add(gamePanel, "5");
+        cardLayout.show(mainPanel, "5");
     }
 
     @Override
@@ -386,6 +395,11 @@ public class Gui extends ClientView {
 
             case SHOW_TURN_HELP:
                 printItsYourTurn(senderNick);
+                break;
+
+            case NOTIFY_GAME_STARTED:
+                notifyGameIsStarted();
+                System.out.println("cccc");
                 break;
 
             case NOTIFY_CARDGRID:

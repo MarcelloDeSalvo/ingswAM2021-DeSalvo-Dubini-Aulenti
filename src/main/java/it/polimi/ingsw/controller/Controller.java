@@ -413,7 +413,7 @@ public class Controller implements ObserverController {
     private void startGame() {
         view.setCurrPlayer(game.getCurrentPlayerNick());
         game.startGame();
-        view.printReply("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
+        view.notifyGameIsStarted();
         view.printItsYourTurn(game.getCurrentPlayerNick());
     }
     //------------------------------------------------------------------------------------------------------------------/

@@ -53,6 +53,10 @@ public class Cli extends ClientView {
                         setNickname(this.getNickname()).build());
                 break;
 
+            case NOTIFY_GAME_STARTED:
+                notifyGameIsStarted();
+                break;
+
             case NOTIFY_CARDGRID:
                 NotifyCardGrid notifyCardGrid = gson.fromJson(mex, NotifyCardGrid.class);
                 notifyCardGridChanges(notifyCardGrid.getOldID(), notifyCardGrid.getNewID());
@@ -769,6 +773,11 @@ public class Cli extends ClientView {
 
 
     //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
+    @Override
+    public void notifyGameIsStarted() {
+        System.out.println("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
+    }
+
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));

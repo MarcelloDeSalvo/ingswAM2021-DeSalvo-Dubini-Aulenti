@@ -60,6 +60,7 @@ public enum Command {
     NOTIFY_FAITHPATH_CURRENT    (false,false,true, Status.IN_GAME),
     NOTIFY_FAITHPATH_OTHERS     (false,false,true, Status.IN_GAME),
     NOTIFY_FAITHPATH_FAVOURS    (false,false,true, Status.IN_GAME),
+    NOTIFY_GAME_STARTED         (false,false,true, Status.IN_GAME),
 
     ASK_FOR_RESOURCES (false, false, false, null),
 

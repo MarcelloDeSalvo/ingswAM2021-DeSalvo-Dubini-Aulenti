@@ -179,6 +179,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void notifyGameIsStarted(){
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.NOTIFY_GAME_STARTED).setTarget(Target.BROADCAST).build());
+    }
+
+    @Override
     public void notifyCurrentPlayerIncrease(int qty, String nickname) {
         notifyUsers(new FaithPathUpdateMessage(Command.NOTIFY_FAITHPATH_CURRENT, qty, nickname));
     }
