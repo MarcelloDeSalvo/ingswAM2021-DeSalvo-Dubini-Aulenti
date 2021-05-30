@@ -2,17 +2,18 @@ package it.polimi.ingsw.view.gui.panels;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class LayeredPanel extends JPanel {
 
     public LayeredPanel() {
-        super();
-        setLayout(null);
+        setLayout(new BorderLayout());
 
         JLayeredPane layeredPane =  new JLayeredPane();
-        layeredPane.setBounds(0,0,1000,1000);
+        layeredPane.setLayout(null);
+        layeredPane.setBounds(0,0,1920,1080);
 
         JButton jButton = new JButton("CIAO");
         jButton.setBounds(700,400,200, 300);
@@ -22,18 +23,22 @@ public class LayeredPanel extends JPanel {
         jLabel.setBounds(0,0,100,100);
         jLabel.setOpaque(true);
 
+        JLabel playerBoard = new JLabel();
+        ImageIcon iconPlayerBoard = new ImageIcon(getClass().getResource("/images/PlayerBoard.jpg"));
+        playerBoard.setIcon(iconPlayerBoard);
+        playerBoard.setBounds(0,0, iconPlayerBoard.getIconWidth(), iconPlayerBoard.getIconHeight());
+        playerBoard.setOpaque(true);
+
         JLabel jLabelImg = new JLabel();
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/croceRossa.png"));
-        jLabelImg.setIcon(new ImageIcon(getClass().getResource("/images/croceRossa.png")));
-        jLabelImg.setBounds(500,500, icon.getIconWidth(), icon.getIconHeight());
-        jLabelImg.setOpaque(true);
+        jLabelImg.setIcon(icon);
+        jLabelImg.setBounds(200,200, icon.getIconWidth(), icon.getIconHeight());
+        jLabelImg.setOpaque(false);
 
         DraggableImage draggableImage = new DraggableImage("/images/croceRossa.png");
-        draggableImage.setBounds(200,200, draggableImage.getWidth(), draggableImage.getHeight());
-        draggableImage.setOpaque(false);
+        draggableImage.setOpaque(true);
 
         System.out.println(draggableImage.getHeight());
-
 
         jLabelImg.addMouseListener(new MouseAdapter() {
             @Override
@@ -42,10 +47,11 @@ public class LayeredPanel extends JPanel {
             }
         });
 
-        layeredPane.add(jButton, 1);
-        layeredPane.add(draggableImage, 0);
+        layeredPane.add(playerBoard, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.add(jLabelImg, JLayeredPane.PALETTE_LAYER);
+        layeredPane.add(draggableImage, JLayeredPane.PALETTE_LAYER);
 
-        this.add(layeredPane);
+        this.add(layeredPane, BorderLayout.CENTER);
 
 
     }
