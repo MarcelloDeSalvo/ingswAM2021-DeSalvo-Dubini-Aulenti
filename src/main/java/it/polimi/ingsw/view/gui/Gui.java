@@ -169,17 +169,11 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
         setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
-        frame.setSize(1920,980);
+        //frame.setSize(1920,980);
         frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        //mainPanel.removeAll();
         DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
-
-        //discardLeaders.setVisible(true);
-
-        //mainPanel.add(discardLeaders);
-        //mainPanel.revalidate();
-        //mainPanel.repaint();
 
         mainPanel.add(discardLeaders, "4");
         cardLayout.show(mainPanel, "4");
@@ -187,10 +181,12 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyGameIsStarted() {
-        gamePanel = new GamePanel(this, getLiteFaithPath());
+        gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
 
         mainPanel.add(gamePanel, "5");
         cardLayout.show(mainPanel, "5");
+
+        gamePanel.getNotifyLabel().setText("THE GAME HAS BEEN STARTED!");
     }
 
     @Override
@@ -205,9 +201,6 @@ public class Gui extends ClientView {
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
         this.setInGame(true);
-
-
-
     }
 
     @Override

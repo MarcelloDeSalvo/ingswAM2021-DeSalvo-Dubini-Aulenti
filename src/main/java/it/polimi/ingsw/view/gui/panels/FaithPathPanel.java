@@ -25,9 +25,9 @@ public class FaithPathPanel extends BackgroundImagePanel {
 
         ArrayList<String> strings = new ArrayList<>();
         redCrossImages = new ArrayList<>();
-        strings.add("CULO");
+        strings.add("MARCO");
         strings.add("LORENZO");
-        strings.add("SCEMO");
+        strings.add("FRANCO");
         liteFaithPath.setUpPositions(strings);
 
         int i = 0;
