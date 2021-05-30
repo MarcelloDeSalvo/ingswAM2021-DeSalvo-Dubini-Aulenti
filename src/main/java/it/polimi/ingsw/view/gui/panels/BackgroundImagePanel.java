@@ -31,6 +31,8 @@ public class BackgroundImagePanel extends JPanel {
 
         if (absolutePosition)
             setLayout(null);
+
+        setOpaque(false);
     }
 
     public BackgroundImagePanel(String path, boolean absolutePosition) {
@@ -40,6 +42,8 @@ public class BackgroundImagePanel extends JPanel {
 
         if (absolutePosition)
             setLayout(null);
+
+        setOpaque(false);
     }
 
     public Dimension getPreferredSize() {

@@ -16,8 +16,11 @@ public class RedCrossImage extends SmartImagePanel {
     }
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        if (isHighlight())
+            onHighlight((Graphics2D) g);
     }
 
     @Override
@@ -26,11 +29,27 @@ public class RedCrossImage extends SmartImagePanel {
     }
 
     @Override
-    public void onHighlight() {
-        getBackGroundPanel().getGraphics2D().drawString(nick, 0,40);
+    public void onHighlight(Graphics2D graphics2D) {
+        graphics2D.drawString(nick, getImagePosition().x,getImagePosition().y-20);
+        repaint();
     }
 
     public void increasePos(){
-        this.setImagePosition(new Point(this.getImagePosition().x + 50, this.getImagePosition().y));
+
+        if (count<=1 || count>=4 && count<9 || count>= 11 && count < 16 || count>=18 && count <24) {
+            this.setImagePosition(new Point(this.getImagePosition().x + 88, this.getImagePosition().y));
+            count++;
+        }else if (count < 5 || count >=16 && count <18){
+            this.setImagePosition(new Point(this.getImagePosition().x, this.getImagePosition().y-88));
+            count++;
+        }else if(count<24){
+            this.setImagePosition(new Point(this.getImagePosition().x, this.getImagePosition().y+88));
+            count++;
+        }
+
+    }
+
+    public String getNick() {
+        return nick;
     }
 }

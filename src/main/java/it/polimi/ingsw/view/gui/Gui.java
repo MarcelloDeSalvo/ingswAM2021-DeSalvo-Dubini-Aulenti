@@ -89,6 +89,21 @@ public class Gui extends ClientView {
         mainPanel.add(lobbyRoomPanel, "3");
         cardLayout.show(mainPanel, "3");
 
+        //-----------------------------------------
+        frame.setSize(1920,980);
+        frame.setLocationRelativeTo(null);
+
+        LayeredPanel layeredPanel = new LayeredPanel();
+        mainPanel.add(layeredPanel, "4");
+
+        /*
+        FaithPathPanel faithPathPanel = new FaithPathPanel(this, getLiteFaithPath());
+        mainPanel.add(faithPathPanel, "4");
+         */
+
+        cardLayout.show(mainPanel, "4");
+        //-----------------------------------------
+
         //mainPanel.validate();
         //mainPanel.repaint();
         //mainPanel.setVisible(true);

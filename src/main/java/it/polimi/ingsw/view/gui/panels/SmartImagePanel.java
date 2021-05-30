@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.view.gui.Gui;
-import it.polimi.ingsw.view.gui.panels.BackgroundImagePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -60,10 +59,12 @@ public abstract class SmartImagePanel extends JComponent {
         imgArea = new Rectangle(imagePosition.x, imagePosition.y, scaledImage.getWidth(), scaledImage.getHeight());
 
         ClickListener clickListener = new ClickListener();
-        MovementListener movementListener = new MovementListener();
+        //MovementListener movementListener = new MovementListener();
 
         this.addMouseListener(clickListener);
-        this.addMouseMotionListener(movementListener);
+        //this.addMouseMotionListener(movementListener);
+
+        setOpaque(false);
     }
 
     /**
@@ -99,10 +100,12 @@ public abstract class SmartImagePanel extends JComponent {
         imgArea = new Rectangle( imagePosition.x,  imagePosition.y, scaledImage.getWidth(), scaledImage.getHeight());
 
         ClickListener clickListener = new ClickListener();
-        MovementListener movementListener = new MovementListener();
+        //MovementListener movementListener = new MovementListener();
 
         this.addMouseListener(clickListener);
-        this.addMouseMotionListener(movementListener);
+        //this.addMouseMotionListener(movementListener);
+
+        setOpaque(false);
     }
 
     /**
@@ -114,20 +117,16 @@ public abstract class SmartImagePanel extends JComponent {
     /**
      * Called when the mouse is over the image
      */
-    public abstract void onHighlight();
+    public abstract void onHighlight(Graphics2D graphics2D);
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         if (backGround==null)
             return;
 
         backGround.getGraphics2D().drawImage(tmp, imagePosition.x, imagePosition.y, imageDimension.width, imageDimension.height, this);
-        backGround.getGraphics2D().drawRect(imagePosition.x, imagePosition.y, imageDimension.width, imageDimension.height);
-        backGround.getGraphics2D().setColor(Color.GREEN);
-        onHighlight();
-
     }
 
 
@@ -141,18 +140,30 @@ public abstract class SmartImagePanel extends JComponent {
             onMouseClicked(e);
         }
 
-    }
-
-    /**
-     * Waits for the mouse to enter the image area
-     */
-    private class MovementListener extends MouseMotionAdapter {
         @Override
-        public void mouseMoved(MouseEvent e) {
-            highlight = imgArea.contains(e.getPoint());
+        public void mouseEntered(MouseEvent e) {
+            highlight = true;
+            repaint();
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            highlight = false;
             repaint();
         }
     }
+
+    /*
+    /**
+     * Waits for the mouse to enter the image area
+
+    private class MovementListener extends MouseMotionAdapter {
+        @Override
+        public void mouseMoved(MouseEvent e) {
+
+        }
+
+    } */
 
     public Point getImagePosition() {
         return imagePosition;
