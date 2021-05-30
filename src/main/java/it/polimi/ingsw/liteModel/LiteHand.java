@@ -55,4 +55,6 @@ public class LiteHand {
 
         return s.toString();
     }
+
+    public ArrayList<Integer> getHand() {return hand; }
 }

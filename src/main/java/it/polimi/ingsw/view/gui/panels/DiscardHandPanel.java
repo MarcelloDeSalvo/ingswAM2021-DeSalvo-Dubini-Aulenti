@@ -1,6 +1,10 @@
 package it.polimi.ingsw.view.gui.panels;
 
+import it.polimi.ingsw.liteModel.LiteHand;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +13,14 @@ import java.util.ArrayList;
 
 public class DiscardHandPanel extends JPanel {
 
-    private ArrayList<Integer> IDs;
+    private LiteHand liteHand;
     JPanel bottomPanel;
+    Gui gui;
 
-    public DiscardHandPanel(ArrayList<Integer> IDs){
+    public DiscardHandPanel(LiteHand hand, Gui gui){
         super();
-        this.IDs=IDs;
+        this.gui=gui;
+        this.liteHand=hand;
         this.setLayout(new BorderLayout(2,1));
         this.bottomPanel=new JPanel();
         JPanel topPanel=new JPanel();
@@ -39,18 +45,20 @@ public class DiscardHandPanel extends JPanel {
 
 
     private void drawCards() {
-
-        for (Integer id : IDs) {
-            System.out.println(id);
-        }
-
+        ArrayList<Integer> IDs=liteHand.getHand();
 
         for (Integer id : IDs) {
 
             InputStream url = getClass().getResourceAsStream("/images/cardFrontJpgs/LeaderFront_"+id+".jpg");
             bottomPanel.add(Box.createHorizontalGlue());
+            ButtonImage lc=new  ButtonImage("/images/cardFrontJpgs/LeaderFront_"+id+".jpg");
 
-            bottomPanel.add(new ButtonImage("/images/cardFrontJpgs/LeaderFront_"+id+".jpg"));
+            bottomPanel.add(lc);
+            lc.addActionListener(e->{
+                gui.send(new IdMessage(Command.DISCARD_LEADER, id, gui.getNickname()));
+                bottomPanel.remove(lc);
+                bottomPanel.repaint();
+            });
             bottomPanel.add(Box.createHorizontalGlue());
 
         }

@@ -29,7 +29,10 @@ public class LoginPanel extends JPanel {
 
         ButtonImage loginButton = new ButtonImage("/images/buttons/B_Login.png");
         loginButton.setMnemonic(KeyEvent.VK_ENTER);
-        loginButton.addActionListener(e -> swing.send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build()));
+        loginButton.addActionListener(e -> {
+            swing.send(new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(jTextField.getText()).build());
+            swing.setNickname(jTextField.getText());
+        });
         loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.add(Box.createRigidArea(new Dimension(100,160)));

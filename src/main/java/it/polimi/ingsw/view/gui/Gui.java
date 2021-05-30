@@ -2,6 +2,9 @@ package it.polimi.ingsw.view.gui;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.liteModel.LiteCardGrid;
+import it.polimi.ingsw.liteModel.LiteHand;
+import it.polimi.ingsw.liteModel.LiteMarket;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -9,6 +12,7 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
+
 import it.polimi.ingsw.view.gui.panels.*;
 
 import javax.swing.*;
@@ -20,7 +24,6 @@ import java.util.List;
 public class Gui extends ClientView {
 
     private final Gson gson ;
-    private final String nicknameTemp = null;
 
     private JPanel mainPanel;
     private CardLayout cardLayout;      //used for changing scenes
@@ -165,11 +168,13 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+        setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
         frame.setSize(1920,980);
         frame.setLocationRelativeTo(null);
 
         //mainPanel.removeAll();
-        DiscardHandPanel discardLeaders = new DiscardHandPanel(leaderIDs);
+        DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
+
 
         //discardLeaders.setVisible(true);
 
@@ -188,11 +193,20 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
+        setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
+        litePlayerBoardsSetUp(nicknames);
+        setLiteMarket(new LiteMarket(marketSetUp));
+        getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+        this.setInGame(true);
+
+
 
     }
 
     @Override
     public void notifyLeaderDiscarded(int id, String nickname) {
+        System.out.println("Leader discarded!\n");
+        getMyHand().discardFromHand(id);
 
     }
 
@@ -330,7 +344,6 @@ public class Gui extends ClientView {
 
             case LOGIN:
                 loginPanel.setVisible(false);
-                this.setNickname(nicknameTemp);
                 break;
 
             case GAME_SETUP:

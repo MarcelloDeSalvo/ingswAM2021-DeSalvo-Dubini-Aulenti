@@ -14,7 +14,7 @@ public class LobbyPanel extends BackgroundImagePanel {
     private JPanel lobbies;
 
     public LobbyPanel(Gui gui,ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos ) {
-        super("/images/background.png", -650, -20, false);
+        super("/images/lobbyBackground.png", -650, -20, false);
 
         this.gui = gui;
         this.setLayout(new BorderLayout());

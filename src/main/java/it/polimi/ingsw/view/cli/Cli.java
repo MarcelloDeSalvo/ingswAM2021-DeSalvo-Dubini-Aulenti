@@ -18,7 +18,6 @@ import java.util.Scanner;
 
 public class Cli extends ClientView {
 
-    private boolean isInGame = false;
     private String nicknameTemp = null;
     private final Scanner stdIn;
     private final Gson gson ;
@@ -694,7 +693,7 @@ public class Cli extends ClientView {
     }
 
     public void printOrder() {
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
         StringBuilder orderBuild = new StringBuilder();
         orderBuild.append("This is the Turn Order \n");
@@ -706,43 +705,43 @@ public class Cli extends ClientView {
 
     //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
     public void printHand() {
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getMyHand().toString(getNickname()));
     }
 
     public void printVault(){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getMyLiteVault().toString());
     }
 
     public void printCardGrid(){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getLiteCardGrid().toString());
         getLiteCardGrid().printGridIDs();
     }
 
     public void printFaithPath(){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getLiteFaithPath().toString());
     }
 
     public void printDeposit(){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getMyLiteDeposit().toString());
     }
 
     public void printProduction(){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getMyLiteProduction().toString());
     }
 
     public void printMarket(){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
         System.out.println(getLiteMarket().toString());
     }
 
     public void printBoard(String nickname){
-        if (!isInGame) return;
+        if (!this.isInGame()) return;
 
         if(!getLiteFaithPath().getNicknames().contains(nickname)){
             System.out.println("Invalid nickname!");
@@ -777,7 +776,7 @@ public class Cli extends ClientView {
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
 
-        isInGame = true;
+        this.setInGame(true);
         printOrder();
     }
 
@@ -950,7 +949,7 @@ public class Cli extends ClientView {
     @Override
     public void notifyGameEnded() {
         printReply("# The game is ended, you are now in the lobby");
-        isInGame = false;
+        this.setInGame(false);
     }
     //------------------------------------------------------------------------------------------------------------------
 
