@@ -6,12 +6,30 @@ import java.awt.*;
 
 public class ButtonImage extends JButton {
 
+    public ButtonImage(String text, int fontSize, boolean mode) {
+        super();
+        try {
+            this.setText(text);
+            this.setFont(new Font("Rubik", Font.BOLD, fontSize));
+            this.setBorder(new LineBorder(new Color(219, 139, 0)));
+            this.setForeground(new Color(255, 255, 255));
+            this.setBackground(new Color(241, 153, 0));
+            this.setMargin(new Insets(
+                    10,30,10,30
+            ));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+
+    }
+
     public ButtonImage(String text, boolean mode) {
         super();
         try {
             this.setText(text);
             this.setFont(new Font("Rubik", Font.BOLD, 44));
-            this.setBorder(new LineBorder(Color.orange));
+            this.setBorder(new LineBorder(new Color(219, 139, 0)));
             this.setForeground(new Color(255, 255, 255));
             this.setBackground(new Color(241, 153, 0));
         } catch (Exception ex) {

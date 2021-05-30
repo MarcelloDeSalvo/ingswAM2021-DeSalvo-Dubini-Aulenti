@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteFaithPath;
+import it.polimi.ingsw.view.gui.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
@@ -34,7 +35,7 @@ public class GamePanel extends JPanel {
         topPanel();
 
         this.add(main, BorderLayout.CENTER);
-        this.add(buttons, BorderLayout.EAST);
+        this.add(buttons, BorderLayout.SOUTH);
         this.add(topPanel, BorderLayout.NORTH);
 
     }
@@ -43,18 +44,19 @@ public class GamePanel extends JPanel {
         topPanel = new JPanel();
         JLabel title = new JLabel("NOTIFICHE GAME", JLabel.CENTER);
         title.setFont(new Font("Rubik", Font.BOLD, 24));
-        title.setForeground(new Color(240,150,100));
-        title.setOpaque(true);
+        title.setForeground(new Color(255,255,255));
+        title.setOpaque(false);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(title);
+        topPanel.setBackground(new Color(219, 139, 0));
     }
 
     private void buttonSection(){
 
         buttons = new JPanel();
-        buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+        buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
-        JButton show_my_board = new JButton("SHOW MY BOARD");
+        JButton show_my_board = new ButtonImage("MY BOARD", 22,true);
         show_my_board.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +65,7 @@ public class GamePanel extends JPanel {
         });
         show_my_board.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton showFaithpath = new JButton("SHOW FAITHPATH");
+        JButton showFaithpath = new ButtonImage("FAITHPATH", 22,true);
         showFaithpath.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,7 +75,7 @@ public class GamePanel extends JPanel {
         showFaithpath.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 
-        JButton showMarket = new JButton("SHOW MARKET");
+        JButton showMarket = new ButtonImage("MARKET", 22,true);
         showMarket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,7 +84,7 @@ public class GamePanel extends JPanel {
         });
         showMarket.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton showCardGrid = new JButton("SHOW CARD GRID");
+        JButton showCardGrid = new ButtonImage("CARD GRID", 22,true);
         showCardGrid.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,7 +93,7 @@ public class GamePanel extends JPanel {
         });
         showCardGrid.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton showPlayer = new JButton("SHOW SHOW PLAYER");
+        JButton showPlayer = new ButtonImage("PLAYER", 22,true);
         showPlayer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,7 +102,7 @@ public class GamePanel extends JPanel {
         });
         showPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton increase = new JButton("Increase Pos");
+        JButton increase = new ButtonImage("Increase Pos", 22,true);
         increase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,9 +111,9 @@ public class GamePanel extends JPanel {
         });
         increase.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttons.setBackground(new Color(200,128,122));
+        buttons.setBackground(new Color(255, 235, 204));
 
-        buttons.add(Box.createRigidArea(new Dimension(30,300)));
+        buttons.add(Box.createRigidArea(new Dimension(350,30)));
         buttons.add(showFaithpath);
         buttons.add(Box.createRigidArea(new Dimension(30,30)));
         buttons.add(showMarket);
@@ -123,6 +125,7 @@ public class GamePanel extends JPanel {
         buttons.add(showCardGrid);
         buttons.add(Box.createRigidArea(new Dimension(30,30)));
         buttons.add(increase);
+        buttons.add(Box.createRigidArea(new Dimension(30,30)));
 
     }
 }

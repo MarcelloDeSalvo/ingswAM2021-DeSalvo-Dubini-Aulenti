@@ -56,9 +56,11 @@ public class Gui extends ClientView {
         loginPanel = new LoginPanel(this);
 
         infoLabel = new Label("");
-        infoLabel.setSize(30,30);
-        infoLabel.setBackground(Color.GRAY);
-        infoLabel.setForeground(Color.BLACK);
+        infoLabel.setSize(30,40);
+        infoLabel.setFont(new Font("Rubik", Font.PLAIN, 20));
+        infoLabel.setBackground(new Color(219, 139, 0));
+        infoLabel.setAlignment(Label.CENTER);
+        infoLabel.setForeground(Color.WHITE);
 
         mainPanel.add(loginPanel, "1");
         cardLayout.show(mainPanel, "1");
