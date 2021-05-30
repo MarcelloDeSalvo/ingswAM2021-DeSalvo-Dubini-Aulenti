@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class ClientView implements View, UserInput {
+    private boolean isInGame = false;
     private String nickname;
     private final ArrayList<ObserverController> observerControllers;
 
@@ -97,9 +98,7 @@ public abstract class ClientView implements View, UserInput {
         liteBoards.get(nickname).setLiteHand(hand);
     }
 
-   public LiteHand getMyHand() {
-        return liteBoards.get(nickname).getLiteHand();
-    }
+   public LiteHand getMyHand() { return liteBoards.get(nickname).getLiteHand();}
 
     public LiteVault getMyLiteVault() {
         return liteBoards.get(nickname).getLiteVault();
@@ -130,6 +129,10 @@ public abstract class ClientView implements View, UserInput {
     public void setLiteCardGrid(LiteCardGrid liteCardGrid) { this.liteCardGrid = liteCardGrid; }
 
     public LiteFaithPath getLiteFaithPath() { return liteFaithPath;  }
+
+    public boolean isInGame() { return isInGame; }
+
+    public void setInGame(boolean inGame) {  isInGame = inGame; }
     //------------------------------------------------------------------------------------------------------------------
 
 }
