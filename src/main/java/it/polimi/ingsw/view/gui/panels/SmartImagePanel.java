@@ -1,4 +1,7 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
+
+import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.panels.BackgroundImagePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -10,7 +10,7 @@ public class PlayerBoardPanel extends BackgroundImagePanel {
     private final Gui gui;
 
     public PlayerBoardPanel(Gui gui) {
-        super("/images/PLayerBoard.jpg");
+        super("/images/PLayerBoard.jpg", false);
         this.gui = gui;
 
         this.setLayout(new BorderLayout());

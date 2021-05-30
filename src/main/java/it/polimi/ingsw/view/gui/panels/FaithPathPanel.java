@@ -1,6 +1,8 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteFaithPath;
+import it.polimi.ingsw.view.gui.Gui;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

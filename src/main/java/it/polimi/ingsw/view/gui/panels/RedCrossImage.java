@@ -1,9 +1,12 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
+
+
+import it.polimi.ingsw.view.gui.Gui;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class RedCrossImage extends SmartImagePanel{
+public class RedCrossImage extends SmartImagePanel {
     private int count = 0;
     private String nick;
 

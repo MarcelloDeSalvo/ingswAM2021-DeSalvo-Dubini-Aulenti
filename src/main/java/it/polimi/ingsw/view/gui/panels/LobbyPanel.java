@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.view.gui.ButtonImage;
