@@ -531,6 +531,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
+        System.out.println("\n");
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
         if (lobbyInfos.isEmpty()){
@@ -561,6 +562,7 @@ public class Cli extends ClientView {
                     ","+coloredClosed+" isClosed=" +  info.isClosed() +Color.ANSI_RESET.escape());
         }
 
+        System.out.println();
         System.out.println();
     }
 
@@ -704,6 +706,8 @@ public class Cli extends ClientView {
             System.out.println(nickname + "'s position has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
         else
             System.out.println("Your current position has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
+
+        System.out.println();
     }
 
     @Override

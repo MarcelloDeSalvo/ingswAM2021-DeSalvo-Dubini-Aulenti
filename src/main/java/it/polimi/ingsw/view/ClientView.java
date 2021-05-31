@@ -205,6 +205,7 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case ASK_MARKET_DEST:
+                askForMarketDestination(null, nickname);
                 printReply(deserializedMex.getInfo());
                 break;
 

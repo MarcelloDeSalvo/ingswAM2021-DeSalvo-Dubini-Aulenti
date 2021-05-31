@@ -309,6 +309,7 @@ public class Gui extends ClientView {
 
     }
 
+    @Override
     public void onReconnected(){
         loginPanel.setVisible(false);
         cardLayout.show(mainPanel, "gamePanel");
