@@ -10,8 +10,6 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -22,7 +20,7 @@ public class Cli extends ClientView {
 
     private String nicknameTemp = null;
     private final Scanner stdIn;
-    private final Gson gson ;
+    private final Gson gson;
 
     public Cli() throws FileNotFoundException {
         super();
@@ -147,58 +145,12 @@ public class Cli extends ClientView {
 
                 case "P":
                 case "PRODUCE":
-                    ArrayList<Integer> productionIDs = new ArrayList<>();
-
-                    while(stdIn.hasNext()) {
-                        String input = stdIn.next();
-                        if(input.equalsIgnoreCase("DONE"))
-                            break;
-
-                        try{
-                            productionIDs.add(Integer.parseInt(input));
-                        }
-                        catch(NumberFormatException e){
-                            throw new InputMismatchException("\"'\" + input + \"' is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs\"");
-                        }
-                    }
-
-                    if(InputCheck.duplicatedElement(productionIDs)) {
-                        throw new InputMismatchException("You cannot insert the same Production Slot IDs multiple times!");
-                    }
-
-                    ProduceMessage produceMessage = new ProduceMessage(productionIDs, this.getNickname());
-                    send(produceMessage);
+                    produce();
                     break;
 
                 case "F":
                 case "FILL":
-                    ArrayList<ResourceType> QMs = new ArrayList<>();
-
-                    while(stdIn.hasNext()) {
-                        String input = stdIn.next();
-
-                        if(input.equalsIgnoreCase("DONE"))
-                            break;
-
-                        ResourceType questionMarkType = InputCheck.resourceType_null(input);
-
-                        if (questionMarkType == null) {
-                            QMs.clear();
-                            throw new InputMismatchException("'" + input + "' is not a valid input! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
-                        }
-                        else if(!questionMarkType.canAddToVault()) {
-                            QMs.clear();
-                            throw new InputMismatchException("ResourceType '" + input + "' cannot be selected for production! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
-                        }
-                        else
-                            QMs.add(questionMarkType);
-                    }
-
-                    if(!QMs.isEmpty()) {
-                        ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, QMs, this.getNickname());
-                        send(resourceTypeSend);
-                    }
-
+                    fillQMs();
                     break;
 
                 case "M":
@@ -312,7 +264,7 @@ public class Cli extends ClientView {
 
                 case "SPL":
                 case "SHOW_PLAYER":
-                    String pl=stdIn.next();
+                    String pl = stdIn.next();
                     printBoard(pl);
                     break;
 
@@ -399,6 +351,65 @@ public class Cli extends ClientView {
 
         send(sendContainer);
         return true;
+    }
+
+    /**
+     * Handles produce command
+     */
+    private void produce() {
+        ArrayList<Integer> productionIDs = new ArrayList<>();
+
+        while(stdIn.hasNext()) {
+            String input = stdIn.next();
+            if(input.equalsIgnoreCase("DONE"))
+                break;
+
+            try{
+                productionIDs.add(Integer.parseInt(input));
+            }
+            catch(NumberFormatException e){
+                throw new InputMismatchException("\"'\" + input + \"' is not a valid input! Please type the ID of a Production Slot or 'STOP' when you are done selecting IDs\"");
+            }
+        }
+
+        if(InputCheck.duplicatedElement(productionIDs)) {
+            throw new InputMismatchException("You cannot insert the same Production Slot IDs multiple times!");
+        }
+
+        ProduceMessage produceMessage = new ProduceMessage(productionIDs, this.getNickname());
+        send(produceMessage);
+    }
+
+    /**
+     * Handles fill command
+     */
+    private void fillQMs() {
+        ArrayList<ResourceType> QMs = new ArrayList<>();
+
+        while(stdIn.hasNext()) {
+            String input = stdIn.next();
+
+            if(input.equalsIgnoreCase("DONE"))
+                break;
+
+            ResourceType questionMarkType = InputCheck.resourceType_null(input);
+
+            if (questionMarkType == null) {
+                QMs.clear();
+                throw new InputMismatchException("'" + input + "' is not a valid input! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
+            }
+            else if(!questionMarkType.canAddToVault()) {
+                QMs.clear();
+                throw new InputMismatchException("ResourceType '" + input + "' cannot be selected for production! Please type a valid ResourceType or 'STOP' when you are done selecting IDs");
+            }
+            else
+                QMs.add(questionMarkType);
+        }
+
+        if(!QMs.isEmpty()) {
+            ResourceTypeSend resourceTypeSend = new ResourceTypeSend(Command.FILL_QM, QMs, this.getNickname());
+            send(resourceTypeSend);
+        }
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -565,6 +576,8 @@ public class Cli extends ClientView {
         System.out.println();
         System.out.println();
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 
 
     //GAME PRINTS-------------------------------------------------------------------------------------------------------
@@ -605,8 +618,10 @@ public class Cli extends ClientView {
 
         System.out.println(orderBuild.toString());
     }
+    //------------------------------------------------------------------------------------------------------------------
 
-    //HAND AND LEADERS PRINT--------------------------------------------------------------------------------------------
+
+    //LITE MODEL PRINT--------------------------------------------------------------------------------------------------
     public void printHand() {
         if (!this.isInGame()) return;
         System.out.println(getMyHand().toString(getNickname()));
@@ -690,17 +705,6 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyBuyOk(String nickname, int slotID, int cardID) {
-        getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
-        if (!nickname.equals(getNickname()))
-            System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
-        else {
-            System.out.println("You bought the card correctly!");
-            printProduction();
-        }
-    }
-
-    @Override
     public void notifyCurrentPlayerIncrease(int faithPoints, String nickname) {
         getLiteFaithPath().incrementPosition(faithPoints, nickname);
 
@@ -710,27 +714,6 @@ public class Cli extends ClientView {
             System.out.println("Your current position has been incremented by " + faithPoints + Color.ANSI_RED.escape() + " FAITH POINT" + Color.ANSI_RESET.escape());
 
         System.out.println();
-    }
-
-    @Override
-    public void notifyProductionOk(String senderNick) {
-        if (!senderNick.equals(getNickname()))
-            System.out.println(senderNick+" has used the production this turn!");
-        else{
-            System.out.println("Production executed correctly!");
-            printVault();
-        }
-    }
-
-    @Override
-    public void notifyMoveOk(String senderNick) {
-        printDeposit();
-        System.out.println("The action on deposit has been executed correctly!\n");
-    }
-
-    @Override
-    public void notifyMarketUpdate(String selection, int selected) {
-        getLiteMarket().liteMarketUpdate(selection, selected);
     }
 
     @Override
@@ -770,20 +753,52 @@ public class Cli extends ClientView {
     }
 
     @Override
+    public void notifyBuyOk(String nickname, int slotID, int cardID) {
+        getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
+        if (!nickname.equals(getNickname()))
+            System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
+        else {
+            System.out.println("You bought the card correctly!");
+            printProduction();
+        }
+    }
+
+    @Override
+    public void notifyProductionOk(String senderNick) {
+        if (!senderNick.equals(getNickname()))
+            System.out.println(senderNick+" has used the production this turn!");
+        else{
+            System.out.println("Production executed correctly!");
+            printVault();
+        }
+    }
+
+    @Override
+    public void notifyMoveOk(String senderNick) {
+        printDeposit();
+        System.out.println("The action on deposit has been executed correctly!\n");
+    }
+
+    @Override
+    public void notifyMarketUpdate(String selection, int selected) {
+        getLiteMarket().liteMarketUpdate(selection, selected);
+    }
+
+    @Override
     public void notifyCardGridChanges(int oldID, int newID) {
         getLiteCardGrid().gridUpdated(oldID, newID);
+    }
+
+    @Override
+    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+        setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
+        printHand();
     }
 
     @Override
     public void notifyLeaderDiscarded(int id, String nickname){
         System.out.println("Leader discarded!\n");
         getMyHand().discardFromHand(id);
-        printHand();
-    }
-
-    @Override
-    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
-        setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
         printHand();
     }
 
@@ -812,16 +827,16 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
-    }
-
-    @Override
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
         if (added)
             getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
         else
             getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
+    }
+
+    @Override
+    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
+        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
     }
 
     @Override

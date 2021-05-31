@@ -45,6 +45,18 @@ public class Gui extends ClientView {
         SwingUtilities.invokeLater(this::createAndShowGUI);
     }
 
+    //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
+    @Override
+    public boolean readInput() {
+        int exit = 0;
+        while (exit ==0){
+            //CASE
+        }
+        return false;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
         frame.setSize(1200,800);
@@ -75,21 +87,16 @@ public class Gui extends ClientView {
         frame.setVisible(true);
     }
 
-    public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
 
-        lobbyPanel = new LobbyPanel(this, lobbyInfos);
-
-        mainPanel.add(lobbyPanel, "lobbyPanel");
-        cardLayout.show(mainPanel, "lobbyPanel");
+    //OnEvent-----------------------------------------------------------------------------------------------------------
+    @Override
+    public void onDisconnect(User user) {
     }
 
-    public void printWaitingRoom(StringsMessage stringsMessage){
-
-        lobbyRoomPanel = new LobbyRoomPanel(this);
-        printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
-
-        mainPanel.add(lobbyRoomPanel, "lobbyRoomPanel");
-        cardLayout.show(mainPanel, "lobbyRoomPanel");
+    @Override
+    public void onReconnected(){
+        loginPanel.setVisible(false);
+        cardLayout.show(mainPanel, "gamePanel");
     }
 
     @Override
@@ -98,10 +105,16 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printPlayerList(String info, ArrayList<String> names) {
-        lobbyRoomPanel.printPlayerList(info, names);
+    public void onExitLobby() {
     }
 
+    @Override
+    public void onJoinLobby() {
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GENERIC PRINTS----------------------------------------------------------------------------------------------------
     @Override
     public void printHello() {
     }
@@ -118,15 +131,32 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printReply_uni(String payload, String nickname) {
-        printReply(payload);
+    public void printWaitingRoom(StringsMessage stringsMessage){
+
+        lobbyRoomPanel = new LobbyRoomPanel(this);
+        printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
+
+        mainPanel.add(lobbyRoomPanel, "lobbyRoomPanel");
+        cardLayout.show(mainPanel, "lobbyRoomPanel");
     }
 
     @Override
-    public void printReply_everyOneElse(String payload, String nickname) {
-        printReply(payload);
+    public void printChatMessage(String senderNick, String info, boolean all) {
+
     }
 
+    @Override
+    public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
+
+        lobbyPanel = new LobbyPanel(this, lobbyInfos);
+
+        mainPanel.add(lobbyPanel, "lobbyPanel");
+        cardLayout.show(mainPanel, "lobbyPanel");
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //GAME PRINTS-------------------------------------------------------------------------------------------------------
     @Override
     public void printItsYourTurn(String nickname) {
         ImageIcon icon = new ImageIcon();
@@ -145,6 +175,11 @@ public class Gui extends ClientView {
                 "Mini HELP",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
+    }
+
+    @Override
+    public void printPlayerList(String info, ArrayList<String> names) {
+        lobbyRoomPanel.printPlayerList(info, names);
     }
 
     @Override
@@ -169,6 +204,8 @@ public class Gui extends ClientView {
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
     }
+    //------------------------------------------------------------------------------------------------------------------
+
 
     //ASK---------------------------------------------------------------------------------------------------------------
     @Override
@@ -186,19 +223,7 @@ public class Gui extends ClientView {
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) { }
     //------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
-        setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
-        frame.setSize(1920,1080);
-        frame.setLocationRelativeTo(null);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
-
-        mainPanel.add(discardLeaders, "discardLeaders");
-        cardLayout.show(mainPanel, "discardLeaders");
-    }
-
+    //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
     @Override
     public void notifyGameIsStarted() {
         try {
@@ -214,16 +239,6 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyBuyOk(String nickname, int slotID, int cardID) {
-        getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
-        if (!nickname.equals(getNickname()))
-            gamePanel.getNotifyLabel().setText(nickname + " bought a new card (ID: "+ cardID +" ) !");
-        else {
-            gamePanel.getNotifyLabel().setText("You bought the card correctly!");
-        }
-    }
-
-    @Override
     public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         litePlayerBoardsSetUp(nicknames);
@@ -233,95 +248,6 @@ public class Gui extends ClientView {
 
         this.setInGame(true);
         printOrder();
-    }
-
-    @Override
-    public void notifyLeaderDiscarded(int id, String nickname) {
-        if(gamePanel != null)
-            gamePanel.getNotifyLabel().setText("Leader discarded!");
-        else
-            printReply("Leader discarded!");
-
-        getMyHand().discardFromHand(id);
-    }
-
-    @Override
-    public void notifyLeaderActivated(int id, String nickname){
-        if(nickname.equals(getNickname()))
-            gamePanel.getNotifyLabel().setText("Leader activated!");
-        else {
-            gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
-            getSomeonesHand(nickname).addLeader(id);
-        }
-        getSomeonesHand(nickname).activateLeader(id);
-    }
-
-    @Override
-    public void notifyProductionOk(String senderNick) {
-        if (!senderNick.equals(getNickname()))
-            gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
-        else{
-            gamePanel.getNotifyLabel().setText("Production executed correctly!");
-        }
-    }
-
-    @Override
-    public void notifyMoveOk(String senderNick) {
-        gamePanel.getNotifyLabel().setText("The action on deposit has been executed correctly!\n");
-    }
-
-    @Override
-    public void notifyMarketUpdate(String selection, int selected) {
-        getLiteMarket().liteMarketUpdate(selection, selected);
-    }
-
-    @Override
-    public void notifyLastTurn() {
-        gamePanel.getNotifyLabel().setText("# THIS IS THE LAST TURN");
-    }
-
-    @Override
-    public void notifyWinner(ArrayList<String> winner) {
-        gamePanel.getNotifyLabel().setText("[#-_- Winner: "+ winner.toString() +" -_-#");
-    }
-
-    @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
-
-    }
-
-    @Override
-    public void notifyGameEnded() {
-        printReply("# The game is ended, you are now in the lobby");
-        this.setInGame(false);
-    }
-
-    @Override
-    public void onDisconnect(User user) {
-
-    }
-
-    @Override
-    public void notifyCardRemoved(int amount, Colour color, int level) {
-        gamePanel.getNotifyLabel().setText("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
-    }
-
-    @Override
-    public void notifyCardGridChanges(int oldID, int newID) {
-        getLiteCardGrid().gridUpdated(oldID, newID);
-    }
-
-    @Override
-    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
-    }
-
-    @Override
-    public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
-        if (added)
-            getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
-        else
-            getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
     }
 
     @Override
@@ -373,11 +299,76 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
-        getSomeonesLiteProduction(senderNick).addProductionSlot(productionAbility);
-        if(senderNick.equals(getNickname())){
-            gamePanel.getNotifyLabel().setText("You activated a new production!");
+    public void notifyBuyOk(String nickname, int slotID, int cardID) {
+        getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
+        if (!nickname.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(nickname + " bought a new card (ID: "+ cardID +" ) !");
+        else {
+            gamePanel.getNotifyLabel().setText("You bought the card correctly!");
         }
+    }
+
+    @Override
+    public void notifyProductionOk(String senderNick) {
+        if (!senderNick.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
+        else{
+            gamePanel.getNotifyLabel().setText("Production executed correctly!");
+        }
+    }
+
+    @Override
+    public void notifyMoveOk(String senderNick) {
+        gamePanel.getNotifyLabel().setText("The action on deposit has been executed correctly!\n");
+    }
+
+    @Override
+    public void notifyMarketUpdate(String selection, int selected) {
+        getLiteMarket().liteMarketUpdate(selection, selected);
+    }
+
+    @Override
+    public void notifyCardGridChanges(int oldID, int newID) {
+        getLiteCardGrid().gridUpdated(oldID, newID);
+    }
+
+    @Override
+    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+        setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
+        frame.setSize(1920,1080);
+        frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
+
+        mainPanel.add(discardLeaders, "discardLeaders");
+        cardLayout.show(mainPanel, "discardLeaders");
+    }
+
+    @Override
+    public void notifyLeaderDiscarded(int id, String nickname) {
+        if(gamePanel != null)
+            gamePanel.getNotifyLabel().setText("Leader discarded!");
+        else
+            printReply("Leader discarded!");
+
+        getMyHand().discardFromHand(id);
+    }
+
+    @Override
+    public void notifyLeaderActivated(int id, String nickname){
+        if(nickname.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText("Leader activated!");
+        else {
+            gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
+            getSomeonesHand(nickname).addLeader(id);
+        }
+        getSomeonesHand(nickname).activateLeader(id);
+    }
+
+    @Override
+    public void notifyCardRemoved(int amount, Colour color, int level) {
+        gamePanel.getNotifyLabel().setText("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
     }
 
     @Override
@@ -389,33 +380,58 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void onReconnected(){
-        loginPanel.setVisible(false);
-        cardLayout.show(mainPanel, "gamePanel");
+    public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
+        if (added)
+            getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
+        else
+            getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
     }
 
     @Override
-    public void onExitLobby() {
-
+    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
+        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
     }
 
     @Override
-    public void onJoinLobby() {
-
-    }
-
-    @Override
-    public void printChatMessage(String senderNick, String info, boolean all) {
-
-    }
-
-    @Override
-    public boolean readInput() {
-        int exit = 0;
-        while (exit ==0){
-            //CASE
+    public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
+        getSomeonesLiteProduction(senderNick).addProductionSlot(productionAbility);
+        if(senderNick.equals(getNickname())){
+            gamePanel.getNotifyLabel().setText("You activated a new production!");
         }
-        return false;
     }
 
+    @Override
+    public void notifyLastTurn() {
+        gamePanel.getNotifyLabel().setText("# THIS IS THE LAST TURN");
+    }
+
+    @Override
+    public void notifyWinner(ArrayList<String> winner) {
+        gamePanel.getNotifyLabel().setText("[#-_- Winner: "+ winner.toString() +" -_-#");
+    }
+
+    @Override
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
+
+    }
+
+    @Override
+    public void notifyGameEnded() {
+        printReply("# The game is ended, you are now in the lobby");
+        this.setInGame(false);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    @Override
+    public void printReply_uni(String payload, String nickname) {
+        printReply(payload);
+    }
+
+    @Override
+    public void printReply_everyOneElse(String payload, String nickname) {
+        printReply(payload);
+    }
+    //------------------------------------------------------------------------------------------------------------------
 }
