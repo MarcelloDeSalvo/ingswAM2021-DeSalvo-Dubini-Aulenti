@@ -24,11 +24,14 @@ public class LobbyRoomPanel extends JPanel {
         playerList = new JPanel();
         playerList.setBorder(BorderFactory.createEmptyBorder(200,50,200,100));
         playerList.setLayout(new GridLayout(4,1));
+
         playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
 
         lobbyOptions = new JPanel();
         lobbyOptions.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
-        lobbyOptions.setLayout(new GridLayout(0 , 2));
+        GridLayout gridLayout = new GridLayout(0,2);
+        gridLayout.setHgap(30);
+        lobbyOptions.setLayout(gridLayout);
 
         ButtonImage startButton = new ButtonImage("START", true);
         lobbyOptions.add(startButton);
