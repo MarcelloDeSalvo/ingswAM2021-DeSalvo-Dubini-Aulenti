@@ -14,6 +14,7 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
+import it.polimi.ingsw.view.ImageUtil;
 import it.polimi.ingsw.view.gui.panels.*;
 
 import javax.swing.*;
@@ -107,7 +108,7 @@ public class Gui extends ClientView {
 
     @Override
     public void printQuit(String nickname) {
-
+        printReply("Disconnected");
     }
 
     @Override
@@ -128,26 +129,62 @@ public class Gui extends ClientView {
 
     @Override
     public void printItsYourTurn(String nickname) {
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(ImageUtil.loadImage("/images/retrocerchi.png"));
 
+        JOptionPane.showMessageDialog(frame,
+                "IT'S YOUR TURN, CHOSE AN ACTION: " +
+                        "\n1) BUY A CARD (>CARDGRID then select a card) " +
+                        "\n2) SELECT FROM MARKET (>MARKET then select a row or column)" +
+                        "\n3) PRODUCE (>MY BOARD then select the Development Card to produce)"+
+                        "\n4) ACTIVATE LEADER (>MY BOARD then select the Leader Card to activate)"+
+                        "\n5) MANAGE DEPOSIT (>MOVE then select two deposit to switch)"+
+                        "\n6) END TURN (>END_TURN)" +
+                        "\n7) WATCH OTHER PLAYERS (>PLAYER NAME)" +
+                        "\n#) >HELP to see the full command list ",
+                "Mini HELP",
+                JOptionPane.INFORMATION_MESSAGE,
+                icon);
     }
 
     @Override
+    public void printOrder() {
+        if (!this.isInGame()) return;
+
+        ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
+
+        StringBuilder orderBuild = new StringBuilder();
+        orderBuild.append("This is the Turn Order:                \n");
+
+        for (int i = 0; i<randomOrder.size(); i++){
+            orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
+        }
+
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(ImageUtil.loadImage("/images/retrocerchi.png"));
+
+        JOptionPane.showMessageDialog(frame,
+                orderBuild.toString(),
+                "Turn Order",
+                JOptionPane.INFORMATION_MESSAGE,
+                icon);
+    }
+
+    //ASK---------------------------------------------------------------------------------------------------------------
+    @Override
     public void askForResources(String nickname, int qty) {
         System.out.println("Ho ricevuto il res set up");
-        ResourceSelectionPanel resourceSelectionPanel=new ResourceSelectionPanel(this);
+        ResourceSelectionPanel resourceSelectionPanel = new ResourceSelectionPanel(this);
         mainPanel.add(resourceSelectionPanel, "5");
         cardLayout.show(mainPanel, "5");
     }
 
     @Override
-    public void askForLeaderCardID(String nickname) {
-
-    }
+    public void askForLeaderCardID(String nickname) { }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
-
-    }
+    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) { }
+    //------------------------------------------------------------------------------------------------------------------
 
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
@@ -178,7 +215,12 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyBuyOk(String nickname, int slotID, int cardID) {
-
+        getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
+        if (!nickname.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(nickname + " bought a new card (ID: "+ cardID +" ) !");
+        else {
+            gamePanel.getNotifyLabel().setText("You bought the card correctly!");
+        }
     }
 
     @Override
@@ -188,7 +230,9 @@ public class Gui extends ClientView {
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
         infoLabel.setText("");
+
         this.setInGame(true);
+        printOrder();
     }
 
     @Override
@@ -214,27 +258,31 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyProductionOk(String senderNick) {
-
+        if (!senderNick.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
+        else{
+            gamePanel.getNotifyLabel().setText("Production executed correctly!");
+        }
     }
 
     @Override
     public void notifyMoveOk(String senderNick) {
-
+        gamePanel.getNotifyLabel().setText("The action on deposit has been executed correctly!\n");
     }
 
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
-
+        getLiteMarket().liteMarketUpdate(selection, selected);
     }
 
     @Override
     public void notifyLastTurn() {
-
+        gamePanel.getNotifyLabel().setText("# THIS IS THE LAST TURN");
     }
 
     @Override
-    public void notifyWinner(ArrayList<String> winners) {
-
+    public void notifyWinner(ArrayList<String> winner) {
+        gamePanel.getNotifyLabel().setText("[#-_- Winner: "+ winner.toString() +" -_-#");
     }
 
     @Override
@@ -244,7 +292,8 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyGameEnded() {
-
+        printReply("# The game is ended, you are now in the lobby");
+        this.setInGame(false);
     }
 
     @Override
@@ -259,17 +308,20 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyCardGridChanges(int oldID, int newID) {
-
+        getLiteCardGrid().gridUpdated(oldID, newID);
     }
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-
+        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
     }
 
     @Override
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
-
+        if (added)
+            getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
+        else
+            getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
     }
 
     @Override
@@ -289,24 +341,51 @@ public class Gui extends ClientView {
         gamePanel.getFaithPathPanel().incOtherRedCrossImages(nickname, faithPoints);
 
         if (!nickname.equals(getNickname()))
-            gamePanel.getNotifyLabel().setText(nickname+ " has discarded " + faithPoints+ " resources.\n Your current position has been incremented by " + faithPoints + " FAITH POINT");
+            gamePanel.getNotifyLabel().setText(nickname+ " has discarded " + faithPoints + " resources.\n Your current position has been incremented by " + faithPoints + " FAITH POINT");
 
-        gamePanel.getNotifyLabel().setText("Everybody's position (except "+ nickname+") has been incremented by " + faithPoints + " FAITH POINT");
+        gamePanel.getNotifyLabel().setText("Everybody's position (except " + nickname + ") has been incremented by " + faithPoints + " FAITH POINT");
     }
 
     @Override
     public void notifyPapalFavour(ArrayList<Integer> playerFavours, String senderNick) {
+        getLiteFaithPath().incrementPlayerFavours(playerFavours);
+        StringBuilder playersThatGotThePoints = new StringBuilder();
+        playersThatGotThePoints.append("A papal favour has been activated: ");
+        int i=0;
+        int eligiblePlayer=0;
+        int point = 0 ;
+        for (String nick: getLiteFaithPath().getNicknames()) {
+            if(playerFavours.get(i)!=0){
+                playersThatGotThePoints.append(nick).append(" ");
+                point = playerFavours.get(i);
+                eligiblePlayer++;
+            }
+            i++;
+        }
 
+        if (eligiblePlayer>1)
+            playersThatGotThePoints.append("were ");
+        else
+            playersThatGotThePoints.append("was ");
+
+        playersThatGotThePoints.append("eligible and received ").append(point).append(" VICTORY POINTS");
+        gamePanel.getNotifyLabel().setText(playersThatGotThePoints.toString());
     }
 
     @Override
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
-
+        getSomeonesLiteProduction(senderNick).addProductionSlot(productionAbility);
+        if(senderNick.equals(getNickname())){
+            gamePanel.getNotifyLabel().setText("You activated a new production!");
+        }
     }
 
     @Override
     public void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick) {
-
+        if (added)
+            getSomeonesLiteVault(senderNick).addToVault(container);
+        else
+            getSomeonesLiteVault(senderNick).removeFromVault(container);
     }
 
     public void onReconnected(){
@@ -326,11 +405,6 @@ public class Gui extends ClientView {
 
     @Override
     public void printChatMessage(String senderNick, String info, boolean all) {
-
-    }
-
-    @Override
-    public void printOrder() {
 
     }
 

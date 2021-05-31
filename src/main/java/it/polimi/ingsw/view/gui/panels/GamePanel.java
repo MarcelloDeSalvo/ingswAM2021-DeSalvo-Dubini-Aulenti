@@ -47,11 +47,11 @@ public class GamePanel extends JPanel {
         cardGridPanel = new CardGridPanel(gui, liteCardGrid);
         cardGridPanel.setOpaque(false);
 
-        main.add(playerBoardPanel,"0");
-        main.add(faithPathPanel,"1");
-        main.add(cardGridPanel, "3");
+        main.add(playerBoardPanel,"playerBoardPanel");
+        main.add(faithPathPanel,"faithPathPanel");
+        main.add(cardGridPanel, "cardGridPanel");
 
-        cardLayout.show(main,"0");
+        cardLayout.show(main,"playerBoardPanel");
 
         buttonSection();
         topPanel();
@@ -81,16 +81,16 @@ public class GamePanel extends JPanel {
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
         JButton show_my_board = new ButtonImage("MY BOARD", 22,true);
-        show_my_board.addActionListener(e -> cardLayout.show(main, "0"));
+        show_my_board.addActionListener(e -> cardLayout.show(main, "playerBoardPanel"));
 
         JButton showFaithpath = new ButtonImage("FAITHPATH", 22,true);
-        showFaithpath.addActionListener(e -> cardLayout.show(main, "1"));
+        showFaithpath.addActionListener(e -> cardLayout.show(main, "faithPathPanel"));
 
         JButton showMarket = new ButtonImage("MARKET", 22,true);
         showMarket.addActionListener(e -> cardLayout.show(main, "2"));
 
         JButton showCardGrid = new ButtonImage("CARD GRID", 22,true);
-        showCardGrid.addActionListener(e -> cardLayout.show(main, "3"));
+        showCardGrid.addActionListener(e -> cardLayout.show(main, "cardGridPanel"));
 
         JButton showPlayer = new ButtonImage("PLAYER", 22,true);
         showPlayer.addActionListener(e -> cardLayout.show(main, "4"));

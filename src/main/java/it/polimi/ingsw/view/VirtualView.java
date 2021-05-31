@@ -132,7 +132,7 @@ public class VirtualView implements View {
     public void printItsYourTurn(String nickname){
         currPlayer = nickname;
         notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
-        printReply_everyOneElse("@ It is "+ nickname +"'s turn", nickname);
+        printReply_everyOneElse("@ It is " + nickname + "'s turn", nickname);
     }
 
     public void printTurnHelp(String nickname){
@@ -221,7 +221,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
-        printReply("LORENZO has removed " + amount + " "+color+ " development cards with level = " + level);
+        printReply("LORENZO has removed " + amount + " " + color + " development cards with level = " + level);
     }
 
     @Override
@@ -287,7 +287,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames){
-        StringBuilder scoreboard= new StringBuilder("\n#_SCORE BOARD_#\n");
+        StringBuilder scoreboard = new StringBuilder("\n#_SCORE BOARD_#\n");
         int i = 0;
         for (String nick: nicknames) {
             scoreboard.append(" °-> ").append(nick);
