@@ -9,7 +9,7 @@ import java.awt.*;
 public class BackgroundImagePanel extends JPanel {
 
     private final String path;
-    private Image backGroundImg;
+    private final Image backGroundImg;
     private final int x;
     private final int y;
     private Graphics2D graphics2D;

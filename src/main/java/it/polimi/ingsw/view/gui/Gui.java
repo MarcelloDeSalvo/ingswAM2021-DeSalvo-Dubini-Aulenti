@@ -290,13 +290,23 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyCurrentPlayerIncrease(int faithpoints, String nickname) {
+    public void notifyCurrentPlayerIncrease(int faithPoints, String nickname) {
+        getLiteFaithPath().incrementPosition(faithPoints, nickname);
 
+        if (!nickname.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(nickname + "'s position has been incremented by " + faithPoints + " FAITH POINT");
+        else
+            gamePanel.getNotifyLabel().setText("Your current position has been incremented by " + faithPoints + " FAITH POINT");
     }
 
     @Override
-    public void notifyOthersIncrease(int faithpoints, String nickname) {
+    public void notifyOthersIncrease(int faithPoints, String nickname) {
+        getLiteFaithPath().incrementOthersPositions(faithPoints, nickname);
 
+        if (!nickname.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(nickname+ " has discarded " + faithPoints+ " resources.\n Your current position has been incremented by " + faithPoints + " FAITH POINT");
+
+        gamePanel.getNotifyLabel().setText("Everybody's position (except "+ nickname+") has been incremented by " + faithPoints + " FAITH POINT");
     }
 
     @Override
@@ -402,17 +412,17 @@ public class Gui extends ClientView {
                 break;
 
             case NOTIFY_FAITHPATH_CURRENT:
-                FaithPathUpdateMessage faithPathUpdateMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
+                FaithPathUpdateMessage faithPathUpdateMessage = gson.fromJson(mex,FaithPathUpdateMessage.class);
                 notifyCurrentPlayerIncrease(faithPathUpdateMessage.getId(), senderNick);
                 break;
 
             case NOTIFY_FAITHPATH_OTHERS:
-                FaithPathUpdateMessage faithPathUpdateOthersMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
+                FaithPathUpdateMessage faithPathUpdateOthersMessage = gson.fromJson(mex,FaithPathUpdateMessage.class);
                 notifyOthersIncrease(faithPathUpdateOthersMessage.getId(), senderNick);
                 break;
 
             case NOTIFY_FAITHPATH_FAVOURS:
-                PapalFavourUpdateMessage papalFavourUpdateMessage=gson.fromJson(mex, PapalFavourUpdateMessage.class);
+                PapalFavourUpdateMessage papalFavourUpdateMessage = gson.fromJson(mex, PapalFavourUpdateMessage.class);
                 notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
                 break;
 
@@ -454,7 +464,7 @@ public class Gui extends ClientView {
                 break;
 
             case DISCARD_OK:
-                IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
+                IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
                 notifyLeaderDiscarded(idMessage.getId(),"");
                 break;
 

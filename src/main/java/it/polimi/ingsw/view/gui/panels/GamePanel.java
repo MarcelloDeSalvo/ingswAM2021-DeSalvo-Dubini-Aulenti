@@ -98,9 +98,6 @@ public class GamePanel extends JPanel {
         JButton increase = new ButtonImage("Increase Pos", 22,true);
         increase.addActionListener(e -> faithPathPanel.incRedCrossImages("LORENZO"));
 
-        JButton showHand = new ButtonImage("HAND", 22,true);
-        showHand.addActionListener(e -> cardLayout.show(main, "5"));
-
         JButton cheat = new ButtonImage("CHEAT", 22,true);
         cheat.addActionListener(
                 e -> gui.send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(gui.getNickname()).build()));
@@ -123,8 +120,6 @@ public class GamePanel extends JPanel {
         buttons.add(show_my_board);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(showCardGrid);
-        buttons.add(Box.createRigidArea(new Dimension(20,30)));
-        buttons.add(showHand);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(increase);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));

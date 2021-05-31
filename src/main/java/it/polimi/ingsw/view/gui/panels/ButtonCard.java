@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 
 public class ButtonCard extends JButton {
 
-    private int cardID;
-    private Gui gui;
+    private final int cardID;
+    private final Gui gui;
 
     /**
      * ButtonCard with an automatic image resize
@@ -38,7 +38,7 @@ public class ButtonCard extends JButton {
         super.paintComponent(g);
 
         if(gui.getMyHand().getStatusFromSpecificLeaderCard(cardID) == Status.ACTIVE) {
-            this.setBorder(BorderFactory.createLineBorder(Color.RED, 8));
+            this.setBorder(BorderFactory.createLineBorder(Color.RED, 5));
             this.setBorderPainted(true);
         }
 

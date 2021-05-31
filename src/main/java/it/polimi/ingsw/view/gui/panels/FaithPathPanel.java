@@ -4,6 +4,7 @@ import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.gui.Gui;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -25,12 +26,7 @@ public class FaithPathPanel extends BackgroundImagePanel {
         points.add(new Point(80, 296));
         points.add(new Point(115, 296));
 
-        ArrayList<String> strings = new ArrayList<>();
         redCrossImages = new ArrayList<>();
-        strings.add("MARCO");
-        strings.add("LORENZO");
-        strings.add("FRANCO");
-        liteFaithPath.setUpPositions(strings);
 
         int i = 0;
         for (String nickname: liteFaithPath.getNicknames()) {

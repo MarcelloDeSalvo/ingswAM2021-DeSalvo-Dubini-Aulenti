@@ -68,7 +68,7 @@ public class Cli extends ClientView {
                 break;
 
             case NOTIFY_FAITHPATH_CURRENT:
-                FaithPathUpdateMessage faithPathUpdateMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
+                FaithPathUpdateMessage faithPathUpdateMessage = gson.fromJson(mex,FaithPathUpdateMessage.class);
                 notifyCurrentPlayerIncrease(faithPathUpdateMessage.getId(), senderNick);
                 break;
 
@@ -78,7 +78,7 @@ public class Cli extends ClientView {
                 break;
 
             case NOTIFY_FAITHPATH_FAVOURS:
-                PapalFavourUpdateMessage papalFavourUpdateMessage=gson.fromJson(mex, PapalFavourUpdateMessage.class);
+                PapalFavourUpdateMessage papalFavourUpdateMessage = gson.fromJson(mex, PapalFavourUpdateMessage.class);
                 notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
                 break;
 
