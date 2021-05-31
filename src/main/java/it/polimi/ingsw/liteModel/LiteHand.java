@@ -69,4 +69,13 @@ public class LiteHand {
         }
         return null;
     }
+
+    public Status getStatusFromSpecificLeaderCard (int requestedID) {
+        for (LeaderCard lc: leaderCards) {
+            if(lc.getId() == requestedID)
+                return lc.getStatus();
+        }
+
+        return null;
+    }
 }

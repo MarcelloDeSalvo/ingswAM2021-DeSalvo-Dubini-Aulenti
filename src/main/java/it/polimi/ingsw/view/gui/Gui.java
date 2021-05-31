@@ -214,6 +214,7 @@ public class Gui extends ClientView {
             gamePanel.getNotifyLabel().setText("Leader discarded!");
         else
             printReply("Leader discarded!");
+
         getMyHand().discardFromHand(id);
     }
 

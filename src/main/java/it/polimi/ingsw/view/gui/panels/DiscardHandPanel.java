@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 public class DiscardHandPanel extends JPanel {
 
-    private LiteHand liteHand;
-    JPanel bottomPanel;
-    Gui gui;
+    private final LiteHand liteHand;
+    private final JPanel bottomPanel;
+    private final Gui gui;
+    private int discountCounter = 0;
 
     public DiscardHandPanel(LiteHand hand, Gui gui){
         super();
@@ -54,7 +55,12 @@ public class DiscardHandPanel extends JPanel {
 
             bottomPanel.add(lc);
             lc.addActionListener(e->{
+                if(discountCounter >= 2)
+                    return;
+
                 gui.send(new IdMessage(Command.DISCARD_LEADER, id, gui.getNickname()));
+                discountCounter++;
+
                 bottomPanel.remove(lc);
                 bottomPanel.repaint();
             });

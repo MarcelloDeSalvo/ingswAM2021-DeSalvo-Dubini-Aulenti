@@ -26,7 +26,6 @@ public class ButtonImage extends JButton {
         this.setPreferredSize(new Dimension(scaledDimension.width, scaledDimension.height));
     }
 
-
     public ButtonImage(String text, int fontSize, boolean mode) {
         super();
         this.setText(text);
@@ -34,9 +33,7 @@ public class ButtonImage extends JButton {
         this.setBorder(new LineBorder(new Color(219, 139, 0)));
         this.setForeground(new Color(255, 255, 255));
         this.setBackground(new Color(241, 153, 0));
-        this.setMargin(new Insets(
-                10,30,10,30
-        ));
+        this.setMargin(new Insets(10,30,10,30));
     }
 
     public ButtonImage(String text, boolean mode) {
@@ -79,6 +76,4 @@ public class ButtonImage extends JButton {
             System.out.println("Button image not found: " +path);
         }
     }
-
-
 }
