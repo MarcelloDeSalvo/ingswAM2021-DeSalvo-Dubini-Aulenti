@@ -30,10 +30,12 @@ public class PlayerBoardPanel extends JLayeredPane {
         pl0.setOpaque(false);
 
         JPanel pl1 = new JPanel();
+        pl1.setLayout(new BorderLayout());
+        pl1.setBorder(new EmptyBorder(30,20,70,0));
         LabelImage boardImg = new LabelImage("/images/PlayerBoard.jpg");
         pl1.add(boardImg);
         pl1.setOpaque(false);
-        pl1.setBorder(new EmptyBorder(20,420,400,40));
+
         //BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
         //pl1.setBounds(0, 0, 1802, 877);
         //pl1.setWidth(1622);
@@ -72,15 +74,15 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         JPanel clickableSlot1 = new JPanel();
         clickableSlot1.setBackground(new Color(100,100,200,200));
-        clickableSlot1.setBounds(800,400,173,262);
+        clickableSlot1.setBounds(680,200,250,350);
 
         JPanel clickableSlot2 = new JPanel();
         clickableSlot2.setBackground(new Color(100,100,200,200));
-        clickableSlot2.setBounds(1000,400,173,262);
+        clickableSlot2.setBounds(980,200,250,350);
 
         JPanel clickableSlot3 = new JPanel();
         clickableSlot3.setBackground(new Color(100,100,200,200));
-        clickableSlot3.setBounds(1200,400,173,262);
+        clickableSlot3.setBounds(1310,200,250,350);
 
         layer1.add(clickableSlot1);
         layer1.add(clickableSlot2);
@@ -142,7 +144,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         deposit.add(depositRow3);
 
 
-        deposit.setBounds(200,200,400,400);
+        deposit.setBounds(100,100,400,400);
         layer1.add(deposit);
 
         //---------------------------------------------------------------------------------------------------------------------------

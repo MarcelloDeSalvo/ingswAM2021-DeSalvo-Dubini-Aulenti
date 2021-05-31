@@ -22,12 +22,10 @@ public class Cli extends ClientView {
 
     private String nicknameTemp = null;
     private final Scanner stdIn;
-    private final Gson gson ;
 
     public Cli() throws FileNotFoundException {
         super();
         stdIn = new Scanner(System.in);
-        gson = new Gson();
     }
 
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------

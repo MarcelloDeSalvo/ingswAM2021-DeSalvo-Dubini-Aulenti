@@ -25,10 +25,8 @@ import java.util.List;
 
 public class Gui extends ClientView {
 
-    private final Gson gson ;
-
     private JPanel mainPanel;
-    private CardLayout cardLayout;      //used for changing scenes
+    private CardLayout cardLayout;    //used for changing scenes
 
     private LoginPanel loginPanel;
     private LobbyPanel lobbyPanel;
@@ -40,8 +38,6 @@ public class Gui extends ClientView {
 
     public Gui() throws FileNotFoundException{
         super();
-        gson = new Gson();
-
         SwingUtilities.invokeLater(this::createAndShowGUI);
     }
 
@@ -211,6 +207,7 @@ public class Gui extends ClientView {
         cardLayout.show(mainPanel, "gamePanel");
 
         gamePanel.getNotifyLabel().setText("THE GAME HAS BEEN STARTED!");
+        infoLabel.setText("");
     }
 
     @Override
@@ -229,7 +226,6 @@ public class Gui extends ClientView {
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
-        infoLabel.setText("");
 
         this.setInGame(true);
         printOrder();
