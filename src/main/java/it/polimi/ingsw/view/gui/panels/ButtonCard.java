@@ -41,7 +41,5 @@ public class ButtonCard extends JButton {
             this.setBorder(BorderFactory.createLineBorder(Color.RED, 5));
             this.setBorderPainted(true);
         }
-
     }
-
 }

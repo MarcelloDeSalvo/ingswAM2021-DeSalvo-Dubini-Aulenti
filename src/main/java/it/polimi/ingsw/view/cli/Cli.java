@@ -593,12 +593,16 @@ public class Cli extends ClientView {
     @Override
     public void printOrder() {
         if (!this.isInGame()) return;
+
         ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
+
         StringBuilder orderBuild = new StringBuilder();
-        orderBuild.append("This is the Turn Order \n");
+        orderBuild.append("This is the Turn Order: \n");
+
         for (int i = 0; i<randomOrder.size(); i++){
             orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
         }
+
         System.out.println(orderBuild.toString());
     }
 
@@ -691,11 +695,9 @@ public class Cli extends ClientView {
         if (!nickname.equals(getNickname()))
             System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
         else {
-            //printReply_uni("You bought the card correctly!", nickname); ??
             System.out.println("You bought the card correctly!");
             printProduction();
         }
-
     }
 
     @Override
@@ -728,7 +730,7 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
-        getLiteMarket().liteMarketUpdate(selection,selected);
+        getLiteMarket().liteMarketUpdate(selection, selected);
     }
 
     @Override
@@ -803,8 +805,6 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick) {
-        //if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
-
         if (added)
             getSomeonesLiteVault(senderNick).addToVault(container);
         else
@@ -813,15 +813,11 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        //if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
-
         getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
     }
 
     @Override
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
-        //if(!senderNick.equals(getNickname())) return;  //Da cambiare con un altro metodo/comando se deve notificare cambiamenti di altri
-
         if (added)
             getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
         else
