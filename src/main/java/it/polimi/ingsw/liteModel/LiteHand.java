@@ -20,7 +20,7 @@ public class LiteHand {
     }
 
     public LiteHand(ArrayList<LeaderCard> leaderCards) {
-        this.hand=new ArrayList<>();
+        this.hand = new ArrayList<>();
         this.leaderCards = new ArrayList<>(leaderCards);
     }
 
@@ -57,4 +57,16 @@ public class LiteHand {
     }
 
     public ArrayList<Integer> getHand() {return hand; }
+
+    public ArrayList<LeaderCard> getLeaderCards() {
+        return leaderCards;
+    }
+
+    public LeaderCard getSpecificLeaderCard (int requestedID) {
+        for (LeaderCard lc: leaderCards) {
+            if(lc.getId() == requestedID)
+                return lc;
+        }
+        return null;
+    }
 }

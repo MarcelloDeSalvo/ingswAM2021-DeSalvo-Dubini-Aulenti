@@ -205,14 +205,22 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyLeaderDiscarded(int id, String nickname) {
-        System.out.println("Leader discarded!\n");
+        if(gamePanel != null)
+            gamePanel.getNotifyLabel().setText("Leader discarded!");
+        else
+            printReply("Leader discarded!");
         getMyHand().discardFromHand(id);
-
     }
 
     @Override
-    public void notifyLeaderActivated(int id, String nickname) {
-
+    public void notifyLeaderActivated(int id, String nickname){
+        if(nickname.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText("Leader activated!");
+        else {
+            gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
+            getSomeonesHand(nickname).addLeader(id);
+        }
+        getSomeonesHand(nickname).activateLeader(id);
     }
 
     @Override
@@ -257,7 +265,7 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
-
+        gamePanel.getNotifyLabel().setText("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
     }
 
     @Override
@@ -375,7 +383,6 @@ public class Gui extends ClientView {
 
             case NOTIFY_GAME_STARTED:
                 notifyGameIsStarted();
-                System.out.println("cccc");
                 break;
 
             case NOTIFY_CARDGRID:

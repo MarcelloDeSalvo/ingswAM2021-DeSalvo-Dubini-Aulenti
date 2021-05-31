@@ -105,5 +105,4 @@ public class LobbyPanel extends BackgroundImagePanel {
                 gui.send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(menu.getSelectedItem().toString()), gui.getNickname()));
         }
     }
-
 }

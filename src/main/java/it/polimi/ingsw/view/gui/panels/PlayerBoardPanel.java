@@ -1,9 +1,19 @@
 package it.polimi.ingsw.view.gui.panels;
 
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.Status;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.IdMessage;
+import it.polimi.ingsw.view.gui.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class PlayerBoardPanel extends JLayeredPane {
 
@@ -15,14 +25,41 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
-        this.setBackground(Color.BLACK);
 
-        BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 0, false);
-        pl1.setBounds(50, 0, 1802, 887);
+        //LAYER 0 -----------------------------------------------------------------------------------------------------------------------
+        BackgroundImagePanel pl0 = new BackgroundImagePanel("/images/daVinci.jpg", 100, 0, false);
+        pl0.setBounds(0, 0, 1920, 1200);
+        pl0.setWidth(1920);
+        pl0.setHeight(1200);
+        pl0.setLayout(new BorderLayout());
 
-        this.add(pl1, DEFAULT_LAYER);
+        BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
+        pl1.setBounds(0, 0, 1802, 877);
+        pl1.setWidth(1622);
+        pl1.setHeight(789);
 
-        //LAYER 1 ------------------------------------------------------------------------------------------------------
+        JPanel leadersPanel = new JPanel();
+        leadersPanel.setLayout(new BoxLayout(leadersPanel, BoxLayout.Y_AXIS));
+        ArrayList<Integer> IDs = gui.getMyHand().getHand();
+
+        leadersPanel.add(Box.createVerticalGlue());
+        for (Integer id : IDs) {
+            ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
+            leadersPanel.add(lc, BorderLayout.CENTER);
+
+            lc.addActionListener(e-> leaderActionWindow(leadersPanel, id, lc));
+
+            leadersPanel.add(Box.createRigidArea(new Dimension(30, 50)));
+        }
+        leadersPanel.add(Box.createVerticalGlue());
+
+        pl0.add(leadersPanel, BorderLayout.EAST);
+        pl0.add(pl1, BorderLayout.CENTER);
+        pl0.setBounds(0, 0, 1920, 980);
+
+        this.add(pl0, DEFAULT_LAYER);
+
+        //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();
         layer1.setBounds(0,0,1920, 980);
         layer1.setBackground(new Color(220,100,100,100));
@@ -108,5 +145,47 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         this.add(layer1, JLayeredPane.MODAL_LAYER);
 
+    }
+
+    private void leaderActionWindow (JPanel currPanel, int selectedID, ButtonImage lc){
+        JPopupMenu popupmenu = new JPopupMenu("Leader Action");
+        JMenuItem activate = new JMenuItem("Activate");
+        JMenuItem discard = new JMenuItem("Discard");
+
+        popupmenu.add(activate);
+        popupmenu.add(discard);
+
+        lc.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                popupmenu.show(lc , e.getX(), e.getY());
+            }
+        });
+
+        activate.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                LeaderCard currLeaderCard = gui.getMyHand().getSpecificLeaderCard(selectedID);
+
+                if(currLeaderCard == null || currLeaderCard.getStatus() == Status.ACTIVE)
+                    return;
+
+                gui.send(new IdMessage(Command.ACTIVATE_LEADER, selectedID, gui.getNickname()));
+                lc.setBorder(BorderFactory.createLineBorder(Color.RED, 8));
+                lc.setBorderPainted(true);
+                currPanel.repaint();
+            }
+        });
+
+        discard.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                LeaderCard currLeaderCard = gui.getMyHand().getSpecificLeaderCard(selectedID);
+
+                if(currLeaderCard == null || currLeaderCard.getStatus() == Status.ACTIVE)
+                    return;
+
+                gui.send(new IdMessage(Command.DISCARD_LEADER, selectedID, gui.getNickname()));
+                currPanel.remove(lc);
+                currPanel.repaint();
+            }
+        });
     }
 }

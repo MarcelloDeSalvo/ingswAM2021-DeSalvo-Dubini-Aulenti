@@ -68,7 +68,7 @@ public class ButtonImage extends JButton {
      * @param path is the path of the image
      * @param scaledDimension is the dimension that i want to set to the image
      */
-    public void setScaledImage(ButtonImage buttonImage, String path,Dimension scaledDimension){
+    public void setScaledImage(ButtonImage buttonImage, String path, Dimension scaledDimension){
         try {
             BufferedImage originalImage = ImageIO.read(this.getClass().getResourceAsStream(path));
             Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);

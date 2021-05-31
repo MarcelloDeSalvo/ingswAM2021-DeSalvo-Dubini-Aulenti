@@ -900,7 +900,6 @@ public class Cli extends ClientView {
             getSomeonesHand(nickname).addLeader(id);
         }
         getSomeonesHand(nickname).activateLeader(id);
-
     }
 
     @Override
