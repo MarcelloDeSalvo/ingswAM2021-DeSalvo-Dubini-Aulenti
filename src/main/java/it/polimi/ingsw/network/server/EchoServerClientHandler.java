@@ -69,7 +69,7 @@ public class EchoServerClientHandler implements Runnable {
                             out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
                                     .setInfo("Sorry, but the nickname is already in use. Try submitting another one again").build().serialize());
                         else {
-                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                            out.println(new Message.MessageBuilder().setCommand(Command.LOGIN)
                                     .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
 
                             ServerReceiver serverReceiver = new ServerReceiver(socket, in);

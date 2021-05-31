@@ -1,17 +1,13 @@
 package it.polimi.ingsw.view.gui.panels;
 
-import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.IdMessage;
-import it.polimi.ingsw.view.gui.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -37,7 +33,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         LabelImage boardImg = new LabelImage("/images/PlayerBoard.jpg");
         pl1.add(boardImg);
         pl1.setOpaque(false);
-        pl1.setBorder(new EmptyBorder(20,120,400,40));
+        pl1.setBorder(new EmptyBorder(20,420,400,40));
         //BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
         //pl1.setBounds(0, 0, 1802, 877);
         //pl1.setWidth(1622);

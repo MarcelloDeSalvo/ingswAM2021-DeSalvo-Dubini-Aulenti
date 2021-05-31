@@ -151,7 +151,7 @@ public class VirtualView implements View {
 
     @Override
     public void askForResources(String nickname, int qty) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.RESOURCES_SET_UP)
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.ASK_SETUP_RESOURCES)
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
 
@@ -166,7 +166,7 @@ public class VirtualView implements View {
         }
 
         UserManager.notifyUsers(connectedPlayers,
-                new Message.MessageBuilder().setCommand(Command.ASK_FOR_RESOURCES)
+                new Message.MessageBuilder().setCommand(Command.ASK_MARKET_DEST)
                         .setInfo(marketOutChoice.toString()).setNickname(nickname).build());
     }
     //------------------------------------------------------------------------------------------------------------------

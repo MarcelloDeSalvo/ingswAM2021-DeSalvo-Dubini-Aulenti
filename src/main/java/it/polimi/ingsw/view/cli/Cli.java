@@ -10,6 +10,8 @@ import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -29,161 +31,6 @@ public class Cli extends ClientView {
     }
 
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
-    @Override
-    public void readUpdates(String mex){
-        Message deserializedMex = gson.fromJson(mex, Message.class);
-
-        Command command = deserializedMex.getCommand();
-        String senderNick = deserializedMex.getSenderNickname();
-
-
-        switch (command){
-
-            case LOGIN:
-                printReply(deserializedMex.getInfo());
-                this.setNickname(nicknameTemp);
-                break;
-
-            case HELLO:
-                printHello();
-                break;
-
-            case PING:
-                send(new Message.MessageBuilder().setCommand(Command.PONG).
-                        setNickname(this.getNickname()).build());
-                break;
-
-            case NOTIFY_GAME_STARTED:
-                notifyGameIsStarted();
-                break;
-
-            case NOTIFY_CARDGRID:
-                NotifyCardGrid notifyCardGrid = gson.fromJson(mex, NotifyCardGrid.class);
-                notifyCardGridChanges(notifyCardGrid.getOldID(), notifyCardGrid.getNewID());
-                break;
-
-            case NOTIFY_HAND:
-                ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                notifyCardsInHand(showHandMessage.getCardsID(), senderNick);
-                break;
-
-            case NOTIFY_FAITHPATH_CURRENT:
-                FaithPathUpdateMessage faithPathUpdateMessage = gson.fromJson(mex,FaithPathUpdateMessage.class);
-                notifyCurrentPlayerIncrease(faithPathUpdateMessage.getId(), senderNick);
-                break;
-
-            case NOTIFY_FAITHPATH_OTHERS:
-                FaithPathUpdateMessage faithPathUpdateOthersMessage= gson.fromJson(mex,FaithPathUpdateMessage.class);
-                notifyOthersIncrease(faithPathUpdateOthersMessage.getId(), senderNick);
-                break;
-
-            case NOTIFY_FAITHPATH_FAVOURS:
-                PapalFavourUpdateMessage papalFavourUpdateMessage = gson.fromJson(mex, PapalFavourUpdateMessage.class);
-                notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
-                break;
-
-            case NOTIFY_VAULT_UPDATE:
-                SendContainer vaultChanges = gson.fromJson(mex, SendContainer.class);
-                notifyVaultChanges(vaultChanges.getContainer(), vaultChanges.isAdded(), senderNick);
-                break;
-
-            case PICK_FROM_MARKET:
-                MarketMessage marketMessage=gson.fromJson(mex,MarketMessage.class);
-                notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
-                break;
-
-            case NOTIFY_NEW_DEPOSIT:
-                NewDepositMessage newDepositMessage = gson.fromJson(mex, NewDepositMessage.class);
-                notifyNewDepositSlot(newDepositMessage.getMaxDim(), newDepositMessage.getResourceType(), senderNick);
-                break;
-
-            case NOTIFY_DEPOSIT_UPDATE:
-                 SendContainer depositUpdate = gson.fromJson(mex, SendContainer.class);
-                 notifyDepositChanges(depositUpdate.getDestinationID(), depositUpdate.getContainer(), depositUpdate.isAdded(), senderNick);
-                 break;
-
-            case NOTIFY_NEW_PRODSLOT:
-                NewProductionSlotMessage newProductionSlotMessage = gson.fromJson(mex, NewProductionSlotMessage.class);
-                notifyNewProductionSlot(newProductionSlotMessage.getProductionAbility(), senderNick);
-                break;
-
-            case ASK_FOR_RESOURCES:
-                askForResources(senderNick, 0);
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case RESOURCES_SET_UP:
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case DISCARD_OK:
-                IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
-                notifyLeaderDiscarded(idMessage.getId(),"");
-                break;
-
-            case ACTIVATE_OK:
-                IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
-                notifyLeaderActivated(activatedLeader.getId(), activatedLeader.getSenderNickname());
-                break;
-
-            case BUY_OK:
-                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-                notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
-                break;
-
-            case PRODUCE_OK:
-                notifyProductionOk(senderNick);
-                break;
-
-            case MANAGE_DEPOSIT_OK:
-                notifyMoveOk(senderNick);
-                break;
-
-            case GAME_SETUP:
-                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
-                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
-                break;
-
-            case END_GAME:
-                notifyGameEnded();
-                break;
-
-            case LOBBY_LIST:
-                LobbyListMessage lobbyListMessage = gson.fromJson(mex, LobbyListMessage.class);
-                printLobby(lobbyListMessage.getLobbiesInfos());
-                break;
-
-            case SHOW_TURN_HELP:
-                printItsYourTurn(senderNick);
-                break;
-
-            case EXIT_LOBBY:
-            case JOIN_LOBBY:
-            case USER_JOINED_LOBBY:
-            case USER_LEFT_LOBBY:
-            case REPLY:
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case PLAYER_LIST:
-                StringsMessage stringsMessage = gson.fromJson(mex, StringsMessage.class);
-                printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
-                break;
-
-            case CHAT_ALL:
-                System.out.print(Color.ANSI_PURPLE.escape() + senderNick + " in ALL chat:" + Color.RESET);
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case CHAT:
-                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
-                System.out.print(Color.ANSI_BLUE.escape() + chatMessage.getReceiver() + Color.RESET + " whispers you: ");
-                printReply(deserializedMex.getInfo());
-                break;
-
-        }
-    }
-
     @Override
     public boolean readInput() {
         String userInput;
@@ -553,80 +400,99 @@ public class Cli extends ClientView {
         send(sendContainer);
         return true;
     }
+    //------------------------------------------------------------------------------------------------------------------
 
+
+    //OnEvent-----------------------------------------------------------------------------------------------------------
     @Override
     public void onDisconnect(User user) {
+    }
+
+    @Override
+    public void onReconnected(){
+    }
+
+    @Override
+    public void onLogin(String info) {
+        System.out.println(info);
+        this.setNickname(nicknameTemp);
+    }
+
+    @Override
+    public void onExitLobby() {
+    }
+
+    @Override
+    public void onJoinLobby() {
     }
     //------------------------------------------------------------------------------------------------------------------
 
 
-    //PRINTS AND NOTIFIES OF THE VIEW ----------------------------------------------------------------------------------
+    //GENERIC PRINTS----------------------------------------------------------------------------------------------------
     public void printHelp(){
         System.out.println(
                 "#_HELP SECTION_#" + "\n" + "\n" +
-                "Syntax: "+"\n"+
-                "[Short Command] COMMAND parameter1 parameter2 ecc.." + "\n" + "\n" +
-                "##############################[NETWORK]##############################" + "\n" +
-                "--------GLOBAL COMMANDS (can be used everywhere)---------" + "\n" +
-                "> [Q] QUIT " + "\n" +
-                "> CHAT receiver_nickname message" + "\n" +
-                "> CHAT_ALL message" + "\n" +
+                        "Syntax: "+"\n"+
+                        "[Short Command] COMMAND parameter1 parameter2 ecc.." + "\n" + "\n" +
+                        "##############################[NETWORK]##############################" + "\n" +
+                        "--------GLOBAL COMMANDS (can be used everywhere)---------" + "\n" +
+                        "> [Q] QUIT " + "\n" +
+                        "> CHAT receiver_nickname message" + "\n" +
+                        "> CHAT_ALL message" + "\n" +
 
-                "\n" + "--------LOBBY MANAGER COMMANDS---------" + "\n" +
-                "> [J] JOIN lobby_name" + "\n" +
-                "> [CR] CREATE lobby_name max_num_of_players" + "\n" +
-                "> [R] REFRESH" + "\n" +
+                        "\n" + "--------LOBBY MANAGER COMMANDS---------" + "\n" +
+                        "> [J] JOIN lobby_name" + "\n" +
+                        "> [CR] CREATE lobby_name max_num_of_players" + "\n" +
+                        "> [R] REFRESH" + "\n" +
 
-                "\n" + "--------LOBBY COMMANDS---------" + "\n" +
-                "> [EL] EXIT_LOBBY " + "\n" +
-                "> [PL] PLAYER_LIST " + "\n" +
-                "> [SG] START_GAME " + "\n" +
+                        "\n" + "--------LOBBY COMMANDS---------" + "\n" +
+                        "> [EL] EXIT_LOBBY " + "\n" +
+                        "> [PL] PLAYER_LIST " + "\n" +
+                        "> [SG] START_GAME " + "\n" +
 
-                "\n" +"\n" + "##############################[GAME]##############################" +
-                "\n" + "--------SET_UP PHASE COMMANDS---------" + "\n" +
-                "> [D] DISCARD leaderID"+ "\n" +
-                "> [S] SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
+                        "\n" +"\n" + "##############################[GAME]##############################" +
+                        "\n" + "--------SET_UP PHASE COMMANDS---------" + "\n" +
+                        "> [D] DISCARD leaderID"+ "\n" +
+                        "> [S] SELECT ResourceType 'DEPOSIT' depositID"+ "\n" +
 
-                "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
-                "> [B] BUY DevelopmentCardID ProductionSlotID " + "\n" +
-                "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
-                "> DONE" + "\n" + "\n" +
+                        "\n" + "--------TURN_PHASE COMMANDS---------" + "\n" +
+                        "> [B] BUY DevelopmentCardID ProductionSlotID " + "\n" +
+                        "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
+                        "> DONE" + "\n" + "\n" +
 
-                "> [M] MARKET 'Row' or 'Column' number" + "\n" +
-                "> [D] PUT ResourceType 'IN DEPOSIT' depositID" + "\n" +
-                "> [C] CONVERSION ResourceType" + "\n" + "\n" +
+                        "> [M] MARKET 'Row' or 'Column' number" + "\n" +
+                        "> [D] PUT ResourceType 'IN DEPOSIT' depositID" + "\n" +
+                        "> [C] CONVERSION ResourceType" + "\n" + "\n" +
 
-                "> [P] PRODUCE productionID1 productionID2  ...  'DONE' "+ "\n" +
-                "> [F] FILL ResourceType1 ResourceType2  ...  'DONE' " + "\n" +
-                "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
-                "> DONE" + "\n" + "\n" +
+                        "> [P] PRODUCE productionID1 productionID2  ...  'DONE' "+ "\n" +
+                        "> [F] FILL ResourceType1 ResourceType2  ...  'DONE' " + "\n" +
+                        "> [G] GIVE Qty ResourceType 'FROM' ('DEPOSIT' depositID) or ('VAULT') " + "\n" +
+                        "> DONE" + "\n" + "\n" +
 
-                "> [A] ACTIVATE leaderID"+ "\n" + "\n" +
+                        "> [A] ACTIVATE leaderID"+ "\n" + "\n" +
 
-                "> [MV] MOVE Qty Source_DepositID 'TO' Destination_DepositID"+ "\n" + "\n" +
-                "> [SW] SWITCH Source_DepositID 'WITH' Destination_DepositID"+ "\n" + "\n" +
-                "> [ET] END_TURN" + "\n" +
+                        "> [MV] MOVE Qty Source_DepositID 'TO' Destination_DepositID"+ "\n" + "\n" +
+                        "> [SW] SWITCH Source_DepositID 'WITH' Destination_DepositID"+ "\n" + "\n" +
+                        "> [ET] END_TURN" + "\n" +
 
-                "\n" + "--------SHOW COMMANDS---------" + "\n" +
+                        "\n" + "--------SHOW COMMANDS---------" + "\n" +
 
-                "> [SM] SHOW_MARKET" + "\n" +
-                "> [SC] SHOW_CARDGRID" + "\n" +
-                "> [SF] SHOW_FAITHPATH" + "\n" +
+                        "> [SM] SHOW_MARKET" + "\n" +
+                        "> [SC] SHOW_CARDGRID" + "\n" +
+                        "> [SF] SHOW_FAITHPATH" + "\n" +
 
-                "> [SB] SHOW_BOARD" + "\n" +
-                "> [SD] SHOW_DEPOSIT" + "\n" +
-                "> [SV] SHOW_VAULT" + "\n" +
-                "> [SP] SHOW_PRODUCTION" + "\n" +
+                        "> [SB] SHOW_BOARD" + "\n" +
+                        "> [SD] SHOW_DEPOSIT" + "\n" +
+                        "> [SV] SHOW_VAULT" + "\n" +
+                        "> [SP] SHOW_PRODUCTION" + "\n" +
 
-                "> [SH] SHOW_HAND" + "\n" +
+                        "> [SH] SHOW_HAND" + "\n" +
 
-                "> [SPL] SHOW_PLAYER nickname" + "\n"
+                        "> [SPL] SHOW_PLAYER nickname" + "\n"
 
-                );
+        );
     }
 
-
-    //GENERIC PRINTS----------------------------------------------------------------------------------------------------
     @Override
     public void printHello() {
         System.out.println(Color.ANSI_CYAN.escape() + "Hello!" + Color.RESET);
@@ -643,14 +509,27 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printPlayerList(String info, ArrayList<String> names) {
-        System.out.println(info);
-        for(String name: names)
-            System.out.println(" - " + name);
+    public void printWaitingRoom(StringsMessage stringsMessage) {
+        ArrayList<String> playerList = stringsMessage.getData();
+        String info = stringsMessage.getInfo();
 
-        System.out.println();
+        System.out.println(info);
+        for (String name: playerList) {
+            System.out.println("- " + name);
+        }
+        System.out.println("\n");
     }
 
+    @Override
+    public void printChatMessage(String senderNick, String info, boolean all) {
+        if (!all)
+            System.out.print(Color.ANSI_BLUE.escape() + senderNick + Color.RESET + " whispers you: ");
+        else
+            System.out.print(Color.ANSI_PURPLE.escape() + senderNick + " in ALL chat:" + Color.RESET);
+        System.out.println(info);
+    }
+
+    @Override
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
@@ -700,6 +579,16 @@ public class Cli extends ClientView {
                 "\nType HELP to see the full command list ", nickname);
     }
 
+    @Override
+    public void printPlayerList(String info, ArrayList<String> names) {
+        System.out.println(info);
+        for(String name: names)
+            System.out.println(" - " + name);
+
+        System.out.println();
+    }
+
+    @Override
     public void printOrder() {
         if (!this.isInGame()) return;
         ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
@@ -758,21 +647,22 @@ public class Cli extends ClientView {
 
         System.out.println(getLitePlayerBoard(nickname).toString(nickname));
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 
     //ASK---------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
-        printDeposit();
+
     }
 
     @Override
     public void askForLeaderCardID(String nickname) { }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) { }
+    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
+        printDeposit();
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 

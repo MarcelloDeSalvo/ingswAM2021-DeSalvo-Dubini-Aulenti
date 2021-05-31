@@ -16,6 +16,7 @@ public enum Command {
     CHAT_ALL        (true,true,false, Status.IN_LOBBY_MANAGER),
 
     LOGIN               (false,false,false,null),
+    RECONNECTED         (false,false,false,null),
     CREATE_LOBBY        (true,false,false, Status.IN_LOBBY_MANAGER),
     JOIN_LOBBY          (true,false,false, Status.IN_LOBBY_MANAGER),
     LOBBY_LIST          (true,false,false, Status.IN_LOBBY_MANAGER),
@@ -31,7 +32,7 @@ public enum Command {
 
     DISCARD_LEADER  (false,false,true, Status.IN_GAME),
     DISCARD_OK      (false,false,true, Status.IN_GAME),
-    RESOURCES_SET_UP(false,false,true,Status.IN_GAME),
+
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
     ACTIVATE_OK     (false,false,true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),
@@ -63,7 +64,8 @@ public enum Command {
     NOTIFY_FAITHPATH_FAVOURS    (false,false,true, Status.IN_GAME),
     NOTIFY_GAME_STARTED         (false,false,true, Status.IN_GAME),
 
-    ASK_FOR_RESOURCES (false, false, false, null),
+    ASK_MARKET_DEST (false, false, false, null),
+    ASK_SETUP_RESOURCES(false,false,true,Status.IN_GAME),
 
     SHOW_TURN_HELP  (false,false,true,Status.IN_GAME);
 

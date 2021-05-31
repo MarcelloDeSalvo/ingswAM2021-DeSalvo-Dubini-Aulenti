@@ -18,7 +18,6 @@ import it.polimi.ingsw.view.gui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +63,8 @@ public class Gui extends ClientView {
         infoLabel.setAlignment(Label.CENTER);
         infoLabel.setForeground(Color.WHITE);
 
-        mainPanel.add(loginPanel, "1");
-        cardLayout.show(mainPanel, "1");
+        mainPanel.add(loginPanel, "loginPanel");
+        cardLayout.show(mainPanel, "loginPanel");
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(infoLabel, BorderLayout.PAGE_END);
@@ -76,45 +75,25 @@ public class Gui extends ClientView {
     }
 
     public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
-        //mainPanel.removeAll();
 
         lobbyPanel = new LobbyPanel(this, lobbyInfos);
 
-        mainPanel.add(lobbyPanel, "2");
-        cardLayout.show(mainPanel, "2");
-
-        //mainPanel.validate();
-        //mainPanel.repaint();
-        //mainPanel.setVisible(true);
+        mainPanel.add(lobbyPanel, "lobbyPanel");
+        cardLayout.show(mainPanel, "lobbyPanel");
     }
 
     public void printWaitingRoom(StringsMessage stringsMessage){
-        //mainPanel.removeAll();
 
         lobbyRoomPanel = new LobbyRoomPanel(this);
         printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
 
-        mainPanel.add(lobbyRoomPanel, "3");
-        cardLayout.show(mainPanel, "3");
+        mainPanel.add(lobbyRoomPanel, "lobbyRoomPanel");
+        cardLayout.show(mainPanel, "lobbyRoomPanel");
+    }
 
-        //-----------------------------------------
-        /*frame.setSize(1920,980);
-        frame.setLocationRelativeTo(null);
-
-        LayeredPanel layeredPanel = new LayeredPanel();
-        mainPanel.add(layeredPanel, "4");*/
-
-        /*
-        FaithPathPanel faithPathPanel = new FaithPathPanel(this, getLiteFaithPath());
-        mainPanel.add(faithPathPanel, "4");
-         */
-
-        //cardLayout.show(mainPanel, "4");
-        //-----------------------------------------
-
-        //mainPanel.validate();
-        //mainPanel.repaint();
-        //mainPanel.setVisible(true);
+    @Override
+    public void onLogin(String info) {
+        loginPanel.setVisible(false);
     }
 
     @Override
@@ -154,7 +133,10 @@ public class Gui extends ClientView {
 
     @Override
     public void askForResources(String nickname, int qty) {
-
+        System.out.println("Ho ricevuto il res set up");
+        ResourceSelectionPanel resourceSelectionPanel=new ResourceSelectionPanel(this);
+        mainPanel.add(resourceSelectionPanel, "5");
+        cardLayout.show(mainPanel, "5");
     }
 
     @Override
@@ -176,8 +158,8 @@ public class Gui extends ClientView {
 
         DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
 
-        mainPanel.add(discardLeaders, "4");
-        cardLayout.show(mainPanel, "4");
+        mainPanel.add(discardLeaders, "discardLeaders");
+        cardLayout.show(mainPanel, "discardLeaders");
     }
 
     @Override
@@ -188,8 +170,8 @@ public class Gui extends ClientView {
             System.out.println("A critical error has been occurred File not Found");
         }
 
-        mainPanel.add(gamePanel, "6");
-        cardLayout.show(mainPanel, "6");
+        mainPanel.add(gamePanel, "gamePanel");
+        cardLayout.show(mainPanel, "gamePanel");
 
         gamePanel.getNotifyLabel().setText("THE GAME HAS BEEN STARTED!");
     }
@@ -205,6 +187,7 @@ public class Gui extends ClientView {
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+        infoLabel.setText("");
         this.setInGame(true);
     }
 
@@ -326,6 +309,31 @@ public class Gui extends ClientView {
 
     }
 
+    public void onReconnected(){
+        loginPanel.setVisible(false);
+        cardLayout.show(mainPanel, "gamePanel");
+    }
+
+    @Override
+    public void onExitLobby() {
+
+    }
+
+    @Override
+    public void onJoinLobby() {
+
+    }
+
+    @Override
+    public void printChatMessage(String senderNick, String info, boolean all) {
+
+    }
+
+    @Override
+    public void printOrder() {
+
+    }
+
     @Override
     public boolean readInput() {
         int exit = 0;
@@ -335,163 +343,4 @@ public class Gui extends ClientView {
         return false;
     }
 
-    @Override
-    public void readUpdates(String mex){
-        Message deserializedMex = gson.fromJson(mex, Message.class);
-
-        Command command = deserializedMex.getCommand();
-        String senderNick = deserializedMex.getSenderNickname();
-
-        switch (command){
-
-            case CHAT_ALL:
-                //System.out.print(it.polimi.ingsw.view.cli.Color.ANSI_PURPLE.escape() + senderNick + " in ALL chat:" + Color.ANSI_RESET);
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case CHAT:
-                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
-                //System.out.print(Color.ANSI_BLUE.escape() + chatMessage.getReceiver() + Color.ANSI_RESET + " whispers you: ");
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case HELLO:
-                printHello();
-                break;
-
-            case PING:
-                send(new Message.MessageBuilder().setCommand(Command.PONG).
-                        setNickname(this.getNickname()).build());
-                break;
-
-            case REPLY:
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case LOGIN:
-                loginPanel.setVisible(false);
-                break;
-
-            case GAME_SETUP:
-                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
-                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
-                break;
-
-            case LOBBY_LIST:
-                LobbyListMessage lobbyListMessage = gson.fromJson(mex, LobbyListMessage.class);
-                printLobby(lobbyListMessage.getLobbiesInfos());
-                break;
-
-            case PLAYER_LIST:
-                StringsMessage stringsMessage = gson.fromJson(mex, StringsMessage.class);
-                printWaitingRoom(stringsMessage);
-                break;
-
-            /*case JOIN_LOBBY:
-                //printWaitingRoom();
-                break;*/
-
-            case EXIT_LOBBY:
-                //printLobby();
-                break;
-
-            case SHOW_TURN_HELP:
-                printItsYourTurn(senderNick);
-                break;
-
-            case NOTIFY_GAME_STARTED:
-                notifyGameIsStarted();
-                break;
-
-            case NOTIFY_CARDGRID:
-                NotifyCardGrid notifyCardGrid = gson.fromJson(mex, NotifyCardGrid.class);
-                notifyCardGridChanges(notifyCardGrid.getOldID(), notifyCardGrid.getNewID());
-                break;
-
-            case NOTIFY_HAND:
-                ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
-                notifyCardsInHand(showHandMessage.getCardsID(), senderNick);
-                break;
-
-            case NOTIFY_FAITHPATH_CURRENT:
-                FaithPathUpdateMessage faithPathUpdateMessage = gson.fromJson(mex,FaithPathUpdateMessage.class);
-                notifyCurrentPlayerIncrease(faithPathUpdateMessage.getId(), senderNick);
-                break;
-
-            case NOTIFY_FAITHPATH_OTHERS:
-                FaithPathUpdateMessage faithPathUpdateOthersMessage = gson.fromJson(mex,FaithPathUpdateMessage.class);
-                notifyOthersIncrease(faithPathUpdateOthersMessage.getId(), senderNick);
-                break;
-
-            case NOTIFY_FAITHPATH_FAVOURS:
-                PapalFavourUpdateMessage papalFavourUpdateMessage = gson.fromJson(mex, PapalFavourUpdateMessage.class);
-                notifyPapalFavour(papalFavourUpdateMessage.getPlayerFavours(), senderNick);
-                break;
-
-            case NOTIFY_VAULT_UPDATE:
-                SendContainer vaultChanges = gson.fromJson(mex, SendContainer.class);
-                notifyVaultChanges(vaultChanges.getContainer(), vaultChanges.isAdded(), senderNick);
-                break;
-
-            case PICK_FROM_MARKET:
-                MarketMessage marketMessage=gson.fromJson(mex,MarketMessage.class);
-                notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
-                break;
-
-            case NOTIFY_NEW_DEPOSIT:
-                NewDepositMessage newDepositMessage = gson.fromJson(mex, NewDepositMessage.class);
-                notifyNewDepositSlot(newDepositMessage.getMaxDim(), newDepositMessage.getResourceType(), senderNick);
-                break;
-
-            case NOTIFY_DEPOSIT_UPDATE:
-                SendContainer depositUpdate = gson.fromJson(mex, SendContainer.class);
-                notifyDepositChanges(depositUpdate.getDestinationID(), depositUpdate.getContainer(), depositUpdate.isAdded(), senderNick);
-                break;
-
-            case NOTIFY_NEW_PRODSLOT:
-                NewProductionSlotMessage newProductionSlotMessage = gson.fromJson(mex, NewProductionSlotMessage.class);
-                notifyNewProductionSlot(newProductionSlotMessage.getProductionAbility(), senderNick);
-                break;
-
-            case ASK_FOR_RESOURCES:
-                askForResources(senderNick, 0);
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case RESOURCES_SET_UP:
-                System.out.println("Ho ricevuto il res set up");
-                ResourceSelectionPanel resourceSelectionPanel=new ResourceSelectionPanel(this);
-                mainPanel.add(resourceSelectionPanel, "5");
-                cardLayout.show(mainPanel, "5");
-                break;
-
-            case DISCARD_OK:
-                IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
-                notifyLeaderDiscarded(idMessage.getId(),"");
-                break;
-
-            case ACTIVATE_OK:
-                IdMessage activatedLeader = gson.fromJson(mex, IdMessage.class);
-                notifyLeaderActivated(activatedLeader.getId(), activatedLeader.getSenderNickname());
-                break;
-
-            case BUY_OK:
-                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-                notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
-                break;
-
-            case PRODUCE_OK:
-                notifyProductionOk(senderNick);
-                break;
-
-            case MANAGE_DEPOSIT_OK:
-                notifyMoveOk(senderNick);
-                break;
-
-            case END_GAME:
-                notifyGameEnded();
-                break;
-
-        }
-    }
 }
