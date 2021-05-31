@@ -10,9 +10,11 @@ import java.awt.event.MouseEvent;
 public class RedCrossImage extends SmartImagePanel {
     private int count = 0;
     private String nick;
+    private int offSet = 0;
 
-    public RedCrossImage(Gui gui, String path, Dimension imageDimension, Point absolutePosition, BackgroundImagePanel backGround, String nick) throws ImageNotFound {
+    public RedCrossImage(Gui gui, String path, Dimension imageDimension, Point absolutePosition, BackgroundImagePanel backGround, String nick, int offSet) throws ImageNotFound {
         super(gui, path, imageDimension, absolutePosition, backGround);
+        this.offSet = offSet;
         this.nick = nick;
     }
 
@@ -20,19 +22,24 @@ public class RedCrossImage extends SmartImagePanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (isHighlight())
-            onHighlight((Graphics2D) g);
+        getBackGroundPanel().getGraphics2D().setFont(new Font("Rubik", Font.PLAIN, 20));
+        getBackGroundPanel().getGraphics2D().setColor(Color.BLUE);
+        getBackGroundPanel().getGraphics2D().drawString(nick, getImagePosition().x,getImagePosition().y + offSet);
+
     }
 
     @Override
-    public void onMouseClicked(MouseEvent e) {
-        increasePos();
+    public void onMouseClicked(MouseEvent e, Graphics2D graphics2D) {
+
     }
 
     @Override
     public void onHighlight(Graphics2D graphics2D) {
-        graphics2D.drawString(nick, getImagePosition().x,getImagePosition().y-20);
-        repaint();
+        /*
+        graphics2D.setFont(new Font("Rubik", Font.PLAIN, 20));
+        graphics2D.setColor(Color.GREEN);
+        graphics2D.drawString(nick, getImagePosition().x,getImagePosition().y + offSet);
+        getBackGroundPanel().repaint();*/
     }
 
     public void increasePos(){
@@ -47,6 +54,8 @@ public class RedCrossImage extends SmartImagePanel {
             this.setImagePosition(new Point(this.getImagePosition().x, this.getImagePosition().y+88));
             count++;
         }
+
+        getBackGroundPanel().repaint();
 
     }
 

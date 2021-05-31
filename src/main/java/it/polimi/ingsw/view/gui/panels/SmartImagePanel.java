@@ -88,9 +88,8 @@ public abstract class SmartImagePanel extends JComponent {
         imgArea = new Rectangle( imagePosition.x,  imagePosition.y, scaledImage.getWidth(), scaledImage.getHeight());
 
         ClickListener clickListener = new ClickListener();
-        //MovementListener movementListener = new MovementListener();
-
         this.addMouseListener(clickListener);
+        //MovementListener movementListener = new MovementListener();
         //this.addMouseMotionListener(movementListener);
 
         setOpaque(false);
@@ -100,7 +99,7 @@ public abstract class SmartImagePanel extends JComponent {
      * Called when the mouse clicks the image
      * @param e is the mouse event
      */
-    public abstract void onMouseClicked(MouseEvent e);
+    public abstract void onMouseClicked(MouseEvent e, Graphics2D graphics2D);
 
     /**
      * Called when the mouse is over the image
@@ -114,6 +113,11 @@ public abstract class SmartImagePanel extends JComponent {
         if (backGround==null)
             return;
 
+        if(isHighlight()){
+            onHighlight(backGround.getGraphics2D());
+            backGround.repaint();
+        }
+
         backGround.getGraphics2D().drawImage(tmp, imagePosition.x, imagePosition.y, imageDimension.width, imageDimension.height, this);
     }
 
@@ -125,19 +129,20 @@ public abstract class SmartImagePanel extends JComponent {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            onMouseClicked(e);
+            onMouseClicked(e, backGround.getGraphics2D());
+            backGround.repaint();
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
             highlight = true;
-            repaint();
+            backGround.repaint();
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             highlight = false;
-            repaint();
+            backGround.repaint();
         }
     }
 

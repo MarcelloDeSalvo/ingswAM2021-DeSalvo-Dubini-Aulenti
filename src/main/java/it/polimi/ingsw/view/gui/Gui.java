@@ -292,6 +292,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyCurrentPlayerIncrease(int faithPoints, String nickname) {
         getLiteFaithPath().incrementPosition(faithPoints, nickname);
+        gamePanel.getFaithPathPanel().incRedCrossImages(nickname, faithPoints);
 
         if (!nickname.equals(getNickname()))
             gamePanel.getNotifyLabel().setText(nickname + "'s position has been incremented by " + faithPoints + " FAITH POINT");
@@ -302,6 +303,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyOthersIncrease(int faithPoints, String nickname) {
         getLiteFaithPath().incrementOthersPositions(faithPoints, nickname);
+        gamePanel.getFaithPathPanel().incOtherRedCrossImages(nickname, faithPoints);
 
         if (!nickname.equals(getNickname()))
             gamePanel.getNotifyLabel().setText(nickname+ " has discarded " + faithPoints+ " resources.\n Your current position has been incremented by " + faithPoints + " FAITH POINT");

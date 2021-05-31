@@ -29,26 +29,37 @@ public class FaithPathPanel extends BackgroundImagePanel {
         redCrossImages = new ArrayList<>();
 
         int i = 0;
+        int off = 50;
         for (String nickname: liteFaithPath.getNicknames()) {
             RedCrossImage redCrossImage = new RedCrossImage(gui, "/images/croceRossa.png",
-                    new Dimension(30, 30), points.get(i), this, nickname);
+                    new Dimension(30, 30), points.get(i), this, nickname, off);
+            off+=20;
 
             redCrossImages.add(redCrossImage);
             add(redCrossImage);
             i++;
         }
 
-        incRedCrossImages("LORENZO");
+        //incRedCrossImages("LORENZO");
     }
 
     public ArrayList<RedCrossImage> getRedCrossImages() {
         return redCrossImages;
     }
 
-    public void incRedCrossImages(String senderNick) {
+    public void incRedCrossImages(String senderNick, int qty) {
         for (RedCrossImage red: redCrossImages) {
             if (red.getNick().equals(senderNick))
-                red.increasePos();
+                for (int i = 0; i<qty; i++)
+                    red.increasePos();
+        }
+    }
+
+    public void incOtherRedCrossImages(String senderNick, int qty) {
+        for (RedCrossImage red: redCrossImages) {
+            if (!red.getNick().equals(senderNick))
+                for (int i = 0; i<qty; i++)
+                    red.increasePos();
         }
     }
 }
