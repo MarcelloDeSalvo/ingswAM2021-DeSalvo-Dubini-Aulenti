@@ -16,7 +16,8 @@ public class LabelImage extends JPanel {
     }
 
     @Override
-    public void paint(Graphics g){
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
         g.drawImage(imageLabel, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
