@@ -19,6 +19,7 @@ public class LobbyPanel extends BackgroundImagePanel {
         this.gui = gui;
         this.setLayout(new BorderLayout());
 
+        //lobbies = new TableWithButtons();
         lobbies = new JPanel();
         lobbies.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
         lobbies.setBackground(new Color(255, 255, 255, 150));
@@ -33,6 +34,7 @@ public class LobbyPanel extends BackgroundImagePanel {
         jScrollable_lobbies.getViewport().setOpaque(false);
 
         this.add(jScrollable_lobbies, BorderLayout.CENTER);
+        //this.add(lobbies, BorderLayout.CENTER);
 
         // BOTTOM PANEL -----------------------------------------------------------------------
         JPanel final_panel = new JPanel();
