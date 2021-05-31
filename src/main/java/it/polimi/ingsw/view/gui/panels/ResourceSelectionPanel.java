@@ -48,7 +48,7 @@ public class ResourceSelectionPanel extends JPanel {
         }
 
 
-        depositPanel.add(new ButtonImage("/images/deposito.png"));
+        depositPanel.add(new ButtonImage("/images/deposito.png"), 0);
         JPanel buttonPanel=new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel,BoxLayout.Y_AXIS));
 

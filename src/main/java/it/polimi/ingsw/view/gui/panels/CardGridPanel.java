@@ -16,7 +16,6 @@ public class CardGridPanel extends JPanel {
         this.gui = gui;
         this.liteCardGrid = liteCardGrid;
         this.setBorder(BorderFactory.createEmptyBorder(2, 280, 2, 280));
-
         this.setLayout(new GridLayout(3,4));
 
         //Entrano in un ordine sbagliato :C

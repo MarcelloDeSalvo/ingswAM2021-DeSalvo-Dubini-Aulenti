@@ -18,7 +18,7 @@ public class GamePanel extends JPanel {
     private final CardGridPanel cardGridPanel;
 
     private Gui gui;
-    private JPanel main;
+    private BackgroundImagePanel main;
     private CardLayout cardLayout ;
     private JPanel buttons;
     private JPanel topPanel;
@@ -28,35 +28,39 @@ public class GamePanel extends JPanel {
     public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid) throws ImageNotFound {
         super();
         this.gui = gui;
-        this.setLayout(new BorderLayout(10,10));
 
-        main = new JPanel();
+        this.setLayout(new BorderLayout());
+
+        main = new BackgroundImagePanel("/images/daVinci.jpg",false);
+        main.setHeight(1080);
+        main.setWidth(1920);
         cardLayout = new CardLayout();
         main.setLayout(cardLayout);
+        main.setOpaque(false);
 
         faithPathPanel = new FaithPathPanel(gui, liteFaithPath);
+        faithPathPanel.setOpaque(false);
+
         playerBoardPanel = new PlayerBoardPanel(gui);
+        playerBoardPanel.setOpaque(false);
+
         cardGridPanel = new CardGridPanel(gui, liteCardGrid);
+        cardGridPanel.setOpaque(false);
 
         main.add(playerBoardPanel,"0");
         main.add(faithPathPanel,"1");
         main.add(cardGridPanel, "3");
 
-        JPanel test = new JPanel();
-        main.add(test, "TEST_1");
-        test.setLayout(new GridLayout(0,1));
-        LabelImage labelImage = new LabelImage("/images/daVinci.jpg");
-        test.add(labelImage);
-
         cardLayout.show(main,"0");
-        //cardLayout.show(main, "TEST_1");
 
         buttonSection();
         topPanel();
 
+
         this.add(main, BorderLayout.CENTER);
         this.add(buttons, BorderLayout.SOUTH);
         this.add(topPanel, BorderLayout.NORTH);
+        this.setOpaque(false);
 
     }
 

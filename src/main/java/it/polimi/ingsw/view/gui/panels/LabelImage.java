@@ -11,17 +11,6 @@ public class LabelImage extends JLabel {
 
     private BufferedImage imageLabel;
 
-    public LabelImage(String path, Dimension resizedDim) throws ImageNotFound {
-        super();
-
-        imageLabel =  ImageUtil.loadImage(path);
-        imageLabel =  ImageUtil.resizeImage(imageLabel, resizedDim);
-
-        this.setIcon(new ImageIcon(imageLabel));
-        this.setOpaque(false);
-
-    }
-
     public LabelImage(String path){
         super();
 

@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.gui.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,21 +27,21 @@ public class PlayerBoardPanel extends JLayeredPane {
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
 
-        JPanel backgroundPanel = new JPanel();
-        backgroundPanel.setLayout(new BorderLayout());
-        backgroundPanel.setBounds(0,0,1920,980);
-        backgroundPanel.add(new LabelImage("/images/daVinci.jpg"));
-        this.add( backgroundPanel, DEFAULT_LAYER);
 
         //LAYER 0 -----------------------------------------------------------------------------------------------------------------------
         JPanel pl0 = new JPanel();
         pl0.setLayout(new BorderLayout());
         pl0.setOpaque(false);
 
-        BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
-        pl1.setBounds(0, 0, 1802, 877);
-        pl1.setWidth(1622);
-        pl1.setHeight(789);
+        JPanel pl1 = new JPanel();
+        LabelImage boardImg = new LabelImage("/images/PlayerBoard.jpg");
+        pl1.add(boardImg);
+        pl1.setOpaque(false);
+        pl1.setBorder(new EmptyBorder(20,120,400,40));
+        //BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
+        //pl1.setBounds(0, 0, 1802, 877);
+        //pl1.setWidth(1622);
+        //pl1.setHeight(789);
 
         JPanel leadersPanel = new JPanel();
         leadersPanel.setLayout(new BoxLayout(leadersPanel, BoxLayout.Y_AXIS));
@@ -59,11 +60,12 @@ public class PlayerBoardPanel extends JLayeredPane {
         }
         leadersPanel.add(Box.createVerticalGlue());
 
+        pl0.setBorder(new EmptyBorder(0,0,0,10));
         pl0.add(leadersPanel, BorderLayout.EAST);
         pl0.add(pl1, BorderLayout.CENTER);
         pl0.setBounds(0, 0, 1920, 980);
 
-        this.add(pl0, MODAL_LAYER);
+        this.add(pl0, 0);
 
         //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();
@@ -149,7 +151,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         //---------------------------------------------------------------------------------------------------------------------------
 
-        this.add(layer1, JLayeredPane.MODAL_LAYER);
+        this.add(layer1, JLayeredPane.POPUP_LAYER);
     }
 
     private void leaderActionWindow (JPanel currPanel, int selectedID, ButtonCard button){
