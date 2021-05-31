@@ -31,6 +31,7 @@ public enum Command {
 
     DISCARD_LEADER  (false,false,true, Status.IN_GAME),
     DISCARD_OK      (false,false,true, Status.IN_GAME),
+    RESOURCES_SET_UP(false,false,true,Status.IN_GAME),
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
     ACTIVATE_OK     (false,false,true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),

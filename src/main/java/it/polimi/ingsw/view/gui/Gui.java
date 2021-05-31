@@ -183,8 +183,8 @@ public class Gui extends ClientView {
     public void notifyGameIsStarted() {
         gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
 
-        mainPanel.add(gamePanel, "5");
-        cardLayout.show(mainPanel, "5");
+        mainPanel.add(gamePanel, "6");
+        cardLayout.show(mainPanel, "6");
 
         gamePanel.getNotifyLabel().setText("THE GAME HAS BEEN STARTED!");
     }
@@ -431,6 +431,13 @@ public class Gui extends ClientView {
             case ASK_FOR_RESOURCES:
                 askForResources(senderNick, 0);
                 printReply(deserializedMex.getInfo());
+                break;
+
+            case RESOURCES_SET_UP:
+                System.out.println("Ho ricevuto il res set up");
+                ResourceSelectionPanel resourceSelectionPanel=new ResourceSelectionPanel(this);
+                mainPanel.add(resourceSelectionPanel, "5");
+                cardLayout.show(mainPanel, "5");
                 break;
 
             case DISCARD_OK:

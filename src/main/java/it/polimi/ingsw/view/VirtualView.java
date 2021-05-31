@@ -151,7 +151,7 @@ public class VirtualView implements View {
 
     @Override
     public void askForResources(String nickname, int qty) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.REPLY)
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.RESOURCES_SET_UP)
                     .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
                         .setNickname(nickname).build());
 

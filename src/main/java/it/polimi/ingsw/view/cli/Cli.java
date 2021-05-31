@@ -112,6 +112,10 @@ public class Cli extends ClientView {
                 printReply(deserializedMex.getInfo());
                 break;
 
+            case RESOURCES_SET_UP:
+                printReply(deserializedMex.getInfo());
+                break;
+
             case DISCARD_OK:
                 IdMessage idMessage =gson.fromJson(mex, IdMessage.class);
                 notifyLeaderDiscarded(idMessage.getId(),"");
