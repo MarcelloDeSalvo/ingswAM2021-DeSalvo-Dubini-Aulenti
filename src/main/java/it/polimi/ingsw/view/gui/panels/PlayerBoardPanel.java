@@ -68,7 +68,6 @@ public class PlayerBoardPanel extends JLayeredPane {
         //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();
         layer1.setBounds(0,0,1920, 980);
-        layer1.setBackground(new Color(220,100,100,100));
         layer1.setOpaque(false);
         layer1.setLayout(null);
 
@@ -91,47 +90,52 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         //DEPOSIT ZONE
         JPanel deposit = new JPanel();
-        deposit.setBackground(new Color(250,150,200,100));
         deposit.setLayout(new BoxLayout(deposit, BoxLayout.Y_AXIS));
         deposit.setOpaque(false);
 
         //ROW 1
         JPanel depositRow1 = new JPanel();
-        depositRow1.setBackground(new Color(100,200,100,100));
         depositRow1.setLayout(new GridLayout(1,1));
+        depositRow1.setOpaque(false);
 
         JButton depositButton1_1 = new JButton("UNO");
-        depositButton1_1.setBackground(new Color(150,250,100,100));
+        depositButton1_1.setContentAreaFilled(false);
+        depositButton1_1.setOpaque(false);
 
         depositRow1.add(depositButton1_1);
 
         //ROW 2
         JPanel depositRow2 = new JPanel();
-        depositRow2.setBackground(new Color(100,200,100,100));
         depositRow2.setLayout(new GridLayout(1,2));
+        depositRow2.setOpaque(false);
 
         JButton depositButton2_1 = new JButton("DUE");
-        depositButton2_1.setBackground(new Color(150,250,200,100));
+        depositButton2_1.setContentAreaFilled(false);
+        depositButton2_1.setOpaque(false);
 
         JButton depositButton2_2 = new JButton("DUE");
-        depositButton2_2.setBackground(new Color(150,250,200,100));
+        depositButton2_2.setContentAreaFilled(false);
+        depositButton2_2.setOpaque(false);
 
         depositRow2.add(depositButton2_1);
         depositRow2.add(depositButton2_2);
 
         //ROW 3
         JPanel depositRow3 = new JPanel();
-        depositRow3.setBackground(new Color(100,200,100,100));
         depositRow3.setLayout(new  GridLayout(1,3));
+        depositRow3.setOpaque(false);
 
         JButton depositButton3_1 = new JButton("TRE");
-        depositButton3_1.setBackground(new Color(250,250,200,100));
+        depositButton3_1.setContentAreaFilled(false);
+        depositButton3_1.setOpaque(false);
 
         JButton depositButton3_2 = new JButton("TRE");
-        depositButton3_2.setBackground(new Color(250,250,200,100));
+        depositButton3_2.setContentAreaFilled(false);
+        depositButton3_2.setOpaque(false);
 
         JButton depositButton3_3 = new JButton("TRE");
-        depositButton3_3.setBackground(new Color(250,250,200,100));
+        depositButton3_3.setContentAreaFilled(false);
+        depositButton3_3.setOpaque(false);
 
         depositRow3.add(depositButton3_1);
         depositRow3.add(depositButton3_2);
@@ -140,11 +144,13 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         //ADDS THE ROWS
         deposit.add(depositRow1);
+        deposit.add(Box.createRigidArea(new Dimension(2,2)));
         deposit.add(depositRow2);
+        deposit.add(Box.createRigidArea(new Dimension(2,2)));
         deposit.add(depositRow3);
 
 
-        deposit.setBounds(100,100,400,400);
+        deposit.setBounds(70,120,320,385);
         layer1.add(deposit);
 
         //---------------------------------------------------------------------------------------------------------------------------
