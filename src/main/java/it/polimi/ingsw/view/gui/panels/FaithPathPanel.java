@@ -1,9 +1,11 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteFaithPath;
+import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.gui.Gui;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class FaithPathPanel extends BackgroundImagePanel {
@@ -14,7 +16,7 @@ public class FaithPathPanel extends BackgroundImagePanel {
     private ArrayList<Point> points;
     private ArrayList<RedCrossImage> redCrossImages;
 
-    public FaithPathPanel(Gui gui, LiteFaithPath liteFaithPath) {
+    public FaithPathPanel(Gui gui, LiteFaithPath liteFaithPath) throws ImageNotFound {
         super("/images/FaithPath.jpg", 50, 250, true);
 
         points = new ArrayList<>();

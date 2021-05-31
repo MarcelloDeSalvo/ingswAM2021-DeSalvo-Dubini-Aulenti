@@ -1,14 +1,15 @@
 package it.polimi.ingsw.view.gui.panels;
 
+import it.polimi.ingsw.model.exceptions.ImageNotFound;
+import it.polimi.ingsw.view.ImageUtil;
 import it.polimi.ingsw.view.gui.Gui;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 
 public abstract class SmartImagePanel extends JComponent {
     private final Gui gui;
@@ -31,25 +32,17 @@ public abstract class SmartImagePanel extends JComponent {
      * @param relativePosition is the starting position relative to the background
      * @param backGround is the background panel
      */
-    public SmartImagePanel(Gui gui, String path, Dimension imageDimension, Point relativePosition, BackgroundImagePanel backGround)  {
+    public SmartImagePanel(Gui gui, String path, Dimension imageDimension, Point relativePosition, BackgroundImagePanel backGround) throws ImageNotFound {
         this.gui = gui;
         this.backGround = backGround;
         this.backGroundPivot = backGround.getPivot();
+        this.imageDimension = imageDimension;
         this.imagePosition = new Point();
 
-        try{
-            originalImage = ImageIO.read(this.getClass().getResourceAsStream(path));
-        }catch (IOException|IllegalArgumentException e){
-            System.out.println(path+ " not found");
-        }
+        originalImage = ImageUtil.loadImage(path);
 
-        int width = imageDimension.width;
-        int height = imageDimension.height;
-
-        this.imageDimension = new Dimension(width,height);
-
-        tmp = originalImage.getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        tmp = originalImage.getScaledInstance(imageDimension.width, imageDimension.height, Image.SCALE_SMOOTH);
+        scaledImage = ImageUtil.resizeImage(originalImage, imageDimension);
 
         imagePosition.x = (relativePosition.x + backGroundPivot.x) ;
         imagePosition.y = (relativePosition.y + backGroundPivot.y) ;
@@ -71,17 +64,13 @@ public abstract class SmartImagePanel extends JComponent {
      * @param relativePosition is the starting position relative to the background
      * @param backGround is the background panel
      */
-    public SmartImagePanel(Gui gui, String path, Point relativePosition, BackgroundImagePanel backGround)  {
+    public SmartImagePanel(Gui gui, String path, Point relativePosition, BackgroundImagePanel backGround) throws FileNotFoundException {
         this.gui = gui;
         this.backGround = backGround;
         this.backGroundPivot = backGround.getPivot();
         this.imagePosition = new Point();
 
-        try{
-            originalImage = ImageIO.read(this.getClass().getResourceAsStream(path));
-        }catch (IOException|IllegalArgumentException e){
-            System.out.println(path+ " not found");
-        }
+        originalImage = ImageUtil.loadImage(path);
 
         tmp = originalImage;
         scaledImage = originalImage;

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.view.gui.panels;
 
-import javax.imageio.ImageIO;
+import it.polimi.ingsw.model.exceptions.ImageNotFound;
+import it.polimi.ingsw.view.ImageUtil;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class BackgroundImagePanel extends JPanel {
 
@@ -18,7 +18,7 @@ public class BackgroundImagePanel extends JPanel {
     private int width = 0;
     private int height = 0;
 
-    public BackgroundImagePanel(String path, int x, int y, boolean absolutePosition) {
+    public BackgroundImagePanel(String path, int x, int y, boolean absolutePosition) throws ImageNotFound {
         this.path = path;
         this.x = x;
         this.y = y;
@@ -27,11 +27,7 @@ public class BackgroundImagePanel extends JPanel {
         pivot.x = x;
         pivot.y = y;
 
-        try {
-            backGroundImg = ImageIO.read(getClass().getResourceAsStream(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        backGroundImg = ImageUtil.loadImage(path);
 
         if (absolutePosition)
             setLayout(null);
@@ -39,16 +35,12 @@ public class BackgroundImagePanel extends JPanel {
         setOpaque(false);
     }
 
-    public BackgroundImagePanel(String path, boolean absolutePosition) {
+    public BackgroundImagePanel(String path, boolean absolutePosition) throws ImageNotFound {
         this.path = path;
         this.x = 0;
         this.y = 0;
 
-        try {
-            backGroundImg = ImageIO.read(getClass().getResourceAsStream(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        backGroundImg = ImageUtil.loadImage(path);
 
         if (absolutePosition)
             setLayout(null);

@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteFaithPath;
+import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.view.gui.ButtonImage;
@@ -9,8 +10,6 @@ import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel {
 
@@ -26,7 +25,7 @@ public class GamePanel extends JPanel {
 
     private JLabel notifyLabel;
 
-    public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid) {
+    public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid) throws ImageNotFound {
         super();
         this.gui = gui;
         this.setLayout(new BorderLayout(10,10));
@@ -42,7 +41,15 @@ public class GamePanel extends JPanel {
         main.add(playerBoardPanel,"0");
         main.add(faithPathPanel,"1");
         main.add(cardGridPanel, "3");
+
+        JPanel test = new JPanel();
+        main.add(test, "TEST_1");
+        test.setLayout(new GridLayout(0,1));
+        LabelImage labelImage = new LabelImage("/images/daVinci.jpg");
+        test.add(labelImage);
+
         cardLayout.show(main,"0");
+        //cardLayout.show(main, "TEST_1");
 
         buttonSection();
         topPanel();

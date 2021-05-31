@@ -7,6 +7,7 @@ import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.liteModel.LiteMarket;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
+import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
@@ -169,7 +170,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
         setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
-        //frame.setSize(1920,980);
+        frame.setSize(1920,1080);
         frame.setLocationRelativeTo(null);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -181,7 +182,11 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyGameIsStarted() {
-        gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
+        try {
+            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
+        } catch (ImageNotFound e) {
+            System.out.println("A critical error has been occurred File not Found");
+        }
 
         mainPanel.add(gamePanel, "6");
         cardLayout.show(mainPanel, "6");

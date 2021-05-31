@@ -26,12 +26,16 @@ public class PlayerBoardPanel extends JLayeredPane {
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
 
+        JPanel backgroundPanel = new JPanel();
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.setBounds(0,0,1920,980);
+        backgroundPanel.add(new LabelImage("/images/daVinci.jpg"));
+        this.add( backgroundPanel, DEFAULT_LAYER);
+
         //LAYER 0 -----------------------------------------------------------------------------------------------------------------------
-        BackgroundImagePanel pl0 = new BackgroundImagePanel("/images/daVinci.jpg", 100, 0, false);
-        pl0.setBounds(0, 0, 1920, 1200);
-        pl0.setWidth(1920);
-        pl0.setHeight(1200);
+        JPanel pl0 = new JPanel();
         pl0.setLayout(new BorderLayout());
+        pl0.setOpaque(false);
 
         BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
         pl1.setBounds(0, 0, 1802, 877);
@@ -40,6 +44,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         JPanel leadersPanel = new JPanel();
         leadersPanel.setLayout(new BoxLayout(leadersPanel, BoxLayout.Y_AXIS));
+        leadersPanel.setOpaque(false);
         ArrayList<Integer> IDs = gui.getMyHand().getHand();
 
         leadersPanel.add(Box.createVerticalGlue());
@@ -57,7 +62,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         pl0.add(pl1, BorderLayout.CENTER);
         pl0.setBounds(0, 0, 1920, 980);
 
-        this.add(pl0, DEFAULT_LAYER);
+        this.add(pl0, MODAL_LAYER);
 
         //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();

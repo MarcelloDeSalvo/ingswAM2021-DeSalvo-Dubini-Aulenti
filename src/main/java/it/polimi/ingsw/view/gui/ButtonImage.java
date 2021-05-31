@@ -1,5 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
+import it.polimi.ingsw.model.exceptions.ImageNotFound;
+import it.polimi.ingsw.view.ImageUtil;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -12,20 +15,17 @@ public class ButtonImage extends JButton {
     /**
      * ButtonImage with an automatic image resize
      */
-    public ButtonImage(String path, Dimension scaledDimension) {
+    public ButtonImage(String path, Dimension scaledDimension) throws ImageNotFound {
         super();
-        try {
-            BufferedImage originalImage = ImageIO.read(this.getClass().getResourceAsStream(path));
-            Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
-            this.setIcon(imageIcon);
-            this.setBorderPainted(false);
-            this.setContentAreaFilled(false);
-            this.setPreferredSize(new Dimension(scaledDimension.width, scaledDimension.height));
-        } catch (NullPointerException | IllegalArgumentException | IOException ex) {
-            System.out.println("Button image not found: " +path);
-        }
+        BufferedImage originalImage = ImageUtil.loadImage(path);
+        Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(dimg);
+        this.setIcon(imageIcon);
+        this.setBorderPainted(false);
+        this.setContentAreaFilled(false);
+        this.setPreferredSize(new Dimension(scaledDimension.width, scaledDimension.height));
     }
+
 
     public ButtonImage(String text, int fontSize, boolean mode) {
         super();
