@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.model.cards.Status;
+import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.view.gui.Gui;
@@ -71,6 +73,23 @@ public class PlayerBoardPanel extends JLayeredPane {
         layer1.setOpaque(false);
         layer1.setLayout(null);
 
+        developmentSlotButtons(layer1);
+
+        //DEPOSIT ZONE
+        DepositPanel deposit = new DepositPanel();
+        deposit.setLayout(new BoxLayout(deposit, BoxLayout.Y_AXIS));
+        deposit.setOpaque(false);
+        depositButtons(deposit);
+
+        deposit.setBounds(70,120,320,385);
+        layer1.add(deposit);
+
+        //---------------------------------------------------------------------------------------------------------------------------
+
+        this.add(layer1, JLayeredPane.POPUP_LAYER);
+    }
+
+    private void developmentSlotButtons(JPanel layer1){
         JPanel clickableSlot1 = new JPanel();
         clickableSlot1.setBackground(new Color(100,100,200,200));
         clickableSlot1.setBounds(680,200,250,350);
@@ -86,76 +105,14 @@ public class PlayerBoardPanel extends JLayeredPane {
         layer1.add(clickableSlot1);
         layer1.add(clickableSlot2);
         layer1.add(clickableSlot3);
+    }
 
 
-        //DEPOSIT ZONE
-        JPanel deposit = new JPanel();
-        deposit.setLayout(new BoxLayout(deposit, BoxLayout.Y_AXIS));
-        deposit.setOpaque(false);
-
-        //ROW 1
-        JPanel depositRow1 = new JPanel();
-        depositRow1.setLayout(new GridLayout(1,1));
-        depositRow1.setOpaque(false);
-
-        JButton depositButton1_1 = new JButton("UNO");
-        depositButton1_1.setContentAreaFilled(false);
-        depositButton1_1.setOpaque(false);
-
-        depositRow1.add(depositButton1_1);
-
-        //ROW 2
-        JPanel depositRow2 = new JPanel();
-        depositRow2.setLayout(new GridLayout(1,2));
-        depositRow2.setOpaque(false);
-
-        JButton depositButton2_1 = new JButton("DUE");
-        depositButton2_1.setContentAreaFilled(false);
-        depositButton2_1.setOpaque(false);
-
-        JButton depositButton2_2 = new JButton("DUE");
-        depositButton2_2.setContentAreaFilled(false);
-        depositButton2_2.setOpaque(false);
-
-        depositRow2.add(depositButton2_1);
-        depositRow2.add(depositButton2_2);
-
-        //ROW 3
-        JPanel depositRow3 = new JPanel();
-        depositRow3.setLayout(new  GridLayout(1,3));
-        depositRow3.setOpaque(false);
-
-        JButton depositButton3_1 = new JButton("TRE");
-        depositButton3_1.setContentAreaFilled(false);
-        depositButton3_1.setOpaque(false);
-
-        JButton depositButton3_2 = new JButton("TRE");
-        depositButton3_2.setContentAreaFilled(false);
-        depositButton3_2.setOpaque(false);
-
-        JButton depositButton3_3 = new JButton("TRE");
-        depositButton3_3.setContentAreaFilled(false);
-        depositButton3_3.setOpaque(false);
-
-        depositRow3.add(depositButton3_1);
-        depositRow3.add(depositButton3_2);
-        depositRow3.add(depositButton3_3);
-
-
-        //ADDS THE ROWS
-        deposit.add(depositRow1);
-        deposit.add(Box.createRigidArea(new Dimension(2,2)));
-        deposit.add(depositRow2);
-        deposit.add(Box.createRigidArea(new Dimension(2,2)));
-        deposit.add(depositRow3);
-
-
-        deposit.setBounds(70,120,320,385);
-        layer1.add(deposit);
-
-        //---------------------------------------------------------------------------------------------------------------------------
-
-        this.add(layer1, JLayeredPane.POPUP_LAYER);
+    private void depositButtons(DepositPanel deposit){
+        gui.getMyLiteDeposit().setDepositButtons(deposit.getDepositButtons());
+        gui.getMyLiteDeposit().addRes(new ResourceContainer(ResourceType.STONE, 1),1);
+        gui.getMyLiteDeposit().addRes(new ResourceContainer(ResourceType.MINION, 1),2);
+        gui.getMyLiteDeposit().addRes(new ResourceContainer(ResourceType.SHIELD, 3),3);
     }
 
     private void leaderActionWindow (JPanel currPanel, int selectedID, ButtonCard button){

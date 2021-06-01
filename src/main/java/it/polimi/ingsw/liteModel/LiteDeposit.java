@@ -3,15 +3,19 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
+import it.polimi.ingsw.view.gui.panels.DepositButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LiteDeposit {
 
     private final ArrayList<MiniDeposit> deposits;
+    private HashMap<Integer, ArrayList<DepositButton>> depositButtons;
 
     public LiteDeposit() {
         this.deposits = new ArrayList<>();
+        this.depositButtons = new HashMap<>();
         for(int i = 0; i<3; i++)
             deposits.add(new MiniDeposit(i+1));
     }
@@ -77,7 +81,6 @@ public class LiteDeposit {
         }
 
 
-
         @Override
         public String toString() {
             StringBuilder stringBuilder = new StringBuilder();
@@ -108,10 +111,24 @@ public class LiteDeposit {
 
     public void addRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).addToDepositSlot(resourceContainer);
+
+        if (!depositButtons.isEmpty()){
+            for (int i = 0; i<resourceContainer.getQty(); i++)
+                depositButtons.get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
+        }
     }
 
     public void removeRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).removeFromDepositSLot(resourceContainer);
+
+        if (!depositButtons.isEmpty()){
+            for (int i = 0; i<resourceContainer.getQty(); i++)
+                depositButtons.get(id).get(i).setResourceTypeImage(null);
+        }
+    }
+
+    public void setDepositButtons(HashMap<Integer, ArrayList<DepositButton>> depositButtons){
+        this.depositButtons = depositButtons;
     }
 
     @Override
