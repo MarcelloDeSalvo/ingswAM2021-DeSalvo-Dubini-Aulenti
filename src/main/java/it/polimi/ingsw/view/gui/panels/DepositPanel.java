@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.panels;
 
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.buttons.DepositButton;
 
 import javax.swing.*;
@@ -17,7 +16,7 @@ public class DepositPanel extends JPanel {
     private final int buttonSize = 110;
 
     public DepositPanel() {
-        selectedIds= new ArrayList<>();
+        selectedIds = new ArrayList<>();
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setOpaque(false);
 

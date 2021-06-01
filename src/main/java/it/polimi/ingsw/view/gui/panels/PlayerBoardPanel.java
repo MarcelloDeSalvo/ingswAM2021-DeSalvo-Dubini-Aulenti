@@ -70,7 +70,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         pl0.add(pl1, BorderLayout.CENTER);
         pl0.setBounds(0, 0, 1920, 980);
 
-        this.add(pl0, 0);
+        this.add(pl0, JLayeredPane.DEFAULT_LAYER);
 
         //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();
@@ -85,6 +85,10 @@ public class PlayerBoardPanel extends JLayeredPane {
         depositPanel.setBounds(70,120,320,385);
         layer1.add(depositPanel);
 
+
+        //VAULT
+        VaultPanel vaultPanel = new VaultPanel(gui.getMyLiteVault());
+        layer1.add(vaultPanel);
         //---------------------------------------------------------------------------------------------------------------------------
 
         this.add(layer1, JLayeredPane.POPUP_LAYER);
