@@ -37,6 +37,9 @@ public enum Command {
     ACTIVATE_OK     (false,false,true, Status.IN_GAME),
     BUY             (false, false, true, Status.IN_GAME),
     BUY_OK          (false,false,true, Status.IN_GAME),
+    BUY_SLOT_OK          (false,false,true, Status.IN_GAME),
+    BUY_ERROR       (false,false,true, Status.IN_GAME),
+
     PRODUCE         (false, false, true, Status.IN_GAME),
     PRODUCE_OK         (false, false, true, Status.IN_GAME),
     MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),

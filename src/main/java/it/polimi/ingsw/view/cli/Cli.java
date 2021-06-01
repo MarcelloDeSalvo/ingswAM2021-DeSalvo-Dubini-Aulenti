@@ -762,6 +762,17 @@ public class Cli extends ClientView {
     }
 
     @Override
+    public void notifyBuySlotOk(String mex) {
+        System.out.println(mex);
+        System.out.println();
+    }
+
+    @Override
+    public void notifyBuyError(String error) {
+        System.out.println("\n"+error+"\n");
+    }
+
+    @Override
     public void notifyProductionOk(String senderNick) {
         if (!senderNick.equals(getNickname()))
             System.out.println(senderNick+" has used the production this turn!");

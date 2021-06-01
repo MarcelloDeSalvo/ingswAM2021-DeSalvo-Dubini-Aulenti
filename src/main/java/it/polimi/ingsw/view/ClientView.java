@@ -10,7 +10,6 @@ import it.polimi.ingsw.model.parser.FaithPathSetUpParser;
 import it.polimi.ingsw.model.parser.LeaderCardParser;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.observers.ObserverController;
-import it.polimi.ingsw.view.gui.panels.ResourceSelectionPanel;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -227,6 +226,14 @@ public abstract class ClientView implements View, UserInput {
             case BUY_OK:
                 BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
                 notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
+                break;
+
+            case BUY_ERROR:
+                notifyBuyError(deserializedMex.getInfo());
+                break;
+
+            case BUY_SLOT_OK:
+                notifyBuySlotOk(deserializedMex.getInfo());
                 break;
 
             case PRODUCE_OK:

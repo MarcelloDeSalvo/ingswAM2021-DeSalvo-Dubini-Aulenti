@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.gui;
 
-
-import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.liteModel.LiteMarket;
@@ -13,10 +11,8 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
-
 import it.polimi.ingsw.view.ImageUtil;
 import it.polimi.ingsw.view.gui.panels.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -33,6 +29,8 @@ public class Gui extends ClientView {
     private LobbyRoomPanel lobbyRoomPanel;
     private GamePanel gamePanel;
     private ResourceSelectionPanel resourceSelectionPanel;
+
+    private GuiStatus guiStatus = GuiStatus.IDLE;
 
     private JFrame frame;
     private Label infoLabel;
@@ -316,6 +314,18 @@ public class Gui extends ClientView {
     }
 
     @Override
+    public void notifyBuySlotOk(String mex) {
+        infoLabel.setText("Now you can select the resources in order to pay");
+        guiStatus = GuiStatus.SELECTING_BUY_RESOURCES;
+    }
+
+    @Override
+    public void notifyBuyError(String error) {
+        infoLabel.setText(error);
+        guiStatus = GuiStatus.IDLE;
+    }
+
+    @Override
     public void notifyProductionOk(String senderNick) {
         if (!senderNick.equals(getNickname()))
             gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
@@ -431,6 +441,19 @@ public class Gui extends ClientView {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+    //GETTER SETTER-----------------------------------------------------------------------------------------------------
+    public GuiStatus getGuiStatus() {
+        return guiStatus;
+    }
+
+    public void setGuiStatus(GuiStatus guiStatus) {
+        this.guiStatus = guiStatus;
+    }
+
+    public GamePanel getGamePanel() {
+        return gamePanel;
+    }
+    //------------------------------------------------------------------------------------------------------------------
 
     //------------------------------------------------------------------------------------------------------------------
     @Override

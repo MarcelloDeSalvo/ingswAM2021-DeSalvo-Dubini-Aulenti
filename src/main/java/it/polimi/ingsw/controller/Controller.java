@@ -459,28 +459,28 @@ public class Controller implements ObserverController {
             DevelopmentCard selectedCard = game.getCardgrid().getDevelopmentCardOnTop(cardID);
 
             if(selectedCard == null) {
-                view.printReply_uni("The card selected is not purchasable at the moment OR does not exist! Please select another ID", senderNick);
+                view.notifyBuyError("The card selected is not purchasable at the moment OR does not exist! Please select another ID");
                 return false;
             }
 
             if(!currPlayer.hasEnoughResources(selectedCard.getDiscountedPrice(currPlayer.getPlayerBoard()))) {
-                view.printReply_uni("You don't have enough resources to buy this Development Card!", senderNick);
+                view.notifyBuyError("You don't have enough resources to buy this Development Card!");
                 return false;
             }
 
             if(!currPlayer.getProductionSlotByID(id).canInsertOnTop(selectedCard)){
-                view.printReply_uni("You can't insert the this card in the selected Production Slot!", senderNick);
+                view.notifyBuyError("You can't insert the this card in the selected Production Slot!");
                 return false;
             }
 
             newDevelopmentCard = selectedCard;
             this.productionSlotId = id;
-            view.printReply_uni("The card you selected requires: " + selectedCard.priceToString() +
-                    "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+            view.notifyBuySlotOk("The card you selected requires: " + selectedCard.priceToString() +
+                    "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
             return true;
 
         } catch (IndexOutOfBoundsException exception) {
-            view.printReply_uni("The selected Production Slot does not exists!", senderNick);
+            view.notifyBuyError("The selected Production Slot does not exists!");
             return false;
         }
     }

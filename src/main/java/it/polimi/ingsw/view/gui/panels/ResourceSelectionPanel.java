@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
-import it.polimi.ingsw.view.gui.buttons.ButtonSelectable;
 
 import javax.swing.*;
 import java.awt.*;

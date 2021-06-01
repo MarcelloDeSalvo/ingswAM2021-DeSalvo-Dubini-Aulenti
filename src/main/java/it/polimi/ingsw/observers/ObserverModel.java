@@ -65,16 +65,23 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
      */
     void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname);
 
-
+    void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp);
     void notifyGameIsStarted();
     void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname);
+
     void notifyBuyOk(String nickname, int slotID, int cardID);
-    void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp);
+    void notifyBuyError(String error);
+    void notifyBuySlotOk(String mex);
+
     void notifyLeaderDiscarded(int id, String nickname);
     void notifyLeaderActivated(int id, String nickname);
+
     void notifyProductionOk(String senderNick);
+
     void notifyMoveOk(String senderNick);
+
     void notifyMarketUpdate(String selection, int selected);
+
     void notifyLastTurn();
     void notifyWinner(ArrayList<String> winners);
     void notifyScores(List<Integer> playersTotalVictoryPoints,ArrayList<String> nicknames);

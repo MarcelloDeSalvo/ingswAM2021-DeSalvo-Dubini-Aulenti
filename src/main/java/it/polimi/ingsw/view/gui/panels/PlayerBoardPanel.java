@@ -1,9 +1,11 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.model.cards.Status;
+import it.polimi.ingsw.network.commands.BuyMessage;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.GuiStatus;
 import it.polimi.ingsw.view.gui.buttons.ButtonCard;
 import it.polimi.ingsw.view.gui.customImages.LabelImage;
 
@@ -18,6 +20,8 @@ public class PlayerBoardPanel extends JLayeredPane {
 
     private final Gui gui;
     private DepositPanel depositPanel;
+
+    private int buyCardIdBuffer;
 
     public PlayerBoardPanel(Gui gui) {
         super();
@@ -87,23 +91,43 @@ public class PlayerBoardPanel extends JLayeredPane {
     }
 
     private void developmentSlotButtons(JPanel layer1){
-        JPanel clickableSlot1 = new JPanel();
-        clickableSlot1.setBackground(new Color(100,100,200,200));
-        clickableSlot1.setBounds(680,200,250,350);
 
-        JPanel clickableSlot2 = new JPanel();
-        clickableSlot2.setBackground(new Color(100,100,200,200));
-        clickableSlot2.setBounds(980,200,250,350);
 
-        JPanel clickableSlot3 = new JPanel();
-        clickableSlot3.setBackground(new Color(100,100,200,200));
-        clickableSlot3.setBounds(1310,200,250,350);
+        for (int i=0; i<3; i++){
+            JPanel clickableSlot = new JPanel();
+            clickableSlot.setBackground(new Color(100,100,200,200));
+            clickableSlot.setBounds(680 + 305*i + i*2,200,250,350);
+            clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, i+1));
+            layer1.add(clickableSlot);
+        }
 
-        layer1.add(clickableSlot1);
-        layer1.add(clickableSlot2);
-        layer1.add(clickableSlot3);
+
     }
 
+    private class ProdSlotClickListener extends MouseAdapter{
+        private JPanel prodSlot;
+        private int id;
+
+        public ProdSlotClickListener(JPanel prodSlot, int id) {
+            this.prodSlot = prodSlot;
+            this.id = id;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_THE_SLOT){
+                JPopupMenu popupmenu = new JPopupMenu("Production Slot");
+                JMenuItem select = new JMenuItem("Select");
+                popupmenu.add(select);
+                popupmenu.show(prodSlot , e.getX(), e.getY());
+
+                select.addActionListener(f -> {
+                    gui.send( new BuyMessage(buyCardIdBuffer, id, gui.getNickname()));
+                });
+
+            }
+        }
+    }
 
     private void leaderActionWindow (JPanel currPanel, int selectedID, ButtonCard button){
         JPopupMenu popupmenu = new JPopupMenu("Leader Action");
@@ -138,5 +162,9 @@ public class PlayerBoardPanel extends JLayeredPane {
 
     public DepositPanel getDepositPanel() {
         return depositPanel;
+    }
+
+    public void setBuyCardIdBuffer(int buyCardIdBuffer) {
+        this.buyCardIdBuffer = buyCardIdBuffer;
     }
 }

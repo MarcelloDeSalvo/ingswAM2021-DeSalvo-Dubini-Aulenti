@@ -230,6 +230,16 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void notifyBuySlotOk(String mex) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.BUY_SLOT_OK).setInfo(mex).setNickname(currPlayer).build());
+    }
+
+    @Override
+    public void notifyBuyError(String error) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.BUY_ERROR).setInfo(error).setNickname(currPlayer).build());
+    }
+
+    @Override
     public void notifyProductionOk(String senderNick) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_OK).setTarget(Target.BROADCAST).setNickname(senderNick).build());
     }

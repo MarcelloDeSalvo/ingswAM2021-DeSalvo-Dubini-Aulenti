@@ -22,13 +22,13 @@ public class LobbyRoomPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         playerList = new JPanel();
-        playerList.setBorder(BorderFactory.createEmptyBorder(200,50,200,100));
-        playerList.setLayout(new GridLayout(4,1));
+        playerList.setLayout(new GridLayout(5,1));
+        playerList.setBorder(BorderFactory.createEmptyBorder(100,100,200,100));
 
         playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
 
         lobbyOptions = new JPanel();
-        lobbyOptions.setBorder(BorderFactory.createEmptyBorder(50,100,50,100));
+        lobbyOptions.setBorder(BorderFactory.createEmptyBorder(60,100,50,100));
         GridLayout gridLayout = new GridLayout(0,2);
         gridLayout.setHgap(30);
         lobbyOptions.setLayout(gridLayout);
@@ -50,9 +50,17 @@ public class LobbyRoomPanel extends JPanel {
         if (playerList != null)
             playerList.removeAll();
 
-        playerList.add(new Label(info + "\n", JLabel.CENTER));
+        JLabel infoLabel = new JLabel(info.toUpperCase() +"\n", SwingConstants.CENTER);
+        infoLabel.setFont(new Font("Rubik", Font.PLAIN, 42));
+        infoLabel.setForeground(new Color(241, 153, 0));
+
+        playerList.add(infoLabel);
+        playerList.add(new JLabel());
+
         for (String name: names) {
-            playerList.add(new Label("- " + name, JLabel.CENTER));
+            JLabel nameLabel = new JLabel("- " + name, SwingConstants.CENTER);
+            nameLabel.setFont(new Font("Rubik", Font.PLAIN, 35));
+            playerList.add(nameLabel);
         }
 
         playerList.validate();

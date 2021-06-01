@@ -1,13 +1,16 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteCardGrid;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.SendContainer;
+import it.polimi.ingsw.view.gui.GuiStatus;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CardGridPanel extends JPanel {
 
@@ -23,6 +26,9 @@ public class CardGridPanel extends JPanel {
         //Entrano in un ordine sbagliato :C
         for (Integer id: liteCardGrid.getCardIDs()) {
             ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
+            lc.addActionListener(e -> {
+                buyMenu(lc, id);
+            });
 
             this.add(lc);
 
@@ -31,6 +37,27 @@ public class CardGridPanel extends JPanel {
                 //MI SA CHE SERVE UN BUFFER PER COMPRARE
             });
         }
+    }
+
+    public void buyMenu(ButtonImage button, int id){
+        JPopupMenu popupmenu = new JPopupMenu("Development Card");
+        JMenuItem buy = new JMenuItem("Buy");
+
+        popupmenu.add(buy);
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                popupmenu.show(button , e.getX(), e.getY());
+            }
+        });
+
+
+        buy.addActionListener(e -> {
+            gui.setGuiStatus(GuiStatus.SELECTING_THE_SLOT);
+            gui.getGamePanel().getPlayerBoardPanel().setBuyCardIdBuffer(id);
+            gui.printReply("Ok! Now select a Production Slot");
+        });
+
     }
 
     public void updateGrid(){
