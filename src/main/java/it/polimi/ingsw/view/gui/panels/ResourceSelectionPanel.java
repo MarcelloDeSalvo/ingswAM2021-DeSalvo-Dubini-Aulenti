@@ -1,6 +1,10 @@
 package it.polimi.ingsw.view.gui.panels;
 
+import it.polimi.ingsw.model.cards.ResourceRequirement;
+import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
@@ -22,24 +26,28 @@ public class ResourceSelectionPanel extends JPanel {
         this.setLayout(new BorderLayout(2,1));
         this.selectedResource=ResourceType.BLANK;
 
-        JPanel resourcesPanel=new JPanel();
-        JPanel mainBoxPanel=new JPanel();
-        //BackGroundImagePanelResize depositPanel=new BackGroundImagePanelResize("/images/deposit.png");
-        DepositPanel depositPanel=new DepositPanel();
-        //depositPanel.setLayout(new BorderLayout());
 
-
-
+        BackgroundImagePanel mainBoxPanel=new BackgroundImagePanel("/images/deposit.png",888,220,false);
         mainBoxPanel.setLayout(new BoxLayout(mainBoxPanel,BoxLayout.X_AXIS));
+
+        JPanel resourcesPanel=new JPanel();
+        //BackGroundImagePanelResize depositPanel=new BackGroundImagePanelResize("/images/deposit.png");
+        DepositPanel depositPanel=gui.getMyLiteDeposit().getDepositPanel();
+        ButtonImage okButton=new ButtonImage("    OK     ",true);
+
+
         mainBoxPanel.add(Box.createRigidArea(new Dimension(250,0)));
         mainBoxPanel.add(resourcesPanel);
         mainBoxPanel.add(Box.createHorizontalGlue());
         mainBoxPanel.add(depositPanel);
         mainBoxPanel.add(Box.createRigidArea(new Dimension(2,0)));
+        mainBoxPanel.add(okButton);
+        mainBoxPanel.add(Box.createRigidArea(new Dimension(85,0)));
+
 
         resourcesPanel.setLayout(new BoxLayout(resourcesPanel,BoxLayout.Y_AXIS));
         resourcesPanel.add(Box.createVerticalGlue());
-
+        resourcesPanel.setOpaque(false);
 
         for (ResourceType rt:ResourceType.values()) {
             if(rt.canAddToDeposit()) {
@@ -52,14 +60,11 @@ public class ResourceSelectionPanel extends JPanel {
             }
         }
 
-
         //depositPanel.add(new ButtonImage("/images/deposito.png"), 0);
         //LabelImage depositImage= new LabelImage("/images/deposit.png");
         //depositPanel.add(depositImage,new Integer(0));
 
         //JPanel buttonPanel=new JPanel();
-
-
         /*JPanel depositRow1 = new JPanel();
         depositRow1.setBackground(new Color(100,200,100,100));
 
@@ -96,13 +101,21 @@ public class ResourceSelectionPanel extends JPanel {
 
 
          */
-
         //buttonPanel.setBounds(); map bounds through an action listener
 
 
         //depositPanel.add(buttonPanel);
         //depositPanel.setOpaque(false);
-        depositPanel.setBorder(new EmptyBorder(175,475,175,300));
+        depositPanel.setBorder(new EmptyBorder(265,225,285,310));
+
+        okButton.addActionListener(e->{
+            if(selectedResource==ResourceType.BLANK)
+                return;
+            for (Integer id: depositPanel.getSelectedIds() ) {
+                ResourceContainer rc=new ResourceContainer(selectedResource,1);
+                gui.send(new SendContainer(Command.SETUP_CONTAINER,rc,"DEPOSIT",id,gui.getNickname()));
+            }
+        });
 
         JLabel title= new JLabel("Select the bonus resources");
         title.setHorizontalAlignment(SwingConstants.CENTER);

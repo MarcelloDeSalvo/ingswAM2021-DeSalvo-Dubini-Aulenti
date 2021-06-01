@@ -76,10 +76,9 @@ public class PlayerBoardPanel extends JLayeredPane {
         developmentSlotButtons(layer1);
 
         //DEPOSIT ZONE
-        DepositPanel deposit = new DepositPanel();
+        DepositPanel deposit = gui.getMyLiteDeposit().getDepositPanel();
         deposit.setLayout(new BoxLayout(deposit, BoxLayout.Y_AXIS));
         deposit.setOpaque(false);
-        depositButtons(deposit);
 
         deposit.setBounds(70,120,320,385);
         layer1.add(deposit);
@@ -107,13 +106,6 @@ public class PlayerBoardPanel extends JLayeredPane {
         layer1.add(clickableSlot3);
     }
 
-
-    private void depositButtons(DepositPanel deposit){
-        gui.getMyLiteDeposit().setDepositButtons(deposit.getDepositButtons());
-        gui.getMyLiteDeposit().addRes(new ResourceContainer(ResourceType.STONE, 1),1);
-        gui.getMyLiteDeposit().addRes(new ResourceContainer(ResourceType.MINION, 1),2);
-        gui.getMyLiteDeposit().addRes(new ResourceContainer(ResourceType.SHIELD, 3),3);
-    }
 
     private void leaderActionWindow (JPanel currPanel, int selectedID, ButtonCard button){
         JPopupMenu popupmenu = new JPopupMenu("Leader Action");

@@ -222,11 +222,7 @@ public class Gui extends ClientView {
     //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
     @Override
     public void notifyGameIsStarted() {
-        try {
-            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
-        } catch (ImageNotFound e) {
-            System.out.println("A critical error has been occurred File not Found");
-        }
+
 
         mainPanel.add(gamePanel, "gamePanel");
         cardLayout.show(mainPanel, "gamePanel");
@@ -242,8 +238,15 @@ public class Gui extends ClientView {
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
 
+        getMyLiteDeposit().setDepositPanel(new DepositPanel());
         this.setInGame(true);
         printOrder();
+
+        try {
+            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
+        } catch (ImageNotFound e) {
+            System.out.println("A critical error has been occurred File not Found");
+        }
     }
 
     @Override
