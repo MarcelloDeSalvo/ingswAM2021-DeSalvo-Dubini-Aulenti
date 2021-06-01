@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.panels;
+package it.polimi.ingsw.view.gui.buttons;
 
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;

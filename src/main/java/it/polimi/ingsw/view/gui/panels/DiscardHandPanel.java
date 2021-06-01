@@ -3,12 +3,11 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.IdMessage;
-import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DiscardHandPanel extends JPanel {

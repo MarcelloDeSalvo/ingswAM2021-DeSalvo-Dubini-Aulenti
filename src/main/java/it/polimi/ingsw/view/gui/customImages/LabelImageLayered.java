@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui.panels;
+package it.polimi.ingsw.view.gui.customImages;
 
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.ImageUtil;

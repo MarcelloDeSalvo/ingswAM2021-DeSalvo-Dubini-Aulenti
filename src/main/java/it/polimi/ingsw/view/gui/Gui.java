@@ -207,8 +207,8 @@ public class Gui extends ClientView {
     //ASK---------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
-
         resourceSelectionPanel = new ResourceSelectionPanel(this);
+        getMyLiteDeposit().setDepositPanel(resourceSelectionPanel.getDepositPanel());
         mainPanel.add(resourceSelectionPanel, "5");
         cardLayout.show(mainPanel, "5");
     }
@@ -225,6 +225,7 @@ public class Gui extends ClientView {
     public void notifyGameIsStarted() {
         try {
             gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
+            getMyLiteDeposit().setDepositPanel(gamePanel.getPlayerBoardPanel().getDepositPanel());
         } catch (ImageNotFound e) {
             System.out.println("A critical error has been occurred File not Found");
         }
@@ -245,16 +246,16 @@ public class Gui extends ClientView {
 
         this.setInGame(true);
         printOrder();
-
-
     }
 
     @Override
     public void notifyCurrentPlayerIncrease(int faithPoints, String nickname) {
         getLiteFaithPath().incrementPosition(faithPoints, nickname);
 
-        if (gamePanel != null)
-            gamePanel.getFaithPathPanel().incRedCrossImages(nickname, faithPoints);
+        if (gamePanel==null)
+            return;
+
+        gamePanel.getFaithPathPanel().incRedCrossImages(nickname, faithPoints);
 
         if (!nickname.equals(getNickname()))
             gamePanel.getNotifyLabel().setText(nickname + "'s position has been incremented by " + faithPoints + " FAITH POINT");
@@ -265,6 +266,10 @@ public class Gui extends ClientView {
     @Override
     public void notifyOthersIncrease(int faithPoints, String nickname) {
         getLiteFaithPath().incrementOthersPositions(faithPoints, nickname);
+
+        if (gamePanel==null)
+            return;
+
         gamePanel.getFaithPathPanel().incOtherRedCrossImages(nickname, faithPoints);
 
         if (!nickname.equals(getNickname()))
@@ -382,22 +387,11 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
-        if (added){
+        if (added)
             getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
-            if (resourceSelectionPanel!=null)
-                resourceSelectionPanel.getDepositPanel().fill(resourceContainer.getResourceType());
-            if(gamePanel!=null)
-                gamePanel.getPlayerBoardPanel().getDepositPanel().fill(resourceContainer.getResourceType());
-        }
 
-        else{
+        else
             getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
-            if (resourceSelectionPanel!=null)
-                resourceSelectionPanel.getDepositPanel().fill(null);
-            if(gamePanel!=null)
-                gamePanel.getPlayerBoardPanel().getDepositPanel().fill(null);
-        }
-
 
     }
 

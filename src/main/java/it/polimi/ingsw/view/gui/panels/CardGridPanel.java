@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteCardGrid;
-import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;

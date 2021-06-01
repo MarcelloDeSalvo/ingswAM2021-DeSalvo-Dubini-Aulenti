@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.customJObject;
 
 import javax.swing.*;
 import java.awt.*;

@@ -5,11 +5,13 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
 import it.polimi.ingsw.view.gui.panels.DepositPanel;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class LiteDeposit {
 
     private final ArrayList<MiniDeposit> deposits;
+    private DepositPanel depositPanel;
 
     public LiteDeposit() {
         this.deposits = new ArrayList<>();
@@ -110,10 +112,20 @@ public class LiteDeposit {
 
     public void addRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).addToDepositSlot(resourceContainer);
+        if (depositPanel!=null)
+            depositPanel.fill(resourceContainer, id);
     }
 
     public void removeRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).removeFromDepositSLot(resourceContainer);
+        if (depositPanel!=null)
+            depositPanel.remove(resourceContainer, id);
+    }
+
+    public void setDepositPanel(DepositPanel depositPanel) {
+        if (this.depositPanel != null)
+            this.depositPanel.copy(depositPanel.getDepositButtons());
+        this.depositPanel = depositPanel;
     }
 
     @Override

@@ -6,11 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class BackGroundImagePanelResize extends JPanel {
+public class BackGroundImageResizePanel extends JPanel {
 
     private BufferedImage imageLabel;
 
-    public BackGroundImagePanelResize(String path){
+    public BackGroundImageResizePanel(String path){
         super();
 
         imageLabel =  ImageUtil.loadImage(path);

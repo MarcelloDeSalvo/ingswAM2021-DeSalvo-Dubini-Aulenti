@@ -1,6 +1,6 @@
-package it.polimi.ingsw.view.gui.panels;
+package it.polimi.ingsw.view.gui.customJObject;
 
-import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;

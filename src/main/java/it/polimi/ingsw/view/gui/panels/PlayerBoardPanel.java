@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.buttons.ButtonCard;
+import it.polimi.ingsw.view.gui.customImages.LabelImage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

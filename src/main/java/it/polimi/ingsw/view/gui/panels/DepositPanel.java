@@ -1,7 +1,8 @@
 package it.polimi.ingsw.view.gui.panels;
 
 
-import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.view.gui.buttons.DepositButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -101,20 +102,34 @@ public class DepositPanel extends JPanel {
         utilityButtons.add(new JButton("ADD"));
 
         this.add(deposit);
-        this.add(utilityButtons);
+        //this.add(utilityButtons);
 
     }
 
-    public void copy(ResourceType resourceType, ArrayList<Point> selectedIds){
+    public void copy( HashMap<Integer, ArrayList<DepositButton>> depositButtonsToClone){
+        for (Integer i: depositButtons.keySet()) {
+            int j=0;
+            for (DepositButton depositButton : depositButtons.get(i)) {
+                depositButtonsToClone.get(i).get(j).setResourceTypeImage(depositButton.getResourceType());
+                j++;
+            }
+        }
+    }
+
+    public void fill(ResourceContainer resourceContainer, int id){
         for (Point point: selectedIds) {
-            depositButtons.get(point.x).get(point.y).setResourceTypeImage(resourceType);
+            if (point.x == id)
+                for (int i = 0; i<resourceContainer.getQty();i++)
+                    depositButtons.get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
         }
         clearBuffer();
     }
 
-    public void fill(ResourceType resourceType){
-        for (Point point: this.selectedIds) {
-           depositButtons.get(point.x).get(point.y).setResourceTypeImage(resourceType);
+    public void remove(ResourceContainer resourceContainer, int id){
+        for (Point point: selectedIds) {
+            if (point.x == id)
+                for (int i = 0; i<resourceContainer.getQty();i++)
+                    depositButtons.get(id).get(i).setResourceTypeImage(null);
         }
         clearBuffer();
     }

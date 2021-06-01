@@ -1,8 +1,9 @@
-package it.polimi.ingsw.view.gui.panels;
+package it.polimi.ingsw.view.gui.customImages;
 
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.ImageUtil;
 import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.panels.BackgroundImagePanel;
 
 import javax.swing.*;
 import java.awt.*;

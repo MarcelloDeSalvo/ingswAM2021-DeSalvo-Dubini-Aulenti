@@ -5,7 +5,7 @@ import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;

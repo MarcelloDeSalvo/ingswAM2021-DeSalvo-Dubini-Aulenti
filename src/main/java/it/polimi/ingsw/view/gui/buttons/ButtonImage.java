@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.gui;
+package it.polimi.ingsw.view.gui.buttons;
 
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.ImageUtil;

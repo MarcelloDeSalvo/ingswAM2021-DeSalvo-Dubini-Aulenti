@@ -4,8 +4,9 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.SendContainer;
-import it.polimi.ingsw.view.gui.ButtonImage;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.buttons.ButtonSelectable;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -25,11 +26,11 @@ public class ResourceSelectionPanel extends JPanel {
         this.selectedResource=ResourceType.BLANK;
 
 
-        BackgroundImagePanel mainBoxPanel=new BackgroundImagePanel("/images/deposit.png",888,220,false);
+        BackgroundImagePanel mainBoxPanel=new BackgroundImagePanel("/images/deposit.png",938,220,false);
         mainBoxPanel.setLayout(new BoxLayout(mainBoxPanel,BoxLayout.X_AXIS));
 
         JPanel resourcesPanel=new JPanel();
-        //BackGroundImagePanelResize depositPanel=new BackGroundImagePanelResize("/images/deposit.png");
+        //BackGroundImageResizePanel depositPanel=new BackGroundImageResizePanel("/images/deposit.png");
         depositPanel= new DepositPanel();
 
         ButtonImage okButton=new ButtonImage("    OK     ",true);
@@ -50,7 +51,7 @@ public class ResourceSelectionPanel extends JPanel {
 
         for (ResourceType rt:ResourceType.values()) {
             if(rt.canAddToDeposit()) {
-                ButtonImage resButton = new ButtonImage("/images/resourceImages/" + rt.deColored().toLowerCase() + ".png");
+                ButtonSelectable resButton = new ButtonSelectable("/images/resourceImages/" + rt.deColored().toLowerCase() + ".png", Color.CYAN, 2);
                 resourcesPanel.add(resButton);
                 resButton.addActionListener(e -> {
                     selectedResource = rt;

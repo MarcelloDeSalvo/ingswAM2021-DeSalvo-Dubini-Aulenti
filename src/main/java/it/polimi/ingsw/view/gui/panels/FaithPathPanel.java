@@ -3,10 +3,9 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.liteModel.LiteFaithPath;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.customImages.RedCrossImage;
 
-import javax.swing.*;
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class FaithPathPanel extends BackgroundImagePanel {
