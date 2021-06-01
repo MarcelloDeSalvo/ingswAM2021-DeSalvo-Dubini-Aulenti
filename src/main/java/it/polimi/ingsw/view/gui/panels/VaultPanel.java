@@ -83,8 +83,8 @@ public class VaultPanel extends JLayeredPane {
 
         JLabel goldLabel = new JLabel();
         goldLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.GOLD) + " ");
-        goldLabel.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
-        goldLabel.setMaximumSize(new Dimension(buttonSize, buttonSize));
+        //goldLabel.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
+        //goldLabel.setMaximumSize(new Dimension(buttonSize, buttonSize));
         goldLabel.setOpaque(false);
 
         JLabel stoneLabel = new JLabel();
