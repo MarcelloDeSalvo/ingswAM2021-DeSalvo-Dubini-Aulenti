@@ -39,4 +39,9 @@ public class DepositButton extends JButton {
         BufferedImage image = ImageUtil.loadImage("/images/resourceImages/" + resourceType.deColored().toLowerCase() + ".png");
         this.setIcon(new ImageIcon(image));
     }
+
+    @Override
+    public boolean isSelected() {
+        return selected;
+    }
 }

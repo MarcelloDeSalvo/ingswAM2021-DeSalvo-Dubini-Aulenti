@@ -521,7 +521,7 @@ public class Cli extends ClientView {
     public void printWaitingRoom(StringsMessage stringsMessage) {
         ArrayList<String> playerList = stringsMessage.getData();
         String info = stringsMessage.getInfo();
-
+        System.out.println();
         System.out.println(info);
         for (String name: playerList) {
             System.out.println("- " + name);

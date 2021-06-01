@@ -76,7 +76,7 @@ public class Controller implements ObserverController {
 
             }
 
-            currPlayer = game.getPlayer(0);
+            //currPlayer = game.getPlayer(0);
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
@@ -126,7 +126,8 @@ public class Controller implements ObserverController {
 
             case MANAGE_DEPOSIT:
             case SWITCH_DEPOSIT:
-                    manageDeposit(mex, senderNick, command);
+                currPlayer = game.getPlayer(playerNumber);
+                manageDeposit(mex, senderNick, command);
                 break;
 
             default:
@@ -416,6 +417,7 @@ public class Controller implements ObserverController {
      * Starts the turn phase
      */
     private void startGame() {
+        currPlayer = game.getPlayer(0);
         view.setCurrPlayer(game.getCurrentPlayerNick());
         game.startGame();
         view.notifyGameIsStarted();
