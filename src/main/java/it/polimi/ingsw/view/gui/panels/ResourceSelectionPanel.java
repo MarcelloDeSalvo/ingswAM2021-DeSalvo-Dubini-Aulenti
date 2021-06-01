@@ -3,7 +3,9 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.network.commands.SendContainer;
+import it.polimi.ingsw.view.gui.buttons.ButtonCard;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.buttons.ButtonSelectable;
@@ -11,12 +13,15 @@ import it.polimi.ingsw.view.gui.buttons.ButtonSelectable;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ResourceSelectionPanel extends JPanel {
 
     private final Gui gui;
     //JPanel resourcesPanel;
     private ResourceType selectedResource;
+    private int selectedDepositID;
     private DepositPanel depositPanel;
 
     public ResourceSelectionPanel(Gui gui) {
@@ -29,11 +34,11 @@ public class ResourceSelectionPanel extends JPanel {
         BackgroundImagePanel mainBoxPanel=new BackgroundImagePanel("/images/deposit.png",938,220,false);
         mainBoxPanel.setLayout(new BoxLayout(mainBoxPanel,BoxLayout.X_AXIS));
 
-        JPanel resourcesPanel=new JPanel();
+        JPanel resourcesPanel = new JPanel();
         //BackGroundImageResizePanel depositPanel=new BackGroundImageResizePanel("/images/deposit.png");
-        depositPanel= new DepositPanel();
+        depositPanel = new DepositPanel();
 
-        ButtonImage okButton=new ButtonImage("    OK     ",true);
+        ButtonImage okButton = new ButtonImage("    OK     ",true);
 
 
         mainBoxPanel.add(Box.createRigidArea(new Dimension(250,0)));
@@ -55,6 +60,7 @@ public class ResourceSelectionPanel extends JPanel {
                 resourcesPanel.add(resButton);
                 resButton.addActionListener(e -> {
                     selectedResource = rt;
+                    resourceActionWindow(resButton);
                 });
                 resourcesPanel.add(Box.createVerticalGlue());
             }
@@ -109,15 +115,18 @@ public class ResourceSelectionPanel extends JPanel {
         depositPanel.setBorder(new EmptyBorder(265,225,285,310));
 
         okButton.addActionListener(e->{
-            if(selectedResource==ResourceType.BLANK)
+            if(selectedResource == ResourceType.BLANK)
                 return;
 
-            depositPanel.fillSelectedBuffer();
+            ResourceContainer container = new ResourceContainer(selectedResource,1);
+            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", selectedDepositID, gui.getNickname()));
+
+            /*depositPanel.fillSelectedBuffer();
             for (Integer id: depositPanel.getSelectedIds()) {
-                ResourceContainer rc=new ResourceContainer(selectedResource,1);
+                ResourceContainer rc = new ResourceContainer(selectedResource, 1);
                 gui.send(new SendContainer(Command.SETUP_CONTAINER,rc,"DEPOSIT",id,gui.getNickname()));
             }
-            depositPanel.clearSelected();
+            depositPanel.clearSelected();*/
 
         });
 
@@ -130,6 +139,35 @@ public class ResourceSelectionPanel extends JPanel {
         this.add(title,BorderLayout.NORTH);
         this.add(mainBoxPanel,BorderLayout.CENTER);
 
+    }
+
+    private void resourceActionWindow (ButtonSelectable button){
+        JPopupMenu popupmenu = new JPopupMenu("Resource Action");
+        JMenuItem deposit1 = new JMenuItem("Deposit 1");
+        JMenuItem deposit2 = new JMenuItem("Deposit 2");
+        JMenuItem deposit3 = new JMenuItem("Deposit 3");
+
+        popupmenu.add(deposit1);
+        popupmenu.add(deposit2);
+        popupmenu.add(deposit3);
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                popupmenu.show(button , e.getX(), e.getY());
+            }
+        });
+
+        deposit1.addActionListener(e -> {
+            selectedDepositID = 1;
+        });
+
+        deposit2.addActionListener(e -> {
+            selectedDepositID = 2;
+        });
+
+        deposit3.addActionListener(e -> {
+            selectedDepositID = 3;
+        });
     }
 
     public DepositPanel getDepositPanel() {

@@ -10,7 +10,7 @@ public class LiteCardGrid {
 
     public LiteCardGrid(ArrayList<Integer> initialGrid, ArrayList<DevelopmentCard> developmentCards){
         this.developmentCards=developmentCards;
-        cardIDs= new ArrayList<>();
+        cardIDs = new ArrayList<>();
         cardIDs.addAll(initialGrid);
     }
 

@@ -6,11 +6,13 @@ import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CardGridPanel extends JPanel {
 
-    private Gui gui;
-    private LiteCardGrid liteCardGrid;
+    private final Gui gui;
+    private final LiteCardGrid liteCardGrid;
 
     public CardGridPanel(Gui gui, LiteCardGrid liteCardGrid) {
         this.gui = gui;
@@ -20,9 +22,10 @@ public class CardGridPanel extends JPanel {
 
         //Entrano in un ordine sbagliato :C
         for (Integer id: liteCardGrid.getCardIDs()) {
-            ButtonImage lc= new  ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
+            ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
 
             this.add(lc);
+
             lc.addActionListener(e->{
                 gui.printReply("ciao sono una carta sviluppo "+"(ID: "+id+")");
                 //MI SA CHE SERVE UN BUFFER PER COMPRARE
