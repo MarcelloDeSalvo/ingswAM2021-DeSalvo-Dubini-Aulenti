@@ -54,4 +54,15 @@ public class LiteVault {
         }
         return stringBuilder.toString();
     }
+
+    public HashMap<ResourceType, ResourceContainer> getVaultMap() {
+        return vaultMap;
+    }
+
+    public int getQtyOfResource(ResourceType resourceType){
+        if(!vaultMap.containsKey(resourceType))
+            return 0;
+
+        return vaultMap.get(resourceType).getQty();
+    }
 }

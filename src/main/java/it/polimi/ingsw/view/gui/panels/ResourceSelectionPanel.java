@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
-import it.polimi.ingsw.view.gui.buttons.ButtonSelectable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +16,6 @@ public class ResourceSelectionPanel extends JPanel {
 
     private final Gui gui;
     private ResourceType selectedResource;
-    private int selectedDepositID;
     private DepositPanel depositPanel;
 
     public ResourceSelectionPanel(Gui gui) {
@@ -32,7 +30,7 @@ public class ResourceSelectionPanel extends JPanel {
 
         JPanel resourcesPanel=new JPanel();
 
-        depositPanel= new DepositPanel();
+        depositPanel = new DepositPanel();
 
 
         mainBoxPanel.add(Box.createRigidArea(new Dimension(300,0)));
@@ -60,7 +58,7 @@ public class ResourceSelectionPanel extends JPanel {
         }
 
 
-        JLabel title= new JLabel("Select the bonus resources");
+        JLabel title = new JLabel("Select the bonus resources");
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setVerticalAlignment(SwingConstants.CENTER);
         title.setFont(new Font("Helvetica", Font.PLAIN, 40));
@@ -90,24 +88,21 @@ public class ResourceSelectionPanel extends JPanel {
         ResourceContainer container = new ResourceContainer(selectedResource,1);
 
         deposit1.addActionListener(e -> {
-            selectedDepositID = 1;
             if(selectedResource == ResourceType.BLANK)
                 return;
-            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", selectedDepositID, gui.getNickname()));
+            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", 1, gui.getNickname()));
         });
 
         deposit2.addActionListener(e -> {
-            selectedDepositID = 2;
             if(selectedResource == ResourceType.BLANK)
                 return;
-            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", selectedDepositID, gui.getNickname()));
+            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", 2, gui.getNickname()));
         });
 
         deposit3.addActionListener(e -> {
-            selectedDepositID = 3;
             if(selectedResource == ResourceType.BLANK)
                 return;
-            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", selectedDepositID, gui.getNickname()));
+            gui.send(new SendContainer(Command.SETUP_CONTAINER, container, "DEPOSIT", 3, gui.getNickname()));
         });
     }
 
