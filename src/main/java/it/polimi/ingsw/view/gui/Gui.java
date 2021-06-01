@@ -206,7 +206,7 @@ public class Gui extends ClientView {
     //ASK---------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
-        System.out.println("Ho ricevuto il res set up");
+
         ResourceSelectionPanel resourceSelectionPanel = new ResourceSelectionPanel(this);
         mainPanel.add(resourceSelectionPanel, "5");
         cardLayout.show(mainPanel, "5");

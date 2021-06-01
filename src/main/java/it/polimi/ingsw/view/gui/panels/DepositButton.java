@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.ImageUtil;
+import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;

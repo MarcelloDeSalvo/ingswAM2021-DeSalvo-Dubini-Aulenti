@@ -124,6 +124,11 @@ public class Controller implements ObserverController {
                 addSetUpContainerToPlayer(playerNumber, sendContainer1.getContainer(), sendContainer1.getDestinationID(), senderNick);
                 break;
 
+            case MANAGE_DEPOSIT:
+            case SWITCH_DEPOSIT:
+                    manageDeposit(mex, senderNick, command);
+                break;
+
             default:
                 view.printReply_uni("Please wait for the set-up phase to end!", senderNick);
                 break;
