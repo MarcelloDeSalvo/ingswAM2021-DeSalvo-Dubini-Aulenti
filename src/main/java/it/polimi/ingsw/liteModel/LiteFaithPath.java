@@ -142,6 +142,14 @@ public class LiteFaithPath {
         }
         return stringBuilder.toString();
     }
+
+    public ArrayList<Integer> getPositions() {
+        return positions;
+    }
+
+    public Integer getPositions(String name) {
+        return positions.get(nicknames.indexOf(name));
+    }
 }
 
 

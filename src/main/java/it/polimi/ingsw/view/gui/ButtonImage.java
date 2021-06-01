@@ -53,7 +53,6 @@ public class ButtonImage extends JButton {
             this.setBorderPainted(false);
             this.setContentAreaFilled(false);
             this.setPreferredSize(new Dimension(ico.getIconWidth(), ico.getIconHeight()));
-            this.setOpaque(false);
         } catch (NullPointerException ex) {
             System.out.println("Button image not found: " +path);
         }

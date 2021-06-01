@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui.panels;
 
 
+import it.polimi.ingsw.model.resources.ResourceType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -8,17 +10,14 @@ import java.util.HashMap;
 
 public class DepositPanel extends JPanel {
     private HashMap<Integer, ArrayList<DepositButton>> depositButtons;
-    private ArrayList<Integer> selectedIds;
+    private ArrayList<Point> selectedIds;
 
     public DepositPanel() {
-        super();
         selectedIds= new ArrayList<>();
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setOpaque(false);
 
         JPanel deposit = new JPanel();
-        JPanel utilityButtons = new JPanel();
-
         deposit.setLayout(new BoxLayout(deposit, BoxLayout.Y_AXIS));
         deposit.setOpaque(false);
 
@@ -27,15 +26,9 @@ public class DepositPanel extends JPanel {
         depositRow1.setLayout(new GridLayout(1,1));
         depositRow1.setOpaque(false);
 
-        DepositButton depositButton1_1 = new DepositButton();
+        DepositButton depositButton1_1 = new DepositButton(1,0);
         depositButton1_1.setContentAreaFilled(false);
         depositButton1_1.setOpaque(false);
-        depositButton1_1.addActionListener(e->{
-            if(!depositButton1_1.isSelected())
-                selectedIds.add(1);
-            else if(selectedIds.contains(1))
-                selectedIds.remove((Integer) 1);
-        });
 
         depositRow1.add(depositButton1_1);
 
@@ -44,25 +37,13 @@ public class DepositPanel extends JPanel {
         depositRow2.setLayout(new GridLayout(1,2));
         depositRow2.setOpaque(false);
 
-        DepositButton depositButton2_1 = new DepositButton();
+        DepositButton depositButton2_1 = new DepositButton(2,0);
         depositButton2_1.setContentAreaFilled(false);
         depositButton2_1.setOpaque(false);
-        depositButton2_1.addActionListener(e->{
-            if(!depositButton2_1.isSelected())
-                selectedIds.add(2);
-            else if(selectedIds.contains(2))
-                selectedIds.remove((Integer) 2);
-        });
 
-        DepositButton depositButton2_2 = new DepositButton();
+        DepositButton depositButton2_2 = new DepositButton(2,1);
         depositButton2_2.setContentAreaFilled(false);
         depositButton2_2.setOpaque(false);
-        depositButton2_2.addActionListener(e->{
-            if(!depositButton2_2.isSelected())
-                selectedIds.add(2);
-            else if(selectedIds.contains(2))
-                selectedIds.remove((Integer) 2);
-        });
 
         depositRow2.add(depositButton2_1);
         depositRow2.add(depositButton2_2);
@@ -72,35 +53,17 @@ public class DepositPanel extends JPanel {
         depositRow3.setLayout(new  GridLayout(1,3));
         depositRow3.setOpaque(false);
 
-        DepositButton depositButton3_1 = new DepositButton();
+        DepositButton depositButton3_1 = new DepositButton(3,0);
         depositButton3_1.setContentAreaFilled(false);
         depositButton3_1.setOpaque(false);
-        depositButton3_1.addActionListener(e->{
-            if(!depositButton3_1.isSelected())
-                selectedIds.add(3);
-            else if(selectedIds.contains(3))
-                selectedIds.remove((Integer) 3);
-        });
 
-        DepositButton depositButton3_2 = new DepositButton();
+        DepositButton depositButton3_2 = new DepositButton(3,1);
         depositButton3_2.setContentAreaFilled(false);
         depositButton3_2.setOpaque(false);
-        depositButton3_2.addActionListener(e->{
-            if(!depositButton3_2.isSelected())
-                selectedIds.add(3);
-            else if(selectedIds.contains(3))
-                selectedIds.remove((Integer) 3);
-        });
 
-        DepositButton depositButton3_3 = new DepositButton();
+        DepositButton depositButton3_3 = new DepositButton(3,2);
         depositButton3_3.setContentAreaFilled(false);
         depositButton3_3.setOpaque(false);
-        depositButton3_3.addActionListener(e->{
-            if(!depositButton3_3.isSelected())
-                selectedIds.add(3);
-            else if(selectedIds.contains(3))
-                selectedIds.remove((Integer) 3);
-        });
 
         depositRow3.add(depositButton3_1);
         depositRow3.add(depositButton3_2);
@@ -129,6 +92,7 @@ public class DepositPanel extends JPanel {
         depositButtons.put(3, row3);
 
         //UTILITY BUTTONS
+        JPanel utilityButtons = new JPanel();
         utilityButtons.setLayout(new BoxLayout(utilityButtons, BoxLayout.Y_AXIS));
         utilityButtons.setOpaque(false);
 
@@ -137,17 +101,57 @@ public class DepositPanel extends JPanel {
         utilityButtons.add(new JButton("ADD"));
 
         this.add(deposit);
-        //this.add(Box.createRigidArea(new Dimension(200,10)));
         this.add(utilityButtons);
 
     }
 
+    public void copy(ResourceType resourceType, ArrayList<Point> selectedIds){
+        for (Point point: selectedIds) {
+            depositButtons.get(point.x).get(point.y).setResourceTypeImage(resourceType);
+        }
+        clearBuffer();
+    }
+
+    public void fill(ResourceType resourceType){
+        for (Point point: this.selectedIds) {
+           depositButtons.get(point.x).get(point.y).setResourceTypeImage(resourceType);
+        }
+        clearBuffer();
+    }
+
     public void clearSelected(){
+        for (Integer i: depositButtons.keySet()) {
+            for (DepositButton depositButton : depositButtons.get(i)) {
+                if (depositButton.isSelected())
+                    depositButton.setSelected(false);
+            }
+        }
+    }
+
+    public void fillSelectedBuffer() {
+        for (Integer i: depositButtons.keySet()) {
+            for (DepositButton depositButton : depositButtons.get(i)) {
+                if (depositButton.isSelected())
+                    selectedIds.add(new Point(depositButton.getId(), depositButton.getPos()));
+            }
+        }
+    }
+
+    public void clearBuffer(){
         selectedIds.clear();
     }
 
     public ArrayList<Integer> getSelectedIds() {
-        return selectedIds;
+        ArrayList<Integer> iDs =  new ArrayList<>();
+
+        for (Integer i: depositButtons.keySet()) {
+            for (DepositButton depositButton : depositButtons.get(i)) {
+                if (depositButton.isSelected())
+                    iDs.add(depositButton.getId());
+            }
+        }
+
+        return iDs;
     }
 
     public HashMap<Integer, ArrayList<DepositButton>> getDepositButtons() {

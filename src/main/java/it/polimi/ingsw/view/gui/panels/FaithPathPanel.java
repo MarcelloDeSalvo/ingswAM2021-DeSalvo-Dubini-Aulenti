@@ -37,10 +37,12 @@ public class FaithPathPanel extends BackgroundImagePanel {
 
             redCrossImages.add(redCrossImage);
             add(redCrossImage);
+
+            incRedCrossImages(nickname, liteFaithPath.getPositions(nickname));
+
             i++;
         }
 
-        //incRedCrossImages("LORENZO");
     }
 
     public ArrayList<RedCrossImage> getRedCrossImages() {

@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.model.cards.Status;
-import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.view.gui.Gui;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 public class PlayerBoardPanel extends JLayeredPane {
 
     private final Gui gui;
+    private DepositPanel depositPanel;
 
     public PlayerBoardPanel(Gui gui) {
         super();
@@ -76,12 +75,11 @@ public class PlayerBoardPanel extends JLayeredPane {
         developmentSlotButtons(layer1);
 
         //DEPOSIT ZONE
-        DepositPanel deposit = gui.getMyLiteDeposit().getDepositPanel();
-        deposit.setLayout(new BoxLayout(deposit, BoxLayout.Y_AXIS));
-        deposit.setOpaque(false);
-
-        deposit.setBounds(70,120,320,385);
-        layer1.add(deposit);
+        depositPanel = new DepositPanel();
+        depositPanel.setLayout(new BoxLayout(depositPanel, BoxLayout.X_AXIS));
+        depositPanel.setOpaque(false);
+        depositPanel.setBounds(70,120,320,385);
+        layer1.add(depositPanel);
 
         //---------------------------------------------------------------------------------------------------------------------------
 
@@ -136,5 +134,9 @@ public class PlayerBoardPanel extends JLayeredPane {
             currPanel.remove(button);
             currPanel.repaint();
         });
+    }
+
+    public DepositPanel getDepositPanel() {
+        return depositPanel;
     }
 }

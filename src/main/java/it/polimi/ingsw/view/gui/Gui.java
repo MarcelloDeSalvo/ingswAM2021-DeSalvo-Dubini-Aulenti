@@ -32,6 +32,7 @@ public class Gui extends ClientView {
     private LobbyPanel lobbyPanel;
     private LobbyRoomPanel lobbyRoomPanel;
     private GamePanel gamePanel;
+    private ResourceSelectionPanel resourceSelectionPanel;
 
     private JFrame frame;
     private Label infoLabel;
@@ -207,7 +208,7 @@ public class Gui extends ClientView {
     @Override
     public void askForResources(String nickname, int qty) {
 
-        ResourceSelectionPanel resourceSelectionPanel = new ResourceSelectionPanel(this);
+        resourceSelectionPanel = new ResourceSelectionPanel(this);
         mainPanel.add(resourceSelectionPanel, "5");
         cardLayout.show(mainPanel, "5");
     }
@@ -222,7 +223,11 @@ public class Gui extends ClientView {
     //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
     @Override
     public void notifyGameIsStarted() {
-
+        try {
+            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
+        } catch (ImageNotFound e) {
+            System.out.println("A critical error has been occurred File not Found");
+        }
 
         mainPanel.add(gamePanel, "gamePanel");
         cardLayout.show(mainPanel, "gamePanel");
@@ -238,21 +243,18 @@ public class Gui extends ClientView {
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
 
-        getMyLiteDeposit().setDepositPanel(new DepositPanel());
         this.setInGame(true);
         printOrder();
 
-        try {
-            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
-        } catch (ImageNotFound e) {
-            System.out.println("A critical error has been occurred File not Found");
-        }
+
     }
 
     @Override
     public void notifyCurrentPlayerIncrease(int faithPoints, String nickname) {
         getLiteFaithPath().incrementPosition(faithPoints, nickname);
-        gamePanel.getFaithPathPanel().incRedCrossImages(nickname, faithPoints);
+
+        if (gamePanel != null)
+            gamePanel.getFaithPathPanel().incRedCrossImages(nickname, faithPoints);
 
         if (!nickname.equals(getNickname()))
             gamePanel.getNotifyLabel().setText(nickname + "'s position has been incremented by " + faithPoints + " FAITH POINT");
@@ -380,10 +382,23 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
-        if (added)
+        if (added){
             getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
-        else
+            if (resourceSelectionPanel!=null)
+                resourceSelectionPanel.getDepositPanel().fill(resourceContainer.getResourceType());
+            if(gamePanel!=null)
+                gamePanel.getPlayerBoardPanel().getDepositPanel().fill(resourceContainer.getResourceType());
+        }
+
+        else{
             getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
+            if (resourceSelectionPanel!=null)
+                resourceSelectionPanel.getDepositPanel().fill(null);
+            if(gamePanel!=null)
+                gamePanel.getPlayerBoardPanel().getDepositPanel().fill(null);
+        }
+
+
     }
 
     @Override

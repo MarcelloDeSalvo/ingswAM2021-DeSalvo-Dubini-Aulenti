@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.panels;
 
-import it.polimi.ingsw.model.cards.ResourceRequirement;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
@@ -11,14 +10,13 @@ import it.polimi.ingsw.view.gui.Gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-
 
 public class ResourceSelectionPanel extends JPanel {
 
     private final Gui gui;
     //JPanel resourcesPanel;
-    ResourceType selectedResource;
+    private ResourceType selectedResource;
+    private DepositPanel depositPanel;
 
     public ResourceSelectionPanel(Gui gui) {
         super();
@@ -32,7 +30,8 @@ public class ResourceSelectionPanel extends JPanel {
 
         JPanel resourcesPanel=new JPanel();
         //BackGroundImagePanelResize depositPanel=new BackGroundImagePanelResize("/images/deposit.png");
-        DepositPanel depositPanel=gui.getMyLiteDeposit().getDepositPanel();
+        depositPanel= new DepositPanel();
+
         ButtonImage okButton=new ButtonImage("    OK     ",true);
 
 
@@ -111,10 +110,14 @@ public class ResourceSelectionPanel extends JPanel {
         okButton.addActionListener(e->{
             if(selectedResource==ResourceType.BLANK)
                 return;
-            for (Integer id: depositPanel.getSelectedIds() ) {
+
+            depositPanel.fillSelectedBuffer();
+            for (Integer id: depositPanel.getSelectedIds()) {
                 ResourceContainer rc=new ResourceContainer(selectedResource,1);
                 gui.send(new SendContainer(Command.SETUP_CONTAINER,rc,"DEPOSIT",id,gui.getNickname()));
             }
+            depositPanel.clearSelected();
+
         });
 
         JLabel title= new JLabel("Select the bonus resources");
@@ -126,5 +129,9 @@ public class ResourceSelectionPanel extends JPanel {
         this.add(title,BorderLayout.NORTH);
         this.add(mainBoxPanel,BorderLayout.CENTER);
 
+    }
+
+    public DepositPanel getDepositPanel() {
+        return depositPanel;
     }
 }

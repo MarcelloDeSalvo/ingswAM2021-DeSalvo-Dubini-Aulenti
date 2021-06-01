@@ -3,20 +3,17 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
-import it.polimi.ingsw.view.gui.panels.DepositButton;
 import it.polimi.ingsw.view.gui.panels.DepositPanel;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class LiteDeposit {
 
     private final ArrayList<MiniDeposit> deposits;
-    private DepositPanel depositPanel;
 
     public LiteDeposit() {
         this.deposits = new ArrayList<>();
-        this.depositPanel = null;
+
         for(int i = 0; i<3; i++)
             deposits.add(new MiniDeposit(i+1));
     }
@@ -103,6 +100,7 @@ public class LiteDeposit {
         }
     }
 
+
     public void addSlot(int maxDim, ResourceType resourceType) {
         if (resourceType==null)
             deposits.add(new MiniDeposit(maxDim));
@@ -112,28 +110,10 @@ public class LiteDeposit {
 
     public void addRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).addToDepositSlot(resourceContainer);
-
-        if (depositPanel!=null){
-            for (int i = 0; i<resourceContainer.getQty(); i++)
-                depositPanel.getDepositButtons().get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
-        }
     }
 
     public void removeRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).removeFromDepositSLot(resourceContainer);
-
-        if (depositPanel!=null){
-            for (int i = 0; i<resourceContainer.getQty(); i++)
-                depositPanel.getDepositButtons().get(id).get(i).setResourceTypeImage(null);
-        }
-    }
-
-    public void setDepositPanel(DepositPanel depositPanel) {
-        this.depositPanel = depositPanel;
-    }
-
-    public DepositPanel getDepositPanel() {
-        return depositPanel;
     }
 
     @Override
