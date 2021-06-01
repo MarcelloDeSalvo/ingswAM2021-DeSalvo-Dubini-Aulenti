@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteFaithPath;
+import it.polimi.ingsw.liteModel.LiteMarket;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -16,6 +17,7 @@ public class GamePanel extends JPanel {
     private final FaithPathPanel faithPathPanel;
     private final PlayerBoardPanel playerBoardPanel;
     private final CardGridPanel cardGridPanel;
+    private MarketPanel marketPanel;
 
     private Gui gui;
     private BackgroundImagePanel main;
@@ -25,7 +27,7 @@ public class GamePanel extends JPanel {
 
     private JLabel notifyLabel;
 
-    public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid) throws ImageNotFound {
+    public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid, LiteMarket liteMarket) throws ImageNotFound {
         super();
         this.gui = gui;
 
@@ -47,9 +49,13 @@ public class GamePanel extends JPanel {
         cardGridPanel = new CardGridPanel(gui, liteCardGrid);
         cardGridPanel.setOpaque(false);
 
+        marketPanel=new MarketPanel(gui, liteMarket);
+        marketPanel.setOpaque(false);
+
         main.add(playerBoardPanel,"playerBoardPanel");
         main.add(faithPathPanel,"faithPathPanel");
         main.add(cardGridPanel, "cardGridPanel");
+        main.add(marketPanel, "marketPanel");
 
         cardLayout.show(main,"playerBoardPanel");
 
@@ -87,7 +93,7 @@ public class GamePanel extends JPanel {
         showFaithpath.addActionListener(e -> cardLayout.show(main, "faithPathPanel"));
 
         JButton showMarket = new ButtonImage("MARKET", 22,true);
-        showMarket.addActionListener(e -> cardLayout.show(main, "2"));
+        showMarket.addActionListener(e -> cardLayout.show(main, "marketPanel"));
 
         JButton showCardGrid = new ButtonImage("CARD GRID", 22,true);
         showCardGrid.addActionListener(e -> cardLayout.show(main, "cardGridPanel"));

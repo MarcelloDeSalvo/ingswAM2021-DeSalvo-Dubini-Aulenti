@@ -224,10 +224,11 @@ public class Gui extends ClientView {
     @Override
     public void notifyGameIsStarted() {
         try {
-            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid());
+            gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid(),this.getLiteMarket());
             getMyLiteDeposit().setDepositPanel(gamePanel.getPlayerBoardPanel().getDepositPanel());
         } catch (ImageNotFound e) {
             System.out.println("A critical error has been occurred File not Found");
+            System.exit(-1);
         }
 
         mainPanel.add(gamePanel, "gamePanel");

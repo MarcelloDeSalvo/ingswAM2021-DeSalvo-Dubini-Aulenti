@@ -38,6 +38,19 @@ public class LiteMarket {
         }
     }
 
+
+    public ArrayList<ResourceContainer> getMarketArray(){
+        ArrayList<ResourceContainer> myMarket=new ArrayList<>();
+        for(int i=0; i<columns;i++){
+            for(int j=0;j<rows;j++){
+                myMarket.add(market[i][j]);
+            }
+        }
+        return myMarket;
+    }
+
+    public ResourceContainer getVacant() { return vacant; }
+
     @Override
     public String toString() {
         StringBuilder liteMarketToString = new StringBuilder();

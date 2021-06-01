@@ -60,7 +60,7 @@ public class BackgroundImagePanel extends JPanel {
         if(width == 0 || height == 0)
             graphics2D.drawImage(backGroundImg, x, y, this);
         else
-            graphics2D.drawImage(backGroundImg, x, y, this.getWidth(), this.getHeight(), this);
+            graphics2D.drawImage(backGroundImg, x, y, width, height, this);
     }
 
     public Graphics2D getGraphics2D(){
