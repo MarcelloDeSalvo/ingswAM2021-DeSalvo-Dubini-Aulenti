@@ -3,18 +3,20 @@ package it.polimi.ingsw.view.gui.buttons;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.ImageUtil;
+import it.polimi.ingsw.view.gui.customImages.LabelImage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
-public class DepositButton extends JButton {
+public class DepositButton extends LabelImage {
 
     private boolean selected = false;
     private ResourceType resourceType;
+    private boolean empty = true;
     private int id;
     private int pos;
 
@@ -22,41 +24,54 @@ public class DepositButton extends JButton {
         super();
         this.id = id;
         this.pos = pos;
+        this.addMouseListener(
+                new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (!selected){
+                            selected= true;
+                            setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                        }
+                        else{
+                            selected = false;
+                            setBorder(BorderFactory.createEmptyBorder());
+                        }
+                        repaint();
+                    }
 
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                if (!selected){
-                    selected= true;
-                    setBorder(BorderFactory.createLineBorder(Color.GREEN, 2));
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        DepositButton.super.repaint();
+                    }
                 }
-                else{
-                    selected = false;
-                    setBorder(BorderFactory.createEmptyBorder());
-                }
-
-            }
-        });
+        );
     }
 
     public void setResourceTypeImage(ResourceType resourceType) throws ImageNotFound {
         if (resourceType==null){
-            this.setIcon(null);
+            this.setImageLabel(null);
+            empty = true;
             return;
         }
 
         BufferedImage image = ImageUtil.loadImage("/images/resourceImages/" + resourceType.deColored().toLowerCase() + ".png");
-        this.setIcon(new ImageIcon(image));
+        this.setImageLabel(image);
         this.resourceType = resourceType;
+        empty = false;
     }
 
-    @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
 
-    @Override
+    public boolean isEmpty() {
+        return empty;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
     public boolean isSelected() {
         return selected;
     }

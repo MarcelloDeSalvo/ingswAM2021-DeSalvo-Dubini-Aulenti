@@ -78,8 +78,6 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         //DEPOSIT ZONE
         depositPanel = new DepositPanel();
-        depositPanel.setLayout(new BoxLayout(depositPanel, BoxLayout.X_AXIS));
-        depositPanel.setOpaque(false);
         depositPanel.setBounds(70,120,320,385);
         layer1.add(depositPanel);
 

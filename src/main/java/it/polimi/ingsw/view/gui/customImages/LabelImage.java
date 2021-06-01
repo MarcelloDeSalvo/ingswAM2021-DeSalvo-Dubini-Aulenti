@@ -8,11 +8,20 @@ import java.awt.image.BufferedImage;
 
 public class LabelImage extends JPanel {
 
-    private final BufferedImage imageLabel;
+    private BufferedImage imageLabel;
 
     public LabelImage(String path){
         super();
         imageLabel =  ImageUtil.loadImage(path);
+    }
+
+    public LabelImage(){
+        super();
+        imageLabel = null;
+    }
+
+    public void setImageLabel(BufferedImage imageLabel) {
+        this.imageLabel = imageLabel;
     }
 
     @Override

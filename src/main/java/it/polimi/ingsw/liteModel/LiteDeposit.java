@@ -112,14 +112,20 @@ public class LiteDeposit {
 
     public void addRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).addToDepositSlot(resourceContainer);
-        if (depositPanel!=null)
-            depositPanel.fill(resourceContainer, id);
+        if (depositPanel!=null){
+            depositPanel.addImage(resourceContainer, id);
+            depositPanel.repaint();
+        }
+
     }
 
     public void removeRes(ResourceContainer resourceContainer, int id){
         deposits.get(id-1).removeFromDepositSLot(resourceContainer);
-        if (depositPanel!=null)
+        if (depositPanel!=null){
             depositPanel.remove(resourceContainer, id);
+            depositPanel.repaint();
+        }
+
     }
 
     public void setDepositPanel(DepositPanel depositPanel) {
