@@ -2,6 +2,9 @@ package it.polimi.ingsw.observers;
 
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.gameListeners.*;
 
 import java.util.ArrayList;
@@ -49,6 +52,11 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
      * Notifies a player that it's his turn
      */
     void printItsYourTurn(String nickname);
+
+    /**
+     * Sends a mini help
+     */
+    void printTurnHelp(String nickname);
 
     /**
      * Asks the player a certain number of resources

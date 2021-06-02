@@ -83,9 +83,20 @@ public class Gui extends ClientView {
     }
 
 
-    //OnEvent-----------------------------------------------------------------------------------------------------------
+    //ON EVENT----------------------------------------------------------------------------------------------------------
     @Override
     public void onDisconnect(User user) {
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(ImageUtil.loadImage("/images/retrocerchi.png"));
+
+        int option = JOptionPane.showConfirmDialog(frame,
+                "I'm sorry, something went really wrong!",
+                "OOPS!",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.ERROR_MESSAGE, icon);
+
+        if (option == JOptionPane.OK_OPTION)
+            System.exit(-1);
     }
 
     @Override
@@ -173,6 +184,11 @@ public class Gui extends ClientView {
     }
 
     @Override
+    public void printTurnHelp(String nickname) {
+
+    }
+
+    @Override
     public void printPlayerList(String info, ArrayList<String> names) {
         lobbyRoomPanel.printPlayerList(info, names);
     }
@@ -217,6 +233,7 @@ public class Gui extends ClientView {
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) { }
     //------------------------------------------------------------------------------------------------------------------
+
 
     //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
     @Override
@@ -443,6 +460,7 @@ public class Gui extends ClientView {
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
     //GETTER SETTER-----------------------------------------------------------------------------------------------------
     public GuiStatus getGuiStatus() {
         return guiStatus;
@@ -456,6 +474,7 @@ public class Gui extends ClientView {
         return gamePanel;
     }
     //------------------------------------------------------------------------------------------------------------------
+
 
     //------------------------------------------------------------------------------------------------------------------
     @Override

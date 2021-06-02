@@ -57,13 +57,11 @@ public class Controller implements ObserverController {
                 game.addView(view);
 
                 view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
-                //view.printOrder(playersNicknames);
 
                 for (Player player : game.getPlayerList()) {
                     view.notifyCardsInHand(player.getHandIDs(), player.getNickname());
                     view.askForLeaderCardID(player.getNickname());
                 }
-
             }
             else {
                 game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
@@ -75,8 +73,6 @@ public class Controller implements ObserverController {
                 view.askForLeaderCardID(game.getPlayer(0).getNickname());
 
             }
-
-            //currPlayer = game.getPlayer(0);
 
         }catch (FileNotFoundException e){
             e.printStackTrace();
@@ -262,7 +258,8 @@ public class Controller implements ObserverController {
         IdMessage idMessage = gson.fromJson(mex, IdMessage.class);
 
         if(game.getPlayer(playerNumber).isLeadersHaveBeenDiscarded()){
-            view.printReply_uni("You can't do this action because you already discarded 2 Leaders! Please wait for the other players to to so", senderNick);
+            view.printReply_uni("You can't do this action because you already discarded 2 Leaders! " +
+                    "Please wait for the other players to to so", senderNick);
             return;
         }
 
@@ -398,7 +395,8 @@ public class Controller implements ObserverController {
             game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
             game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
 
-            view.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + " has been added to your deposit slot N: " + depositSlotID, currNickname);
+            view.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + "" +
+                    " has been added to your deposit slot N: " + depositSlotID, currNickname);
 
             return true;
 
@@ -486,7 +484,8 @@ public class Controller implements ObserverController {
     }
 
     /**
-     * When the player is in 'PlayerStatus.SELECTING_BUY_RESOURCES' or 'PlayerStatus.PlayerStatus.SELECTING_PRODUCTION_RESOURCES' the method is used to receive the resources selected and checking <br>
+     * When the player is in 'PlayerStatus.SELECTING_BUY_RESOURCES' or 'PlayerStatus.PlayerStatus.SELECTING_PRODUCTION_RESOURCES'
+     * the method is used to receive the resources selected and checking <br>
      * if the removing of the container goes right.
      * When the command 'DONE' is received calls 'buyDevelopmentCard()' or 'produce()' method
      * @param mex message received
@@ -585,7 +584,7 @@ public class Controller implements ObserverController {
     private void buyDevelopmentCard(String senderNick) {
 
         if(!currPlayer.canBuy(newDevelopmentCard)) {
-            view.printReply_uni("The resources you selected aren't correct!", senderNick);
+            view.notifyBuyError("The resources you selected aren't correct!");
             view.printTurnHelp(senderNick);
             currPlayer.emptyBuffers();
             return;
@@ -641,7 +640,8 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_QM){
-            view.printReply_uni("Please start filling the Production Slots N: " + firstID + " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
+            view.printReply_uni("Please start filling the Production Slots N: " + firstID +
+                    " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE) {
@@ -696,7 +696,8 @@ public class Controller implements ObserverController {
 
         for (int id : productionSlotIDs) {
             if(currPlayer.getProductionSlotByID(id).hasStillQuestionMarks()) {
-                view.printReply_uni("Please start filling the Production Slots N: " + id + " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
+                view.printReply_uni("Please start filling the Production Slots N: " + id +
+                        " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
                 return;
             }
         }
@@ -766,7 +767,8 @@ public class Controller implements ObserverController {
 
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
-            view.printReply_everyOneElse(senderNick+" has extracted the "+marketMessage.getSelection()+" "+marketMessage.getNum()+" from the market!", senderNick);
+            view.printReply_everyOneElse(senderNick+" has extracted the "+marketMessage.getSelection()+" "
+                    +marketMessage.getNum()+" from the market!", senderNick);
             view.notifyUsers(marketMessage);
             mainActionAvailable = false;
 
@@ -776,7 +778,8 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
-            view.printReply_uni("You have multiple leaders with the conversion ability, please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
+            view.printReply_uni("You have multiple leaders with the conversion ability, " +
+                    "please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
             game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
             conversionController(senderNick);
             return;

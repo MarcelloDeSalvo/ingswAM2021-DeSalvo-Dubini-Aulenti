@@ -36,6 +36,8 @@ public class ClientReceiver extends Thread{
             in.close();
 
         } catch (IOException e) {
+            //e.printStackTrace();
+            view.onDisconnect(null);
             System.out.println("Disconnected from the server");
 
         } catch (JsonSyntaxException e) {

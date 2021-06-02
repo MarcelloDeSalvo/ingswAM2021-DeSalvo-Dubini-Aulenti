@@ -1,6 +1,7 @@
-package it.polimi.ingsw.view.gui.buttons;
+package it.polimi.ingsw.view.gui.customJObject;
 
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
+import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.ImageUtil;
 import it.polimi.ingsw.view.gui.customImages.LabelImage;
@@ -12,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
-public class DepositButton extends LabelImage {
+public class ResourceTypeLabel extends LabelImage {
 
     private boolean selected = false;
     private ResourceType resourceType;
@@ -20,33 +21,35 @@ public class DepositButton extends LabelImage {
     private int id;
     private int pos;
 
-    public DepositButton(int id, int pos) {
+    public ResourceTypeLabel(int id, int pos, int size) {
         super();
         this.id = id;
         this.pos = pos;
+        this.setOpaque(false);
+        this.setMinimumSize(new Dimension(size-1,size-1));
+        this.setMaximumSize(new Dimension(size, size));
+
         this.addMouseListener(
                 new MouseAdapter() {
+
                     @Override
-                    public void mouseClicked(MouseEvent e) {
-                        if (!selected){
-                            selected= true;
-                            setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
-                        }
-                        else{
-                            selected = false;
-                            setBorder(BorderFactory.createEmptyBorder());
-                        }
-                        repaint();
+                    public void mouseExited(MouseEvent e) {
+                        setBorder(BorderFactory.createEmptyBorder());
+                        ResourceTypeLabel.super.repaint();
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        DepositButton.super.repaint();
+                        setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                        ResourceTypeLabel.super.repaint();
                     }
                 }
         );
     }
 
+    /**
+     * Sets the label image to a specific resourceType image
+     */
     public void setResourceTypeImage(ResourceType resourceType) throws ImageNotFound {
         if (resourceType==null){
             this.setImageLabel(null);
@@ -78,6 +81,10 @@ public class DepositButton extends LabelImage {
 
     public ResourceType getResourceType() {
         return resourceType;
+    }
+
+    public ResourceContainer getResourceContainer() {
+        return new ResourceContainer(resourceType, 1);
     }
 
     public int getId() {

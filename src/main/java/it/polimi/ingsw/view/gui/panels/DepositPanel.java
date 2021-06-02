@@ -2,21 +2,35 @@ package it.polimi.ingsw.view.gui.panels;
 
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.view.gui.buttons.DepositButton;
+import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.SendContainer;
+import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.GuiStatus;
+import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DepositPanel extends JPanel {
-    private HashMap<Integer, ArrayList<DepositButton>> depositButtons;
+    private final HashMap<Integer, ArrayList<ResourceTypeLabel>> depositButtons;
     private ArrayList<Point> selectedIds;
 
-    private final int buttonSize = 110;
+    private final int labelSize = 110;
+    private Gui gui;
 
-    public DepositPanel() {
+    public DepositPanel(Gui gui) {
+        this.gui = gui;
         selectedIds = new ArrayList<>();
+        depositButtons = new HashMap<>();
+
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         this.setOpaque(false);
 
@@ -25,64 +39,45 @@ public class DepositPanel extends JPanel {
         deposit.setOpaque(false);
 
         //ROW 1
+        ArrayList<ResourceTypeLabel> row1 = new ArrayList<>();
+
         JPanel depositRow1 = new JPanel();
         depositRow1.setLayout(new BoxLayout(depositRow1, BoxLayout.X_AXIS));
-        //depositRow1.setPreferredSize(new Dimension(buttonSize,buttonSize));
         depositRow1.setOpaque(false);
 
-        DepositButton depositButton1_1 = new DepositButton(1,0);
-        //depositButton1_1.setMinimumSize(new Dimension(buttonSize,buttonSize));
-        depositButton1_1.setMinimumSize(new Dimension(buttonSize-1,buttonSize-1));
-        depositButton1_1.setMaximumSize(new Dimension(buttonSize,buttonSize));
-        depositButton1_1.setOpaque(false);
+        ResourceTypeLabel resourceTypeLabel1_1 = new ResourceTypeLabel(1,0, labelSize);
+        resourceTypeLabel1_1.addMouseListener(new DepositListener(resourceTypeLabel1_1));
 
-
-        depositRow1.add(depositButton1_1);
-        //depositRow1.setAlignmentX(CENTER_ALIGNMENT);
+        row1.add(resourceTypeLabel1_1);
+        depositRow1.add(resourceTypeLabel1_1);
 
         //ROW 2
+        ArrayList<ResourceTypeLabel> row2 = new ArrayList<>();
+
         JPanel depositRow2 = new JPanel();
         depositRow2.setLayout(new BoxLayout(depositRow2, BoxLayout.X_AXIS));
         depositRow2.setOpaque(false);
 
-        DepositButton depositButton2_1 = new DepositButton(2,0);
-        depositButton2_1.setMinimumSize(new Dimension(buttonSize-1,buttonSize-1));
-        depositButton2_1.setMaximumSize(new Dimension(buttonSize,buttonSize));
-        depositButton2_1.setOpaque(false);
+        for(int i = 0; i<2; i++){
+            ResourceTypeLabel resourceTypeLabel2_x = new ResourceTypeLabel(2,i, labelSize);
+            resourceTypeLabel2_x.addMouseListener(new DepositListener(resourceTypeLabel2_x));
+            row2.add(resourceTypeLabel2_x);
+            depositRow2.add(resourceTypeLabel2_x);
+        }
 
-        DepositButton depositButton2_2 = new DepositButton(2,1);
-        depositButton2_2.setMinimumSize(new Dimension(buttonSize-1,buttonSize-1));
-        depositButton2_2.setMaximumSize(new Dimension(buttonSize,buttonSize));
-        depositButton2_2.setOpaque(false);
-
-        depositRow2.add(depositButton2_1);
-        depositRow2.add(depositButton2_2);
-        //depositRow2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         //ROW 3
+        ArrayList<ResourceTypeLabel> row3 = new ArrayList<>();
         JPanel depositRow3 = new JPanel();
         depositRow3.setLayout(new BoxLayout(depositRow3, BoxLayout.X_AXIS));
         depositRow3.setOpaque(false);
 
-        DepositButton depositButton3_1 = new DepositButton(3,0);
-        depositButton3_1.setMinimumSize(new Dimension(buttonSize-1,buttonSize-1));
-        depositButton3_1.setMaximumSize(new Dimension(buttonSize,buttonSize));
-        depositButton3_1.setOpaque(false);
-
-        DepositButton depositButton3_2 = new DepositButton(3,1);
-        depositButton3_2.setMinimumSize(new Dimension(buttonSize-1,buttonSize-1));
-        depositButton3_2.setMaximumSize(new Dimension(buttonSize,buttonSize));
-        depositButton3_2.setOpaque(false);
-
-        DepositButton depositButton3_3 = new DepositButton(3,2);
-        depositButton3_3.setMinimumSize(new Dimension(buttonSize-1,buttonSize-1));
-        depositButton3_3.setMaximumSize(new Dimension(buttonSize,buttonSize));
-        depositButton3_3.setOpaque(false);
-
-        depositRow3.add(depositButton3_1);
-        depositRow3.add(depositButton3_2);
-        depositRow3.add(depositButton3_3);
-        //depositRow3.setAlignmentX(CENTER_ALIGNMENT);
+        for(int i = 0; i<3; i++){
+            ResourceTypeLabel resourceTypeLabel3_x = new ResourceTypeLabel(3,i, labelSize);
+            resourceTypeLabel3_x.addMouseListener(new DepositListener(resourceTypeLabel3_x));
+            depositRow3.add(resourceTypeLabel3_x);
+            row3.add(resourceTypeLabel3_x);
+        }
 
         //ADDS THE ROWS
         deposit.add(depositRow1);
@@ -90,17 +85,6 @@ public class DepositPanel extends JPanel {
         deposit.add(depositRow2);
         deposit.add(Box.createRigidArea(new Dimension(2,2)));
         deposit.add(depositRow3);
-
-        depositButtons = new HashMap<>();
-        ArrayList<DepositButton> row1 = new ArrayList<>();
-        row1.add(depositButton1_1);
-        ArrayList<DepositButton> row2 = new ArrayList<>();
-        row2.add(depositButton2_1);
-        row2.add(depositButton2_2);
-        ArrayList<DepositButton> row3 = new ArrayList<>();
-        row3.add(depositButton3_1);
-        row3.add(depositButton3_2);
-        row3.add(depositButton3_3);
 
         depositButtons.put(1, row1);
         depositButtons.put(2, row2);
@@ -118,6 +102,55 @@ public class DepositPanel extends JPanel {
         this.add(deposit);
         //this.add(utilityButtons);
 
+    }
+
+    private class DepositListener extends MouseAdapter{
+        private final ResourceTypeLabel resourceTypeLabel;
+
+        public DepositListener(ResourceTypeLabel resourceTypeLabel) {
+            this.resourceTypeLabel = resourceTypeLabel;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            resourceMenu(gui, resourceTypeLabel);
+        }
+    }
+
+    private void resourceMenu(Gui gui, ResourceTypeLabel resourceTypeLabel){
+        JPopupMenu popupmenu = new JPopupMenu("Deposit Slot");
+        JMenuItem give = new JMenuItem("Give");
+        //JMenuItem send_here = new JMenuItem("Send Here");
+        JMenuItem done = new JMenuItem("Done");
+
+        popupmenu.add(give);
+        popupmenu.add(done);
+
+        //if (gui.getGuiStatus() == GuiStatus.SELECTING_DESTINATION_AFTER_MARKET)
+        //    popupmenu.add(send_here);
+
+        resourceTypeLabel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if(gui.getGuiStatus()== GuiStatus.SELECTING_BUY_RESOURCES)
+                    popupmenu.show(resourceTypeLabel , e.getX(), e.getY());
+            }
+        });
+
+        give.addActionListener(e -> {
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+                gui.send(new SendContainer(Command.SEND_CONTAINER, resourceTypeLabel.getResourceContainer(),
+                        "DEPOSIT", resourceTypeLabel.getId(), gui.getNickname()));
+                gui.printReply("Ok! Keep selecting or click DONE");
+                resourceTypeLabel.setSelected(false);
+            }
+        });
+
+        done.addActionListener(e -> {
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+                gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
+                resourceTypeLabel.setSelected(false);
+            }
+        });
     }
 
     public void addImage(ResourceContainer resourceContainer, int id){
@@ -141,11 +174,11 @@ public class DepositPanel extends JPanel {
     }
 
 
-    public void copy( HashMap<Integer, ArrayList<DepositButton>> depositButtonsToClone){
+    public void copy( HashMap<Integer, ArrayList<ResourceTypeLabel>> depositButtonsToClone){
         for (Integer i: depositButtons.keySet()) {
             int j=0;
-            for (DepositButton depositButton : depositButtons.get(i)) {
-                depositButtonsToClone.get(i).get(j).setResourceTypeImage(depositButton.getResourceType());
+            for (ResourceTypeLabel resourceTypeLabel : depositButtons.get(i)) {
+                depositButtonsToClone.get(i).get(j).setResourceTypeImage(resourceTypeLabel.getResourceType());
                 j++;
             }
         }
@@ -171,7 +204,7 @@ public class DepositPanel extends JPanel {
 
     public void clearSelected(){
         for (Integer i: depositButtons.keySet()) {
-            for (DepositButton depositButton : depositButtons.get(i)) {
+            for (ResourceTypeLabel depositButton : depositButtons.get(i)) {
                 if (depositButton.isSelected())
                     depositButton.setSelected(false);
             }
@@ -180,7 +213,7 @@ public class DepositPanel extends JPanel {
 
     public void fillSelectedBuffer() {
         for (Integer i: depositButtons.keySet()) {
-            for (DepositButton depositButton : depositButtons.get(i)) {
+            for (ResourceTypeLabel depositButton : depositButtons.get(i)) {
                 if (depositButton.isSelected())
                     selectedIds.add(new Point(depositButton.getId(), depositButton.getPos()));
             }
@@ -197,16 +230,16 @@ public class DepositPanel extends JPanel {
         ArrayList<Integer> iDs =  new ArrayList<>();
 
         for (Integer i: depositButtons.keySet()) {
-            for (DepositButton depositButton : depositButtons.get(i)) {
-                if (depositButton.isSelected())
-                    iDs.add(depositButton.getId());
+            for (ResourceTypeLabel resourceTypeLabel : depositButtons.get(i)) {
+                if (resourceTypeLabel.isSelected())
+                    iDs.add(resourceTypeLabel.getId());
             }
         }
 
         return iDs;
     }
 
-    public HashMap<Integer, ArrayList<DepositButton>> getDepositButtons() {
+    public HashMap<Integer, ArrayList<ResourceTypeLabel>> getDepositButtons() {
         return depositButtons;
     }
 }

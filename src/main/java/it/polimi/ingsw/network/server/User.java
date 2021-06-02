@@ -32,7 +32,7 @@ public class User implements ObserverThread, ObservableViewIO {
         this.status = status;
         serverAreas = new CopyOnWriteArrayList<>();
         ServerConnectionCheck serverConnectionCheck = new ServerConnectionCheck();
-        serverConnectionCheck.start();
+        //serverConnectionCheck.start();
     }
 
     public User getThis(){
@@ -45,7 +45,7 @@ public class User implements ObserverThread, ObservableViewIO {
         this.serverSender=serverSender;
         active=true;
         ServerConnectionCheck serverConnectionCheck=new ServerConnectionCheck();
-        serverConnectionCheck.start();
+        //serverConnectionCheck.start();
     }
 
     /**
@@ -60,7 +60,7 @@ public class User implements ObserverThread, ObservableViewIO {
                 public void run() {
                     if (received) {
                         received = false;
-                        userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
+                        //userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
                         //System.out.println(nickname + "Ping sent");
 
                     } else {

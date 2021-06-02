@@ -593,6 +593,11 @@ public class Cli extends ClientView {
     }
 
     @Override
+    public void printTurnHelp(String nickname) {
+        printItsYourTurn(nickname);
+    }
+
+    @Override
     public void printPlayerList(String info, ArrayList<String> names) {
         System.out.println(info);
         for(String name: names)

@@ -131,10 +131,11 @@ public class VirtualView implements View {
     @Override
     public void printItsYourTurn(String nickname){
         currPlayer = nickname;
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.NOTIFY_TURN_CHANGE).setNickname(nickname).setTarget(Target.UNICAST).build());
         printReply_everyOneElse("@ It is " + nickname + "'s turn", nickname);
     }
 
+    @Override
     public void printTurnHelp(String nickname){
         notifyUsers(new Message.MessageBuilder().setCommand(Command.SHOW_TURN_HELP).setNickname(nickname).setTarget(Target.UNICAST).build());
     }

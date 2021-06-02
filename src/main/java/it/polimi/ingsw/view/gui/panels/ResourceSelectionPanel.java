@@ -30,8 +30,7 @@ public class ResourceSelectionPanel extends JPanel {
 
         JPanel resourcesPanel=new JPanel();
 
-        depositPanel = new DepositPanel();
-
+        depositPanel = new DepositPanel(gui);
 
         mainBoxPanel.add(Box.createRigidArea(new Dimension(300,0)));
         mainBoxPanel.add(resourcesPanel);

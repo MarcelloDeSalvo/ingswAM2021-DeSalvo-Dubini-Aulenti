@@ -56,6 +56,7 @@ public enum Command {
 
     END_GAME        (false, true, false, Status.IN_LOBBY),
 
+    NOTIFY_TURN_CHANGE          (false, false, true, Status.IN_GAME),
     NOTIFY_CARDGRID             (false, false, true, Status.IN_GAME),
     NOTIFY_DEPOSIT_UPDATE       (false, false, true, Status.IN_GAME),
     NOTIFY_NEW_DEPOSIT          (false, false, true, Status.IN_GAME),

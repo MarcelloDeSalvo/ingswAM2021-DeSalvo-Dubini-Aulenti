@@ -81,7 +81,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         developmentSlotButtons(layer1);
 
         //DEPOSIT ZONE
-        depositPanel = new DepositPanel();
+        depositPanel = new DepositPanel(gui);
         depositPanel.setBounds(70,120,320,385);
         layer1.add(depositPanel);
 
