@@ -163,7 +163,7 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case NOTIFY_HAND:
-                ShowHandMessage showHandMessage = gson.fromJson(mex, ShowHandMessage.class);
+                ArrayListIntegerMessage showHandMessage = gson.fromJson(mex, ArrayListIntegerMessage.class);
                 notifyCardsInHand(showHandMessage.getCardsID(), senderNick);
                 break;
 
@@ -208,8 +208,8 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case ASK_MARKET_DEST:
-                askForMarketDestination(null, nickname);
-                printReply(deserializedMex.getInfo());
+                ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
+                notifyResourcesArrived(containerArrayListMessage.getContainers());
                 break;
 
             case ASK_SETUP_RESOURCES:
