@@ -370,6 +370,11 @@ public class Gui extends ClientView {
             printReply("Leader discarded!");
 
         getMyHand().discardFromHand(id);
+
+        if(gamePanel != null){
+            gamePanel.getPlayerBoardPanel().validate();
+            gamePanel.getPlayerBoardPanel().repaint();
+        }
     }
 
     @Override
