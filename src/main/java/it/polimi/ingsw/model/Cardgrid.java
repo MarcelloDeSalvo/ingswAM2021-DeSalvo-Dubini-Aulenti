@@ -9,7 +9,6 @@ import it.polimi.ingsw.observers.gameListeners.CardGridSubject;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 

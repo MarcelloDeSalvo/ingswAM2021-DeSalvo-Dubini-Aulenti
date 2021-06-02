@@ -112,8 +112,8 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
 
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
     /**
-     * Update FaithPath so that the right amount of FAITHPOINTs is added to the current player
-     * @param faithPoints qty of FAITHPOINTs
+     * Update FaithPath so that the right amount of FAITH POINTS is added to the current player
+     * @param faithPoints qty of FAITH POINTS
      */
     public void incrementPosition(int faithPoints) {
         faithPathListener.notifyCurrentPlayerIncrease(faithPoints, nicknames.get(currentPlayer));
@@ -132,7 +132,7 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
     /**
      * Method called when a player overflows Resources in Deposit. It updates the position of every other player by <br>
      * the param
-     * @param faithPoints qty of FAITHPOINTs
+     * @param faithPoints qty of FAITH POINTS
      */
     public void incrementOthersPositions(int faithPoints) {
         faithPathListener.notifyOthersIncrease(faithPoints, nicknames.get(currentPlayer));

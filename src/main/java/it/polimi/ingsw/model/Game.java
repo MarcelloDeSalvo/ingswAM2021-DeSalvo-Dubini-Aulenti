@@ -386,8 +386,8 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         gameStarted = false;
 
         winner = new ArrayList<>();
-        ArrayList<Player> maxPointPlayer=new ArrayList<>();
-        List<Integer> playersTotalVictoryPoints= new ArrayList<>();
+        ArrayList<Player> maxPointPlayer = new ArrayList<>();
+        List<Integer> playersTotalVictoryPoints = new ArrayList<>();
 
         int max = 0;
 

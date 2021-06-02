@@ -320,8 +320,6 @@ public class VirtualView implements View {
             nickname = nick;
         }
 
-        System.out.println(nickname);
-
         if (nickname!=null)
             connectedPlayers.get(nickname).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
     }
