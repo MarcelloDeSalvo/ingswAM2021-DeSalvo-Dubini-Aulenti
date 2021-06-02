@@ -640,8 +640,7 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_QM){
-            view.printReply_uni("Please start filling the Production Slots N: " + firstID +
-                    " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
+            view.notifyStartFilling(firstID, senderNick);
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE) {
@@ -690,14 +689,13 @@ public class Controller implements ObserverController {
                     x++;
                 }
 
-                view.printReply_uni("Resources of your choice for Production Slot N: " + id + " have been filled correctly!", senderNick);
+                view.notifyFillOk(id, senderNick);
             }
         }
 
         for (int id : productionSlotIDs) {
             if(currPlayer.getProductionSlotByID(id).hasStillQuestionMarks()) {
-                view.printReply_uni("Please start filling the Production Slots N: " + id +
-                        " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'", senderNick);
+                view.notifyStartFilling(id , senderNick);
                 return;
             }
         }

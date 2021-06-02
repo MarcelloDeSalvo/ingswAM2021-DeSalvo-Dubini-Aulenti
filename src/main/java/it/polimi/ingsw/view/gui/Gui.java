@@ -361,6 +361,17 @@ public class Gui extends ClientView {
     }
 
     @Override
+    public void notifyStartFilling(int productionID, String senderNick) {
+        //System.out.println("Please start filling the Production Slots N: " + productionID +
+               // " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
+    }
+
+    @Override
+    public void notifyFillOk(int productionID, String senderNick) {
+        //System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+    }
+
+    @Override
     public void notifyMoveOk(String senderNick) {
         gamePanel.getNotifyLabel().setText("The action on deposit has been executed correctly!\n");
     }

@@ -246,13 +246,23 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyMoveOk(String senderNick) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.MANAGE_DEPOSIT_OK).setNickname(senderNick).build());
+    public void notifyProductionError(String error, String senderNick) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_ERROR).setInfo(error).setNickname(senderNick).build());
     }
 
     @Override
-    public void notifyProductionError(String error, String senderNick) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_ERROR).setInfo(error).setNickname(senderNick).build());
+    public void notifyStartFilling(int productionID, String senderNick) {
+        notifyUsers(new IdMessage(Command.START_FILL, productionID, senderNick));
+    }
+
+    @Override
+    public void notifyFillOk(int productionID, String senderNick) {
+        notifyUsers(new IdMessage(Command.FILL_OK, productionID, senderNick));
+    }
+
+    @Override
+    public void notifyMoveOk(String senderNick) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.MANAGE_DEPOSIT_OK).setNickname(senderNick).build());
     }
 
     @Override

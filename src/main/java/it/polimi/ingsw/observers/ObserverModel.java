@@ -133,6 +133,18 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
     void notifyProductionError(String error, String senderNick);
 
     /**
+     * Notifies a player that he needs to start filling a production slot
+     * @param productionID production slot ID
+     */
+    void notifyStartFilling(int productionID, String senderNick);
+
+    /**
+     * Notifies a player that the filling of a production slot has been executed correctly
+     * @param productionID production slot ID
+     */
+    void notifyFillOk(int productionID, String senderNick);
+
+    /**
      * Notifies a player that the deposit has changed correctly after the manage deposit command
      */
     void notifyMoveOk(String senderNick);

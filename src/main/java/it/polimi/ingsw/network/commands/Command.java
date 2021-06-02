@@ -35,6 +35,7 @@ public enum Command {
 
     ACTIVATE_LEADER (false, false, true, Status.IN_GAME),
     ACTIVATE_OK     (false,false,true, Status.IN_GAME),
+
     BUY             (false, false, true, Status.IN_GAME),
     BUY_OK          (false,false,true, Status.IN_GAME),
     BUY_SLOT_OK     (false,false,true, Status.IN_GAME),
@@ -43,16 +44,22 @@ public enum Command {
     PRODUCE         (false, false, true, Status.IN_GAME),
     PRODUCE_OK      (false, false, true, Status.IN_GAME),
     PRODUCE_ERROR   (false,false,true, Status.IN_GAME),
+    FILL_QM         (false, false, true, Status.IN_GAME),
+    START_FILL      (false, false, true, Status.IN_GAME),
+    FILL_OK         (false, false, true, Status.IN_GAME),
+
     MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),
     MANAGE_DEPOSIT_OK  (false, false, true, Status.IN_GAME),
-    DONE            (false, false, true, Status.IN_GAME),
-    FILL_QM         (false, false, true, Status.IN_GAME),
-    PICK_FROM_MARKET(false, false,true, Status.IN_GAME ),
-    SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME ),
-    SEND_CONTAINER  (false,false,true, Status.IN_GAME),
     SWITCH_DEPOSIT  (false,false,true, Status.IN_GAME),
+
     SETUP_CONTAINER (false, false, true, Status.IN_GAME),
+    SEND_CONTAINER  (false,false,true, Status.IN_GAME),
+    DONE            (false, false, true, Status.IN_GAME),
+
+    PICK_FROM_MARKET(false, false,true, Status.IN_GAME),
+    SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME),
     CONVERSION      (false, false, true, Status.IN_GAME),
+
     END_TURN        (false, false, true, Status.IN_GAME),
 
     END_GAME        (false, true, false, Status.IN_LOBBY),

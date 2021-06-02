@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -790,6 +791,17 @@ public class Cli extends ClientView {
     @Override
     public void notifyProductionError(String error, String senderNick) {
         System.out.println("\n"+error+"\n");
+    }
+
+    @Override
+    public void notifyStartFilling(int productionID, String senderNick) {
+        System.out.println("Please start filling the Production Slots N: " + productionID +
+        " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
+    }
+
+    @Override
+    public void notifyFillOk(int productionID, String senderNick) {
+        System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
     }
 
     @Override

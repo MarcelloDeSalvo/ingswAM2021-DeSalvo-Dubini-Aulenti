@@ -248,6 +248,16 @@ public abstract class ClientView implements View, UserInput {
                 notifyProductionError(deserializedMex.getInfo(), senderNick);
                 break;
 
+            case START_FILL:
+                IdMessage idFill = gson.fromJson(mex, IdMessage.class);
+                notifyStartFilling(idFill.getId(), senderNick);
+                break;
+
+            case FILL_OK:
+                IdMessage idFillOk = gson.fromJson(mex, IdMessage.class);
+                notifyFillOk(idFillOk.getId(), senderNick);
+                break;
+
             case MANAGE_DEPOSIT_OK:
                 notifyMoveOk(senderNick);
                 break;
