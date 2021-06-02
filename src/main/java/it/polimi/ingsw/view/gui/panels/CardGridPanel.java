@@ -26,14 +26,10 @@ public class CardGridPanel extends JPanel {
             ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
             lc.addActionListener(e -> {
                 buyMenu(lc, id);
+                gui.printReply("ciao sono una carta sviluppo "+"(ID: "+id+")");
             });
 
             this.add(lc);
-
-            lc.addActionListener(e->{
-                gui.printReply("ciao sono una carta sviluppo "+"(ID: "+id+")");
-                //MI SA CHE SERVE UN BUFFER PER COMPRARE
-            });
         }
     }
 
@@ -60,6 +56,22 @@ public class CardGridPanel extends JPanel {
     }
 
     public void updateGrid(){
+        this.removeAll();
+        for (Integer id: liteCardGrid.getCardIDs()) {
+            if (id != -1){
+                ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
+
+                lc.addActionListener(e -> {
+                    buyMenu(lc, id);
+                    gui.printReply("ciao sono una carta sviluppo "+"(ID: "+id+")");
+                });
+                this.add(lc);
+            }
+            else{
+                this.add(new JPanel());
+            }
+        }
+        this.repaint();
         //ELIMINO IL BOTTONE VECCHIO E NE METTO UNO NUOVO?
         //GLI CAMBIO SOLO L'IMMAGINE? ---> Ho fatto un metodo apposta in Button image nel caso, ma dovremmo cambiargli anche l'id che prende quando si preme, bho
         //Come si prende la colonna e riga precisa? --> https://stackoverflow.com/questions/2510159/can-i-add-a-component-to-a-specific-grid-cell-when-a-gridlayout-is-used/38800227

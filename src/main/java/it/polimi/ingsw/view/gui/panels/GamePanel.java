@@ -160,5 +160,12 @@ public class GamePanel extends JPanel {
         return notifyLabel;
     }
 
+    public CardGridPanel getCardGridPanel() {
+        return cardGridPanel;
+    }
+
+    public MarketPanel getMarketPanel() {
+        return marketPanel;
+    }
 
 }

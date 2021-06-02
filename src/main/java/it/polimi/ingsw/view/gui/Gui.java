@@ -90,7 +90,8 @@ public class Gui extends ClientView {
         icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
 
         int option = JOptionPane.showConfirmDialog(frame,
-                "    I'm sorry, something went really wrong!          ",
+                "           I'm sorry, something went really wrong!         " +
+                        "\nIt looks like you have connection issue.",
                 "OOPS!",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE, icon);
@@ -328,6 +329,8 @@ public class Gui extends ClientView {
         else {
             gamePanel.getNotifyLabel().setText("You bought the card correctly!");
         }
+
+        gamePanel.getPlayerBoardPanel().printBoughtCard(slotID, cardID);
     }
 
     @Override
@@ -364,6 +367,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardGridChanges(int oldID, int newID) {
         getLiteCardGrid().gridUpdated(oldID, newID);
+        gamePanel.getCardGridPanel().updateGrid();
     }
 
     @Override

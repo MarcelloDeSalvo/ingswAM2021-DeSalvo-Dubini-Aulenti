@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.network.commands.BuyMessage;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.customImages.LabelImage;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class PlayerBoardPanel extends JLayeredPane {
 
@@ -18,10 +20,13 @@ public class PlayerBoardPanel extends JLayeredPane {
 
     private int buyCardIdBuffer;
 
+    private ArrayList<DevProdSlot> prodSlot;
+
     public PlayerBoardPanel(Gui gui) {
         super();
         this.gui = gui;
 
+        prodSlot = new ArrayList<>();
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
 
@@ -68,16 +73,17 @@ public class PlayerBoardPanel extends JLayeredPane {
         layer1.add(vaultPanel);
         //--------------------------------------------------------------------------------------------------------------
 
-        this.add(layer1, JLayeredPane.POPUP_LAYER);
+        this.add(layer1, JLayeredPane.PALETTE_LAYER);
     }
 
     private void developmentSlotButtons(JPanel layer1){
         for (int i=0; i<3; i++){
-            JPanel clickableSlot = new JPanel();
+            DevProdSlot clickableSlot = new DevProdSlot();
             clickableSlot.setBackground(new Color(100,100,200,200));
             clickableSlot.setBounds(680 + 305*i + i*2,200,250,350);
             clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, i+1));
             layer1.add(clickableSlot);
+            prodSlot.add(clickableSlot);
         }
     }
 
@@ -106,6 +112,16 @@ public class PlayerBoardPanel extends JLayeredPane {
         }
     }
 
+    public void printBoughtCard(int slotId, int cardId){
+        ButtonImage devCard = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+cardId+".jpg", new Dimension(173,262));
+        getProdSlot().get(slotId - 1).addCard(devCard);
+        this.repaint();
+    }
+
+    public ArrayList<DevProdSlot> getProdSlot() {
+        return prodSlot;
+    }
+
     public DepositPanel getDepositPanel() {
         return depositPanel;
     }
@@ -113,4 +129,31 @@ public class PlayerBoardPanel extends JLayeredPane {
     public void setBuyCardIdBuffer(int buyCardIdBuffer) {
         this.buyCardIdBuffer = buyCardIdBuffer;
     }
+
+    private class DevProdSlot extends JPanel{
+        private int x_offset;
+        private int y_offset;
+        private int layer_offset;
+
+        public DevProdSlot() {
+            super();
+            this.setLayout(null);
+            this.x_offset = 0;
+            this.y_offset = 0;
+            this.layer_offset = 500;
+        }
+
+        public void addCard(ButtonImage devCard){
+            devCard.setBounds(this.getX()+x_offset ,this.getY()+y_offset, 173,262);
+            x_offset += 50;
+            y_offset += 50;
+
+            PlayerBoardPanel.this.setLayer(devCard, layer_offset);
+            PlayerBoardPanel.this.add(devCard,  layer_offset);
+            layer_offset++;
+            this.repaint();
+        }
+
+    }
 }
+

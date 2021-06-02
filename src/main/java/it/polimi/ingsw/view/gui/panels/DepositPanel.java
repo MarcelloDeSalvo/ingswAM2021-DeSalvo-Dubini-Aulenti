@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.gui.panels;
 
-
 import it.polimi.ingsw.model.resources.ResourceContainer;
-import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.SendContainer;
@@ -12,8 +10,6 @@ import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -155,16 +151,13 @@ public class DepositPanel extends JPanel {
     }
 
     public void addImage(ResourceContainer resourceContainer, int id){
-        System.out.println("FF");
-        for (int i = 0; i<resourceContainer.getQty();i++){
+        for (int i = 0; i<resourceContainer.getQty();i++) {
             while (!depositButtons.get(id).get(i).isEmpty())
                 i++;
-            if (i>=depositButtons.get(id).size())
+            if (i >= depositButtons.get(id).size())
                 break;
             depositButtons.get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
         }
-
-
     }
 
     public void remove(ResourceContainer resourceContainer, int id){
@@ -224,7 +217,6 @@ public class DepositPanel extends JPanel {
     public void clearBuffer(){
         selectedIds.clear();
     }
-
      */
 
     public ArrayList<Integer> getSelectedIds() {
