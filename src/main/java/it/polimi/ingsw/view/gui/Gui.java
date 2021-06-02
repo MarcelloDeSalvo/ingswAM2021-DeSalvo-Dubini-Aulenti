@@ -355,6 +355,12 @@ public class Gui extends ClientView {
     }
 
     @Override
+    public void notifyProductionError(String error, String senderNick) {
+        infoLabel.setText(error);
+        guiStatus = GuiStatus.IDLE;
+    }
+
+    @Override
     public void notifyMoveOk(String senderNick) {
         gamePanel.getNotifyLabel().setText("The action on deposit has been executed correctly!\n");
     }
@@ -411,7 +417,18 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyCardRemoved(int amount, Colour color, int level) {
-        gamePanel.getNotifyLabel().setText("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
+
+        JOptionPane.showMessageDialog(frame,
+                "GIGI",
+                "GIGI",
+                JOptionPane.INFORMATION_MESSAGE,
+                icon);
+
+        System.out.println("diocaro");
+        gamePanel.getNotifyLabel().setText("diocaro");
+        gamePanel.getNotifyLabel().setText("LORENZO has removed " + amount + " " + color.noColorToString() + " development cards with level = " + level);
     }
 
     @Override

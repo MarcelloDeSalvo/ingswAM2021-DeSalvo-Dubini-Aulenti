@@ -232,16 +232,20 @@ public abstract class ClientView implements View, UserInput {
                 notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
                 break;
 
-            case BUY_ERROR:
-                notifyBuyError(deserializedMex.getInfo());
-                break;
-
             case BUY_SLOT_OK:
                 notifyBuySlotOk(deserializedMex.getInfo());
                 break;
 
+            case BUY_ERROR:
+                notifyBuyError(deserializedMex.getInfo());
+                break;
+
             case PRODUCE_OK:
                 notifyProductionOk(senderNick);
+                break;
+
+            case PRODUCE_ERROR:
+                notifyProductionError(deserializedMex.getInfo(), senderNick);
                 break;
 
             case MANAGE_DEPOSIT_OK:

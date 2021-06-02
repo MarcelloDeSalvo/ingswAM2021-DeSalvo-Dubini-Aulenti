@@ -251,6 +251,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void notifyProductionError(String error, String senderNick) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.PRODUCE_ERROR).setInfo(error).setNickname(senderNick).build());
+    }
+
+    @Override
     public void notifyMarketUpdate(String selection, int selected) {
 
     }

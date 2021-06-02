@@ -788,6 +788,11 @@ public class Cli extends ClientView {
     }
 
     @Override
+    public void notifyProductionError(String error, String senderNick) {
+        System.out.println("\n"+error+"\n");
+    }
+
+    @Override
     public void notifyMoveOk(String senderNick) {
         printDeposit();
         System.out.println("The action on deposit has been executed correctly!\n");

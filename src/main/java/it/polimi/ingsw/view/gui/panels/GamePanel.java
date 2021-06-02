@@ -17,11 +17,11 @@ public class GamePanel extends JPanel {
     private final FaithPathPanel faithPathPanel;
     private final PlayerBoardPanel playerBoardPanel;
     private final CardGridPanel cardGridPanel;
-    private MarketPanel marketPanel;
+    private final MarketPanel marketPanel;
 
-    private Gui gui;
-    private BackgroundImagePanel main;
-    private CardLayout cardLayout ;
+    private final Gui gui;
+    private final BackgroundImagePanel main;
+    private final CardLayout cardLayout ;
     private JPanel buttons;
     private JPanel topPanel;
 

@@ -154,14 +154,10 @@ public class VaultPanel extends JLayeredPane {
     private void resourceMenu(ButtonImage button, ResourceType resourceType){
         JPopupMenu popupmenu = new JPopupMenu("Vault");
         JMenuItem give = new JMenuItem("Give");
-        //JMenuItem send_here = new JMenuItem("Send Here");
         JMenuItem done = new JMenuItem("Done");
 
         popupmenu.add(give);
         popupmenu.add(done);
-
-        //if (gui.getGuiStatus() == GuiStatus.SELECTING_DESTINATION_AFTER_MARKET)
-        //    popupmenu.add(send_here);
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -184,6 +180,8 @@ public class VaultPanel extends JLayeredPane {
         done.addActionListener(e -> {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
+
+                button.setBorderPainted(false);
             }
         });
     }

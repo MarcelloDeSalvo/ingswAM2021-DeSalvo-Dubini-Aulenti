@@ -127,6 +127,12 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
     void notifyProductionOk(String senderNick);
 
     /**
+     * Notifies a player that he could not produce
+     * @param error is the error for which he couldn't buy the card
+     */
+    void notifyProductionError(String error, String senderNick);
+
+    /**
      * Notifies a player that the deposit has changed correctly after the manage deposit command
      */
     void notifyMoveOk(String senderNick);
