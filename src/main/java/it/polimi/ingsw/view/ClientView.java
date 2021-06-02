@@ -151,6 +151,7 @@ public abstract class ClientView implements View, UserInput {
 
             case NOTIFY_TURN_CHANGE:
                 printItsYourTurn(senderNick);
+                break;
 
             case NOTIFY_GAME_STARTED:
                 notifyGameIsStarted();

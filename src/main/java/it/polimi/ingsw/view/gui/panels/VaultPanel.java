@@ -1,14 +1,23 @@
 package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.liteModel.LiteVault;
+import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.network.commands.Command;
+import it.polimi.ingsw.network.commands.Message;
+import it.polimi.ingsw.network.commands.SendContainer;
+import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.GuiStatus;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VaultPanel extends JLayeredPane {
 
+    private final Gui gui;
     private final LiteVault liteVault;
 
     private final JLabel goldLabel;
@@ -16,12 +25,13 @@ public class VaultPanel extends JLayeredPane {
     private final JLabel minionLabel;
     private final JLabel shieldLabel;
 
-    public VaultPanel(LiteVault liteVault) {
+    public VaultPanel(Gui gui) {
         super();
 
         int buttonSize = 110;
 
-        this.liteVault = liteVault;
+        this.gui = gui;
+        this.liteVault = gui.getMyLiteVault();
 
         this.setLayout(null);
         this.setOpaque(false);
@@ -38,11 +48,13 @@ public class VaultPanel extends JLayeredPane {
         row01.setOpaque(false);
 
         ButtonImage gold = new ButtonImage("/images/resourceImages/gold.png", new Dimension(buttonSize,buttonSize));
+        gold.addActionListener(e-> resourceMenu(gold, ResourceType.GOLD));
         gold.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         gold.setMaximumSize(new Dimension(buttonSize, buttonSize));
         gold.setOpaque(false);
 
         ButtonImage stone = new ButtonImage("/images/resourceImages/stone.png", new Dimension(buttonSize,buttonSize));
+        stone.addActionListener(e-> resourceMenu(stone, ResourceType.STONE));
         stone.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         stone.setMaximumSize(new Dimension(buttonSize, buttonSize));
         stone.setOpaque(false);
@@ -57,11 +69,13 @@ public class VaultPanel extends JLayeredPane {
         row02.setOpaque(false);
 
         ButtonImage minion = new ButtonImage("/images/resourceImages/minion.png", new Dimension(buttonSize, buttonSize));
+        minion.addActionListener(e-> resourceMenu(minion, ResourceType.MINION));
         minion.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         minion.setMaximumSize(new Dimension(buttonSize, buttonSize));
         minion.setOpaque(false);
 
         ButtonImage shield = new ButtonImage("/images/resourceImages/shield.png", new Dimension(buttonSize, buttonSize));
+        shield.addActionListener(e-> resourceMenu(shield, ResourceType.SHIELD));
         shield.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         shield.setMaximumSize(new Dimension(buttonSize, buttonSize));
         shield.setOpaque(false);
@@ -136,4 +150,42 @@ public class VaultPanel extends JLayeredPane {
         minionLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.MINION) + " ");
         shieldLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.SHIELD) + " ");
     }
+
+    private void resourceMenu(ButtonImage button, ResourceType resourceType){
+        JPopupMenu popupmenu = new JPopupMenu("Vault");
+        JMenuItem give = new JMenuItem("Give");
+        //JMenuItem send_here = new JMenuItem("Send Here");
+        JMenuItem done = new JMenuItem("Done");
+
+        popupmenu.add(give);
+        popupmenu.add(done);
+
+        //if (gui.getGuiStatus() == GuiStatus.SELECTING_DESTINATION_AFTER_MARKET)
+        //    popupmenu.add(send_here);
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if(gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES)
+                    popupmenu.show(button , e.getX(), e.getY());
+            }
+        });
+
+        give.addActionListener(e -> {
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+                gui.send(new SendContainer(new ResourceContainer(resourceType, 1),"VAULT", gui.getNickname()));
+
+                gui.printReply("Ok! Keep selecting or click DONE");
+
+                button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+                button.setBorderPainted(true);
+            }
+        });
+
+        done.addActionListener(e -> {
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+                gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
+            }
+        });
+    }
+
 }

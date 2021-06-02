@@ -63,7 +63,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
 
         //VAULT
-        VaultPanel vaultPanel = new VaultPanel(gui.getMyLiteVault());
+        VaultPanel vaultPanel = new VaultPanel(gui);
         vaultPanel.setBounds(40,550,330, 270);
         layer1.add(vaultPanel);
         //--------------------------------------------------------------------------------------------------------------

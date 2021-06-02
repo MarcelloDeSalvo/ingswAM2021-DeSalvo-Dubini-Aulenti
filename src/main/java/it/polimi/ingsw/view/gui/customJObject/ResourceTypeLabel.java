@@ -18,8 +18,8 @@ public class ResourceTypeLabel extends LabelImage {
     private boolean selected = false;
     private ResourceType resourceType;
     private boolean empty = true;
-    private int id;
-    private int pos;
+    private final int id;
+    private final int pos;
 
     public ResourceTypeLabel(int id, int pos, int size) {
         super();

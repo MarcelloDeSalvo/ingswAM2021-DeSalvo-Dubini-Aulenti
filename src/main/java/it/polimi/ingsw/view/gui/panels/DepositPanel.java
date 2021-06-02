@@ -21,10 +21,10 @@ import java.util.HashMap;
 
 public class DepositPanel extends JPanel {
     private final HashMap<Integer, ArrayList<ResourceTypeLabel>> depositButtons;
-    private ArrayList<Point> selectedIds;
+    private final ArrayList<Point> selectedIds;
 
     private final int labelSize = 110;
-    private Gui gui;
+    private final Gui gui;
 
     public DepositPanel(Gui gui) {
         this.gui = gui;
@@ -140,15 +140,16 @@ public class DepositPanel extends JPanel {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
                 gui.send(new SendContainer(Command.SEND_CONTAINER, resourceTypeLabel.getResourceContainer(),
                         "DEPOSIT", resourceTypeLabel.getId(), gui.getNickname()));
+
                 gui.printReply("Ok! Keep selecting or click DONE");
-                resourceTypeLabel.setSelected(false);
+
+                //resourceTypeLabel.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
             }
         });
 
         done.addActionListener(e -> {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
-                resourceTypeLabel.setSelected(false);
             }
         });
     }

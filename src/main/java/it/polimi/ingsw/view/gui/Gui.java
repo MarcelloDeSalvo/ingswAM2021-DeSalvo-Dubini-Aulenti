@@ -87,10 +87,10 @@ public class Gui extends ClientView {
     @Override
     public void onDisconnect(User user) {
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
 
         int option = JOptionPane.showConfirmDialog(frame,
-                "I'm sorry, something went really wrong!",
+                "    I'm sorry, something went really wrong!          ",
                 "OOPS!",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE, icon);

@@ -26,7 +26,7 @@ public class SendContainer extends Message{
      * Notifies the clients that a container is added or removed inside a Deposit
      */
     public SendContainer(Command command, ResourceContainer container, int destinationID, String senderNickname, boolean added) {
-        super( new MessageBuilder().setCommand(command).setTarget(Target.BROADCAST).setNickname(senderNickname));
+        super(new MessageBuilder().setCommand(command).setTarget(Target.BROADCAST).setNickname(senderNickname));
         this.container = container;
         this.destination = "DEPOSIT";
         this.destinationID = destinationID;
@@ -37,7 +37,7 @@ public class SendContainer extends Message{
      * Notifies the server that a player sent a ResourceContainer to a Deposit
      */
     public SendContainer(Command command, ResourceContainer container, String destination, int destinationID, String senderNickname) {
-        super( new MessageBuilder().setCommand(command).setNickname(senderNickname));
+        super(new MessageBuilder().setCommand(command).setNickname(senderNickname));
         this.container = container;
         this.destination = destination;
         this.destinationID = destinationID;
@@ -47,7 +47,7 @@ public class SendContainer extends Message{
      * Notifies the server that a player sent a ResourceContainer to a Vault
      */
     public SendContainer(ResourceContainer container, String destination, String senderNickname) {
-        super( new MessageBuilder().setCommand(Command.SEND_CONTAINER).setNickname(senderNickname));
+        super(new MessageBuilder().setCommand(Command.SEND_CONTAINER).setNickname(senderNickname));
         this.container = container;
         this.destination = destination;
     }

@@ -16,7 +16,7 @@ public class ResourceSelectionPanel extends JPanel {
 
     private final Gui gui;
     private ResourceType selectedResource;
-    private DepositPanel depositPanel;
+    private final DepositPanel depositPanel;
 
     public ResourceSelectionPanel(Gui gui) {
         super();
