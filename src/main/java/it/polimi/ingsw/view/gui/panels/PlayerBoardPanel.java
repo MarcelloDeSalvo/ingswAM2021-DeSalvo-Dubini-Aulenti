@@ -1,12 +1,8 @@
 package it.polimi.ingsw.view.gui.panels;
 
-import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.network.commands.BuyMessage;
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.IdMessage;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
-import it.polimi.ingsw.view.gui.buttons.ButtonCard;
 import it.polimi.ingsw.view.gui.customImages.LabelImage;
 
 import javax.swing.*;
@@ -14,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 public class PlayerBoardPanel extends JLayeredPane {
 
@@ -44,9 +39,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         pl1.setOpaque(false);
 
         JPanel handPanel = new HandPanel(gui);
-
         handPanel.setOpaque(false);
-
 
         pl0.setBorder(new EmptyBorder(0,0,0,10));
         pl0.add(handPanel, BorderLayout.EAST);
@@ -79,7 +72,6 @@ public class PlayerBoardPanel extends JLayeredPane {
     }
 
     private void developmentSlotButtons(JPanel layer1){
-
         for (int i=0; i<3; i++){
             JPanel clickableSlot = new JPanel();
             clickableSlot.setBackground(new Color(100,100,200,200));
@@ -87,13 +79,11 @@ public class PlayerBoardPanel extends JLayeredPane {
             clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, i+1));
             layer1.add(clickableSlot);
         }
-
-
     }
 
     private class ProdSlotClickListener extends MouseAdapter{
-        private JPanel prodSlot;
-        private int id;
+        private final JPanel prodSlot;
+        private final int id;
 
         public ProdSlotClickListener(JPanel prodSlot, int id) {
             this.prodSlot = prodSlot;

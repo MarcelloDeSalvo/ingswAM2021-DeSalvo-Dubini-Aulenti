@@ -24,8 +24,8 @@ public class ButtonCard extends JButton {
         this.cardID = id;
 
         BufferedImage originalImage = ImageUtil.loadImage(path);
-        Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(dimg);
+        Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(img);
 
         this.setIcon(imageIcon);
         this.setBorderPainted(false);

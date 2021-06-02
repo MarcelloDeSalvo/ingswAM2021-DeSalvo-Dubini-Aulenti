@@ -44,7 +44,7 @@ public class Gui extends ClientView {
     @Override
     public boolean readInput() {
         int exit = 0;
-        while (exit ==0){
+        while (exit == 0){
             //CASE
         }
         return false;

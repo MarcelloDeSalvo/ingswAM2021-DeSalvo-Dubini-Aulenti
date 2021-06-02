@@ -9,8 +9,6 @@ import java.awt.*;
 
 public class VaultPanel extends JLayeredPane {
 
-    private final int buttonSize = 110;
-
     private final LiteVault liteVault;
 
     private final JLabel goldLabel;
@@ -20,6 +18,8 @@ public class VaultPanel extends JLayeredPane {
 
     public VaultPanel(LiteVault liteVault) {
         super();
+
+        int buttonSize = 110;
 
         this.liteVault = liteVault;
 

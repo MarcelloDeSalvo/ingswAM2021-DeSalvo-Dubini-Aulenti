@@ -17,9 +17,9 @@ public class User implements ObserverThread, ObservableViewIO {
     private  ServerReceiver serverReceiver;
     private  ServerSender serverSender;
     private final List<ObserverViewIO> serverAreas;
-    private boolean active=true;
+    private boolean active = true;
     private boolean received;
-    private Gson gson;
+    private final Gson gson;
 
     private Status status;
 
@@ -65,7 +65,7 @@ public class User implements ObserverThread, ObservableViewIO {
 
                     } else {
                         active = false;
-                        System.out.println(nickname+" disconnected!");
+                        System.out.println(nickname + " disconnected!");
                         serverReceiver.exit();
                         serverSender.exit();
                         for (ObserverViewIO obs:serverAreas) {
@@ -76,7 +76,7 @@ public class User implements ObserverThread, ObservableViewIO {
                 }
             };
 
-            received=true;
+            received = true;
             int initialDelay = 100;
             int delta = 10000;
             timer.scheduleAtFixedRate(task,initialDelay,delta);
@@ -88,7 +88,9 @@ public class User implements ObserverThread, ObservableViewIO {
     /**
      * Updates the user when a Pong is successfully received.
      */
-    public void pongReceived(){ received=true; }
+    public void pongReceived(){
+        received = true;
+    }
 
     @Override
     public void somethingHasBeenReceived(String message){

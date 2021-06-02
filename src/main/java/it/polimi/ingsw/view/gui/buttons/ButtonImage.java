@@ -19,8 +19,8 @@ public class ButtonImage extends JButton {
         super();
 
         BufferedImage originalImage = ImageUtil.loadImage(path);
-        Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(dimg);
+        Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(img);
 
         this.setIcon(imageIcon);
         this.setBorderPainted(false);
@@ -70,8 +70,8 @@ public class ButtonImage extends JButton {
     public void setScaledImage(ButtonImage buttonImage, String path, Dimension scaledDimension){
         try {
             BufferedImage originalImage = ImageIO.read(this.getClass().getResourceAsStream(path));
-            Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
-            ImageIcon imageIcon = new ImageIcon(dimg);
+            Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(img);
             buttonImage.setIcon(imageIcon);
             this.setPreferredSize(new Dimension(scaledDimension.width, scaledDimension.height));
         } catch (NullPointerException | IllegalArgumentException | IOException ex) {
