@@ -33,7 +33,7 @@ public class GamePanel extends JPanel {
 
         this.setLayout(new BorderLayout());
 
-        main = new BackgroundImagePanel("/images/daVinci.jpg",false);
+        main = new BackgroundImagePanel("/images/backgrounds/daVinci.jpg",false);
         main.setHeight(1080);
         main.setWidth(1920);
         cardLayout = new CardLayout();

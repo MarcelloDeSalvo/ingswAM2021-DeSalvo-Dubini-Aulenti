@@ -27,7 +27,7 @@ public class LoginPanel extends JPanel {
 
         BufferedImage img = null;
         try {
-            img = ImageIO.read(this.getClass().getResourceAsStream("/images/copertina.png"));
+            img = ImageIO.read(this.getClass().getResourceAsStream("/images/others/copertina.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -18,7 +18,7 @@ public class MarketPanel extends BackgroundImagePanel{
     private Gui gui;
 
     public MarketPanel(Gui gui, LiteMarket liteMarket) throws ImageNotFound{
-        super("/images/marketBackground.png", 600, 5, false);
+        super("/images/backgrounds/marketBackground.png", 600, 5, false);
         this.setLayout(new BorderLayout());
         this.setBounds(0,0,900,950);
         this.setWidth(900);

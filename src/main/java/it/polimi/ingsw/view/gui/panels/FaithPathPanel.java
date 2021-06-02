@@ -17,7 +17,7 @@ public class FaithPathPanel extends BackgroundImagePanel {
     private ArrayList<RedCrossImage> redCrossImages;
 
     public FaithPathPanel(Gui gui, LiteFaithPath liteFaithPath) throws ImageNotFound {
-        super("/images/FaithPath.jpg", 50, 250, true);
+        super("/images/backgrounds/FaithPath.jpg", 50, 250, true);
 
         points = new ArrayList<>();
         points.add(new Point(80, 256));
@@ -30,7 +30,7 @@ public class FaithPathPanel extends BackgroundImagePanel {
         int i = 0;
         int off = 50;
         for (String nickname: liteFaithPath.getNicknames()) {
-            RedCrossImage redCrossImage = new RedCrossImage(gui, "/images/croceRossa.png",
+            RedCrossImage redCrossImage = new RedCrossImage(gui, "/images/others/croceRossa.png",
                     new Dimension(30, 30), points.get(i), this, nickname, off);
             off+=20;
 

@@ -31,7 +31,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         this.setBounds(0, 0, 1920, 980);
 
 
-        //LAYER 0 -----------------------------------------------------------------------------------------------------------------------
+        //LAYER 0 ------------------------------------------------------------------------------------------------------
         JPanel pl0 = new JPanel();
         pl0.setLayout(new BorderLayout());
         pl0.setOpaque(false);
@@ -39,7 +39,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         JPanel pl1 = new JPanel();
         pl1.setLayout(new BorderLayout());
         pl1.setBorder(new EmptyBorder(30,20,70,0));
-        LabelImage boardImg = new LabelImage("/images/PlayerBoard.jpg");
+        LabelImage boardImg = new LabelImage("/images/backgrounds/PlayerBoard.jpg");
         pl1.add(boardImg);
         pl1.setOpaque(false);
 
@@ -72,7 +72,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         this.add(pl0, JLayeredPane.DEFAULT_LAYER);
 
-        //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
+        //LAYER 1 ------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();
         layer1.setBounds(0,0,1920, 980);
         layer1.setOpaque(false);
@@ -90,7 +90,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         VaultPanel vaultPanel = new VaultPanel(gui.getMyLiteVault());
         vaultPanel.setBounds(40,550,330, 270);
         layer1.add(vaultPanel);
-        //---------------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------
 
         this.add(layer1, JLayeredPane.POPUP_LAYER);
     }
