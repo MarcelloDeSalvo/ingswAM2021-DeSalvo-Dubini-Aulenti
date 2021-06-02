@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class PlayerBoardPanel extends JLayeredPane {
 
     private final Gui gui;
-    private DepositPanel depositPanel;
+    private final DepositPanel depositPanel;
 
     private int buyCardIdBuffer;
 
@@ -88,6 +88,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         //VAULT
         VaultPanel vaultPanel = new VaultPanel(gui.getMyLiteVault());
+        vaultPanel.setBounds(40,550,330, 270);
         layer1.add(vaultPanel);
         //---------------------------------------------------------------------------------------------------------------------------
 

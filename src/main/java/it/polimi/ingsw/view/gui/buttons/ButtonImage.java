@@ -17,9 +17,11 @@ public class ButtonImage extends JButton {
      */
     public ButtonImage(String path, Dimension scaledDimension) throws ImageNotFound {
         super();
+
         BufferedImage originalImage = ImageUtil.loadImage(path);
         Image dimg = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(dimg);
+
         this.setIcon(imageIcon);
         this.setBorderPainted(false);
         this.setContentAreaFilled(false);
