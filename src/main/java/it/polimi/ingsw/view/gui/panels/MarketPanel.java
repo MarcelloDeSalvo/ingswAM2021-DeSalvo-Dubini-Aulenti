@@ -132,7 +132,7 @@ public class MarketPanel extends BackgroundImagePanel{
         vacant.add(vacantText1);
         vacant.add(vacantText2);
 
-        ButtonImage vacantMarble=new ButtonImage("/images/marbles/marble"+liteMarket.getVacant().getResourceType().deColored().toLowerCase()+".png");
+        ButtonImage vacantMarble=new ButtonImage("/images/marbles/marble"+liteMarket.getVacant().getResourceType().deColored().toLowerCase()+".png",new Dimension(100,100));
         vacantMarble.setBorderPainted(false);
         vacant.add(vacantMarble);
         vacant.setOpaque(false);
