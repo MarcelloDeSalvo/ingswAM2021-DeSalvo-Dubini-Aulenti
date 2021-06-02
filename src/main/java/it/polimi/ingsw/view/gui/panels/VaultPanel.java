@@ -11,8 +11,17 @@ public class VaultPanel extends JLayeredPane {
 
     private final int buttonSize = 110;
 
+    private final LiteVault liteVault;
+
+    private final JLabel goldLabel;
+    private final JLabel stoneLabel;
+    private final JLabel minionLabel;
+    private final JLabel shieldLabel;
+
     public VaultPanel(LiteVault liteVault) {
         super();
+
+        this.liteVault = liteVault;
 
         this.setLayout(null);
         this.setOpaque(false);
@@ -81,11 +90,11 @@ public class VaultPanel extends JLayeredPane {
         row11.setLayout(new BoxLayout(row11, BoxLayout.X_AXIS));
         row11.setOpaque(false);
 
-        JLabel goldLabel = new JLabel(" " + liteVault.getQtyOfResource(ResourceType.GOLD) + " ");
+        goldLabel = new JLabel();
         goldLabel.setFont(font);
         goldLabel.setForeground(Color.BLACK);
 
-        JLabel stoneLabel = new JLabel(" " + liteVault.getQtyOfResource(ResourceType.STONE) + " ");
+        stoneLabel = new JLabel();
         stoneLabel.setFont(font);
         stoneLabel.setForeground(Color.BLACK);
 
@@ -98,11 +107,11 @@ public class VaultPanel extends JLayeredPane {
         row12.setLayout(new BoxLayout(row12, BoxLayout.X_AXIS));
         row12.setOpaque(false);
 
-        JLabel minionLabel = new JLabel(" " + liteVault.getQtyOfResource(ResourceType.MINION) + " ");
+        minionLabel = new JLabel();
         minionLabel.setFont(font);
         minionLabel.setForeground(Color.BLACK);
 
-        JLabel shieldLabel = new JLabel(" " + liteVault.getQtyOfResource(ResourceType.SHIELD) + " ");
+        shieldLabel = new JLabel();
         shieldLabel.setFont(font);
         shieldLabel.setForeground(Color.BLACK);
 
@@ -116,5 +125,15 @@ public class VaultPanel extends JLayeredPane {
         layer1.add(row12);
 
         this.add(layer1, JLayeredPane.POPUP_LAYER);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        goldLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.GOLD) + " ");
+        stoneLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.STONE) + " ");
+        minionLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.MINION) + " ");
+        shieldLabel.setText(" " + liteVault.getQtyOfResource(ResourceType.SHIELD) + " ");
     }
 }

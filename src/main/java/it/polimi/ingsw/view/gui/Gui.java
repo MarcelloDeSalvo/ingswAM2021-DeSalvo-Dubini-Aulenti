@@ -394,6 +394,9 @@ public class Gui extends ClientView {
             getSomeonesLiteVault(senderNick).addToVault(container);
         else
             getSomeonesLiteVault(senderNick).removeFromVault(container);
+
+        gamePanel.getPlayerBoardPanel().validate();
+        gamePanel.getPlayerBoardPanel().repaint();
     }
 
     @Override
@@ -403,7 +406,6 @@ public class Gui extends ClientView {
 
         else
             getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
-
     }
 
     @Override
