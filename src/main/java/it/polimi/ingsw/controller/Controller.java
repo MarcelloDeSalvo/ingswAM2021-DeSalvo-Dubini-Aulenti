@@ -724,8 +724,7 @@ public class Controller implements ObserverController {
 
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
 
-        view.printReply_uni("The ProductionSlots you selected requires: " + Util.mapToString(currPlayer.getProductionSite().getBufferInputMap()) +
-        "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ", senderNick);
+        view.notifyProductionPrice(currPlayer.getProductionSite().getBufferInputMap(), senderNick);
     }
 
     /**

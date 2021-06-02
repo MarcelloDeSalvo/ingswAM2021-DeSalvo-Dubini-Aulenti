@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.liteModel.LiteMarket;
+import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Gui extends ClientView {
@@ -374,6 +376,12 @@ public class Gui extends ClientView {
     @Override
     public void notifyFillOk(int productionID, String senderNick) {
         //System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+    }
+
+    @Override
+    public void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick) {
+        //System.out.println("The ProductionSlots you selected requires: " + Util.mapToString(resourcesPrice) +
+          //      "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
     }
 
     @Override

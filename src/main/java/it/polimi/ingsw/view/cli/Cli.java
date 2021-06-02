@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.*;
+import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -12,10 +13,7 @@ import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
 import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Cli extends ClientView {
 
@@ -802,6 +800,12 @@ public class Cli extends ClientView {
     @Override
     public void notifyFillOk(int productionID, String senderNick) {
         System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+    }
+
+    @Override
+    public void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick) {
+        System.out.println("The ProductionSlots you selected requires: " + Util.mapToString(resourcesPrice) +
+                "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
     }
 
     @Override

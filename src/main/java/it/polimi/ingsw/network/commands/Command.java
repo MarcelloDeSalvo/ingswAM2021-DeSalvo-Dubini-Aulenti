@@ -47,6 +47,7 @@ public enum Command {
     FILL_QM         (false, false, true, Status.IN_GAME),
     START_FILL      (false, false, true, Status.IN_GAME),
     FILL_OK         (false, false, true, Status.IN_GAME),
+    PRODUCTION_PRICE(false, false, true, Status.IN_GAME),
 
     MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),
     MANAGE_DEPOSIT_OK  (false, false, true, Status.IN_GAME),

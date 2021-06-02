@@ -2,12 +2,14 @@ package it.polimi.ingsw.observers;
 
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.gameListeners.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener, DepositListener, ProductionListener {
@@ -143,6 +145,12 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
      * @param productionID production slot ID
      */
     void notifyFillOk(int productionID, String senderNick);
+
+    /**
+     * Notifies a player and sends them the HashMap of resources to use as a price
+     * @param resourcesPrice the price
+     */
+    void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick);
 
     /**
      * Notifies a player that the deposit has changed correctly after the manage deposit command

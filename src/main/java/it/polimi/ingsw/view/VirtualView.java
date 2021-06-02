@@ -261,6 +261,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick) {
+        notifyUsers(new PriceMessage(resourcesPrice, senderNick));
+    }
+
+    @Override
     public void notifyMoveOk(String senderNick) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.MANAGE_DEPOSIT_OK).setNickname(senderNick).build());
     }
