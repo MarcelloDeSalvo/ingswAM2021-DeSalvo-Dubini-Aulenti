@@ -22,8 +22,8 @@ public class LobbyRoomPanel extends JPanel {
         this.setLayout(new BorderLayout());
 
         playerList = new JPanel();
-        playerList.setLayout(new GridLayout(5,1));
-        playerList.setBorder(BorderFactory.createEmptyBorder(100,100,200,100));
+        playerList.setLayout(new GridLayout(6,1));
+        playerList.setBorder(BorderFactory.createEmptyBorder(100,100,100,100));
 
         playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
 

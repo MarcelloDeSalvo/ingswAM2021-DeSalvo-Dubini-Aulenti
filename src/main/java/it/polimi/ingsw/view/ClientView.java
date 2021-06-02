@@ -27,7 +27,7 @@ public abstract class ClientView implements View, UserInput {
     private LiteCardGrid liteCardGrid;
     private LiteMarket liteMarket;
 
-    private Gson gson;
+    private final Gson gson;
 
     private HashMap<String,LitePlayerBoard> liteBoards;
 
@@ -254,15 +254,52 @@ public abstract class ClientView implements View, UserInput {
 
 
     //CLI AND GUI ------------------------------------------------------------------------------------------------------
+
+    /**
+     * Called when the user receives the login reply
+     * @param info the info contained in the reply message
+     */
     public abstract void onLogin(String info);
+
+    /**
+     * Called after a reconnection to the server
+     */
     public abstract void onReconnected();
+
+    /**
+     * Called when the user exits the lobby correctly
+     */
     public abstract void onExitLobby();
+
+    /**
+     * Called when the user joins a lobby correctly
+     */
     public abstract void onJoinLobby();
 
+    /**
+     * Prints the turn order of the game
+     */
     public abstract void printOrder();
+
+    /**
+     * Prints all connected players' nicknames in the current lobby
+     */
     public abstract void printPlayerList(String info, ArrayList<String> names);
+
+    /**
+     * Prints the list of all available lobbies
+     * @param lobbyInfos the mex that contains all the information regarding a lobby
+     */
     public abstract void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos);
+
+    /**
+     * Prints all connected players' nicknames in the current lobby right after the player joins
+     */
     public abstract void printWaitingRoom(StringsMessage stringsMessage);
+
+    /**
+     * Prints the chat message
+     */
     public abstract void printChatMessage(String senderNick, String info, boolean all);
     //------------------------------------------------------------------------------------------------------------------
 

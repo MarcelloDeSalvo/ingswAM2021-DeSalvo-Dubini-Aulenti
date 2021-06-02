@@ -96,7 +96,6 @@ public class PlayerBoardPanel extends JLayeredPane {
 
     private void developmentSlotButtons(JPanel layer1){
 
-
         for (int i=0; i<3; i++){
             JPanel clickableSlot = new JPanel();
             clickableSlot.setBackground(new Color(100,100,200,200));
