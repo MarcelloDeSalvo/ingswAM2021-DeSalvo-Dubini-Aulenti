@@ -25,7 +25,7 @@ public class ResourceSelectionPanel extends JPanel {
         this.selectedResource=ResourceType.BLANK;
 
 
-        BackgroundImagePanel mainBoxPanel=new BackgroundImagePanel("/images/deposit.png",988,220,false);
+        BackgroundImagePanel mainBoxPanel=new BackgroundImagePanel("/images/others/deposit.png",988,220,false);
         mainBoxPanel.setLayout(new BoxLayout(mainBoxPanel,BoxLayout.X_AXIS));
 
         JPanel resourcesPanel=new JPanel();

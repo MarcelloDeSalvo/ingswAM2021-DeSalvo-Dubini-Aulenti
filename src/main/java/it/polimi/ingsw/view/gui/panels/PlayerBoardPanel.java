@@ -31,7 +31,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         this.setBounds(0, 0, 1920, 980);
 
 
-        //LAYER 0 -----------------------------------------------------------------------------------------------------------------------
+        //LAYER 0 ------------------------------------------------------------------------------------------------------
         JPanel pl0 = new JPanel();
         pl0.setLayout(new BorderLayout());
         pl0.setOpaque(false);
@@ -39,40 +39,23 @@ public class PlayerBoardPanel extends JLayeredPane {
         JPanel pl1 = new JPanel();
         pl1.setLayout(new BorderLayout());
         pl1.setBorder(new EmptyBorder(30,20,70,0));
-        LabelImage boardImg = new LabelImage("/images/PlayerBoard.jpg");
+        LabelImage boardImg = new LabelImage("/images/backgrounds/PlayerBoard.jpg");
         pl1.add(boardImg);
         pl1.setOpaque(false);
 
-        //BackgroundImagePanel pl1 = new BackgroundImagePanel("/images/PlayerBoard.jpg", 0, 65, false);
-        //pl1.setBounds(0, 0, 1802, 877);
-        //pl1.setWidth(1622);
-        //pl1.setHeight(789);
+        JPanel handPanel = new HandPanel(gui);
 
-        JPanel leadersPanel = new JPanel();
-        leadersPanel.setLayout(new BoxLayout(leadersPanel, BoxLayout.Y_AXIS));
-        leadersPanel.setOpaque(false);
-        ArrayList<Integer> IDs = gui.getMyHand().getHand();
+        handPanel.setOpaque(false);
 
-        leadersPanel.add(Box.createVerticalGlue());
-        for (Integer id : IDs) {
-
-            ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
-            leadersPanel.add(button, BorderLayout.CENTER);
-
-            button.addActionListener(e-> leaderActionWindow(leadersPanel, id, button));
-
-            leadersPanel.add(Box.createRigidArea(new Dimension(30, 50)));
-        }
-        leadersPanel.add(Box.createVerticalGlue());
 
         pl0.setBorder(new EmptyBorder(0,0,0,10));
-        pl0.add(leadersPanel, BorderLayout.EAST);
+        pl0.add(handPanel, BorderLayout.EAST);
         pl0.add(pl1, BorderLayout.CENTER);
         pl0.setBounds(0, 0, 1920, 980);
 
         this.add(pl0, JLayeredPane.DEFAULT_LAYER);
 
-        //LAYER 1 ------------------------------------------------------------------------------------------------------------------------
+        //LAYER 1 ------------------------------------------------------------------------------------------------------
         JPanel layer1 = new JPanel();
         layer1.setBounds(0,0,1920, 980);
         layer1.setOpaque(false);
@@ -90,7 +73,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         VaultPanel vaultPanel = new VaultPanel(gui.getMyLiteVault());
         vaultPanel.setBounds(40,550,330, 270);
         layer1.add(vaultPanel);
-        //---------------------------------------------------------------------------------------------------------------------------
+        //--------------------------------------------------------------------------------------------------------------
 
         this.add(layer1, JLayeredPane.POPUP_LAYER);
     }
@@ -131,37 +114,6 @@ public class PlayerBoardPanel extends JLayeredPane {
 
             }
         }
-    }
-
-    private void leaderActionWindow (JPanel currPanel, int selectedID, ButtonCard button){
-        JPopupMenu popupmenu = new JPopupMenu("Leader Action");
-        JMenuItem activate = new JMenuItem("Activate");
-        JMenuItem discard = new JMenuItem("Discard");
-
-        popupmenu.add(activate);
-        popupmenu.add(discard);
-
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if(gui.getMyHand().getStatusFromSpecificLeaderCard(selectedID) == Status.ACTIVE)
-                    return;
-
-                popupmenu.show(button , e.getX(), e.getY());
-            }
-        });
-
-        activate.addActionListener(e -> {
-            gui.send(new IdMessage(Command.ACTIVATE_LEADER, selectedID, gui.getNickname()));
-
-            currPanel.repaint();
-        });
-
-        discard.addActionListener(e -> {
-            gui.send(new IdMessage(Command.DISCARD_LEADER, selectedID, gui.getNickname()));
-
-            currPanel.remove(button);
-            currPanel.repaint();
-        });
     }
 
     public DepositPanel getDepositPanel() {

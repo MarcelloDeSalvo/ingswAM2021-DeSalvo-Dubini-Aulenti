@@ -166,7 +166,7 @@ public class Gui extends ClientView {
     @Override
     public void printItsYourTurn(String nickname) {
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
 
         JOptionPane.showMessageDialog(frame,
                 "IT'S YOUR TURN, CHOSE AN ACTION: " +
@@ -207,7 +207,7 @@ public class Gui extends ClientView {
         }
 
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
 
         JOptionPane.showMessageDialog(frame,
                 orderBuild.toString(),
@@ -387,6 +387,11 @@ public class Gui extends ClientView {
             printReply("Leader discarded!");
 
         getMyHand().discardFromHand(id);
+
+        if(gamePanel != null){
+            gamePanel.getPlayerBoardPanel().validate();
+            gamePanel.getPlayerBoardPanel().repaint();
+        }
     }
 
     @Override

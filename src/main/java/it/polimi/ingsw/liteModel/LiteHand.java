@@ -56,7 +56,9 @@ public class LiteHand {
         return s.toString();
     }
 
-    public ArrayList<Integer> getHand() {return hand; }
+    public ArrayList<Integer> getHand() {
+        return hand;
+    }
 
     public ArrayList<LeaderCard> getLeaderCards() {
         return leaderCards;

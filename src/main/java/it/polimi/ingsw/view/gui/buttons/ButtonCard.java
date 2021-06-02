@@ -35,6 +35,10 @@ public class ButtonCard extends JButton {
 
     @Override
     protected void paintComponent(Graphics g) {
+        if(!gui.getMyHand().getHand().contains(cardID)) {
+            return;
+        }
+
         super.paintComponent(g);
 
         if(gui.getMyHand().getStatusFromSpecificLeaderCard(cardID) == Status.ACTIVE) {
