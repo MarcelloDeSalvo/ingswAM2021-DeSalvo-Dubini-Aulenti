@@ -163,6 +163,11 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Vaul
     void notifyMarketUpdate(String selection, int selected);
 
     /**
+     * Notifies all player that they received the resources from the market and that they have to choose where to put them
+     */
+    void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers);
+
+    /**
      * Notifies all players that they are on the final turn
      */
     void notifyLastTurn();

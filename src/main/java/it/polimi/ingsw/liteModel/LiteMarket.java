@@ -49,6 +49,16 @@ public class LiteMarket {
         return myMarket;
     }
 
+    public ArrayList<ResourceContainer> getGuiMarketArray(){
+        ArrayList<ResourceContainer> myGuiMarket=new ArrayList<>();
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<columns;j++){
+                myGuiMarket.add(market[j][i]);
+            }
+        }
+        return myGuiMarket;
+    }
+
     public ResourceContainer getVacant() { return vacant; }
 
     @Override

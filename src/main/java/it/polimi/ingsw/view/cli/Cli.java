@@ -820,6 +820,16 @@ public class Cli extends ClientView {
     }
 
     @Override
+    public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
+        StringBuilder marketOutChoice = new StringBuilder("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id").append("\n");
+        marketOutChoice.append("Where do you want to put: ");
+        for (ResourceContainer res: resourceContainers) {
+            marketOutChoice.append(res.getResourceType()).append("  ");
+        }
+        System.out.println(marketOutChoice.toString());
+    }
+
+    @Override
     public void notifyCardGridChanges(int oldID, int newID) {
         getLiteCardGrid().gridUpdated(oldID, newID);
     }

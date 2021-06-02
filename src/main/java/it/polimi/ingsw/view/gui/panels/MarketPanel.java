@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.liteModel.LiteMarket;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.model.resources.ResourceContainer;
+import it.polimi.ingsw.network.commands.MarketMessage;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 
@@ -60,9 +61,9 @@ public class MarketPanel extends BackgroundImagePanel{
         rowButtons.add(Box.createRigidArea(new Dimension(0,15)));
         for(int i=0;i<3;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
-            final int j=i;
+            final int j=i+1;
             buttonImage.addActionListener(e->{
-                System.out.println("Riga numero "+(j+1));
+                gui.send(new MarketMessage("ROW", j, gui.getNickname()));
             });
             rowButtons.add(buttonImage);
             rowButtons.add(Box.createVerticalGlue());
@@ -73,9 +74,9 @@ public class MarketPanel extends BackgroundImagePanel{
         columnButtons.add(Box.createRigidArea(new Dimension(770,0)));
         for(int i=0;i<4;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
-            final int j=i;
+            final int j=i+1;
             buttonImage.addActionListener(e->{
-                System.out.println("Colonna numero "+(j+1));
+                gui.send(new MarketMessage("COLUMN", j, gui.getNickname()));
             });
             columnButtons.add(buttonImage);
             columnButtons.add(Box.createHorizontalGlue());
@@ -104,7 +105,7 @@ public class MarketPanel extends BackgroundImagePanel{
     }
 
     public void showMarket(){
-        ArrayList<ResourceContainer> marbleArray=liteMarket.getMarketArray();
+        ArrayList<ResourceContainer> marbleArray=liteMarket.getGuiMarketArray();
 
         marbles=new JPanel();
         vacant=new JPanel();
@@ -112,7 +113,7 @@ public class MarketPanel extends BackgroundImagePanel{
         marbles.setOpaque(false);
 
         for (ResourceContainer marb :marbleArray) {
-            ButtonImage buttonImage=new ButtonImage("/images/marblesScuffed/marble"+marb.getResourceType().deColored().toLowerCase()+".png",new Dimension(60,60));
+            ButtonImage buttonImage=new ButtonImage("/images/marbles/marble"+marb.getResourceType().deColored().toLowerCase()+".png",new Dimension(60,60));
             buttonImage.setBorderPainted(false);
             buttonImage.setOpaque(false);
             buttonImage.setContentAreaFilled(false);
@@ -131,10 +132,11 @@ public class MarketPanel extends BackgroundImagePanel{
         vacant.add(vacantText1);
         vacant.add(vacantText2);
 
-        ButtonImage vacantMarble=new ButtonImage("/images/marblesScuffed/marble"+liteMarket.getVacant().getResourceType().deColored().toLowerCase()+".png");
+        ButtonImage vacantMarble=new ButtonImage("/images/marbles/marble"+liteMarket.getVacant().getResourceType().deColored().toLowerCase()+".png",new Dimension(100,100));
         vacantMarble.setBorderPainted(false);
         vacant.add(vacantMarble);
         vacant.setOpaque(false);
+        this.repaint();
     }
 
 

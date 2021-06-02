@@ -58,6 +58,8 @@ public class Gui extends ClientView {
         frame = new JFrame("MASTER OF RENAISSANCE");
         frame.setSize(1200,800);
         //frame.pack();
+        ImageIcon barbagialla=new ImageIcon(getClass().getResource("/images/others/barbagiallaenave.png"));
+        frame.setIconImage(barbagialla.getImage());
         frame.setResizable(false);
 
         mainPanel = new JPanel();
@@ -392,6 +394,17 @@ public class Gui extends ClientView {
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
         getLiteMarket().liteMarketUpdate(selection, selected);
+        gamePanel.getMarketPanel().showMarket();
+        gamePanel.repaint();
+
+    }
+
+    @Override
+    public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
+       AfterMarketPanel afterMarketPanel=new AfterMarketPanel(resourceContainers,this);
+       mainPanel.add(afterMarketPanel,"AfterMarketPanel");
+       cardLayout.show(mainPanel,"AfterMarketPanel");
+
     }
 
     @Override

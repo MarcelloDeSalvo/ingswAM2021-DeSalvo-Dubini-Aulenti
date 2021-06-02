@@ -160,15 +160,11 @@ public class VirtualView implements View {
 
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname){
-        StringBuilder marketOutChoice = new StringBuilder("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id").append("\n");
-        marketOutChoice.append("Where do you want to put: ");
-        for (ResourceContainer res: containers) {
-            marketOutChoice.append(res.getResourceType()).append("  ");
-        }
 
         UserManager.notifyUsers(connectedPlayers,
-                new Message.MessageBuilder().setCommand(Command.ASK_MARKET_DEST)
-                        .setInfo(marketOutChoice.toString()).setNickname(nickname).build());
+                new ContainerArrayListMessage(Command.ASK_MARKET_DEST,containers,nickname));
+
+                        //Message.MessageBuilder().setCommand(Command.ASK_MARKET_DEST).setInfo(marketOutChoice.toString()).setNickname(nickname).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -207,7 +203,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
-        notifyUsers(new ShowHandMessage(leaderIDs, nickname));
+        notifyUsers(new ArrayListIntegerMessage(Command.NOTIFY_HAND,leaderIDs, nickname));
     }
 
     @Override
@@ -272,6 +268,11 @@ public class VirtualView implements View {
 
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
+
+    }
+
+    @Override
+    public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
 
     }
 

@@ -167,5 +167,4 @@ public class GamePanel extends JPanel {
     public MarketPanel getMarketPanel() {
         return marketPanel;
     }
-
 }
