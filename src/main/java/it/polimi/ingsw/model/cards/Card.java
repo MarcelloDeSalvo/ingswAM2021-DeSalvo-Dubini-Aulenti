@@ -152,6 +152,19 @@ abstract class Card {
         return stringBuilder.toString();
     }
 
+    public String priceToStringDecoloured(){
+        StringBuilder stringBuilder = new StringBuilder();
+        int i=0;
+        for (ResourceContainer container :price) {
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType().deColored());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType().deColored());
+            i++;
+        }
+        return stringBuilder.toString();
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

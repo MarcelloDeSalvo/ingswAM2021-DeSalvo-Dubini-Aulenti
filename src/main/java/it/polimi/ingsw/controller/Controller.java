@@ -515,7 +515,7 @@ public class Controller implements ObserverController {
             }
         }
 
-        view.printReply_uni("Please keep selecting the resources or type 'DONE'", senderNick);
+        //view.printReply_uni("Please keep selecting the resources or type 'DONE'", senderNick);
     }
 
     /**
@@ -598,7 +598,6 @@ public class Controller implements ObserverController {
         newDevelopmentCard = null;
         productionSlotId = -1;
 
-        //view.printProduction(currPlayer.getProductionSite(), senderNick);
         mainActionAvailable = false;
     }
     //------------------------------------------------------------------------------------------------------------------/

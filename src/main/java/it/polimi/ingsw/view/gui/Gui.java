@@ -182,6 +182,8 @@ public class Gui extends ClientView {
                 "Mini HELP",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
+
+        infoLabel.setText("Your Turn!");
     }
 
     @Override
@@ -330,12 +332,15 @@ public class Gui extends ClientView {
             gamePanel.getNotifyLabel().setText("You bought the card correctly!");
         }
 
-        gamePanel.getPlayerBoardPanel().printBoughtCard(slotID, cardID);
+        infoLabel.setText("");
+        gamePanel.getPlayerBoardPanel().getProductionPanel().printBoughtCard(slotID, cardID, gamePanel.getPlayerBoardPanel());
     }
 
     @Override
     public void notifyBuySlotOk(String mex) {
-        infoLabel.setText("Now you can select the resources in order to pay");
+        gamePanel.getNotifyLabel().setText("Now you can select the resources in order to pay");
+        infoLabel.setText(getDevelopmentCards().get(gamePanel.getPlayerBoardPanel().getProductionPanel().
+                getBuyCardIdBuffer()-1).priceToStringDecoloured());
         guiStatus = GuiStatus.SELECTING_BUY_RESOURCES;
     }
 

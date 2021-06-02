@@ -47,8 +47,8 @@ public class CardGridPanel extends JPanel {
 
 
         buy.addActionListener(e -> {
-            gui.setGuiStatus(GuiStatus.SELECTING_THE_SLOT);
-            gui.getGamePanel().getPlayerBoardPanel().setBuyCardIdBuffer(id);
+            gui.setGuiStatus(GuiStatus.SELECTING_CARD_SLOT);
+            gui.getGamePanel().getPlayerBoardPanel().getProductionPanel().setBuyCardIdBuffer(id);
             gui.printReply("Ok! Now select a Production Slot");
             gui.getGamePanel().getCardLayout().show( gui.getGamePanel().getMain(), "playerBoardPanel");
         });
