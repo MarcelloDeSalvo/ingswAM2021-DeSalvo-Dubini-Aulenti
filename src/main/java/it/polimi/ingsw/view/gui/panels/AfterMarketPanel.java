@@ -32,12 +32,9 @@ public class AfterMarketPanel extends JPanel {
 
 
         received=new JPanel();
-        received.setOpaque(false);
+        received.setOpaque(true);
         received.setLayout(new BoxLayout(received,BoxLayout.Y_AXIS));
-        received.setBounds(0,0,500,1200);
-        this.add(new JButton("Swag ciao sono qua"),true);
-
-
+        //received.setBounds(0,0,500,1200);
 
         this.add(received);
         this.add(Box.createRigidArea(new Dimension(500,0)));

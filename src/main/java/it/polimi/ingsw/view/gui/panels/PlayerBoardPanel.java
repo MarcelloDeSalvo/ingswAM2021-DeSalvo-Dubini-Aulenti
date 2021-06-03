@@ -72,8 +72,8 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         //MARKET LAYER
         afterMarketPanel= new AfterMarketPanel(gui);
-        afterMarketPanel.setBounds(0,0,100,1200);
-        storage.add(afterMarketPanel);
+        afterMarketPanel.setBounds(300,0,1920,980);
+        this.add(afterMarketPanel, JLayeredPane.POPUP_LAYER);
         //afterMarketPanel.setVisible(false);
 
 
