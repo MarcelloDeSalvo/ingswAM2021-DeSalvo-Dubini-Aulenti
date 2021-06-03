@@ -263,8 +263,8 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case PRODUCTION_PRICE:
-                PriceMessage priceMessage = gson.fromJson(mex, PriceMessage.class);
-                notifyProductionPrice(priceMessage.getPrice(), senderNick);
+                ContainerArrayListMessage priceMessage = gson.fromJson(mex, ContainerArrayListMessage.class);
+                notifyProductionPrice(priceMessage.getContainers(), senderNick);
                 break;
 
             case MANAGE_DEPOSIT_OK:

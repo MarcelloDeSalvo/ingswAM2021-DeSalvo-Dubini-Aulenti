@@ -804,8 +804,22 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
-        System.out.println("The ProductionSlots you selected requires: " + resourcesPrice.toString() +
-                "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = 0;
+
+        stringBuilder.append("The ProductionSlots you selected requires: ");
+
+        for (ResourceContainer container: resourcesPrice) {
+            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+
+            i++;
+
+            if(i < resourcesPrice.size())
+                stringBuilder.append(" + ");
+        }
+        stringBuilder.append("\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
+
+        printReply(stringBuilder.toString());
     }
 
     @Override

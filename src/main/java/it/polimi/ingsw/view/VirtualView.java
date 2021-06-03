@@ -160,10 +160,7 @@ public class VirtualView implements View {
 
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname){
-
-        UserManager.notifyUsers(connectedPlayers,
-                new ContainerArrayListMessage(Command.ASK_MARKET_DEST,containers,nickname));
-
+        UserManager.notifyUsers(connectedPlayers, new ContainerArrayListMessage(Command.ASK_MARKET_DEST,containers,nickname));
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -257,7 +254,7 @@ public class VirtualView implements View {
 
     @Override
     public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
-        notifyUsers(new PriceMessage(resourcesPrice, senderNick));
+        notifyUsers(new ContainerArrayListMessage(Command.PRODUCTION_PRICE, resourcesPrice, senderNick));
     }
 
     @Override
