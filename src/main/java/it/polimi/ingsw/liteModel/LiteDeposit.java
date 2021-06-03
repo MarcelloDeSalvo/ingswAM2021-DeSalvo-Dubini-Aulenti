@@ -128,6 +128,8 @@ public class LiteDeposit {
 
     }
 
+
+
     public void setDepositPanel(DepositPanel depositPanel) {
         if (this.depositPanel != null)
             this.depositPanel.copy(depositPanel.getDepositButtons());

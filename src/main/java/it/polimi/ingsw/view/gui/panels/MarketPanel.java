@@ -113,7 +113,7 @@ public class MarketPanel extends BackgroundImagePanel{
         marbles.setOpaque(false);
 
         for (ResourceContainer marb :marbleArray) {
-            ButtonImage buttonImage=new ButtonImage("/images/marbles/marble"+marb.getResourceType().deColored().toLowerCase()+".png",new Dimension(60,60));
+            ButtonImage buttonImage=new ButtonImage("/images/marblesScuffed/marble"+marb.getResourceType().deColored().toLowerCase()+".png",new Dimension(60,60));
             buttonImage.setBorderPainted(false);
             buttonImage.setOpaque(false);
             buttonImage.setContentAreaFilled(false);

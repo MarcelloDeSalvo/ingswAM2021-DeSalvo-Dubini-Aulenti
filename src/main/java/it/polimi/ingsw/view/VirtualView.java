@@ -164,7 +164,6 @@ public class VirtualView implements View {
         UserManager.notifyUsers(connectedPlayers,
                 new ContainerArrayListMessage(Command.ASK_MARKET_DEST,containers,nickname));
 
-                        //Message.MessageBuilder().setCommand(Command.ASK_MARKET_DEST).setInfo(marketOutChoice.toString()).setNickname(nickname).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -257,7 +256,7 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick) {
+    public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
         notifyUsers(new PriceMessage(resourcesPrice, senderNick));
     }
 

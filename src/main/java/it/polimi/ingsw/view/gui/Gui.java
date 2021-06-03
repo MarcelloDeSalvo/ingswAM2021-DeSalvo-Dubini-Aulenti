@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.liteModel.LiteCardGrid;
 import it.polimi.ingsw.liteModel.LiteHand;
 import it.polimi.ingsw.liteModel.LiteMarket;
-import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
@@ -18,7 +17,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Gui extends ClientView {
@@ -346,7 +344,7 @@ public class Gui extends ClientView {
         gamePanel.getNotifyLabel().setText("Now you can select the resources in order to pay");
         infoLabel.setText(getDevelopmentCards().get(gamePanel.getPlayerBoardPanel().getProductionPanel().
                 getBuyCardIdBuffer()-1).priceToStringDecoloured());
-        guiStatus = GuiStatus.SELECTING_BUY_RESOURCES;
+        guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
     }
 
     @Override
@@ -355,14 +353,6 @@ public class Gui extends ClientView {
         guiStatus = GuiStatus.IDLE;
     }
 
-    @Override
-    public void notifyProductionOk(String senderNick) {
-        if (!senderNick.equals(getNickname()))
-            gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
-        else{
-            gamePanel.getNotifyLabel().setText("Production executed correctly!");
-        }
-    }
 
     @Override
     public void notifyProductionError(String error, String senderNick) {
@@ -372,6 +362,26 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyStartFilling(int productionID, String senderNick) {
+
+        guiStatus = GuiStatus.SELECTING_QM;
+
+        ArrayList<String> addableTypes = new ArrayList<>();
+        ArrayList<ResourceType> send = new ArrayList<>();
+
+        addableTypes.add("DONE");
+
+        for (ResourceType res: ResourceType.values()) {
+            if(res.canAddToVault()){
+                addableTypes.add(res.deColored());
+            }
+        }
+
+        int response = JOptionPane.showOptionDialog(null, "Please Fill the question mark in order", "Fill Request",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, addableTypes.toArray(), addableTypes.toArray()[0]);
+
+
+
         //System.out.println("Please start filling the Production Slots N: " + productionID +
                // " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
     }
@@ -382,9 +392,29 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick) {
-        //System.out.println("The ProductionSlots you selected requires: " + Util.mapToString(resourcesPrice) +
-          //      "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
+    public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
+        String price = "";
+        for (ResourceContainer resC: resourcesPrice) {
+            price+= resC.getQty();
+            price+=" ";
+            price+= resC.getResourceType().deColored();
+            price+=" ";
+        }
+
+        infoLabel.setText(price);
+        guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
+
+    }
+
+    @Override
+    public void notifyProductionOk(String senderNick) {
+        guiStatus = GuiStatus.IDLE;
+
+        if (!senderNick.equals(getNickname()))
+            gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
+        else{
+            gamePanel.getNotifyLabel().setText("Production executed correctly!");
+        }
     }
 
     @Override
@@ -512,7 +542,7 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyWinner(ArrayList<String> winner) {
-        gamePanel.getNotifyLabel().setText("[#-_- Winner: "+ winner.toString() +" -_-#");
+
     }
 
     @Override

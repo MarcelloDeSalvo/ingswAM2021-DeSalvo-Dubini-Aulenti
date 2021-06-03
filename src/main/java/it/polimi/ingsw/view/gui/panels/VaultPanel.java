@@ -14,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class VaultPanel extends JLayeredPane {
 
@@ -166,13 +167,13 @@ public class VaultPanel extends JLayeredPane {
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES)
+                if(gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES)
                     popupmenu.show(button , e.getX(), e.getY());
             }
         });
 
         give.addActionListener(e -> {
-            if (gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new SendContainer(new ResourceContainer(resourceType, 1),"VAULT", gui.getNickname()));
 
                 gui.printReply("Ok! Keep selecting or click DONE");
@@ -183,13 +184,14 @@ public class VaultPanel extends JLayeredPane {
         });
 
         done.addActionListener(e -> {
-            if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
 
                 gold.setBorderPainted(false);
                 stone.setBorderPainted(false);
                 minion.setBorderPainted(false);
                 shield.setBorderPainted(false);
+                repaint();
             }
         });
     }

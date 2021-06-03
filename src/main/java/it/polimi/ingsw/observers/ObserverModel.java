@@ -147,7 +147,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies a player and sends them the HashMap of resources to use as a price
      * @param resourcesPrice the price
      */
-    void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick);
+    void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick);
 
     /**
      * Notifies a player that the deposit has changed correctly after the manage deposit command

@@ -724,7 +724,7 @@ public class Controller implements ObserverController {
 
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
 
-        view.notifyProductionPrice(currPlayer.getProductionSite().getBufferInputMap(), senderNick);
+        view.notifyProductionPrice(new ArrayList<ResourceContainer>(currPlayer.getProductionSite().getBufferInputMap().values()), senderNick);
     }
 
     /**

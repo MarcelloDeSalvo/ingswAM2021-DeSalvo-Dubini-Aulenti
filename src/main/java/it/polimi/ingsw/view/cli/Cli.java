@@ -803,8 +803,8 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyProductionPrice(HashMap<ResourceType, ResourceContainer> resourcesPrice, String senderNick) {
-        System.out.println("The ProductionSlots you selected requires: " + Util.mapToString(resourcesPrice) +
+    public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
+        System.out.println("The ProductionSlots you selected requires: " + resourcesPrice.toString() +
                 "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
     }
 

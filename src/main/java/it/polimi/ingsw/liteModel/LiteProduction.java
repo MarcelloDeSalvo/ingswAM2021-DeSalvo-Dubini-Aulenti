@@ -21,9 +21,7 @@ public class LiteProduction {
 
     private static class MiniSlot {
         private final ArrayList <Integer> cardIDs;
-
         private final boolean leaderType;
-
         private final ProductionAbility productionAbility;
 
         public MiniSlot() {

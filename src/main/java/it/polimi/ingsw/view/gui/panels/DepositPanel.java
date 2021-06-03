@@ -115,7 +115,7 @@ public class DepositPanel extends JPanel {
 
     private void resourceMenu(Gui gui, ResourceTypeLabel resourceTypeLabel){
         JPopupMenu popupmenu = new JPopupMenu("Deposit Slot");
-        JMenuItem give = new JMenuItem("Give");
+        JMenuItem give = new JMenuItem("Pay with this");
         //JMenuItem send_here = new JMenuItem("Send Here");
         JMenuItem done = new JMenuItem("Done");
 
@@ -127,13 +127,13 @@ public class DepositPanel extends JPanel {
 
         resourceTypeLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(gui.getGuiStatus()== GuiStatus.SELECTING_BUY_RESOURCES)
+                if(gui.getGuiStatus()== GuiStatus.SELECTING_PAY_RESOURCES)
                     popupmenu.show(resourceTypeLabel , e.getX(), e.getY());
             }
         });
 
         give.addActionListener(e -> {
-            if (gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new SendContainer(Command.SEND_CONTAINER, resourceTypeLabel.getResourceContainer(),
                         "DEPOSIT", resourceTypeLabel.getId(), gui.getNickname()));
 
@@ -144,7 +144,7 @@ public class DepositPanel extends JPanel {
         });
 
         done.addActionListener(e -> {
-            if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
             }
         });
