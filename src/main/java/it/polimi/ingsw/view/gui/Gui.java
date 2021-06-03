@@ -518,7 +518,6 @@ public class Gui extends ClientView {
     public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick) {
         if (added)
             getSomeonesLiteDeposit(senderNick).addRes(resourceContainer, id);
-
         else
             getSomeonesLiteDeposit(senderNick).removeRes(resourceContainer, id);
     }

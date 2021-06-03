@@ -161,10 +161,10 @@ public class DepositPanel extends JPanel {
     }
 
     public void remove(ResourceContainer resourceContainer, int id){
-        for (int i = 0; i<resourceContainer.getQty();i++)
-            if(depositButtons.get(id).get(i).isEmpty())
+        for (int i = 0; i<resourceContainer.getQty();i++){
+            if(!depositButtons.get(id).get(i).isEmpty())
                 depositButtons.get(id).get(i).setResourceTypeImage(null);
-
+        }
     }
 
 

@@ -68,7 +68,9 @@ public class CardGridPanel extends JPanel {
                 this.add(lc);
             }
             else{
-                this.add(new JPanel());
+                JPanel jPanel = new JPanel();
+                jPanel.setOpaque(false);
+                this.add(jPanel);
             }
         }
         this.repaint();
