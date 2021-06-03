@@ -159,7 +159,7 @@ public class VaultPanel extends JLayeredPane {
 
     private void resourceMenu(ButtonImage button, ResourceType resourceType){
         JPopupMenu popupmenu = new JPopupMenu("Vault");
-        JMenuItem give = new JMenuItem("Give");
+        JMenuItem give = new JMenuItem("Pay with this");
         JMenuItem done = new JMenuItem("Done");
 
         popupmenu.add(give);

@@ -552,9 +552,8 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyMarketOk(String senderNick) {
-        System.out.println("Market ok!");
         gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(false);
-
+        guiStatus = GuiStatus.IDLE;
     }
 
     @Override
