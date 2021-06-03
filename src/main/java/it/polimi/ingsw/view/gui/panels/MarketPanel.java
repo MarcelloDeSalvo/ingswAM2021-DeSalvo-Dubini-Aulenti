@@ -58,7 +58,9 @@ public class MarketPanel extends BackgroundImagePanel{
         for(int i=0;i<3;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
             final int j=i+1;
-            buttonImage.addActionListener(e-> gui.send(new MarketMessage("ROW", j, gui.getNickname())));
+            buttonImage.addActionListener(e->{
+                gui.send(new MarketMessage("ROW", j, gui.getNickname()));
+            });
             rowButtons.add(buttonImage);
             rowButtons.add(Box.createVerticalGlue());
         }
@@ -69,7 +71,9 @@ public class MarketPanel extends BackgroundImagePanel{
         for(int i=0;i<4;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
             final int j=i+1;
-            buttonImage.addActionListener(e-> gui.send(new MarketMessage("COLUMN", j, gui.getNickname())));
+            buttonImage.addActionListener(e->{
+                gui.send(new MarketMessage("COLUMN", j, gui.getNickname()));
+            });
             columnButtons.add(buttonImage);
             columnButtons.add(Box.createHorizontalGlue());
         }
@@ -95,6 +99,9 @@ public class MarketPanel extends BackgroundImagePanel{
 
     public void showMarket(){
         ArrayList<ResourceContainer> marbleArray = liteMarket.getGuiMarketArray();
+
+        if(vacant!=null)
+            mainPanel.remove(vacant);
 
         marbles = new JPanel();
         vacant = new JPanel();

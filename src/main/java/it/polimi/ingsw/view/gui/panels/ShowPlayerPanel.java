@@ -20,6 +20,7 @@ public class ShowPlayerPanel extends JLayeredPane {
         super();
         this.gui=gui;
 
+
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
 
@@ -59,7 +60,7 @@ public class ShowPlayerPanel extends JLayeredPane {
 
 
         //VAULT
-        vaultPanel = new VaultPanel(gui,gui.getNickname());
+        vaultPanel = new VaultPanel(gui);
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 
