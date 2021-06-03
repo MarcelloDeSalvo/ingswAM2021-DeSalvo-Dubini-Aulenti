@@ -207,6 +207,16 @@ public abstract class ClientView implements View, UserInput {
                 notifyNewProductionSlot(newProductionSlotMessage.getProductionAbility(), senderNick);
                 break;
 
+            case NOTIFY_SCORES:
+                ScoreMessage scoreMessage = gson.fromJson(mex, ScoreMessage.class);
+                notifyScores(scoreMessage.getPlayersTotalVictoryPoints(), scoreMessage.getNicknames());
+                break;
+
+            case NOTIFY_WINNER:
+                StringsMessage stringsMessage1 = gson.fromJson(mex, StringsMessage.class);
+                notifyWinner(stringsMessage1.getData());
+                break;
+
             case ASK_MARKET_DEST:
                 ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
                 notifyResourcesArrived(containerArrayListMessage.getContainers());

@@ -78,6 +78,8 @@ public enum Command {
     NOTIFY_FAITHPATH_FAVOURS    (false,false,true, Status.IN_GAME),
     NOTIFY_GAME_STARTED         (false,false,true, Status.IN_GAME),
     NOTIFY_LORENZO_ACTION       (false,false,true, Status.IN_GAME),
+    NOTIFY_WINNER               (false,false,true, Status.IN_GAME),
+    NOTIFY_SCORES               (false,false,true, Status.IN_GAME),
 
     ASK_MARKET_DEST (false, false, false, null),
     ASK_SETUP_RESOURCES(false,false,true,Status.IN_GAME),

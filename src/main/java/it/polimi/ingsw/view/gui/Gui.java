@@ -437,6 +437,7 @@ public class Gui extends ClientView {
        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setResources(resourceContainers);
        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(true);
        gamePanel.getCardLayout().show(gamePanel.getMain(),"playerBoardPanel");
+       guiStatus = GuiStatus.SELECTING_DEST_AFTER_MARKET;
 
     }
 
@@ -444,6 +445,8 @@ public class Gui extends ClientView {
     public void notifyCardGridChanges(int oldID, int newID) {
         getLiteCardGrid().gridUpdated(oldID, newID);
         gamePanel.getCardGridPanel().updateGrid();
+        gamePanel.repaint();
+        gamePanel.getCardGridPanel().repaint();
     }
 
     @Override
@@ -542,16 +545,34 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyLastTurn() {
-        gamePanel.getNotifyLabel().setText("# THIS IS THE LAST TURN");
+        gamePanel.getNotifyLabel().setText("-THIS IS THE LAST TURN-");
     }
 
     @Override
     public void notifyWinner(ArrayList<String> winner) {
-
+        gamePanel.getNotifyLabel().setText("The winner is: "+ winner);
     }
 
     @Override
     public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
+        StringBuilder scoreboard = new StringBuilder("");
+        int i = 0;
+        for (String nick: nicknames) {
+            scoreboard.append(nick);
+            scoreboard.append(" scored: ").append(playersTotalVictoryPoints.get(i)).append("  points").append("\n");
+            i++;
+        }
+        int option = JOptionPane.showConfirmDialog(frame,
+                scoreboard,
+                "SCORE BOARD",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE);
+
+        if (option == JOptionPane.OK_OPTION){
+            frame.setSize(1200,800);
+            frame.setLocationRelativeTo(null);
+            cardLayout.show(mainPanel, "lobbyRoomPanel");
+        }
 
     }
 
@@ -564,6 +585,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyGameEnded() {
         printReply("# The game is ended, you are now in the lobby");
+
         this.setInGame(false);
     }
     //------------------------------------------------------------------------------------------------------------------

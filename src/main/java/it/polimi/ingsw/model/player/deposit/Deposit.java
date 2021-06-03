@@ -122,7 +122,7 @@ public class Deposit implements DepositSubject {
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      * @throws ResourceTypeAlreadyStored if another default deposit is already storing the same resource type
      */
-    public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored {
+    public boolean canSwitchDeposit(DepositSlot selected, DepositSlot destination) throws DepositSlotMaxDimExceeded, ResourceTypeAlreadyStored{
         return selected.canSwitchWith(destination) && destination.canSwitchWith(selected);
     }
 

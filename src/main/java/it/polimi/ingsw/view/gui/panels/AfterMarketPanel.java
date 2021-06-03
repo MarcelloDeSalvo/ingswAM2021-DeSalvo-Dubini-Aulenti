@@ -13,6 +13,7 @@ import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.customJObject.DepositMenu;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -36,6 +37,8 @@ public class AfterMarketPanel extends JPanel {
 
         received=new JPanel();
         received.setOpaque(true);
+        received.setBackground(new Color(240, 198, 125));
+        received.setBorder(new LineBorder(new Color(241, 153, 0), 1));
         received.setLayout(new BoxLayout(received,BoxLayout.Y_AXIS));
         //received.setBounds(0,0,500,1200);
 

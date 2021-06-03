@@ -917,13 +917,25 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyWinner(ArrayList<String> winner) {
-        printReply("[#-_- "+Color.ANSI_YELLOW.escape()+"Winner"+Color.ANSI_RESET.escape()+":"+ winner.toString() +" -_-#");
+    public void notifyWinner(ArrayList<String> winners) {
+        String winnerz="";
+        for (String winner : winners) {
+            winnerz+=winner;
+            winnerz+=" ";
+        }
+        printReply("[#-_- "+Color.ANSI_YELLOW.escape()+"Winners: "+Color.ANSI_RESET.escape()+":"+ winnerz +" -_-#]");
     }
 
     @Override
     public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
-
+        StringBuilder scoreboard = new StringBuilder("\n#_SCORE BOARD_#\n");
+        int i = 0;
+        for (String nick: nicknames) {
+            scoreboard.append(" °-> ").append(nick);
+            scoreboard.append(" scored { ").append(playersTotalVictoryPoints.get(i)).append(" } points").append("\n");
+            i++;
+        }
+        printReply(scoreboard.toString());
     }
 
     @Override
