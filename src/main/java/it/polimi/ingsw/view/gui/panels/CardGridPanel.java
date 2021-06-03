@@ -22,7 +22,7 @@ public class CardGridPanel extends JPanel {
         this.setLayout(new GridLayout(3,4));
 
         //Entrano in un ordine sbagliato :C
-        for (Integer id: liteCardGrid.getCardIDs()) {
+        for (Integer id: liteCardGrid.getGUIcardIDs()) {
             ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
             lc.addActionListener(e -> {
                 buyMenu(lc, id);
@@ -57,7 +57,7 @@ public class CardGridPanel extends JPanel {
 
     public void updateGrid(){
         this.removeAll();
-        for (Integer id: liteCardGrid.getCardIDs()) {
+        for (Integer id: liteCardGrid.getGUIcardIDs()) {
             if (id != -1){
                 ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
 

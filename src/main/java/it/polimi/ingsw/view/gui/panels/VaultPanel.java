@@ -31,13 +31,13 @@ public class VaultPanel extends JLayeredPane {
     private final JLabel minionLabel;
     private final JLabel shieldLabel;
 
-    public VaultPanel(Gui gui) {
+    public VaultPanel(Gui gui,String nickname ) {
         super();
 
         int buttonSize = 110;
 
         this.gui = gui;
-        this.liteVault = gui.getMyLiteVault();
+        this.liteVault = gui.getSomeonesLiteVault(nickname);
 
         this.setLayout(null);
         this.setOpaque(false);
