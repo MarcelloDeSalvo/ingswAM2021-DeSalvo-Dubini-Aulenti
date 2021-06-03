@@ -225,6 +225,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     public boolean produce(){
         if(productionSite.produce(vault))
             return clearAllBuffers();
+
         return false;
     }
 
