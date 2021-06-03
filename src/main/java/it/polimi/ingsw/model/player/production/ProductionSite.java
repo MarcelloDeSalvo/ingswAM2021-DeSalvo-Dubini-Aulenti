@@ -68,8 +68,6 @@ public class ProductionSite implements ProductionSubject {
     }
 
 
-
-
     //PRODUCTION PIPELINE-----------------------------------------------------------------------------------------------
 
     /*  User selects the production slots (Base/DevelopmentCard/LeaderCard)
@@ -137,6 +135,11 @@ public class ProductionSite implements ProductionSubject {
      */
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
         Util.arraylistToMap(selectedResources, bufferSelectedResources);
+
+        for (ResourceType key: bufferSelectedResources.keySet()) {
+            System.out.println(bufferSelectedResources.get(key));
+        }
+
         for (ResourceType key: bufferInputMap.keySet()) {
 
             if(!bufferSelectedResources.containsKey(key))
@@ -173,6 +176,7 @@ public class ProductionSite implements ProductionSubject {
     public boolean clearBuffers(){
         bufferInputMap.clear();
         bufferOutputMap.clear();
+        bufferSelectedResources.clear();
         return true;
     }
     //END OF THE PIPELINE ----------------------------------------------------------------------------------------------

@@ -743,6 +743,8 @@ public class Controller implements ObserverController {
         } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
             currPlayer.emptyBuffers();
 
+            exception.printStackTrace();
+
             view.printReply_uni(exception.getMessage(), senderNick);
             view.printTurnHelp(senderNick);
         }
