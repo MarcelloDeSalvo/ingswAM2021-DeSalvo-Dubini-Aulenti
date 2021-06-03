@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.*;
-import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -12,7 +10,6 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Cli extends ClientView {
