@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.gui.panels;
 
+import it.polimi.ingsw.liteModel.LiteDeposit;
+import it.polimi.ingsw.liteModel.LiteMarket;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
@@ -29,7 +31,6 @@ public class AfterMarketPanel extends JPanel {
         this.setOpaque(false);
         this.add(Box.createRigidArea(new Dimension(150,0)));
         this.gui=gui;
-
 
         received=new JPanel();
         received.setOpaque(true);

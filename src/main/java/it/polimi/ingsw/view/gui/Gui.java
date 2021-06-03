@@ -426,6 +426,7 @@ public class Gui extends ClientView {
     public void notifyMarketUpdate(String selection, int selected) {
         getLiteMarket().liteMarketUpdate(selection, selected);
         gamePanel.getMarketPanel().showMarket();
+        gamePanel.revalidate();
         gamePanel.repaint();
     }
 
