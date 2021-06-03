@@ -131,8 +131,9 @@ public class ProductionPanel extends JPanel {
 
                 select.addActionListener(f ->
                         gui.send( new BuyMessage(buyCardIdBuffer, id, gui.getNickname())));
+            }
 
-            }else{
+            if( gui.getGuiStatus()==GuiStatus.IDLE || gui.getGuiStatus() == GuiStatus.SELECTING_PROD_SLOT ){
                 popupmenu.add(produce);
 
                 popupmenu.show(prodSlot , e.getX(), e.getY());

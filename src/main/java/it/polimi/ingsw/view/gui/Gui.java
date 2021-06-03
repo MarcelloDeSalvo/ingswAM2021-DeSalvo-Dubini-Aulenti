@@ -339,6 +339,7 @@ public class Gui extends ClientView {
 
         infoLabel.setText("");
         gamePanel.getPlayerBoardPanel().getProductionPanel().printBoughtCard(slotID, cardID, gamePanel.getPlayerBoardPanel());
+        guiStatus = GuiStatus.IDLE;
     }
 
     @Override
