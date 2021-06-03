@@ -431,9 +431,10 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
-       AfterMarketPanel afterMarketPanel=new AfterMarketPanel(resourceContainers,this);
-       mainPanel.add(afterMarketPanel,"AfterMarketPanel");
-       cardLayout.show(mainPanel,"AfterMarketPanel");
+       gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setResources(resourceContainers);
+       gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(true);
+       gamePanel.getCardLayout().show(gamePanel.getMain(),"playerBoardPanel");
+
     }
 
     @Override
@@ -547,6 +548,13 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
+
+    }
+
+    @Override
+    public void notifyMarketOk(String senderNick) {
+        System.out.println("Market ok!");
+        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(false);
 
     }
 

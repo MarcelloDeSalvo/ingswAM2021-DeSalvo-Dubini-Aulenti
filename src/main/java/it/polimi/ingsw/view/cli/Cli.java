@@ -580,7 +580,7 @@ public class Cli extends ClientView {
     //GAME PRINTS-------------------------------------------------------------------------------------------------------
     @Override
     public void printItsYourTurn(String nickname){
-        printReply_uni("\nIt is your turn, chose an action: " + "" +
+        printReply_uni("\nIt is your turn, choose an action: " + "" +
                 "\n1) BUY A CARD (>BUY DevelopmentCardID ProductionSlotID) " +
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
                 "\n3) PRODUCE (>PRODUCE productionID1 productionID2 ... 'DONE')"+
@@ -827,6 +827,12 @@ public class Cli extends ClientView {
             marketOutChoice.append(res.getResourceType()).append("  ");
         }
         printReply(marketOutChoice.toString());
+    }
+
+    @Override
+    public void notifyMarketOk(String senderNick) {
+        printReply("The market operation ended successfully! \n");
+        printTurnHelp(senderNick);
     }
 
     @Override

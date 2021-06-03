@@ -212,6 +212,10 @@ public abstract class ClientView implements View, UserInput {
                 notifyResourcesArrived(containerArrayListMessage.getContainers());
                 break;
 
+            case MARKET_OK:
+                notifyMarketOk(senderNick);
+                break;
+
             case ASK_SETUP_RESOURCES:
                 askForResources(senderNick, 0);
                 printReply(deserializedMex.getInfo());

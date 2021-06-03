@@ -13,28 +13,45 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.jar.Attributes;
 
-public class AfterMarketPanel extends BackgroundImagePanel {
+public class AfterMarketPanel extends JPanel {
 
     private ResourceType selectedResource;
+    private JPanel received;
     private final Gui gui;
 
     //private  ArrayList<ResourceContainer> resourcesReceived;
 
-    public AfterMarketPanel(ArrayList<ResourceContainer> resourcesReceived, Gui gui)throws ImageNotFound {
-        super("/images/others/deposit.png", 650, 310, false);
+    public AfterMarketPanel(Gui gui)throws ImageNotFound {
+        super();
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
+        this.setOpaque(false);
         this.add(Box.createRigidArea(new Dimension(150,0)));
         this.gui=gui;
 
 
-        JPanel received=new JPanel();
+        received=new JPanel();
         received.setOpaque(false);
         received.setLayout(new BoxLayout(received,BoxLayout.Y_AXIS));
+        received.setBounds(0,0,500,1200);
+        this.add(new JButton("Swag ciao sono qua"),true);
 
 
+
+        this.add(received);
+        this.add(Box.createRigidArea(new Dimension(500,0)));
+
+        //DepositPanel depositPanel=new DepositPanel(gui);
+        //depositPanel.setOpaque(false);
+        //this.add(depositPanel);
+        this.add(Box.createRigidArea(new Dimension(50,0)));
+    }
+
+    public void setResources(ArrayList<ResourceContainer> marketOut){
+        received.removeAll();
         received.add(Box.createVerticalGlue());
-        for (ResourceContainer rc:resourcesReceived){
+        for (ResourceContainer rc:marketOut){
             ButtonImage bi=new ButtonImage("/images/resourceImages/"+rc.getResourceType().deColored().toLowerCase()+".png");
             bi.setBorderPainted(false);
             bi.addActionListener(e ->{
@@ -42,19 +59,12 @@ public class AfterMarketPanel extends BackgroundImagePanel {
                 resourceActionWindow(bi);
             });
 
-
             received.add(bi);
             received.add(Box.createVerticalGlue());
-
         }
+        received.revalidate();
+        received.repaint();
 
-        this.add(received);
-        this.add(Box.createRigidArea(new Dimension(500,0)));
-
-        DepositPanel depositPanel=new DepositPanel(gui);
-        depositPanel.setOpaque(false);
-        this.add(depositPanel);
-        this.add(Box.createRigidArea(new Dimension(50,0)));
     }
 
 

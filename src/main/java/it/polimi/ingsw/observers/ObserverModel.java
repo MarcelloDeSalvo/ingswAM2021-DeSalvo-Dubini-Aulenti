@@ -160,6 +160,11 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     void notifyMarketUpdate(String selection, int selected);
 
     /**
+     * Notifies the player that the phase after the selection from the market has ended.
+     */
+    void notifyMarketOk(String senderNick);
+
+    /**
      * Notifies all player that they received the resources from the market and that they have to choose where to put them
      */
     void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers);

@@ -13,6 +13,7 @@ public class PlayerBoardPanel extends JLayeredPane {
     private final DepositPanel depositPanel;
     private final ProductionPanel productionPanel;
     private final VaultPanel vaultPanel;
+    private  AfterMarketPanel afterMarketPanel;
 
     public PlayerBoardPanel(Gui gui) {
         super();
@@ -69,6 +70,13 @@ public class PlayerBoardPanel extends JLayeredPane {
 
         this.add(productionPanel, JLayeredPane.PALETTE_LAYER);
 
+        //MARKET LAYER
+        afterMarketPanel= new AfterMarketPanel(gui);
+        afterMarketPanel.setBounds(0,0,100,1200);
+        storage.add(afterMarketPanel);
+        //afterMarketPanel.setVisible(false);
+
+
     }
 
     public DepositPanel getDepositPanel() {
@@ -78,5 +86,9 @@ public class PlayerBoardPanel extends JLayeredPane {
     public ProductionPanel getProductionPanel() { return productionPanel; }
 
     public VaultPanel getVaultPanel() { return vaultPanel; }
+
+    public AfterMarketPanel getAfterMarketPanel() { return afterMarketPanel;  }
+
+    public void visibleMarketOut(){afterMarketPanel.setVisible(true);}
 }
 

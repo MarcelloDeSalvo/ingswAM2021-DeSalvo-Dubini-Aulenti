@@ -271,6 +271,11 @@ public class VirtualView implements View {
     }
 
     @Override
+    public void notifyMarketOk(String senderNick) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.MARKET_OK).setNickname(senderNick).build());
+    }
+
+    @Override
     public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
 
     }

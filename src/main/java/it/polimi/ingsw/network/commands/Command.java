@@ -59,6 +59,7 @@ public enum Command {
 
     PICK_FROM_MARKET(false, false,true, Status.IN_GAME),
     SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME),
+    MARKET_OK       (false,false,true,Status.IN_GAME),
     CONVERSION      (false, false, true, Status.IN_GAME),
 
     END_TURN        (false, false, true, Status.IN_GAME),

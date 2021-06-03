@@ -52,6 +52,9 @@ public class GamePanel extends JPanel {
         marketPanel=new MarketPanel(gui, liteMarket);
         marketPanel.setOpaque(false);
 
+
+
+
         main.add(playerBoardPanel,"playerBoardPanel");
         main.add(faithPathPanel,"faithPathPanel");
         main.add(cardGridPanel, "cardGridPanel");
@@ -167,4 +170,5 @@ public class GamePanel extends JPanel {
     public MarketPanel getMarketPanel() {
         return marketPanel;
     }
+
 }

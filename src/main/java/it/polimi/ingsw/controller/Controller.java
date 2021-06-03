@@ -774,6 +774,7 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
+            //new command type needed
             view.printReply_uni("You have multiple leaders with the conversion ability, " +
                     "please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
             game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
@@ -809,12 +810,13 @@ public class Controller implements ObserverController {
      * Manages the sending of resources to the deposits after taking them from the market
      */
     public void marketAddDepositController(String senderNick){
+        //new command type here
         if (marketOut.size()>0){
             view.askForMarketDestination(marketOut, senderNick);
             return;
         }
 
-        view.printTurnHelp(senderNick);
+        view.notifyMarketOk(senderNick);
         currPlayer.setPlayerStatus(PlayerStatus.IDLE);
         marketOut = null;
     }
