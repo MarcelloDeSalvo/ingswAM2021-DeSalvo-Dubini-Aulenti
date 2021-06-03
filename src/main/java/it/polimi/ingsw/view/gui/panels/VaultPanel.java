@@ -20,6 +20,11 @@ public class VaultPanel extends JLayeredPane {
     private final Gui gui;
     private final LiteVault liteVault;
 
+    private final ButtonImage gold;
+    private final ButtonImage stone;
+    private final ButtonImage minion;
+    private final ButtonImage shield;
+
     private final JLabel goldLabel;
     private final JLabel stoneLabel;
     private final JLabel minionLabel;
@@ -47,13 +52,13 @@ public class VaultPanel extends JLayeredPane {
         row01.setLayout(new BoxLayout(row01, BoxLayout.X_AXIS));
         row01.setOpaque(false);
 
-        ButtonImage gold = new ButtonImage("/images/resourceImages/gold.png", new Dimension(buttonSize,buttonSize));
+        gold = new ButtonImage("/images/resourceImages/gold.png", new Dimension(buttonSize,buttonSize));
         gold.addActionListener(e-> resourceMenu(gold, ResourceType.GOLD));
         gold.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         gold.setMaximumSize(new Dimension(buttonSize, buttonSize));
         gold.setOpaque(false);
 
-        ButtonImage stone = new ButtonImage("/images/resourceImages/stone.png", new Dimension(buttonSize,buttonSize));
+        stone = new ButtonImage("/images/resourceImages/stone.png", new Dimension(buttonSize,buttonSize));
         stone.addActionListener(e-> resourceMenu(stone, ResourceType.STONE));
         stone.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         stone.setMaximumSize(new Dimension(buttonSize, buttonSize));
@@ -68,13 +73,13 @@ public class VaultPanel extends JLayeredPane {
         row02.setLayout(new BoxLayout(row02, BoxLayout.X_AXIS));
         row02.setOpaque(false);
 
-        ButtonImage minion = new ButtonImage("/images/resourceImages/minion.png", new Dimension(buttonSize, buttonSize));
+        minion = new ButtonImage("/images/resourceImages/minion.png", new Dimension(buttonSize, buttonSize));
         minion.addActionListener(e-> resourceMenu(minion, ResourceType.MINION));
         minion.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         minion.setMaximumSize(new Dimension(buttonSize, buttonSize));
         minion.setOpaque(false);
 
-        ButtonImage shield = new ButtonImage("/images/resourceImages/shield.png", new Dimension(buttonSize, buttonSize));
+        shield = new ButtonImage("/images/resourceImages/shield.png", new Dimension(buttonSize, buttonSize));
         shield.addActionListener(e-> resourceMenu(shield, ResourceType.SHIELD));
         shield.setMinimumSize(new Dimension(buttonSize-1, buttonSize-1));
         shield.setMaximumSize(new Dimension(buttonSize, buttonSize));
@@ -181,7 +186,10 @@ public class VaultPanel extends JLayeredPane {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_BUY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
 
-                button.setBorderPainted(false);
+                gold.setBorderPainted(false);
+                stone.setBorderPainted(false);
+                minion.setBorderPainted(false);
+                shield.setBorderPainted(false);
             }
         });
     }

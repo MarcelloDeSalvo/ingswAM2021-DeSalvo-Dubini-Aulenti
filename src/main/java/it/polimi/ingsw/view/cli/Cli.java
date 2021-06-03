@@ -580,7 +580,7 @@ public class Cli extends ClientView {
     //GAME PRINTS-------------------------------------------------------------------------------------------------------
     @Override
     public void printItsYourTurn(String nickname){
-        printReply_uni("It is your turn, chose an action: " + "" +
+        printReply_uni("\nIt is your turn, chose an action: " + "" +
                 "\n1) BUY A CARD (>BUY DevelopmentCardID ProductionSlotID) " +
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
                 "\n3) PRODUCE (>PRODUCE productionID1 productionID2 ... 'DONE')"+
@@ -758,48 +758,48 @@ public class Cli extends ClientView {
     public void notifyBuyOk(String nickname, int slotID, int cardID) {
         getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
         if (!nickname.equals(getNickname()))
-            System.out.println(nickname + " bought a new card (ID: "+ cardID +" ) !");
+            printReply(nickname + " bought a new card (ID: "+ cardID +" ) !");
         else {
-            System.out.println("You bought the card correctly!");
+            printReply("You bought the card correctly!");
             printProduction();
         }
     }
 
     @Override
     public void notifyBuySlotOk(String mex) {
-        System.out.println(mex);
+        printReply(mex);
         System.out.println();
     }
 
     @Override
     public void notifyBuyError(String error) {
-        System.out.println("\n"+error+"\n");
+        printReply("\n" + error);
     }
 
     @Override
     public void notifyProductionOk(String senderNick) {
         if (!senderNick.equals(getNickname()))
-            System.out.println(senderNick+" has used the production this turn!");
+            printReply(senderNick+" has used the production this turn!");
         else{
-            System.out.println("Production executed correctly!");
+            printReply("Production executed correctly!");
             printVault();
         }
     }
 
     @Override
     public void notifyProductionError(String error, String senderNick) {
-        System.out.println("\n"+error+"\n");
+        printReply("\n" + error);
     }
 
     @Override
     public void notifyStartFilling(int productionID, String senderNick) {
-        System.out.println("Please start filling the Production Slots N: " + productionID +
+        printReply("Please start filling the Production Slots N: " + productionID +
         " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
     }
 
     @Override
     public void notifyFillOk(int productionID, String senderNick) {
-        System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+        printReply("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
     }
 
     @Override
@@ -811,7 +811,7 @@ public class Cli extends ClientView {
     @Override
     public void notifyMoveOk(String senderNick) {
         printDeposit();
-        System.out.println("The action on deposit has been executed correctly!\n");
+        printReply("The action on deposit has been executed correctly!");
     }
 
     @Override
@@ -826,7 +826,7 @@ public class Cli extends ClientView {
         for (ResourceContainer res: resourceContainers) {
             marketOutChoice.append(res.getResourceType()).append("  ");
         }
-        System.out.println(marketOutChoice.toString());
+        printReply(marketOutChoice.toString());
     }
 
     @Override
@@ -842,7 +842,7 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyLeaderDiscarded(int id, String nickname){
-        System.out.println("Leader discarded!\n");
+        printReply("Leader discarded!");
         getMyHand().discardFromHand(id);
         printHand();
     }
@@ -850,17 +850,18 @@ public class Cli extends ClientView {
     @Override
     public void notifyLeaderActivated(int id, String nickname){
         if(nickname.equals(getNickname()))
-            System.out.println("Leader activated!\n");
+            printReply("Leader activated!");
         else {
-            System.out.println(nickname + " has activated the " + id + " ID leader!\n");
+            printReply(nickname + " has activated the " + id + " ID leader!");
             getSomeonesHand(nickname).addLeader(id);
         }
         getSomeonesHand(nickname).activateLeader(id);
     }
 
     @Override
-    public void notifyCardRemoved(int amount, Colour color, int level) {
-        printReply("LORENZO has removed "+ amount+ " "+color+ " development cards with level = " + level);
+    public void notifyLorenzoAction(int actionID, Colour colour) {
+        if(actionID < 5)
+            printReply("LORENZO has removed 2 " + colour + " development cards");
     }
 
     @Override
@@ -888,7 +889,7 @@ public class Cli extends ClientView {
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
         getSomeonesLiteProduction(senderNick).addProductionSlot(productionAbility);
         if(senderNick.equals(getNickname())){
-            System.out.println("You activated a new production!");
+            printReply("You activated a new production!");
             printProduction();
         }
     }

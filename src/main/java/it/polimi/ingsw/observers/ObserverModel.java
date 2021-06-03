@@ -3,16 +3,13 @@ package it.polimi.ingsw.observers;
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-import it.polimi.ingsw.network.commands.Command;
-import it.polimi.ingsw.network.commands.Message;
-import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.gameListeners.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public interface ObserverModel extends FaithPathListener, CardGridListener, VaultListener, DepositListener, ProductionListener {
+public interface ObserverModel extends FaithPathListener, CardGridListener, ActionTokenListener, VaultListener, DepositListener, ProductionListener {
 
     /**
      * Simple reply from the server

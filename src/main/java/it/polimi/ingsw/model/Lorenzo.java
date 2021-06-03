@@ -1,11 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.observers.ObservableModel;
+import it.polimi.ingsw.observers.ObserverModel;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Lorenzo implements ObservableEndGame{
+public class Lorenzo implements ObservableEndGame, ObservableModel {
     private ArrayList<ActionToken> actionTokens;
-    private ArrayList<ObserverEndGame> observersEndGame;
+    private final ArrayList<ObserverEndGame> observersEndGame;
 
     public Lorenzo() {
         this.observersEndGame = new ArrayList<>();
@@ -44,7 +47,6 @@ public class Lorenzo implements ObservableEndGame{
     //------------------------------------------------------------------------------------------------------------------
 
 
-
     //OBSERVER METHODS--------------------------------------------------------------------------------------------------
     @Override
     public void notifyEndGame() {
@@ -65,6 +67,12 @@ public class Lorenzo implements ObservableEndGame{
     }
     //------------------------------------------------------------------------------------------------------------------
 
+
+    @Override
+    public void addView(ObserverModel view) {
+        for (ActionToken actionToken: actionTokens)
+            actionToken.addActionTokenListener(view);
+    }
 
     //GETTERS-----------------------------------------------------------------------------------------------------------
     public ArrayList<ActionToken> getActionTokens() {

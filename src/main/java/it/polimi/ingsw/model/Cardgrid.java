@@ -97,8 +97,6 @@ public class Cardgrid implements CardGridSubject {
                 }
             }
         }
-
-        cardGridListener.notifyCardRemoved(amount, desiredColour, l);
     }
 
 

@@ -397,7 +397,6 @@ public class Gui extends ClientView {
         getLiteMarket().liteMarketUpdate(selection, selected);
         gamePanel.getMarketPanel().showMarket();
         gamePanel.repaint();
-
     }
 
     @Override
@@ -405,7 +404,6 @@ public class Gui extends ClientView {
        AfterMarketPanel afterMarketPanel=new AfterMarketPanel(resourceContainers,this);
        mainPanel.add(afterMarketPanel,"AfterMarketPanel");
        cardLayout.show(mainPanel,"AfterMarketPanel");
-
     }
 
     @Override
@@ -454,19 +452,24 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyCardRemoved(int amount, Colour color, int level) {
+    public void notifyLorenzoAction(int actionID, Colour colour) {
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/lorenzoActions/cerchio" + actionID + ".png"));
+
+        String text = "ERROR";
+
+        if(actionID < 5)
+            text = "LORENZO has removed 2 " + colour.noColorToString() + " development cards   ";
+        else if(actionID == 5)
+            text = "LORENZO's position has been incremented of 2 FAITH POINTS   ";
+        else if(actionID == 6)
+            text = "LORENZO's position has been incremented of 2 FAITH POINTS. \nThe Action Tokens have been shuffled!   ";
 
         JOptionPane.showMessageDialog(frame,
-                "GIGI",
-                "GIGI",
+                text,
+                "LORENZO ACTION",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
-
-        System.out.println("diocaro");
-        gamePanel.getNotifyLabel().setText("diocaro");
-        gamePanel.getNotifyLabel().setText("LORENZO has removed " + amount + " " + color.noColorToString() + " development cards with level = " + level);
     }
 
     @Override

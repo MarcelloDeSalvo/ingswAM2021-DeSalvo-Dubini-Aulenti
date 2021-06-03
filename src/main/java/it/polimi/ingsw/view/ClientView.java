@@ -267,6 +267,11 @@ public abstract class ClientView implements View, UserInput {
                 notifyMoveOk(senderNick);
                 break;
 
+            case NOTIFY_LORENZO_ACTION:
+                LorenzoActionMessage lorenzoActionMessage = gson.fromJson(mex, LorenzoActionMessage.class);
+                notifyLorenzoAction(lorenzoActionMessage.getActionID(), lorenzoActionMessage.getColour());
+                break;
+
             case END_GAME:
                 notifyGameEnded();
                 break;

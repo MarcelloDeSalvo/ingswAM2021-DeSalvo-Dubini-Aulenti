@@ -499,9 +499,11 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
             player.addView(view);
         }
 
+        if(isSinglePlayer())
+            lorenzo.addView(view);
+
         faithPath.addListeners(view);
         cardgrid.addCardGridListener(view);
-
     }
     //------------------------------------------------------------------------------------------------------------------
 

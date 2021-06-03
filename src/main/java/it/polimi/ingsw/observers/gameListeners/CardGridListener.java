@@ -1,8 +1,11 @@
 package it.polimi.ingsw.observers.gameListeners;
 
-import it.polimi.ingsw.model.cards.Colour;
 
 public interface CardGridListener {
-    void notifyCardRemoved(int amount, Colour color, int level);
+    /**
+     * Notifies that a change happened in the CardGrid
+     * @param oldID old DevelopmentCard Id
+     * @param newID new DevelopmentCard Id (the one that substitute the old one)
+     */
     void notifyCardGridChanges(int oldID, int newID);
 }
