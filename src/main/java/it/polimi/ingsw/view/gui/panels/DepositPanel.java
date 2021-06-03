@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
+import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
@@ -21,6 +22,8 @@ public class DepositPanel extends JPanel {
 
     private final int labelSize = 110;
     private final Gui gui;
+
+    private JPanel extraSlots;
 
     public DepositPanel(Gui gui) {
         this.gui = gui;
@@ -86,17 +89,8 @@ public class DepositPanel extends JPanel {
         depositButtons.put(2, row2);
         depositButtons.put(3, row3);
 
-        //UTILITY BUTTONS
-        JPanel utilityButtons = new JPanel();
-        utilityButtons.setLayout(new BoxLayout(utilityButtons, BoxLayout.Y_AXIS));
-        utilityButtons.setOpaque(false);
-
-        utilityButtons.add(new JButton("SWITCH"));
-        utilityButtons.add(new JButton("SEND"));
-        utilityButtons.add(new JButton("ADD"));
-
+        //EXTRA DEPOSIT SLOTS
         this.add(deposit);
-        //this.add(utilityButtons);
 
     }
 
@@ -116,14 +110,10 @@ public class DepositPanel extends JPanel {
     private void resourceMenu(Gui gui, ResourceTypeLabel resourceTypeLabel){
         JPopupMenu popupmenu = new JPopupMenu("Deposit Slot");
         JMenuItem give = new JMenuItem("Pay with this");
-        //JMenuItem send_here = new JMenuItem("Send Here");
         JMenuItem done = new JMenuItem("Done");
 
         popupmenu.add(give);
         popupmenu.add(done);
-
-        //if (gui.getGuiStatus() == GuiStatus.SELECTING_DESTINATION_AFTER_MARKET)
-        //    popupmenu.add(send_here);
 
         resourceTypeLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -136,10 +126,6 @@ public class DepositPanel extends JPanel {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new SendContainer(Command.SEND_CONTAINER, resourceTypeLabel.getResourceContainer(),
                         "DEPOSIT", resourceTypeLabel.getId(), gui.getNickname()));
-
-                gui.printReply("Ok! Keep selecting or click DONE");
-
-                //resourceTypeLabel.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
             }
         });
 
@@ -148,6 +134,28 @@ public class DepositPanel extends JPanel {
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
             }
         });
+    }
+
+    public void addExtraSlot(Point position){
+        ArrayList<ResourceTypeLabel> leaderRow = new ArrayList<>();
+
+        JPanel leaderStorage = new JPanel();
+        leaderStorage.setLayout(new BoxLayout(leaderStorage, BoxLayout.X_AXIS));
+        leaderStorage.setBounds(position.x+1670, position.y+250,210,110);
+        leaderStorage.setOpaque(false);
+
+        for(int i = 0; i<2; i++){
+            ResourceTypeLabel resourceTypeLeader = new ResourceTypeLabel(depositButtons.size()+1, i, labelSize);
+            resourceTypeLeader.addMouseListener(new DepositListener(resourceTypeLeader));
+            leaderRow.add(resourceTypeLeader);
+            leaderStorage.add(resourceTypeLeader);
+        }
+
+        depositButtons.put(depositButtons.size()+1, leaderRow);
+        gui.getGamePanel().getPlayerBoardPanel().add(leaderStorage, JLayeredPane.POPUP_LAYER);
+
+        this.revalidate();
+        this.repaint();
     }
 
     public void addImage(ResourceContainer resourceContainer, int id){

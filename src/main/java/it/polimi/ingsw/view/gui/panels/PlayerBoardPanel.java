@@ -14,6 +14,7 @@ public class PlayerBoardPanel extends JLayeredPane {
     private final ProductionPanel productionPanel;
     private final VaultPanel vaultPanel;
     private  AfterMarketPanel afterMarketPanel;
+    private HandPanel handPanel;
 
     public PlayerBoardPanel(Gui gui) {
         super();
@@ -35,7 +36,7 @@ public class PlayerBoardPanel extends JLayeredPane {
         pl1.add(boardImg);
         pl1.setOpaque(false);
 
-        JPanel handPanel = new HandPanel(gui);
+        handPanel = new HandPanel(gui);
         handPanel.setOpaque(false);
 
         pl0.setBorder(new EmptyBorder(0,0,0,10));
@@ -90,5 +91,7 @@ public class PlayerBoardPanel extends JLayeredPane {
     public AfterMarketPanel getAfterMarketPanel() { return afterMarketPanel;  }
 
     public void visibleMarketOut(){afterMarketPanel.setVisible(true);}
+
+    public HandPanel getHandPanel() { return handPanel; }
 }
 

@@ -888,7 +888,7 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
+        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType, null);
     }
 
     @Override

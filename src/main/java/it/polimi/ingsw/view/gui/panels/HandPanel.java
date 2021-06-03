@@ -11,15 +11,17 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HandPanel extends JPanel {
 
     private final Gui gui;
+    private HashMap<Integer, ButtonCard> leaders;
 
     public HandPanel(Gui gui) {
         super();
         this.gui = gui;
-
+        leaders = new HashMap<>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         ArrayList<Integer> IDs = gui.getMyHand().getHand();
@@ -29,6 +31,7 @@ public class HandPanel extends JPanel {
 
             ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
+            leaders.put(id, button);
 
             button.addActionListener(e-> leaderActionWindow(id, button));
 
@@ -58,5 +61,9 @@ public class HandPanel extends JPanel {
         activate.addActionListener(e -> gui.send(new IdMessage(Command.ACTIVATE_LEADER, selectedID, gui.getNickname())));
 
         discard.addActionListener(e -> gui.send(new IdMessage(Command.DISCARD_LEADER, selectedID, gui.getNickname())));
+    }
+
+    public HashMap<Integer, ButtonCard> getLeaders() {
+        return leaders;
     }
 }

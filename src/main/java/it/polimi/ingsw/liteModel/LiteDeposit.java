@@ -103,11 +103,15 @@ public class LiteDeposit {
     }
 
 
-    public void addSlot(int maxDim, ResourceType resourceType) {
+    public void addSlot(int maxDim, ResourceType resourceType, Point pos) {
         if (resourceType==null)
             deposits.add(new MiniDeposit(maxDim));
-        else
+        else{
             deposits.add(new MiniDeposit(maxDim, resourceType));
+            if (depositPanel!= null)
+                depositPanel.addExtraSlot(pos);
+        }
+
     }
 
     public void addRes(ResourceContainer resourceContainer, int id){
@@ -128,12 +132,22 @@ public class LiteDeposit {
 
     }
 
-
-
     public void setDepositPanel(DepositPanel depositPanel) {
         if (this.depositPanel != null)
             this.depositPanel.copy(depositPanel.getDepositButtons());
         this.depositPanel = depositPanel;
+    }
+
+    public ArrayList<MiniDeposit> getDeposits() {
+        return deposits;
+    }
+
+    public ResourceType getType(int id){
+        return deposits.get(id).container.getResourceType();
+    }
+
+    public boolean isLeaderType(int id){
+        return deposits.get(id).leaderType;
     }
 
     @Override

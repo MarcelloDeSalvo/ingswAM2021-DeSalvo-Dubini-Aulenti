@@ -35,6 +35,8 @@ public class Gui extends ClientView {
     private JFrame frame;
     private Label infoLabel;
 
+    private int activatedLeaderId;
+
     public Gui() throws FileNotFoundException{
         super();
         SwingUtilities.invokeLater(this::createAndShowGUI);
@@ -393,15 +395,15 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
-        String price = "";
+        StringBuilder price = new StringBuilder();
         for (ResourceContainer resC: resourcesPrice) {
-            price+= resC.getQty();
-            price+=" ";
-            price+= resC.getResourceType().deColored();
-            price+=" ";
+            price.append(resC.getQty());
+            price.append(" ");
+            price.append(resC.getResourceType().deColored());
+            price.append(" ");
         }
 
-        infoLabel.setText(price);
+        infoLabel.setText(price.toString());
         guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
 
     }
@@ -480,6 +482,7 @@ public class Gui extends ClientView {
             getSomeonesHand(nickname).addLeader(id);
         }
         getSomeonesHand(nickname).activateLeader(id);
+        activatedLeaderId = id;
     }
 
     @Override
@@ -524,7 +527,8 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType);
+        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
+                getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation());
     }
 
     @Override

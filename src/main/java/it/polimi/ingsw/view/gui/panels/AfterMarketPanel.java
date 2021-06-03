@@ -66,42 +66,42 @@ public class AfterMarketPanel extends JPanel {
 
 
     private void resourceActionWindow (ButtonImage button){
+        int itemSize = gui.getMyLiteDeposit().getDeposits().size();
         JPopupMenu popupmenu = new JPopupMenu("Resource Action");
-        JMenuItem deposit1 = new JMenuItem("Deposit 1");
-        JMenuItem deposit2 = new JMenuItem("Deposit 2");
-        JMenuItem deposit3 = new JMenuItem("Deposit 3");
+        JMenuDeposit item = null;
 
-        popupmenu.add(deposit1);
-        popupmenu.add(deposit2);
-        popupmenu.add(deposit3);
+        for (int i = 0; i<itemSize; i++){
+            if (!gui.getMyLiteDeposit().isLeaderType(i)){
+                item = new JMenuDeposit("Deposit " +(i+1), i+1);
+            }else {
+                item = new JMenuDeposit("Leader Storage " + gui.getMyLiteDeposit().getType(i).deColored(), i+1);
+            }
+
+            popupmenu.add(item);
+        }
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 popupmenu.show(button , e.getX(), e.getY());
             }
         });
+    }
 
-        ResourceContainer container = new ResourceContainer(selectedResource,1);
+    private class JMenuDeposit extends JMenuItem{
+        private final int id;
 
-        deposit1.addActionListener(e -> {
-            if(selectedResource == ResourceType.BLANK)
-                return;
-            gui.send(new SendContainer(Command.SEND_DEPOSIT_ID, container, "DEPOSIT", 1, gui.getNickname()));
-        });
+        public JMenuDeposit(String text, int id) {
+            super(text);
+            this.id = id;
+            this.addActionListener( e->{
+                if(selectedResource == ResourceType.BLANK)
+                    return;
+                gui.send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(selectedResource,1), "DEPOSIT", id, gui.getNickname()));
+            });
+        }
 
-        deposit2.addActionListener(e -> {
-            if(selectedResource == ResourceType.BLANK)
-                return;
-            gui.send(new SendContainer(Command.SEND_DEPOSIT_ID, container, "DEPOSIT", 2, gui.getNickname()));
-        });
-
-        deposit3.addActionListener(e -> {
-            if(selectedResource == ResourceType.BLANK)
-                return;
-            gui.send(new SendContainer(Command.SEND_DEPOSIT_ID, container, "DEPOSIT", 3, gui.getNickname()));
-
-        });
-
-
+        public int getId() {
+            return id;
+        }
     }
 }
