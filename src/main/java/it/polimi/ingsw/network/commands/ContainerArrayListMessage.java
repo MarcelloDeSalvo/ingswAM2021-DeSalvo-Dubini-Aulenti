@@ -5,9 +5,9 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import java.util.ArrayList;
 
 public class ContainerArrayListMessage extends Message {
-    private ArrayList<ResourceContainer> containers;
+    private final ArrayList<ResourceContainer> containers;
 
-    public ContainerArrayListMessage(Command command,ArrayList<ResourceContainer> containers, String senderNick) {
+    public ContainerArrayListMessage(Command command, ArrayList<ResourceContainer> containers, String senderNick) {
         super(new Message.MessageBuilder().setCommand(command).setNickname(senderNick));
         this.containers = containers;
     }

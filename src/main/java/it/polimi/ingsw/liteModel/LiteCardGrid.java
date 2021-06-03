@@ -50,8 +50,28 @@ public class LiteCardGrid {
         System.out.println(IDGrid.toString());
     }
 
-    public ArrayList<Integer> getCardIDs() {
-        return cardIDs;
+    /* depends on how Gui works
+    /**
+     * @returns an arraylist of the current DevelopmentCards
+     **/
+    /* depends on how Gui works
+    public ArrayList<DevelopmentCard> getCardGrid(){
+        ArrayList <DevelopmentCard> currentGrid=new ArrayList<>();
+        for (Integer id:cardIDs.keySet()) {
+            currentGrid.add(cardIDs.get(id));
+        }
+        return currentGrid;
+    }*/
+
+    public ArrayList<Integer> getGUIcardIDs(){
+        ArrayList<Integer> shuffledIDs=new ArrayList<>();
+
+        for(int i=0; i<3; i++) {
+            for (int j = 0; j < 4; j++) {
+                shuffledIDs.add(cardIDs.get(i + (3 * j)));
+            }
+        }
+        return shuffledIDs;
     }
 
     @Override

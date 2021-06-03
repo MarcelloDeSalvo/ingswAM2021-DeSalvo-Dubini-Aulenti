@@ -15,10 +15,9 @@ public class MarketPanel extends BackgroundImagePanel{
 
     private JPanel marbles;
     private JPanel vacant;
-    private LiteMarket liteMarket;
-    private JPanel mainPanel;
-    private JPanel marketBox;
-    private Gui gui;
+    private final LiteMarket liteMarket;
+    private final JPanel mainPanel;
+    private final JPanel marketBox;
 
     public MarketPanel(Gui gui, LiteMarket liteMarket) throws ImageNotFound{
         super("/images/backgrounds/marketBackground.png", 650, 5, false);
@@ -27,7 +26,6 @@ public class MarketPanel extends BackgroundImagePanel{
         this.setWidth(696);
         this.setHeight(900);
 
-        this.gui=gui;
         this.liteMarket=liteMarket;
         this.marbles=null;
         this.vacant=null;
@@ -60,9 +58,7 @@ public class MarketPanel extends BackgroundImagePanel{
         for(int i=0;i<3;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
             final int j=i+1;
-            buttonImage.addActionListener(e->{
-                gui.send(new MarketMessage("ROW", j, gui.getNickname()));
-            });
+            buttonImage.addActionListener(e-> gui.send(new MarketMessage("ROW", j, gui.getNickname())));
             rowButtons.add(buttonImage);
             rowButtons.add(Box.createVerticalGlue());
         }
@@ -73,14 +69,11 @@ public class MarketPanel extends BackgroundImagePanel{
         for(int i=0;i<4;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
             final int j=i+1;
-            buttonImage.addActionListener(e->{
-                gui.send(new MarketMessage("COLUMN", j, gui.getNickname()));
-            });
+            buttonImage.addActionListener(e-> gui.send(new MarketMessage("COLUMN", j, gui.getNickname())));
             columnButtons.add(buttonImage);
             columnButtons.add(Box.createHorizontalGlue());
         }
         columnButtons.add(Box.createRigidArea(new Dimension(235,0)));
-
 
         marketBox.setBorder(BorderFactory.createEmptyBorder(0,81,127,28) );
 
@@ -90,27 +83,26 @@ public class MarketPanel extends BackgroundImagePanel{
 
         mainPanel.setBorder(BorderFactory.createEmptyBorder(200,100,270,497) );
 
-
         mainPanel.add(marketBox,BorderLayout.CENTER);
-
 
         mainPanel.add(rowButtons,BorderLayout.EAST);
         mainPanel.add(columnButtons,BorderLayout.SOUTH);
         mainPanel.add(vacant,BorderLayout.WEST);
+
         this.add(mainPanel,BorderLayout.CENTER);
 
     }
 
     public void showMarket(){
-        ArrayList<ResourceContainer> marbleArray=liteMarket.getGuiMarketArray();
+        ArrayList<ResourceContainer> marbleArray = liteMarket.getGuiMarketArray();
 
-        marbles=new JPanel();
-        vacant=new JPanel();
+        marbles = new JPanel();
+        vacant = new JPanel();
         marbles.setLayout(new GridLayout(3,4));
         marbles.setOpaque(false);
 
         for (ResourceContainer marb :marbleArray) {
-            ButtonImage buttonImage=new ButtonImage("/images/marbles/marble"+marb.getResourceType().deColored().toLowerCase()+".png",new Dimension(60,60));
+            ButtonImage buttonImage = new ButtonImage("/images/marbles/marble"+marb.getResourceType().deColored().toLowerCase()+".png", new Dimension(60,60));
             buttonImage.setBorderPainted(false);
             buttonImage.setOpaque(false);
             buttonImage.setContentAreaFilled(false);
@@ -129,7 +121,7 @@ public class MarketPanel extends BackgroundImagePanel{
         vacant.add(vacantText1);
         vacant.add(vacantText2);
 
-        ButtonImage vacantMarble=new ButtonImage("/images/marbles/marble"+liteMarket.getVacant().getResourceType().deColored().toLowerCase()+".png",new Dimension(100,100));
+        ButtonImage vacantMarble = new ButtonImage("/images/marbles/marble"+liteMarket.getVacant().getResourceType().deColored().toLowerCase()+".png", new Dimension(100,100));
         vacantMarble.setBorderPainted(false);
         vacant.add(vacantMarble);
         vacant.setOpaque(false);
@@ -139,7 +131,8 @@ public class MarketPanel extends BackgroundImagePanel{
         marketBox.setBorder(BorderFactory.createEmptyBorder(0,81,127,28) );
 
         vacant.setBorder(BorderFactory.createEmptyBorder(0,0,0,400));
-        mainPanel.add(vacant,BorderLayout.WEST);
+        mainPanel.add(vacant, BorderLayout.WEST);
+
         this.revalidate();
         this.repaint();
     }

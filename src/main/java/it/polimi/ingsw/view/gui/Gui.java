@@ -406,7 +406,6 @@ public class Gui extends ClientView {
 
         infoLabel.setText(price.toString());
         guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
-
     }
 
     @Override

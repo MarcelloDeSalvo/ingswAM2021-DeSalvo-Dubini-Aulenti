@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.*;
-import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
@@ -12,7 +10,6 @@ import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Cli extends ClientView {
@@ -804,8 +801,22 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
-        System.out.println("The ProductionSlots you selected requires: " + resourcesPrice.toString() +
-                "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = 0;
+
+        stringBuilder.append("The ProductionSlots you selected requires: ");
+
+        for (ResourceContainer container: resourcesPrice) {
+            stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+
+            i++;
+
+            if(i < resourcesPrice.size())
+                stringBuilder.append(" + ");
+        }
+        stringBuilder.append("\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT') ");
+
+        printReply(stringBuilder.toString());
     }
 
     @Override

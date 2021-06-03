@@ -21,13 +21,9 @@ public class CardGridPanel extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(2, 280, 2, 280));
         this.setLayout(new GridLayout(3,4));
 
-        //Entrano in un ordine sbagliato :C
-        for (Integer id: liteCardGrid.getCardIDs()) {
+        for (Integer id: liteCardGrid.getGUIcardIDs()) {
             ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
-            lc.addActionListener(e -> {
-                buyMenu(lc, id);
-                gui.printReply("ciao sono una carta sviluppo "+"(ID: "+id+")");
-            });
+            lc.addActionListener(e -> buyMenu(lc, id));
 
             this.add(lc);
         }
@@ -57,14 +53,11 @@ public class CardGridPanel extends JPanel {
 
     public void updateGrid(){
         this.removeAll();
-        for (Integer id: liteCardGrid.getCardIDs()) {
+        for (Integer id: liteCardGrid.getGUIcardIDs()) {
             if (id != -1){
                 ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
 
-                lc.addActionListener(e -> {
-                    buyMenu(lc, id);
-                    gui.printReply("ciao sono una carta sviluppo "+"(ID: "+id+")");
-                });
+                lc.addActionListener(e ->buyMenu(lc, id));
                 this.add(lc);
             }
             else{
@@ -74,8 +67,5 @@ public class CardGridPanel extends JPanel {
             }
         }
         this.repaint();
-        //ELIMINO IL BOTTONE VECCHIO E NE METTO UNO NUOVO?
-        //GLI CAMBIO SOLO L'IMMAGINE? ---> Ho fatto un metodo apposta in Button image nel caso, ma dovremmo cambiargli anche l'id che prende quando si preme, bho
-        //Come si prende la colonna e riga precisa? --> https://stackoverflow.com/questions/2510159/can-i-add-a-component-to-a-specific-grid-cell-when-a-gridlayout-is-used/38800227
     }
 }
