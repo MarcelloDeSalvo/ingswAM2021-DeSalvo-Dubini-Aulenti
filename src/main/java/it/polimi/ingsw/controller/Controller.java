@@ -953,6 +953,7 @@ public class Controller implements ObserverController {
             qty = manageDepositMessage.getQty();
             sourceID = manageDepositMessage.getSourceID();
             destinationID = manageDepositMessage.getDestinationID();
+
         }else {
             SwitchDepositMessage switchDepositMessage = gson.fromJson(mex,SwitchDepositMessage.class);
 

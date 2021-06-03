@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
+import it.polimi.ingsw.view.gui.customJObject.DepositMenu;
 import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
@@ -108,16 +109,23 @@ public class DepositPanel extends JPanel {
 
     private void resourceMenu(Gui gui, ResourceTypeLabel resourceTypeLabel){
         JPopupMenu popupmenu = new JPopupMenu("Deposit Slot");
+
         JMenuItem give = new JMenuItem("Pay with this");
+        DepositMenu submenuTransfer = new DepositMenu(gui, "Transfer to", resourceTypeLabel.getResourceType(),Command.MANAGE_DEPOSIT, resourceTypeLabel.getId());
+        DepositMenu submenuSwitch = new DepositMenu(gui, "Switch with", resourceTypeLabel.getResourceType(),Command.SWITCH_DEPOSIT, resourceTypeLabel.getId());
         JMenuItem done = new JMenuItem("Done");
 
-        popupmenu.add(give);
-        popupmenu.add(done);
+        popupmenu.add(submenuTransfer);
+        popupmenu.add(submenuSwitch);
 
         resourceTypeLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(gui.getGuiStatus()== GuiStatus.SELECTING_PAY_RESOURCES)
-                    popupmenu.show(resourceTypeLabel , e.getX(), e.getY());
+                if(gui.getGuiStatus()== GuiStatus.SELECTING_PAY_RESOURCES) {
+                    popupmenu.add(give);
+                    popupmenu.add(done);
+                }
+
+                popupmenu.show(resourceTypeLabel , e.getX(), e.getY());
             }
         });
 
@@ -133,6 +141,9 @@ public class DepositPanel extends JPanel {
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
             }
         });
+
+
+
     }
 
     public void addExtraSlot(Point position){
@@ -157,23 +168,16 @@ public class DepositPanel extends JPanel {
         this.repaint();
     }
 
-    public void addImage(ResourceContainer resourceContainer, int id){
-        for (int i = 0; i<resourceContainer.getQty();i++) {
-            while (!depositButtons.get(id).get(i).isEmpty())
-                i++;
-            if (i >= depositButtons.get(id).size())
-                break;
+    public void setImage(ResourceContainer resourceContainer, int id){
+        int i=0;
+        for (i = 0; i<resourceContainer.getQty(); i++) {
             depositButtons.get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
         }
-    }
 
-    public void remove(ResourceContainer resourceContainer, int id){
-        for (int i = 0; i<resourceContainer.getQty();i++){
-            if(!depositButtons.get(id).get(i).isEmpty())
-                depositButtons.get(id).get(i).setResourceTypeImage(null);
+        for (int j=i; j<depositButtons.get(id).size(); j++){
+            depositButtons.get(id).get(j).setResourceTypeImage(null);
         }
     }
-
 
     public void copy( HashMap<Integer, ArrayList<ResourceTypeLabel>> depositButtonsToClone){
         for (Integer i: depositButtons.keySet()) {
@@ -184,6 +188,25 @@ public class DepositPanel extends JPanel {
             }
         }
     }
+
+    public ArrayList<Integer> getSelectedIds() {
+        ArrayList<Integer> iDs =  new ArrayList<>();
+
+        for (Integer i: depositButtons.keySet()) {
+            for (ResourceTypeLabel resourceTypeLabel : depositButtons.get(i)) {
+                if (resourceTypeLabel.isSelected())
+                    iDs.add(resourceTypeLabel.getId());
+            }
+        }
+
+        return iDs;
+    }
+
+    public HashMap<Integer, ArrayList<ResourceTypeLabel>> getDepositButtons() {
+        return depositButtons;
+    }
+
+
  /*
     public void fill(ResourceContainer resourceContainer, int id){
         for (Point point: selectedIds) {
@@ -226,20 +249,5 @@ public class DepositPanel extends JPanel {
     }
      */
 
-    public ArrayList<Integer> getSelectedIds() {
-        ArrayList<Integer> iDs =  new ArrayList<>();
 
-        for (Integer i: depositButtons.keySet()) {
-            for (ResourceTypeLabel resourceTypeLabel : depositButtons.get(i)) {
-                if (resourceTypeLabel.isSelected())
-                    iDs.add(resourceTypeLabel.getId());
-            }
-        }
-
-        return iDs;
-    }
-
-    public HashMap<Integer, ArrayList<ResourceTypeLabel>> getDepositButtons() {
-        return depositButtons;
-    }
 }

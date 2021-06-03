@@ -3,12 +3,14 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.liteModel.LiteDeposit;
 import it.polimi.ingsw.liteModel.LiteMarket;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
+import it.polimi.ingsw.model.player.deposit.Deposit;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
+import it.polimi.ingsw.view.gui.customJObject.DepositMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,42 +69,15 @@ public class AfterMarketPanel extends JPanel {
 
 
     private void resourceActionWindow (ButtonImage button){
-        int itemSize = gui.getMyLiteDeposit().getDeposits().size();
-        JPopupMenu popupmenu = new JPopupMenu("Resource Action");
-        JMenuDeposit item = null;
-
-        for (int i = 0; i<itemSize; i++){
-            if (!gui.getMyLiteDeposit().isLeaderType(i)){
-                item = new JMenuDeposit("Deposit " +(i+1), i+1);
-            }else {
-                item = new JMenuDeposit("Leader Storage " + gui.getMyLiteDeposit().getType(i).deColored(), i+1);
-            }
-
-            popupmenu.add(item);
-        }
-
+        JPopupMenu depositList = new JPopupMenu("Deposits");
+        DepositMenu subMenu = new DepositMenu(gui, "Send to", selectedResource, Command.SEND_DEPOSIT_ID, 0);
+        depositList.add(subMenu);
         button.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                popupmenu.show(button , e.getX(), e.getY());
+                depositList.show(button , e.getX(), e.getY());
             }
         });
     }
 
-    private class JMenuDeposit extends JMenuItem{
-        private final int id;
 
-        public JMenuDeposit(String text, int id) {
-            super(text);
-            this.id = id;
-            this.addActionListener( e->{
-                if(selectedResource == ResourceType.BLANK)
-                    return;
-                gui.send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(selectedResource,1), "DEPOSIT", id, gui.getNickname()));
-            });
-        }
-
-        public int getId() {
-            return id;
-        }
-    }
 }
