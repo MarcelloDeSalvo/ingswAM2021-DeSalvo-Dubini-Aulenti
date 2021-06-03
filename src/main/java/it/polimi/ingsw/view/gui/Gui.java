@@ -192,6 +192,7 @@ public class Gui extends ClientView {
 
     @Override
     public void printTurnHelp(String nickname) {
+        cardLayout.show(mainPanel,"gamePanel");
 
     }
 
