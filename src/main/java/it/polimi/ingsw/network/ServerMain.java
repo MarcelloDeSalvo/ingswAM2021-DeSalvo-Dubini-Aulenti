@@ -33,6 +33,7 @@ public class ServerMain {
     public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
+
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
@@ -51,6 +52,7 @@ public class ServerMain {
                 executor.submit(echoClient);
 
             } catch(IOException e) {
+
                 System.out.println("There was an issue with accepting the socket.");
                 break;
             }

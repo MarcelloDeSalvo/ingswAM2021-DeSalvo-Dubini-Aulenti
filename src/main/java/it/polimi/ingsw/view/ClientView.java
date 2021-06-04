@@ -75,7 +75,7 @@ public abstract class ClientView implements View, UserInput {
     //READ UPDATES------------------------------------------------------------------------------------------------------
     @Override
     public void readUpdates(String mex){
-        System.out.println(mex);
+        //System.out.println(mex);
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();
@@ -96,9 +96,10 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case PING:
-                System.out.println("PONG");
-                send(new Message.MessageBuilder().setCommand(Command.PONG).
-                        setNickname(this.getNickname()).build());
+                Message ping = new Message.MessageBuilder().setCommand(Command.PONG).
+                        setNickname(this.getNickname()).build();
+                send(ping);
+                System.out.println("PONG sent: " + ping.toString());
                 break;
 
             case REPLY:

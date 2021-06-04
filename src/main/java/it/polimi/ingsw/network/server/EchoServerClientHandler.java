@@ -14,8 +14,11 @@ import java.net.Socket;
 
 
 public class EchoServerClientHandler implements Runnable {
+
+    private boolean logged = false;
     private final Socket socket;
     private final LobbyManager lobbyManager;
+
     private User user;
 
     public EchoServerClientHandler(Socket socket, LobbyManager lobbyManager) {
@@ -38,55 +41,66 @@ public class EchoServerClientHandler implements Runnable {
             while ((receivedMex = in.readLine()) != null) {
 
                 Message nickMex = gson.fromJson(receivedMex, Message.class);
+                Command command = nickMex.getCommand();
                 String nickname = nickMex.getInfo();
 
-                if (nickMex.getCommand() == Command.LOGIN) {
+                if (command == Command.LOGIN) {
 
-                    if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
-                        out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
-                                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() + "---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
-                                build().serialize());
+                    if (logged){
+                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                                .setInfo("Incorrect command, please use the LOGIN command").build().serialize());
 
-                        out.flush();
+                    }else{
 
-                        ServerReceiver serverReceiver = new ServerReceiver(in);
-                        ServerSender serverSender = new ServerSender(out);
+                        if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
+                            out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
+                                    setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() + "---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
+                                    build().serialize());
 
-                        user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
-                        user.addServerArea(lobbyManager);
+                            out.flush();
 
-                        UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
-                        lobbyManager.sendLobbyList(nickname);
+                            //ServerReceiver serverReceiver = new ServerReceiver(in);
+                            //ServerSender serverSender = new ServerSender(out);
 
-                        System.out.println("# " + nickname + " has logged into the server \n");
+                            //user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
 
-                    } else {
+                            user = new User(nickname, out, Status.IN_LOBBY_MANAGER);
 
-                        if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
-                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                    .setInfo("Sorry, but the nickname is already in use. Try submitting another one again").build().serialize());
-                        else {
-                            out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
-                                    .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
+                            user.addServerArea(lobbyManager);
 
-                            ServerReceiver serverReceiver = new ServerReceiver(in);
-                            ServerSender serverSender = new ServerSender(out);
+                            UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
+                            lobbyManager.sendLobbyList(nickname);
 
-                            lobbyManager.getConnectedPlayers().get(nickname).reconnect(serverReceiver,serverSender);
+                            System.out.println("# " + nickname + " has logged into the server \n");
 
-                            System.out.println("# " + nickname + " has reconnected into the server \n");
-                            break;
+                            logged = true;
+
+                        } else {
+
+                            if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
+                                out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                                        .setInfo("Sorry, but the nickname is already in use. Try submitting another one again").build().serialize());
+                            else {
+                                out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
+                                        .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
+
+
+
+                                ServerReceiver serverReceiver = new ServerReceiver(in);
+                                ServerSender serverSender = new ServerSender(out);
+
+                                lobbyManager.getConnectedPlayers().get(nickname).reconnect(serverReceiver,serverSender);
+
+                                System.out.println("# " + nickname + " has reconnected into the server \n");
+
+                                logged = true;
+                            }
                         }
                     }
-                } else {
-
+                }
+                else {
                     if (user!=null)
-                        user.somethingHasBeenReceived(receivedMex);
-
-
-                    /*out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                            .setInfo("Incorrect command, please use the LOGIN command").build().serialize());*/
-
+                        user.notifyServerAreas(command, receivedMex);
                 }
             }
 
