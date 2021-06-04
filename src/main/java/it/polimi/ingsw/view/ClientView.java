@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view;
 
-
 import com.google.gson.Gson;
 import it.polimi.ingsw.liteModel.*;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
@@ -76,6 +75,7 @@ public abstract class ClientView implements View, UserInput {
     //READ UPDATES------------------------------------------------------------------------------------------------------
     @Override
     public void readUpdates(String mex){
+        System.out.println(mex);
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();
@@ -96,6 +96,7 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case PING:
+                System.out.println("PONG");
                 send(new Message.MessageBuilder().setCommand(Command.PONG).
                         setNickname(this.getNickname()).build());
                 break;

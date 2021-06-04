@@ -14,8 +14,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class User implements ObserverThread, ObservableViewIO {
     private final String nickname;
-    private  ServerReceiver serverReceiver;
-    private  ServerSender serverSender;
+    private ServerReceiver serverReceiver;
+    private ServerSender serverSender;
     private final List<ObserverViewIO> serverAreas;
     private boolean active = true;
     private boolean received;
@@ -28,15 +28,13 @@ public class User implements ObserverThread, ObservableViewIO {
         this.nickname = nickname;
         this.serverReceiver = serverReceiver;
         this.serverSender = serverSender;
-        serverReceiver.addThreadObserver(this);
         this.status = status;
+
+        serverReceiver.addThreadObserver(this);
+
         serverAreas = new CopyOnWriteArrayList<>();
         ServerConnectionCheck serverConnectionCheck = new ServerConnectionCheck();
         serverConnectionCheck.start();
-    }
-
-    public User getThis(){
-        return this;
     }
 
     //USER CONNECTION STABILITY-----------------------------------------------------------------------------------------
@@ -54,20 +52,19 @@ public class User implements ObserverThread, ObservableViewIO {
     public class ServerConnectionCheck extends Thread{
         public void run(){
             Timer timer = new Timer();
-
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
                     if (received) {
                         received = false;
-                        userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
-                        //System.out.println(nickname + "Ping sent");
+                        userSend(new Message.MessageBuilder().setCommand(Command.PING).setNickname(nickname).build());
+                        System.out.println(nickname + "Ping sent");
 
                     } else {
                         active = false;
                         System.out.println(nickname + " disconnected!");
-                        serverReceiver.exit();
-                        serverSender.exit();
+                        //serverReceiver.exit();
+                        //serverSender.exit();
                         for (ObserverViewIO obs:serverAreas) {
                             obs.onDisconnect(getThis());
                         }
@@ -138,6 +135,10 @@ public class User implements ObserverThread, ObservableViewIO {
     }
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
+    public User getThis(){
+        return this;
+    }
+
     public String getNickname() {
         return nickname;
     }

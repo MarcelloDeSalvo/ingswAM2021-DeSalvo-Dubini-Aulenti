@@ -9,23 +9,17 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ServerReceiver extends Thread implements ObservableThread {
+public class ServerReceiver implements ObservableThread {
 
-    private final Socket socket;
     private final ArrayList<ObserverThread> observerThreads;
     private final BufferedReader in;
     private boolean exit = false;
 
 
-    public ServerReceiver (Socket socket, BufferedReader in){
-        this.socket = socket;
+    public ServerReceiver (BufferedReader in){
         observerThreads = new ArrayList<>();
         this.in = in;
-    }
-
-    @Override
-    public void run() {
-
+    /*
         try {
 
             String receivedMex = "";
@@ -45,6 +39,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
             e.printStackTrace();
         }
 
+     */
     }
 
     @Override

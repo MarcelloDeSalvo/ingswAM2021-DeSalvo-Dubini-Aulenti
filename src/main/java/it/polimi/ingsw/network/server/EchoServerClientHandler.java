@@ -16,6 +16,7 @@ import java.net.Socket;
 public class EchoServerClientHandler implements Runnable {
     private final Socket socket;
     private final LobbyManager lobbyManager;
+    private User user;
 
     public EchoServerClientHandler(Socket socket, LobbyManager lobbyManager) {
         this.socket = socket;
@@ -26,13 +27,14 @@ public class EchoServerClientHandler implements Runnable {
         try {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
             Gson gson = new Gson();
 
             Message askNick = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Welcome to the server, please select a valid nickname: ").build();
             out.println(askNick.serialize());
 
-
             String receivedMex = "";
+
             while ((receivedMex = in.readLine()) != null) {
 
                 Message nickMex = gson.fromJson(receivedMex, Message.class);
@@ -47,23 +49,18 @@ public class EchoServerClientHandler implements Runnable {
 
                         out.flush();
 
-                        ServerReceiver serverReceiver = new ServerReceiver(socket, in);
-                        ServerSender serverSender = new ServerSender(socket, out);
+                        ServerReceiver serverReceiver = new ServerReceiver(in);
+                        ServerSender serverSender = new ServerSender(out);
 
-                        User user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
+                        user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
                         user.addServerArea(lobbyManager);
 
                         UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
                         lobbyManager.sendLobbyList(nickname);
 
-                        serverReceiver.start();
-                        //serverSender.start();
-
                         System.out.println("# " + nickname + " has logged into the server \n");
-                        break;
 
                     } else {
-
 
                         if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
                             out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
@@ -72,29 +69,26 @@ public class EchoServerClientHandler implements Runnable {
                             out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
                                     .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
 
-                            ServerReceiver serverReceiver = new ServerReceiver(socket, in);
-                            ServerSender serverSender = new ServerSender(socket, out);
+                            ServerReceiver serverReceiver = new ServerReceiver(in);
+                            ServerSender serverSender = new ServerSender(out);
 
                             lobbyManager.getConnectedPlayers().get(nickname).reconnect(serverReceiver,serverSender);
 
-                            serverReceiver.start();
-                            //serverSender.start();
-
                             System.out.println("# " + nickname + " has reconnected into the server \n");
                             break;
-
-
                         }
                     }
                 } else {
-                    out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                            .setInfo("Incorrect command, please use the LOGIN command").build().serialize());
+
+                    if (user!=null)
+                        user.somethingHasBeenReceived(receivedMex);
+
+
+                    /*out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                            .setInfo("Incorrect command, please use the LOGIN command").build().serialize());*/
 
                 }
             }
-
-
-
 
 
         }catch (IllegalThreadStateException | IOException e){
@@ -102,6 +96,7 @@ public class EchoServerClientHandler implements Runnable {
             //e.printStackTrace();
         }
 
+        System.out.println("Ciao");
     }
 
 }

@@ -1,16 +1,12 @@
 package it.polimi.ingsw.network.server;
 
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.Socket;
 
 public class ServerSender{
 
-    private final Socket socket;
-    private PrintWriter out;
+    private final PrintWriter out;
 
-    public ServerSender (Socket socket, PrintWriter out){
-        this.socket = socket;
+    public ServerSender (PrintWriter out){
         this.out = out;
     }
 
@@ -18,7 +14,6 @@ public class ServerSender{
      * Sends a message to the ClientReceiver
      */
     public synchronized void send(String mex){
-        //sends the message to the server
         out.println(mex);
         out.flush();
     }
