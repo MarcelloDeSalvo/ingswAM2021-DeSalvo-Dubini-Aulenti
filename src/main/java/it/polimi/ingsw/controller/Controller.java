@@ -662,6 +662,7 @@ public class Controller implements ObserverController {
 
         ResourceTypeSend message = gson.fromJson(mex, ResourceTypeSend.class);
         ArrayList<ResourceType> selectedResources = message.getResourceTypeArrayList();
+
         System.out.println(selectedResources);
 
         for (int id : productionSlotIDs) {

@@ -360,7 +360,6 @@ public class Gui extends ClientView {
         guiStatus = GuiStatus.IDLE;
     }
 
-
     @Override
     public void notifyProductionError(String error, String senderNick) {
         infoLabel.setText(error);
@@ -373,29 +372,47 @@ public class Gui extends ClientView {
         guiStatus = GuiStatus.SELECTING_QM;
 
         ArrayList<String> addableTypes = new ArrayList<>();
-        ArrayList<ResourceType> send = new ArrayList<>();
+        ArrayList<ResourceType> resources = new ArrayList<>();
 
-        addableTypes.add("DONE");
+        ArrayList<ResourceType> toSend = new ArrayList<>();
 
         for (ResourceType res: ResourceType.values()) {
             if(res.canAddToVault()){
                 addableTypes.add(res.deColored());
+                resources.add(res);
             }
         }
+        addableTypes.add("DONE");
 
-        int response = JOptionPane.showOptionDialog(null, "Please Fill the question mark in order", "Fill Request",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, addableTypes.toArray(), addableTypes.toArray()[0]);
-
-
+        fillWindow(addableTypes, toSend, resources, productionID);
 
         //System.out.println("Please start filling the Production Slots N: " + productionID +
                // " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
     }
 
+    private void fillWindow (ArrayList<String> addableTypes, ArrayList<ResourceType> toSend, ArrayList<ResourceType> resources, int productionID) {
+
+        int response = JOptionPane.showOptionDialog(null, "Please Fill the question marks of the Production Slot N: " + productionID + " in order", "Fill Request",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, addableTypes.toArray(), addableTypes.toArray()[4]);
+
+        if(response == 4) {
+
+            if(toSend.isEmpty())
+                return;
+
+            send(new ResourceTypeSend(Command.FILL_QM, toSend, getNickname()));
+        }
+        else {
+            toSend.add(resources.get(response));
+            fillWindow(addableTypes, toSend, resources, productionID);
+        }
+    }
+
     @Override
     public void notifyFillOk(int productionID, String senderNick) {
-        //System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+        guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
+        System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
     }
 
     @Override

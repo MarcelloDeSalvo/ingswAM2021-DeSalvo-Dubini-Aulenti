@@ -36,7 +36,7 @@ public class ProductionPanel extends JPanel {
         private int x_offset;
         private int y_offset;
         private int layer_offset;
-        private LineBorder defaultBorder = new LineBorder(Color.magenta);
+        private final LineBorder defaultBorder = new LineBorder(Color.magenta);
         private boolean selected = false;
 
         public DevProdSlot() {

@@ -87,12 +87,21 @@ public class ProductionSite implements ProductionSubject {
      */
     public boolean fillProductionBuffers(ArrayList<ProductionSlot> productionSlots){
         for (ProductionSlot ps: productionSlots) {
-            if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
+            if(!Util.arraylistToMap(ps.getProductionInput(), bufferInputMap))
                 return false;
 
-            if(!Util.arraylistToMap(ps.getProductionOutput(),bufferOutputMap))
+            if(!Util.arraylistToMap(ps.getProductionOutput(), bufferOutputMap))
                 return false;
+
+            System.out.println("production input: " + ps.getProductionInput());
+
+            System.out.println("production output: " + ps.getProductionOutput());
         }
+
+        System.out.println("Buffer input map: " + bufferInputMap);
+
+        System.out.println("Buffer output map: " + bufferOutputMap);
+
         return true;
     }
 
@@ -103,7 +112,7 @@ public class ProductionSite implements ProductionSubject {
      * @return true if the add() finish without errors
      */
     public boolean fillProductionBuffers(ProductionSlot ps){
-        if(!Util.arraylistToMap(ps.getProductionInput(),bufferInputMap))
+        if(!Util.arraylistToMap(ps.getProductionInput(), bufferInputMap))
             return false;
 
         return Util.arraylistToMap(ps.getProductionOutput(), bufferOutputMap);
@@ -173,6 +182,10 @@ public class ProductionSite implements ProductionSubject {
         bufferInputMap.clear();
         bufferOutputMap.clear();
         bufferSelectedResources.clear();
+
+        for (ProductionSlot productionSlot : productionSlots)
+            productionSlot.clearCurrentBuffer();
+
         return true;
     }
     //END OF THE PIPELINE ----------------------------------------------------------------------------------------------

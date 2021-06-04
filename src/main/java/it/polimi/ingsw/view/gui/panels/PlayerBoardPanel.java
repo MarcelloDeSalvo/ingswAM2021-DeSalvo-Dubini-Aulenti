@@ -13,8 +13,8 @@ public class PlayerBoardPanel extends JLayeredPane {
     private final DepositPanel depositPanel;
     private final ProductionPanel productionPanel;
     private final VaultPanel vaultPanel;
-    private  AfterMarketPanel afterMarketPanel;
-    private HandPanel handPanel;
+    private final AfterMarketPanel afterMarketPanel;
+    private final HandPanel handPanel;
 
     public PlayerBoardPanel(Gui gui) {
         super();
