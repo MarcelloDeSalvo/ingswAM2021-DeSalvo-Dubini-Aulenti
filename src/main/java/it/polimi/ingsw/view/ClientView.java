@@ -289,7 +289,6 @@ public abstract class ClientView implements View, UserInput {
             case END_GAME:
                 notifyGameEnded();
                 break;
-
         }
     }
     //------------------------------------------------------------------------------------------------------------------
