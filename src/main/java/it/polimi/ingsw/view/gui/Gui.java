@@ -310,14 +310,18 @@ public class Gui extends ClientView {
         int i=0;
         int eligiblePlayer=0;
         int point = 0 ;
+        ArrayList<String> nicksThatGotThePoints = new ArrayList<>();
         for (String nick: getLiteFaithPath().getNicknames()) {
             if(playerFavours.get(i)!=0){
                 playersThatGotThePoints.append(nick).append(" ");
+                nicksThatGotThePoints.add(nick);
                 point = playerFavours.get(i);
                 eligiblePlayer++;
             }
             i++;
         }
+
+        gamePanel.getFaithPathPanel().printTicket(point,nicksThatGotThePoints);
 
         if (eligiblePlayer>1)
             playersThatGotThePoints.append("were ");

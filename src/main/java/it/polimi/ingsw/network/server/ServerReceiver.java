@@ -37,7 +37,7 @@ public class ServerReceiver extends Thread implements ObservableThread {
             in.close();
 
         } catch (IOException e) {
-            //System.out.println("A user logged out");
+            System.out.println("A user logged out");
             //e.printStackTrace();
 
         } catch (JsonSyntaxException e){
