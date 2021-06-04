@@ -136,10 +136,6 @@ public class ProductionSite implements ProductionSubject {
     public boolean canProduce(ArrayList<ResourceContainer> selectedResources) throws NotEnoughResources, DepositSlotMaxDimExceeded{
         Util.arraylistToMap(selectedResources, bufferSelectedResources);
 
-        for (ResourceType key: bufferSelectedResources.keySet()) {
-            System.out.println(bufferSelectedResources.get(key));
-        }
-
         for (ResourceType key: bufferInputMap.keySet()) {
 
             if(!bufferSelectedResources.containsKey(key))
