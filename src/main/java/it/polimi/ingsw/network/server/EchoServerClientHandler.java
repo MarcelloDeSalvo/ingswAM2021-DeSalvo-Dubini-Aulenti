@@ -57,7 +57,7 @@ public class EchoServerClientHandler implements Runnable {
                         lobbyManager.sendLobbyList(nickname);
 
                         serverReceiver.start();
-                        serverSender.start();
+                        //serverSender.start();
 
                         System.out.println("# " + nickname + " has logged into the server \n");
                         break;
@@ -78,7 +78,7 @@ public class EchoServerClientHandler implements Runnable {
                             lobbyManager.getConnectedPlayers().get(nickname).reconnect(serverReceiver,serverSender);
 
                             serverReceiver.start();
-                            serverSender.start();
+                            //serverSender.start();
 
                             System.out.println("# " + nickname + " has reconnected into the server \n");
                             break;

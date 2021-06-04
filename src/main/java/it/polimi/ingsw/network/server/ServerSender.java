@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ServerSender extends Thread {
+public class ServerSender{
 
     private final Socket socket;
     private PrintWriter out;
@@ -14,21 +14,10 @@ public class ServerSender extends Thread {
         this.out = out;
     }
 
-    public void run(){
-        try{
-            out = new PrintWriter(socket.getOutputStream(), true);
-            //Muore subito?
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
     /**
      * Sends a message to the ClientReceiver
      */
-    public void send(String mex){
+    public synchronized void send(String mex){
         //sends the message to the server
         out.println(mex);
         out.flush();
