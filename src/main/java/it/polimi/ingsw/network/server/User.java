@@ -18,7 +18,7 @@ public class User implements ObserverThread, ObservableViewIO {
     private ServerSender serverSender;
     private final List<ObserverViewIO> serverAreas;
     private boolean active = true;
-    private boolean received;
+    private int received=3;
     private final Gson gson;
 
     private Status status;
@@ -55,10 +55,14 @@ public class User implements ObserverThread, ObservableViewIO {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    if (received) {
-                        received = false;
-                        userSend(new Message.MessageBuilder().setCommand(Command.PING).setNickname(nickname).build());
-                        System.out.println(nickname + "Ping sent");
+                    if (received>0) {
+                        if(received==2)
+                            System.out.println("\nNe ho perso uno!\n");
+                        if(received==1)
+                            System.out.println("\nPerso un altro!\n");
+                        received --;
+                        userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
+                        System.out.println(nickname + " Ping sent");
 
                     } else {
                         active = false;
@@ -73,7 +77,7 @@ public class User implements ObserverThread, ObservableViewIO {
                 }
             };
 
-            received = true;
+            received = 3;
             int initialDelay = 100;
             int delta = 10000;
             timer.scheduleAtFixedRate(task,initialDelay,delta);
@@ -86,7 +90,7 @@ public class User implements ObserverThread, ObservableViewIO {
      * Updates the user when a Pong is successfully received.
      */
     public void pongReceived(){
-        received = true;
+        received = 3;
     }
 
     @Override
@@ -159,8 +163,8 @@ public class User implements ObserverThread, ObservableViewIO {
         return active;
     }
 
-    public void setReceived(boolean received) {
+   /* public void setReceived(boolean received) {
         this.received = received;
-    }
+    }*/
     //------------------------------------------------------------------------------------------------------------------
 }
