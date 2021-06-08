@@ -692,15 +692,16 @@ public class Controller implements ObserverController {
                 }
 
                 view.notifyFillOk(id, senderNick);
+                break;
             }
         }
 
         for (int id : productionSlotIDs) {
             ProductionSlot currProductionSlot = currPlayer.getProductionSlotByID(id);
-            int QMI = currProductionSlot.getQMI();
-            int QMO = currProductionSlot.getQMO();
 
             if(currProductionSlot.hasStillQuestionMarks()) {
+                int QMI = currProductionSlot.getQMI();
+                int QMO = currProductionSlot.getQMO();
                 view.notifyStartFilling(id ,QMI, QMO, senderNick);
                 return;
             }
