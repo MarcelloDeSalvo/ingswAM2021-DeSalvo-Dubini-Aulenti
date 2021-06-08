@@ -249,12 +249,12 @@ public class Gui extends ClientView {
         try {
             gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid(),this.getLiteMarket());
             getMyLiteDeposit().setDepositPanel(gamePanel.getPlayerBoardPanel().getDepositPanel());
-            //Inizializzo un nuovo deposit panel agli altri lite model
-            for (String nick:this.getLiteFaithPath().getNicknames()) {
+            //Inizializzo un nuovo deposit panel agli altri lite model forse da togliere
+           /* for (String nick:this.getLiteFaithPath().getNicknames()) {
                 if(!nick.equals(this.getNickname()) && !nick.equals("LORENZO")){
                     getSomeonesLiteDeposit(nick).setDepositPanel(new DepositPanel(this));
                 }
-            }
+            }*/
         } catch (ImageNotFound e) {
             System.out.println("A critical error has occurred! File not Found");
             System.exit(-1);
@@ -341,15 +341,20 @@ public class Gui extends ClientView {
     @Override
     public void notifyBuyOk(String nickname, int slotID, int cardID) {
         getSomeonesLiteProduction(nickname).addCardToSlot(slotID, cardID);
-        if (!nickname.equals(getNickname()))
-            gamePanel.getNotifyLabel().setText(nickname + " bought a new card (ID: "+ cardID +" ) !");
+        if (!nickname.equals(getNickname())) {
+            gamePanel.getNotifyLabel().setText(nickname + " bought a new card (ID: " + cardID + " ) !");
+            gamePanel.getOtherProductionPanel(nickname).printBoughtCard(slotID, cardID, gamePanel.getPlayerPanelsMap().get(nickname));
+
+        }
+
         else {
             gamePanel.getNotifyLabel().setText("You bought the card correctly!");
+            gamePanel.getPlayerBoardPanel().getProductionPanel().printBoughtCard(slotID, cardID, gamePanel.getPlayerBoardPanel());
+            guiStatus = GuiStatus.IDLE;
         }
 
         infoLabel.setText("");
-        gamePanel.getPlayerBoardPanel().getProductionPanel().printBoughtCard(slotID, cardID, gamePanel.getPlayerBoardPanel());
-        guiStatus = GuiStatus.IDLE;
+
     }
 
     @Override
@@ -525,12 +530,16 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyLeaderActivated(int id, String nickname){
-        if(nickname.equals(getNickname()))
+        if(nickname.equals(getNickname())) {
             gamePanel.getNotifyLabel().setText("Leader activated!");
+            getMyHand().activateLeader(id);
+        }
         else {
             gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
             getSomeonesHand(nickname).addLeader(id);
-            gamePanel.getOtherHandPanels(nickname).addLeader(id);
+            getSomeonesHand(nickname).activateLeader(id);
+            System.out.println(getSomeonesHand(nickname).toString());
+            gamePanel.getOtherHandPanels(nickname).remake(nickname);
 
         }
 
@@ -581,7 +590,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
         getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
-                getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation());
+                getGamePanel().getOtherHandPanels(senderNick).getLeaders().get(activatedLeaderId).getLocation());
     }
 
     @Override

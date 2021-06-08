@@ -52,10 +52,11 @@ public class ShowPlayerPanel extends JLayeredPane {
         storage.setOpaque(false);
         storage.setLayout(null);
 
-       /* //DEPOSIT ZONE
-        DepositPanel depositPanel=gui.getSomeonesLiteDeposit(nick).getDepositPanel();
+        //DEPOSIT ZONE
+        DepositPanel depositPanel=new DepositPanel(gui);
+        gui.getSomeonesLiteDeposit(nick).setDepositPanel(depositPanel);
         depositPanel.setBounds(70,120,320,385);
-        storage.add(depositPanel);*/
+        storage.add(depositPanel);
 
 
         //VAULT
@@ -65,14 +66,25 @@ public class ShowPlayerPanel extends JLayeredPane {
 
         this.add(storage, JLayeredPane.PALETTE_LAYER);
 
- /*       //PRODUCTION LAYER--------------------------------------------------------------------------------------------
+        //PRODUCTION LAYER--------------------------------------------------------------------------------------------
         productionPanel = new ProductionPanel(gui);
         productionPanel.setBounds(0,0,1920, 980);
 
         this.add(productionPanel, JLayeredPane.PALETTE_LAYER);
 
-*/
+        JPanel unclickable=new JPanel();
+        unclickable.setOpaque(false);
+        unclickable.setBounds(0,0,1920,1080);
+        unclickable.setLayout(new BorderLayout());
+
+        this.setLayer(unclickable,500);
+        this.add(unclickable,500);
+
+
+
     }
 
     public HandPanel getHandPanel() { return handPanel;}
+
+    public ProductionPanel getProductionPanel() {return productionPanel; }
 }

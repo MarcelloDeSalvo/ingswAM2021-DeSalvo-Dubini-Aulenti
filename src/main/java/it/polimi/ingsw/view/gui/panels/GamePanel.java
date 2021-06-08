@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.gui.customJObject.ShowPlayerBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GamePanel extends JPanel {
@@ -20,6 +21,7 @@ public class GamePanel extends JPanel {
     private final PlayerBoardPanel playerBoardPanel;
     private final CardGridPanel cardGridPanel;
     private final MarketPanel marketPanel;
+    private ArrayList<String> nicknames;
     private final HashMap<String,ShowPlayerPanel> playerPanelsMap;
 
     private final Gui gui;
@@ -33,7 +35,7 @@ public class GamePanel extends JPanel {
     public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid, LiteMarket liteMarket) throws ImageNotFound {
         super();
         this.gui = gui;
-
+        this.nicknames=new ArrayList<>(gui.getLiteFaithPath().getNicknames());
         this.setLayout(new BorderLayout());
 
         main = new BackgroundImagePanel("/images/backgrounds/daVinci.jpg",false);
@@ -56,8 +58,8 @@ public class GamePanel extends JPanel {
         marketPanel.setOpaque(false);
 
         playerPanelsMap=new HashMap<>();
-        for (String nick:gui.getLiteFaithPath().getNicknames()) {
-            if(!nick.equals("LORENZO")){
+        for (String nick:nicknames) {
+            if(!nick.equals("LORENZO") && !nick.equals(gui.getNickname())){
                 ShowPlayerPanel spp=new ShowPlayerPanel(gui,nick);
                 playerPanelsMap.put(nick, spp);
                 main.add(spp,nick+"Panel");
@@ -99,13 +101,13 @@ public class GamePanel extends JPanel {
 
         buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
+        nicknames.remove(gui.getNickname());
+        JComboBox nickList = new JComboBox(nicknames.toArray(new String[0]));
 
-        JComboBox nickList = new JComboBox(gui.getLiteFaithPath().getNicknames().toArray(new String[0]));
-        //nickList.setSelectedIndex(4);
         JButton showPlayer = new ButtonImage(" PLAYER ", 22,true);
 
         showPlayer.addActionListener(e -> {
-            cardLayout.show(main,  gui.getLiteFaithPath().getNicknames().get(nickList.getSelectedIndex())+"Panel");
+            cardLayout.show(main,  nicknames.get(nickList.getSelectedIndex())+"Panel");
         });
 
         JButton show_my_board = new ButtonImage(" MY BOARD ", 22,true);
@@ -131,7 +133,7 @@ public class GamePanel extends JPanel {
 
         buttons.setBackground(new Color(255, 235, 204));
         buttons.add(Box.createRigidArea(new Dimension(300,30)));
-        buttons.add( nickList);
+        buttons.add(nickList);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(showPlayer);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
@@ -193,4 +195,6 @@ public class GamePanel extends JPanel {
     }
 
     public HandPanel getOtherHandPanels(String nick){ return playerPanelsMap.get(nick).getHandPanel();}
+
+    public ProductionPanel getOtherProductionPanel(String nick){ return  playerPanelsMap.get(nick).getProductionPanel();}
 }

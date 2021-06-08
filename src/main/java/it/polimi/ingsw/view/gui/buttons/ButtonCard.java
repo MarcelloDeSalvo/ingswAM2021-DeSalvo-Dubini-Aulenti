@@ -13,6 +13,7 @@ public class ButtonCard extends JButton {
 
     private final int cardID;
     private final Gui gui;
+    private Dimension scaledDimension;
 
     /**
      * ButtonCard with an automatic image resize
@@ -22,6 +23,7 @@ public class ButtonCard extends JButton {
 
         this.gui = gui;
         this.cardID = id;
+        this.scaledDimension=scaledDimension;
 
         BufferedImage originalImage = ImageUtil.loadImage(path);
         Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
@@ -36,6 +38,10 @@ public class ButtonCard extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         if(!gui.getMyHand().getHand().contains(cardID)) {
+            BufferedImage originalImage = ImageUtil.loadImage("/images/cardBackJpgs/leaderCardBack.jpg");
+            Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(img);
+            this.setIcon(imageIcon);
             return;
         }
 

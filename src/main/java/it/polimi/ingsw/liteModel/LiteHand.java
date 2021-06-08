@@ -3,6 +3,7 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.view.cli.Color;
+import it.polimi.ingsw.view.gui.panels.HandPanel;
 
 import java.util.ArrayList;
 
@@ -79,5 +80,14 @@ public class LiteHand {
         }
 
         return null;
+    }
+
+    public Integer getLeadersActiveNumber(){
+        int activated=0;
+        for (Integer in:hand) {
+            if (getSpecificLeaderCard(in).getStatus()==Status.ACTIVE)
+                activated++;
+        }
+        return activated;
     }
 }

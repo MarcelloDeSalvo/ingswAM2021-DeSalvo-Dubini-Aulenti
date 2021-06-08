@@ -42,35 +42,18 @@ public class HandPanel extends JPanel {
     }
 
     /**
-     * Different constructor used for showPlayer
+     * Different constructor used for showPlayer. It doesn't add the actionListeners
      */
     public HandPanel(Gui gui,String nick) {
         super();
         this.gui = gui;
         leaders = new HashMap<>();
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        ArrayList<Integer> IDs = gui.getSomeonesHand(nick).getHand();
-        int j=2;
-        this.add(Box.createVerticalGlue());
+        create(nick);
 
-        for (Integer id : IDs) {
-            ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
-            this.add(button, BorderLayout.CENTER);
-            leaders.put(id, button);
-            this.add(Box.createRigidArea(new Dimension(30, 50)));
-            j--;
-        }
-
-        while(j>0){
-            ButtonImage button = new ButtonImage("/images/cardBackJpgs/leaderCardBack.jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
-            this.add(button, BorderLayout.CENTER);
-            this.add(Box.createRigidArea(new Dimension(30, 50)));
-            j--;
-        }
-
-        this.add(Box.createVerticalGlue());
     }
+
+
 
     private void leaderActionWindow (int selectedID, ButtonCard button){
         JPopupMenu popupmenu = new JPopupMenu("Leader Action");
@@ -94,15 +77,48 @@ public class HandPanel extends JPanel {
         discard.addActionListener(e -> gui.send(new IdMessage(Command.DISCARD_LEADER, selectedID, gui.getNickname())));
     }
 
-    public void addLeader(Integer id){
-        ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
-        this.add(button, BorderLayout.CENTER);
-        this.add(Box.createRigidArea(new Dimension(30, 50)));
+    /**
+     * Creates a view-only hand. Makes sure that non active cards are turned.
+     */
+    public void create(String nick){
 
-        System.out.println("Ho aggiunto alla mano di rick una bella "+id);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        leaders.put(id, button);
-    };
+        ArrayList<Integer> IDs = gui.getSomeonesHand(nick).getHand();
+        System.out.println("Io ne ho attivi "+gui.getMyHand().getLeadersActiveNumber());
+        int activated= gui.getSomeonesHand(nick).getLeadersActiveNumber();
+        System.out.println("L'ho rifatto, activated "+activated);
+        int j=0;
+        this.add(Box.createVerticalGlue());
+
+        while  (j< IDs.size()) {
+            int id=IDs.get(j);
+            ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
+            this.add(button, BorderLayout.CENTER);
+            leaders.put(id, button);
+
+            this.add(Box.createRigidArea(new Dimension(30, 50)));
+            j++;
+        }
+        while(j<2){
+            ButtonImage button = new ButtonImage("/images/cardBackJpgs/leaderCardBack.jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
+            this.add(button, BorderLayout.CENTER);
+            this.add(Box.createRigidArea(new Dimension(30, 50)));
+            j++;
+        }
+        this.add(Box.createVerticalGlue());
+    }
+
+    /**
+     * Deletes everything and rebuilds the hand
+     */
+    public void remake(String nick){
+        this.removeAll();
+        create(nick);
+        this.revalidate();
+        this.repaint();
+    }
+
 
     public HashMap<Integer, ButtonCard> getLeaders() {
         return leaders;

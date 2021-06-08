@@ -31,6 +31,8 @@ public class VaultPanel extends JLayeredPane {
     private final JLabel minionLabel;
     private final JLabel shieldLabel;
 
+    private ArrayList<JButton> buttons;
+
     public VaultPanel(Gui gui ) {
         super();
 
