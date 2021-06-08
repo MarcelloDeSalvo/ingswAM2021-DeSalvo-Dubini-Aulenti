@@ -39,14 +39,10 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").setNickname(senderNick).build());
 
-                currentUser.killThreads();
+                //currentUser.killThreads();
                 UserManager.removePlayer(connectedPlayers, senderNick);
 
                 System.out.println("# " + senderNick + " has disconnected");
-                break;
-
-            case PONG:
-                currentUser.pongReceived();
                 break;
 
             case HELLO:

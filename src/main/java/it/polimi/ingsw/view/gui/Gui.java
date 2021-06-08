@@ -356,8 +356,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyBuySlotOk(String mex) {
         gamePanel.getNotifyLabel().setText("Now you can select the resources in order to pay");
-        infoLabel.setText(getDevelopmentCards().get(gamePanel.getPlayerBoardPanel().getProductionPanel().
-                getBuyCardIdBuffer()-1).priceToStringDecoloured());
+        infoLabel.setText(getDevelopmentCards().get(gamePanel.getPlayerBoardPanel().getProductionPanel().getBuyCardIdBuffer()-1).priceToStringDecoloured());
         guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
     }
 
@@ -392,9 +391,6 @@ public class Gui extends ClientView {
         addableTypes.add("DONE");
 
         fillWindow(addableTypes, toSend, resources, productionID);
-
-        //System.out.println("Please start filling the Production Slots N: " + productionID +
-               // " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
     }
 
     private void fillWindow (ArrayList<String> addableTypes, ArrayList<ResourceType> toSend, ArrayList<ResourceType> resources, int productionID) {
@@ -404,7 +400,6 @@ public class Gui extends ClientView {
                 null, addableTypes.toArray(), addableTypes.toArray()[4]);
 
         if(response == 4) {
-
             if(toSend.isEmpty())
                 return;
 
@@ -418,8 +413,7 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyFillOk(int productionID, String senderNick) {
-        guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
-        //System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+        infoLabel.setText("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
     }
 
     @Override
@@ -466,15 +460,21 @@ public class Gui extends ClientView {
        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(true);
        gamePanel.getCardLayout().show(gamePanel.getMain(),"playerBoardPanel");
        guiStatus = GuiStatus.SELECTING_DEST_AFTER_MARKET;
+    }
 
+    @Override
+    public void notifyMarketOk(String senderNick) {
+        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(false);
+        guiStatus = GuiStatus.IDLE;
     }
 
     @Override
     public void notifyCardGridChanges(int oldID, int newID) {
         getLiteCardGrid().gridUpdated(oldID, newID);
+
         gamePanel.getCardGridPanel().updateGrid();
+        gamePanel.revalidate();
         gamePanel.repaint();
-        gamePanel.getCardGridPanel().repaint();
     }
 
     @Override
@@ -500,7 +500,7 @@ public class Gui extends ClientView {
         getMyHand().discardFromHand(id);
 
         if(gamePanel != null){
-            gamePanel.getPlayerBoardPanel().validate();
+            gamePanel.getPlayerBoardPanel().revalidate();
             gamePanel.getPlayerBoardPanel().repaint();
         }
     }
@@ -547,7 +547,7 @@ public class Gui extends ClientView {
         else
             getSomeonesLiteVault(senderNick).removeFromVault(container);
 
-        gamePanel.getPlayerBoardPanel().validate();
+        gamePanel.getPlayerBoardPanel().revalidate();
         gamePanel.getPlayerBoardPanel().repaint();
     }
 
@@ -604,12 +604,6 @@ public class Gui extends ClientView {
             cardLayout.show(mainPanel, "lobbyRoomPanel");
         }
 
-    }
-
-    @Override
-    public void notifyMarketOk(String senderNick) {
-        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(false);
-        guiStatus = GuiStatus.IDLE;
     }
 
     @Override

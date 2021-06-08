@@ -663,8 +663,6 @@ public class Controller implements ObserverController {
         ResourceTypeSend message = gson.fromJson(mex, ResourceTypeSend.class);
         ArrayList<ResourceType> selectedResources = message.getResourceTypeArrayList();
 
-        System.out.println(selectedResources);
-
         for (int id : productionSlotIDs) {
             ProductionSlot currProductionSlot = currPlayer.getProductionSlotByID(id);
             int x = 0;      //used to iterate selectedResources
@@ -744,9 +742,7 @@ public class Controller implements ObserverController {
         } catch (NotEnoughResources | DepositSlotMaxDimExceeded exception) {
             currPlayer.emptyBuffers();
 
-            exception.printStackTrace();
-
-            view.printReply_uni(exception.getMessage(), senderNick);
+            view.notifyProductionError(exception.getMessage(), senderNick);
             view.printTurnHelp(senderNick);
         }
     }

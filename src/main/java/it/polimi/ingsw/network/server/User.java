@@ -1,46 +1,57 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObservableViewIO;
-import it.polimi.ingsw.observers.ObserverThread;
 import it.polimi.ingsw.observers.ObserverViewIO;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class User implements ObserverThread, ObservableViewIO {
+public class User implements ObservableViewIO {
+
     private final String nickname;
-    private ServerReceiver serverReceiver;
-    private ServerSender serverSender;
+    //private ServerReceiver serverReceiver;
+    //private ServerSender serverSender;
     private final List<ObserverViewIO> serverAreas;
+    private final PrintWriter out;
+
     private boolean active = true;
-    private int received=3;
-    private final Gson gson;
+    private int received = 3;
 
     private Status status;
 
-    public User(String nickname, ServerReceiver serverReceiver, ServerSender serverSender, Status status) {
-        gson = new Gson();
+    public User(String nickname, PrintWriter out, Status status) {
         this.nickname = nickname;
-        this.serverReceiver = serverReceiver;
-        this.serverSender = serverSender;
+        this.out = out;
         this.status = status;
-
-        serverReceiver.addThreadObserver(this);
 
         serverAreas = new CopyOnWriteArrayList<>();
         ServerConnectionCheck serverConnectionCheck = new ServerConnectionCheck();
         serverConnectionCheck.start();
     }
 
+    /*
+    public User(String nickname, ServerReceiver serverReceiver, ServerSender serverSender, Status status) {
+        this.nickname = nickname;
+        this.serverReceiver = serverReceiver;
+        this.serverSender = serverSender;
+        this.status = status;
+
+        //serverReceiver.addThreadObserver(this);
+
+        serverAreas = new CopyOnWriteArrayList<>();
+        ServerConnectionCheck serverConnectionCheck = new ServerConnectionCheck();
+        serverConnectionCheck.start();
+    } */
+
     //USER CONNECTION STABILITY-----------------------------------------------------------------------------------------
     public void reconnect(ServerReceiver serverReceiver, ServerSender serverSender){
-        this.serverReceiver=serverReceiver;
-        this.serverSender=serverSender;
+        //this.serverReceiver=serverReceiver;
+        //this.serverSender=serverSender;
         active=true;
         ServerConnectionCheck serverConnectionCheck=new ServerConnectionCheck();
         serverConnectionCheck.start();
@@ -57,9 +68,9 @@ public class User implements ObserverThread, ObservableViewIO {
                 public void run() {
                     if (received>0) {
                         if(received==2)
-                            System.out.println("\nNe ho perso uno!\n");
+                            System.out.println("\nNe ho perso uno! "+nickname+"\n");
                         if(received==1)
-                            System.out.println("\nPerso un altro!\n");
+                            System.out.println("\nPerso un altro! "+nickname+"\n");
                         received --;
                         userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
                         System.out.println(nickname + " Ping sent");
@@ -77,11 +88,9 @@ public class User implements ObserverThread, ObservableViewIO {
                 }
             };
 
-            received = 3;
             int initialDelay = 100;
             int delta = 10000;
             timer.scheduleAtFixedRate(task,initialDelay,delta);
-
         }
 
     }
@@ -90,18 +99,17 @@ public class User implements ObserverThread, ObservableViewIO {
      * Updates the user when a Pong is successfully received.
      */
     public void pongReceived(){
+        System.out.println("PONG RECEIVED IN USER: " + nickname);
         received = 3;
     }
 
     @Override
-    public void somethingHasBeenReceived(String message){
-        notifyServerAreas(message);
-    }
+    public void notifyServerAreas(Command command, String message) {
 
-    @Override
-    public void notifyServerAreas(String message) {
-        Message deserializedMex = gson.fromJson(message, Message.class);
-        Command command = deserializedMex.getCommand();
+        if (command==Command.PONG){
+            pongReceived();
+            return;
+        }
 
         for (ObserverViewIO serverArea: serverAreas) {
             serverArea.update(message, command, nickname);
@@ -120,8 +128,17 @@ public class User implements ObserverThread, ObservableViewIO {
 
     public synchronized void userSend(Message message){
         String stringToSend = message.serialize();
-        serverSender.send(stringToSend);
+        send(stringToSend);
     }
+
+    /**
+     * Sends a message to the ClientReceiver
+     */
+    public synchronized void send(String mex){
+        out.println(mex);
+        out.flush();
+    }
+
 
     /**
      * This method is used to notify when the game ends so that the Lobby can set itself to 'isClosed = false'
@@ -134,9 +151,10 @@ public class User implements ObserverThread, ObservableViewIO {
 
     //@override on disconnected
 
+    /*
     public void killThreads(){
         serverReceiver.exit();
-    }
+    } */
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public User getThis(){

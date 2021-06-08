@@ -42,18 +42,21 @@ public class ServerReceiver implements ObservableThread {
      */
     }
 
+
     @Override
     public void addThreadObserver(ObserverThread observer) {
+         /*
         if(observer!=null)
-            observerThreads.add(observer);
+            observerThreads.add(observer);*/
     }
 
 
     @Override
     public void notifyThreadObserver(String message) {
+        /*
         for (ObserverThread obs: observerThreads) {
             obs.somethingHasBeenReceived(message);
-        }
+        }*/
     }
 
     /**
