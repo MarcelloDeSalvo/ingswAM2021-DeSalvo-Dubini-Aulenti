@@ -789,7 +789,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyStartFilling(int productionID, String senderNick) {
+    public void notifyStartFilling(int productionID, int qmi, int qmo, String senderNick) {
         printReply("Please start filling the Production Slots N: " + productionID +
         " with resources of your choice by typing >FILL ResourceType1 ResourceType2  ... 'DONE'");
     }
@@ -823,6 +823,16 @@ public class Cli extends ClientView {
     public void notifyMoveOk(String senderNick) {
         printDeposit();
         printReply("The action on deposit has been executed correctly!");
+    }
+
+    @Override
+    public void notifyRemoveContainerError(String error) {
+        printReply(error);
+    }
+
+    @Override
+    public void notifyRemoveContainerOk(String ok) {
+        printReply(ok);
     }
 
     @Override

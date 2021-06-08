@@ -372,7 +372,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyStartFilling(int productionID, String senderNick) {
+    public void notifyStartFilling(int productionID, int qmi, int qmo, String senderNick) {
 
         guiStatus = GuiStatus.SELECTING_QM;
 
@@ -389,25 +389,37 @@ public class Gui extends ClientView {
         }
         addableTypes.add("DONE");
 
-        fillWindow(addableTypes, toSend, resources, productionID);
+        fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
     }
 
-    private void fillWindow (ArrayList<String> addableTypes, ArrayList<ResourceType> toSend, ArrayList<ResourceType> resources, int productionID) {
+    private void fillWindow (int qmi, int qmo, ArrayList<String> addableTypes, ArrayList<ResourceType> toSend, ArrayList<ResourceType> resources, int productionID) {
 
-        int response = JOptionPane.showOptionDialog(null, "Please Fill the question marks of the Production Slot N: " + productionID + " in order", "Fill Request",
+        int response = JOptionPane.showOptionDialog(null, "[QMI:"+qmi+"][QMO:"+qmo+"]Please Fill the question marks of the Production Slot N: " + productionID + " in order", "Fill Request",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, addableTypes.toArray(), addableTypes.toArray()[4]);
 
+        if(response == -1){
+            resetProductionFill();
+            return;
+        }
+
         if(response == 4) {
-            if(toSend.isEmpty())
+            if(toSend.isEmpty()){
+                resetProductionFill();
                 return;
+            }
 
             send(new ResourceTypeSend(Command.FILL_QM, toSend, getNickname()));
         }
         else {
             toSend.add(resources.get(response));
-            fillWindow(addableTypes, toSend, resources, productionID);
+            fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
         }
+    }
+
+    private void resetProductionFill(){
+        guiStatus = GuiStatus.IDLE;
+        send(new ResourceTypeSend(Command.FILL_QM, new ArrayList<>(), getNickname()));
     }
 
     @Override
@@ -563,6 +575,16 @@ public class Gui extends ClientView {
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
         getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
                 getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation());
+    }
+
+    @Override
+    public void notifyRemoveContainerError(String error) {
+        infoLabel.setText(error);
+    }
+
+    @Override
+    public void notifyRemoveContainerOk(String ok) {
+        //print nothing
     }
 
     @Override

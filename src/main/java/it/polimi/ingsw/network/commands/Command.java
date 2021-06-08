@@ -51,6 +51,10 @@ public enum Command {
 
     MANAGE_DEPOSIT  (false, false, true, Status.IN_GAME),
     MANAGE_DEPOSIT_OK  (false, false, true, Status.IN_GAME),
+
+    REMOVE_CONTAINER_OK (false, false, true, Status.IN_GAME),
+    REMOVE_CONTAINER_ERROR (false, false, true, Status.IN_GAME),
+
     SWITCH_DEPOSIT  (false,false,true, Status.IN_GAME),
 
     SETUP_CONTAINER (false, false, true, Status.IN_GAME),

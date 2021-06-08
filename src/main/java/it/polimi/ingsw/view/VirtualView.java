@@ -243,8 +243,8 @@ public class VirtualView implements View {
     }
 
     @Override
-    public void notifyStartFilling(int productionID, String senderNick) {
-        notifyUsers(new IdMessage(Command.START_FILL, productionID, senderNick));
+    public void notifyStartFilling(int productionID, int qmi, int qmo, String senderNick) {
+        notifyUsers(new FillMessage(productionID, qmi, qmo, senderNick));
     }
 
     @Override
@@ -260,6 +260,16 @@ public class VirtualView implements View {
     @Override
     public void notifyMoveOk(String senderNick) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.MANAGE_DEPOSIT_OK).setNickname(senderNick).build());
+    }
+
+    @Override
+    public void notifyRemoveContainerError(String error) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.REMOVE_CONTAINER_ERROR).setNickname(currPlayer).setInfo(error).build());
+    }
+
+    @Override
+    public void notifyRemoveContainerOk(String ok) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.REMOVE_CONTAINER_OK).setNickname(currPlayer).setInfo(ok).build());
     }
 
     @Override

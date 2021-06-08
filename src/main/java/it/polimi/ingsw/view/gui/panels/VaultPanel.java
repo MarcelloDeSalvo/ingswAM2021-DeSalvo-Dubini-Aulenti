@@ -293,7 +293,7 @@ public class VaultPanel extends JLayeredPane {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new SendContainer(new ResourceContainer(resourceType, 1),"VAULT", gui.getNickname()));
 
-                gui.printReply("Ok! Keep selecting or click DONE");
+                //gui.printReply("Ok! Keep selecting or click DONE");
 
                 button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
                 button.setBorderPainted(true);

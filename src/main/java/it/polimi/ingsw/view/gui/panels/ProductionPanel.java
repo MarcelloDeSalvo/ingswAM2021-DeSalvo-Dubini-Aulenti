@@ -163,7 +163,6 @@ public class ProductionPanel extends JPanel {
 
             if (gui.getGuiStatus() == GuiStatus.SELECTING_CARD_SLOT){
                 popupmenu.add(select);
-
                 popupmenu.show(prodSlot , e.getX(), e.getY());
 
                 select.addActionListener(f ->

@@ -135,7 +135,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies a player that he needs to start filling a production slot
      * @param productionID production slot ID
      */
-    void notifyStartFilling(int productionID, String senderNick);
+    void notifyStartFilling(int productionID, int qmi, int qmo, String senderNick);
 
     /**
      * Notifies a player that the filling of a production slot has been executed correctly
@@ -153,6 +153,16 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies a player that the deposit has changed correctly after the manage deposit command
      */
     void notifyMoveOk(String senderNick);
+
+    /**
+     * Notifies a player that a resource quantity could not be taken from a container
+     */
+    void notifyRemoveContainerError(String error);
+
+    /**
+     * Notifies a player that a resource quantity has been temporarily taken from a container
+     */
+    void notifyRemoveContainerOk(String ok);
 
     /**
      * Notifies all players the new information about the marbles' positions

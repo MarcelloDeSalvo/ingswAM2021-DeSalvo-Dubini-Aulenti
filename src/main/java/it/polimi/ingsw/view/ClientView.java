@@ -99,7 +99,7 @@ public abstract class ClientView implements View, UserInput {
                 Message ping = new Message.MessageBuilder().setCommand(Command.PONG).
                         setNickname(this.getNickname()).build();
                 send(ping);
-                System.out.println("PONG sent: " + ping.toString());
+                //System.out.println("PONG sent: " + ping.toString());
                 break;
 
             case REPLY:
@@ -219,6 +219,14 @@ public abstract class ClientView implements View, UserInput {
                 notifyWinner(stringsMessage1.getData());
                 break;
 
+            case REMOVE_CONTAINER_OK:
+                notifyRemoveContainerOk(deserializedMex.getInfo());
+                break;
+
+            case REMOVE_CONTAINER_ERROR:
+                notifyRemoveContainerError(deserializedMex.getInfo());
+                break;
+
             case ASK_MARKET_DEST:
                 ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
                 notifyResourcesArrived(containerArrayListMessage.getContainers());
@@ -265,8 +273,8 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case START_FILL:
-                IdMessage idFill = gson.fromJson(mex, IdMessage.class);
-                notifyStartFilling(idFill.getId(), senderNick);
+                FillMessage idFill = gson.fromJson(mex, FillMessage.class);
+                notifyStartFilling(idFill.getSlotID(), idFill.getQmi(), idFill.getQmo(), senderNick);
                 break;
 
             case FILL_OK:

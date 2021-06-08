@@ -532,15 +532,14 @@ public class Controller implements ObserverController {
     private boolean removeContainer(ResourceContainer resourceContainer, String destination, int destinationID, String senderNick){
 
         if(!currPlayer.hasEnoughResources(resourceContainer)) {
-            view.printReply_uni("You don't own the selected resources!", senderNick);
+            view.notifyBuyError("You don't own the selected resources!");
             return false;
         }
 
         if(destination.equalsIgnoreCase("VAULT")) {
             try {
                 currPlayer.canRemoveFromVault(resourceContainer);
-
-                view.printReply_uni("Resources accepted!", senderNick);
+                view.notifyRemoveContainerOk("Resources accepted!");
 
                 return true;
 
@@ -556,16 +555,16 @@ public class Controller implements ObserverController {
             try {
                 currPlayer.getDepositSlotByID(destinationID).canRemoveFromDepositSlot(resourceContainer);
 
-                view.printReply_uni("Resources accepted!", senderNick);
+                view.notifyRemoveContainerOk("Resources accepted!");
 
                 return true;
 
             } catch (DifferentResourceType | NotEnoughResources exception) {
-                view.printReply_uni(exception.getMessage(), senderNick);
+                view.notifyBuyError(exception.getMessage());
                 return false;
 
             } catch (IndexOutOfBoundsException indexOutOfBoundsException){
-                view.printReply_uni("The selected Deposit Slot does not exists!", senderNick);
+                view.notifyBuyError("The selected Deposit Slot does not exists!");
                 return false;
 
             }
@@ -611,6 +610,8 @@ public class Controller implements ObserverController {
         ProduceMessage produceMessage = gson.fromJson(mex, ProduceMessage.class);
         productionSlotIDs = produceMessage.getIDs();
         int firstID = -1;
+        int qmi = 0;
+        int qmo = 0;
 
         if(productionSlotIDs.size() > currPlayer.getProductionSite().getProductionSlots().size()) {
             view.notifyProductionError("You don't own this many ProductionSlots! Please type in a valid amount!", senderNick);
@@ -626,8 +627,10 @@ public class Controller implements ObserverController {
                     view.notifyProductionError("The selected Production Slot is empty so you cannot use it for production!", senderNick);
                     return;
                 }
-                else if(currProductionSlot.hasQuestionMarks()) {
+                else if(currProductionSlot.hasQuestionMarks() && firstID ==-1) {
                     firstID = id;
+                    qmi = currProductionSlot.getQMI();
+                    qmo = currProductionSlot.getQMO();
                     currPlayer.setPlayerStatus(PlayerStatus.SELECTING_QM);
                 }
             }
@@ -638,7 +641,7 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_QM){
-            view.notifyStartFilling(firstID, senderNick);
+            view.notifyStartFilling(firstID, qmi, qmo, senderNick);
         }
 
         if(currPlayer.getPlayerStatus() == PlayerStatus.IDLE) {
@@ -673,6 +676,7 @@ public class Controller implements ObserverController {
 
                 if(QMI + QMO != selectedResources.size()) {
                     view.notifyProductionError("You didn't select the right amount of ResourceType!", senderNick);
+                    currProductionSlot.clearCurrentBuffer();
                     currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                     return;
                 }
@@ -692,8 +696,12 @@ public class Controller implements ObserverController {
         }
 
         for (int id : productionSlotIDs) {
-            if(currPlayer.getProductionSlotByID(id).hasStillQuestionMarks()) {
-                view.notifyStartFilling(id , senderNick);
+            ProductionSlot currProductionSlot = currPlayer.getProductionSlotByID(id);
+            int QMI = currProductionSlot.getQMI();
+            int QMO = currProductionSlot.getQMO();
+
+            if(currProductionSlot.hasStillQuestionMarks()) {
+                view.notifyStartFilling(id ,QMI, QMO, senderNick);
                 return;
             }
         }
@@ -717,6 +725,7 @@ public class Controller implements ObserverController {
 
         if(!currPlayer.hasEnoughResourcesForProduction())  {
             view.notifyProductionError("You don't own enough resources altogether to activate the selected Production Slots!", senderNick);
+            currPlayer.emptyBuffers();
             currPlayer.setPlayerStatus(PlayerStatus.IDLE);
             return;
         }
