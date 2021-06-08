@@ -115,9 +115,6 @@ public class DepositPanel extends JPanel {
         DepositMenu submenuSwitch = new DepositMenu(gui, "Switch with", resourceTypeLabel.getResourceType(),Command.SWITCH_DEPOSIT, resourceTypeLabel.getId());
         JMenuItem done = new JMenuItem("Done");
 
-        popupmenu.add(submenuTransfer);
-        popupmenu.add(submenuSwitch);
-
         resourceTypeLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if(gui.getGuiStatus()== GuiStatus.SELECTING_PAY_RESOURCES) {
@@ -142,8 +139,8 @@ public class DepositPanel extends JPanel {
             }
         });
 
-
-
+        popupmenu.add(submenuTransfer);
+        popupmenu.add(submenuSwitch);
     }
 
     public void addExtraSlot(Point position){

@@ -568,7 +568,10 @@ public class Gui extends ClientView {
     @Override
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
         getSomeonesLiteProduction(senderNick).addProductionSlot(productionAbility);
+
         if(senderNick.equals(getNickname())){
+            gamePanel.getPlayerBoardPanel().getProductionPanel().addExtraSlot(
+                    getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation());
             gamePanel.getNotifyLabel().setText("You activated a new production!");
         }
     }

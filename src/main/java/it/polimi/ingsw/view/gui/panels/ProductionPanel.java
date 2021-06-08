@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.commands.ProduceMessage;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
+import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -54,6 +55,18 @@ public class ProductionPanel extends JPanel {
         //you still have to print the actual cards, best way of doing this is using the litemodelUpdate
 
 
+    }
+
+    public void addExtraSlot(Point position){
+
+        DevProdSlot clickableSlot = new DevProdSlot();
+        clickableSlot.setBounds(position.x+1650, position.y,243, 367);
+        clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, prodSlot.size()));
+        this.add(clickableSlot);
+        prodSlot.add(clickableSlot);
+
+        this.revalidate();
+        this.repaint();
     }
 
     private class DevProdSlot extends JPanel{

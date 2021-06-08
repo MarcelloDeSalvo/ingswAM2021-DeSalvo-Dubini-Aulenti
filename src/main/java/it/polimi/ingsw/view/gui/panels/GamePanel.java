@@ -20,7 +20,7 @@ public class GamePanel extends JPanel {
     private final PlayerBoardPanel playerBoardPanel;
     private final CardGridPanel cardGridPanel;
     private final MarketPanel marketPanel;
-    private HashMap<String,ShowPlayerPanel> playerPanelsMap;
+    private final HashMap<String,ShowPlayerPanel> playerPanelsMap;
 
     private final Gui gui;
     private final BackgroundImagePanel main;

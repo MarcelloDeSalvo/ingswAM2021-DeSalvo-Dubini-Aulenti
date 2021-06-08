@@ -373,7 +373,10 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         winner.add(lorenzoWon ? playerList.get(1).getNickname() : playerList.get(0).getNickname());
         playersTotalVictoryPoints.add(calculatePlayerVictoryPoints(playerList.get(0)));
 
-        view.notifyScores(playersTotalVictoryPoints, winner);
+        ArrayList<String> nick = new ArrayList<>();
+        nick.add(playerList.get(0).getNickname());
+
+        view.notifyScores(playersTotalVictoryPoints, nick);
         view.notifyWinner(winner);
         view.notifyGameEnded();
     }
