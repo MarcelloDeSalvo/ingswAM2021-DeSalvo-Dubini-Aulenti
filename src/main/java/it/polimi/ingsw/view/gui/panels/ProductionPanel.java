@@ -32,6 +32,30 @@ public class ProductionPanel extends JPanel {
         developmentSlotButtons();
     }
 
+    public ProductionPanel(Gui gui,String nickname){
+        this.gui = gui;
+        prodSlot = new ArrayList<>();
+        selectedProdSlotBuffer = new ArrayList<>();
+
+        this.setOpaque(false);
+        this.setLayout(null);
+
+        DevProdSlot basicProdSlot = new DevProdSlot();
+        basicProdSlot.setBounds(380 ,480,250,250);
+        this.add(basicProdSlot);
+        prodSlot.add(basicProdSlot);
+
+        for (int i=0; i<3; i++){
+            DevProdSlot clickableSlot = new DevProdSlot();
+            clickableSlot.setBounds(680 + 305*i + i*2,200,250,350);
+            this.add(clickableSlot);
+            prodSlot.add(clickableSlot);
+        }
+        //you still have to print the actual cards, best way of doing this is using the litemodelUpdate
+
+
+    }
+
     private class DevProdSlot extends JPanel{
         private int x_offset;
         private int y_offset;

@@ -12,14 +12,13 @@ public class ShowPlayerPanel extends JLayeredPane {
     private  String nick;
 
     private  Gui gui;
-    private  DepositPanel depositPanel;
     private  ProductionPanel productionPanel;
-    private  VaultPanel vaultPanel;
+    private HandPanel handPanel;
 
-    public ShowPlayerPanel(Gui gui) {
+    public ShowPlayerPanel(Gui gui,String nick) {
         super();
         this.gui=gui;
-
+        this.nick=nick;
 
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
@@ -36,7 +35,7 @@ public class ShowPlayerPanel extends JLayeredPane {
         pl1.add(boardImg);
         pl1.setOpaque(false);
 
-        JPanel handPanel = new HandPanel(gui);
+        handPanel = new HandPanel(gui,nick);
         handPanel.setOpaque(false);
 
         pl0.setBorder(new EmptyBorder(0,0,0,10));
@@ -53,32 +52,27 @@ public class ShowPlayerPanel extends JLayeredPane {
         storage.setOpaque(false);
         storage.setLayout(null);
 
-        //DEPOSIT ZONE
-        depositPanel = new DepositPanel(gui);
+       /* //DEPOSIT ZONE
+        DepositPanel depositPanel=gui.getSomeonesLiteDeposit(nick).getDepositPanel();
         depositPanel.setBounds(70,120,320,385);
-        storage.add(depositPanel);
+        storage.add(depositPanel);*/
 
 
         //VAULT
-        vaultPanel = new VaultPanel(gui);
+        VaultPanel vaultPanel = new VaultPanel(gui,nick);
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 
         this.add(storage, JLayeredPane.PALETTE_LAYER);
 
-        //PRODUCTION LAYER--------------------------------------------------------------------------------------------
+ /*       //PRODUCTION LAYER--------------------------------------------------------------------------------------------
         productionPanel = new ProductionPanel(gui);
         productionPanel.setBounds(0,0,1920, 980);
 
         this.add(productionPanel, JLayeredPane.PALETTE_LAYER);
 
-
+*/
     }
 
-
-
-
-
-
-
+    public HandPanel getHandPanel() { return handPanel;}
 }

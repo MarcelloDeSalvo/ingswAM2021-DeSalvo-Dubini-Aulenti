@@ -57,6 +57,7 @@ public class HandPanel extends JPanel {
         for (Integer id : IDs) {
             ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
+            leaders.put(id, button);
             this.add(Box.createRigidArea(new Dimension(30, 50)));
             j--;
         }
@@ -65,6 +66,7 @@ public class HandPanel extends JPanel {
             ButtonImage button = new ButtonImage("/images/cardBackJpgs/leaderCardBack.jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
             this.add(Box.createRigidArea(new Dimension(30, 50)));
+            j--;
         }
 
         this.add(Box.createVerticalGlue());
@@ -93,6 +95,14 @@ public class HandPanel extends JPanel {
 
         discard.addActionListener(e -> gui.send(new IdMessage(Command.DISCARD_LEADER, selectedID, gui.getNickname())));
     }
+
+    public void addLeader(Integer id){
+        ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
+        this.add(button, BorderLayout.CENTER);
+        System.out.println("Ho aggiunto alla mano di rick una bella "+id);
+        leaders.put(id, button);
+        this.add(Box.createRigidArea(new Dimension(30, 50)));
+    };
 
     public HashMap<Integer, ButtonCard> getLeaders() {
         return leaders;

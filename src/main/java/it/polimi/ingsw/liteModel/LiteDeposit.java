@@ -151,6 +151,8 @@ public class LiteDeposit {
         return deposits.get(id).leaderType;
     }
 
+    public DepositPanel getDepositPanel() { return depositPanel; }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

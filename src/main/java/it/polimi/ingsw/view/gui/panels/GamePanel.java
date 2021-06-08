@@ -8,9 +8,11 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
+import it.polimi.ingsw.view.gui.customJObject.ShowPlayerBox;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class GamePanel extends JPanel {
 
@@ -18,6 +20,7 @@ public class GamePanel extends JPanel {
     private final PlayerBoardPanel playerBoardPanel;
     private final CardGridPanel cardGridPanel;
     private final MarketPanel marketPanel;
+    private HashMap<String,ShowPlayerPanel> playerPanelsMap;
 
     private final Gui gui;
     private final BackgroundImagePanel main;
@@ -52,7 +55,15 @@ public class GamePanel extends JPanel {
         marketPanel=new MarketPanel(gui, liteMarket);
         marketPanel.setOpaque(false);
 
+        playerPanelsMap=new HashMap<>();
+        for (String nick:gui.getLiteFaithPath().getNicknames()) {
+            if(!nick.equals("LORENZO")){
+                ShowPlayerPanel spp=new ShowPlayerPanel(gui,nick);
+                playerPanelsMap.put(nick, spp);
+                main.add(spp,nick+"Panel");
+            }
 
+        }
 
 
         main.add(playerBoardPanel,"playerBoardPanel");
@@ -89,6 +100,14 @@ public class GamePanel extends JPanel {
         buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
+        JComboBox nickList = new JComboBox(gui.getLiteFaithPath().getNicknames().toArray(new String[0]));
+        //nickList.setSelectedIndex(4);
+        JButton showPlayer = new ButtonImage(" PLAYER ", 22,true);
+
+        showPlayer.addActionListener(e -> {
+            cardLayout.show(main,  gui.getLiteFaithPath().getNicknames().get(nickList.getSelectedIndex())+"Panel");
+        });
+
         JButton show_my_board = new ButtonImage(" MY BOARD ", 22,true);
         show_my_board.addActionListener(e -> cardLayout.show(main, "playerBoardPanel"));
 
@@ -101,9 +120,6 @@ public class GamePanel extends JPanel {
         JButton showCardGrid = new ButtonImage(" CARD GRID ", 22,true);
         showCardGrid.addActionListener(e -> cardLayout.show(main, "cardGridPanel"));
 
-        JButton showPlayer = new ButtonImage(" PLAYER ", 22,true);
-        showPlayer.addActionListener(e -> cardLayout.show(main, "4"));
-
         JButton cheat = new ButtonImage(" CHEAT ", 22,true);
         cheat.addActionListener(
                 e -> gui.send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(gui.getNickname()).build()));
@@ -114,16 +130,17 @@ public class GamePanel extends JPanel {
 
 
         buttons.setBackground(new Color(255, 235, 204));
-
-
-        buttons.add(Box.createHorizontalGlue());
-        buttons.add(showFaithpath);
-        buttons.add(Box.createRigidArea(new Dimension(20,30)));
-        buttons.add(showMarket);
+        buttons.add(Box.createRigidArea(new Dimension(300,30)));
+        buttons.add( nickList);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(showPlayer);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(show_my_board);
+        //buttons.add(Box.createHorizontalGlue());
+        buttons.add(Box.createRigidArea(new Dimension(20,30)));
+        buttons.add(showFaithpath);
+        buttons.add(Box.createRigidArea(new Dimension(20,30)));
+        buttons.add(showMarket);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(showCardGrid);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
@@ -171,4 +188,9 @@ public class GamePanel extends JPanel {
         return marketPanel;
     }
 
+    public HashMap<String, ShowPlayerPanel> getPlayerPanelsMap() {
+        return playerPanelsMap;
+    }
+
+    public HandPanel getOtherHandPanels(String nick){ return playerPanelsMap.get(nick).getHandPanel();}
 }

@@ -16,6 +16,7 @@ import it.polimi.ingsw.view.gui.panels.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -249,8 +250,14 @@ public class Gui extends ClientView {
         try {
             gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid(),this.getLiteMarket());
             getMyLiteDeposit().setDepositPanel(gamePanel.getPlayerBoardPanel().getDepositPanel());
+            //Inizializzo un nuovo deposit panel agli altri lite model
+            for (String nick:this.getLiteFaithPath().getNicknames()) {
+                if(!nick.equals(this.getNickname()) && !nick.equals("LORENZO")){
+                    getSomeonesLiteDeposit(nick).setDepositPanel(new DepositPanel(this));
+                }
+            }
         } catch (ImageNotFound e) {
-            System.out.println("A critical error has been occurred File not Found");
+            System.out.println("A critical error has occurred! File not Found");
             System.exit(-1);
         }
 
@@ -412,7 +419,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyFillOk(int productionID, String senderNick) {
         guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
-        System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
+        //System.out.println("Resources of your choice for Production Slot N: " + productionID + " have been filled correctly!");
     }
 
     @Override
@@ -505,6 +512,8 @@ public class Gui extends ClientView {
         else {
             gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
             getSomeonesHand(nickname).addLeader(id);
+            gamePanel.getOtherHandPanels(nickname).addLeader(id);
+
         }
         getSomeonesHand(nickname).activateLeader(id);
         activatedLeaderId = id;
