@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class HandPanel extends JPanel {
 
     private final Gui gui;
-    private HashMap<Integer, ButtonCard> leaders;
+    private final HashMap<Integer, ButtonCard> leaders;
 
     public HandPanel(Gui gui) {
         super();
@@ -72,8 +72,6 @@ public class HandPanel extends JPanel {
         this.add(Box.createVerticalGlue());
     }
 
-
-
     private void leaderActionWindow (int selectedID, ButtonCard button){
         JPopupMenu popupmenu = new JPopupMenu("Leader Action");
         JMenuItem activate = new JMenuItem("Activate");
@@ -99,9 +97,11 @@ public class HandPanel extends JPanel {
     public void addLeader(Integer id){
         ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
         this.add(button, BorderLayout.CENTER);
-        System.out.println("Ho aggiunto alla mano di rick una bella "+id);
-        leaders.put(id, button);
         this.add(Box.createRigidArea(new Dimension(30, 50)));
+
+        System.out.println("Ho aggiunto alla mano di rick una bella "+id);
+
+        leaders.put(id, button);
     };
 
     public HashMap<Integer, ButtonCard> getLeaders() {

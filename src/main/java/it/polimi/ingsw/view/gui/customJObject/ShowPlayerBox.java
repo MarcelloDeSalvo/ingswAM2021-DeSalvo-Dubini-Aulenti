@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 public class ShowPlayerBox extends JMenu {
-    private ArrayList<String> nicks;
-    private Gui gui;
+    private final ArrayList<String> nicks;
+    private final Gui gui;
 
 
     public ShowPlayerBox( Gui gui) {

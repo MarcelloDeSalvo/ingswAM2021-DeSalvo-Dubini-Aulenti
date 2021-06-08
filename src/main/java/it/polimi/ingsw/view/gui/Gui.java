@@ -16,7 +16,6 @@ import it.polimi.ingsw.view.gui.panels.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -515,6 +514,7 @@ public class Gui extends ClientView {
             gamePanel.getOtherHandPanels(nickname).addLeader(id);
 
         }
+
         getSomeonesHand(nickname).activateLeader(id);
         activatedLeaderId = id;
     }

@@ -673,6 +673,7 @@ public class Controller implements ObserverController {
 
                 if(QMI + QMO != selectedResources.size()) {
                     view.notifyProductionError("You didn't select the right amount of ResourceType!", senderNick);
+                    currPlayer.setPlayerStatus(PlayerStatus.IDLE);
                     return;
                 }
 
@@ -715,8 +716,8 @@ public class Controller implements ObserverController {
         currPlayer.fillProductionBuffers(selectedProductionCards);
 
         if(!currPlayer.hasEnoughResourcesForProduction())  {
-            currPlayer.setPlayerStatus(PlayerStatus.IDLE);
             view.notifyProductionError("You don't own enough resources altogether to activate the selected Production Slots!", senderNick);
+            currPlayer.setPlayerStatus(PlayerStatus.IDLE);
             return;
         }
 
