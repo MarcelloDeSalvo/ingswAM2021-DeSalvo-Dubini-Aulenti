@@ -387,34 +387,41 @@ public class Gui extends ClientView {
                 resources.add(res);
             }
         }
-        addableTypes.add("DONE");
 
         fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
     }
 
     private void fillWindow (int qmi, int qmo, ArrayList<String> addableTypes, ArrayList<ResourceType> toSend, ArrayList<ResourceType> resources, int productionID) {
 
-        int response = JOptionPane.showOptionDialog(null, "[QMI:"+qmi+"][QMO:"+qmo+"]Please Fill the question marks of the Production Slot N: " + productionID + " in order", "Fill Request",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, addableTypes.toArray(), addableTypes.toArray()[4]);
-
-        if(response == -1){
-            resetProductionFill();
-            return;
-        }
-
-        if(response == 4) {
-            if(toSend.isEmpty()){
+        for(int i = qmi; i>0; i--){
+            int response = JOptionPane.showOptionDialog(null, "Please Fill the "+qmi+" INPUT question marks of the Production Slot N: " + productionID, "Fill Request",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, addableTypes.toArray(), addableTypes.toArray()[0]);
+            if(response == -1){
                 resetProductionFill();
                 return;
+            } else {
+                toSend.add(resources.get(response));
+                //fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
             }
+        }
+        for(int i = qmo; i>0; i--){
+            int response = JOptionPane.showOptionDialog(null, "Please Fill the "+qmo+" OUTPUT question marks of the Production Slot N: " + productionID, "Fill Request",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, addableTypes.toArray(), addableTypes.toArray()[0]);
+            if(response == -1){
+                resetProductionFill();
+                return;
+            } else {
+                toSend.add(resources.get(response));
+                //fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
+            }
+        }
 
-            send(new ResourceTypeSend(Command.FILL_QM, toSend, getNickname()));
-        }
-        else {
-            toSend.add(resources.get(response));
-            fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
-        }
+        send(new ResourceTypeSend(Command.FILL_QM, toSend, getNickname()));
+
+
+
     }
 
     private void resetProductionFill(){
