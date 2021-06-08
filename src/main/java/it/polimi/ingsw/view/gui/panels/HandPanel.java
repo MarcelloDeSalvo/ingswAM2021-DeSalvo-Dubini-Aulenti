@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class HandPanel extends JPanel {
 
     private final Gui gui;
-    private final HashMap<Integer, ButtonCard> leaders;
+    private final HashMap<Integer, JButton> leaders;
 
     public HandPanel(Gui gui) {
         super();
@@ -93,10 +93,10 @@ public class HandPanel extends JPanel {
 
         while  (j< IDs.size()) {
             int id=IDs.get(j);
-            ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
+            ButtonImage button = new ButtonImage("/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
             leaders.put(id, button);
-
+            System.out.println("Id !"+id);
             this.add(Box.createRigidArea(new Dimension(30, 50)));
             j++;
         }
@@ -120,7 +120,7 @@ public class HandPanel extends JPanel {
     }
 
 
-    public HashMap<Integer, ButtonCard> getLeaders() {
+    public HashMap<Integer, JButton> getLeaders() {
         return leaders;
     }
 }

@@ -530,20 +530,20 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyLeaderActivated(int id, String nickname){
+
+        getSomeonesHand(nickname).activateLeader(id);
+
         if(nickname.equals(getNickname())) {
             gamePanel.getNotifyLabel().setText("Leader activated!");
-            getMyHand().activateLeader(id);
         }
         else {
             gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
             getSomeonesHand(nickname).addLeader(id);
-            getSomeonesHand(nickname).activateLeader(id);
-            System.out.println(getSomeonesHand(nickname).toString());
             gamePanel.getOtherHandPanels(nickname).remake(nickname);
 
         }
 
-        getSomeonesHand(nickname).activateLeader(id);
+
         activatedLeaderId = id;
     }
 
@@ -589,7 +589,11 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
+        if(senderNick.equals(getNickname()))
+            getMyLiteDeposit().addSlot(maxDim,resourceType,
+                    getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation());
+        else
+            getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
                 getGamePanel().getOtherHandPanels(senderNick).getLeaders().get(activatedLeaderId).getLocation());
     }
 

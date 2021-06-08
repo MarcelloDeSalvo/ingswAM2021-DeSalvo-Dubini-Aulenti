@@ -38,10 +38,10 @@ public class ButtonCard extends JButton {
     @Override
     protected void paintComponent(Graphics g) {
         if(!gui.getMyHand().getHand().contains(cardID)) {
-            BufferedImage originalImage = ImageUtil.loadImage("/images/cardBackJpgs/leaderCardBack.jpg");
+            /*BufferedImage originalImage = ImageUtil.loadImage("/images/cardBackJpgs/leaderCardBack.jpg");
             Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(img);
-            this.setIcon(imageIcon);
+            this.setIcon(imageIcon);*/
             return;
         }
 
