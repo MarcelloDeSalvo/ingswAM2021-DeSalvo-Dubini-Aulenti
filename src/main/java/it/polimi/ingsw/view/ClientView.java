@@ -229,7 +229,7 @@ public abstract class ClientView implements View, UserInput {
 
             case ASK_MARKET_DEST:
                 ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
-                notifyResourcesArrived(containerArrayListMessage.getContainers());
+                askForMarketDestination(containerArrayListMessage.getContainers(), this.getNickname());
                 break;
 
             case MARKET_OK:
@@ -239,6 +239,15 @@ public abstract class ClientView implements View, UserInput {
             case ASK_SETUP_RESOURCES:
                 askForResources(senderNick, 0);
                 printReply(deserializedMex.getInfo());
+                break;
+
+            case ASK_MULTIPLE_CONVERSION:
+                AskConversionMessage askConversionMessage = gson.fromJson(mex, AskConversionMessage.class);
+                askMultipleConversion(askConversionMessage.getNumToConvert(), askConversionMessage.getConvertedType(), askConversionMessage.getAvailableConversions());
+                break;
+
+            case CONVERSION_ERROR:
+                notifyConversionError(deserializedMex.getInfo());
                 break;
 
             case DISCARD_OK:

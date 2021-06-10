@@ -162,6 +162,17 @@ public class VirtualView implements View {
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname){
         UserManager.notifyUsers(connectedPlayers, new ContainerArrayListMessage(Command.ASK_MARKET_DEST,containers,nickname));
     }
+
+    @Override
+    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
+       notifyUsers( new AskConversionMessage (new Message.MessageBuilder().setCommand(Command.ASK_MULTIPLE_CONVERSION).setNickname(currPlayer),
+               typeToConvert, availableConversion, numToConvert));
+    }
+
+    @Override
+    public void notifyConversionError(String error) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.CONVERSION_ERROR).setInfo(error).build());
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -280,11 +291,6 @@ public class VirtualView implements View {
     @Override
     public void notifyMarketOk(String senderNick) {
         notifyUsers(new Message.MessageBuilder().setCommand(Command.MARKET_OK).setNickname(senderNick).build());
-    }
-
-    @Override
-    public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
-
     }
 
     @Override

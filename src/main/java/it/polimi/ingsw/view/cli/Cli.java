@@ -682,6 +682,20 @@ public class Cli extends ClientView {
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
         printDeposit();
+
+        StringBuilder marketOutChoice = new StringBuilder("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id").append("\n");
+        marketOutChoice.append("Where do you want to put: ");
+        for (ResourceContainer res: containers) {
+            marketOutChoice.append(res.getResourceType()).append("  ");
+        }
+        printReply(marketOutChoice.toString());
+    }
+
+    @Override
+    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
+        printReply("You have multiple leaders with the conversion ability [ " + availableConversion.toString() +" ]\n"+
+                "and you must convert "+numToConvert+" "+ typeToConvert+ " marbles"+
+                "\nPlease type >Convert resType  [for each one]");
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -841,19 +855,14 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
-        StringBuilder marketOutChoice = new StringBuilder("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id").append("\n");
-        marketOutChoice.append("Where do you want to put: ");
-        for (ResourceContainer res: resourceContainers) {
-            marketOutChoice.append(res.getResourceType()).append("  ");
-        }
-        printReply(marketOutChoice.toString());
-    }
-
-    @Override
     public void notifyMarketOk(String senderNick) {
         printReply("The market operation ended successfully! \n");
         printTurnHelp(senderNick);
+    }
+
+    @Override
+    public void notifyConversionError(String error) {
+        printReply(error);
     }
 
     @Override
@@ -909,7 +918,10 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType, null);
+        if(senderNick.equals(this.getNickname()))
+            getMyLiteDeposit().addSlot(maxDim, resourceType, null, null, false);
+        else
+            getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType, null, null, true);
     }
 
     @Override

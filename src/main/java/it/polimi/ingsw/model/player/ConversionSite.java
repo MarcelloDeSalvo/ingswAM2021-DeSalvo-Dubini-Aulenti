@@ -100,6 +100,15 @@ public class ConversionSite {
         return conversionsAvailable;
     }
 
+    public ArrayList<ResourceType> getTypesAvailable(){
+        ArrayList<ResourceType> available = new ArrayList<>();
+        for (ResourceContainer cont: conversionsAvailable) {
+            available.add(cont.getResourceType());
+        }
+
+        return available;
+    }
+
     public ResourceType getDefaultConverted() {
         return defaultConverted;
     }

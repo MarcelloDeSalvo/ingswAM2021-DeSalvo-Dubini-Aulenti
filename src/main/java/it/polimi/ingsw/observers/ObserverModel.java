@@ -68,9 +68,20 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     void askForLeaderCardID(String nickname);
 
     /**
-     * Asks the player where does he want to put the resources after the selection from the market
+     * Notifies all player that they received the resources from the market and that they have to choose where to put them
      */
     void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname);
+
+    /**
+     * Notifies a player that he have to choose multiple resource types for a conversion
+     */
+    void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion);
+
+    /**
+     * Notifies a player that he chose a wrong conversion
+     * @param error the error message
+     */
+    void notifyConversionError(String error);
 
     /**
      * Sends a message containing the setup information for the game
@@ -175,11 +186,6 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     void notifyMarketOk(String senderNick);
 
     /**
-     * Notifies all player that they received the resources from the market and that they have to choose where to put them
-     */
-    void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers);
-
-    /**
      * Notifies all players that they are on the final turn
      */
     void notifyLastTurn();
@@ -199,5 +205,6 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies all players that the game is over
      */
     void notifyGameEnded();
+
 
 }

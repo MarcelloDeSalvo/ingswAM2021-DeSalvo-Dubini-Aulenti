@@ -65,6 +65,7 @@ public enum Command {
     SEND_DEPOSIT_ID (false, false,true, Status.IN_GAME),
     MARKET_OK       (false,false,true,Status.IN_GAME),
     CONVERSION      (false, false, true, Status.IN_GAME),
+    CONVERSION_ERROR (false, false, true, Status.IN_GAME),
 
     END_TURN        (false, false, true, Status.IN_GAME),
 
@@ -87,6 +88,7 @@ public enum Command {
 
     ASK_MARKET_DEST (false, false, false, null),
     ASK_SETUP_RESOURCES(false,false,true,Status.IN_GAME),
+    ASK_MULTIPLE_CONVERSION(false, false, false, null),
 
     SHOW_TURN_HELP  (false,false,true,Status.IN_GAME);
 

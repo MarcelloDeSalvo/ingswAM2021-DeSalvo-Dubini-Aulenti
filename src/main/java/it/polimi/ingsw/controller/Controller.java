@@ -783,17 +783,16 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
-            //new command type needed
-            view.printReply_uni("You have multiple leaders with the conversion ability, " +
-                    "please select which one do you want to use for each blank marble by typing one of the active conversion available ", senderNick);
+            view.askMultipleConversion(currPlayer.getConversionSite().countConvertible(marketOut), currPlayer.getConversionSite().getDefaultConverted(),
+                    currPlayer.getConversionSite().getTypesAvailable());
             game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
-            conversionController(senderNick);
             return;
         }
 
         if(currPlayer.canConvert() == ConversionMode.AUTOMATIC) {
             currPlayer.convert(marketOut);
-            view.printReply_uni("All blank marbles have been converted to " + currPlayer.getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString(), senderNick);
+            view.printReply_uni("Conversion done", senderNick);
+            //view.printReply_uni("All blank marbles have been converted to " + currPlayer.getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString(), senderNick);
         }
 
         beginMarketDestinationSelection(senderNick);
@@ -901,20 +900,16 @@ public class Controller implements ObserverController {
     }
 
     /**
-     * Counts the convertible marbles
-     */
-    public void conversionController(String nick){
-        view.printReply_uni("You Have "+ currPlayer.getConversionSite().countConvertible(marketOut)+ " "+
-                currPlayer.getConversionSite().getDefaultConverted()+ " to convert, type >CONVERT ResourceType for each one", nick);
-        view.printReply_uni("Conversion available: "+ currPlayer.getConversionSite().getConversionsAvailable().toString(), nick);
-    }
-
-    /**
      * Called when the current player has more than one conversion available
      */
     public void mustConvert(String mex, Command command, String senderNick){
+
+        int numToConv = currPlayer.getConversionSite().countConvertible(marketOut);
+        ResourceType defaultConv = currPlayer.getConversionSite().getDefaultConverted();
+        ArrayList<ResourceType> available =  currPlayer.getConversionSite().getTypesAvailable();
+
         if (command != Command.CONVERSION){
-            view.printReply_uni("Please select a valid conversion", senderNick);
+            view.notifyConversionError("Please select a valid conversion");
             return;
         }
 
@@ -928,7 +923,7 @@ public class Controller implements ObserverController {
             );
 
             if (currPlayer.getConversionSite().countConvertible(marketOut)!=0){
-                view.printReply_uni("Conversion done. You must convert another marble", senderNick);
+                view.askMultipleConversion( numToConv, defaultConv, available);
                 return;
             }
 
@@ -936,8 +931,9 @@ public class Controller implements ObserverController {
             return;
         }
 
-        view.printReply_uni("You don't have this conversion available", senderNick);
 
+        view.askMultipleConversion( numToConv, defaultConv, available);
+        view.notifyConversionError("You don't have this conversion available, please retype the command CONVERT");
     }
     //------------------------------------------------------------------------------------------------------------------
 

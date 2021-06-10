@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.customImages.LabelImage;
+import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,8 +12,8 @@ public class ShowPlayerPanel extends JLayeredPane {
 
     private  String nick;
 
-    private  Gui gui;
-    private  ProductionPanel productionPanel;
+    private Gui gui;
+    private ProductionPanel productionPanel;
     private HandPanel handPanel;
 
     public ShowPlayerPanel(Gui gui,String nick) {
@@ -53,32 +54,23 @@ public class ShowPlayerPanel extends JLayeredPane {
         storage.setLayout(null);
 
         //DEPOSIT ZONE
-        DepositPanel depositPanel=new DepositPanel(gui);
+        DepositPanel depositPanel=new DepositPanel(gui, true);
         gui.getSomeonesLiteDeposit(nick).setDepositPanel(depositPanel);
         depositPanel.setBounds(70,120,320,385);
         storage.add(depositPanel);
 
-
         //VAULT
-        VaultPanel vaultPanel = new VaultPanel(gui,nick);
+        VaultPanel vaultPanel = new VaultPanel(gui, true);
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 
         this.add(storage, JLayeredPane.PALETTE_LAYER);
 
         //PRODUCTION LAYER--------------------------------------------------------------------------------------------
-        productionPanel = new ProductionPanel(gui);
+        productionPanel = new ProductionPanel(gui, true);
         productionPanel.setBounds(0,0,1920, 980);
 
         this.add(productionPanel, JLayeredPane.PALETTE_LAYER);
-
-        JPanel unclickable=new JPanel();
-        unclickable.setOpaque(false);
-        unclickable.setBounds(0,0,1920,1080);
-        unclickable.setLayout(new BorderLayout());
-
-        this.setLayer(unclickable,500);
-        this.add(unclickable,500);
 
 
 

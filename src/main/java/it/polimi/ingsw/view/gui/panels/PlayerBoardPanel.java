@@ -5,7 +5,6 @@ import it.polimi.ingsw.view.gui.customImages.LabelImage;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class PlayerBoardPanel extends JLayeredPane {
 
@@ -55,20 +54,20 @@ public class PlayerBoardPanel extends JLayeredPane {
         storage.setLayout(null);
 
         //DEPOSIT ZONE
-        depositPanel = new DepositPanel(gui);
+        depositPanel = new DepositPanel(gui, false);
         depositPanel.setBounds(70,120,320,385);
         storage.add(depositPanel);
 
 
         //VAULT
-        vaultPanel = new VaultPanel(gui);
+        vaultPanel = new VaultPanel(gui, false);
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 
         this.add(storage, JLayeredPane.PALETTE_LAYER);
 
         //PRODUCTION LAYER--------------------------------------------------------------------------------------------
-        productionPanel = new ProductionPanel(gui);
+        productionPanel = new ProductionPanel(gui, false);
         productionPanel.setBounds(0,0,1920, 980);
 
         this.add(productionPanel, JLayeredPane.PALETTE_LAYER);

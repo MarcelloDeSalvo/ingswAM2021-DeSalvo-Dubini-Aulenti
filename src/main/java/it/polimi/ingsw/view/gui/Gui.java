@@ -239,7 +239,29 @@ public class Gui extends ClientView {
     public void askForLeaderCardID(String nickname) { }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) { }
+    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
+        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setResources(containers);
+        gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(true);
+        gamePanel.getCardLayout().show(gamePanel.getMain(),"playerBoardPanel");
+        guiStatus = GuiStatus.SELECTING_DEST_AFTER_MARKET;
+    }
+
+    @Override
+    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
+        guiStatus = GuiStatus.SELECTING_CONVERSION;
+
+        int response = JOptionPane.showOptionDialog(null, "You have multiple conversion available, please choose one for each blank marble", "Conversion Request",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, decolourType(availableConversion).toArray(), decolourType(availableConversion).toArray()[0]);
+
+        if (response == -1){
+            askMultipleConversion(numToConvert, typeToConvert, availableConversion);
+            return;
+        }
+
+        ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, availableConversion.get(response), this.getNickname());
+        send(convTypeSend);
+    }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -273,6 +295,12 @@ public class Gui extends ClientView {
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
         getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+
+        for (String nick: nicknames) {
+            if(!nick.equals(this.getNickname())){
+                getSomeonesLiteDeposit(nick).setDepositPanel(new DepositPanel(this, true));
+            }
+        }
 
         this.setInGame(true);
         printOrder();
@@ -478,17 +506,14 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyResourcesArrived(ArrayList<ResourceContainer> resourceContainers) {
-       gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setResources(resourceContainers);
-       gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(true);
-       gamePanel.getCardLayout().show(gamePanel.getMain(),"playerBoardPanel");
-       guiStatus = GuiStatus.SELECTING_DEST_AFTER_MARKET;
-    }
-
-    @Override
     public void notifyMarketOk(String senderNick) {
         gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(false);
         guiStatus = GuiStatus.IDLE;
+    }
+
+    @Override
+    public void notifyConversionError(String error) {
+        infoLabel.setText(error);
     }
 
     @Override
@@ -591,10 +616,12 @@ public class Gui extends ClientView {
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
         if(senderNick.equals(getNickname()))
             getMyLiteDeposit().addSlot(maxDim,resourceType,
-                    getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation());
+                    getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation(),
+                    getGamePanel().getPlayerBoardPanel(), false);
         else
             getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
-                getGamePanel().getOtherHandPanels(senderNick).getLeaders().get(activatedLeaderId).getLocation());
+                getGamePanel().getOtherHandPanels(senderNick).getLeaders().get(activatedLeaderId).getLocation(),
+                    getGamePanel().getPlayerPanelsMap().get(senderNick), true);
     }
 
     @Override
@@ -675,6 +702,21 @@ public class Gui extends ClientView {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //UTIL METHODS------------------------------------------------------------------------------------------------------
+    private ArrayList<String> decolourType(ArrayList<ResourceType> resourceTypes){
+        ArrayList<String> addableTypes = new ArrayList<>();
+
+        for (ResourceType res: resourceTypes) {
+            if(res.canAddToVault()){
+                addableTypes.add(res.deColored());
+            }
+        }
+
+        return addableTypes;
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+
     //------------------------------------------------------------------------------------------------------------------
     @Override
     public void printReply_uni(String payload, String nickname) {
@@ -686,4 +728,5 @@ public class Gui extends ClientView {
         printReply(payload);
     }
     //------------------------------------------------------------------------------------------------------------------
+
 }

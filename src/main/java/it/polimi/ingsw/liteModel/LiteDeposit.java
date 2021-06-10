@@ -3,8 +3,10 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
+import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 import it.polimi.ingsw.view.gui.panels.DepositPanel;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -103,13 +105,13 @@ public class LiteDeposit {
     }
 
 
-    public void addSlot(int maxDim, ResourceType resourceType, Point pos) {
+    public void addSlot(int maxDim, ResourceType resourceType, Point pos, JLayeredPane playerPanel, boolean printOnly) {
         if (resourceType==null)
             deposits.add(new MiniDeposit(maxDim));
         else{
             deposits.add(new MiniDeposit(maxDim, resourceType));
             if (depositPanel!= null)
-                depositPanel.addExtraSlot(pos);
+                depositPanel.addExtraSlot(pos, playerPanel, printOnly);
         }
 
     }

@@ -23,9 +23,11 @@ public class DepositPanel extends JPanel {
     private final int labelSize = 110;
     private final Gui gui;
 
-    private JPanel extraSlots;
-
-    public DepositPanel(Gui gui) {
+    /**
+     * creates the structure for the deposits
+     * @param printOnly doesn't add the listeners if true
+     */
+    public DepositPanel(Gui gui, boolean printOnly) {
         this.gui = gui;
         selectedIds = new ArrayList<>();
         depositButtons = new HashMap<>();
@@ -45,7 +47,9 @@ public class DepositPanel extends JPanel {
         depositRow1.setOpaque(false);
 
         ResourceTypeLabel resourceTypeLabel1_1 = new ResourceTypeLabel(1,0, labelSize);
-        resourceTypeLabel1_1.addMouseListener(new DepositListener(resourceTypeLabel1_1));
+
+        if(!printOnly)
+            resourceTypeLabel1_1.addMouseListener(new DepositListener(resourceTypeLabel1_1));
 
         row1.add(resourceTypeLabel1_1);
         depositRow1.add(resourceTypeLabel1_1);
@@ -59,7 +63,8 @@ public class DepositPanel extends JPanel {
 
         for(int i = 0; i<2; i++){
             ResourceTypeLabel resourceTypeLabel2_x = new ResourceTypeLabel(2,i, labelSize);
-            resourceTypeLabel2_x.addMouseListener(new DepositListener(resourceTypeLabel2_x));
+            if(!printOnly)
+                resourceTypeLabel2_x.addMouseListener(new DepositListener(resourceTypeLabel2_x));
             row2.add(resourceTypeLabel2_x);
             depositRow2.add(resourceTypeLabel2_x);
         }
@@ -73,7 +78,8 @@ public class DepositPanel extends JPanel {
 
         for(int i = 0; i<3; i++){
             ResourceTypeLabel resourceTypeLabel3_x = new ResourceTypeLabel(3,i, labelSize);
-            resourceTypeLabel3_x.addMouseListener(new DepositListener(resourceTypeLabel3_x));
+            if(!printOnly)
+                resourceTypeLabel3_x.addMouseListener(new DepositListener(resourceTypeLabel3_x));
             depositRow3.add(resourceTypeLabel3_x);
             row3.add(resourceTypeLabel3_x);
         }
@@ -107,6 +113,9 @@ public class DepositPanel extends JPanel {
         }
     }
 
+    /**
+     * Lists the operations that you can apply to a selected deposit
+     */
     private void resourceMenu(Gui gui, ResourceTypeLabel resourceTypeLabel){
         JPopupMenu popupmenu = new JPopupMenu("Deposit Slot");
 
@@ -143,7 +152,10 @@ public class DepositPanel extends JPanel {
         popupmenu.add(submenuSwitch);
     }
 
-    public void addExtraSlot(Point position){
+    /**
+     * Adds an extra deposit
+     */
+    public void addExtraSlot(Point position, JLayeredPane playerPanel, boolean printOnly){
         ArrayList<ResourceTypeLabel> leaderRow = new ArrayList<>();
 
         JPanel leaderStorage = new JPanel();
@@ -153,20 +165,24 @@ public class DepositPanel extends JPanel {
 
         for(int i = 0; i<2; i++){
             ResourceTypeLabel resourceTypeLeader = new ResourceTypeLabel(depositButtons.size()+1, i, labelSize);
-            resourceTypeLeader.addMouseListener(new DepositListener(resourceTypeLeader));
+            if(!printOnly)
+                resourceTypeLeader.addMouseListener(new DepositListener(resourceTypeLeader));
             leaderRow.add(resourceTypeLeader);
             leaderStorage.add(resourceTypeLeader);
         }
 
         depositButtons.put(depositButtons.size()+1, leaderRow);
-        gui.getGamePanel().getPlayerBoardPanel().add(leaderStorage, JLayeredPane.POPUP_LAYER);
+        playerPanel.add(leaderStorage, JLayeredPane.POPUP_LAYER);
 
         this.revalidate();
         this.repaint();
     }
 
+    /**
+     * Sets the resource type image for a deposit
+     */
     public void setImage(ResourceContainer resourceContainer, int id){
-        int i=0;
+        int i;
         for (i = 0; i<resourceContainer.getQty(); i++) {
             depositButtons.get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
         }
@@ -176,6 +192,9 @@ public class DepositPanel extends JPanel {
         }
     }
 
+    /**
+     * Copies the images of the deposit buttons from this DepositPanel to another
+     */
     public void copy( HashMap<Integer, ArrayList<ResourceTypeLabel>> depositButtonsToClone){
         for (Integer i: depositButtons.keySet()) {
             int j=0;
@@ -204,47 +223,6 @@ public class DepositPanel extends JPanel {
     }
 
 
- /*
-    public void fill(ResourceContainer resourceContainer, int id){
-        for (Point point: selectedIds) {
-            if (point.x == id)
-                for (int i = 0; i<resourceContainer.getQty();i++)
-                    depositButtons.get(id).get(i).setResourceTypeImage(resourceContainer.getResourceType());
-        }
-        clearBuffer();
-    }
-
-    public void remove(ResourceContainer resourceContainer, int id){
-        for (Point point: selectedIds) {
-            if (point.x == id)
-                for (int i = 0; i<resourceContainer.getQty();i++)
-                    depositButtons.get(id).get(i).setResourceTypeImage(null);
-        }
-        clearBuffer();
-    }
-
-    public void clearSelected(){
-        for (Integer i: depositButtons.keySet()) {
-            for (ResourceTypeLabel depositButton : depositButtons.get(i)) {
-                if (depositButton.isSelected())
-                    depositButton.setSelected(false);
-            }
-        }
-    }
-
-    public void fillSelectedBuffer() {
-        for (Integer i: depositButtons.keySet()) {
-            for (ResourceTypeLabel depositButton : depositButtons.get(i)) {
-                if (depositButton.isSelected())
-                    selectedIds.add(new Point(depositButton.getId(), depositButton.getPos()));
-            }
-        }
-    }
-
-    public void clearBuffer(){
-        selectedIds.clear();
-    }
-     */
 
 
 }

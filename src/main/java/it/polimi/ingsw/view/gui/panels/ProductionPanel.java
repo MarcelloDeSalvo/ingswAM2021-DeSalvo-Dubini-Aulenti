@@ -22,7 +22,7 @@ public class ProductionPanel extends JPanel {
     private int buyCardIdBuffer;
     private ButtonImage done;
 
-    public ProductionPanel(Gui gui) {
+    public ProductionPanel(Gui gui, boolean printOnly) {
         this.gui = gui;
         prodSlot = new ArrayList<>();
         selectedProdSlotBuffer = new ArrayList<>();
@@ -30,43 +30,7 @@ public class ProductionPanel extends JPanel {
         this.setOpaque(false);
         this.setLayout(null);
 
-        developmentSlotButtons();
-    }
-
-    public ProductionPanel(Gui gui,String nickname){
-        this.gui = gui;
-        prodSlot = new ArrayList<>();
-        selectedProdSlotBuffer = new ArrayList<>();
-
-        this.setOpaque(false);
-        this.setLayout(null);
-
-        DevProdSlot basicProdSlot = new DevProdSlot();
-        basicProdSlot.setBounds(380 ,480,250,250);
-        this.add(basicProdSlot);
-        prodSlot.add(basicProdSlot);
-
-        for (int i=0; i<3; i++){
-            DevProdSlot clickableSlot = new DevProdSlot();
-            clickableSlot.setBounds(680 + 305*i + i*2,200,250,350);
-            this.add(clickableSlot);
-            prodSlot.add(clickableSlot);
-        }
-        //you still have to print the actual cards, best way of doing this is using the litemodelUpdate
-
-
-    }
-
-    public void addExtraSlot(Point position){
-
-        DevProdSlot clickableSlot = new DevProdSlot();
-        clickableSlot.setBounds(position.x+1650, position.y,243, 367);
-        clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, prodSlot.size()));
-        this.add(clickableSlot);
-        prodSlot.add(clickableSlot);
-
-        this.revalidate();
-        this.repaint();
+        developmentSlotButtons(printOnly);
     }
 
     private class DevProdSlot extends JPanel{
@@ -116,36 +80,72 @@ public class ProductionPanel extends JPanel {
         }
     }
 
-    private void developmentSlotButtons(){
+    /**
+     * Define the structure of the production site
+     * @param printOnly doesn't add the listeners if true
+     */
+    private void developmentSlotButtons(boolean printOnly){
         done = new ButtonImage("DONE",22, true);
         done.setBounds(680 ,580,850,100);
         done.setPreferredSize(new Dimension(850,100));
         done.setVisible(false);
-        done.addActionListener(e ->{
-            gui.send(new ProduceMessage(selectedProdSlotBuffer, gui.getNickname()));
-            selectedProdSlotBuffer.clear();
-            done.setVisible(false);
-            for (DevProdSlot slot: prodSlot) {
-                    slot.resetBorder();
-            }
-        });
+        if (!printOnly)
+            done.addActionListener(e ->{
+                gui.send(new ProduceMessage(selectedProdSlotBuffer, gui.getNickname()));
+                selectedProdSlotBuffer.clear();
+                done.setVisible(false);
+                for (DevProdSlot slot: prodSlot) {
+                        slot.resetBorder();
+                }
+            });
         this.add(done);
 
         DevProdSlot basicProdSlot = new DevProdSlot();
         basicProdSlot.setBounds(380 ,480,250,250);
-        basicProdSlot.addMouseListener(new ProdSlotClickListener(basicProdSlot, 0));
+        if(!printOnly)
+            basicProdSlot.addMouseListener(new ProdSlotClickListener(basicProdSlot, 0));
         this.add(basicProdSlot);
         prodSlot.add(basicProdSlot);
 
         for (int i=0; i<3; i++){
             DevProdSlot clickableSlot = new DevProdSlot();
             clickableSlot.setBounds(680 + 305*i + i*2,200,250,350);
-            clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, i+1));
+            if (!printOnly)
+                clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, i+1));
             this.add(clickableSlot);
             prodSlot.add(clickableSlot);
         }
 
     }
+
+    /**
+     * Adds an extra production slot to the panel
+     * @param position is the offset position
+     */
+    public void addExtraSlot(Point position){
+
+        DevProdSlot clickableSlot = new DevProdSlot();
+        clickableSlot.setBounds(position.x+1650, position.y,243, 367);
+        clickableSlot.addMouseListener(new ProdSlotClickListener(clickableSlot, prodSlot.size()));
+        this.add(clickableSlot);
+        prodSlot.add(clickableSlot);
+
+        this.revalidate();
+        this.repaint();
+    }
+
+    /**
+     * Prints a bought card inside the production site panel
+     * @param slotId the slot that will contain the card
+     * @param cardId the card id
+     * @param board the layered board that contains the production panel
+     */
+    public void printBoughtCard(int slotId, int cardId, JLayeredPane board){
+        ButtonImage devCard = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+cardId+".jpg", new Dimension(173,262));
+        getProdSlot().get(slotId).addCard(devCard, board);
+        this.repaint();
+    }
+
     private class ProdSlotClickListener extends MouseAdapter {
         private final DevProdSlot prodSlot;
         private final int id;
@@ -193,12 +193,6 @@ public class ProductionPanel extends JPanel {
         }
     }
 
-    public void printBoughtCard(int slotId, int cardId, JLayeredPane board){
-        ButtonImage devCard = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+cardId+".jpg", new Dimension(173,262));
-        getProdSlot().get(slotId).addCard(devCard, board);
-        this.repaint();
-    }
-
     public ArrayList<DevProdSlot> getProdSlot() {
         return prodSlot;
     }
@@ -210,8 +204,4 @@ public class ProductionPanel extends JPanel {
     public void setBuyCardIdBuffer(int buyCardIdBuffer) {
         this.buyCardIdBuffer = buyCardIdBuffer;
     }
-
-
-
-
 }
