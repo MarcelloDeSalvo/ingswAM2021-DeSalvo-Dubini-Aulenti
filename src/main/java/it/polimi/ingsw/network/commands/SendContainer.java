@@ -4,13 +4,10 @@ package it.polimi.ingsw.network.commands;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 
 public class SendContainer extends Message{
-
     private final ResourceContainer container;
-
     private final String destination; //Vault or Deposit
     private int destinationID;
     private boolean added;
-
 
     /**
      * Notifies the clients that a container is added or removed inside a Vault

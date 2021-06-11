@@ -204,7 +204,7 @@ public abstract class ClientView implements View, UserInput {
                 notifyDepositChanges(depositUpdate.getDestinationID(), depositUpdate.getContainer(), depositUpdate.isAdded(), senderNick);
                 break;
 
-            case NOTIFY_NEW_PRODSLOT:
+            case NOTIFY_NEW_PROD_SLOT:
                 NewProductionSlotMessage newProductionSlotMessage = gson.fromJson(mex, NewProductionSlotMessage.class);
                 notifyNewProductionSlot(newProductionSlotMessage.getProductionAbility(), senderNick);
                 break;

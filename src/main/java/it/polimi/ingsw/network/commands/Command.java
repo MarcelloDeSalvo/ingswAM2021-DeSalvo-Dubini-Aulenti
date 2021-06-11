@@ -76,7 +76,7 @@ public enum Command {
     NOTIFY_DEPOSIT_UPDATE       (false, false, true, Status.IN_GAME),
     NOTIFY_NEW_DEPOSIT          (false, false, true, Status.IN_GAME),
     NOTIFY_VAULT_UPDATE         (false, false, true, Status.IN_GAME),
-    NOTIFY_NEW_PRODSLOT         (false, false, true, Status.IN_GAME),
+    NOTIFY_NEW_PROD_SLOT        (false, false, true, Status.IN_GAME),
     NOTIFY_HAND                 (false,false,true, Status.IN_GAME),
     NOTIFY_FAITHPATH_CURRENT    (false,false,true, Status.IN_GAME),
     NOTIFY_FAITHPATH_OTHERS     (false,false,true, Status.IN_GAME),

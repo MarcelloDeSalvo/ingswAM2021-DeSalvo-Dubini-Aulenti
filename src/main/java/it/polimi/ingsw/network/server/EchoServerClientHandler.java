@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-
 public class EchoServerClientHandler implements Runnable {
 
     private boolean logged = false;
@@ -48,11 +47,15 @@ public class EchoServerClientHandler implements Runnable {
 
                     if (logged){
                         out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                .setInfo("Incorrect command, please use the LOGIN command").build().serialize());
+                                .setInfo("Incorrect command, you are already logged in the server!").build().serialize());
 
                     }else{
 
-                        if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
+                        if(nickname.equalsIgnoreCase("lorenzo")) {
+                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                                    .setInfo("Sorry but you cannot use the nickname '" + nickname + "'").build().serialize());
+                        }
+                        else if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
                             out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
                                     setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() + "---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
                                     build().serialize());
@@ -74,7 +77,7 @@ public class EchoServerClientHandler implements Runnable {
 
                             if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
                                 out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                        .setInfo("Sorry, but the nickname is already in use. Try submitting another one again").build().serialize());
+                                        .setInfo("Sorry, but the nickname is already in use. Try submitting another one").build().serialize());
                             else {
                                 out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
                                         .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
@@ -89,11 +92,10 @@ public class EchoServerClientHandler implements Runnable {
                     }
                 }
                 else {
-                    if (user!=null)
+                    if (user != null)
                         user.notifyServerAreas(command, receivedMex);
                 }
             }
-
 
         }catch (IllegalThreadStateException | IOException e){
             System.out.println("# The user logged out before entering a nickname -> " + "IP: " + socket.getInetAddress());

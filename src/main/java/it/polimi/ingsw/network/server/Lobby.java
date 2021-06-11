@@ -299,7 +299,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             coloredClosed = Color.ANSI_GREEN.escape();
 
 
-
         return available+"\u06DD Lobby " + Color.ANSI_RESET.escape() + lobbyName +
                 ", connected=" + numOfPlayersConnected + "/" + maxPlayers +
                 ", Owner=" + owner.getNickname() +

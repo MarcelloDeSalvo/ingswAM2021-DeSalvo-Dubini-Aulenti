@@ -12,8 +12,8 @@ public class LobbyListMessage extends Message{
         private final int maxPlayers;
         private final int numOfPlayersConnected;
 
-        private boolean isFull = false;
-        private boolean isClosed = false;
+        private final boolean isFull;
+        private final boolean isClosed;
 
         public LobbyInfo(String lobbyName, String  owner, int numOfPlayersConnected, int maxPlayers, boolean isFull, boolean isClosed) {
             this.lobbyName = lobbyName;
@@ -49,11 +49,17 @@ public class LobbyListMessage extends Message{
         }
     }
 
+    /**
+     * Message from the server. Used to send the list of all Lobbies (and their infos) through the network.
+     */
     public LobbyListMessage(String senderNickname) {
         super(new MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(senderNickname));
         this.lobbyInfos = new ArrayList<>();
     }
 
+    /**
+     * Adds a new element to lobbyInfos
+     */
     public void addLobbyInfos(String lobbyName, String  owner, int numOfPlayersConnected, int maxPlayers, boolean isFull, boolean isClosed){
         lobbyInfos.add(new LobbyInfo(lobbyName, owner, numOfPlayersConnected, maxPlayers, isFull, isClosed));
     }
@@ -61,7 +67,6 @@ public class LobbyListMessage extends Message{
     public ArrayList<LobbyInfo> getLobbiesInfos() {
         return lobbyInfos;
     }
-
 
     @Override
     public String toString() {

@@ -9,6 +9,10 @@ public class Message {
     private final Target target;
     private final String senderNickname;
 
+    /**
+     * Generic type of message. Extended by every message we used.
+     * @param messageBuilder used to build a message with the features desired
+     */
     public Message(MessageBuilder messageBuilder) {
         this.command = messageBuilder.command;
         this.info = messageBuilder.info;
@@ -42,7 +46,6 @@ public class Message {
             return this;
         }
 
-
         public Message build(){
             return new Message(this);
         }
@@ -67,7 +70,6 @@ public class Message {
     public String getSenderNickname() {
         return senderNickname;
     }
-
 
     @Override
     public String toString() {

@@ -200,7 +200,6 @@ public class VirtualView implements View {
     @Override
     public void notifyPapalFavour(ArrayList<Integer> playerFavours, String nickname) {
         notifyUsers(new PapalFavourUpdateMessage(playerFavours,nickname));
-
     }
 
     @Override
@@ -297,7 +296,7 @@ public class VirtualView implements View {
     public void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick) {
         notifyUsers(
                 new NewProductionSlotMessage(
-                new Message.MessageBuilder().setCommand(Command.NOTIFY_NEW_PRODSLOT).setTarget(Target.BROADCAST).setNickname(currPlayer),
+                new Message.MessageBuilder().setCommand(Command.NOTIFY_NEW_PROD_SLOT).setTarget(Target.BROADCAST).setNickname(currPlayer),
                 productionAbility)
         );
     }

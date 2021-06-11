@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.view.cli.Color;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class LitePlayerBoard {
