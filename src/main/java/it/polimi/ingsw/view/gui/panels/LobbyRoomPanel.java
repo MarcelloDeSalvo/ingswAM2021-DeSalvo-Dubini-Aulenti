@@ -11,13 +11,10 @@ import java.util.ArrayList;
 
 public class LobbyRoomPanel extends JPanel {
 
-    private final Gui gui;
     private final JPanel playerList;
-    private final JPanel lobbyOptions;
 
     public LobbyRoomPanel(Gui gui) {
         super();
-        this.gui = gui;
 
         this.setLayout(new BorderLayout());
 
@@ -27,7 +24,7 @@ public class LobbyRoomPanel extends JPanel {
 
         playerList.setFont(new Font("Helvetica", Font.PLAIN, 34));
 
-        lobbyOptions = new JPanel();
+        JPanel lobbyOptions = new JPanel();
         lobbyOptions.setBorder(BorderFactory.createEmptyBorder(60,100,50,100));
         GridLayout gridLayout = new GridLayout(0,2);
         gridLayout.setHgap(30);

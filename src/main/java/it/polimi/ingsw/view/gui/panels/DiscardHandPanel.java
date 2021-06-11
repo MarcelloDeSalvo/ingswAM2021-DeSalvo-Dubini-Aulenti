@@ -17,6 +17,9 @@ public class DiscardHandPanel extends JPanel {
     private final Gui gui;
     private int discountCounter = 0;
 
+    /**
+     * Builds the panel used to determine which of the 4 leader cards the user wants to keep
+     */
     public DiscardHandPanel(LiteHand hand, Gui gui){
         super();
         this.gui=gui;
@@ -43,7 +46,9 @@ public class DiscardHandPanel extends JPanel {
         drawCards();
     }
 
-
+    /**
+     * Creates and the displays the leaderCards as ButtonImages
+     */
     private void drawCards() {
         ArrayList<Integer> IDs=liteHand.getHand();
 

@@ -2,24 +2,20 @@ package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.customImages.LabelImage;
-import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ShowPlayerPanel extends JLayeredPane {
+    private final ProductionPanel productionPanel;
+    private final HandPanel handPanel;
 
-    private  String nick;
-
-    private Gui gui;
-    private ProductionPanel productionPanel;
-    private HandPanel handPanel;
-
+    /**
+     * Creates a panel containing a view-only version of another player's board
+     */
     public ShowPlayerPanel(Gui gui,String nick) {
         super();
-        this.gui=gui;
-        this.nick=nick;
 
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);

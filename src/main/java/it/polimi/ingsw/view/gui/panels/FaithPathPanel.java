@@ -11,20 +11,21 @@ import java.util.ArrayList;
 
 public class FaithPathPanel extends BackgroundImagePanel {
 
-    private Gui gui;
-    private LiteFaithPath liteFaithPath;
-    private Point point;
-    private ArrayList<Point> points;
-    private ArrayList<Point> ticketPoints;
+    private final Gui gui;
+    private final ArrayList<Point> ticketPoints;
 
-    private ArrayList<RedCrossImage> redCrossImages;
-    private ArrayList<TicketImage> ticketImages;
+    private final ArrayList<RedCrossImage> redCrossImages;
+    private final ArrayList<TicketImage> ticketImages;
     private int ticketsCounter;
 
+    /**
+     * Creates the panel used to display the common faithpath the players share
+     */
     public FaithPathPanel(Gui gui, LiteFaithPath liteFaithPath) throws ImageNotFound {
         super("/images/backgrounds/FaithPath.jpg", 50, 250, true);
+        this.gui=gui;
 
-        points = new ArrayList<>();
+        ArrayList<Point> points = new ArrayList<>();
         ticketPoints = new ArrayList<>();
         ticketImages = new ArrayList<>();
 
@@ -43,7 +44,7 @@ public class FaithPathPanel extends BackgroundImagePanel {
         int i = 0;
         int off = 50;
         for (String nickname: liteFaithPath.getNicknames()) {
-            RedCrossImage redCrossImage = new RedCrossImage(gui, "/images/others/croceRossa.png",
+            RedCrossImage redCrossImage = new RedCrossImage(gui, "/images/others/redCross.png",
                     new Dimension(30, 30), points.get(i), this, nickname, off);
             off+=20;
 
@@ -57,10 +58,9 @@ public class FaithPathPanel extends BackgroundImagePanel {
 
     }
 
-    public ArrayList<RedCrossImage> getRedCrossImages() {
-        return redCrossImages;
-    }
-
+    /**
+     * This method adds to the faithpath the newly "flipped" Papal Favour and all the players that earned it
+     */
     public void printTicket(int point, ArrayList<String> playerThatGotThePoint){
 
         if(ticketImages.size()<=point-2){
@@ -81,6 +81,10 @@ public class FaithPathPanel extends BackgroundImagePanel {
 
     }
 
+    /**
+     * Increases the position of senderNick in the faithPath
+     * @param senderNick player that moved forward
+     */
     public void incRedCrossImages(String senderNick, int qty) {
         for (RedCrossImage red: redCrossImages) {
             if (red.getNick().equals(senderNick))
@@ -88,6 +92,11 @@ public class FaithPathPanel extends BackgroundImagePanel {
                     red.increasePos();
         }
     }
+
+    /**
+     * Increases the position of everyone BUT senderNick in the faithPath
+     * @param senderNick player that discarded resources
+     */
 
     public void incOtherRedCrossImages(String senderNick, int qty) {
         for (RedCrossImage red: redCrossImages) {

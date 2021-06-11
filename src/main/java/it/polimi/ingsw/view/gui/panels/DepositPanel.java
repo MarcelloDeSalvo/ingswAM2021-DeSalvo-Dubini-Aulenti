@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 public class DepositPanel extends JPanel {
     private final HashMap<Integer, ArrayList<ResourceTypeLabel>> depositButtons;
-    private final ArrayList<Point> selectedIds;
 
     private final int labelSize = 110;
     private final Gui gui;
@@ -29,7 +28,6 @@ public class DepositPanel extends JPanel {
      */
     public DepositPanel(Gui gui, boolean printOnly) {
         this.gui = gui;
-        selectedIds = new ArrayList<>();
         depositButtons = new HashMap<>();
 
         this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -205,18 +203,6 @@ public class DepositPanel extends JPanel {
         }
     }
 
-    public ArrayList<Integer> getSelectedIds() {
-        ArrayList<Integer> iDs =  new ArrayList<>();
-
-        for (Integer i: depositButtons.keySet()) {
-            for (ResourceTypeLabel resourceTypeLabel : depositButtons.get(i)) {
-                if (resourceTypeLabel.isSelected())
-                    iDs.add(resourceTypeLabel.getId());
-            }
-        }
-
-        return iDs;
-    }
 
     public HashMap<Integer, ArrayList<ResourceTypeLabel>> getDepositButtons() {
         return depositButtons;

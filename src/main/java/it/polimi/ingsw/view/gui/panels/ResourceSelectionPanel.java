@@ -18,6 +18,9 @@ public class ResourceSelectionPanel extends JPanel {
     private ResourceType selectedResource;
     private final DepositPanel depositPanel;
 
+    /**
+     * Creates a panel used for the selection of the bonus resources at the beginning of the game
+     */
     public ResourceSelectionPanel(Gui gui) {
         super();
         this.gui = gui;
@@ -68,6 +71,10 @@ public class ResourceSelectionPanel extends JPanel {
 
     }
 
+    /**
+     * Adds the action listeners to button
+     * @param button input ButtonImage
+     */
     private void resourceActionWindow (ButtonImage button){
         JPopupMenu popupmenu = new JPopupMenu("Resource Action");
         JMenuItem deposit1 = new JMenuItem("Deposit 1");

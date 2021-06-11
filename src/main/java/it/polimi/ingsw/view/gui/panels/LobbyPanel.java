@@ -11,8 +11,11 @@ import java.util.ArrayList;
 public class LobbyPanel extends BackgroundImagePanel {
 
     private final Gui gui;
-    private JPanel lobbies;
+    private final JPanel lobbies;
 
+    /**
+     * Creates the panel used to display the current lobbies
+     */
     public LobbyPanel(Gui gui,ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos ) {
         super("/images/backgrounds/lobbyBackground.png", -688, 5, false);
 

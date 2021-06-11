@@ -15,6 +15,9 @@ public class CardGridPanel extends JPanel {
     private final Gui gui;
     private final LiteCardGrid liteCardGrid;
 
+    /**
+     * Creates the panel containing the development card grid
+     */
     public CardGridPanel(Gui gui, LiteCardGrid liteCardGrid) {
         this.gui = gui;
         this.liteCardGrid = liteCardGrid;
@@ -29,6 +32,9 @@ public class CardGridPanel extends JPanel {
         }
     }
 
+    /**
+     * Sets up the actionListeners for the input ButtonImage
+     */
     public void buyMenu(ButtonImage button, int id){
         JPopupMenu popupmenu = new JPopupMenu("Development Card");
         JMenuItem buy = new JMenuItem("Buy");
@@ -51,6 +57,10 @@ public class CardGridPanel extends JPanel {
 
     }
 
+    /**
+     * Called when a card is bought or removed, this method removes all the current cards and rebuilds the panel based <br>
+     * on the state of the updated grid
+     */
     public void updateGrid(){
         this.removeAll();
         for (Integer id: liteCardGrid.getGUIcardIDs()) {

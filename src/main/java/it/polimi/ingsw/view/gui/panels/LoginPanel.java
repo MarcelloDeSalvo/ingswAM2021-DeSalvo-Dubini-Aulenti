@@ -27,13 +27,13 @@ public class LoginPanel extends JPanel {
 
         BufferedImage img = null;
         try {
-            img = ImageIO.read(this.getClass().getResourceAsStream("/images/others/copertina.png"));
+            img = ImageIO.read(this.getClass().getResourceAsStream("/images/others/titleScreen.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Image dimg = img.getScaledInstance(600, 300,
+        Image dImg = img.getScaledInstance(600, 300,
                 Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(dimg);
+        ImageIcon imageIcon = new ImageIcon(dImg);
         title.setIcon(imageIcon);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 

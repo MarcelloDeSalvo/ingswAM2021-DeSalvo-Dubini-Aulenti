@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.commands.ProduceMessage;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
-import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -193,15 +192,9 @@ public class ProductionPanel extends JPanel {
         }
     }
 
-    public ArrayList<DevProdSlot> getProdSlot() {
-        return prodSlot;
-    }
+    public ArrayList<DevProdSlot> getProdSlot() { return prodSlot; }
 
-    public int getBuyCardIdBuffer() {
-        return buyCardIdBuffer;
-    }
+    public int getBuyCardIdBuffer() { return buyCardIdBuffer; }
 
-    public void setBuyCardIdBuffer(int buyCardIdBuffer) {
-        this.buyCardIdBuffer = buyCardIdBuffer;
-    }
+    public void setBuyCardIdBuffer(int buyCardIdBuffer) { this.buyCardIdBuffer = buyCardIdBuffer; }
 }

@@ -53,11 +53,12 @@ public class Gui extends ClientView {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-
+    /**
+     * Creates the main JFrame and starts the login phase
+     */
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
         frame.setSize(1200,800);
-        //frame.pack();
         ImageIcon barbagialla=new ImageIcon(getClass().getResource("/images/others/barbagiallaenave.png"));
         frame.setIconImage(barbagialla.getImage());
         frame.setResizable(false);
@@ -91,7 +92,7 @@ public class Gui extends ClientView {
     @Override
     public void onDisconnect(User user) {
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
         int option = JOptionPane.showConfirmDialog(frame,
                 "           I'm sorry, something went really wrong!         " +
@@ -171,7 +172,7 @@ public class Gui extends ClientView {
     @Override
     public void printItsYourTurn(String nickname) {
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
         JOptionPane.showMessageDialog(frame,
                 "IT'S YOUR TURN, CHOSE AN ACTION: " +
@@ -215,7 +216,7 @@ public class Gui extends ClientView {
         }
 
         ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/others/retrocerchi.png"));
+        icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
         JOptionPane.showMessageDialog(frame,
                 orderBuild.toString(),
@@ -271,12 +272,7 @@ public class Gui extends ClientView {
         try {
             gamePanel = new GamePanel(this, getLiteFaithPath(), this.getLiteCardGrid(),this.getLiteMarket());
             getMyLiteDeposit().setDepositPanel(gamePanel.getPlayerBoardPanel().getDepositPanel());
-            //Inizializzo un nuovo deposit panel agli altri lite model forse da togliere
-           /* for (String nick:this.getLiteFaithPath().getNicknames()) {
-                if(!nick.equals(this.getNickname()) && !nick.equals("LORENZO")){
-                    getSomeonesLiteDeposit(nick).setDepositPanel(new DepositPanel(this));
-                }
-            }*/
+
         } catch (ImageNotFound e) {
             System.out.println("A critical error has occurred! File not Found");
             System.exit(-1);
@@ -424,6 +420,9 @@ public class Gui extends ClientView {
         fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
     }
 
+    /**
+     * creates JOptionPanes to let the user select which resources the question marks should be
+     */
     private void fillWindow (int qmi, int qmo, ArrayList<String> addableTypes, ArrayList<ResourceType> toSend, ArrayList<ResourceType> resources, int productionID) {
 
         for(int i = qmi; i>0; i--){
@@ -435,7 +434,6 @@ public class Gui extends ClientView {
                 return;
             } else {
                 toSend.add(resources.get(response));
-                //fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
             }
         }
         for(int i = qmo; i>0; i--){
@@ -447,7 +445,6 @@ public class Gui extends ClientView {
                 return;
             } else {
                 toSend.add(resources.get(response));
-                //fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
             }
         }
 
@@ -457,6 +454,9 @@ public class Gui extends ClientView {
 
     }
 
+    /**
+     * Sends an empty fill massage in case you want to cancel your action
+     */
     private void resetProductionFill(){
         guiStatus = GuiStatus.IDLE;
         send(new ResourceTypeSend(Command.FILL_QM, new ArrayList<>(), getNickname()));
@@ -688,21 +688,19 @@ public class Gui extends ClientView {
 
 
     //GETTER SETTER-----------------------------------------------------------------------------------------------------
-    public GuiStatus getGuiStatus() {
-        return guiStatus;
-    }
+    public GuiStatus getGuiStatus() { return guiStatus; }
 
-    public void setGuiStatus(GuiStatus guiStatus) {
-        this.guiStatus = guiStatus;
-    }
+    public void setGuiStatus(GuiStatus guiStatus) { this.guiStatus = guiStatus; }
 
-    public GamePanel getGamePanel() {
-        return gamePanel;
-    }
+    public GamePanel getGamePanel() { return gamePanel; }
     //------------------------------------------------------------------------------------------------------------------
 
 
     //UTIL METHODS------------------------------------------------------------------------------------------------------
+
+    /**
+     * Method used to remove the ansi color from the ResourceType toString
+     */
     private ArrayList<String> decolourType(ArrayList<ResourceType> resourceTypes){
         ArrayList<String> addableTypes = new ArrayList<>();
 

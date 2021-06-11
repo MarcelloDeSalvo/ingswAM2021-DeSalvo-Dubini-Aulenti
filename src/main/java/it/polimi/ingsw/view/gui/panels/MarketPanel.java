@@ -19,6 +19,9 @@ public class MarketPanel extends BackgroundImagePanel{
     private final JPanel mainPanel;
     private final JPanel marketBox;
 
+    /**
+     * Constructor for the panel used to show the market. It sets up all the borders, backgrounds and buttons
+     */
     public MarketPanel(Gui gui, LiteMarket liteMarket) throws ImageNotFound{
         super("/images/backgrounds/marketBackground.png", 650, 5, false);
         this.setLayout(new BorderLayout());
@@ -58,9 +61,8 @@ public class MarketPanel extends BackgroundImagePanel{
         for(int i=0;i<3;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
             final int j=i+1;
-            buttonImage.addActionListener(e->{
-                gui.send(new MarketMessage("ROW", j, gui.getNickname()));
-            });
+            buttonImage.addActionListener(e->   gui.send(new MarketMessage("ROW", j, gui.getNickname())));
+
             rowButtons.add(buttonImage);
             rowButtons.add(Box.createVerticalGlue());
         }
@@ -71,9 +73,8 @@ public class MarketPanel extends BackgroundImagePanel{
         for(int i=0;i<4;i++){
             ButtonImage buttonImage=new ButtonImage(" + ",false);
             final int j=i+1;
-            buttonImage.addActionListener(e->{
-                gui.send(new MarketMessage("COLUMN", j, gui.getNickname()));
-            });
+            buttonImage.addActionListener(e-> gui.send(new MarketMessage("COLUMN", j, gui.getNickname())));
+
             columnButtons.add(buttonImage);
             columnButtons.add(Box.createHorizontalGlue());
         }
@@ -97,6 +98,9 @@ public class MarketPanel extends BackgroundImagePanel{
 
     }
 
+    /**
+     * Builds and displays the marbles from the LiteMarket
+     */
     public void showMarket(){
         ArrayList<ResourceContainer> marbleArray = liteMarket.getGuiMarketArray();
 
@@ -108,8 +112,8 @@ public class MarketPanel extends BackgroundImagePanel{
         marbles.setLayout(new GridLayout(3,4));
         marbles.setOpaque(false);
 
-        for (ResourceContainer marb :marbleArray) {
-            ButtonImage buttonImage = new ButtonImage("/images/marbles/marble"+marb.getResourceType().deColored().toLowerCase()+".png", new Dimension(60,60));
+        for (ResourceContainer marble :marbleArray) {
+            ButtonImage buttonImage = new ButtonImage("/images/marbles/marble"+marble.getResourceType().deColored().toLowerCase()+".png", new Dimension(60,60));
             buttonImage.setBorderPainted(false);
             buttonImage.setOpaque(false);
             buttonImage.setContentAreaFilled(false);

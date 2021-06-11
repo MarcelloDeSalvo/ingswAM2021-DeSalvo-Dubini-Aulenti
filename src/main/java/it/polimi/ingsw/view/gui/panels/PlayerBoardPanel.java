@@ -8,18 +8,16 @@ import java.awt.*;
 
 public class PlayerBoardPanel extends JLayeredPane {
 
-    private final Gui gui;
     private final DepositPanel depositPanel;
     private final ProductionPanel productionPanel;
-    private final VaultPanel vaultPanel;
     private final AfterMarketPanel afterMarketPanel;
     private final HandPanel handPanel;
 
+    /**
+     * Creates the panel used to display your board
+     */
     public PlayerBoardPanel(Gui gui) {
         super();
-        this.gui = gui;
-
-        //THIS IS STILL A COPY OF PLAYERBOARDPANEL
 
         this.setLayout(null);
         this.setBounds(0, 0, 1920, 980);
@@ -60,7 +58,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
 
         //VAULT
-        vaultPanel = new VaultPanel(gui, false);
+        VaultPanel vaultPanel = new VaultPanel(gui, false);
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 
@@ -87,11 +85,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
     public ProductionPanel getProductionPanel() { return productionPanel; }
 
-    public VaultPanel getVaultPanel() { return vaultPanel; }
-
     public AfterMarketPanel getAfterMarketPanel() { return afterMarketPanel;  }
-
-    public void visibleMarketOut(){afterMarketPanel.setVisible(true);}
 
     public HandPanel getHandPanel() { return handPanel; }
 }

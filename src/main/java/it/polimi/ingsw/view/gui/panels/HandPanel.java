@@ -19,6 +19,9 @@ public class HandPanel extends JPanel {
     private final Gui gui;
     private final HashMap<Integer, JButton> leaders;
 
+    /**
+     * Generic constructor for the panel that displays your Hand
+     */
     public HandPanel(Gui gui) {
         super();
         this.gui = gui;
@@ -53,8 +56,10 @@ public class HandPanel extends JPanel {
 
     }
 
-
-
+    /**
+     * Adds the action listeners to button
+     * @param button input ButtonCard
+     */
     private void leaderActionWindow (int selectedID, ButtonCard button){
         JPopupMenu popupmenu = new JPopupMenu("Leader Action");
         JMenuItem activate = new JMenuItem("Activate");
@@ -85,9 +90,6 @@ public class HandPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         ArrayList<Integer> IDs = gui.getSomeonesHand(nick).getHand();
-        System.out.println("Io ne ho attivi "+gui.getMyHand().getLeadersActiveNumber());
-        int activated= gui.getSomeonesHand(nick).getLeadersActiveNumber();
-        System.out.println("L'ho rifatto, activated "+activated);
         int j=0;
         this.add(Box.createVerticalGlue());
 

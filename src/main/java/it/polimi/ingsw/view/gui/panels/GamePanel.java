@@ -8,7 +8,6 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
-import it.polimi.ingsw.view.gui.customJObject.ShowPlayerBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +20,7 @@ public class GamePanel extends JPanel {
     private final PlayerBoardPanel playerBoardPanel;
     private final CardGridPanel cardGridPanel;
     private final MarketPanel marketPanel;
-    private ArrayList<String> nicknames;
+    private final ArrayList<String> nicknames;
     private final HashMap<String,ShowPlayerPanel> playerPanelsMap;
 
     private final Gui gui;
@@ -32,6 +31,9 @@ public class GamePanel extends JPanel {
 
     private JLabel notifyLabel;
 
+    /**
+     * Creates tha main panel in which the game takes place
+     */
     public GamePanel(Gui gui, LiteFaithPath liteFaithPath, LiteCardGrid liteCardGrid, LiteMarket liteMarket) throws ImageNotFound {
         super();
         this.gui = gui;
@@ -88,7 +90,7 @@ public class GamePanel extends JPanel {
 
     private void topPanel(){
         topPanel = new JPanel();
-        notifyLabel= new JLabel("NOTIFICHE GAME", JLabel.CENTER);
+        notifyLabel= new JLabel("GAME UPDATES", JLabel.CENTER);
         notifyLabel.setFont(new Font("Rubik", Font.BOLD, 24));
         notifyLabel.setForeground(new Color(255,255,255));
         notifyLabel.setOpaque(false);
@@ -102,13 +104,14 @@ public class GamePanel extends JPanel {
         buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
         nicknames.remove(gui.getNickname());
-        JComboBox nickList = new JComboBox(nicknames.toArray(new String[0]));
+        JComboBox<String> nickList = new JComboBox<>(nicknames.toArray(new String[0]));
+        if(nicknames.get(0).equals("LORENZO")) {
+            nickList.setVisible(false);
 
+        }
         JButton showPlayer = new ButtonImage(" PLAYER ", 22,true);
 
-        showPlayer.addActionListener(e -> {
-            cardLayout.show(main,  nicknames.get(nickList.getSelectedIndex())+"Panel");
-        });
+        showPlayer.addActionListener(e -> cardLayout.show(main,  nicknames.get(nickList.getSelectedIndex())+"Panel"));
 
         JButton show_my_board = new ButtonImage(" MY BOARD ", 22,true);
         show_my_board.addActionListener(e -> cardLayout.show(main, "playerBoardPanel"));
@@ -133,12 +136,16 @@ public class GamePanel extends JPanel {
 
         buttons.setBackground(new Color(255, 235, 204));
         buttons.add(Box.createRigidArea(new Dimension(300,30)));
-        buttons.add(nickList);
+
+        if(nicknames.get(0).equals("LORENZO"))
+            buttons.add(Box.createRigidArea(new Dimension(100,30)));
+        else
+            buttons.add(nickList);
+
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(showPlayer);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(show_my_board);
-        //buttons.add(Box.createHorizontalGlue());
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(showFaithpath);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
@@ -154,45 +161,23 @@ public class GamePanel extends JPanel {
 
     }
 
-    public FaithPathPanel getFaithPathPanel() {
-        return faithPathPanel;
-    }
+    public FaithPathPanel getFaithPathPanel() { return faithPathPanel; }
 
-    public PlayerBoardPanel getPlayerBoardPanel() {
-        return playerBoardPanel;
-    }
+    public PlayerBoardPanel getPlayerBoardPanel() { return playerBoardPanel; }
 
-    public JPanel getMain() {
-        return main;
-    }
+    public JPanel getMain() { return main; }
 
-    public CardLayout getCardLayout() {
-        return cardLayout;
-    }
+    public CardLayout getCardLayout() { return cardLayout; }
 
-    public JPanel getButtons() {
-        return buttons;
-    }
+    public JPanel getButtons() { return buttons; }
 
-    public JPanel getTopPanel() {
-        return topPanel;
-    }
+    public JLabel getNotifyLabel() { return notifyLabel; }
 
-    public JLabel getNotifyLabel() {
-        return notifyLabel;
-    }
+    public CardGridPanel getCardGridPanel() { return cardGridPanel; }
 
-    public CardGridPanel getCardGridPanel() {
-        return cardGridPanel;
-    }
+    public MarketPanel getMarketPanel() { return marketPanel; }
 
-    public MarketPanel getMarketPanel() {
-        return marketPanel;
-    }
-
-    public HashMap<String, ShowPlayerPanel> getPlayerPanelsMap() {
-        return playerPanelsMap;
-    }
+    public HashMap<String, ShowPlayerPanel> getPlayerPanelsMap() { return playerPanelsMap; }
 
     public HandPanel getOtherHandPanels(String nick){ return playerPanelsMap.get(nick).getHandPanel();}
 

@@ -8,7 +8,6 @@ import java.awt.*;
 
 public class BackgroundImagePanel extends JPanel {
 
-    private final String path;
     private final Image backGroundImg;
     private final int x;
     private final int y;
@@ -19,7 +18,6 @@ public class BackgroundImagePanel extends JPanel {
     private int height = 0;
 
     public BackgroundImagePanel(String path, int x, int y, boolean absolutePosition) throws ImageNotFound {
-        this.path = path;
         this.x = x;
         this.y = y;
 
@@ -36,7 +34,6 @@ public class BackgroundImagePanel extends JPanel {
     }
 
     public BackgroundImagePanel(String path, boolean absolutePosition) throws ImageNotFound {
-        this.path = path;
         this.x = 0;
         this.y = 0;
 
