@@ -14,8 +14,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class User implements ObservableViewIO {
 
     private final String nickname;
-    //private ServerReceiver serverReceiver;
-    //private ServerSender serverSender;
     private final List<ObserverViewIO> serverAreas;
     private final PrintWriter out;
 
@@ -34,24 +32,8 @@ public class User implements ObservableViewIO {
         serverConnectionCheck.start();
     }
 
-    /*
-    public User(String nickname, ServerReceiver serverReceiver, ServerSender serverSender, Status status) {
-        this.nickname = nickname;
-        this.serverReceiver = serverReceiver;
-        this.serverSender = serverSender;
-        this.status = status;
-
-        //serverReceiver.addThreadObserver(this);
-
-        serverAreas = new CopyOnWriteArrayList<>();
-        ServerConnectionCheck serverConnectionCheck = new ServerConnectionCheck();
-        serverConnectionCheck.start();
-    } */
-
     //USER CONNECTION STABILITY-----------------------------------------------------------------------------------------
-    public void reconnect(ServerReceiver serverReceiver, ServerSender serverSender){
-        //this.serverReceiver=serverReceiver;
-        //this.serverSender=serverSender;
+    public void reconnect(){
         active=true;
         ServerConnectionCheck serverConnectionCheck=new ServerConnectionCheck();
         serverConnectionCheck.start();
@@ -78,8 +60,7 @@ public class User implements ObservableViewIO {
                     } else {
                         active = false;
                         System.out.println(nickname + " disconnected!");
-                        //serverReceiver.exit();
-                        //serverSender.exit();
+
                         for (ObserverViewIO obs:serverAreas) {
                             obs.onDisconnect(getThis());
                         }
@@ -96,11 +77,13 @@ public class User implements ObservableViewIO {
     }
 
     /**
-     * Updates the user when a Pong is successfully received.
+     * Sends a message through the socket
+     * @param message the message to send
      */
-    public void pongReceived(){
-        System.out.println("PONG RECEIVED IN USER: " + nickname);
-        received = 3;
+    public synchronized void userSend(Message message){
+        String stringToSend = message.serialize();
+        out.println(stringToSend);
+        out.flush();
     }
 
     @Override
@@ -116,6 +99,23 @@ public class User implements ObservableViewIO {
         }
     }
 
+    /**
+     * This method is used to notify when the game ends so that the Lobby can set itself to 'isClosed = false'
+     */
+    public void notifyEndGame(Message message) {
+        for (ObserverViewIO serverArea: serverAreas) {
+            serverArea.update(" ", message.getCommand(), nickname);
+        }
+    }
+
+    /**
+     * Updates the user when a Pong is successfully received.
+     */
+    public void pongReceived(){
+        System.out.println("PONG RECEIVED IN USER: " + nickname);
+        received = 3;
+    }
+
     @Override
     public void addServerArea(ObserverViewIO serverArea){
         serverAreas.add(serverArea);
@@ -126,35 +126,6 @@ public class User implements ObservableViewIO {
         serverAreas.remove(serverArea);
     }
 
-    public synchronized void userSend(Message message){
-        String stringToSend = message.serialize();
-        send(stringToSend);
-    }
-
-    /**
-     * Sends a message to the ClientReceiver
-     */
-    public synchronized void send(String mex){
-        out.println(mex);
-        out.flush();
-    }
-
-
-    /**
-     * This method is used to notify when the game ends so that the Lobby can set itself to 'isClosed = false'
-     */
-    public void notifyEndGame(Message message) {
-        for (ObserverViewIO serverArea: serverAreas) {
-            serverArea.update(" ", message.getCommand(), nickname);
-        }
-    }
-
-    //@override on disconnected
-
-    /*
-    public void killThreads(){
-        serverReceiver.exit();
-    } */
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public User getThis(){
@@ -180,9 +151,5 @@ public class User implements ObservableViewIO {
     public boolean isActive() {
         return active;
     }
-
-   /* public void setReceived(boolean received) {
-        this.received = received;
-    }*/
     //------------------------------------------------------------------------------------------------------------------
 }

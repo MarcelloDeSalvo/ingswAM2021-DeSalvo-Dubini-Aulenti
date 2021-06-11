@@ -3,7 +3,6 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
-import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 import it.polimi.ingsw.view.gui.panels.DepositPanel;
 
 import javax.swing.*;

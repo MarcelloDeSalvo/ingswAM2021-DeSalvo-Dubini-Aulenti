@@ -73,7 +73,6 @@ public class ShowPlayerPanel extends JLayeredPane {
         this.add(productionPanel, JLayeredPane.PALETTE_LAYER);
 
 
-
     }
 
     public HandPanel getHandPanel() { return handPanel;}

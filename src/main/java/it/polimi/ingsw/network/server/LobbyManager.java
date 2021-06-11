@@ -9,7 +9,6 @@ import it.polimi.ingsw.network.commands.Target;
 import it.polimi.ingsw.observers.ObserverViewIO;
 import it.polimi.ingsw.network.UserManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -39,7 +38,6 @@ public class LobbyManager implements  ObserverViewIO {
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").setNickname(senderNick).build());
 
-                //currentUser.killThreads();
                 UserManager.removePlayer(connectedPlayers, senderNick);
 
                 System.out.println("# " + senderNick + " has disconnected");
@@ -59,7 +57,6 @@ public class LobbyManager implements  ObserverViewIO {
 
             case CHAT:
                 ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
-                //System.out.println(chatMessage.toString());
                 String receiver = chatMessage.getReceiver();
                 if(!UserManager.isNamePresent(connectedPlayers,receiver)){
                     UserManager.notifyUsers(connectedPlayers,
@@ -111,12 +108,6 @@ public class LobbyManager implements  ObserverViewIO {
                     UserManager.notifyUsers(connectedPlayers,
                             new Message.MessageBuilder().setCommand(Command.REPLY).
                                     setInfo("The lobby " + newLobbyName + " already exists! Please insert a valid name").setNickname(senderNick).build());
-
-                break;
-
-
-            default:
-                //UserManager.notifyUsers(connectedPlayers,new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Invalid Command, you are in lobby manager").setNickname(senderNick).build());
                 break;
         }
     }
@@ -133,6 +124,7 @@ public class LobbyManager implements  ObserverViewIO {
             Lobby lobby = lobbies.get(key);
             lobbyListMessage.addLobbyInfos(lobby.getLobbyName(), lobby.getOwnerNick(), lobby.getNumOfPlayersConnected(), lobby.getMaxPlayer(), lobby.isFull(), lobby.isClosed());
         }
+
         UserManager.notifyUsers(connectedPlayers, lobbyListMessage);
     }
 

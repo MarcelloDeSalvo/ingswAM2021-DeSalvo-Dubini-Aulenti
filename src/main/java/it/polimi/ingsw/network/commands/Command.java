@@ -128,6 +128,4 @@ public enum Command {
 
         return false;
     }
-
-
 }

@@ -59,11 +59,6 @@ public class EchoServerClientHandler implements Runnable {
 
                             out.flush();
 
-                            //ServerReceiver serverReceiver = new ServerReceiver(in);
-                            //ServerSender serverSender = new ServerSender(out);
-
-                            //user = new User(nickname, serverReceiver, serverSender, Status.IN_LOBBY_MANAGER);
-
                             user = new User(nickname, out, Status.IN_LOBBY_MANAGER);
 
                             user.addServerArea(lobbyManager);
@@ -84,12 +79,7 @@ public class EchoServerClientHandler implements Runnable {
                                 out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
                                         .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
 
-
-
-                                ServerReceiver serverReceiver = new ServerReceiver(in);
-                                ServerSender serverSender = new ServerSender(out);
-
-                                lobbyManager.getConnectedPlayers().get(nickname).reconnect(serverReceiver,serverSender);
+                                lobbyManager.getConnectedPlayers().get(nickname).reconnect();
 
                                 System.out.println("# " + nickname + " has reconnected into the server \n");
 
@@ -109,8 +99,6 @@ public class EchoServerClientHandler implements Runnable {
             System.out.println("# The user logged out before entering a nickname -> " + "IP: " + socket.getInetAddress());
             //e.printStackTrace();
         }
-
-        System.out.println("Ciao");
     }
 
 }
