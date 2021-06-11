@@ -1,5 +1,6 @@
 package it.polimi.ingsw.observers;
 
+import it.polimi.ingsw.network.ServerArea;
 import it.polimi.ingsw.network.commands.Command;
 
 public interface ObservableViewIO {
@@ -12,10 +13,10 @@ public interface ObservableViewIO {
     /**
      * Adds a lobby or a view to the observers list
      */
-    void addServerArea(ObserverViewIO obs);
+    void addServerArea(ServerArea obs);
 
     /**
      * Removes a lobby or a view to the observers list
      */
-    void removeServerArea(ObserverViewIO serverArea);
+    void removeServerArea(ServerArea serverArea);
 }

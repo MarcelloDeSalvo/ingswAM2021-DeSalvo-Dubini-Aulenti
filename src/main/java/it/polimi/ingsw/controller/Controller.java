@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
-    private final VirtualView view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
+    private final View view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
     private Game game;
     private final Gson gson;
     private Player currPlayer;
@@ -42,6 +42,9 @@ public class Controller implements ObserverController {
     //------------------------------------------------------------------------------------------------------------------/
 
 
+    /**
+     * Online Controller constructor
+     */
     public Controller (HashMap<String, User> connectedPlayers){
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
@@ -76,6 +79,7 @@ public class Controller implements ObserverController {
         }catch (FileNotFoundException e){
             e.printStackTrace();
             view.printReply("Cannot read the configuration file of the game");
+            //KILL THE GAME
         }
     }
 
@@ -164,11 +168,11 @@ public class Controller implements ObserverController {
 
         switch (command){
             case CHEAT_VAULT:
-                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.STONE, 999));
-                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 999));
-                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 999));
-                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 999));
-                game.addFaithPointsToCurrentPLayer(12);
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.STONE, 50));
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.GOLD, 50));
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.MINION, 50));
+                currPlayer.getVault().addToVault(new ResourceContainer(ResourceType.SHIELD, 50));
+                game.addFaithPointsToCurrentPLayer(4);
                 view.printReply_uni(currPlayer.getVault().toString(), currPlayer.getNickname());
                 break;
 
@@ -176,7 +180,7 @@ public class Controller implements ObserverController {
                 if (!mainActionHandler(senderNick))
                     break;
 
-                if(!checkBuy(mex, senderNick, currPlayer))
+                if(!checkBuy(mex, currPlayer))
                     return;
 
                 currPlayer.setPlayerStatus(PlayerStatus.SELECTING_BUY_RESOURCES);
@@ -443,11 +447,10 @@ public class Controller implements ObserverController {
     /**
      * Checks if the user has enough resources in total to buy the selected DevelopmentCard
      * @param mex  message received
-     * @param senderNick is the player's nickname that wants to buy the card
      * @param currPlayer current player
      * @return true if he has selected a valid number for the row and column
      */
-    private boolean checkBuy(String mex, String senderNick, Player currPlayer) {
+    private boolean checkBuy(String mex, Player currPlayer) {
         BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
         int cardID = buyMessage.getCardID();
         int id = buyMessage.getProductionSlotID();
@@ -510,11 +513,8 @@ public class Controller implements ObserverController {
             if(currPlayer.getPlayerStatus() == PlayerStatus.SELECTING_PRODUCTION_RESOURCES) {
                 produce(senderNick);
                 currPlayer.setPlayerStatus(PlayerStatus.IDLE);
-                return;
             }
         }
-
-        //view.printReply_uni("Please keep selecting the resources or type 'DONE'", senderNick);
     }
 
     /**
@@ -733,7 +733,7 @@ public class Controller implements ObserverController {
 
         currPlayer.setPlayerStatus(PlayerStatus.SELECTING_PRODUCTION_RESOURCES);
 
-        view.notifyProductionPrice(new ArrayList<ResourceContainer>(currPlayer.getProductionSite().getBufferInputMap().values()), senderNick);
+        view.notifyProductionPrice(new ArrayList<>(currPlayer.getProductionSite().getBufferInputMap().values()), senderNick);
     }
 
     /**
@@ -772,9 +772,7 @@ public class Controller implements ObserverController {
 
         try {
             marketOut = game.getMarket().getRowOrColumn(marketMessage.getSelection(),marketMessage.getNum());
-            view.printReply_everyOneElse(senderNick+" has extracted the "+marketMessage.getSelection()+" "
-                    +marketMessage.getNum()+" from the market!", senderNick);
-            view.notifyUsers(marketMessage);
+            view.notifyMarketUpdate(marketMessage.getSelection(), marketMessage.getNum());
             mainActionAvailable = false;
 
         }catch (InvalidColumnNumber | InvalidRowNumber e ){
@@ -818,7 +816,7 @@ public class Controller implements ObserverController {
      * Manages the sending of resources to the deposits after taking them from the market
      */
     public void marketAddDepositController(String senderNick){
-        //new command type here
+
         if (marketOut.size()>0){
             view.askForMarketDestination(marketOut, senderNick);
             return;

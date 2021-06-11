@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.ServerArea;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObservableViewIO;
@@ -14,7 +15,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class User implements ObservableViewIO {
 
     private final String nickname;
-    private final List<ObserverViewIO> serverAreas;
+    private final List<ServerArea> serverAreas;
+
     private final PrintWriter out;
 
     private boolean active = true;
@@ -94,8 +96,9 @@ public class User implements ObservableViewIO {
             return;
         }
 
-        for (ObserverViewIO serverArea: serverAreas) {
-            serverArea.update(message, command, nickname);
+        for (ServerArea serverArea: serverAreas) {
+            if (serverArea.getAreaStatus() == command.getWhereToProcess())
+                serverArea.update(message, command, nickname);
         }
     }
 
@@ -117,12 +120,12 @@ public class User implements ObservableViewIO {
     }
 
     @Override
-    public void addServerArea(ObserverViewIO serverArea){
+    public void addServerArea(ServerArea serverArea){
         serverAreas.add(serverArea);
     }
 
     @Override
-    public void removeServerArea(ObserverViewIO serverArea){
+    public void removeServerArea(ServerArea serverArea){
         serverAreas.remove(serverArea);
     }
 

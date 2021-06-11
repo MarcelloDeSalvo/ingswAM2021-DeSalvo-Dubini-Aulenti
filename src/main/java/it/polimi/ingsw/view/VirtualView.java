@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.cards.Colour;
 import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
+import it.polimi.ingsw.network.ServerArea;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.Status;
@@ -14,12 +15,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class VirtualView implements View {
+public class VirtualView implements View, ServerArea {
 
     private final HashMap<String, User> connectedPlayers;
     private final ArrayList<ObserverController> observerControllers;
     private String currPlayer;
 
+    /**
+     * Test Constructor
+     */
     public VirtualView() {
         this.connectedPlayers = new HashMap<>();
         observerControllers = new ArrayList<>();
@@ -28,6 +32,9 @@ public class VirtualView implements View {
     public VirtualView(HashMap<String, User> connectedPlayers) {
         this.connectedPlayers = new HashMap<>(connectedPlayers);
         observerControllers = new ArrayList<>();
+        for (String userNick: connectedPlayers.keySet()) {
+            connectedPlayers.get(userNick).addServerArea(this);
+        }
     }
 
     /**
@@ -57,6 +64,7 @@ public class VirtualView implements View {
      * @param user user to check
      * @return true if this is the case, false otherwise
      */
+    @Override
     public boolean hasPermission (User user, Command command) {
         if(!Command.canUseCommand(user, command)){
 
@@ -69,7 +77,7 @@ public class VirtualView implements View {
             return false;
         }
 
-        return command.getWhereToProcess() == Status.IN_GAME;
+        return true;
     }
 
     @Override
@@ -167,11 +175,6 @@ public class VirtualView implements View {
     public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
        notifyUsers( new AskConversionMessage (new Message.MessageBuilder().setCommand(Command.ASK_MULTIPLE_CONVERSION).setNickname(currPlayer),
                typeToConvert, availableConversion, numToConvert));
-    }
-
-    @Override
-    public void notifyConversionError(String error) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.CONVERSION_ERROR).setInfo(error).build());
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -284,7 +287,14 @@ public class VirtualView implements View {
 
     @Override
     public void notifyMarketUpdate(String selection, int selected) {
+        MarketMessage marketMessage = new MarketMessage(selection, selected, currPlayer);
+        printReply_everyOneElse(currPlayer + " has extracted the "+ marketMessage.getSelection() + " "
+                + marketMessage.getNum() + " from the market!", currPlayer);
+    }
 
+    @Override
+    public void notifyConversionError(String error) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.CONVERSION_ERROR).setInfo(error).build());
     }
 
     @Override
@@ -351,8 +361,9 @@ public class VirtualView implements View {
     }
     //------------------------------------------------------------------------------------------------------------------
 
-    public String getCurrPlayer() {
-        return currPlayer;
+    @Override
+    public Status getAreaStatus() {
+        return Status.IN_GAME;
     }
 
     public void setCurrPlayer(String currPlayer) {

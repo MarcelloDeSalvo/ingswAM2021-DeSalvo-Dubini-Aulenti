@@ -11,5 +11,9 @@ public interface ObserverViewIO {
      */
     void update(String message, Command command, String senderNickname);
 
+    /**
+     * Manages the User disconnection
+     */
     void onDisconnect(User user);
+
 }

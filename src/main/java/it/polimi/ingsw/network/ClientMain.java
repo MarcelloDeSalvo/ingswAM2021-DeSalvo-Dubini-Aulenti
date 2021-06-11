@@ -28,6 +28,10 @@ public class ClientMain {
 
     private final List<String> myParam = new ArrayList<>(Arrays.asList("-CLIENT", "-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
+    /**
+     * Creates a new Client Main and tries to read its configuration file and the parameters passed by the user
+     * @param args the arguments passed through the command line
+     */
     public static void main(String[] args){
         ClientMain clientMain = null;
 
@@ -57,6 +61,9 @@ public class ClientMain {
         clientMain.connect();
     }
 
+    /**
+     * Checks that the parameters are correct
+     */
     public void commandLineParametersCheck(String[] args){
 
         HashMap<String, List<String>> options = new HashMap<>();
@@ -88,6 +95,10 @@ public class ClientMain {
         commandLineCases(options);
     }
 
+    /**
+     * Executes the operations based on the received parameters
+     * @param options are the commands received
+     */
     private void commandLineCases(HashMap<String, List<String>> options){
         for (String s: options.keySet()) {
             switch (s){
@@ -152,6 +163,9 @@ public class ClientMain {
     }
 
 
+    /**
+     * Creates a new Socket and two threads: one listens to the socket (Receiver) and the other listens to the user inputs (CLI/GUI)
+     */
     public void connect(){
         try {
 
@@ -186,6 +200,11 @@ public class ClientMain {
 
     }
 
+    /**
+     * Creates a new View based on the user's selection
+     * @return a new view
+     * @throws FileNotFoundException if the view cannot read his configuration files
+     */
     ClientView viewSelector() throws FileNotFoundException {
         switch (this.viewMode.toUpperCase()){
             case "CLI":

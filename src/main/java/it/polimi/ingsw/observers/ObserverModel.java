@@ -1,12 +1,10 @@
 package it.polimi.ingsw.observers;
 
-
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public interface ObserverModel extends FaithPathListener, CardGridListener, ActionTokenListener, VaultListener, DepositListener, ProductionListener {
@@ -56,6 +54,11 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Sends a mini help
      */
     void printTurnHelp(String nickname);
+
+    /**
+     * Sets the current player for the view
+     */
+    void setCurrPlayer(String currPlayer);
 
     /**
      * Asks the player a certain number of resources

@@ -66,34 +66,15 @@ public abstract class ClientView implements View, UserInput {
         }
     }
 
-    @Override
-    public void update(String mex, Command command, String senderNick) {
-        //OFFLINE NOT YET IMPLEMENTED
-        readUpdates(mex);
-    }
-
     //READ UPDATES------------------------------------------------------------------------------------------------------
     @Override
     public void readUpdates(String mex){
-        //System.out.println(mex);
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
         switch (command){
-
-            case CHAT_ALL:
-                printChatMessage(senderNick, deserializedMex.getInfo(), true);
-                break;
-
-            case CHAT:
-                printChatMessage(senderNick, deserializedMex.getInfo(), false);
-                break;
-
-            case HELLO:
-                printHello();
-                break;
 
             case PING:
                 Message ping = new Message.MessageBuilder().setCommand(Command.PONG).
@@ -106,6 +87,10 @@ public abstract class ClientView implements View, UserInput {
                 printReply(deserializedMex.getInfo());
                 break;
 
+            case HELLO:
+                printHello();
+                break;
+
             case LOGIN:
                 onLogin(deserializedMex.getInfo());
                 break;
@@ -114,9 +99,12 @@ public abstract class ClientView implements View, UserInput {
                 onReconnected();
                 break;
 
-            case GAME_SETUP:
-                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
-                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
+            case CHAT_ALL:
+                printChatMessage(senderNick, deserializedMex.getInfo(), true);
+                break;
+
+            case CHAT:
+                printChatMessage(senderNick, deserializedMex.getInfo(), false);
                 break;
 
             case LOBBY_LIST:
@@ -147,16 +135,21 @@ public abstract class ClientView implements View, UserInput {
                 printReply(deserializedMex.getInfo());
                 break;
 
+            case GAME_SETUP:
+                GameSetUp gameSetUp=gson.fromJson(mex,GameSetUp.class);
+                notifyGameSetup(gameSetUp.getCardGridIDs(), gameSetUp.getNicknames(),gameSetUp.getMarketSetUp());
+                break;
+
+            case NOTIFY_GAME_STARTED:
+                notifyGameIsStarted();
+                break;
+
             case SHOW_TURN_HELP:
                 printTurnHelp(senderNick);
                 break;
 
             case NOTIFY_TURN_CHANGE:
                 printItsYourTurn(senderNick);
-                break;
-
-            case NOTIFY_GAME_STARTED:
-                notifyGameIsStarted();
                 break;
 
             case NOTIFY_CARDGRID:
@@ -187,11 +180,6 @@ public abstract class ClientView implements View, UserInput {
             case NOTIFY_VAULT_UPDATE:
                 SendContainer vaultChanges = gson.fromJson(mex, SendContainer.class);
                 notifyVaultChanges(vaultChanges.getContainer(), vaultChanges.isAdded(), senderNick);
-                break;
-
-            case PICK_FROM_MARKET:
-                MarketMessage marketMessage=gson.fromJson(mex,MarketMessage.class);
-                notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
                 break;
 
             case NOTIFY_NEW_DEPOSIT:
@@ -227,27 +215,26 @@ public abstract class ClientView implements View, UserInput {
                 notifyRemoveContainerError(deserializedMex.getInfo());
                 break;
 
-            case ASK_MARKET_DEST:
-                ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
-                askForMarketDestination(containerArrayListMessage.getContainers(), this.getNickname());
+            case BUY_OK:
+                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
+                notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
                 break;
 
-            case MARKET_OK:
-                notifyMarketOk(senderNick);
+            case BUY_ERROR:
+                notifyBuyError(deserializedMex.getInfo());
                 break;
 
-            case ASK_SETUP_RESOURCES:
-                askForResources(senderNick, 0);
-                printReply(deserializedMex.getInfo());
+            case PRODUCE_OK:
+                notifyProductionOk(senderNick);
                 break;
 
-            case ASK_MULTIPLE_CONVERSION:
-                AskConversionMessage askConversionMessage = gson.fromJson(mex, AskConversionMessage.class);
-                askMultipleConversion(askConversionMessage.getNumToConvert(), askConversionMessage.getConvertedType(), askConversionMessage.getAvailableConversions());
+            case PRODUCTION_PRICE:
+                ContainerArrayListMessage priceMessage = gson.fromJson(mex, ContainerArrayListMessage.class);
+                notifyProductionPrice(priceMessage.getContainers(), senderNick);
                 break;
 
-            case CONVERSION_ERROR:
-                notifyConversionError(deserializedMex.getInfo());
+            case PRODUCE_ERROR:
+                notifyProductionError(deserializedMex.getInfo(), senderNick);
                 break;
 
             case DISCARD_OK:
@@ -260,25 +247,21 @@ public abstract class ClientView implements View, UserInput {
                 notifyLeaderActivated(activatedLeader.getId(), activatedLeader.getSenderNickname());
                 break;
 
-            case BUY_OK:
-                BuyMessage buyMessage = gson.fromJson(mex, BuyMessage.class);
-                notifyBuyOk(senderNick, buyMessage.getProductionSlotID(), buyMessage.getCardID());
+            case PICK_FROM_MARKET:
+                MarketMessage marketMessage=gson.fromJson(mex,MarketMessage.class);
+                notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
+                break;
+
+            case MARKET_OK:
+                notifyMarketOk(senderNick);
                 break;
 
             case BUY_SLOT_OK:
                 notifyBuySlotOk(deserializedMex.getInfo());
                 break;
 
-            case BUY_ERROR:
-                notifyBuyError(deserializedMex.getInfo());
-                break;
-
-            case PRODUCE_OK:
-                notifyProductionOk(senderNick);
-                break;
-
-            case PRODUCE_ERROR:
-                notifyProductionError(deserializedMex.getInfo(), senderNick);
+            case MANAGE_DEPOSIT_OK:
+                notifyMoveOk(senderNick);
                 break;
 
             case START_FILL:
@@ -291,13 +274,23 @@ public abstract class ClientView implements View, UserInput {
                 notifyFillOk(idFillOk.getId(), senderNick);
                 break;
 
-            case PRODUCTION_PRICE:
-                ContainerArrayListMessage priceMessage = gson.fromJson(mex, ContainerArrayListMessage.class);
-                notifyProductionPrice(priceMessage.getContainers(), senderNick);
+            case CONVERSION_ERROR:
+                notifyConversionError(deserializedMex.getInfo());
                 break;
 
-            case MANAGE_DEPOSIT_OK:
-                notifyMoveOk(senderNick);
+            case ASK_MARKET_DEST:
+                ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
+                askForMarketDestination(containerArrayListMessage.getContainers(), this.getNickname());
+                break;
+
+            case ASK_SETUP_RESOURCES:
+                askForResources(senderNick, 0);
+                printReply(deserializedMex.getInfo());
+                break;
+
+            case ASK_MULTIPLE_CONVERSION:
+                AskConversionMessage askConversionMessage = gson.fromJson(mex, AskConversionMessage.class);
+                askMultipleConversion(askConversionMessage.getNumToConvert(), askConversionMessage.getConvertedType(), askConversionMessage.getAvailableConversions());
                 break;
 
             case NOTIFY_LORENZO_ACTION:
@@ -314,12 +307,16 @@ public abstract class ClientView implements View, UserInput {
 
 
     //CLI AND GUI ------------------------------------------------------------------------------------------------------
-
     /**
      * Called when the user receives the login reply
      * @param info the info contained in the reply message
      */
     public abstract void onLogin(String info);
+
+    /**
+     * Called after a disconnection from the server
+     */
+    public abstract void onDisconnected();
 
     /**
      * Called after a reconnection to the server
@@ -364,8 +361,6 @@ public abstract class ClientView implements View, UserInput {
     //------------------------------------------------------------------------------------------------------------------
 
 
-
-
     //GETTER AND SETTER METHODS FOR LITE MODEL--------------------------------------------------------------------------
     public String getNickname() {
         return nickname;
@@ -385,7 +380,7 @@ public abstract class ClientView implements View, UserInput {
         liteBoards.get(nickname).setLiteHand(hand);
     }
 
-   public LiteHand getMyHand() { return liteBoards.get(nickname).getLiteHand();}
+    public LiteHand getMyHand() { return liteBoards.get(nickname).getLiteHand();}
 
     public LiteVault getMyLiteVault() {
         return liteBoards.get(nickname).getLiteVault();

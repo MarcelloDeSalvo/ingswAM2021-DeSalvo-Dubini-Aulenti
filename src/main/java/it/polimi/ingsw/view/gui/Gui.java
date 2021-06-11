@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
-import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.ImageUtil;
 import it.polimi.ingsw.view.gui.panels.*;
@@ -90,7 +89,7 @@ public class Gui extends ClientView {
 
     //ON EVENT----------------------------------------------------------------------------------------------------------
     @Override
-    public void onDisconnect(User user) {
+    public void onDisconnected() {
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
@@ -224,6 +223,9 @@ public class Gui extends ClientView {
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
     }
+
+    @Override
+    public void setCurrPlayer(String currPlayer){ }
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -449,9 +451,6 @@ public class Gui extends ClientView {
         }
 
         send(new ResourceTypeSend(Command.FILL_QM, toSend, getNickname()));
-
-
-
     }
 
     /**
@@ -565,9 +564,7 @@ public class Gui extends ClientView {
             gamePanel.getNotifyLabel().setText(nickname + " has activated the " + id + " ID leader!\n");
             getSomeonesHand(nickname).addLeader(id);
             gamePanel.getOtherHandPanels(nickname).remake(nickname);
-
         }
-
 
         activatedLeaderId = id;
     }
@@ -657,7 +654,7 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
-        StringBuilder scoreboard = new StringBuilder("");
+        StringBuilder scoreboard = new StringBuilder();
         int i = 0;
         for (String nick: nicknames) {
             scoreboard.append(nick);

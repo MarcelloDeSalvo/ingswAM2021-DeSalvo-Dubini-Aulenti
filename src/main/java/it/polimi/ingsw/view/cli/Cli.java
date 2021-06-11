@@ -410,7 +410,7 @@ public class Cli extends ClientView {
 
     //OnEvent-----------------------------------------------------------------------------------------------------------
     @Override
-    public void onDisconnect(User user) {
+    public void onDisconnected() {
     }
 
     @Override
@@ -617,6 +617,9 @@ public class Cli extends ClientView {
 
         System.out.println(orderBuild.toString());
     }
+
+    @Override
+    public void setCurrPlayer(String currPlayer){ }
     //------------------------------------------------------------------------------------------------------------------
 
 

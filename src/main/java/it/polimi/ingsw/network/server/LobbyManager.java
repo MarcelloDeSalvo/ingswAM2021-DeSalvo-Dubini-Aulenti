@@ -1,18 +1,18 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.Util;
+import it.polimi.ingsw.network.ServerArea;
 import it.polimi.ingsw.network.commands.*;
 import com.google.gson.Gson;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.commands.Target;
-import it.polimi.ingsw.observers.ObserverViewIO;
 import it.polimi.ingsw.network.UserManager;
 
 import java.util.HashMap;
 
 
-public class LobbyManager implements  ObserverViewIO {
+public class LobbyManager implements ServerArea {
 
     private static final HashMap<String, User> connectedPlayers = new HashMap<>();
     private static final HashMap<String, Lobby> lobbies = new HashMap<>();
@@ -34,6 +34,7 @@ public class LobbyManager implements  ObserverViewIO {
         Message deserializedMex = gson.fromJson(mex, Message.class);
 
         switch (command) {
+
             case QUIT:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").setNickname(senderNick).build());
@@ -167,11 +168,7 @@ public class LobbyManager implements  ObserverViewIO {
         newLobby.notifyNewJoin(currentUser);
     }
 
-    /**
-     * Checks if the user has a specific level of permission
-     * @param user user to check
-     * @return true if this is the case, false otherwise
-     */
+    @Override
     public boolean hasPermission (User user, Command command) {
         if(!Command.canUseCommand(user, command)){
 
@@ -184,7 +181,12 @@ public class LobbyManager implements  ObserverViewIO {
             return false;
         }
 
-        return command.getWhereToProcess() == Status.IN_LOBBY_MANAGER;
+        return true;
+    }
+
+    @Override
+    public Status getAreaStatus(){
+        return Status.IN_LOBBY_MANAGER;
     }
 
     @Override

@@ -13,29 +13,55 @@ import java.util.concurrent.Executors;
 
 public class ServerMain {
 
-    private int port;
+    private final int port;
 
+    public ServerMain(int port) {
+        this.port = port;
+    }
+
+    /**
+     * Tries to read the command line arguments or the configuration file if there aren't any, then it creates a Server Main and starts it
+     * @param args the arguments passed through the command line
+     */
     public static void main(String[] args) {
-        try{
-            String jsonPath = "/ConfigurationFiles/ServerConfig.json";
-            Gson gson = new Gson();
-            Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
-            ServerMain serverMain = gson.fromJson(reader, ServerMain.class);
-            serverMain.startServer();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            System.out.println("There was an issue with starting the server.");
-            System.exit(1);
+        if(args.length==2){
+            if (args[0].toUpperCase().equals("-PORT"))
+                try {
+                    int portNumber = Integer.parseInt(args[1]);
+                    ServerMain serverMain = new ServerMain(portNumber);
+                    serverMain.startServer();
+
+                }catch (NumberFormatException e){
+                    System.err.println("The port is not a string");
+                    System.exit(1);
+                }
+
+        }else{
+            try{
+                String jsonPath = "/ConfigurationFiles/ServerConfig.json";
+                Gson gson = new Gson();
+                Reader reader = new InputStreamReader(ServerMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
+                ServerMain serverMain = gson.fromJson(reader, ServerMain.class);
+                serverMain.startServer();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                System.out.println("There was an issue with starting the server.");
+                System.exit(1);
+            }
         }
     }
 
+    /**
+     * Creates a new socket that waits for the connections and a Thread Pool
+     */
     public void startServer() {
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
 
         try {
             serverSocket = new ServerSocket(port);
+            System.out.println("PORT: " + port);
         } catch (IOException e) {
             System.err.println(e.getMessage()); // Port not available
             return;

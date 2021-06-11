@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.network.CommandPermission;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
@@ -12,7 +13,7 @@ import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Lobby extends LobbyManager implements ObserverViewIO {
+public class Lobby extends LobbyManager implements ObserverViewIO, CommandPermission {
     private final String lobbyName;
     private final HashMap<String, User> players;
     private User owner;
@@ -140,10 +141,8 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
 
         Controller controller = new Controller(players);
 
-        for (String name: players.keySet()) {
+        for (String name: players.keySet())
             players.get(name).setStatus(Status.IN_GAME);
-            players.get(name).addServerArea(controller.getView());
-        }
 
         isClosed = true;
 
@@ -162,7 +161,12 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
             return false;
         }
 
-        return command.getWhereToProcess() == Status.IN_LOBBY;
+        return true;
+    }
+
+    @Override
+    public Status getAreaStatus() {
+        return Status.IN_LOBBY;
     }
 
     @Override
@@ -266,10 +270,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
         return isClosed;
     }
 
-    public void setNumOfPlayersConnected(int numOfPlayersConnected) {
-        this.numOfPlayersConnected = numOfPlayersConnected;
-    }
-
     public void setFull(boolean full) {
         isFull = full;
     }
@@ -277,7 +277,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO {
     public void setClosed(boolean closed) {
         isClosed = closed;
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 
