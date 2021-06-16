@@ -290,6 +290,7 @@ public class VirtualView implements View, ServerArea {
         MarketMessage marketMessage = new MarketMessage(selection, selected, currPlayer);
         printReply_everyOneElse(currPlayer + " has extracted the "+ marketMessage.getSelection() + " "
                 + marketMessage.getNum() + " from the market!", currPlayer);
+        notifyUsers(marketMessage);
     }
 
     @Override
