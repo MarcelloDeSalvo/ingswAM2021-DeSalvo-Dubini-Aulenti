@@ -56,7 +56,7 @@ public class ShowPlayerPanel extends JLayeredPane {
         storage.add(depositPanel);
 
         //VAULT
-        VaultPanel vaultPanel = new VaultPanel(gui, true);
+        VaultPanel vaultPanel = new VaultPanel(gui, true, gui.getSomeonesLiteVault(nick));
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 

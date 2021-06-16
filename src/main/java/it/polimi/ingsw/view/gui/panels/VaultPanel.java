@@ -34,13 +34,13 @@ public class VaultPanel extends JLayeredPane {
      * Creates the vault panel structure
      * @param printOnly doesn't add the listeners if true
      */
-    public VaultPanel(Gui gui, boolean printOnly) {
+    public VaultPanel(Gui gui, boolean printOnly, LiteVault liteVault) {
         super();
 
         int buttonSize = 110;
 
         this.gui = gui;
-        this.liteVault = gui.getSomeonesLiteVault(gui.getNickname());
+        this.liteVault =liteVault;
 
         this.setLayout(null);
         this.setOpaque(false);
