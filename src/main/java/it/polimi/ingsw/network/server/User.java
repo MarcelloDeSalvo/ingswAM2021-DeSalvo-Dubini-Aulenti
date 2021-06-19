@@ -19,8 +19,21 @@ public class User implements ObservableViewIO {
 
     private final PrintWriter out;
 
-    private boolean active = true;
-    private int received = 3;
+    /**
+     * True if connected 
+     */
+    private boolean connected = true;
+
+    /**
+     * After this number of packets is lost the client will be considered disconnected
+     */
+    private final int maxLostPongs = 3;
+    private int receivedPongsCounts = maxLostPongs;
+
+    /**
+     * After this amount of milliseconds the timer checks for a received pong and sends a ping
+     */
+    private final int timerTaskDelta = 10000;
 
     private Status status;
 
@@ -36,7 +49,7 @@ public class User implements ObservableViewIO {
 
     //USER CONNECTION STABILITY-----------------------------------------------------------------------------------------
     public void reconnect(){
-        active=true;
+        connected =true;
         ServerConnectionCheck serverConnectionCheck=new ServerConnectionCheck();
         serverConnectionCheck.start();
     }
@@ -50,32 +63,27 @@ public class User implements ObservableViewIO {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    if (received>0) {
-                        if(received==2)
-                            System.out.println("\nNe ho perso uno! "+nickname+"\n");
-                        if(received==1)
-                            System.out.println("\nPerso un altro! "+nickname+"\n");
-                        received --;
+                    if (receivedPongsCounts >0) {
+                        receivedPongsCounts--;
                         userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
-                        System.out.println(nickname + " Ping sent");
+                        //System.out.println(nickname + " Ping sent");
 
                     } else {
-                        active = false;
+                        connected = false;
                         System.out.println(nickname + " disconnected!");
 
                         for (ObserverViewIO obs:serverAreas) {
                             obs.onDisconnect(getThis());
                         }
+
                         this.cancel();
                     }
                 }
             };
 
             int initialDelay = 100;
-            int delta = 10000;
-            timer.scheduleAtFixedRate(task,initialDelay,delta);
+            timer.scheduleAtFixedRate(task,initialDelay, timerTaskDelta);
         }
-
     }
 
     /**
@@ -116,7 +124,7 @@ public class User implements ObservableViewIO {
      */
     public void pongReceived(){
         System.out.println("PONG RECEIVED IN USER: " + nickname);
-        received = 3;
+        receivedPongsCounts = maxLostPongs;
     }
 
     @Override
@@ -147,12 +155,12 @@ public class User implements ObservableViewIO {
         this.status = status;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 
-    public boolean isActive() {
-        return active;
+    public boolean isConnected() {
+        return connected;
     }
     //------------------------------------------------------------------------------------------------------------------
 }

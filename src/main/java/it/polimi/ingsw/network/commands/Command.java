@@ -55,7 +55,9 @@ public enum Command {
 
     USER_JOINED_LOBBY,
     USER_LEFT_LOBBY,
+    USER_LEFT_GAME,
 
+    GAME_CREATION_ERROR,
     GAME_SETUP,
 
     DISCARD_OK,

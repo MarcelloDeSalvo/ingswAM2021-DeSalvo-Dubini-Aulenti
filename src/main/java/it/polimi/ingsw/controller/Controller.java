@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class Controller implements ObserverController {
 
-    private final View view; //TO CHANGE IN VIEW AFTER WE FINISH TO IMPLEMENT ALL THE PRINTINGS
+    private final View view;
     private Game game;
     private final Gson gson;
     private Player currPlayer;
@@ -77,9 +77,7 @@ public class Controller implements ObserverController {
             }
 
         }catch (FileNotFoundException e){
-            e.printStackTrace();
-            view.printReply("Cannot read the configuration file of the game");
-            //KILL THE GAME
+            view.notifyGameCreationError("Cannot read the configuration file of the game");
         }
     }
 

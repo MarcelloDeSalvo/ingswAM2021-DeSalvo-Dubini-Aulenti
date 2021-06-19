@@ -171,9 +171,9 @@ public class Lobby extends LobbyManager implements ObserverViewIO, CommandPermis
 
     @Override
     public synchronized void onDisconnect(User user) {
-        if(user.getStatus()==Status.IN_LOBBY){
-            removeUser(user);
-        }
+        //if(user.getStatus()==Status.IN_LOBBY)
+        removeUser(user);
+        isClosed = false;
     }
     //------------------------------------------------------------------------------------------------------------------
 

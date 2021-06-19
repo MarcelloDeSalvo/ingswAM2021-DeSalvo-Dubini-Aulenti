@@ -125,7 +125,6 @@ abstract class Card {
 
     public void setRequirements(ArrayList<Requirement> requirements) { this.requirements = requirements; }
 
-
     public ArrayList<ResourceContainer> getPrice() {
         return price;
     }

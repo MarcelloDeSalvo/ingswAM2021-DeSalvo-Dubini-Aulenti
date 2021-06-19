@@ -409,11 +409,13 @@ public class Cli extends ClientView {
 
     //OnEvent-----------------------------------------------------------------------------------------------------------
     @Override
-    public void onDisconnected() {
+    public void onDisconnected(){
+        System.out.println("\n! Lost The Connection From The Server !\n");
     }
 
     @Override
     public void onReconnected(){
+        //WORK IN PROGRESS
     }
 
     @Override
@@ -423,11 +425,8 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void onExitLobby() {
-    }
-
-    @Override
-    public void onJoinLobby() {
+    public void onUserLeftGame() {
+        System.out.println("\nSomeone left the game, you are now in the lobby\n");
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -705,7 +704,7 @@ public class Cli extends ClientView {
     //UPDATES FROM THE SERVER-------------------------------------------------------------------------------------------
     @Override
     public void notifyGameIsStarted() {
-        System.out.println("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--");
+        System.out.println("---THE GAME HAS BEEN STARTED---\n\t--HAVE FUN--\n");
     }
 
     @Override
@@ -977,6 +976,12 @@ public class Cli extends ClientView {
     public void notifyGameEnded() {
         printReply("# The game is ended, you are now in the lobby");
         this.setInGame(false);
+    }
+
+    @Override
+    public void notifyGameCreationError(String error) {
+        System.out.println(error);
+        System.out.println("You are now in the lobby");
     }
     //------------------------------------------------------------------------------------------------------------------
 

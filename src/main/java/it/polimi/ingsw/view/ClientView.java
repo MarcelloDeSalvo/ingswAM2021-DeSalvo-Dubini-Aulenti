@@ -83,6 +83,10 @@ public abstract class ClientView implements View, UserInput {
                 //System.out.println("PONG sent: " + ping.toString());
                 break;
 
+            case JOIN_LOBBY:
+            case EXIT_LOBBY:
+            case USER_JOINED_LOBBY:
+            case USER_LEFT_LOBBY:
             case REPLY:
                 printReply(deserializedMex.getInfo());
                 break;
@@ -117,22 +121,8 @@ public abstract class ClientView implements View, UserInput {
                 printWaitingRoom(stringsMessage);
                 break;
 
-            case JOIN_LOBBY:
-                onJoinLobby();
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case USER_JOINED_LOBBY:
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case USER_LEFT_LOBBY:
-                printReply(deserializedMex.getInfo());
-                break;
-
-            case EXIT_LOBBY:
-                onExitLobby();
-                printReply(deserializedMex.getInfo());
+            case GAME_CREATION_ERROR:
+                notifyGameCreationError(deserializedMex.getInfo());
                 break;
 
             case GAME_SETUP:
@@ -205,6 +195,10 @@ public abstract class ClientView implements View, UserInput {
             case NOTIFY_WINNER:
                 StringsMessage stringsMessage1 = gson.fromJson(mex, StringsMessage.class);
                 notifyWinner(stringsMessage1.getData());
+                break;
+
+            case USER_LEFT_GAME:
+                onUserLeftGame();
                 break;
 
             case REMOVE_CONTAINER_OK:
@@ -325,14 +319,9 @@ public abstract class ClientView implements View, UserInput {
     public abstract void onReconnected();
 
     /**
-     * Called when the user exits the lobby correctly
+     * Returns to the lobby after someone left the game
      */
-    public abstract void onExitLobby();
-
-    /**
-     * Called when the user joins a lobby correctly
-     */
-    public abstract void onJoinLobby();
+    public abstract void onUserLeftGame();
 
     /**
      * Prints the turn order of the game

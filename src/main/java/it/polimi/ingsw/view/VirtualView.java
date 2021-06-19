@@ -44,6 +44,21 @@ public class VirtualView implements View, ServerArea {
         UserManager.notifyUsers(connectedPlayers, message);
     }
 
+    /**
+     * Remove all the users from the game and tells the lobby that the game is finished
+     */
+    private void removeAllUsers(){
+        boolean first = true;
+
+        for (String nick: connectedPlayers.keySet()) {
+            if(first)
+                connectedPlayers.get(nick).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
+            first = false;
+            connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);
+            connectedPlayers.get(nick).removeServerArea(this);
+        }
+    }
+
     //OBSERVER VIEW IO-------(RECEIVED DATA)----------------------------------------------------------------------------
     @Override
     public synchronized void update(String mex, Command command, String senderNick){
@@ -59,11 +74,7 @@ public class VirtualView implements View, ServerArea {
         notifyController(mex, command, senderNick);
     }
 
-    /**
-     * Checks if the user has a specific level of permission
-     * @param user user to check
-     * @return true if this is the case, false otherwise
-     */
+
     @Override
     public boolean hasPermission (User user, Command command) {
         if(!Command.canUseCommand(user, command)){
@@ -82,10 +93,16 @@ public class VirtualView implements View, ServerArea {
 
     @Override
     public synchronized void onDisconnect(User user) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.USER_LEFT_GAME).setTarget(Target.EVERYONE_ELSE).setNickname(user.getNickname()).build());
+        removeAllUsers();
+    }
 
+    @Override
+    public void notifyGameCreationError(String error) {
+        notifyUsers(new Message.MessageBuilder().setCommand(Command.GAME_CREATION_ERROR).setTarget(Target.BROADCAST).build());
+        removeAllUsers();
     }
     //------------------------------------------------------------------------------------------------------------------
-
 
 
     //CONTROLLER OBSERVER-----------------------------------------------------------------------------------------------
@@ -346,19 +363,8 @@ public class VirtualView implements View, ServerArea {
 
     @Override
     public void notifyGameEnded(){
-        //CICLO I PLAYER E VEDO SE SONO DISCONNESSI, SE LO SONO GLI CHIAMO LA ON DISCONNECT CON STATUS IN LOBBY MANAGER
-        String nickname = null;
-
         notifyUsers(new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.END_GAME).build());
-
-        for (String nick: connectedPlayers.keySet()) {
-            connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);
-            connectedPlayers.get(nick).removeServerArea(this);
-            nickname = nick;
-        }
-
-        if (nickname!=null)
-            connectedPlayers.get(nickname).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
+        removeAllUsers();
     }
     //------------------------------------------------------------------------------------------------------------------
 

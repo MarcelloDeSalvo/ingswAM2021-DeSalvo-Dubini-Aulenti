@@ -191,9 +191,8 @@ public class LobbyManager implements ServerArea {
 
     @Override
     public synchronized void onDisconnect(User user) {
-        if(user.getStatus()!=Status.IN_GAME)
-            UserManager.removePlayer(connectedPlayers, user.getNickname());
-
+        //if(user.getStatus()!=Status.IN_GAME)
+        UserManager.removePlayer(connectedPlayers, user.getNickname());
     }
     //------------------------------------------------------------------------------------------------------------------
 

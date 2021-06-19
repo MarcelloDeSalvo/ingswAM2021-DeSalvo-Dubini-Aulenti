@@ -66,8 +66,8 @@ public class EchoServerClientHandler implements Runnable {
      * Manages every possible option regarding the "Authentication Phase":<br>
      * - Blocks the players from selecting the nickname "LORENZO".
      * - If the selected nickname is not present the login is correctly executed.
-     * - If the selected name is already present and the player is "Active", an error message is sent to the user.
-     * - If the selected name is already present but the player is NOT "Active", reconnection is executed.
+     * - If the selected name is already present and the player is "connected", an error message is sent to the user.
+     * - If the selected name is already present but the player is NOT "connected", reconnection is executed.
      */
     private void authenticationPhase(PrintWriter out, String nickname) {
 
@@ -79,7 +79,7 @@ public class EchoServerClientHandler implements Runnable {
             correctLogin(out, nickname);
         }
         else {
-            if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
+            if (lobbyManager.getConnectedPlayers().get(nickname).isConnected())
                 out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
                         .setInfo("Sorry, but the nickname is already in use. Try submitting another one").build().serialize());
             else {

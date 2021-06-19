@@ -21,7 +21,11 @@ import java.util.List;
 public class Gui extends ClientView {
 
     private JPanel mainPanel;
-    private CardLayout cardLayout;    //used for changing scenes
+
+    /**
+     * Switches the main sections
+     */
+    private CardLayout cardLayout;
 
     private LoginPanel loginPanel;
     private LobbyPanel lobbyPanel;
@@ -34,6 +38,8 @@ public class Gui extends ClientView {
     private JFrame frame;
     private Label infoLabel;
 
+    private boolean quit = false;
+
     private int activatedLeaderId;
 
     public Gui() throws FileNotFoundException{
@@ -44,11 +50,7 @@ public class Gui extends ClientView {
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
     @Override
     public boolean readInput() {
-        int exit = 0;
-        while (exit == 0){
-            //CASE
-        }
-        return false;
+        return !quit;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -57,7 +59,8 @@ public class Gui extends ClientView {
      */
     public void createAndShowGUI(){
         frame = new JFrame("MASTER OF RENAISSANCE");
-        frame.setSize(1200,800);
+        setDefaultFrameSize();
+
         ImageIcon barbagialla=new ImageIcon(getClass().getResource("/images/others/barbagiallaenave.png"));
         frame.setIconImage(barbagialla.getImage());
         frame.setResizable(false);
@@ -82,8 +85,18 @@ public class Gui extends ClientView {
         frame.add(infoLabel, BorderLayout.PAGE_END);
 
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private void setDefaultFrameSize(){
+        frame.setSize(1200,800);
+        frame.setLocationRelativeTo(null);
+    }
+
+    private void setMaxFrameSize(){
+        frame.setSize(1920,1080);
+        frame.setLocationRelativeTo(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
 
@@ -108,6 +121,8 @@ public class Gui extends ClientView {
     public void onReconnected(){
         loginPanel.setVisible(false);
         cardLayout.show(mainPanel, "gamePanel");
+        guiStatus = GuiStatus.IDLE;
+        //WORK IN PROGRESS
     }
 
     @Override
@@ -116,11 +131,16 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void onExitLobby() {
-    }
+    public void onUserLeftGame() {
+        JOptionPane.showConfirmDialog(frame,
+                "Someone disconnected from the game, you are now in the lobby",
+                "User disconnection",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.ERROR_MESSAGE);
 
-    @Override
-    public void onJoinLobby() {
+        cardLayout.show(mainPanel, "lobbyRoomPanel");
+        setDefaultFrameSize();
+        guiStatus = GuiStatus.IDLE;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -175,7 +195,7 @@ public class Gui extends ClientView {
 
         JOptionPane.showMessageDialog(frame,
                 "IT'S YOUR TURN, CHOSE AN ACTION: " +
-                        "\n1) BUY A CARD (>CARDGRID then select a card) " +
+                        "\n1) BUY A CARD (>CARD GRID then select a card) " +
                         "\n2) SELECT FROM MARKET (>MARKET then select a row or column)" +
                         "\n3) PRODUCE (>MY BOARD then select the Development Card to produce)"+
                         "\n4) ACTIVATE LEADER (>MY BOARD then select the Leader Card to activate)"+
@@ -537,9 +557,7 @@ public class Gui extends ClientView {
     @Override
     public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
         setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
-        frame.setSize(1920,1080);
-        frame.setLocationRelativeTo(null);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setMaxFrameSize();
 
         DiscardHandPanel discardLeaders = new DiscardHandPanel(getMyHand(), this);
 
@@ -678,8 +696,7 @@ public class Gui extends ClientView {
                 JOptionPane.INFORMATION_MESSAGE);
 
         if (option == JOptionPane.OK_OPTION){
-            frame.setSize(1200,800);
-            frame.setLocationRelativeTo(null);
+            setDefaultFrameSize();
             cardLayout.show(mainPanel, "lobbyRoomPanel");
         }
 
@@ -690,6 +707,14 @@ public class Gui extends ClientView {
         printReply("# The game is ended, you are now in the lobby");
 
         this.setInGame(false);
+    }
+
+    @Override
+    public void notifyGameCreationError(String error) {
+        printReply(error);
+        this.setInGame(false);
+        cardLayout.show(mainPanel, "lobbyRoomPanel");
+        guiStatus = GuiStatus.IDLE;
     }
     //------------------------------------------------------------------------------------------------------------------
 

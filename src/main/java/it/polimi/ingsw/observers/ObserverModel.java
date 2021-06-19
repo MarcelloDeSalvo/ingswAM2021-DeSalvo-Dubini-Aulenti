@@ -209,5 +209,10 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      */
     void notifyGameEnded();
 
+    /**
+     * Notifies all players that a critical error has occurred and that the game could not be initialized
+     */
+    void notifyGameCreationError(String error);
+
 
 }
