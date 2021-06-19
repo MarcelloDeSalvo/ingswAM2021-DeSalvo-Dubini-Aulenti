@@ -210,7 +210,7 @@ public class Cardgrid implements CardGridSubject {
     }
 
     /**
-     * @returns the ids of the cards that are currently on top
+     * @return the ids of the cards that are currently on top
      */
     public ArrayList<Integer> getIDsOnTop(){
         ArrayList<Integer> myIDs= new ArrayList<>();

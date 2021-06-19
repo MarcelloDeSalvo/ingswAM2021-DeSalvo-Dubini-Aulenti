@@ -82,7 +82,7 @@ public class LiteMarket {
                     }
                     if(j== columns) {
                         if (i != -1)
-                            liteMarketToString.append("←");
+                            liteMarketToString.append("\u2190");
                     }
                     else
                     liteMarketToString.append(market[j][i].getResourceType()).append("\t").append("\t").append("|").append("\t").append("\t");

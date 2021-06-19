@@ -40,9 +40,9 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
      * Json constructor <br>
      * It should read: <br>
      * - int length <br>
-     * - ArrayList<Character> vaticanReports <br>
-     * - ArrayList<Integer> victoryPoints <br>
-     * - ArrayList<Integer> papalFavours
+     * - ArrayList(Character) vaticanReports <br>
+     * - ArrayList(Integer) victoryPoints <br>
+     * - ArrayList(Integer) papalFavours
      */
     public FaithPath(){
         this.lastPActivated = 0;

@@ -59,9 +59,9 @@ public class LiteFaithPath {
     }
 
     /**
-     * Updates the list of papal favours earned by players given an arraylist in this form: <2,0,0,2> <br>
+     * Updates the list of papal favours earned by players given an arraylist in this form: (2,0,0,2) <br>
      * that means that players 1 and 4 received the 2 point favour
-     */
+     **/
     public void incrementPlayerFavours(ArrayList<Integer> favours){
         int c=0;
         for (Integer in:favours) {

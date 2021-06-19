@@ -296,7 +296,7 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     /**
      * Uses the current quantity of the requested ArrayList of resources (sum of deposit and vault)
      * @return true if the user has enough resources
-     */
+     **/
     public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
         HashMap<ResourceType, ResourceContainer> resourceMap = Util.arraylistToMap(requested);
 
@@ -304,9 +304,9 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
     }
 
     /**
-     * Uses the current quantity of the requested Map<ResourceType, ResourceContainer> (sum of deposit and vault)
+     * @param requested is the current quantity of overall resources in deposit and vault put into a map
      * @return true if the user has enough resources
-     */
+     **/
     public boolean hasEnoughResources(HashMap<ResourceType, ResourceContainer> requested){
 
         for (ResourceType key : requested.keySet()) {
