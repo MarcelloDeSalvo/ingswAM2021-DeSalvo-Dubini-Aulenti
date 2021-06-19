@@ -31,7 +31,8 @@ public class User implements ObservableViewIO {
     private int receivedPongsCounts = maxLostPongs;
 
     /**
-     * After this amount of milliseconds the timer checks for a received pong and sends a ping
+     * After this amount of milliseconds the timer checks for a received pong and sends a ping <br>
+     *     timerTaskDelta * maxLostPings = total time that has to elapse before disconnecting the player
      */
     private final int timerTaskDelta = 10000;
 
@@ -114,8 +115,9 @@ public class User implements ObservableViewIO {
      * This method is used to notify when the game ends so that the Lobby can set itself to 'isClosed = false'
      */
     public void notifyEndGame(Message message) {
-        for (ObserverViewIO serverArea: serverAreas) {
-            serverArea.update(" ", message.getCommand(), nickname);
+        for (ServerArea serverArea: serverAreas) {
+            if (serverArea.getAreaStatus() == message.getCommand().getWhereToProcess())
+                serverArea.update(" ", message.getCommand(), nickname);
         }
     }
 

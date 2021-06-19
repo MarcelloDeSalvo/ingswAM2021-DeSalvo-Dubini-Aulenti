@@ -411,6 +411,8 @@ public class Cli extends ClientView {
     @Override
     public void onDisconnected(){
         System.out.println("\n! Lost The Connection From The Server !\n");
+        this.setInGame(false);
+
     }
 
     @Override
@@ -427,6 +429,7 @@ public class Cli extends ClientView {
     @Override
     public void onUserLeftGame() {
         System.out.println("\nSomeone left the game, you are now in the lobby\n");
+        this.setInGame(false);
     }
     //------------------------------------------------------------------------------------------------------------------
 

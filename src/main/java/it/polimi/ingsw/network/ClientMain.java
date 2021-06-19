@@ -26,7 +26,7 @@ public class ClientMain {
     private int portNumber;
     private String viewMode;
 
-    private final List<String> myParam = new ArrayList<>(Arrays.asList("-CLIENT", "-SERVER", "-PORT", "-VIEW", "--SOLO"));
+    private final List<String> myParam = new ArrayList<>(Arrays.asList("-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
     /**
      * Creates a new Client Main and tries to read its configuration file and the parameters passed by the user
@@ -102,9 +102,6 @@ public class ClientMain {
     private void commandLineCases(HashMap<String, List<String>> options){
         for (String s: options.keySet()) {
             switch (s){
-                case "-CLIENT":
-                    break;
-
                 case "-SERVER":
                     if (options.get(s).size()!=1){
                         System.err.println("Server param error");

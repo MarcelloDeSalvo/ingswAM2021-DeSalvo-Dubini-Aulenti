@@ -705,7 +705,6 @@ public class Gui extends ClientView {
     @Override
     public void notifyGameEnded() {
         printReply("# The game is ended, you are now in the lobby");
-
         this.setInGame(false);
     }
 
