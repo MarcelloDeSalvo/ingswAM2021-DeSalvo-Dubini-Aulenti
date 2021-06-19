@@ -24,7 +24,7 @@ public class CardGridPanel extends JPanel {
         this.setBorder(BorderFactory.createEmptyBorder(2, 280, 2, 280));
         this.setLayout(new GridLayout(3,4));
 
-        for (Integer id: liteCardGrid.getGUIcardIDs()) {
+        for (Integer id: liteCardGrid.getGUICardIDs()) {
             ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
             lc.addActionListener(e -> buyMenu(lc, id));
 
@@ -63,7 +63,7 @@ public class CardGridPanel extends JPanel {
      */
     public void updateGrid(){
         this.removeAll();
-        for (Integer id: liteCardGrid.getGUIcardIDs()) {
+        for (Integer id: liteCardGrid.getGUICardIDs()) {
             if (id != -1){
                 ButtonImage lc = new ButtonImage("/images/cardFrontJpgs/DevelopmentFront_"+id+".jpg", new Dimension(173,262));
 

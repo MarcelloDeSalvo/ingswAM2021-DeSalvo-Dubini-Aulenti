@@ -98,7 +98,6 @@ public class HandPanel extends JPanel {
             ButtonImage button = new ButtonImage("/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
             leaders.put(id, button);
-            System.out.println("Id !"+id);
             this.add(Box.createRigidArea(new Dimension(30, 50)));
             j++;
         }

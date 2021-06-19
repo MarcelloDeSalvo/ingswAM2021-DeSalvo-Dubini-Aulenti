@@ -63,7 +63,7 @@ public class LiteCardGrid {
         return currentGrid;
     }*/
 
-    public ArrayList<Integer> getGUIcardIDs(){
+    public ArrayList<Integer> getGUICardIDs(){
         ArrayList<Integer> shuffledIDs=new ArrayList<>();
 
         for(int i=0; i<3; i++) {

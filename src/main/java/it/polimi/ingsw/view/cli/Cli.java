@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
-import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.view.ClientView;
 
 import java.io.FileNotFoundException;

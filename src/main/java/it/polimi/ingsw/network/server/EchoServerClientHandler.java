@@ -45,51 +45,10 @@ public class EchoServerClientHandler implements Runnable {
 
                 if (command == Command.LOGIN) {
 
-                    if (logged){
-                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                .setInfo("Incorrect command, you are already logged in the server!").build().serialize());
-
-                    }else{
-
-                        if(nickname.equalsIgnoreCase("lorenzo")) {
-                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                    .setInfo("Sorry but you cannot use the nickname '" + nickname + "'").build().serialize());
-                        }
-                        else if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
-                            out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
-                                    setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() + "---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
-                                    build().serialize());
-
-                            out.flush();
-
-                            user = new User(nickname, out, Status.IN_LOBBY_MANAGER);
-
-                            user.addServerArea(lobbyManager);
-
-                            UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
-                            lobbyManager.sendLobbyList(nickname);
-
-                            System.out.println("# " + nickname + " has logged into the server \n");
-
-                            logged = true;
-
-                        } else {
-
-                            if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
-                                out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
-                                        .setInfo("Sorry, but the nickname is already in use. Try submitting another one").build().serialize());
-                            else {
-                                out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
-                                        .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
-
-                                lobbyManager.getConnectedPlayers().get(nickname).reconnect();
-
-                                System.out.println("# " + nickname + " has reconnected into the server \n");
-
-                                logged = true;
-                            }
-                        }
-                    }
+                    if (logged)
+                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Incorrect command, you are already logged in the server!").build().serialize());
+                    else
+                        authenticationPhase(out, nickname);
                 }
                 else {
                     if (user != null)
@@ -101,6 +60,69 @@ public class EchoServerClientHandler implements Runnable {
             System.out.println("# The user logged out before entering a nickname -> " + "IP: " + socket.getInetAddress());
             //e.printStackTrace();
         }
+    }
+
+    /**
+     * Manages every possible option regarding the "Authentication Phase":<br>
+     * - Blocks the players from selecting the nickname "LORENZO".
+     * - If the selected nickname is not present the login is correctly executed.
+     * - If the selected name is already present and the player is "Active", an error message is sent to the user.
+     * - If the selected name is already present but the player is NOT "Active", reconnection is executed.
+     */
+    private void authenticationPhase(PrintWriter out, String nickname) {
+
+        if(nickname.equalsIgnoreCase("lorenzo")) {
+            out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                    .setInfo("Sorry but you cannot use the nickname '" + nickname + "'").build().serialize());
+        }
+        else if (!lobbyManager.getConnectedPlayers().containsKey(nickname)) {
+            correctLogin(out, nickname);
+        }
+        else {
+            if (lobbyManager.getConnectedPlayers().get(nickname).isActive())
+                out.println(new Message.MessageBuilder().setCommand(Command.REPLY)
+                        .setInfo("Sorry, but the nickname is already in use. Try submitting another one").build().serialize());
+            else {
+                reconnection(out, nickname);
+            }
+        }
+    }
+
+    /**
+     * Called when the Login can be done correctly. <br>
+     * Creates a new "User" and sets it "IN_LOBBY_MANAGER"
+     */
+    private void correctLogin(PrintWriter out, String nickname){
+        out.println(new Message.MessageBuilder().setCommand(Command.LOGIN).
+                setInfo("You inserted a valid nickname.\n" + Color.ANSI_WHITE_BOLD_FRAMED.escape() + "---\t Welcome to masters of renaissance " + nickname + "! Here's a list of all available lobbies: \t---" + Color.ANSI_RESET.escape()).
+                build().serialize());
+
+        out.flush();
+
+        user = new User(nickname, out, Status.IN_LOBBY_MANAGER);
+
+        user.addServerArea(lobbyManager);
+
+        UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
+        lobbyManager.sendLobbyList(nickname);
+
+        System.out.println("# " + nickname + " has logged into the server \n");
+
+        logged = true;
+    }
+
+    /**
+     * Called when a Reconnection needs to be executed
+     */
+    private void reconnection(PrintWriter out, String nickname) {
+        out.println(new Message.MessageBuilder().setCommand(Command.RECONNECTED)
+                .setInfo("It looks like you had disconnected. Welcome back!").build().serialize());
+
+        lobbyManager.getConnectedPlayers().get(nickname).reconnect();
+
+        System.out.println("# " + nickname + " has reconnected into the server \n");
+
+        logged = true;
     }
 
 }
