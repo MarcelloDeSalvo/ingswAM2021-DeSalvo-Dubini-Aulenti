@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.commands;
 public class JoinLobbyMessage extends Message{
     private final String lobbyName;
 
-
     /**
      * Message from a player. Used to inform the server that a player wants to join a specific Lobby
      * @param lobbyName Lobby name

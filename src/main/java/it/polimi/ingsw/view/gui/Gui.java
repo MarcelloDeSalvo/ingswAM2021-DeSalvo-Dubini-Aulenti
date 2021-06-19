@@ -384,9 +384,19 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyBuySlotOk(String mex) {
+    public void notifyBuySlotOk(ArrayList<ResourceContainer> price) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int i=0;
+        for (ResourceContainer container : price) {
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType().deColored());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType().deColored());
+            i++;
+        }
+
         gamePanel.getNotifyLabel().setText("Now you can select the resources in order to pay");
-        infoLabel.setText(getDevelopmentCards().get(gamePanel.getPlayerBoardPanel().getProductionPanel().getBuyCardIdBuffer()-1).priceToStringDecoloured());
+        infoLabel.setText(stringBuilder.toString());
         guiStatus = GuiStatus.SELECTING_PAY_RESOURCES;
     }
 

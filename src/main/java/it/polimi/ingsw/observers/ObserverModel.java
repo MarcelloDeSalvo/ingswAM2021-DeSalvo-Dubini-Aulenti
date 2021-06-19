@@ -118,9 +118,9 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     void notifyBuyError(String error);
 
     /**
-     * Notifies a player that he chose a usable slot
+     * Notifies a player that he chose a usable slot and sends the card's price (discounted if needed)
      */
-    void notifyBuySlotOk(String mex);
+    void notifyBuySlotOk(ArrayList<ResourceContainer> price);
 
     /**
      * Notifies a player that the leader card has been discarded correctly

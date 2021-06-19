@@ -236,8 +236,8 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyBuySlotOk(String mex) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.BUY_SLOT_OK).setInfo(mex).setNickname(currPlayer).build());
+    public void notifyBuySlotOk(ArrayList<ResourceContainer> price) {
+        notifyUsers(new ContainerArrayListMessage(Command.BUY_SLOT_OK, price, currPlayer));
     }
 
     @Override

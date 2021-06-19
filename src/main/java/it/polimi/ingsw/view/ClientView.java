@@ -248,8 +248,8 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case PICK_FROM_MARKET:
-                MarketMessage marketMessage=gson.fromJson(mex,MarketMessage.class);
-                notifyMarketUpdate(marketMessage.getSelection(),marketMessage.getNum());
+                MarketMessage marketMessage = gson.fromJson(mex, MarketMessage.class);
+                notifyMarketUpdate(marketMessage.getSelection(), marketMessage.getNum());
                 break;
 
             case MARKET_OK:
@@ -257,7 +257,8 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case BUY_SLOT_OK:
-                notifyBuySlotOk(deserializedMex.getInfo());
+                ContainerArrayListMessage priceContainerMessage = gson.fromJson(mex, ContainerArrayListMessage.class);
+                notifyBuySlotOk(priceContainerMessage.getContainers());
                 break;
 
             case MANAGE_DEPOSIT_OK:
@@ -279,7 +280,7 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case ASK_MARKET_DEST:
-                ContainerArrayListMessage containerArrayListMessage= gson.fromJson(mex,ContainerArrayListMessage.class);
+                ContainerArrayListMessage containerArrayListMessage = gson.fromJson(mex,ContainerArrayListMessage.class);
                 askForMarketDestination(containerArrayListMessage.getContainers(), this.getNickname());
                 break;
 

@@ -779,9 +779,20 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyBuySlotOk(String mex) {
-        printReply(mex);
-        System.out.println();
+    public void notifyBuySlotOk(ArrayList<ResourceContainer> price) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int i=0;
+        for (ResourceContainer container : price) {
+            if(i == 0)
+                stringBuilder.append(container.getQty()).append(" ").append(container.getResourceType());
+            else
+                stringBuilder.append(" + ").append(container.getQty()).append(" ").append(container.getResourceType());
+            i++;
+        }
+
+        printReply("The card you selected requires: " + stringBuilder +
+                "\nPlease select resources as a payment by typing > GIVE Qty ResourceType 'FROM' ('DEPOSIT' DepositID) or ('VAULT')" +
+                "\nType > DONE after giving all the resources");
     }
 
     @Override
