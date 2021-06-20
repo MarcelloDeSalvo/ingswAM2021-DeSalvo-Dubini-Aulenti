@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class  DevelopmentCard extends Card{
     private final int level;
@@ -11,7 +12,7 @@ public class  DevelopmentCard extends Card{
     private final ArrayList<ResourceContainer> input;
     private final ArrayList<ResourceContainer> output;
 
-
+    //Test constructors-------------------------------------------------------------------------------------------------
     public DevelopmentCard (int victoryPoints, ArrayList<Requirement> req, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output, ArrayList<ResourceContainer> price) {
         super(victoryPoints,Status.PURCHASABLE, req, price);
         this.level = level;
@@ -28,7 +29,6 @@ public class  DevelopmentCard extends Card{
         this.output = new ArrayList<>(output);
     }
 
-    //Test constructors-------------------------------------------------------------------------------------------------
     public DevelopmentCard (int victoryPoints, int level, Colour colour, ArrayList<ResourceContainer> input, ArrayList<ResourceContainer> output) {
         super(victoryPoints, Status.PURCHASABLE);
         this.level = level;
@@ -54,14 +54,13 @@ public class  DevelopmentCard extends Card{
         return true;
     }
 
-
     /**
      * check if this card has the level and colour required
      * @param l is the level required [Level = 0 means any level]
      * @param c is the colour required
      * @return true if the inputs are equal to the card attributes
      */
-    public boolean isSameLevelandColour(int l, Colour c){
+    public boolean isSameLevelAndColour(int l, Colour c){
         return this.colour == c && (this.level == l || l == 0);
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -100,7 +99,7 @@ public class  DevelopmentCard extends Card{
         if(getStatus() == Status.ON_TOP)
             stringBuilder.append(" - Status: ").append(Color.ANSI_CYAN.escape()).append(getStatus()).append(Color.ANSI_RESET.escape()).append("\n");
 
-        ArrayList<ResourceContainer> price = getPrice();
+        List<ResourceContainer> price = getPrice();
         if(price != null) {
             stringBuilder.append(" - Price: ");
             int i = 0;

@@ -65,7 +65,7 @@ public class DevelopmentCardProduction implements ProductionSlot {
     public int countCardsWith(int level, Colour c) {
         int i = 0;
         for (DevelopmentCard d: dev.getDeck()) {
-            if (d.isSameLevelandColour(level, c))
+            if (d.isSameLevelAndColour(level, c))
                 i++;
         }
         return i;

@@ -54,11 +54,12 @@ class DiscountAbilityTest {
 
     @Test
     void discountAbilityMaxDiscount (){
-        Player alessandro=new Player("Margara");
+        Player alessandro = new Player("Margara");
         DevelopmentCard cardThatIsPrettyCheap= new DevelopmentCard(8,1,Colour.YELLOW);
         cardThatIsPrettyCheap.addPrice(new ResourceContainer(ResourceType.GOLD,2));
         discoLeader.executeAbility(alessandro.getPlayerBoard());
-        assertEquals(cardThatIsPrettyCheap.getDiscountedPrice(alessandro.getPlayerBoard()).get(0).getQty(), 0);
+        assertEquals(0, cardThatIsPrettyCheap.getDiscountedPrice(alessandro.getPlayerBoard()).size());
+        assertNotNull(cardThatIsPrettyCheap.getDiscountedPrice(alessandro.getPlayerBoard()));
     }
 
     @Test
@@ -67,7 +68,8 @@ class DiscountAbilityTest {
         DevelopmentCard cardThatIsPrettyCheap= new DevelopmentCard(8,1,Colour.YELLOW);
         cardThatIsPrettyCheap.addPrice(new ResourceContainer(ResourceType.GOLD,1));
         discoLeader.executeAbility(player.getPlayerBoard());
-        assertEquals(cardThatIsPrettyCheap.getDiscountedPrice(player.getPlayerBoard()).get(0).getQty(), 0);
+        assertEquals(0, cardThatIsPrettyCheap.getDiscountedPrice(player.getPlayerBoard()).size());
+        assertNotNull(cardThatIsPrettyCheap.getDiscountedPrice(player.getPlayerBoard()));
     }
 
     @Test

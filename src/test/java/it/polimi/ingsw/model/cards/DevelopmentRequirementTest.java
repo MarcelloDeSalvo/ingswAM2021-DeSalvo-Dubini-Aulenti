@@ -46,7 +46,7 @@ class DevelopmentRequirementTest {
     @Test
     void sameLevel(){
         assertNotNull(Util.getCardWithVpColour(6,Colour.BLUE));
-        Assertions.assertTrue(Util.getCardWithVpColour(6,Colour.BLUE).isSameLevelandColour(2, Colour.BLUE));
+        Assertions.assertTrue(Util.getCardWithVpColour(6,Colour.BLUE).isSameLevelAndColour(2, Colour.BLUE));
     }
 
     @Test

@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 abstract class Card {
@@ -12,8 +13,8 @@ abstract class Card {
     private int id;
     private int victoryPoints;
     private Status status;
-    private ArrayList<Requirement> requirements;
-    private ArrayList<ResourceContainer> price;
+    private List<Requirement> requirements;
+    private List<ResourceContainer> price;
 
     public Card(int vPoints, Status status, ArrayList<Requirement> req, ArrayList<ResourceContainer> price){
         this.victoryPoints = vPoints;
@@ -65,7 +66,9 @@ abstract class Card {
      * @return true if the add finishes without problems
      */
     public boolean addRequirement(Requirement requirement) throws NullPointerException, IllegalArgumentException {
-        return requirement != null && this.requirements.add(requirement);
+        if (requirement == null) return false;
+        this.requirements.add(requirement);
+        return true;
     }
 
     /**
@@ -74,7 +77,9 @@ abstract class Card {
      * @return true if the insert ends without exception
      */
     public boolean addPrice(ResourceContainer priceContainer) throws NullPointerException, IllegalArgumentException{
-        return priceContainer != null && this.price.add(priceContainer);
+        if (priceContainer == null) return false;
+        this.price.add(priceContainer);
+        return true;
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -85,7 +90,7 @@ abstract class Card {
     /**
      * Checks if the current users has some active discount and return the card's discounted price
      * @param playerBoard is the current's player's playerBoard
-     * @return the discounted price for the current player
+     * @return the discounted price for the current player or an empty ArrayList if the discount covers the full price
      */
     public ArrayList<ResourceContainer> getDiscountedPrice(PlayerBoard playerBoard){
         ArrayList<ResourceContainer> discountedPrice = new ArrayList<>();
@@ -117,13 +122,13 @@ abstract class Card {
         this.status = status;
     }
 
-    public ArrayList<Requirement> getRequirements() {
+    public List<Requirement> getRequirements() {
         return requirements;
     }
 
     public void setRequirements(ArrayList<Requirement> requirements) { this.requirements = requirements; }
 
-    public ArrayList<ResourceContainer> getPrice() {
+    public List<ResourceContainer> getPrice() {
         return price;
     }
 
