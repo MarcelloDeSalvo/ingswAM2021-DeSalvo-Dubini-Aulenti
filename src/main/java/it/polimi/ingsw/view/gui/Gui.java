@@ -396,12 +396,11 @@ public class Gui extends ClientView {
             gamePanel.getNotifyLabel().setText(nickname + " bought a new card (ID: " + cardID + " ) !");
             gamePanel.getOtherProductionPanel(nickname).printBoughtCard(slotID, cardID, gamePanel.getPlayerPanelsMap().get(nickname));
 
-        }
-
-        else {
+        } else {
             gamePanel.getNotifyLabel().setText("You bought the card correctly!");
             gamePanel.getPlayerBoardPanel().getProductionPanel().printBoughtCard(slotID, cardID, gamePanel.getPlayerBoardPanel());
             guiStatus = GuiStatus.IDLE;
+            gamePanel.getPlayerBoardPanel().deselectAllResources();
         }
 
         infoLabel.setText("");
@@ -429,12 +428,14 @@ public class Gui extends ClientView {
     public void notifyBuyError(String error) {
         infoLabel.setText(error);
         guiStatus = GuiStatus.IDLE;
+        gamePanel.getPlayerBoardPanel().deselectAllResources();
     }
 
     @Override
     public void notifyProductionError(String error, String senderNick) {
         infoLabel.setText(error);
         guiStatus = GuiStatus.IDLE;
+        gamePanel.getPlayerBoardPanel().deselectAllResources();
     }
 
     @Override
@@ -523,6 +524,7 @@ public class Gui extends ClientView {
             gamePanel.getNotifyLabel().setText(senderNick+" has used the production this turn!");
         else{
             gamePanel.getNotifyLabel().setText("Production executed correctly!");
+            gamePanel.getPlayerBoardPanel().deselectAllResources();
         }
     }
 
@@ -735,6 +737,9 @@ public class Gui extends ClientView {
     public void setGuiStatus(GuiStatus guiStatus) { this.guiStatus = guiStatus; }
 
     public GamePanel getGamePanel() { return gamePanel; }
+
+    public JFrame getFrame() { return frame; }
+
     //------------------------------------------------------------------------------------------------------------------
 
 

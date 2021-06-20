@@ -25,7 +25,7 @@ public class LobbyPanel extends BackgroundImagePanel {
         //lobbies = new TableWithButtons();
         lobbies = new JPanel();
         lobbies.setBorder(BorderFactory.createEmptyBorder(50,50,50,50));
-        lobbies.setBackground(new Color(255, 255, 255, 150));
+        lobbies.setBackground(new Color(255, 255, 255));
 
         showLobbyInfos(lobbyInfos);
 

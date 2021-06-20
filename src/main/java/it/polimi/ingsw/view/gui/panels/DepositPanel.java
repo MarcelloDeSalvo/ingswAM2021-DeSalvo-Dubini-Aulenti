@@ -138,6 +138,7 @@ public class DepositPanel extends JPanel {
                 gui.send(new SendContainer(Command.SEND_CONTAINER, resourceTypeLabel.getResourceContainer(),
                         "DEPOSIT", resourceTypeLabel.getId(), gui.getNickname()));
             }
+            resourceTypeLabel.setSelected(true);
         });
 
         done.addActionListener(e -> {
@@ -148,6 +149,17 @@ public class DepositPanel extends JPanel {
 
         popupmenu.add(submenuTransfer);
         popupmenu.add(submenuSwitch);
+    }
+
+    /**
+     * Deselects all the button (removes the selection border)
+     */
+    public void deselectAll(){
+        for (Integer i: depositButtons.keySet()) {
+            for (ResourceTypeLabel resourceTypeLabel1 : depositButtons.get(i)) {
+                resourceTypeLabel1.setSelected(false);
+            }
+        }
     }
 
     /**

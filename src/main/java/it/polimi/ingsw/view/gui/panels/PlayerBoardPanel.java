@@ -9,6 +9,7 @@ import java.awt.*;
 public class PlayerBoardPanel extends JLayeredPane {
 
     private final DepositPanel depositPanel;
+    private final VaultPanel vaultPanel;
     private final ProductionPanel productionPanel;
     private final AfterMarketPanel afterMarketPanel;
     private final HandPanel handPanel;
@@ -58,7 +59,7 @@ public class PlayerBoardPanel extends JLayeredPane {
 
 
         //VAULT
-        VaultPanel vaultPanel = new VaultPanel(gui, false, gui.getMyLiteVault());
+        vaultPanel = new VaultPanel(gui, false, gui.getMyLiteVault());
         vaultPanel.setBounds(40,550,330, 270);
         storage.add(vaultPanel);
 
@@ -88,5 +89,13 @@ public class PlayerBoardPanel extends JLayeredPane {
     public AfterMarketPanel getAfterMarketPanel() { return afterMarketPanel;  }
 
     public HandPanel getHandPanel() { return handPanel; }
+
+    /**
+     * Deselects all the resources from the vault and all deposits, removing the selection border
+     */
+    public void deselectAllResources(){
+        vaultPanel.deselectAll();
+        depositPanel.deselectAll();
+    }
 }
 

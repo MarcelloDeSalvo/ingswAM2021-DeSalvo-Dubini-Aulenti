@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.commands.SendContainer;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.GuiStatus;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
+import it.polimi.ingsw.view.gui.customJObject.ResourceTypeLabel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -170,9 +171,11 @@ public class VaultPanel extends JLayeredPane {
     private void resourceMenu(ButtonImage button, ResourceType resourceType){
         JPopupMenu popupmenu = new JPopupMenu("Vault");
         JMenuItem give = new JMenuItem("Pay with this");
+        JMenuItem giveMultiple = new JMenuItem("Pay amount");
         JMenuItem done = new JMenuItem("Done");
 
         popupmenu.add(give);
+        popupmenu.add(giveMultiple);
         popupmenu.add(done);
 
         button.addMouseListener(new MouseAdapter() {
@@ -192,16 +195,39 @@ public class VaultPanel extends JLayeredPane {
             }
         });
 
+        giveMultiple.addActionListener(e -> {
+            if (gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
+                String response = JOptionPane.showInputDialog("Chose an amount");
+                int amount;
+                try{
+                    amount = Integer.parseInt(response);
+                    gui.send(new SendContainer(new ResourceContainer(resourceType, amount),"VAULT", gui.getNickname()));
+                    button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
+                    button.setBorderPainted(true);
+
+                }catch (NumberFormatException f){
+                    gui.printReply("Please select a valid amount");
+                }
+                ;
+            }
+        });
+
         done.addActionListener(e -> {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
-                gold.setBorderPainted(false);
-                stone.setBorderPainted(false);
-                minion.setBorderPainted(false);
-                shield.setBorderPainted(false);
-                repaint();
             }
         });
+    }
+
+    /**
+     * Deselects all the button (removes the selection border)
+     */
+    public void deselectAll(){
+        gold.setBorderPainted(false);
+        stone.setBorderPainted(false);
+        minion.setBorderPainted(false);
+        shield.setBorderPainted(false);
+        repaint();
     }
 
 }

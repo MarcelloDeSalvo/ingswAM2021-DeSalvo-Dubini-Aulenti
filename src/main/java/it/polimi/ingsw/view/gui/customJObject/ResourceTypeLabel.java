@@ -34,13 +34,15 @@ public class ResourceTypeLabel extends LabelImage {
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        setBorder(BorderFactory.createEmptyBorder());
+                        if (!selected)
+                            setBorder(BorderFactory.createEmptyBorder());
                         ResourceTypeLabel.super.repaint();
                     }
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
+                        if (!selected)
+                            setBorder(BorderFactory.createLineBorder(Color.GREEN, 1));
                         ResourceTypeLabel.super.repaint();
                     }
                 }
@@ -65,6 +67,10 @@ public class ResourceTypeLabel extends LabelImage {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+        if (selected)
+            setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
+        else
+            setBorder(BorderFactory.createEmptyBorder());
     }
 
     public boolean isEmpty() {
