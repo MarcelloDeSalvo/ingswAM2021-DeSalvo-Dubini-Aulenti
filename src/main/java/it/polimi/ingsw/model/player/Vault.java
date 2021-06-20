@@ -45,7 +45,7 @@ public class Vault implements VaultSubject {
 
         for (ResourceContainer resourceContainer : inputArr){
             addToVault(resourceContainer);
-            vaultListener.notifyVaultChanges(resourceContainer, true, "");
+            vaultListener.notifyVaultChanges(resourceContainer, true, "Player");
         }
 
         return true;
@@ -62,7 +62,7 @@ public class Vault implements VaultSubject {
         else
             vaultMap.put(container.getResourceType(), container);
 
-        vaultListener.notifyVaultChanges(container, true, "");
+        vaultListener.notifyVaultChanges(container, true, "Player");
         return true;
     }
 
@@ -86,7 +86,7 @@ public class Vault implements VaultSubject {
      */
     public boolean removeFromVault(ResourceContainer inputContainer) {
         vaultMap.get(inputContainer.getResourceType()).addQty(-inputContainer.getQty());
-        vaultListener.notifyVaultChanges(inputContainer, false, "");
+        vaultListener.notifyVaultChanges(inputContainer, false, "Player");
         return true;
     }
 

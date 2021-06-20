@@ -144,10 +144,10 @@ public abstract class DepositSlot implements DepositSubject {
         this.getDepositContainer().addQty(hisQty);
         this.setDepositResourceType(hisResType);
 
-        depositListener.notifyDepositChanges(getId(), new ResourceContainer(myResType, myQty), false, null);
-        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(hisResType, hisQty), false, null);
-        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(myResType, myQty), true,null);
-        depositListener.notifyDepositChanges(getId(), new ResourceContainer(hisResType, hisQty), true, null);
+        depositListener.notifyDepositChanges(getId(), new ResourceContainer(myResType, myQty), false, "Player");
+        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(hisResType, hisQty), false, "Player");
+        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(myResType, myQty), true,"Player");
+        depositListener.notifyDepositChanges(getId(), new ResourceContainer(hisResType, hisQty), true, "Player");
 
         return true;
     }

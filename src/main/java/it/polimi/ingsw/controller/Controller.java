@@ -85,12 +85,10 @@ public class Controller implements ObserverController {
      */
     public Controller (View view, String nickname){
         this.view = view;
-        view.addObserverController(this);
         gson = new Gson();
 
         ArrayList<String> playersNicknames = new ArrayList<>();
         playersNicknames.add(nickname);
-        int numOfPlayers = 1;
 
         try {
             game = new Game(playersNicknames.get(0));   //SINGLE PLAYER

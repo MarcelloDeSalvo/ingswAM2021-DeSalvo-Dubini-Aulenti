@@ -201,7 +201,7 @@ public class Deposit implements DepositSubject {
     public boolean addDepositSlot(LeaderDeposit lds) {
         if (lds != null && depositList.add(lds)){
             lds.addListeners(depositListener);
-            depositListener.notifyNewDepositSlot(lds.getMaxDim(), lds.getDepositResourceType(), "");
+            depositListener.notifyNewDepositSlot(lds.getMaxDim(), lds.getDepositResourceType(), "Player");
             return true;
         }
 

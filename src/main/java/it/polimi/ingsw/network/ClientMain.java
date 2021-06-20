@@ -73,8 +73,13 @@ public class ClientMain {
                 System.exit(-1);
             }
             clientMain.view.setNickname("Player");
-            Controller controller = new Controller(clientMain.view,clientMain.view.getNickname());
+            clientMain.view.setSinglePlayer(true);
+            Controller controller = new Controller(clientMain.view, clientMain.view.getNickname());
             clientMain.view.addObserverController(controller);
+            while (true){
+                if (! clientMain.view.readInput())
+                    break;
+            }
         }
     }
 

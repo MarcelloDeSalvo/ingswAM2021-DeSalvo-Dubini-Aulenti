@@ -75,7 +75,7 @@ public class DefaultDeposit extends DepositSlot {
         this.getDepositContainer().setResourceType(inputType);
         getNotAvailableResourceType().add(inputType);
 
-        getDepositListener().notifyDepositChanges(getId(), inputContainer, true, null);
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, true, "Player");
 
         return true;
     }
@@ -102,7 +102,7 @@ public class DefaultDeposit extends DepositSlot {
 
         this.getDepositContainer().addQty(-quantityThatIWantToRemove);
         remakeTypeAvailableIfEmpty();
-        getDepositListener().notifyDepositChanges(getId(), inputContainer, false, null);
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, false, "Player");
 
         return true;
     }

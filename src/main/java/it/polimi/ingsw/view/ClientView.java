@@ -49,7 +49,7 @@ public abstract class ClientView implements View, UserInput {
     public void litePlayerBoardsSetUp(ArrayList<String> nicknames){
         this.liteBoards=new HashMap<>();
         for (String nic:nicknames) {
-            liteBoards.put(nic,new LitePlayerBoard(leaderCards, developmentCards));
+            liteBoards.put(nic, new LitePlayerBoard(leaderCards, developmentCards));
         }
     }
 
@@ -368,9 +368,7 @@ public abstract class ClientView implements View, UserInput {
 
     public ArrayList<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
 
-    public void setMyHand(LiteHand hand) {
-        liteBoards.get(nickname).setLiteHand(hand);
-    }
+    public void setMyHand(LiteHand hand) { liteBoards.get(nickname).setLiteHand(hand); }
 
     public LiteHand getMyHand() { return liteBoards.get(nickname).getLiteHand();}
 

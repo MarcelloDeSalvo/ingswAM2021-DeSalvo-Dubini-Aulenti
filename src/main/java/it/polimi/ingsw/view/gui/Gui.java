@@ -163,7 +163,6 @@ public class Gui extends ClientView {
 
     @Override
     public void printWaitingRoom(StringsMessage stringsMessage){
-
         lobbyRoomPanel = new LobbyRoomPanel(this);
         printPlayerList(stringsMessage.getInfo(), stringsMessage.getData());
 

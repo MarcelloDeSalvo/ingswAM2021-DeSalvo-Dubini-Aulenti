@@ -215,7 +215,7 @@ public class ProductionSite implements ProductionSubject {
      */
     public boolean addProductionSlot(ProductionSlot productionSlot){
         if (productionSlot != null && productionSlots.add(productionSlot)){
-            if(productionListener!= null) productionListener.notifyNewProductionSlot(productionSlot.getProductionAbility(), "");
+            if(productionListener!= null) productionListener.notifyNewProductionSlot(productionSlot.getProductionAbility(), "Player");
             return true;
         }
         return false;

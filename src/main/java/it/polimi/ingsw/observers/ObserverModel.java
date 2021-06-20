@@ -202,7 +202,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies all players the scoreboard
      * @param playersTotalVictoryPoints the players' points
      */
-    void notifyScores(List<Integer> playersTotalVictoryPoints,ArrayList<String> nicknames);
+    void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames);
 
     /**
      * Notifies all players that the game is over
