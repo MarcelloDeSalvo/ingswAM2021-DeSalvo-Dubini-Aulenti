@@ -99,51 +99,53 @@ public class GamePanel extends JPanel {
         topPanel.setBackground(new Color(219, 139, 0));
     }
 
-    private void buttonSection(){
+    private void buttonSection() {
 
         buttons = new JPanel();
         buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
         nicknames.remove(gui.getNickname());
         JComboBox<String> nickList = new JComboBox<>(nicknames.toArray(new String[0]));
-        if(nicknames.get(0).equals("LORENZO")) {
+        if (nicknames.get(0).equals("LORENZO")) {
             nickList.setVisible(false);
 
         }
-        JButton showPlayer = new ButtonImage(" PLAYER ", 22,true);
+        JButton showPlayer = new ButtonImage(" PLAYER ", 22, true);
 
-        showPlayer.addActionListener(e -> cardLayout.show(main,  nicknames.get(nickList.getSelectedIndex())+"Panel"));
+        showPlayer.addActionListener(e -> cardLayout.show(main, nicknames.get(nickList.getSelectedIndex()) + "Panel"));
 
-        JButton show_my_board = new ButtonImage(" MY BOARD ", 22,true);
+        JButton show_my_board = new ButtonImage(" MY BOARD ", 22, true);
         show_my_board.addActionListener(e -> cardLayout.show(main, "playerBoardPanel"));
 
-        JButton showFaithpath = new ButtonImage(" FAITHPATH ", 22,true);
+        JButton showFaithpath = new ButtonImage(" FAITHPATH ", 22, true);
         showFaithpath.addActionListener(e -> cardLayout.show(main, "faithPathPanel"));
 
-        JButton showMarket = new ButtonImage(" MARKET ", 22,true);
+        JButton showMarket = new ButtonImage(" MARKET ", 22, true);
         showMarket.addActionListener(e -> cardLayout.show(main, "marketPanel"));
 
-        JButton showCardGrid = new ButtonImage(" CARD GRID ", 22,true);
+        JButton showCardGrid = new ButtonImage(" CARD GRID ", 22, true);
         showCardGrid.addActionListener(e -> cardLayout.show(main, "cardGridPanel"));
 
-        JButton cheat = new ButtonImage(" CHEAT ", 22,true);
+        JButton cheat = new ButtonImage(" CHEAT ", 22, true);
         cheat.addActionListener(
                 e -> gui.send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(gui.getNickname()).build()));
 
-        JButton endTurn = new ButtonImage(" END TURN ", 22,true);
+        JButton endTurn = new ButtonImage(" END TURN ", 22, true);
         endTurn.addActionListener(
-            e -> gui.send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(gui.getNickname()).build()));
+                e -> gui.send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(gui.getNickname()).build()));
 
 
         buttons.setBackground(new Color(255, 235, 204));
-        buttons.add(Box.createRigidArea(new Dimension(300,30)));
+        buttons.add(Box.createRigidArea(new Dimension(300, 30)));
 
-        if(nicknames.get(0).equals("LORENZO"))
-            buttons.add(Box.createRigidArea(new Dimension(100,30)));
-        else
+        if (nicknames.get(0).equals("LORENZO")) {
+            buttons.add(Box.createRigidArea(new Dimension(190, 30)));
+        }
+        else {
             buttons.add(nickList);
+            buttons.add(Box.createRigidArea(new Dimension(20, 30)));
+            buttons.add(showPlayer);
+        }
 
-        buttons.add(Box.createRigidArea(new Dimension(20,30)));
-        buttons.add(showPlayer);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
         buttons.add(show_my_board);
         buttons.add(Box.createRigidArea(new Dimension(20,30)));
