@@ -185,7 +185,6 @@ public class VaultPanel extends JLayeredPane {
         give.addActionListener(e -> {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new SendContainer(new ResourceContainer(resourceType, 1),"VAULT", gui.getNickname()));
-
                 //gui.printReply("Ok! Keep selecting or click DONE");
 
                 button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
@@ -196,7 +195,6 @@ public class VaultPanel extends JLayeredPane {
         done.addActionListener(e -> {
             if (gui.getGuiStatus() == GuiStatus.SELECTING_DEST_AFTER_MARKET || gui.getGuiStatus() == GuiStatus.SELECTING_PAY_RESOURCES){
                 gui.send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(gui.getNickname()).build());
-
                 gold.setBorderPainted(false);
                 stone.setBorderPainted(false);
                 minion.setBorderPainted(false);

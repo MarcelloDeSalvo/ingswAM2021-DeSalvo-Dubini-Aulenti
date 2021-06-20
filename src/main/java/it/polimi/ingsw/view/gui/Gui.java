@@ -189,6 +189,9 @@ public class Gui extends ClientView {
     //GAME PRINTS-------------------------------------------------------------------------------------------------------
     @Override
     public void printItsYourTurn(String nickname) {
+        if (!nickname.equals(this.getNickname()))
+            return;
+
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
@@ -677,6 +680,8 @@ public class Gui extends ClientView {
     @Override
     public void notifyWinner(ArrayList<String> winner) {
         infoLabel.setText("The winner is: "+ winner);
+        infoLabel.revalidate();
+        infoLabel.repaint();
     }
 
     @Override
@@ -696,7 +701,10 @@ public class Gui extends ClientView {
 
         if (option == JOptionPane.OK_OPTION){
             setDefaultFrameSize();
-            cardLayout.show(mainPanel, "lobbyRoomPanel");
+            if(!isSinglePlayer())
+                cardLayout.show(mainPanel, "lobbyRoomPanel");
+            else
+                System.exit(-1);
         }
 
     }

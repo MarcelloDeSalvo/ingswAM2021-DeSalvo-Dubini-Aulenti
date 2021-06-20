@@ -189,8 +189,10 @@ public class Controller implements ObserverController {
 
         switch (command){
             case CHEAT_VAULT:
-                for (ResourceType res: ResourceType.values())
-                    currPlayer.getVault().addToVault(new ResourceContainer(res, 50));
+                for (ResourceType res: ResourceType.values()){
+                    if (res.canAddToVault())
+                        currPlayer.getVault().addToVault(new ResourceContainer(res, 50));
+                }
 
                 game.addFaithPointsToCurrentPLayer(4);
                 view.printReply_uni(currPlayer.getVault().toString(), currPlayer.getNickname());

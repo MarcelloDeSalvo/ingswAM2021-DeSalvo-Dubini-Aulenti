@@ -578,6 +578,9 @@ public class Cli extends ClientView {
     //GAME PRINTS-------------------------------------------------------------------------------------------------------
     @Override
     public void printItsYourTurn(String nickname){
+        if (!nickname.equals(this.getNickname()))
+            return;
+
         printReply_uni("\nIt is your turn, choose an action: " + "" +
                 "\n1) BUY A CARD (>BUY DevelopmentCardID ProductionSlotID) " +
                 "\n2) SELECT FROM MARKET (>MARKET Row||Column number)" +
@@ -973,6 +976,8 @@ public class Cli extends ClientView {
             i++;
         }
         printReply(scoreboard.toString());
+        if(isSinglePlayer())
+            System.exit(-1);
     }
 
     @Override

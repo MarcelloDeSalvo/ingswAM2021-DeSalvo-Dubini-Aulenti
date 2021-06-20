@@ -33,7 +33,7 @@ public class LiteVault {
         if(Util.isPresent(container.getResourceType(), vaultMap))
             vaultMap.get(container.getResourceType()).addQty(container.getQty());
         else
-            vaultMap.put(container.getResourceType(), container);
+            vaultMap.put(container.getResourceType(), new ResourceContainer(container.getResourceType(), container.getQty()));
     }
 
     public String toString(){
@@ -53,10 +53,6 @@ public class LiteVault {
             }
         }
         return stringBuilder.toString();
-    }
-
-    public HashMap<ResourceType, ResourceContainer> getVaultMap() {
-        return vaultMap;
     }
 
     public int getQtyOfResource(ResourceType resourceType){
