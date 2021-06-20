@@ -1,9 +1,11 @@
 package it.polimi.ingsw.network;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.view.ClientView;
+import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
 import it.polimi.ingsw.view.gui.Gui;
@@ -24,7 +26,9 @@ import java.util.stream.Collectors;
 public class ClientMain {
     private String hostName;
     private int portNumber;
+    private ClientView view;
     private String viewMode;
+    private boolean singlePlayer = false;
 
     private final List<String> myParam = new ArrayList<>(Arrays.asList("-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
@@ -54,11 +58,24 @@ public class ClientMain {
         }
 
         clientMain.commandLineParametersCheck(args);
+
         System.out.println("Hostname: " + clientMain.getHostName());
         System.out.println("Port: " + clientMain.getPortNumber());
         System.out.println("View: " + clientMain.getMode());
 
-        clientMain.connect();
+        if (!clientMain.singlePlayer)
+            clientMain.connect();
+        else{
+            try {
+                clientMain.view = clientMain.viewSelector();
+            }catch (FileNotFoundException e){
+                System.out.println("View Not Found, please restart");
+                System.exit(-1);
+            }
+            clientMain.view.setNickname("Player");
+            Controller controller = new Controller(clientMain.view,clientMain.view.getNickname());
+            clientMain.view.addObserverController(controller);
+        }
     }
 
     /**
@@ -149,6 +166,8 @@ public class ClientMain {
 
                     if (options.containsKey("-PORT") || options.containsKey("-SERVER"))
                         System.out.println("PORT and SERVER will be ignored");
+
+                    singlePlayer = true;
                     break;
 
                 default:
@@ -167,7 +186,7 @@ public class ClientMain {
         try {
 
             Socket echoSocket = new Socket(hostName, portNumber);
-            ClientView view = viewSelector();
+            view = viewSelector();
 
             ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view);
             ClientSender clientSender = new ClientSender(echoSocket, view);
@@ -194,7 +213,6 @@ public class ClientMain {
             System.err.println("Thread InterruptedException error " + hostName);
 
         }
-
     }
 
     /**

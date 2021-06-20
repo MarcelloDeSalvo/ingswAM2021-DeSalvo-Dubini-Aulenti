@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class ClientView implements View, UserInput {
+
     private boolean isInGame = false;
+    private boolean singlePlayer = false;
+
     private String nickname;
     private final ArrayList<ObserverController> observerControllers;
 
@@ -25,10 +28,9 @@ public abstract class ClientView implements View, UserInput {
     private final LiteFaithPath liteFaithPath;
     private LiteCardGrid liteCardGrid;
     private LiteMarket liteMarket;
+    private HashMap<String,LitePlayerBoard> liteBoards;
 
     private final Gson gson;
-
-    private HashMap<String,LitePlayerBoard> liteBoards;
 
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
@@ -41,7 +43,7 @@ public abstract class ClientView implements View, UserInput {
     @Override
     public void send(Message mex){
         String stringToSend = mex.serialize();
-        notifyController(stringToSend, null, null);
+        notifyController(stringToSend, mex.getCommand(), nickname);
     }
 
     public void litePlayerBoardsSetUp(ArrayList<String> nicknames){
@@ -405,6 +407,11 @@ public abstract class ClientView implements View, UserInput {
     public boolean isInGame() { return isInGame; }
 
     public void setInGame(boolean inGame) {  isInGame = inGame; }
+
+    public boolean isSinglePlayer() { return singlePlayer; }
+
+    public void setSinglePlayer(boolean singlePlayer) { this.singlePlayer = singlePlayer; }
+
     //------------------------------------------------------------------------------------------------------------------
 
 }

@@ -677,7 +677,7 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyWinner(ArrayList<String> winner) {
-        gamePanel.getNotifyLabel().setText("The winner is: "+ winner);
+        infoLabel.setText("The winner is: "+ winner);
     }
 
     @Override

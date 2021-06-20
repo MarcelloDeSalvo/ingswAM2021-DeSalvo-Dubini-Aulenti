@@ -41,7 +41,6 @@ public class Controller implements ObserverController {
     private ArrayList<Integer> productionSlotIDs;
     //------------------------------------------------------------------------------------------------------------------/
 
-
     /**
      * Online Controller constructor
      */
@@ -75,6 +74,32 @@ public class Controller implements ObserverController {
                 view.askForLeaderCardID(game.getPlayer(0).getNickname());
 
             }
+
+        }catch (FileNotFoundException e){
+            view.notifyGameCreationError("Cannot read the configuration file of the game");
+        }
+    }
+
+    /**
+     * Single player Controller constructor
+     */
+    public Controller (View view, String nickname){
+        this.view = view;
+        view.addObserverController(this);
+        gson = new Gson();
+
+        ArrayList<String> playersNicknames = new ArrayList<>();
+        playersNicknames.add(nickname);
+        int numOfPlayers = 1;
+
+        try {
+            game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
+            game.addView(view);
+
+            view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
+            view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
+            view.notifyCardsInHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
+            view.askForLeaderCardID(game.getPlayer(0).getNickname());
 
         }catch (FileNotFoundException e){
             view.notifyGameCreationError("Cannot read the configuration file of the game");
