@@ -809,9 +809,9 @@ public class Controller implements ObserverController {
         }
 
         if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
+            currPlayer.setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
             view.askMultipleConversion(currPlayer.getConversionSite().countConvertible(marketOut), currPlayer.getConversionSite().getDefaultConverted(),
                     currPlayer.getConversionSite().getTypesAvailable());
-            game.getCurrentPlayer().setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
             return;
         }
 

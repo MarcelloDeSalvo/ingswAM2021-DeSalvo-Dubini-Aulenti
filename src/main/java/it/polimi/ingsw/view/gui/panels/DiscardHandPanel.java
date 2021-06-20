@@ -15,7 +15,7 @@ public class DiscardHandPanel extends JPanel {
     private final LiteHand liteHand;
     private final JPanel bottomPanel;
     private final Gui gui;
-    private int discountCounter = 0;
+    private int discardCounter = 0;
 
     /**
      * Builds the panel used to determine which of the 4 leader cards the user wants to keep
@@ -59,14 +59,14 @@ public class DiscardHandPanel extends JPanel {
 
             bottomPanel.add(lc);
             lc.addActionListener(e->{
-                if(discountCounter >= 2)
+                if(discardCounter >= 2)
                     return;
-
-                gui.send(new IdMessage(Command.DISCARD_LEADER, id, gui.getNickname()));
-                discountCounter++;
 
                 bottomPanel.remove(lc);
                 bottomPanel.repaint();
+                discardCounter++;
+                gui.send(new IdMessage(Command.DISCARD_LEADER, id, gui.getNickname()));
+
             });
             bottomPanel.add(Box.createHorizontalGlue());
 
