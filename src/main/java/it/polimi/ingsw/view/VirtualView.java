@@ -171,15 +171,13 @@ public class VirtualView implements View, ServerArea {
     @Override
     public void askForLeaderCardID(String nickname) {
         UserManager.notifyUsers(connectedPlayers,
-                new Message.MessageBuilder().setCommand(Command.REPLY)
-                        .setInfo("Please select 2 Leader Cards to discard by typing 'DISCARD id'").setNickname(nickname).build());
+                new Message.MessageBuilder().setCommand(Command.ASK_LEADER_ID)
+                        .setNickname(nickname).build());
     }
 
     @Override
     public void askForResources(String nickname, int qty) {
-        notifyUsers(new Message.MessageBuilder().setCommand(Command.ASK_SETUP_RESOURCES)
-                    .setInfo("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'")
-                        .setNickname(nickname).build());
+        notifyUsers(new IdMessage(Command.ASK_SETUP_RESOURCES, qty, nickname));
 
     }
 
@@ -352,13 +350,8 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyWinner(ArrayList<String> winners){
-        notifyUsers(new StringsMessage(new Message.MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.NOTIFY_WINNER), winners));
-    }
-
-    @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames){
-        notifyUsers(new ScoreMessage(playersTotalVictoryPoints, nicknames));
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> winners){
+        notifyUsers(new ScoreMessage(playersTotalVictoryPoints, nicknames, winners));
     }
 
     @Override

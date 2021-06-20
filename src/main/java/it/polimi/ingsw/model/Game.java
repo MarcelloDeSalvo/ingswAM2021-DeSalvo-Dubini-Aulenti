@@ -376,8 +376,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         ArrayList<String> nick = new ArrayList<>();
         nick.add(playerList.get(0).getNickname());
 
-        view.notifyScores(playersTotalVictoryPoints, nick);
-        view.notifyWinner(winner);
+        view.notifyScores(playersTotalVictoryPoints, nick, winner);
         view.notifyGameEnded();
     }
 
@@ -392,14 +391,13 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         ArrayList<Player> maxPointPlayer = new ArrayList<>();
         List<Integer> playersTotalVictoryPoints = new ArrayList<>();
 
-        int max = 0;
+        int max;
 
         calcAllPlayerPoints(playersTotalVictoryPoints);
         max = playersTotalVictoryPoints.stream().max(Integer::compare).get();
         setWinners(maxPointPlayer, max);
 
-        view.notifyScores(playersTotalVictoryPoints, getNicknames());
-        view.notifyWinner(winner);
+        view.notifyScores(playersTotalVictoryPoints, getNicknames(), winner);
         view.notifyGameEnded();
     }
 

@@ -22,6 +22,7 @@ import it.polimi.ingsw.view.VirtualView;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Controller implements ObserverController {
 
@@ -191,11 +192,18 @@ public class Controller implements ObserverController {
             case CHEAT_VAULT:
                 for (ResourceType res: ResourceType.values()){
                     if (res.canAddToVault())
-                        currPlayer.getVault().addToVault(new ResourceContainer(res, 50));
+                        currPlayer.getVault().addToVault(new ResourceContainer(res, 25));
                 }
 
-                game.addFaithPointsToCurrentPLayer(4);
-                view.printReply_uni(currPlayer.getVault().toString(), currPlayer.getNickname());
+                game.addFaithPointsToCurrentPLayer(2);
+                Random r = new Random();
+                int rInt  = r.nextInt(3);
+                if (rInt == 0)
+                    view.printReply_uni("Lorenzo doesn't love you anymore", currPlayer.getNickname());
+                if (rInt == 1)
+                    view.printReply_uni("“People don't cheat by chance, they cheat by choice.“ -LORENZO", currPlayer.getNickname());
+                if (rInt == 2)
+                    view.printReply_uni("“The only things you give yourself when you cheat are fear and guilt.” —Unknown", currPlayer.getNickname());
                 break;
 
             case BUY:
@@ -420,8 +428,7 @@ public class Controller implements ObserverController {
             game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).canAddToDepositSlot(container);
             game.getPlayer(currPlayerNum).getDepositSlotByID(depositSlotID).addToDepositSlot(container);
 
-            view.printReply_uni(container.getQty() + " " + container.getResourceType().toString() + "" +
-                    " has been added to your deposit slot N: " + depositSlotID, currNickname);
+            view.printReply_uni("Resources added correctly!", currNickname);
 
             return true;
 
@@ -596,7 +603,7 @@ public class Controller implements ObserverController {
 
     /**
      * Used to actually buy the Development Card but only after checking with the method 'canBuy()' if you can do it.
-     * If the card is correctly bought it is inserted in a specific 'productionSlotId' and removed from the Cardgrid
+     * If the card is correctly bought it is inserted in a specific 'productionSlotId' and removed from the card grid
      * This method also notifies the view on what happens using specific messages
      * @param senderNick current player nickname
      */

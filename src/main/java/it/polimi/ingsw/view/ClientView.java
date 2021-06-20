@@ -191,12 +191,7 @@ public abstract class ClientView implements View, UserInput {
 
             case NOTIFY_SCORES:
                 ScoreMessage scoreMessage = gson.fromJson(mex, ScoreMessage.class);
-                notifyScores(scoreMessage.getPlayersTotalVictoryPoints(), scoreMessage.getNicknames());
-                break;
-
-            case NOTIFY_WINNER:
-                StringsMessage stringsMessage1 = gson.fromJson(mex, StringsMessage.class);
-                notifyWinner(stringsMessage1.getData());
+                notifyScores(scoreMessage.getPlayersTotalVictoryPoints(), scoreMessage.getNicknames(), scoreMessage.getWinners());
                 break;
 
             case USER_LEFT_GAME:
@@ -275,14 +270,18 @@ public abstract class ClientView implements View, UserInput {
                 notifyConversionError(deserializedMex.getInfo());
                 break;
 
+            case ASK_LEADER_ID:
+                askForLeaderCardID(senderNick);
+                break;
+
             case ASK_MARKET_DEST:
                 ContainerArrayListMessage containerArrayListMessage = gson.fromJson(mex,ContainerArrayListMessage.class);
                 askForMarketDestination(containerArrayListMessage.getContainers(), this.getNickname());
                 break;
 
             case ASK_SETUP_RESOURCES:
-                askForResources(senderNick, 0);
-                printReply(deserializedMex.getInfo());
+                IdMessage idMessage1 = gson.fromJson(mex, IdMessage.class);
+                askForResources(senderNick, idMessage1.getId());
                 break;
 
             case ASK_MULTIPLE_CONVERSION:

@@ -42,17 +42,13 @@ public class LitePlayerBoard {
 
 
     public String toString(String player) {
-        StringBuilder s = new StringBuilder("\n");
         String divider="\n>< >< >< >< >< >< >< >< >< >< >< >< >< >< >< >< >< >< >< ><>< >< >< >< >< >< >< >< >< >< >< >< >< >< ><\n";
 
-        s.append(player).append("'s ").append(Color.ANSI_BLUE.escape()).append("BOARD: \n").append(Color.ANSI_RESET.escape()).append(divider);
-
-        s.append(liteHand.toString(player)).append(divider).
-                append(liteProduction.toString()).append(divider).
-                append(liteDeposit.toString()).append(divider).
-                append(liteVault.toString()).append("\n");
-
-        return s.toString();
+        return "\n" + player + "'s " + Color.ANSI_BLUE.escape() + "BOARD: \n" + Color.ANSI_RESET.escape() + divider +
+                liteHand.toString(player) + divider +
+                liteProduction.toString() + divider +
+                liteDeposit.toString() + divider +
+                liteVault.toString() + "\n";
     }
 
 }

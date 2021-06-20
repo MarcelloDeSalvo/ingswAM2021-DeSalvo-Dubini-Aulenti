@@ -197,8 +197,8 @@ public class Cli extends ClientView {
                     if (InputCheck.not_with(with))
                         throw new InputMismatchException("Invalid syntax");
 
-                    int destin = stdIn.nextInt();
-                    send(new SwitchDepositMessage(source, destin, this.getNickname()));
+                    int dest = stdIn.nextInt();
+                    send(new SwitchDepositMessage(source, dest, this.getNickname()));
                     break;
 
                 case "DONE":
@@ -680,11 +680,13 @@ public class Cli extends ClientView {
     //ASK---------------------------------------------------------------------------------------------------------------
     @Override
     public void askForResources(String nickname, int qty) {
-
+        printReply("Please select " + qty + " type of resources of your choice by typing 'SELECT ResourceType Deposit DepositID'");
     }
 
     @Override
-    public void askForLeaderCardID(String nickname) { }
+    public void askForLeaderCardID(String nickname) {
+        printReply("Please discard 2 Leader Cards by typing 'DISCARD cardID' \n");
+    }
 
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
@@ -957,17 +959,15 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyWinner(ArrayList<String> winners) {
-        String winnerz="";
-        for (String winner : winners) {
-            winnerz+=winner;
-            winnerz+=" ";
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> allWinners) {
+        StringBuilder winners= new StringBuilder();
+        winners.append("\n\n");
+        for (String winner : allWinners) {
+            winners.append(winner);
+            winners.append(" ");
         }
-        printReply("[#-_- "+Color.ANSI_YELLOW.escape()+"Winners: "+Color.ANSI_RESET.escape()+":"+ winnerz +" -_-#]");
-    }
+        printReply("[#-_- "+Color.ANSI_YELLOW.escape()+"Winners: "+Color.ANSI_RESET.escape()+ winners +" -_-#]");
 
-    @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
         StringBuilder scoreboard = new StringBuilder("\n#_SCORE BOARD_#\n");
         int i = 0;
         for (String nick: nicknames) {

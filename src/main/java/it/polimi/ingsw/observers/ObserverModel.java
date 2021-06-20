@@ -194,15 +194,11 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     void notifyLastTurn();
 
     /**
-     * Notifies all players who won
-     */
-    void notifyWinner(ArrayList<String> winners);
-
-    /**
      * Notifies all players the scoreboard
      * @param playersTotalVictoryPoints the players' points
+     * @param allWinners all the winners (>1 in case of a draw)
      */
-    void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames);
+    void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> allWinners);
 
     /**
      * Notifies all players that the game is over

@@ -258,10 +258,13 @@ public class Gui extends ClientView {
         getMyLiteDeposit().setDepositPanel(resourceSelectionPanel.getDepositPanel());
         mainPanel.add(resourceSelectionPanel, "5");
         cardLayout.show(mainPanel, "5");
+        printReply("Please select " + qty + " resources of your choice by clicking on them");
     }
 
     @Override
-    public void askForLeaderCardID(String nickname) { }
+    public void askForLeaderCardID(String nickname) {
+        printReply("Please discard 2 Leader Cards by clicking on them");
+    }
 
     @Override
     public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
@@ -678,24 +681,25 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyWinner(ArrayList<String> winner) {
-        infoLabel.setText("The winner is: "+ winner);
-        infoLabel.revalidate();
-        infoLabel.repaint();
-    }
-
-    @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames) {
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> winners) {
         StringBuilder scoreboard = new StringBuilder();
         int i = 0;
+
+        for (String nick: winners) {
+            scoreboard.append(nick);
+            scoreboard.append(" Won the Game! ");
+        }
+
+        scoreboard.append("\n\n");
         for (String nick: nicknames) {
             scoreboard.append(nick);
             scoreboard.append(" scored: ").append(playersTotalVictoryPoints.get(i)).append("  points").append("\n");
             i++;
         }
+
         int option = JOptionPane.showConfirmDialog(frame,
                 scoreboard,
-                "SCORE BOARD",
+                "SCORE BOARD AND WINNERS",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE);
 
