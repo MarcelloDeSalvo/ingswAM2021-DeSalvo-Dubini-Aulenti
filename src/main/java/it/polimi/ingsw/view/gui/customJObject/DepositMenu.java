@@ -14,7 +14,7 @@ public class DepositMenu extends JMenu {
 
     private final ResourceType selectedResource;
     private final Gui gui;
-    private int source;
+    private final int source;
 
     public DepositMenu(Gui gui, String s, ResourceType selectedResource, Command command, int source) {
         super(s);

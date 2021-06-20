@@ -25,7 +25,7 @@ public class GamePanel extends JPanel {
 
     private final Gui gui;
     private final BackgroundImagePanel main;
-    private final CardLayout cardLayout ;
+    private final CardLayout cardLayout;
     private JPanel buttons;
     private JPanel topPanel;
 

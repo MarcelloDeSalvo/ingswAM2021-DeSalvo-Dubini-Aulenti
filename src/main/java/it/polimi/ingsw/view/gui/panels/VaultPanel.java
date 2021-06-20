@@ -190,7 +190,7 @@ public class VaultPanel extends JLayeredPane {
                 gui.send(new SendContainer(new ResourceContainer(resourceType, 1),"VAULT", gui.getNickname()));
                 //gui.printReply("Ok! Keep selecting or click DONE");
 
-                button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+                button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 4));
                 button.setBorderPainted(true);
             }
         });
@@ -202,7 +202,7 @@ public class VaultPanel extends JLayeredPane {
                 try{
                     amount = Integer.parseInt(response);
                     gui.send(new SendContainer(new ResourceContainer(resourceType, amount),"VAULT", gui.getNickname()));
-                    button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
+                    button.setBorder(BorderFactory.createLineBorder(Color.CYAN, 4));
                     button.setBorderPainted(true);
 
                 }catch (NumberFormatException f){

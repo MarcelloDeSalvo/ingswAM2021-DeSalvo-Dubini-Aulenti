@@ -68,7 +68,7 @@ public class ResourceTypeLabel extends LabelImage {
     public void setSelected(boolean selected) {
         this.selected = selected;
         if (selected)
-            setBorder(BorderFactory.createLineBorder(Color.CYAN, 3));
+            setBorder(BorderFactory.createLineBorder(Color.CYAN, 4));
         else
             setBorder(BorderFactory.createEmptyBorder());
     }

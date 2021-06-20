@@ -63,7 +63,7 @@ public class EchoServerClientHandler implements Runnable {
     }
 
     /**
-     * Manages every possible option regarding the "Authentication Phase":<br>
+     * Manages every possible option regarding the "Authentication Phase":
      * - Blocks the players from selecting the nickname "LORENZO".
      * - If the selected nickname is not present the login is correctly executed.
      * - If the selected name is already present and the player is "connected", an error message is sent to the user.
@@ -89,7 +89,7 @@ public class EchoServerClientHandler implements Runnable {
     }
 
     /**
-     * Called when the Login can be done correctly. <br>
+     * Called when the Login can be done correctly.
      * Creates a new "User" and sets it "IN_LOBBY_MANAGER"
      */
     private void correctLogin(PrintWriter out, String nickname){

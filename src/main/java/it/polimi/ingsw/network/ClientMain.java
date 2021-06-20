@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.network.client.ClientSender;
 import it.polimi.ingsw.view.ClientView;
-import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
 import it.polimi.ingsw.view.gui.Gui;

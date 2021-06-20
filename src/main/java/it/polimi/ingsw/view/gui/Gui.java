@@ -277,6 +277,9 @@ public class Gui extends ClientView {
     public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
         guiStatus = GuiStatus.SELECTING_CONVERSION;
 
+        cardLayout.show(mainPanel, "gamePanel");
+        gamePanel.getCardLayout().show(gamePanel.getMain(), "playerBoardPanel");
+
         int response = JOptionPane.showOptionDialog(null, "You have multiple conversion available, please choose one for each blank marble", "Conversion Request",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
                 null, decolourType(availableConversion).toArray(), decolourType(availableConversion).toArray()[0]);

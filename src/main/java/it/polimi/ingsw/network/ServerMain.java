@@ -25,7 +25,7 @@ public class ServerMain {
      */
     public static void main(String[] args) {
         if(args.length==2){
-            if (args[0].toUpperCase().equals("-PORT"))
+            if (args[0].equalsIgnoreCase("-PORT"))
                 try {
                     int portNumber = Integer.parseInt(args[1]);
                     ServerMain serverMain = new ServerMain(portNumber);
