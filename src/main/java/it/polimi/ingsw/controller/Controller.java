@@ -879,9 +879,10 @@ public class Controller implements ObserverController {
 
         try {
             if(!mustDiscardCheck(container, senderNick)){
-                currPlayer.getDepositSlotByID(putMessage.getDestinationID()).canAddToDepositSlot(selected);
-                currPlayer.getDepositSlotByID(putMessage.getDestinationID()).addToDepositSlot(selected);
-                marketOut.remove(container);
+                if (currPlayer.getDepositSlotByID(putMessage.getDestinationID()).canAddToDepositSlot(selected)){
+                    currPlayer.getDepositSlotByID(putMessage.getDestinationID()).addToDepositSlot(selected);
+                    marketOut.remove(container);
+                }
             }
 
         }catch (DifferentResourceType | DepositSlotMaxDimExceeded | ResourceTypeAlreadyStored  e){

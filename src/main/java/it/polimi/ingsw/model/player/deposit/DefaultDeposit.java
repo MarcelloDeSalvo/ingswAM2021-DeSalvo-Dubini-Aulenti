@@ -76,7 +76,7 @@ public class DefaultDeposit extends DepositSlot {
         getNotAvailableResourceType().add(inputType);
 
         getDepositListener().notifyDepositChanges(getId(), inputContainer, true, "Player");
-
+        getHashSetData();
         return true;
     }
 
@@ -164,13 +164,13 @@ public class DefaultDeposit extends DepositSlot {
      * @return true if it is
      */
     private boolean isTheResourceTypeAlreadyTaken(ResourceType inputResType){
-
-        if(inputResType == this.getDepositResourceType())
+        //getHashSetData(); // -------------> Da rimuovere, solo per testing
+        if(inputResType == this.getDepositResourceType() && !this.isEmpty())
             return false;
 
         return getNotAvailableResourceType().contains(inputResType);
 
-        //getHashSetData(); // -------------> Da rimuovere, solo per testing
+
     }
 
     /**
@@ -180,7 +180,7 @@ public class DefaultDeposit extends DepositSlot {
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());
-        //getHashSetData(); // -------------> Da rimuovere, solo per testing
+        getHashSetData(); // -------------> Da rimuovere, solo per testing
 
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -189,8 +189,9 @@ public class DefaultDeposit extends DepositSlot {
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public void getHashSetData(){
         for (ResourceType rs: notAvailableResourceType) {
-            System.out.println(rs.toString());
+            System.out.print(rs.toString()+" ");
         }
+        System.out.println();
     }
 
     public HashSet<ResourceType> getNotAvailableResourceType() {
