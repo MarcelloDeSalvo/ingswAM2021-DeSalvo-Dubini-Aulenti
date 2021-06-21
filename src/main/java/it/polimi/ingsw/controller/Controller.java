@@ -808,7 +808,7 @@ public class Controller implements ObserverController {
             return;
         }
 
-        if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED) {
+        if(currPlayer.canConvert() == ConversionMode.CHOICE_REQUIRED && marketOut.contains(new ResourceContainer(currPlayer.getConversionSite().getDefaultConverted(),1))) {
             currPlayer.setPlayerStatus(PlayerStatus.SELECTING_CONVERSION);
             view.askMultipleConversion(currPlayer.getConversionSite().countConvertible(marketOut), currPlayer.getConversionSite().getDefaultConverted(),
                     currPlayer.getConversionSite().getTypesAvailable());
