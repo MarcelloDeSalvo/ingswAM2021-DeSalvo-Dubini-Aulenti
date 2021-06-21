@@ -180,7 +180,7 @@ public class DefaultDeposit extends DepositSlot {
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());
-        //getHashSetData(); // -------------> Da rimuovere, solo per testing
+        //getHashSetData(); testing only
 
     }
     //------------------------------------------------------------------------------------------------------------------

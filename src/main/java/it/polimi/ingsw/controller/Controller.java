@@ -118,15 +118,19 @@ public class Controller implements ObserverController {
     }
 
     /**
-     * Discourages the cheaters
+     * Discourages the filthy cheaters
      */
     private void setCheatPhrases(){
         cheatPhrases = new ArrayList<>();
         cheatPhrases.add("Lorenzo doesn't love you anymore");
         cheatPhrases.add("“People don't cheat by chance, they cheat by choice.“ -LORENZO");
-        cheatPhrases.add("“The only things you give yourself when you cheat are fear and guilt.” —Unknown");
         cheatPhrases.add("You are a disappointment");
-        cheatPhrases.add("How can you look your sweet grandma in the eyes after this");
+        cheatPhrases.add("How can you look at your sweet grandma in the eyes after this?");
+        cheatPhrases.add("Don't worry, nobody saw that! (Except me, of course)");
+        cheatPhrases.add("You're lucky the renaissance police isn't available right now.");
+        cheatPhrases.add("Maybe, just maybe, fairplay isn't your best trait ");
+        cheatPhrases.add("Fool me once shame on me, fool me twice... wait you've fooled me JUST twice right? Please stop");
+
     }
 
     @Override
