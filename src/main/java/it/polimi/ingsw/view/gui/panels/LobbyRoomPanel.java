@@ -7,7 +7,7 @@ import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class LobbyRoomPanel extends JPanel {
 
@@ -43,7 +43,7 @@ public class LobbyRoomPanel extends JPanel {
         this.add(lobbyOptions, BorderLayout.PAGE_END);
     }
 
-    public void printPlayerList(String info, ArrayList<String> names) {
+    public void printPlayerList(String info, List<String> names) {
         if (playerList != null)
             playerList.removeAll();
 

@@ -182,12 +182,12 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname){
+    public void askForMarketDestination(List<ResourceContainer> containers, String nickname){
         UserManager.notifyUsers(connectedPlayers, new ContainerArrayListMessage(Command.ASK_MARKET_DEST,containers,nickname));
     }
 
     @Override
-    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
+    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, List<ResourceType> availableConversion) {
        notifyUsers( new AskConversionMessage (new Message.MessageBuilder().setCommand(Command.ASK_MULTIPLE_CONVERSION).setNickname(currPlayer),
                typeToConvert, availableConversion, numToConvert));
     }
@@ -196,7 +196,7 @@ public class VirtualView implements View, ServerArea {
 
     //NOTIFIES----------------------------------------------------------------------------------------------------------
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames,ArrayList<ResourceContainer> marketSetUp){
+    public void notifyGameSetup(List<Integer> cardGridIDs, List<String> nicknames, List<ResourceContainer> marketSetUp){
         notifyUsers(new GameSetUp(cardGridIDs,nicknames,marketSetUp));
     }
 
@@ -216,7 +216,7 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyPapalFavour(ArrayList<Integer> playerFavours, String nickname) {
+    public void notifyPapalFavour(List<Integer> playerFavours, String nickname) {
         notifyUsers(new PapalFavourUpdateMessage(playerFavours,nickname));
     }
 
@@ -226,7 +226,7 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+    public void notifyCardsInHand(List<Integer> leaderIDs, String nickname) {
         notifyUsers(new ArrayListIntegerMessage(Command.NOTIFY_HAND,leaderIDs, nickname));
     }
 
@@ -251,7 +251,7 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyBuySlotOk(ArrayList<ResourceContainer> price) {
+    public void notifyBuySlotOk(List<ResourceContainer> price) {
         notifyUsers(new ContainerArrayListMessage(Command.BUY_SLOT_OK, price, currPlayer));
     }
 
@@ -281,7 +281,7 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
+    public void notifyProductionPrice(List<ResourceContainer> resourcesPrice, String senderNick) {
         notifyUsers(new ContainerArrayListMessage(Command.PRODUCTION_PRICE, resourcesPrice, senderNick));
     }
 
@@ -350,7 +350,7 @@ public class VirtualView implements View, ServerArea {
     }
 
     @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> winners){
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, List<String> nicknames, List<String> winners){
         notifyUsers(new ScoreMessage(playersTotalVictoryPoints, nicknames, winners));
     }
 

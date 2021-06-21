@@ -8,7 +8,7 @@ import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class DiscardHandPanel extends JPanel {
 
@@ -50,9 +50,9 @@ public class DiscardHandPanel extends JPanel {
      * Creates and the displays the leaderCards as ButtonImages
      */
     private void drawCards() {
-        ArrayList<Integer> IDs=liteHand.getHand();
+        List<Integer> iDs = liteHand.getHand();
 
-        for (Integer id : IDs) {
+        for (Integer id : iDs) {
 
             bottomPanel.add(Box.createHorizontalGlue());
             ButtonImage lc=new  ButtonImage("/images/cardFrontJpgs/LeaderFront_"+id+".jpg");

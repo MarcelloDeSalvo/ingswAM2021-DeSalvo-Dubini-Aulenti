@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ObserverModel extends FaithPathListener, CardGridListener, ActionTokenListener{
@@ -74,12 +73,12 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     /**
      * Notifies all player that they received the resources from the market and that they have to choose where to put them
      */
-    void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname);
+    void askForMarketDestination(List<ResourceContainer> containers, String nickname);
 
     /**
      * Notifies a player that he have to choose multiple resource types for a conversion
      */
-    void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion);
+    void askMultipleConversion(int numToConvert, ResourceType typeToConvert, List<ResourceType> availableConversion);
 
     /**
      * Notifies a player that he chose a wrong conversion
@@ -93,7 +92,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * @param nicknames the players' nicknames
      * @param marketSetUp the starting marbles' positions
      */
-    void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp);
+    void notifyGameSetup(List<Integer> cardGridIDs, List<String> nicknames, List<ResourceContainer> marketSetUp);
 
     /**
      * Notifies the players that the turn phase is started
@@ -105,7 +104,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * @param leaderIDs the card iDs
      * @param nickname the player
      */
-    void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname);
+    void notifyCardsInHand(List<Integer> leaderIDs, String nickname);
 
     /**
      * Notifies a player that he correctly bought a card
@@ -121,7 +120,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
     /**
      * Notifies a player that he chose a usable slot and sends the card's price (discounted if needed)
      */
-    void notifyBuySlotOk(ArrayList<ResourceContainer> price);
+    void notifyBuySlotOk(List<ResourceContainer> price);
 
     /**
      * Notifies a player that the leader card has been discarded correctly
@@ -162,7 +161,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies a player and sends them the HashMap of resources to use as a price
      * @param resourcesPrice the price
      */
-    void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick);
+    void notifyProductionPrice(List<ResourceContainer> resourcesPrice, String senderNick);
 
     /**
      * Notifies a player that the deposit has changed correctly after the manage deposit command
@@ -199,7 +198,7 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * @param playersTotalVictoryPoints the players' points
      * @param allWinners all the winners (>1 in case of a draw)
      */
-    void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> allWinners);
+    void notifyScores(List<Integer> playersTotalVictoryPoints, List<String> nicknames, List<String> allWinners);
 
     /**
      * Notifies all players that the game is over

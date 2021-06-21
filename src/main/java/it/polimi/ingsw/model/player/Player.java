@@ -22,6 +22,7 @@ import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Player implements ObservableModel, VaultListener, DepositListener, ProductionListener {
 
@@ -221,7 +222,7 @@ public class Player implements ObservableModel, VaultListener, DepositListener, 
      * Method called for conversion when there's only one a single conversion available, thus no choice by the user is needed.
      * @return The converted input array
      */
-    public boolean convert(ArrayList<ResourceContainer> marketOutput) {
+    public boolean convert(List<ResourceContainer> marketOutput) {
         return playerBoard.getConversionSite().convert(marketOutput);
     }
     //------------------------------------------------------------------------------------------------------------------

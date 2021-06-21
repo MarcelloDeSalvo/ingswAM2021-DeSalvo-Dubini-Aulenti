@@ -2,12 +2,12 @@ package it.polimi.ingsw.network.commands;
 
 import it.polimi.ingsw.model.resources.ResourceContainer;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class GameSetUp extends Message{
-    private final ArrayList<Integer> cardGridIDs;
-    private final ArrayList<String> nicknames;
-    private final ArrayList<ResourceContainer> marketSetUp;
+    private final List<Integer> cardGridIDs;
+    private final List<String> nicknames;
+    private final List<ResourceContainer> marketSetUp;
 
     /**
      * Message from the server. Used to notify the players that the game is started and to send them CardGrid and Market set up
@@ -15,20 +15,20 @@ public class GameSetUp extends Message{
      * @param nicknames nicknames of every player in game
      * @param marketSetUp contains all the starting ResourceContainers in the Market
      */
-    public GameSetUp(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp){
+    public GameSetUp(List<Integer> cardGridIDs, List<String> nicknames, List<ResourceContainer> marketSetUp){
         super(new MessageBuilder().setTarget(Target.BROADCAST).setCommand(Command.GAME_SETUP));
         this.cardGridIDs = cardGridIDs;
         this.nicknames = nicknames;
         this.marketSetUp = marketSetUp;
     }
 
-    public ArrayList<Integer> getCardGridIDs() {
+    public List<Integer> getCardGridIDs() {
         return cardGridIDs;
     }
 
-    public ArrayList<String> getNicknames() {
+    public List<String> getNicknames() {
         return nicknames;
     }
 
-    public ArrayList<ResourceContainer> getMarketSetUp() { return marketSetUp; }
+    public List<ResourceContainer> getMarketSetUp() { return marketSetUp; }
 }

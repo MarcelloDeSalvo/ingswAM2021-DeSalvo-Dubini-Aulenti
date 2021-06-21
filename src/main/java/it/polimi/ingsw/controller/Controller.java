@@ -22,6 +22,7 @@ import it.polimi.ingsw.view.VirtualView;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class Controller implements ObserverController {
@@ -33,19 +34,23 @@ public class Controller implements ObserverController {
 
     private boolean mainActionAvailable = true;
 
+    private List<String> cheatPhrases;
+
     //BUFFERS ----------------------------------------------------------------------------------------------------------\
-    private ArrayList<ResourceContainer> marketOut;
+    private List<ResourceContainer> marketOut;
 
     private DevelopmentCard newDevelopmentCard;
     private int productionSlotId;
 
-    private ArrayList<Integer> productionSlotIDs;
+    private List<Integer> productionSlotIDs;
     //------------------------------------------------------------------------------------------------------------------/
 
     /**
      * Online Controller constructor
      */
     public Controller (HashMap<String, User> connectedPlayers){
+        setCheatPhrases();
+
         this.view = new VirtualView(connectedPlayers);
         view.addObserverController(this);
         gson = new Gson();
@@ -53,28 +58,59 @@ public class Controller implements ObserverController {
         ArrayList<String> playersNicknames = new ArrayList<>(connectedPlayers.keySet());
         int numOfPlayers = playersNicknames.size();
 
+        if(numOfPlayers > 1)
+            multiPlayerSetUp(playersNicknames, numOfPlayers);
+        else
+           singlePlayerSetUp(playersNicknames.get(0));
+
+    }
+
+    /**
+     * Single player Controller constructor
+     */
+    public Controller (View view, String nickname){
+        setCheatPhrases();
+
+        this.view = view;
+        gson = new Gson();
+
+        singlePlayerSetUp(nickname);
+    }
+
+    /**
+     * Starts the game in multiplayer mode
+     * @param playersNicknames the players' nicknames
+     * @param numOfPlayers the num of players in the game
+     */
+    private void multiPlayerSetUp(ArrayList<String> playersNicknames, int numOfPlayers){
         try {
-            if(numOfPlayers > 1) {
-                game = new Game(playersNicknames, numOfPlayers);    //MULTIPLAYER
-                game.addView(view);
+            game = new Game(playersNicknames, numOfPlayers);
+            game.addView(view);
 
-                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
+            view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
 
-                for (Player player : game.getPlayerList()) {
-                    view.notifyCardsInHand(player.getHandIDs(), player.getNickname());
-                    view.askForLeaderCardID(player.getNickname());
-                }
+            for (Player player : game.getPlayerList()) {
+                view.notifyCardsInHand(player.getHandIDs(), player.getNickname());
+                view.askForLeaderCardID(player.getNickname());
             }
-            else {
-                game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
-                game.addView(view);
+        }catch (FileNotFoundException e){
+            view.notifyGameCreationError("Cannot read the configuration file of the game");
+        }
+    }
 
-                view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
-                view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
-                view.notifyCardsInHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
-                view.askForLeaderCardID(game.getPlayer(0).getNickname());
+    /**
+     * Starts the game in single player mode
+     * @param playerNickname the player nickname
+     */
+    private void singlePlayerSetUp(String playerNickname){
+        try {
+            game = new Game(playerNickname);
+            game.addView(view);
 
-            }
+            view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
+            view.printReply_uni("SINGLE PLAYER MODE", playerNickname);
+            view.notifyCardsInHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
+            view.askForLeaderCardID(game.getPlayer(0).getNickname());
 
         }catch (FileNotFoundException e){
             view.notifyGameCreationError("Cannot read the configuration file of the game");
@@ -82,27 +118,15 @@ public class Controller implements ObserverController {
     }
 
     /**
-     * Single player Controller constructor
+     * Discourages the cheaters
      */
-    public Controller (View view, String nickname){
-        this.view = view;
-        gson = new Gson();
-
-        ArrayList<String> playersNicknames = new ArrayList<>();
-        playersNicknames.add(nickname);
-
-        try {
-            game = new Game(playersNicknames.get(0));   //SINGLE PLAYER
-            game.addView(view);
-
-            view.notifyGameSetup(game.getCardgrid().getIDsOnTop(), game.getNicknames(),game.getMarket().getMarketSetUp());
-            view.printReply_uni("SINGLE PLAYER MODE", playersNicknames.get(0));
-            view.notifyCardsInHand(game.getPlayer(0).getHandIDs(), game.getPlayer(0).getNickname());
-            view.askForLeaderCardID(game.getPlayer(0).getNickname());
-
-        }catch (FileNotFoundException e){
-            view.notifyGameCreationError("Cannot read the configuration file of the game");
-        }
+    private void setCheatPhrases(){
+        cheatPhrases = new ArrayList<>();
+        cheatPhrases.add("Lorenzo doesn't love you anymore");
+        cheatPhrases.add("“People don't cheat by chance, they cheat by choice.“ -LORENZO");
+        cheatPhrases.add("“The only things you give yourself when you cheat are fear and guilt.” —Unknown");
+        cheatPhrases.add("You are a disappointment");
+        cheatPhrases.add("How can you look your sweet grandma in the eyes after this");
     }
 
     @Override
@@ -197,13 +221,8 @@ public class Controller implements ObserverController {
 
                 game.addFaithPointsToCurrentPLayer(2);
                 Random r = new Random();
-                int rInt  = r.nextInt(3);
-                if (rInt == 0)
-                    view.printReply_uni("Lorenzo doesn't love you anymore", currPlayer.getNickname());
-                if (rInt == 1)
-                    view.printReply_uni("“People don't cheat by chance, they cheat by choice.“ -LORENZO", currPlayer.getNickname());
-                if (rInt == 2)
-                    view.printReply_uni("“The only things you give yourself when you cheat are fear and guilt.” —Unknown", currPlayer.getNickname());
+                int rInt  = r.nextInt(cheatPhrases.size());
+                view.printReply_uni(cheatPhrases.get(rInt), currPlayer.getNickname());
                 break;
 
             case BUY:
@@ -933,7 +952,7 @@ public class Controller implements ObserverController {
 
         int numToConv = currPlayer.getConversionSite().countConvertible(marketOut);
         ResourceType defaultConv = currPlayer.getConversionSite().getDefaultConverted();
-        ArrayList<ResourceType> available =  currPlayer.getConversionSite().getTypesAvailable();
+        List<ResourceType> available =  currPlayer.getConversionSite().getTypesAvailable();
 
         if (command != Command.CONVERSION){
             view.notifyConversionError("Please select a valid conversion");

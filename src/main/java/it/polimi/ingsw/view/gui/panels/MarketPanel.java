@@ -9,7 +9,7 @@ import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MarketPanel extends BackgroundImagePanel{
 
@@ -102,7 +102,7 @@ public class MarketPanel extends BackgroundImagePanel{
      * Builds and displays the marbles from the LiteMarket
      */
     public void showMarket(){
-        ArrayList<ResourceContainer> marbleArray = liteMarket.getGuiMarketArray();
+        List<ResourceContainer> marbleArray = liteMarket.getGuiMarketArray();
 
         if(vacant!=null)
             mainPanel.remove(vacant);

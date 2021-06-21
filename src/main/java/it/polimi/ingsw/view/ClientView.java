@@ -13,6 +13,7 @@ import it.polimi.ingsw.observers.ObserverController;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public abstract class ClientView implements View, UserInput {
 
@@ -20,10 +21,10 @@ public abstract class ClientView implements View, UserInput {
     private boolean singlePlayer = false;
 
     private String nickname;
-    private final ArrayList<ObserverController> observerControllers;
+    private final List<ObserverController> observerControllers;
 
-    private final ArrayList<LeaderCard> leaderCards;
-    private final ArrayList<DevelopmentCard> developmentCards;
+    private final List<LeaderCard> leaderCards;
+    private final List<DevelopmentCard> developmentCards;
 
     private final LiteFaithPath liteFaithPath;
     private LiteCardGrid liteCardGrid;
@@ -46,7 +47,7 @@ public abstract class ClientView implements View, UserInput {
         notifyController(stringToSend, mex.getCommand(), nickname);
     }
 
-    public void litePlayerBoardsSetUp(ArrayList<String> nicknames){
+    public void litePlayerBoardsSetUp(List<String> nicknames){
         this.liteBoards=new HashMap<>();
         for (String nic:nicknames) {
             liteBoards.put(nic, new LitePlayerBoard(leaderCards, developmentCards));
@@ -332,13 +333,13 @@ public abstract class ClientView implements View, UserInput {
     /**
      * Prints all connected players' nicknames in the current lobby
      */
-    public abstract void printPlayerList(String info, ArrayList<String> names);
+    public abstract void printPlayerList(String info, List<String> names);
 
     /**
      * Prints the list of all available lobbies
      * @param lobbyInfos the mex that contains all the information regarding a lobby
      */
-    public abstract void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos);
+    public abstract void printLobby(List<LobbyListMessage.LobbyInfo> lobbyInfos);
 
     /**
      * Prints all connected players' nicknames in the current lobby right after the player joins
@@ -361,11 +362,11 @@ public abstract class ClientView implements View, UserInput {
         this.nickname = nickname;
     }
 
-    public ArrayList<LeaderCard> getLeaderCards() {
+    public List<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
 
-    public ArrayList<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
+    public List<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
 
     public void setMyHand(LiteHand hand) { liteBoards.get(nickname).setLiteHand(hand); }
 

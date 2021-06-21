@@ -6,7 +6,7 @@ import it.polimi.ingsw.view.gui.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class LobbyPanel extends BackgroundImagePanel {
 
@@ -16,7 +16,7 @@ public class LobbyPanel extends BackgroundImagePanel {
     /**
      * Creates the panel used to display the current lobbies
      */
-    public LobbyPanel(Gui gui,ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos ) {
+    public LobbyPanel(Gui gui,List<LobbyListMessage.LobbyInfo> lobbyInfos ) {
         super("/images/backgrounds/lobbyBackground.png", -688, 5, false);
 
         this.gui = gui;
@@ -57,7 +57,7 @@ public class LobbyPanel extends BackgroundImagePanel {
         this.add(final_panel, BorderLayout.PAGE_END);
     }
 
-    public void showLobbyInfos(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos){
+    public void showLobbyInfos(List<LobbyListMessage.LobbyInfo> lobbyInfos){
         if (lobbyInfos.isEmpty()){
             JLabel label = new JLabel("NO LOBBIES AVAILABLE", JLabel.CENTER);
             label.setFont(new Font("Helvetica", Font.PLAIN, 30));

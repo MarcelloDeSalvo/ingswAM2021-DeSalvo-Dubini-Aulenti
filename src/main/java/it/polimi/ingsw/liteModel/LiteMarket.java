@@ -3,6 +3,7 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LiteMarket {
     private final int columns=4;
@@ -11,7 +12,7 @@ public class LiteMarket {
     private final ResourceContainer[][] market= new ResourceContainer[columns][rows];
     private ResourceContainer vacant;
 
-    public LiteMarket(ArrayList<ResourceContainer> marblesMarket){
+    public LiteMarket(List<ResourceContainer> marblesMarket){
         for(int i=0; i<columns;i++){
             for(int j=0;j<rows;j++){
                 this.market[i][j]=marblesMarket.get(i*rows+j);
@@ -39,7 +40,7 @@ public class LiteMarket {
     }
 
 
-    public ArrayList<ResourceContainer> getMarketArray(){
+    public List<ResourceContainer> getMarketArray(){
         ArrayList<ResourceContainer> myMarket=new ArrayList<>();
         for(int i=0; i<columns;i++){
             for(int j=0;j<rows;j++){
@@ -49,7 +50,7 @@ public class LiteMarket {
         return myMarket;
     }
 
-    public ArrayList<ResourceContainer> getGuiMarketArray(){
+    public List<ResourceContainer> getGuiMarketArray(){
         ArrayList<ResourceContainer> myGuiMarket=new ArrayList<>();
         for(int i=0;i<rows;i++){
             for(int j=0;j<columns;j++){

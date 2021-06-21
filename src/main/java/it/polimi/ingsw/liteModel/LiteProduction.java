@@ -5,13 +5,14 @@ import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LiteProduction {
 
-    private final ArrayList<MiniSlot> productionSlots;
-    private final ArrayList<DevelopmentCard> developmentCards;
+    private final List<MiniSlot> productionSlots;
+    private final List<DevelopmentCard> developmentCards;
 
-    public LiteProduction(ArrayList<DevelopmentCard> developmentCards) {
+    public LiteProduction(List<DevelopmentCard> developmentCards) {
         this.productionSlots = new ArrayList<>();
         this.developmentCards = new ArrayList<>(developmentCards);
 
@@ -51,7 +52,7 @@ public class LiteProduction {
             return cardIDs.isEmpty();
         }
 
-        public String toString(int id, ArrayList<DevelopmentCard> developmentCards) {
+        public String toString(int id, List<DevelopmentCard> developmentCards) {
             StringBuilder prodSlots = new StringBuilder();
 
             prodSlots.append(Color.ANSI_WHITE.escape()).append("\n# DEVELOPMENT SLOT ID: ").append(id).append(" ---------------- # \n").append(Color.ANSI_RESET.escape());

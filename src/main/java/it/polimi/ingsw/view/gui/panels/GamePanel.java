@@ -113,14 +113,14 @@ public class GamePanel extends JPanel {
 
         showPlayer.addActionListener(e -> cardLayout.show(main, nicknames.get(nickList.getSelectedIndex()) + "Panel"));
 
-        JButton show_my_board = new ButtonImage(" MY BOARD ", 22, true);
-        show_my_board.addActionListener(e -> cardLayout.show(main, "playerBoardPanel"));
-
         JButton showFaithpath = new ButtonImage(" FAITHPATH ", 22, true);
         showFaithpath.addActionListener(e -> cardLayout.show(main, "faithPathPanel"));
 
         JButton showMarket = new ButtonImage(" MARKET ", 22, true);
         showMarket.addActionListener(e -> cardLayout.show(main, "marketPanel"));
+
+        JButton show_my_board = new ButtonImage(" MY BOARD ", 22, true);
+        show_my_board.addActionListener(e -> cardLayout.show(main, "playerBoardPanel"));
 
         JButton showCardGrid = new ButtonImage(" CARD GRID ", 22, true);
         showCardGrid.addActionListener(e -> cardLayout.show(main, "cardGridPanel"));

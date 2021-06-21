@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class AfterMarketPanel extends JPanel {
@@ -48,7 +48,7 @@ public class AfterMarketPanel extends JPanel {
     /**
      * Removes the current resources and lays out the ones contained in marketOut
      */
-    public void setResources(ArrayList<ResourceContainer> marketOut){
+    public void setResources(List<ResourceContainer> marketOut){
         received.removeAll();
         received.add(Box.createVerticalGlue());
         for (ResourceContainer rc:marketOut){

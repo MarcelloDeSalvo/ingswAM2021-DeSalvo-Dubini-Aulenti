@@ -1,6 +1,6 @@
 package it.polimi.ingsw.observers.gameListeners;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface FaithPathListener {
     /**
@@ -22,6 +22,6 @@ public interface FaithPathListener {
      * Notifies that a papal favour has been activated
      * @param playerFavours every players' papal favours
      */
-    void notifyPapalFavour(ArrayList<Integer> playerFavours, String senderNick);
+    void notifyPapalFavour(List<Integer> playerFavours, String senderNick);
 
 }

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.network.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LobbyListMessage extends Message{
-    private final ArrayList<LobbyInfo> lobbyInfos;
+    private final List<LobbyInfo> lobbyInfos;
 
     public class LobbyInfo {
         private final String lobbyName;
@@ -64,7 +65,7 @@ public class LobbyListMessage extends Message{
         lobbyInfos.add(new LobbyInfo(lobbyName, owner, numOfPlayersConnected, maxPlayers, isFull, isClosed));
     }
 
-    public ArrayList<LobbyInfo> getLobbiesInfos() {
+    public List<LobbyInfo> getLobbiesInfos() {
         return lobbyInfos;
     }
 

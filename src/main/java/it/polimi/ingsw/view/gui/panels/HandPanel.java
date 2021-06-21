@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 public class HandPanel extends JPanel {
@@ -28,7 +28,7 @@ public class HandPanel extends JPanel {
         leaders = new HashMap<>();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        ArrayList<Integer> IDs = gui.getMyHand().getHand();
+        List<Integer> IDs = gui.getMyHand().getHand();
 
         this.add(Box.createVerticalGlue());
         for (Integer id : IDs) {
@@ -89,7 +89,7 @@ public class HandPanel extends JPanel {
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        ArrayList<Integer> IDs = gui.getSomeonesHand(nick).getHand();
+        List<Integer> IDs = gui.getSomeonesHand(nick).getHand();
         int j=0;
         this.add(Box.createVerticalGlue());
 

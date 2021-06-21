@@ -516,7 +516,7 @@ public class Cli extends ClientView {
 
     @Override
     public void printWaitingRoom(StringsMessage stringsMessage) {
-        ArrayList<String> playerList = stringsMessage.getData();
+        List<String> playerList = stringsMessage.getData();
         String info = stringsMessage.getInfo();
         System.out.println();
         System.out.println(info);
@@ -536,7 +536,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
+    public void printLobby(List<LobbyListMessage.LobbyInfo> lobbyInfos) {
         System.out.println("\n");
         System.out.println(Color.ANSI_BLUE.escape() + "[LOBBIES]:" + Color.RESET);
 
@@ -598,7 +598,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void printPlayerList(String info, ArrayList<String> names) {
+    public void printPlayerList(String info, List<String> names) {
         System.out.println(info);
         for(String name: names)
             System.out.println(" - " + name);
@@ -610,7 +610,7 @@ public class Cli extends ClientView {
     public void printOrder() {
         if (!this.isInGame()) return;
 
-        ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
+        List<String> randomOrder = getLiteFaithPath().getNicknames();
 
         StringBuilder orderBuild = new StringBuilder();
         orderBuild.append("This is the Turn Order: \n");
@@ -689,7 +689,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
+    public void askForMarketDestination(List<ResourceContainer> containers, String nickname) {
         printDeposit();
 
         StringBuilder marketOutChoice = new StringBuilder("Now select where do you want to place them by typing >PUT ResourceType 'IN deposit' deposit_id").append("\n");
@@ -701,7 +701,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
+    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, List<ResourceType> availableConversion) {
         printReply("You have multiple leaders with the conversion ability [ " + availableConversion.toString() +" ]\n"+
                 "and you must convert "+numToConvert+" "+ typeToConvert+ " marbles"+
                 "\nPlease type >Convert resType  [for each one]");
@@ -716,7 +716,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
+    public void notifyGameSetup(List<Integer> cardGridIDs, List<String> nicknames, List<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
@@ -749,7 +749,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyPapalFavour(ArrayList<Integer> playerFavours, String senderNick) {
+    public void notifyPapalFavour(List<Integer> playerFavours, String senderNick) {
         getLiteFaithPath().incrementPlayerFavours(playerFavours);
         StringBuilder playersThatGotThePoints = new StringBuilder();
         playersThatGotThePoints.append("A papal favour has been activated: ");
@@ -786,7 +786,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyBuySlotOk(ArrayList<ResourceContainer> price) {
+    public void notifyBuySlotOk(List<ResourceContainer> price) {
         StringBuilder stringBuilder = new StringBuilder();
         int i=0;
         for (ResourceContainer container : price) {
@@ -834,7 +834,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
+    public void notifyProductionPrice(List<ResourceContainer> resourcesPrice, String senderNick) {
         StringBuilder stringBuilder = new StringBuilder();
         int i = 0;
 
@@ -891,7 +891,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+    public void notifyCardsInHand(List<Integer> leaderIDs, String nickname) {
         setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
         printHand();
     }
@@ -959,7 +959,7 @@ public class Cli extends ClientView {
     }
 
     @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> allWinners) {
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, List<String> nicknames, List<String> allWinners) {
         StringBuilder winners= new StringBuilder();
         winners.append("\n\n");
         for (String winner : allWinners) {

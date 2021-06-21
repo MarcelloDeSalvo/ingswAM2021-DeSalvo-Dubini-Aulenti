@@ -3,15 +3,15 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.view.cli.Color;
-import it.polimi.ingsw.view.gui.panels.HandPanel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LiteHand {
-    private final ArrayList<Integer> hand;
-    private final ArrayList<LeaderCard> leaderCards;
+    private final List<Integer> hand;
+    private final List<LeaderCard> leaderCards;
 
-    public LiteHand(ArrayList<Integer> hand, ArrayList<LeaderCard> leaderCards) {
+    public LiteHand(List<Integer> hand, List<LeaderCard> leaderCards) {
         this.hand = hand;
         this.leaderCards = new ArrayList<>(leaderCards);
 
@@ -20,7 +20,7 @@ public class LiteHand {
         }
     }
 
-    public LiteHand(ArrayList<LeaderCard> leaderCards) {
+    public LiteHand(List<LeaderCard> leaderCards) {
         this.hand = new ArrayList<>();
         this.leaderCards = new ArrayList<>(leaderCards);
     }
@@ -57,11 +57,11 @@ public class LiteHand {
         return s.toString();
     }
 
-    public ArrayList<Integer> getHand() {
+    public List<Integer> getHand() {
         return hand;
     }
 
-    public ArrayList<LeaderCard> getLeaderCards() {
+    public List<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
 

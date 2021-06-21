@@ -3,12 +3,13 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LiteCardGrid {
-    private final ArrayList<Integer> cardIDs;
-    private final ArrayList<DevelopmentCard> developmentCards;
+    private final List<Integer> cardIDs;
+    private final List<DevelopmentCard> developmentCards;
 
-    public LiteCardGrid(ArrayList<Integer> initialGrid, ArrayList<DevelopmentCard> developmentCards){
+    public LiteCardGrid(List<Integer> initialGrid, List<DevelopmentCard> developmentCards){
         this.developmentCards=developmentCards;
         cardIDs = new ArrayList<>();
         cardIDs.addAll(initialGrid);

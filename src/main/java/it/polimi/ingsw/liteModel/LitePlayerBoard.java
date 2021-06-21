@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.view.cli.Color;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LitePlayerBoard {
 
@@ -13,7 +13,7 @@ public class LitePlayerBoard {
     private final LiteVault liteVault;
     private final LiteProduction liteProduction;
 
-    public LitePlayerBoard(ArrayList<LeaderCard> leaderCards, ArrayList<DevelopmentCard> developmentCards) {
+    public LitePlayerBoard(List<LeaderCard> leaderCards, List<DevelopmentCard> developmentCards) {
         this.liteHand = new LiteHand(leaderCards);
         this.liteDeposit = new LiteDeposit();
         this.liteVault = new LiteVault();

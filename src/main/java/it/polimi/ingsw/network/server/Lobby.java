@@ -210,8 +210,7 @@ public class Lobby extends LobbyManager implements ObserverViewIO, CommandPermis
      * Notifies all the players in the lobby the nickname of everyone
      */
     public void notifyPlayerList(User user, Target target){
-        ArrayList<String> names = new ArrayList<>();
-        names.addAll(players.keySet());
+        ArrayList<String> names = new ArrayList<>(players.keySet());
 
         UserManager.notifyUsers(players, new StringsMessage(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setTarget(target)
                 .setInfo("Players connected in " + lobbyName + ":").setNickname(user.getNickname()), names));

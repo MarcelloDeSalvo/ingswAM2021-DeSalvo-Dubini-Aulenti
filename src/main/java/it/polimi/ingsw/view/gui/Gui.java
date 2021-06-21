@@ -176,7 +176,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printLobby(ArrayList<LobbyListMessage.LobbyInfo> lobbyInfos) {
+    public void printLobby(List<LobbyListMessage.LobbyInfo> lobbyInfos) {
 
         lobbyPanel = new LobbyPanel(this, lobbyInfos);
 
@@ -218,7 +218,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void printPlayerList(String info, ArrayList<String> names) {
+    public void printPlayerList(String info, List<String> names) {
         lobbyRoomPanel.printPlayerList(info, names);
     }
 
@@ -226,7 +226,7 @@ public class Gui extends ClientView {
     public void printOrder() {
         if (!this.isInGame()) return;
 
-        ArrayList<String> randomOrder = getLiteFaithPath().getNicknames();
+        List<String> randomOrder = getLiteFaithPath().getNicknames();
 
         StringBuilder orderBuild = new StringBuilder();
         orderBuild.append("This is the Turn Order:                \n");
@@ -266,7 +266,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void askForMarketDestination(ArrayList<ResourceContainer> containers, String nickname) {
+    public void askForMarketDestination(List<ResourceContainer> containers, String nickname) {
         gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setResources(containers);
         gamePanel.getPlayerBoardPanel().getAfterMarketPanel().setVisible(true);
         gamePanel.getCardLayout().show(gamePanel.getMain(),"playerBoardPanel");
@@ -274,7 +274,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, ArrayList<ResourceType> availableConversion) {
+    public void askMultipleConversion(int numToConvert, ResourceType typeToConvert, List<ResourceType> availableConversion) {
         guiStatus = GuiStatus.SELECTING_CONVERSION;
 
         cardLayout.show(mainPanel, "gamePanel");
@@ -315,7 +315,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyGameSetup(ArrayList<Integer> cardGridIDs, ArrayList<String> nicknames, ArrayList<ResourceContainer> marketSetUp) {
+    public void notifyGameSetup(List<Integer> cardGridIDs, List<String> nicknames, List<ResourceContainer> marketSetUp) {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
@@ -362,7 +362,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyPapalFavour(ArrayList<Integer> playerFavours, String senderNick) {
+    public void notifyPapalFavour(List<Integer> playerFavours, String senderNick) {
         getLiteFaithPath().incrementPlayerFavours(playerFavours);
         StringBuilder playersThatGotThePoints = new StringBuilder();
         playersThatGotThePoints.append("A papal favour has been activated: ");
@@ -410,7 +410,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyBuySlotOk(ArrayList<ResourceContainer> price) {
+    public void notifyBuySlotOk(List<ResourceContainer> price) {
         StringBuilder stringBuilder = new StringBuilder();
         int i=0;
         for (ResourceContainer container : price) {
@@ -505,7 +505,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyProductionPrice(ArrayList<ResourceContainer> resourcesPrice, String senderNick) {
+    public void notifyProductionPrice(List<ResourceContainer> resourcesPrice, String senderNick) {
         StringBuilder price = new StringBuilder();
         for (ResourceContainer resC: resourcesPrice) {
             price.append(resC.getQty());
@@ -565,7 +565,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyCardsInHand(ArrayList<Integer> leaderIDs, String nickname) {
+    public void notifyCardsInHand(List<Integer> leaderIDs, String nickname) {
         setMyHand(new LiteHand(leaderIDs, getLeaderCards()));
         setMaxFrameSize();
 
@@ -686,7 +686,7 @@ public class Gui extends ClientView {
     }
 
     @Override
-    public void notifyScores(List<Integer> playersTotalVictoryPoints, ArrayList<String> nicknames, ArrayList<String> winners) {
+    public void notifyScores(List<Integer> playersTotalVictoryPoints, List<String> nicknames, List<String> winners) {
         StringBuilder scoreboard = new StringBuilder();
         int i = 0;
 
@@ -751,7 +751,7 @@ public class Gui extends ClientView {
     /**
      * Method used to remove the ansi color from the ResourceType toString
      */
-    private ArrayList<String> decolourType(ArrayList<ResourceType> resourceTypes){
+    private List<String> decolourType(List<ResourceType> resourceTypes){
         ArrayList<String> addableTypes = new ArrayList<>();
 
         for (ResourceType res: resourceTypes) {

@@ -8,6 +8,7 @@ import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class Market {
     private final int columns=4;
@@ -16,7 +17,7 @@ public class Market {
     private final ResourceContainer[][] market= new ResourceContainer[columns][rows];
     private ResourceContainer vacant;
 
-    public Market(ArrayList<ResourceContainer> marblesMarket){
+    public Market(List<ResourceContainer> marblesMarket){
         Collections.shuffle(marblesMarket);
         for(int i=0; i<columns;i++){
             for(int j=0;j<rows;j++){
@@ -35,7 +36,7 @@ public class Market {
      * @return an array list containing the resources of the row
      * @throws InvalidRowNumber if the chosen row isn't valid (e.g. asking for a negative row)
      */
-    public ArrayList<ResourceContainer> getRow(int selectedRow) throws InvalidRowNumber {
+    public List<ResourceContainer> getRow(int selectedRow) throws InvalidRowNumber {
         if(selectedRow<=0 || selectedRow>rows)
             throw new InvalidRowNumber ("Selected row isn't valid");
 
@@ -58,7 +59,7 @@ public class Market {
      * This method returns a chosen column from the market grid.
      * @throws InvalidColumnNumber when an invalid column number is inserted
      */
-    public ArrayList<ResourceContainer> getColumn(int selectedColumn) throws InvalidColumnNumber {
+    public List<ResourceContainer> getColumn(int selectedColumn) throws InvalidColumnNumber {
         if(selectedColumn<=0 || selectedColumn>columns)
             throw new InvalidColumnNumber ("Selected column isn't valid");
 
@@ -75,7 +76,7 @@ public class Market {
         return outputColumn;
     }
 
-    public ArrayList<ResourceContainer> getRowOrColumn(String selection, int num) throws InvalidColumnNumber, InvalidRowNumber {
+    public List<ResourceContainer> getRowOrColumn(String selection, int num) throws InvalidColumnNumber, InvalidRowNumber {
         if (selection.toUpperCase().equals("COLUMN"))
             return getColumn(num);
 
@@ -88,12 +89,10 @@ public class Market {
     /**
      * Returns the market as an arrayList of Resources
      */
-    public ArrayList<ResourceContainer> getMarketSetUp(){
+    public List<ResourceContainer> getMarketSetUp(){
         ArrayList<ResourceContainer> myMarket=new ArrayList<>();
         for(int i=0; i<columns;i++){
-            for(int j=0;j<rows;j++){
-                myMarket.add(market[i][j]);
-            }
+            myMarket.addAll(Arrays.asList(market[i]).subList(0, rows));
         }
         myMarket.add(vacant);
         return myMarket;

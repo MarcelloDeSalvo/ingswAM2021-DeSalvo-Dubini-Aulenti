@@ -5,13 +5,14 @@ import it.polimi.ingsw.model.resources.ResourceType;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 public class ConversionSite {
     /**
      * List of available conversions
       */
-    private ArrayList<ResourceContainer> conversionsAvailable;
+    private List<ResourceContainer> conversionsAvailable;
     /**
      * Input resourceType of the conversion
      */
@@ -57,7 +58,7 @@ public class ConversionSite {
      * Method called for conversion when there's only one a single conversion available, thus no choice by the user is needed.
      * @return The converted input array
      */
-    public boolean convert(ArrayList<ResourceContainer> marketOutput){
+    public boolean convert(List<ResourceContainer> marketOutput){
         Iterator<ResourceContainer> iter = marketOutput.iterator();
         ResourceContainer current;
         while (iter.hasNext()) {
@@ -83,7 +84,7 @@ public class ConversionSite {
      * Counts the convertible marbles inside an array
      * @return the counter
      */
-    public int countConvertible(ArrayList<ResourceContainer> marketOut){
+    public int countConvertible(List<ResourceContainer> marketOut){
         int i=0;
         for (ResourceContainer c: marketOut ) {
             if (c.getResourceType() == defaultConverted)
@@ -96,12 +97,12 @@ public class ConversionSite {
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
-    public ArrayList<ResourceContainer> getConversionsAvailable() {
+    public List<ResourceContainer> getConversionsAvailable() {
         return conversionsAvailable;
     }
 
-    public ArrayList<ResourceType> getTypesAvailable(){
-        ArrayList<ResourceType> available = new ArrayList<>();
+    public List<ResourceType> getTypesAvailable(){
+        List<ResourceType> available = new ArrayList<>();
         for (ResourceContainer cont: conversionsAvailable) {
             available.add(cont.getResourceType());
         }

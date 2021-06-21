@@ -1,13 +1,12 @@
 package it.polimi.ingsw.network.commands;
 
 import it.polimi.ingsw.model.resources.ResourceType;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class AskConversionMessage extends Message{
 
     private final ResourceType convertedType;
-    private final ArrayList<ResourceType> availableConversions;
+    private final List<ResourceType> availableConversions;
     private final int numToConvert;
 
     /**
@@ -16,7 +15,7 @@ public class AskConversionMessage extends Message{
      * @param availableConversions ArrayList of available conversions
      * @param numToConvert amount of resources that needs to be converted
      */
-    public AskConversionMessage(MessageBuilder messageBuilder, ResourceType convertedType, ArrayList<ResourceType> availableConversions, int numToConvert) {
+    public AskConversionMessage(MessageBuilder messageBuilder, ResourceType convertedType, List<ResourceType> availableConversions, int numToConvert) {
         super(messageBuilder);
         this.convertedType = convertedType;
         this.availableConversions = availableConversions;
@@ -27,7 +26,7 @@ public class AskConversionMessage extends Message{
         return convertedType;
     }
 
-    public ArrayList<ResourceType> getAvailableConversions() {
+    public List<ResourceType> getAvailableConversions() {
         return availableConversions;
     }
 

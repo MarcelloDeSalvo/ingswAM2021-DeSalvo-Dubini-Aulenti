@@ -1,19 +1,19 @@
 package it.polimi.ingsw.network.commands;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class StringsMessage extends Message{
-    private final ArrayList<String> data;
+    private final List<String> data;
 
     /**
      * Message from the server. Used to send an ArrayList of strings through the network
      */
-    public StringsMessage(MessageBuilder messageBuilder, ArrayList<String> data) {
+    public StringsMessage(MessageBuilder messageBuilder, List<String> data) {
         super(messageBuilder);
         this.data = data;
     }
 
-    public ArrayList<String> getData() {
+    public List<String> getData() {
         return data;
     }
 }

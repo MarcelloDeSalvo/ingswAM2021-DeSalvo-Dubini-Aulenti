@@ -3,16 +3,17 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.PlayerFavour;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LiteFaithPath {
     private int length;
-    private ArrayList<Character> vaticanReports;
-    private ArrayList<Integer> victoryPoints;
-    private ArrayList<Integer> papalFavours;
+    private List<Character> vaticanReports;
+    private List<Integer> victoryPoints;
+    private List<Integer> papalFavours;
 
-    private ArrayList<PlayerFavour> playersFavourList;
-    private ArrayList<Integer> positions;
-    private ArrayList<String>  nicknames;
+    private List<PlayerFavour> playersFavourList;
+    private List<Integer> positions;
+    private List<String>  nicknames;
 
     public LiteFaithPath(){
         this.nicknames = new ArrayList<>();
@@ -23,7 +24,7 @@ public class LiteFaithPath {
     /**
      * Sets up the positions and playerFavoursList  arrays to the correct length
      */
-    public void setUpPositions(ArrayList<String> nicknames) {
+    public void setUpPositions(List<String> nicknames) {
         this.nicknames = nicknames;
         for(int i = 0; i < nicknames.size(); i++){
             playersFavourList.add(new PlayerFavour());
@@ -61,7 +62,7 @@ public class LiteFaithPath {
      * Updates the list of papal favours earned by players given an arraylist in this form: (2,0,0,2) <br>
      * that means that players 1 and 4 received the 2 point favour
      **/
-    public void incrementPlayerFavours(ArrayList<Integer> favours){
+    public void incrementPlayerFavours(List<Integer> favours){
         int c=0;
         for (Integer in:favours) {
             if(in!=0)
@@ -73,14 +74,14 @@ public class LiteFaithPath {
     /**
      * Resets the liteFaithPath for a new Game
      */
-    public void reset(ArrayList<String> nicknames){
+    public void reset(List<String> nicknames){
         this.nicknames=new ArrayList<>();
         this.playersFavourList=new ArrayList<>();
         this.positions=new ArrayList<>();
         setUpPositions(nicknames);
     }
 
-    public ArrayList<String> getNicknames() {
+    public List<String> getNicknames() {
         return nicknames;
     }
 
@@ -142,7 +143,7 @@ public class LiteFaithPath {
         return stringBuilder.toString();
     }
 
-    public ArrayList<Integer> getPositions() {
+    public List<Integer> getPositions() {
         return positions;
     }
 
