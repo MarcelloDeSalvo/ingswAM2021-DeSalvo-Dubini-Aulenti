@@ -532,6 +532,7 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyMoveOk(String senderNick) {
+        if(gamePanel!=null)
         gamePanel.getNotifyLabel().setText("The action on deposit has been executed correctly!\n");
     }
 
