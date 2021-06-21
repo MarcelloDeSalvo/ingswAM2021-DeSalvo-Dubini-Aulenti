@@ -76,7 +76,7 @@ public class DefaultDeposit extends DepositSlot {
         getNotAvailableResourceType().add(inputType);
 
         getDepositListener().notifyDepositChanges(getId(), inputContainer, true, "Player");
-        getHashSetData();
+        //getHashSetData();
         return true;
     }
 
@@ -180,7 +180,7 @@ public class DefaultDeposit extends DepositSlot {
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());
-        getHashSetData(); // -------------> Da rimuovere, solo per testing
+        //getHashSetData(); // -------------> Da rimuovere, solo per testing
 
     }
     //------------------------------------------------------------------------------------------------------------------

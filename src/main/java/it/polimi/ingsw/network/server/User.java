@@ -125,7 +125,7 @@ public class User implements ObservableViewIO {
      * Updates the user when a Pong is successfully received.
      */
     public void pongReceived(){
-        System.out.println("PONG RECEIVED IN USER: " + nickname);
+        //System.out.println("PONG RECEIVED IN USER: " + nickname);
         receivedPongsCounts = maxLostPongs;
     }
 
