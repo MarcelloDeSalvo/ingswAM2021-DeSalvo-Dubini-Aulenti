@@ -46,6 +46,7 @@ public class EchoServerClientHandler implements Runnable {
                 switch (command){
                     case PONG:
                         user.pongReceived();
+                        System.out.println(user.getNickname()+" PONG RECEIVED "+ user.getCounter());
                         break;
 
                     case LOGIN:
@@ -56,8 +57,10 @@ public class EchoServerClientHandler implements Runnable {
                         break;
 
                     default:
-                        if (user != null)
-                            user.notifyServerAreas(command, receivedMex);
+                        if (user == null) break;
+                        user.pongReceived();
+                        user.notifyServerAreas(command, receivedMex);
+
                 }
 
             }

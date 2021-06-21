@@ -29,14 +29,16 @@ public class User implements ObservableViewIO {
     /**
      * After this number of packets is lost the client will be considered disconnected
      */
-    private final int maxLostPongs = 3;
+    private final int maxLostPongs = 5;
     private int receivedPongsCounts = maxLostPongs;
+
+    private int counter = 0;
 
     /**
      * After this amount of milliseconds the timer checks for a received pong and sends a ping <br>
      *     timerTaskDelta * maxLostPings = total time that has to elapse before disconnecting the player
      */
-    private final int timerTaskDelta = 10000;
+    private final int timerTaskDelta = 3000;
 
     private Status status;
 
@@ -68,8 +70,9 @@ public class User implements ObservableViewIO {
                 public void run() {
                     if (receivedPongsCounts >0) {
                         userSend(ping);
+                        System.out.println(nickname + " Ping sent: " + counter);
                         receivedPongsCounts--;
-                        //System.out.println(nickname + " Ping sent");
+                        counter++;
 
                     } else {
                         connected = false;
@@ -150,5 +153,8 @@ public class User implements ObservableViewIO {
     public boolean isConnected() {
         return connected;
     }
+
+    public int getCounter() { return counter; }
+
     //------------------------------------------------------------------------------------------------------------------
 }

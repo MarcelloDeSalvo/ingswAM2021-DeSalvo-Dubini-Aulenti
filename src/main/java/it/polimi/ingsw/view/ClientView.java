@@ -31,6 +31,8 @@ public abstract class ClientView implements View, UserInput {
     private LiteMarket liteMarket;
     private HashMap<String,LitePlayerBoard> liteBoards;
 
+    private int counter = 0;
+
     private final Gson gson;
 
     private final Message pong = new Message.MessageBuilder().setCommand(Command.PONG).
@@ -82,8 +84,10 @@ public abstract class ClientView implements View, UserInput {
         switch (command){
 
             case PING:
+                System.out.println("PONG "+counter+ " to be sent: " + pong.toString());
                 send(pong);
-                //System.out.println("PONG sent: " + ping.toString());
+                System.out.println("PONG "+counter+ " sent: " + pong.toString());
+                counter++;
                 break;
 
             case JOIN_LOBBY:
@@ -100,6 +104,7 @@ public abstract class ClientView implements View, UserInput {
 
             case LOGIN:
                 onLogin(deserializedMex.getInfo());
+                System.out.println(nickname);
                 break;
 
             case RECONNECTED:

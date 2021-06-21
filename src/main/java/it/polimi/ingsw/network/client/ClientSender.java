@@ -34,7 +34,7 @@ public class ClientSender extends Thread implements ObserverController {
         } catch (IOException e) {
             System.out.println("Disconnected");
 
-        } catch (NoSuchElementException ignored){}
+        } /*catch (NoSuchElementException ignored){}*/
 
     }
 
