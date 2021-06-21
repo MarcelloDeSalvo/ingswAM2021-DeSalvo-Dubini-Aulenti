@@ -209,7 +209,8 @@ public class DepositPanel extends JPanel {
         for (Integer i: depositButtons.keySet()) {
             int j=0;
             for (ResourceTypeLabel resourceTypeLabel : depositButtons.get(i)) {
-                depositButtonsToClone.get(i).get(j).setResourceTypeImage(resourceTypeLabel.getResourceType());
+                if (!resourceTypeLabel.isEmpty())
+                    depositButtonsToClone.get(i).get(j).setResourceTypeImage(resourceTypeLabel.getResourceType());
                 j++;
             }
         }
