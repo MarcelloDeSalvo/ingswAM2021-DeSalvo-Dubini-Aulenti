@@ -9,7 +9,7 @@ public interface DepositListener {
      * @param maxDim maximum dimension of the deposit
      * @param resourceType ResourceType stored in the deposit
      */
-    void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick);
+    void notifyNewDepositSlot(int maxDim, ResourceType resourceType);
 
     /**
      * Notifies that something changed in a specific deposit slot
@@ -17,5 +17,5 @@ public interface DepositListener {
      * @param resourceContainer is the container containing info about the changes
      * @param added true if added, false if subtracted
      */
-    void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick);
+    void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added);
 }

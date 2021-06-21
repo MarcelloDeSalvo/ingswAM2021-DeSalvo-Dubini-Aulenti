@@ -1,5 +1,6 @@
 package it.polimi.ingsw.observers;
 
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.*;
@@ -7,7 +8,7 @@ import it.polimi.ingsw.observers.gameListeners.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ObserverModel extends FaithPathListener, CardGridListener, ActionTokenListener, VaultListener, DepositListener, ProductionListener {
+public interface ObserverModel extends FaithPathListener, CardGridListener, ActionTokenListener{
 
     /**
      * Simple reply from the server
@@ -209,6 +210,33 @@ public interface ObserverModel extends FaithPathListener, CardGridListener, Acti
      * Notifies all players that a critical error has occurred and that the game could not be initialized
      */
     void notifyGameCreationError(String error);
+
+    /**
+     * Notifies that a new deposit slot has been added
+     * @param maxDim maximum dimension of the deposit
+     * @param resourceType ResourceType stored in the deposit
+     */
+    void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick);
+
+    /**
+     * Notifies that something changed in a specific deposit slot
+     * @param id deposit slot id
+     * @param resourceContainer is the container containing info about the changes
+     * @param added true if added, false if subtracted
+     */
+    void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added, String senderNick);
+
+    /**
+     * Notifies that a new Production Slot has been added
+     * @param productionAbility the new Production Slot's production ability
+     */
+    void notifyNewProductionSlot(ProductionAbility productionAbility, String senderNick);
+
+    /**
+     * Updates the listener (View) that a resourceContainer is added or removed
+     * @param added true if the container was added, false if it was removed
+     */
+    void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick);
 
 
 }

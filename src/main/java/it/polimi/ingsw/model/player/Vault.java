@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.VaultListener;
 import it.polimi.ingsw.observers.gameListeners.VaultSubject;
-import it.polimi.ingsw.view.VirtualView;
 import it.polimi.ingsw.view.cli.Color;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class Vault implements VaultSubject {
     public Vault(boolean test) {
         vaultMap = new HashMap<>();
         bufferMap = new HashMap<>();
-        vaultListener = new VirtualView();
+        vaultListener = new Player("test");
     }
 
     public Vault() {
@@ -45,7 +44,7 @@ public class Vault implements VaultSubject {
 
         for (ResourceContainer resourceContainer : inputArr){
             addToVault(resourceContainer);
-            vaultListener.notifyVaultChanges(resourceContainer, true, "Player");
+            vaultListener.notifyVaultChanges(resourceContainer, true);
         }
 
         return true;
@@ -62,7 +61,7 @@ public class Vault implements VaultSubject {
         else
             vaultMap.put(container.getResourceType(), container);
 
-        vaultListener.notifyVaultChanges(container, true, "Player");
+        vaultListener.notifyVaultChanges(container, true);
         return true;
     }
 
@@ -86,7 +85,7 @@ public class Vault implements VaultSubject {
      */
     public boolean removeFromVault(ResourceContainer inputContainer) {
         vaultMap.get(inputContainer.getResourceType()).addQty(-inputContainer.getQty());
-        vaultListener.notifyVaultChanges(inputContainer, false, "Player");
+        vaultListener.notifyVaultChanges(inputContainer, false);
         return true;
     }
 
@@ -162,16 +161,16 @@ public class Vault implements VaultSubject {
 
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Color.ANSI_BLUE.escape()+"VAULT: \n\n"+Color.ANSI_RESET.escape());
+        stringBuilder.append(Color.ANSI_BLUE.escape()).append("VAULT: \n\n").append(Color.ANSI_RESET.escape());
 
         if(vaultMap.isEmpty())
-            stringBuilder.append(Color.ANSI_RED.escape()+"EMPTY!"+Color.ANSI_RESET.escape());
+            stringBuilder.append(Color.ANSI_RED.escape()).append("EMPTY!").append(Color.ANSI_RESET.escape());
         else{
             stringBuilder.append("--------------------\n");
             for (ResourceType key:vaultMap.keySet()) {
                 if(vaultMap.get(key).getQty()!=0) {
-                    stringBuilder.append(key.toString() + ": ");
-                    stringBuilder.append(vaultMap.get(key).getQty() + "\n");
+                    stringBuilder.append(key.toString()).append(": ");
+                    stringBuilder.append(vaultMap.get(key).getQty()).append("\n");
                     stringBuilder.append("--------------------\n");
                 }
             }

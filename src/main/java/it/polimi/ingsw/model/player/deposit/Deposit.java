@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
 import it.polimi.ingsw.model.exceptions.DifferentResourceType;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.DepositListener;
@@ -39,13 +40,13 @@ public class Deposit implements DepositSubject {
         this.defaultDepositNumber = pyramidHeight;
         this.pyramidMaxCells = 1;
         HashSet<ResourceType> notAvailableResourceType = new HashSet<>();
-        VirtualView virtualView = new VirtualView();
+        Player player = new Player("Test Player");
         for(int i=0; i<pyramidHeight; i++){
             DefaultDeposit defaultDeposit = new DefaultDeposit(pyramidMaxCells, notAvailableResourceType, i+1);
             depositList.add(defaultDeposit);
             pyramidMaxCells++;
         }
-        addListeners(virtualView);
+        addListeners(player);
     }
 
     public Deposit(int pyramidHeight) {
@@ -201,7 +202,7 @@ public class Deposit implements DepositSubject {
     public boolean addDepositSlot(LeaderDeposit lds) {
         if (lds != null && depositList.add(lds)){
             lds.addListeners(depositListener);
-            depositListener.notifyNewDepositSlot(lds.getMaxDim(), lds.getDepositResourceType(), "Player");
+            depositListener.notifyNewDepositSlot(lds.getMaxDim(), lds.getDepositResourceType());
             return true;
         }
 

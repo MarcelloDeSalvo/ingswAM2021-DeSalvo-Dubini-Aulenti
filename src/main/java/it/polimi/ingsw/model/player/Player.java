@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.FaithPath;
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.ProductionAbility;
 import it.polimi.ingsw.model.cards.Status;
 import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
@@ -14,12 +15,15 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
+import it.polimi.ingsw.observers.gameListeners.DepositListener;
+import it.polimi.ingsw.observers.gameListeners.ProductionListener;
+import it.polimi.ingsw.observers.gameListeners.VaultListener;
 import it.polimi.ingsw.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Player implements ObservableModel {
+public class Player implements ObservableModel, VaultListener, DepositListener, ProductionListener {
 
     private ObserverModel view;
 
@@ -38,9 +42,7 @@ public class Player implements ObservableModel {
         this.nickname = nickname;
         this.playerBoard = new PlayerBoard(3,3);
         hand = new ArrayList<>();
-        view = new VirtualView();
-        getVault().addListeners(view);
-        getDeposit().addListeners(view);
+        addView(new VirtualView());
     }
 
     public Player(String nickname, int orderID, FaithPath faithPath) {
@@ -325,6 +327,28 @@ public class Player implements ObservableModel {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    //LISTENERS---------------------------------------------------------------------------------------------------------
+    @Override
+    public void notifyNewDepositSlot(int maxDim, ResourceType resourceType) {
+        view.notifyNewDepositSlot(maxDim, resourceType, nickname);
+    }
+
+    @Override
+    public void notifyDepositChanges(int id, ResourceContainer resourceContainer, boolean added) {
+        view.notifyDepositChanges(id, resourceContainer, added, nickname);
+    }
+
+    @Override
+    public void notifyNewProductionSlot(ProductionAbility productionAbility) {
+        view.notifyNewProductionSlot(productionAbility, nickname);
+    }
+
+    @Override
+    public void notifyVaultChanges(ResourceContainer container, boolean added) {
+        view.notifyVaultChanges(container, added, nickname);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     public ArrayList<Integer> getHandIDs () {
         ArrayList<Integer> handIDs = new ArrayList<>();
@@ -431,9 +455,9 @@ public class Player implements ObservableModel {
     @Override
     public void addView(ObserverModel view) {
         this.view = view;
-        getVault().addListeners(view);
-        getDeposit().addListeners(view);
-        getProductionSite().addListeners(view);
+        getVault().addListeners(this);
+        getDeposit().addListeners(this);
+        getProductionSite().addListeners(this);
     }
     //------------------------------------------------------------------------------------------------------------------
 

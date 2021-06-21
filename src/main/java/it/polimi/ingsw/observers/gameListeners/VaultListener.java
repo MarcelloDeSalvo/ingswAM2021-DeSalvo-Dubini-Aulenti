@@ -8,5 +8,5 @@ public interface VaultListener {
      * Updates the listener (View) that a resourceContainer is added or removed
      * @param added true if the container was added, false if it was removed
      */
-    void notifyVaultChanges(ResourceContainer container, boolean added, String senderNick);
+    void notifyVaultChanges(ResourceContainer container, boolean added);
 }

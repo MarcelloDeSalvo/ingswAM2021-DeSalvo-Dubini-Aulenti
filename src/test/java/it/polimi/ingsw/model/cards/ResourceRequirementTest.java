@@ -1,10 +1,9 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-import it.polimi.ingsw.view.VirtualView;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +15,8 @@ class ResourceRequirementTest {
 
     @BeforeEach
     void addListeners(){
-        playerBoard.getDeposit().addListeners(new VirtualView());
-        playerBoard.getVault().addListeners(new VirtualView());
+        playerBoard.getDeposit().addListeners(new Player("test"));
+        playerBoard.getVault().addListeners(new Player("test"));
     }
 
     @Test

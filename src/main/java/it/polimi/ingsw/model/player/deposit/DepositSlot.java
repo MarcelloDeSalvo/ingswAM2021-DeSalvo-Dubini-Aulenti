@@ -4,11 +4,11 @@ import it.polimi.ingsw.model.exceptions.DepositSlotMaxDimExceeded;
 import it.polimi.ingsw.model.exceptions.DifferentResourceType;
 import it.polimi.ingsw.model.exceptions.NotEnoughResources;
 import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.DepositListener;
 import it.polimi.ingsw.observers.gameListeners.DepositSubject;
-import it.polimi.ingsw.view.VirtualView;
 
 public abstract class DepositSlot implements DepositSubject {
     private int id;
@@ -37,7 +37,7 @@ public abstract class DepositSlot implements DepositSubject {
      * Test constructor
      */
     public DepositSlot(ResourceType depositResourceType, int maxDim) {
-        depositListener = new VirtualView();
+        depositListener = new Player("test");
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(depositResourceType,0);
         this.bufferContainer = new ResourceContainer(null,0);
@@ -48,7 +48,7 @@ public abstract class DepositSlot implements DepositSubject {
      * Test constructor
      */
     public DepositSlot(int maxDim) {
-        depositListener = new VirtualView();
+        depositListener = new Player("test");
         this.maxDim = maxDim;
         this.depositContainer = new ResourceContainer(null,0);
         this.bufferContainer = new ResourceContainer(null,0);
@@ -144,10 +144,10 @@ public abstract class DepositSlot implements DepositSubject {
         this.getDepositContainer().addQty(hisQty);
         this.setDepositResourceType(hisResType);
 
-        depositListener.notifyDepositChanges(getId(), new ResourceContainer(myResType, myQty), false, "Player");
-        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(hisResType, hisQty), false, "Player");
-        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(myResType, myQty), true,"Player");
-        depositListener.notifyDepositChanges(getId(), new ResourceContainer(hisResType, hisQty), true, "Player");
+        depositListener.notifyDepositChanges(getId(), new ResourceContainer(myResType, myQty), false);
+        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(hisResType, hisQty), false);
+        depositListener.notifyDepositChanges(destination.getId(), new ResourceContainer(myResType, myQty), true);
+        depositListener.notifyDepositChanges(getId(), new ResourceContainer(hisResType, hisQty), true);
 
         return true;
     }

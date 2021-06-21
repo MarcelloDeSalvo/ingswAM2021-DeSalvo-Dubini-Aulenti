@@ -54,7 +54,7 @@ public class LeaderDeposit extends DepositSlot {
 
         this.getDepositContainer().addQty(quantityThatIWantToAdd);
 
-        getDepositListener().notifyDepositChanges(getId(), inputContainer, true,"Player");
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, true);
 
         return true;
     }
@@ -78,7 +78,7 @@ public class LeaderDeposit extends DepositSlot {
         int quantityThatIWantToRemove = inputContainer.getQty();
 
         this.getDepositContainer().addQty(-quantityThatIWantToRemove);
-        getDepositListener().notifyDepositChanges(getId(), inputContainer, false, "Player");
+        getDepositListener().notifyDepositChanges(getId(), inputContainer, false);
 
         return true;
 
