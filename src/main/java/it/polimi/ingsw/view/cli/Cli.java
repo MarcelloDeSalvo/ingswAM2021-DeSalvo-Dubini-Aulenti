@@ -960,8 +960,8 @@ public class Cli extends ClientView {
 
     @Override
     public void notifyScores(List<Integer> playersTotalVictoryPoints, List<String> nicknames, List<String> allWinners) {
+        System.out.println("\n\n");
         StringBuilder winners= new StringBuilder();
-        winners.append("\n\n");
         for (String winner : allWinners) {
             winners.append(winner);
             winners.append(" ");

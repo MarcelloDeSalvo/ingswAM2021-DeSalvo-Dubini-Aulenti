@@ -49,11 +49,12 @@ public class VirtualView implements View, ServerArea {
      */
     private void removeAllUsers(){
         boolean first = true;
+        Message endGameMex = new Message.MessageBuilder().setCommand(Command.END_GAME).build();
 
         for (String nick: connectedPlayers.keySet()) {
             connectedPlayers.get(nick).setStatus(Status.IN_LOBBY);
             if(first)
-                connectedPlayers.get(nick).notifyEndGame(new Message.MessageBuilder().setCommand(Command.END_GAME).build());
+                connectedPlayers.get(nick).notifyServerAreas(endGameMex.getCommand(), endGameMex.serialize());
             first = false;
             connectedPlayers.get(nick).removeServerArea(this);
         }

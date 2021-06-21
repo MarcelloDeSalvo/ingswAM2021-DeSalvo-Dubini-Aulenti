@@ -33,6 +33,9 @@ public abstract class ClientView implements View, UserInput {
 
     private final Gson gson;
 
+    private final Message pong = new Message.MessageBuilder().setCommand(Command.PONG).
+            setNickname(this.getNickname()).build();
+
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
         developmentCards = DevelopmentCardParser.deserializeDevelopmentList();
@@ -73,16 +76,13 @@ public abstract class ClientView implements View, UserInput {
     @Override
     public void readUpdates(String mex){
         Message deserializedMex = gson.fromJson(mex, Message.class);
-
         Command command = deserializedMex.getCommand();
         String senderNick = deserializedMex.getSenderNickname();
 
         switch (command){
 
             case PING:
-                Message ping = new Message.MessageBuilder().setCommand(Command.PONG).
-                        setNickname(this.getNickname()).build();
-                send(ping);
+                send(pong);
                 //System.out.println("PONG sent: " + ping.toString());
                 break;
 

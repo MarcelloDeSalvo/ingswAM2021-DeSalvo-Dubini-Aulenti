@@ -35,7 +35,7 @@ public class EchoServerClientHandler implements Runnable {
             Message askNick = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Welcome to the server, please select a valid nickname: ").build();
             out.println(askNick.serialize());
 
-            String receivedMex = "";
+            String receivedMex;
 
             while ((receivedMex = in.readLine()) != null) {
 
@@ -43,17 +43,23 @@ public class EchoServerClientHandler implements Runnable {
                 Command command = nickMex.getCommand();
                 String nickname = nickMex.getInfo();
 
-                if (command == Command.LOGIN) {
+                switch (command){
+                    case PONG:
+                        user.pongReceived();
+                        break;
 
-                    if (logged)
-                        out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Incorrect command, you are already logged in the server!").build().serialize());
-                    else
-                        authenticationPhase(out, nickname);
+                    case LOGIN:
+                        if (logged)
+                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Incorrect command, you are already logged in the server!").build().serialize());
+                        else
+                            authenticationPhase(out, nickname);
+                        break;
+
+                    default:
+                        if (user != null)
+                            user.notifyServerAreas(command, receivedMex);
                 }
-                else {
-                    if (user != null)
-                        user.notifyServerAreas(command, receivedMex);
-                }
+
             }
 
         }catch (IllegalThreadStateException | IOException e){

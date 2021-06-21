@@ -19,6 +19,8 @@ public class User implements ObservableViewIO {
 
     private final PrintWriter out;
 
+    private final Message ping = new Message.MessageBuilder().setCommand(Command.PING).build();
+
     /**
      * True if connected 
      */
@@ -65,8 +67,8 @@ public class User implements ObservableViewIO {
                 @Override
                 public void run() {
                     if (receivedPongsCounts >0) {
+                        userSend(ping);
                         receivedPongsCounts--;
-                        userSend(new Message.MessageBuilder().setCommand(Command.PING).build());
                         //System.out.println(nickname + " Ping sent");
 
                     } else {
@@ -99,12 +101,6 @@ public class User implements ObservableViewIO {
 
     @Override
     public void notifyServerAreas(Command command, String message) {
-
-        if (command==Command.PONG){
-            pongReceived();
-            return;
-        }
-
         for (ServerArea serverArea: serverAreas) {
             if (serverArea.getAreaStatus() == command.getWhereToProcess())
                 serverArea.update(message, command, nickname);
@@ -112,21 +108,11 @@ public class User implements ObservableViewIO {
     }
 
     /**
-     * This method is used to notify when the game ends so that the Lobby can set itself to 'isClosed = false'
-     */
-    public void notifyEndGame(Message message) {
-        for (ServerArea serverArea: serverAreas) {
-            if (serverArea.getAreaStatus() == message.getCommand().getWhereToProcess())
-                serverArea.update(" ", message.getCommand(), nickname);
-        }
-    }
-
-    /**
      * Updates the user when a Pong is successfully received.
      */
     public void pongReceived(){
-        //System.out.println("PONG RECEIVED IN USER: " + nickname);
         receivedPongsCounts = maxLostPongs;
+        //System.out.println("PONG RECEIVED IN USER: " + nickname);
     }
 
     @Override
