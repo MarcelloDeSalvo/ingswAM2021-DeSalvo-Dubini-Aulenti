@@ -20,6 +20,7 @@ public class User implements ObservableViewIO {
     private final PrintWriter out;
 
     private final Message ping = new Message.MessageBuilder().setCommand(Command.PING).build();
+    private final Message inactivity = new Message.MessageBuilder().setCommand(Command.INACTIVITY_KICK).build();
 
     /**
      * True if connected 
@@ -82,6 +83,7 @@ public class User implements ObservableViewIO {
                             obs.onDisconnect(getThis());
                         }
 
+                        userSend(inactivity);
                         this.cancel();
                     }
                 }

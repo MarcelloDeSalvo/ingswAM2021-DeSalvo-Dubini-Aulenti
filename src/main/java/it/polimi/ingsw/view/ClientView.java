@@ -90,6 +90,10 @@ public abstract class ClientView implements View, UserInput {
                 counter++;
                 break;
 
+            case INACTIVITY_KICK:
+                onServerKick();
+                break;
+
             case JOIN_LOBBY:
             case EXIT_LOBBY:
             case USER_JOINED_LOBBY:
@@ -319,6 +323,11 @@ public abstract class ClientView implements View, UserInput {
      * Called after a disconnection from the server
      */
     public abstract void onDisconnected();
+
+    /**
+     * Called after a disconnection from the server
+     */
+    public abstract void onServerKick();
 
     /**
      * Called after a reconnection to the server

@@ -78,8 +78,13 @@ public class Gui extends ClientView {
         infoLabel.setAlignment(Label.CENTER);
         infoLabel.setForeground(Color.WHITE);
 
-        mainPanel.add(loginPanel, "loginPanel");
-        cardLayout.show(mainPanel, "loginPanel");
+        if(!isSinglePlayer()){
+            mainPanel.add(loginPanel, "loginPanel");
+            cardLayout.show(mainPanel, "loginPanel");
+        }else{
+            mainPanel.add(new JPanel(), "offline");
+            cardLayout.show(mainPanel, "offline");
+        }
 
         frame.add(mainPanel, BorderLayout.CENTER);
         frame.add(infoLabel, BorderLayout.PAGE_END);
@@ -110,6 +115,23 @@ public class Gui extends ClientView {
                 "           I'm sorry, something went really wrong!         " +
                         "\nIt looks like you have connection issues.",
                 "OOPS!",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.ERROR_MESSAGE, icon);
+
+        if (option == JOptionPane.OK_OPTION)
+            System.exit(-1);
+
+        setInGame(false);
+    }
+
+    @Override
+    public void onServerKick() {
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
+
+        int option = JOptionPane.showConfirmDialog(frame,
+                "You have been kicked for inactivity",
+                "Inactivity",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE, icon);
 
@@ -247,18 +269,23 @@ public class Gui extends ClientView {
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
-        JOptionPane.showMessageDialog(frame,
-                orderBuild.toString(),
-                "Turn Order",
-                JOptionPane.INFORMATION_MESSAGE,
-                icon);
-
-        /*
-        JOptionPane jOptionPane = new JOptionPane(orderBuild.toString(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
-
-        JDialog jDialog = jOptionPane.createDialog("Turn Order");
-        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);*/
+        if(isSinglePlayer()){
+           JOptionPane.showConfirmDialog(frame, orderBuild.toString(), "You're about to fight Me! Please, go ahead and start your turn", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
+            //JOptionPane.showMessageDialog(mainPanel, "You're about to fight Me! Please, go ahead and start your turn", "Welcome to Master of Renaissance!", JOptionPane.INFORMATION_MESSAGE, icon);
+        }else{
+            Thread t = new Thread(new Runnable(){
+                public void run(){
+                    JOptionPane.showConfirmDialog(null, orderBuild.toString(), "Welcome to Master of Renaissance!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
+                }
+            });
+            t.start();
+            //JOptionPane.showMessageDialog(mainPanel, orderBuild.toString(), "Welcome to Master of Renaissance!", JOptionPane.INFORMATION_MESSAGE, icon);
+ /*
+            JOptionPane jOptionPane = new JOptionPane(orderBuild.toString(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
+            JDialog jDialog = jOptionPane.createDialog("Turn Order");
+            jDialog.setModalityType(Dialog.ModalityType.MODELESS);
+            jDialog.setVisible(true);*/
+        }
     }
 
     @Override
@@ -295,18 +322,23 @@ public class Gui extends ClientView {
 
         cardLayout.show(mainPanel, "gamePanel");
         gamePanel.getCardLayout().show(gamePanel.getMain(), "playerBoardPanel");
+        String nick = getNickname();
 
-        int response = JOptionPane.showOptionDialog(null, "You have multiple conversion available, please choose one for each blank marble", "Conversion Request",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                null, decolourType(availableConversion).toArray(), decolourType(availableConversion).toArray()[0]);
+        new Thread(() -> {
+            int response = JOptionPane.showOptionDialog(null, "You have multiple conversion available, please choose one for each blank marble", "Conversion Request",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                    null, decolourType(availableConversion).toArray(), decolourType(availableConversion).toArray()[0]);
 
-        if (response == -1){
-            askMultipleConversion(numToConvert, typeToConvert, availableConversion);
-            return;
-        }
+            if (response == -1){
+                askMultipleConversion(numToConvert, typeToConvert, availableConversion);
+                return;
+            }
 
-        ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, availableConversion.get(response), this.getNickname());
-        send(convTypeSend);
+            ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, availableConversion.get(response), nick);
+            send(convTypeSend);
+        }).start();
+
+
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -473,7 +505,8 @@ public class Gui extends ClientView {
             }
         }
 
-        fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
+        new Thread(() ->fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID)).start();
+
     }
 
     /**

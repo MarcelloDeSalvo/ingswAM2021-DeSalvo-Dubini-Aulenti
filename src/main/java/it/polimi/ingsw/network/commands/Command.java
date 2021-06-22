@@ -102,7 +102,9 @@ public enum Command {
     ASK_SETUP_RESOURCES,
     ASK_MULTIPLE_CONVERSION,
 
-    SHOW_TURN_HELP;
+    SHOW_TURN_HELP,
+
+    INACTIVITY_KICK;
 
     private final boolean usableInLobbyManager;
     private final boolean usableInLobby;

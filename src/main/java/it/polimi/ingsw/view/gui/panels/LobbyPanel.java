@@ -18,7 +18,7 @@ public class LobbyPanel extends BackgroundImagePanel {
      */
     public LobbyPanel(Gui gui,List<LobbyListMessage.LobbyInfo> lobbyInfos ) {
         super("/images/backgrounds/lobbyBackground.png", -688, 5, false);
-
+        System.out.println(this);
         this.gui = gui;
         this.setLayout(new BorderLayout());
 
@@ -100,7 +100,7 @@ public class LobbyPanel extends BackgroundImagePanel {
         pane.add(menu);
 
         int option = JOptionPane.showConfirmDialog(this, pane, "CREATE LOBBY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-
+        System.out.println(this);
         if(option == JOptionPane.OK_OPTION){
             if (lobbyName.getText().length()==0)
                 gui.printReply("Please select a non empty name");

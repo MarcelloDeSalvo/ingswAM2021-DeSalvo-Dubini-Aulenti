@@ -411,8 +411,13 @@ public class Cli extends ClientView {
     @Override
     public void onDisconnected(){
         System.out.println("\n! Lost The Connection From The Server !\n");
-        this.setInGame(false);
+        System.exit(-1);
+    }
 
+    @Override
+    public void onServerKick() {
+        System.out.println("\n! You have been kicked for inactivity !\n");
+        System.exit(-1);
     }
 
     @Override
