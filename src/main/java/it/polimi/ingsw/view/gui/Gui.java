@@ -108,7 +108,7 @@ public class Gui extends ClientView {
 
         int option = JOptionPane.showConfirmDialog(frame,
                 "           I'm sorry, something went really wrong!         " +
-                        "\nIt looks like you have connection issue.",
+                        "\nIt looks like you have connection issues.",
                 "OOPS!",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.ERROR_MESSAGE, icon);
@@ -132,11 +132,19 @@ public class Gui extends ClientView {
 
     @Override
     public void onUserLeftGame() {
-        JOptionPane.showConfirmDialog(frame,
+        /*JOptionPane.showConfirmDialog(frame,
                 "Someone disconnected from the game, you are now in the lobby",
                 "User disconnection",
                 JOptionPane.DEFAULT_OPTION,
-                JOptionPane.ERROR_MESSAGE);
+                JOptionPane.ERROR_MESSAGE);*/
+
+        JOptionPane jOptionPane = new JOptionPane("Someone disconnected from the game, you are now in the lobby",
+                JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
+
+        JDialog jDialog = jOptionPane.createDialog("User disconnection");
+        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        jDialog.setVisible(true);
+
 
         cardLayout.show(mainPanel, "lobbyRoomPanel");
         setDefaultFrameSize();
@@ -157,7 +165,7 @@ public class Gui extends ClientView {
 
     @Override
     public void printReply(String payload) {
-        if (frame!=null)
+        if (infoLabel!=null)
             infoLabel.setText(payload);
     }
 
@@ -244,6 +252,13 @@ public class Gui extends ClientView {
                 "Turn Order",
                 JOptionPane.INFORMATION_MESSAGE,
                 icon);
+
+        /*
+        JOptionPane jOptionPane = new JOptionPane(orderBuild.toString(), JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
+
+        JDialog jDialog = jOptionPane.createDialog("Turn Order");
+        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        jDialog.setVisible(true);*/
     }
 
     @Override
@@ -622,11 +637,18 @@ public class Gui extends ClientView {
         else if(actionID == 6)
             text = "LORENZO's position has been incremented of 2 FAITH POINTS. \nThe Action Tokens have been shuffled!   ";
 
-        JOptionPane.showMessageDialog(frame,
+
+        JOptionPane jOptionPane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
+
+        JDialog jDialog = jOptionPane.createDialog("Lorenzo Action");
+        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        jDialog.setVisible(true);
+
+        /*JOptionPane.showMessageDialog(frame,
                 text,
                 "LORENZO ACTION",
                 JOptionPane.INFORMATION_MESSAGE,
-                icon);
+                icon);*/
     }
 
     @Override
