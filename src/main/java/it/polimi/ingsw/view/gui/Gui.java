@@ -192,22 +192,23 @@ public class Gui extends ClientView {
         if (!nickname.equals(this.getNickname()))
             return;
 
+        String mex = "IT'S YOUR TURN, CHOSE AN ACTION: \n" +
+                "                        1) BUY A CARD (>CARD GRID then select a card)\n" +
+                "                        2) SELECT FROM MARKET (>MARKET then select a row or column)\n" +
+                "                        3) PRODUCE (>MY BOARD then select the Development Card to produce)\n" +
+                "                        4) ACTIVATE LEADER (>MY BOARD then select the Leader Card to activate)\n" +
+                "                        5) MANAGE DEPOSIT (>MOVE then select two deposit to switch)\n" +
+                "                        6) END TURN (>END_TURN)\n" +
+                "                        7) WATCH OTHER PLAYERS (>PLAYER NAME)\n" +
+                "                        #) >HELP to see the full command list\n";
+
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
+        JOptionPane jOptionPane = new JOptionPane(mex, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
 
-        JOptionPane.showMessageDialog(frame,
-                "IT'S YOUR TURN, CHOSE AN ACTION: " +
-                        "\n1) BUY A CARD (>CARD GRID then select a card) " +
-                        "\n2) SELECT FROM MARKET (>MARKET then select a row or column)" +
-                        "\n3) PRODUCE (>MY BOARD then select the Development Card to produce)"+
-                        "\n4) ACTIVATE LEADER (>MY BOARD then select the Leader Card to activate)"+
-                        "\n5) MANAGE DEPOSIT (>MOVE then select two deposit to switch)"+
-                        "\n6) END TURN (>END_TURN)" +
-                        "\n7) WATCH OTHER PLAYERS (>PLAYER NAME)" +
-                        "\n#) >HELP to see the full command list ",
-                "Mini HELP",
-                JOptionPane.INFORMATION_MESSAGE,
-                icon);
+        JDialog jDialog = jOptionPane.createDialog("Mini Help");
+        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        jDialog.setVisible(true);
 
         infoLabel.setText("Your Turn!");
     }
