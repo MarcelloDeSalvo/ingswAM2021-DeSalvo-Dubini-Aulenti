@@ -220,6 +220,7 @@ public class Gui extends ClientView {
         if (!nickname.equals(this.getNickname()))
             return;
 
+
         String mex = "IT'S YOUR TURN, CHOSE AN ACTION: \n" +
                 "                        1) BUY A CARD (>CARD GRID then select a card)\n" +
                 "                        2) SELECT FROM MARKET (>MARKET then select a row or column)\n" +
@@ -232,11 +233,8 @@ public class Gui extends ClientView {
 
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
-        JOptionPane jOptionPane = new JOptionPane(mex, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
 
-        JDialog jDialog = jOptionPane.createDialog("Mini Help");
-        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);
+        JOptionPane.showMessageDialog(frame, mex, "HELP", JOptionPane.INFORMATION_MESSAGE, icon);
 
         infoLabel.setText("Your Turn!");
     }
@@ -656,17 +654,13 @@ public class Gui extends ClientView {
         else if(actionID == 6)
             text = "LORENZO's position has been incremented of 2 FAITH POINTS. \nThe Action Tokens have been shuffled!   ";
 
-
+        /*
         JOptionPane jOptionPane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
         JDialog jDialog = jOptionPane.createDialog("Lorenzo Action");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);
+        jDialog.setVisible(true); */
 
-        /*JOptionPane.showMessageDialog(frame,
-                text,
-                "LORENZO ACTION",
-                JOptionPane.INFORMATION_MESSAGE,
-                icon);*/
+        JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 
     @Override
