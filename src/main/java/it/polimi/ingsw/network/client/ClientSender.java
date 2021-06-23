@@ -17,6 +17,7 @@ public class ClientSender extends Thread implements ObserverController {
         this.serverSocket = serverSocket;
         this.out = null;
         this.view = view;
+
     }
 
     public void run(){
@@ -32,8 +33,7 @@ public class ClientSender extends Thread implements ObserverController {
 
         } catch (IOException e) {
             System.out.println("Disconnected");
-
-        } /*catch (NoSuchElementException ignored){}*/
+        }
 
     }
 

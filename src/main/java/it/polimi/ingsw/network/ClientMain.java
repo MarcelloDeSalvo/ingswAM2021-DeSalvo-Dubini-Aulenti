@@ -75,10 +75,11 @@ public class ClientMain {
             clientMain.view.setSinglePlayer(true);
             Controller controller = new Controller(clientMain.view, clientMain.view.getNickname());
             clientMain.view.addObserverController(controller);
+            /*
             while (true){
                 if (! clientMain.view.readInput())
                     break;
-            }
+            }*/
         }
     }
 
@@ -182,25 +183,24 @@ public class ClientMain {
         }
     }
 
-
     /**
      * Creates a new Socket and two threads: one listens to the socket (Receiver) and the other listens to the user inputs (CLI/GUI)
      */
     public void connect(){
         try {
-
             Socket echoSocket = new Socket(hostName, portNumber);
             view = viewSelector();
 
-            ClientSender clientSender = new ClientSender(echoSocket, view);
-            ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view,clientSender);
+            //ClientSender clientSender = new ClientSender(echoSocket, view);
+            //ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view,clientSender);
+            ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view);
 
-            view.addObserverController(clientSender);
+            view.addObserverController(clientReceiver);
 
-            clientSender.start();
+            //clientSender.start();
             clientReceiver.start();
 
-            clientSender.join();
+            //clientSender.join();
             clientReceiver.join();
 
             echoSocket.close();
@@ -240,22 +240,15 @@ public class ClientMain {
         }
     }
 
-    //Ha senso?
-
-    public void readUpdates(String mex){
-        view.readUpdates(mex);
-
-    }
-
+    //GETTERS-------------------------------------------------------------------------------------------------
     public String getHostName() {
         return hostName;
     }
-
     public int getPortNumber() {
         return portNumber;
     }
-
     public String getMode() {
         return viewMode;
     }
+
 }

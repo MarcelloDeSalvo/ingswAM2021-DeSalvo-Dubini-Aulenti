@@ -44,6 +44,7 @@ public abstract class ClientView implements View, UserInput {
         liteFaithPath = FaithPathSetUpParser.deserializeLiteFaithPathSetUp();
         observerControllers = new ArrayList<>();
         this.gson = new Gson();
+        readInput();
     }
 
     @Override

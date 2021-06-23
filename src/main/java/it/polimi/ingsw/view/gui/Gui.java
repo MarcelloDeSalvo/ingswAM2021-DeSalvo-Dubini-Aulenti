@@ -38,8 +38,6 @@ public class Gui extends ClientView {
     private JFrame frame;
     private Label infoLabel;
 
-    private boolean quit = false;
-
     private int activatedLeaderId;
 
     public Gui() throws FileNotFoundException{
@@ -50,7 +48,7 @@ public class Gui extends ClientView {
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
     @Override
     public boolean readInput() {
-        return !quit;
+        return true;
     }
     //------------------------------------------------------------------------------------------------------------------
 

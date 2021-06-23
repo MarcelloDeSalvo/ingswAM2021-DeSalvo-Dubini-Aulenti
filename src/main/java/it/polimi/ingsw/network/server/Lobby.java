@@ -112,7 +112,6 @@ public class Lobby extends LobbyManager implements ObserverViewIO, CommandPermis
                 if(user.getNickname().equals(owner.getNickname())){
                     String key = players.entrySet().stream().findFirst().get().getKey();
                     owner = players.get(key);
-
                     notifyNewOwner();
                 }
             }

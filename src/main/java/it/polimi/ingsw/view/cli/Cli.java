@@ -14,280 +14,293 @@ import java.util.*;
 public class Cli extends ClientView {
 
     private String nicknameTemp = null;
-    private final Scanner stdIn;
+    private Scanner stdIn;
 
     public Cli() throws FileNotFoundException {
         super();
-        stdIn = new Scanner(System.in);
     }
 
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
     @Override
     public boolean readInput() {
-        String userInput;
-
-        userInput = stdIn.next();
-
-        try {
-            switch (userInput.toUpperCase()) {
-
-                //GENERAL-----------------------------------------------------------------------------------------------
-                case "CHAT":
-                    send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
-                    break;
-
-                case "CHAT_ALL":
-                    send(new ChatMessage(stdIn.nextLine(),this.getNickname()));
-                    break;
-
-                case "HELLO":
-                    send(new Message.MessageBuilder().setCommand(Command.HELLO).
-                            setInfo("Hello!").setNickname(this.getNickname()).build());
-                    break;
-
-                case "HELLO_ALL":
-                    send(new Message.MessageBuilder().setCommand(Command.HELLO_ALL).
-                            setInfo("Hello all!").setNickname(this.getNickname()).build());
-                    break;
-
-                case "H":
-                case "HELP":
-                    printHelp();
-                    break;
-
-                //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
-                case "L":
-                case "LOGIN":
-                    nicknameTemp = stdIn.next();
-                    stdIn.nextLine();
-                    Message login;
-
-                    if (this.getNickname() != null)
-                        login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(this.getNickname()).build();
-                    else
-                        login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
-
-                    send(login);
-                    break;
-
-                case "CR":
-                case "CREATE":
-                    CreateLobbyMessage createLobbyMessage = new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname());
-                    if(createLobbyMessage.getNumOfPlayers()>4 || createLobbyMessage.getNumOfPlayers()<1){
-                        throw new InputMismatchException("You cannot play with more than 4 people, please select a valid number");
-                    }
-
-                    send(createLobbyMessage);
-                    break;
-
-                case "J":
-                case "JOIN":
-                    send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
-                    break;
-
-                case "R":
-                case "REFRESH":
-                    send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
-                    break;
-
-
-                //LOBBY PHASE-------------------------------------------------------------------------------------------
-                case "EL":
-                case "EXIT_LOBBY":
-                    send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
-                    break;
-
-                case "SG":
-                case "START_GAME":
-                    send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
-                    break;
-
-
-                //GAME PHASE--------------------------------------------------------------------------------------------
-                case "S":
-                case "SELECT":
-                    if (!set_up_Container(stdIn))
-                        throw new InputMismatchException();
-
-                    break;
-
-                case "PUT":
-                    ResourceType marketRes = InputCheck.resourceType_null(stdIn.next());
-                    if (marketRes == null)  throw new InputMismatchException("Invalid resourceType");
-
-                    String in = stdIn.next();
-                    if (InputCheck.not_in(in)) throw new InputMismatchException("Wrong syntax");
-
-                    String destination = stdIn.next();
-                    if (InputCheck.not_deposit(destination))  throw new InputMismatchException("Invalid destination");
-
-                    send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(marketRes,1), destination, stdIn.nextInt(), this.getNickname()));
-                    break;
-
-                case "G":
-                case "GIVE":
-                    if (!giveContainer(stdIn))
-                        throw new InputMismatchException();
-                    break;
-
-                case "B":
-                case "BUY":
-                    BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
-                    send(buyMessage);
-                    break;
-
-                case "P":
-                case "PRODUCE":
-                    produce();
-                    break;
-
-                case "F":
-                case "FILL":
-                    fillQMs();
-                    break;
-
-                case "M":
-                case "MARKET":
-                    String selection = stdIn.next(); //MUST BE ROW OR COLUMN
-                    int num = stdIn.nextInt();
-
-                    if(InputCheck.not_row_or_column(selection))
-                        throw new InputMismatchException("Invalid syntax");
-
-                    MarketMessage marketMessage = new MarketMessage(selection, num, this.getNickname());
-                    send(marketMessage);
-                    break;
-
-                case "C":
-                case "CONVERT":
-                    ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
-                    if (conversionType == null) throw new InputMismatchException("Invalid resourceType");
-
-                    ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, conversionType, this.getNickname());
-                    send(convTypeSend);
-                    break;
-
-                case "D":
-                case "DISCARD":
-                    send(new IdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
-                    break;
-
-                case "A":
-                case "ACTIVATE":
-                    send(new IdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
-                    break;
-
-                case "MV":
-                case "MOVE":
-                    int qty = stdIn.nextInt();
-                    int sourceId = stdIn.nextInt();
-                    String to = stdIn.next();
-                    if (InputCheck.not_to(to))
-                        throw new InputMismatchException("Invalid syntax");
-
-                    int destId = stdIn.nextInt();
-
-                    send(new ManageDepositMessage(qty, sourceId, destId, this.getNickname()));
-                    break;
-
-                case "SW":
-                case "SWITCH":
-                    int source = stdIn.nextInt();
-                    String with = stdIn.next();
-                    if (InputCheck.not_with(with))
-                        throw new InputMismatchException("Invalid syntax");
-
-                    int dest = stdIn.nextInt();
-                    send(new SwitchDepositMessage(source, dest, this.getNickname()));
-                    break;
-
-                case "DONE":
-                    send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(this.getNickname()).build());
-                    break;
-
-                case "SB":
-                case "SHOW_BOARD":
-                    printBoard(getNickname());
-                    break;
-
-                case "SH":
-                case "SHOW_HAND":
-                    printHand();
-                    break;
-
-                case "SD":
-                case "SHOW_DEPOSIT":
-                    printDeposit();
-                    break;
-
-                case "SV":
-                case "SHOW_VAULT":
-                    printVault();
-                    break;
-
-                case "SP":
-                case "SHOW_PRODUCTION":
-                    printProduction();
-                    break;
-
-                case "SM":
-                case "SHOW_MARKET":
-                    printMarket();
-                    break;
-
-                case "SC":
-                case "SHOW_CARDGRID":
-                    printCardGrid();
-                    break;
-
-                case "SF":
-                case "SHOW_FAITHPATH":
-                    printFaithPath();
-                    break;
-
-                case "SO":
-                case "SHOW_ORDER":
-                    printOrder();
-                    break;
-
-                case "PL":
-                case "PLAYER_LIST":
-                    send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
-                    break;
-
-                case "SPL":
-                case "SHOW_PLAYER":
-                    String pl = stdIn.next();
-                    printBoard(pl);
-                    break;
-
-                case "ET":
-                case "END_TURN":
-                    send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
-                    break;
-
-                case "QUIT":
-                    send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
-                    return false;
-
-                case "BARBAGIALLA":
-                case "CHEAT":           //CHEAT COMMAND
-                    send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(getNickname()).build());
-                    break;
-
-                default:
-                    stdIn.nextLine();
-                    System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
-            }
-
-        }catch (InputMismatchException e){
-            stdIn.nextLine();
-            if (e.getMessage()!=null) System.out.println(e.getMessage()+"\n");
-            System.out.println("The command you submitted has some wrong parameters, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands"+"\n");
-        }
-
-        //System.out.println("#Wrote:" + userInput);
+        new Thread(this::parseInput).start();
         return true;
+    }
+
+    private void parseInput(){
+        stdIn = new Scanner(System.in);
+
+        boolean running = true;
+
+        while (running) {
+            String userInput;
+            userInput = stdIn.next();
+
+            try {
+                switch (userInput.toUpperCase()) {
+
+                    //GENERAL-----------------------------------------------------------------------------------------------
+                    case "CHAT":
+                        send(new ChatMessage(stdIn.next(), stdIn.nextLine(), this.getNickname()));
+                        break;
+
+                    case "CHAT_ALL":
+                        send(new ChatMessage(stdIn.nextLine(), this.getNickname()));
+                        break;
+
+                    case "HELLO":
+                        send(new Message.MessageBuilder().setCommand(Command.HELLO).
+                                setInfo("Hello!").setNickname(this.getNickname()).build());
+                        break;
+
+                    case "HELLO_ALL":
+                        send(new Message.MessageBuilder().setCommand(Command.HELLO_ALL).
+                                setInfo("Hello all!").setNickname(this.getNickname()).build());
+                        break;
+
+                    case "H":
+                    case "HELP":
+                        printHelp();
+                        break;
+
+                    //LOBBY MANAGER PHASE-----------------------------------------------------------------------------------
+                    case "L":
+                    case "LOGIN":
+                        nicknameTemp = stdIn.next();
+                        stdIn.nextLine();
+                        Message login;
+
+                        if (this.getNickname() != null)
+                            login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).setNickname(this.getNickname()).build();
+                        else
+                            login = new Message.MessageBuilder().setCommand(Command.LOGIN).setInfo(nicknameTemp).build();
+
+                        send(login);
+                        break;
+
+                    case "CR":
+                    case "CREATE":
+                        CreateLobbyMessage createLobbyMessage = new CreateLobbyMessage(stdIn.next(), stdIn.nextInt(), this.getNickname());
+                        if (createLobbyMessage.getNumOfPlayers() > 4 || createLobbyMessage.getNumOfPlayers() < 1) {
+                            throw new InputMismatchException("You cannot play with more than 4 people, please select a valid number");
+                        }
+
+                        send(createLobbyMessage);
+                        break;
+
+                    case "J":
+                    case "JOIN":
+                        send(new JoinLobbyMessage(stdIn.next(), this.getNickname()));
+                        break;
+
+                    case "R":
+                    case "REFRESH":
+                        send(new Message.MessageBuilder().setCommand(Command.LOBBY_LIST).setNickname(this.getNickname()).build());
+                        break;
+
+
+                    //LOBBY PHASE-------------------------------------------------------------------------------------------
+                    case "EL":
+                    case "EXIT_LOBBY":
+                        send(new Message.MessageBuilder().setCommand(Command.EXIT_LOBBY).setNickname(this.getNickname()).build());
+                        break;
+
+                    case "SG":
+                    case "START_GAME":
+                        send(new Message.MessageBuilder().setCommand(Command.START_GAME).setNickname(this.getNickname()).build());
+                        break;
+
+
+                    //GAME PHASE--------------------------------------------------------------------------------------------
+                    case "S":
+                    case "SELECT":
+                        if (!set_up_Container(stdIn))
+                            throw new InputMismatchException();
+
+                        break;
+
+                    case "PUT":
+                        ResourceType marketRes = InputCheck.resourceType_null(stdIn.next());
+                        if (marketRes == null) throw new InputMismatchException("Invalid resourceType");
+
+                        String in = stdIn.next();
+                        if (InputCheck.not_in(in)) throw new InputMismatchException("Wrong syntax");
+
+                        String destination = stdIn.next();
+                        if (InputCheck.not_deposit(destination))
+                            throw new InputMismatchException("Invalid destination");
+
+                        send(new SendContainer(Command.SEND_DEPOSIT_ID, new ResourceContainer(marketRes, 1), destination, stdIn.nextInt(), this.getNickname()));
+                        break;
+
+                    case "G":
+                    case "GIVE":
+                        if (!giveContainer(stdIn))
+                            throw new InputMismatchException();
+                        break;
+
+                    case "B":
+                    case "BUY":
+                        BuyMessage buyMessage = new BuyMessage(stdIn.nextInt(), stdIn.nextInt(), this.getNickname());
+                        send(buyMessage);
+                        break;
+
+                    case "P":
+                    case "PRODUCE":
+                        produce();
+                        break;
+
+                    case "F":
+                    case "FILL":
+                        fillQMs();
+                        break;
+
+                    case "M":
+                    case "MARKET":
+                        String selection = stdIn.next(); //MUST BE ROW OR COLUMN
+                        int num = stdIn.nextInt();
+
+                        if (InputCheck.not_row_or_column(selection))
+                            throw new InputMismatchException("Invalid syntax");
+
+                        MarketMessage marketMessage = new MarketMessage(selection, num, this.getNickname());
+                        send(marketMessage);
+                        break;
+
+                    case "C":
+                    case "CONVERT":
+                        ResourceType conversionType = InputCheck.resourceType_null(stdIn.next());
+                        if (conversionType == null) throw new InputMismatchException("Invalid resourceType");
+
+                        ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, conversionType, this.getNickname());
+                        send(convTypeSend);
+                        break;
+
+                    case "D":
+                    case "DISCARD":
+                        send(new IdMessage(Command.DISCARD_LEADER, stdIn.nextInt(), this.getNickname()));
+                        break;
+
+                    case "A":
+                    case "ACTIVATE":
+                        send(new IdMessage(Command.ACTIVATE_LEADER, stdIn.nextInt(), this.getNickname()));
+                        break;
+
+                    case "MV":
+                    case "MOVE":
+                        int qty = stdIn.nextInt();
+                        int sourceId = stdIn.nextInt();
+                        String to = stdIn.next();
+                        if (InputCheck.not_to(to))
+                            throw new InputMismatchException("Invalid syntax");
+
+                        int destId = stdIn.nextInt();
+
+                        send(new ManageDepositMessage(qty, sourceId, destId, this.getNickname()));
+                        break;
+
+                    case "SW":
+                    case "SWITCH":
+                        int source = stdIn.nextInt();
+                        String with = stdIn.next();
+                        if (InputCheck.not_with(with))
+                            throw new InputMismatchException("Invalid syntax");
+
+                        int dest = stdIn.nextInt();
+                        send(new SwitchDepositMessage(source, dest, this.getNickname()));
+                        break;
+
+                    case "DONE":
+                        send(new Message.MessageBuilder().setCommand(Command.DONE).setNickname(this.getNickname()).build());
+                        break;
+
+                    case "SB":
+                    case "SHOW_BOARD":
+                        printBoard(getNickname());
+                        break;
+
+                    case "SH":
+                    case "SHOW_HAND":
+                        printHand();
+                        break;
+
+                    case "SD":
+                    case "SHOW_DEPOSIT":
+                        printDeposit();
+                        break;
+
+                    case "SV":
+                    case "SHOW_VAULT":
+                        printVault();
+                        break;
+
+                    case "SP":
+                    case "SHOW_PRODUCTION":
+                        printProduction();
+                        break;
+
+                    case "SM":
+                    case "SHOW_MARKET":
+                        printMarket();
+                        break;
+
+                    case "SC":
+                    case "SHOW_CARDGRID":
+                        printCardGrid();
+                        break;
+
+                    case "SF":
+                    case "SHOW_FAITHPATH":
+                        printFaithPath();
+                        break;
+
+                    case "SO":
+                    case "SHOW_ORDER":
+                        printOrder();
+                        break;
+
+                    case "PL":
+                    case "PLAYER_LIST":
+                        send(new Message.MessageBuilder().setCommand(Command.PLAYER_LIST).setNickname(this.getNickname()).build());
+                        break;
+
+                    case "SPL":
+                    case "SHOW_PLAYER":
+                        String pl = stdIn.next();
+                        printBoard(pl);
+                        break;
+
+                    case "ET":
+                    case "END_TURN":
+                        send(new Message.MessageBuilder().setCommand(Command.END_TURN).setNickname(this.getNickname()).build());
+                        break;
+
+                    case "QUIT":
+                        send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
+                        running = false;
+                        break;
+
+                    case "BARBAGIALLA":
+                    case "CHEAT":           //CHEAT COMMAND
+                        send(new Message.MessageBuilder().setCommand(Command.CHEAT_VAULT).setNickname(getNickname()).build());
+                        break;
+
+                    default:
+                        stdIn.nextLine();
+                        System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
+                }
+
+                Thread.sleep(0);
+
+            } catch (InputMismatchException | InterruptedException e) {
+                stdIn.nextLine();
+                if (e.getMessage() != null) System.out.println(e.getMessage() + "\n");
+                System.out.println("The command you submitted has some wrong parameters, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands" + "\n");
+            }
+        }
+        //System.out.println("#Wrote:" + userInput);
+
+        stdIn.close();
     }
 
     /**

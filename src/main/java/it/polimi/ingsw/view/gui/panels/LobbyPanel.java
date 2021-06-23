@@ -7,6 +7,7 @@ import it.polimi.ingsw.view.gui.Gui;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.Objects;
 
 public class LobbyPanel extends BackgroundImagePanel {
 
@@ -18,7 +19,7 @@ public class LobbyPanel extends BackgroundImagePanel {
      */
     public LobbyPanel(Gui gui,List<LobbyListMessage.LobbyInfo> lobbyInfos ) {
         super("/images/backgrounds/lobbyBackground.png", -688, 5, false);
-        System.out.println(this);
+
         this.gui = gui;
         this.setLayout(new BorderLayout());
 
@@ -100,12 +101,12 @@ public class LobbyPanel extends BackgroundImagePanel {
         pane.add(menu);
 
         int option = JOptionPane.showConfirmDialog(this, pane, "CREATE LOBBY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-        System.out.println(this);
+
         if(option == JOptionPane.OK_OPTION){
             if (lobbyName.getText().length()==0)
                 gui.printReply("Please select a non empty name");
             else
-                gui.send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(menu.getSelectedItem().toString()), gui.getNickname()));
+                gui.send(new CreateLobbyMessage(lobbyName.getText(), Integer.parseInt(Objects.requireNonNull(menu.getSelectedItem()).toString()), gui.getNickname()));
         }
     }
 }

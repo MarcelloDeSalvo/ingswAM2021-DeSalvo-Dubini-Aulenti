@@ -10,12 +10,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 
 public abstract class SmartImagePanel extends JComponent {
     private final Gui gui;
 
-    private BufferedImage originalImage;
+    private final BufferedImage originalImage;
     private final BufferedImage scaledImage;
 
     private final Rectangle imgArea;
@@ -65,7 +64,7 @@ public abstract class SmartImagePanel extends JComponent {
      * @param relativePosition is the starting position relative to the background
      * @param backGround is the background panel
      */
-    public SmartImagePanel(Gui gui, String path, Point relativePosition, BackgroundImagePanel backGround) throws FileNotFoundException {
+    public SmartImagePanel(Gui gui, String path, Point relativePosition, BackgroundImagePanel backGround) {
         this.gui = gui;
         this.backGround = backGround;
         this.backGroundPivot = backGround.getPivot();
@@ -179,9 +178,7 @@ public abstract class SmartImagePanel extends JComponent {
         return scaledImage;
     }
 
-    public Rectangle getImgArea() {
-        return imgArea;
-    }
+    public Rectangle getImgArea() { return imgArea; }
 
     public BackgroundImagePanel getBackGroundPanel() { return backGround; }
 
