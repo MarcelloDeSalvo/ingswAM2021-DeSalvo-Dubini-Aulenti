@@ -39,7 +39,7 @@ public class User implements ObservableViewIO {
      * After this amount of milliseconds the timer checks for a received pong and sends a ping <br>
      *     timerTaskDelta * maxLostPings = total time that has to elapse before disconnecting the player
      */
-    private final int timerTaskDelta = 3000;
+    private final int timerTaskDelta = 10000;
 
     private Status status;
 

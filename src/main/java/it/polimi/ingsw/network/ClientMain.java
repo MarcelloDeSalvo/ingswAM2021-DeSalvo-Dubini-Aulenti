@@ -192,8 +192,8 @@ public class ClientMain {
             Socket echoSocket = new Socket(hostName, portNumber);
             view = viewSelector();
 
-            ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view);
             ClientSender clientSender = new ClientSender(echoSocket, view);
+            ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view,clientSender);
 
             view.addObserverController(clientSender);
 
@@ -238,6 +238,13 @@ public class ClientMain {
                 System.out.println("Invalid view");
                 return null;
         }
+    }
+
+    //Ha senso?
+
+    public void readUpdates(String mex){
+        view.readUpdates(mex);
+
     }
 
     public String getHostName() {
