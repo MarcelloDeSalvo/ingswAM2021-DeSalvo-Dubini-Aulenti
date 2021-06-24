@@ -46,7 +46,6 @@ public class ClientReceiver extends Thread implements ObserverController {
                         update(new Message.MessageBuilder().setCommand(Command.PONG).build().serialize(),null, null);
                     else
                         clientCommandQueue.addCommandToQueue(receivedMex);
-
                 }
                 else
                     throw new IOException();
