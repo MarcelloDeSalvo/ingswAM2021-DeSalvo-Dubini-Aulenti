@@ -228,7 +228,7 @@ public class Gui extends ClientView {
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
         JOptionPane jOptionPane = new JOptionPane(mex,
-                JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
+                JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
 
         JDialog jDialog = jOptionPane.createDialog("HELP");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
