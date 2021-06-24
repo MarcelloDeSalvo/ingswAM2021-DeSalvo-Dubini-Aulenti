@@ -278,6 +278,7 @@ public class Cli extends ClientView {
                     case "QUIT":
                         send(new Message.MessageBuilder().setCommand(Command.QUIT).setNickname(this.getNickname()).build());
                         running = false;
+                        exitController();
                         break;
 
                     case "BARBAGIALLA":

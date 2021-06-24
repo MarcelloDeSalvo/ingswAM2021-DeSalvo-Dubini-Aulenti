@@ -11,4 +11,9 @@ public interface ObserverController {
      */
     void update(String mex, Command command, String senderNick);
 
+    /**
+     * Exits from the controller
+     */
+    void exit();
+
 }

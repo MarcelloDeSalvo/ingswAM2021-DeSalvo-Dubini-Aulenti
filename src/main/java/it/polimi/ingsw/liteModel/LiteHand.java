@@ -15,14 +15,16 @@ public class LiteHand {
         this.hand = hand;
         this.leaderCards = new ArrayList<>(leaderCards);
 
-        for (Integer id : hand) {
-            leaderCards.add(leaderCards.get(id-1));
-        }
+        for (LeaderCard ld: leaderCards)
+            ld.setStatus(Status.HAND);
     }
 
     public LiteHand(List<LeaderCard> leaderCards) {
         this.hand = new ArrayList<>();
         this.leaderCards = new ArrayList<>(leaderCards);
+
+        for (LeaderCard ld: leaderCards)
+            ld.setStatus(Status.HAND);
     }
 
 

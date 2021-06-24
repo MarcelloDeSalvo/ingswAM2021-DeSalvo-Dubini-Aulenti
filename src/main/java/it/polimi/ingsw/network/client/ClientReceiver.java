@@ -18,6 +18,8 @@ public class ClientReceiver extends Thread implements ObserverController {
     private final ClientView view;
     private boolean exit = false;
 
+    private final String ping = new Message.MessageBuilder().setCommand(Command.PONG).build().serialize();
+
     private PrintWriter out;
 
     public ClientReceiver (Socket socket, ClientView view){
@@ -44,7 +46,7 @@ public class ClientReceiver extends Thread implements ObserverController {
                     Command command = deserializedMex.getCommand();
 
                     if(command==Command.PING)
-                        update(new Message.MessageBuilder().setCommand(Command.PONG).build().serialize(),null, null);
+                        update(ping,null, null);
                     else
                         view.readUpdates(receivedMex);
                         //clientCommandQueue.addCommandToQueue(receivedMex);
@@ -82,6 +84,7 @@ public class ClientReceiver extends Thread implements ObserverController {
     /**
      * Kills the thread when called
      */
+    @Override
     public void exit(){
         exit= true;
     }

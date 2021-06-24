@@ -31,12 +31,7 @@ public abstract class ClientView implements View, UserInput {
     private LiteMarket liteMarket;
     private HashMap<String,LitePlayerBoard> liteBoards;
 
-    private int counter = 0;
-
     private final Gson gson;
-
-    private final Message pong = new Message.MessageBuilder().setCommand(Command.PONG).
-            setNickname(this.getNickname()).build();
 
     public ClientView() throws FileNotFoundException {
         leaderCards = LeaderCardParser.deserializeLeaderList();
@@ -75,6 +70,15 @@ public abstract class ClientView implements View, UserInput {
         }
     }
 
+    /**
+     * Kills the controller
+     */
+    public void exitController(){
+        for (ObserverController obs: observerControllers) {
+            obs.exit();
+        }
+    }
+
     //READ UPDATES------------------------------------------------------------------------------------------------------
     @Override
     public void readUpdates(String mex){
@@ -83,13 +87,6 @@ public abstract class ClientView implements View, UserInput {
         String senderNick = deserializedMex.getSenderNickname();
 
         switch (command){
-
-            case PING:
-                System.out.println("PONG "+counter+ " to be sent: " + pong.toString());
-                send(pong);
-                System.out.println("PONG "+counter+ " sent: " + pong.toString());
-                counter++;
-                break;
 
             case INACTIVITY_KICK:
                 onServerKick();
@@ -424,7 +421,6 @@ public abstract class ClientView implements View, UserInput {
     public boolean isSolo() { return singlePlayer; }
 
     public void setSinglePlayer(boolean singlePlayer) { this.singlePlayer = singlePlayer; }
-
     //------------------------------------------------------------------------------------------------------------------
 
 }
