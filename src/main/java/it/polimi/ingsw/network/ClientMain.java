@@ -2,6 +2,7 @@ package it.polimi.ingsw.network;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.network.client.ClientCommandQueue;
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.cli.Cli;

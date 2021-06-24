@@ -6,8 +6,11 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class ImageUtil {
+
+    private final static HashMap<String, BufferedImage> loadedImages = new HashMap<>();
 
     public static BufferedImage resizeImage(BufferedImage original, Dimension resizedDim){
 
@@ -24,12 +27,16 @@ public class ImageUtil {
 
     public static BufferedImage loadImage(String path) throws ImageNotFound{
         BufferedImage image;
-        try{
-            image = ImageIO.read(ImageUtil.class.getResourceAsStream(path));
-        }catch (IOException |IllegalArgumentException e){
-            throw new ImageNotFound(path);
+        if (loadedImages.containsKey(path))
+            return loadedImages.get(path);
+        else {
+            try{
+                image = ImageIO.read(ImageUtil.class.getResourceAsStream(path));
+                loadedImages.put(path, image);
+                return image;
+            }catch (IOException |IllegalArgumentException e){
+                throw new ImageNotFound(path);
+            }
         }
-
-        return image;
     }
 }

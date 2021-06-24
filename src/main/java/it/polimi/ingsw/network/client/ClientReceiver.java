@@ -25,11 +25,12 @@ public class ClientReceiver extends Thread implements ObserverController {
         this.view = view;
     }
 
+    @Override
     public void run() {
 
         try {
-            ClientCommandQueue clientCommandQueue= new ClientCommandQueue(view);
-            clientCommandQueue.start();
+            //ClientCommandQueue clientCommandQueue = new ClientCommandQueue(view);
+            //clientCommandQueue.start();
 
             Gson gson = new Gson();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -45,7 +46,8 @@ public class ClientReceiver extends Thread implements ObserverController {
                     if(command==Command.PING)
                         update(new Message.MessageBuilder().setCommand(Command.PONG).build().serialize(),null, null);
                     else
-                        clientCommandQueue.addCommandToQueue(receivedMex);
+                        view.readUpdates(receivedMex);
+                        //clientCommandQueue.addCommandToQueue(receivedMex);
                 }
                 else
                     throw new IOException();
@@ -53,7 +55,7 @@ public class ClientReceiver extends Thread implements ObserverController {
                 Thread.sleep(0);
             }
 
-            clientCommandQueue.exit();
+            //clientCommandQueue.exit();
             in.close();
 
         } catch (IOException e) {

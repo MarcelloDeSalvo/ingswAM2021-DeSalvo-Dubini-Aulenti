@@ -19,19 +19,22 @@ public class ClientCommandQueue extends Thread {
     @Override
     public void run() {
         String topOfTheQueue;
-        try {
-            while (!exit) {
-                synchronized (commands) {
-                    commands.wait();
-                    if ((topOfTheQueue = commands.peek()) != null) {
-                        view.readUpdates(topOfTheQueue);
-                        commands.remove(topOfTheQueue);
 
-                    }
+        while (!exit) {
+            synchronized (commands) {
+
+                try {
+                    commands.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+
+                if ((topOfTheQueue = commands.peek())!=null){
+                    commands.remove(topOfTheQueue);
+                    view.readUpdates(topOfTheQueue);
+                }
+
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 

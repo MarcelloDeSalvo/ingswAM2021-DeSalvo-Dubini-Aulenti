@@ -421,7 +421,7 @@ public abstract class ClientView implements View, UserInput {
 
     public void setInGame(boolean inGame) {  isInGame = inGame; }
 
-    public boolean isSinglePlayer() { return singlePlayer; }
+    public boolean isSolo() { return singlePlayer; }
 
     public void setSinglePlayer(boolean singlePlayer) { this.singlePlayer = singlePlayer; }
 

@@ -994,7 +994,7 @@ public class Cli extends ClientView {
             i++;
         }
         printReply(scoreboard.toString());
-        if(isSinglePlayer())
+        if(isSolo())
             System.exit(-1);
     }
 

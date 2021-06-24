@@ -76,7 +76,7 @@ public class Gui extends ClientView {
         infoLabel.setAlignment(Label.CENTER);
         infoLabel.setForeground(Color.WHITE);
 
-        if(!isSinglePlayer()){
+        if(!isSolo()){
             mainPanel.add(loginPanel, "loginPanel");
             cardLayout.show(mainPanel, "loginPanel");
         }else{
@@ -152,12 +152,6 @@ public class Gui extends ClientView {
 
     @Override
     public void onUserLeftGame() {
-        /*JOptionPane.showConfirmDialog(frame,
-                "Someone disconnected from the game, you are now in the lobby",
-                "User disconnection",
-                JOptionPane.DEFAULT_OPTION,
-                JOptionPane.ERROR_MESSAGE);*/
-
         JOptionPane jOptionPane = new JOptionPane("Someone disconnected from the game, you are now in the lobby",
                 JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
 
@@ -220,7 +214,6 @@ public class Gui extends ClientView {
         if (!nickname.equals(this.getNickname()))
             return;
 
-
         String mex = "IT'S YOUR TURN, CHOSE AN ACTION: \n" +
                 "                        1) BUY A CARD (>CARD GRID then select a card)\n" +
                 "                        2) SELECT FROM MARKET (>MARKET then select a row or column)\n" +
@@ -234,7 +227,14 @@ public class Gui extends ClientView {
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
-        JOptionPane.showMessageDialog(frame, mex, "HELP", JOptionPane.INFORMATION_MESSAGE, icon);
+        JOptionPane jOptionPane = new JOptionPane(mex,
+                JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
+
+        JDialog jDialog = jOptionPane.createDialog("HELP");
+        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        jDialog.setVisible(true);
+
+        //JOptionPane.showMessageDialog(frame, mex, "HELP", JOptionPane.INFORMATION_MESSAGE, icon);
 
         infoLabel.setText("Your Turn!");
     }
@@ -265,7 +265,7 @@ public class Gui extends ClientView {
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
-        if(isSinglePlayer()){
+        if(isSolo()){
            JOptionPane.showConfirmDialog(frame, orderBuild.toString(), "You're about to challenge me!\n" +
                    " Please, go ahead and start your turn", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
         }else{
@@ -654,13 +654,15 @@ public class Gui extends ClientView {
         else if(actionID == 6)
             text = "LORENZO's position has been incremented of 2 FAITH POINTS. \nThe Action Tokens have been shuffled!   ";
 
-        /*
+
         JOptionPane jOptionPane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
         JDialog jDialog = jOptionPane.createDialog("Lorenzo Action");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true); */
+        jDialog.setVisible(true);
 
-        JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
+        //String finalText = text;
+        //new Thread(() ->JOptionPane.showMessageDialog(frame, finalText, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon)).start();
+
     }
 
     @Override
@@ -754,7 +756,7 @@ public class Gui extends ClientView {
 
         setDefaultFrameSize();
 
-        if(!isSinglePlayer())
+        if(!isSolo())
             cardLayout.show(mainPanel, "lobbyRoomPanel");
         else
             System.exit(-1);
@@ -790,7 +792,6 @@ public class Gui extends ClientView {
 
 
     //UTIL METHODS------------------------------------------------------------------------------------------------------
-
     /**
      * Method used to remove the ansi color from the ResourceType toString
      */

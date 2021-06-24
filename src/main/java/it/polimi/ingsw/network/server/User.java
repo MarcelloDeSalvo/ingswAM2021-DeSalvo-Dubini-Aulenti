@@ -30,7 +30,7 @@ public class User implements ObservableViewIO {
     /**
      * After this number of packets is lost the client will be considered disconnected
      */
-    private final int maxLostPongs = 5;
+    private final int maxLostPongs = 4;
     private int receivedPongsCounts = maxLostPongs;
 
     private int counter = 0;
