@@ -227,14 +227,14 @@ public class Gui extends ClientView {
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
-        JOptionPane jOptionPane = new JOptionPane(mex,
+        /*JOptionPane jOptionPane = new JOptionPane(mex,
                 JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
 
         JDialog jDialog = jOptionPane.createDialog("HELP");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
         jDialog.setVisible(true);
-
-        //JOptionPane.showMessageDialog(frame, mex, "HELP", JOptionPane.INFORMATION_MESSAGE, icon);
+        */
+        JOptionPane.showMessageDialog(frame, mex, "HELP", JOptionPane.INFORMATION_MESSAGE, icon);
 
         infoLabel.setText("Your Turn!");
     }
@@ -655,13 +655,14 @@ public class Gui extends ClientView {
             text = "LORENZO's position has been incremented of 2 FAITH POINTS. \nThe Action Tokens have been shuffled!   ";
 
 
-        JOptionPane jOptionPane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
+        /*JOptionPane jOptionPane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
         JDialog jDialog = jOptionPane.createDialog("Lorenzo Action");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);
+        jDialog.setVisible(true);*/
 
-        //String finalText = text;
-        //new Thread(() ->JOptionPane.showMessageDialog(frame, finalText, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon)).start();
+       //String finalText = text;
+        /*new Thread(() ->*/JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
+        /*.start()*/;
 
     }
 

@@ -22,11 +22,12 @@ public class ClientCommandQueue extends Thread {
 
         while (!exit) {
             synchronized (commands) {
-
-                try {
-                    commands.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                while(commands.size()==0) {
+                    try {
+                        commands.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 if ((topOfTheQueue = commands.peek())!=null){

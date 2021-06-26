@@ -12,17 +12,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientReceiver extends Thread implements ObserverController {
     private final Socket socket;
     private final ClientView view;
     private boolean exit = false;
+    private ExecutorService executorService;
 
     private PrintWriter out;
 
     public ClientReceiver (Socket socket, ClientView view){
         this.socket = socket;
         this.view = view;
+        this.executorService= Executors.newSingleThreadExecutor();
     }
 
     @Override
@@ -45,14 +49,16 @@ public class ClientReceiver extends Thread implements ObserverController {
 
                     if(command==Command.PING)
                         update(new Message.MessageBuilder().setCommand(Command.PONG).build().serialize(),null, null);
-                    else
-                        view.readUpdates(receivedMex);
+                    else {
+                        String finalReceivedMex = receivedMex;
+                        executorService.submit(()->view.readUpdates(finalReceivedMex));
+                        //view.readUpdates(receivedMex);
                         //clientCommandQueue.addCommandToQueue(receivedMex);
+                    }
                 }
                 else
                     throw new IOException();
 
-                Thread.sleep(0);
             }
 
             //clientCommandQueue.exit();
@@ -64,12 +70,7 @@ public class ClientReceiver extends Thread implements ObserverController {
 
         } catch (JsonSyntaxException e) {
             System.out.println("Wrong syntax, the message has been discarded");
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-
         }
-
     }
 
     @Override
