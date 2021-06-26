@@ -15,7 +15,7 @@ public class LiteHand {
         this.hand = hand;
         this.leaderCards = new ArrayList<>(leaderCards);
 
-        for (LeaderCard ld: leaderCards)
+        for (LeaderCard ld: this.leaderCards)
             ld.setStatus(Status.HAND);
     }
 
@@ -23,7 +23,7 @@ public class LiteHand {
         this.hand = new ArrayList<>();
         this.leaderCards = new ArrayList<>(leaderCards);
 
-        for (LeaderCard ld: leaderCards)
+        for (LeaderCard ld:  this.leaderCards)
             ld.setStatus(Status.HAND);
     }
 

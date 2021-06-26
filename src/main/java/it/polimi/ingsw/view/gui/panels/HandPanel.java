@@ -26,21 +26,20 @@ public class HandPanel extends JPanel {
         super();
         this.gui = gui;
         leaders = new HashMap<>();
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         List<Integer> IDs = gui.getMyHand().getHand();
 
         this.add(Box.createVerticalGlue());
         for (Integer id : IDs) {
-
             ButtonCard button = new ButtonCard(gui,"/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367), id);  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
             leaders.put(id, button);
-
             button.addActionListener(e-> leaderActionWindow(id, button));
-
             this.add(Box.createRigidArea(new Dimension(30, 50)));
         }
+
         this.add(Box.createVerticalGlue());
     }
 
@@ -51,9 +50,7 @@ public class HandPanel extends JPanel {
         super();
         this.gui = gui;
         leaders = new HashMap<>();
-
         create(nick);
-
     }
 
     /**
@@ -86,28 +83,31 @@ public class HandPanel extends JPanel {
      * Creates a view-only hand. Makes sure that non active cards are turned.
      */
     public void create(String nick){
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        List<Integer> IDs = gui.getSomeonesHand(nick).getHand();
+        List<Integer> iDs = gui.getSomeonesHand(nick).getHand();
+
         int j=0;
         this.add(Box.createVerticalGlue());
 
-        while  (j< IDs.size()) {
-            int id=IDs.get(j);
+        while (j< iDs.size()) {
+            int id=iDs.get(j);
             ButtonImage button = new ButtonImage("/images/cardFrontJpgs/LeaderFront_" + id + ".jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
             leaders.put(id, button);
             this.add(Box.createRigidArea(new Dimension(30, 50)));
             j++;
         }
-        while(j<2){
+
+        while (j<2){
             ButtonImage button = new ButtonImage("/images/cardBackJpgs/leaderCardBack.jpg", new Dimension(243, 367));  //new dimension is 70% of the original size
             this.add(button, BorderLayout.CENTER);
             this.add(Box.createRigidArea(new Dimension(30, 50)));
             j++;
         }
+
         this.add(Box.createVerticalGlue());
+
     }
 
     /**
@@ -120,8 +120,17 @@ public class HandPanel extends JPanel {
         this.repaint();
     }
 
-
     public HashMap<Integer, JButton> getLeaders() {
         return leaders;
+    }
+
+    /**
+     * Validates the panel and returns the button locations
+     * @param id the button id
+     * @return the x and y coordinates of the requested button
+     */
+    public Point getButtonLocation(Integer id){
+        this.validate();
+        return (leaders.get(id).getLocation());
     }
 }

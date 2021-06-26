@@ -16,14 +16,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientReceiver extends Thread implements ObserverController {
+
     private final Socket socket;
     private final ClientView view;
-    private boolean exit = false;
-    private ExecutorService executorService;
-
+    private final ExecutorService executorService;
     private final String ping = new Message.MessageBuilder().setCommand(Command.PONG).build().serialize();
 
     private PrintWriter out;
+    private boolean exit = false;
 
     public ClientReceiver (Socket socket, ClientView view){
         this.socket = socket;
@@ -33,11 +33,7 @@ public class ClientReceiver extends Thread implements ObserverController {
 
     @Override
     public void run() {
-
         try {
-            //ClientCommandQueue clientCommandQueue = new ClientCommandQueue(view);
-            //clientCommandQueue.start();
-
             Gson gson = new Gson();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -53,18 +49,16 @@ public class ClientReceiver extends Thread implements ObserverController {
                         update(ping,null, null);
                     else {
                         String finalReceivedMex = receivedMex;
-                        executorService.submit(()->view.readUpdates(finalReceivedMex));
-                        //view.readUpdates(receivedMex);
-                        //clientCommandQueue.addCommandToQueue(receivedMex);
+                        executorService.submit(() -> view.readUpdates(finalReceivedMex));
+                    }
                 }
                 else
                     throw new IOException();
-
-                Thread.sleep(0);
             }
 
-            //clientCommandQueue.exit();
             in.close();
+            out.close();
+            executorService.shutdown();
 
         } catch (IOException e) {
             view.onDisconnected();
@@ -72,6 +66,7 @@ public class ClientReceiver extends Thread implements ObserverController {
 
         } catch (JsonSyntaxException e) {
             System.out.println("Wrong syntax, the message has been discarded");
+
         }
     }
 
@@ -79,7 +74,6 @@ public class ClientReceiver extends Thread implements ObserverController {
     public synchronized void update(String mex, Command command, String senderNick) {
         out.println(mex);
         out.flush();
-
     }
 
     /**

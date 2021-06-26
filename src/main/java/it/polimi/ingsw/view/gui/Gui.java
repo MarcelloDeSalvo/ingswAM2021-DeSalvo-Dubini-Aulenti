@@ -45,13 +45,6 @@ public class Gui extends ClientView {
         SwingUtilities.invokeLater(this::createAndShowGUI);
     }
 
-    //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
-    @Override
-    public boolean readInput() {
-        return true;
-    }
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * Creates the main JFrame and starts the login phase
      */
@@ -102,6 +95,10 @@ public class Gui extends ClientView {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
+    //USER INPUT--------------------------------------------------------------------------------------------------------
+    @Override
+    public void readInput() { }
+    //------------------------------------------------------------------------------------------------------------------
 
     //ON EVENT----------------------------------------------------------------------------------------------------------
     @Override
@@ -152,12 +149,16 @@ public class Gui extends ClientView {
 
     @Override
     public void onUserLeftGame() {
+        JOptionPane.showMessageDialog(frame, "Someone disconnected from the game, you are now in the lobby",
+                "Disconnected from the game", JOptionPane.INFORMATION_MESSAGE);
+
+        /*
         JOptionPane jOptionPane = new JOptionPane("Someone disconnected from the game, you are now in the lobby",
                 JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
 
         JDialog jDialog = jOptionPane.createDialog("User disconnection");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);
+        jDialog.setVisible(true);*/
 
 
         cardLayout.show(mainPanel, "lobbyRoomPanel");
@@ -194,12 +195,15 @@ public class Gui extends ClientView {
 
     @Override
     public void printChatMessage(String senderNick, String info, boolean all) {
+        if (!all)
+            printReply(senderNick + ": " + info);
+        else
+            printReply(senderNick + " in ALL chat: " + info);
 
     }
 
     @Override
     public void printLobby(List<LobbyListMessage.LobbyInfo> lobbyInfos) {
-
         lobbyPanel = new LobbyPanel(this, lobbyInfos);
 
         mainPanel.add(lobbyPanel, "lobbyPanel");
@@ -253,6 +257,13 @@ public class Gui extends ClientView {
     public void printOrder() {
         if (!this.isInGame()) return;
 
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
+
+        String mex;
+        String offlineMex = "You're about to challenge me!\n" +
+                " Please, go ahead and start your turn";
+
         List<String> randomOrder = getLiteFaithPath().getNicknames();
 
         StringBuilder orderBuild = new StringBuilder();
@@ -262,16 +273,10 @@ public class Gui extends ClientView {
             orderBuild.append(i+1).append(": ").append(randomOrder.get(i)).append(" \n");
         }
 
-        ImageIcon icon = new ImageIcon();
-        icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
+        mex = isSolo() ? offlineMex : orderBuild.toString();
 
-        if(isSolo()){
-           JOptionPane.showConfirmDialog(frame, orderBuild.toString(), "You're about to challenge me!\n" +
-                   " Please, go ahead and start your turn", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
-        }else{
-            Thread t = new Thread(() -> JOptionPane.showConfirmDialog(null, orderBuild.toString(), "Welcome to Master of Renaissance!", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon));
-            t.start();
-        }
+        JOptionPane.showConfirmDialog(frame, mex, "The game is starting!",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, icon);
     }
 
     @Override
@@ -310,19 +315,17 @@ public class Gui extends ClientView {
         gamePanel.getCardLayout().show(gamePanel.getMain(), "playerBoardPanel");
         String nick = getNickname();
 
-        new Thread(() -> {
-            int response = JOptionPane.showOptionDialog(null, "You have multiple conversion available, please choose one for each blank marble", "Conversion Request",
-                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
-                    null, decolourType(availableConversion).toArray(), decolourType(availableConversion).toArray()[0]);
+        int response = JOptionPane.showOptionDialog(null, "You have multiple conversion available, please choose one for each blank marble", "Conversion Request",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,
+                null, decolourType(availableConversion).toArray(), decolourType(availableConversion).toArray()[0]);
 
-            if (response == -1){
-                askMultipleConversion(numToConvert, typeToConvert, availableConversion);
-                return;
-            }
+        if (response == -1){
+            askMultipleConversion(numToConvert, typeToConvert, availableConversion);
+            return;
+        }
 
-            ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, availableConversion.get(response), nick);
-            send(convTypeSend);
-        }).start();
+        ResourceTypeSend convTypeSend = new ResourceTypeSend(Command.CONVERSION, availableConversion.get(response), nick);
+        send(convTypeSend);
     }
     //------------------------------------------------------------------------------------------------------------------
 
@@ -360,7 +363,6 @@ public class Gui extends ClientView {
         }
 
         this.setInGame(true);
-        printOrder();
     }
 
     @Override
@@ -489,7 +491,7 @@ public class Gui extends ClientView {
             }
         }
 
-        new Thread(() ->fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID)).start();
+        fillWindow(qmi, qmo, addableTypes, toSend, resources, productionID);
 
     }
 
@@ -606,6 +608,8 @@ public class Gui extends ClientView {
 
         mainPanel.add(discardLeaders, "discardLeaders");
         cardLayout.show(mainPanel, "discardLeaders");
+
+        printOrder();
     }
 
     @Override
@@ -661,9 +665,10 @@ public class Gui extends ClientView {
         jDialog.setVisible(true);*/
 
        //String finalText = text;
-        /*new Thread(() ->*/JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
-        /*.start()*/;
+        /*new Thread(() ->JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
+        .start()*/
 
+        JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 
     @Override
@@ -687,14 +692,19 @@ public class Gui extends ClientView {
 
     @Override
     public void notifyNewDepositSlot(int maxDim, ResourceType resourceType, String senderNick) {
-        if(senderNick.equals(getNickname()))
-            getMyLiteDeposit().addSlot(maxDim,resourceType,
-                    getGamePanel().getPlayerBoardPanel().getHandPanel().getLeaders().get(activatedLeaderId).getLocation(),
-                    getGamePanel().getPlayerBoardPanel(), false);
-        else
-            getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType,
-                getGamePanel().getOtherHandPanels(senderNick).getLeaders().get(activatedLeaderId).getLocation(),
+        Point p;
+
+        if(senderNick.equals(getNickname())){
+             p = getGamePanel().getPlayerBoardPanel().getHandPanel().getButtonLocation(activatedLeaderId);
+
+            getMyLiteDeposit().addSlot(maxDim,resourceType, p, getGamePanel().getPlayerBoardPanel(), false);
+
+        } else{
+            p = getGamePanel().getOtherHandPanels(senderNick).getButtonLocation(activatedLeaderId);
+
+            getSomeonesLiteDeposit(senderNick).addSlot(maxDim, resourceType, p,
                     getGamePanel().getPlayerPanelsMap().get(senderNick), true);
+        }
     }
 
     @Override
@@ -749,11 +759,14 @@ public class Gui extends ClientView {
             i++;
         }
 
+        JOptionPane.showMessageDialog(frame, scoreboard,"SCOREBOARD", JOptionPane.INFORMATION_MESSAGE, icon);
+
+        /*
         JOptionPane jOptionPane = new JOptionPane(scoreboard, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
 
         JDialog jDialog = jOptionPane.createDialog("SCORE BOARD AND WINNERS");
         jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);
+        jDialog.setVisible(true);*/
 
         setDefaultFrameSize();
 

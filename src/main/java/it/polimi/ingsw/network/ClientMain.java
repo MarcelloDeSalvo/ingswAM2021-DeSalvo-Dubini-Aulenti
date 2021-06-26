@@ -2,7 +2,6 @@ package it.polimi.ingsw.network;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.network.client.ClientCommandQueue;
 import it.polimi.ingsw.network.client.ClientReceiver;
 import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.cli.Cli;
@@ -71,6 +70,7 @@ public class ClientMain {
                 System.out.println("View Not Found, please restart");
                 System.exit(-1);
             }
+
             clientMain.view.setNickname("Player");
             clientMain.view.setSinglePlayer(true);
             Controller controller = new Controller(clientMain.view, clientMain.view.getNickname());

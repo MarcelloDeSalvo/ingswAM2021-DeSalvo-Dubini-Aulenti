@@ -22,9 +22,8 @@ public class Cli extends ClientView {
 
     //USER INPUT AND UPDATES--------------------------------------------------------------------------------------------
     @Override
-    public boolean readInput() {
+    public void readInput() {
         new Thread(this::parseInput).start();
-        return true;
     }
 
     private void parseInput(){
@@ -291,15 +290,12 @@ public class Cli extends ClientView {
                         System.out.println("Invalid command, type " + Color.ANSI_RED.escape() + "HELP" + Color.RESET + " to see all available commands");
                 }
 
-                Thread.sleep(0);
-
-            } catch (InputMismatchException | InterruptedException e) {
+            } catch (InputMismatchException e) {
                 stdIn.nextLine();
                 if (e.getMessage() != null) System.out.println(e.getMessage() + "\n");
                 System.out.println("The command you submitted has some wrong parameters, please consult " + Color.ANSI_YELLOW.escape() + "HELP" + Color.RESET + " to know more about commands" + "\n");
             }
         }
-        //System.out.println("#Wrote:" + userInput);
 
         stdIn.close();
     }

@@ -32,7 +32,7 @@ public class ShowPlayerPanel extends JLayeredPane {
         pl1.add(boardImg);
         pl1.setOpaque(false);
 
-        handPanel = new HandPanel(gui,nick);
+        handPanel = new HandPanel(gui, nick);
         handPanel.setOpaque(false);
 
         pl0.setBorder(new EmptyBorder(0,0,0,10));

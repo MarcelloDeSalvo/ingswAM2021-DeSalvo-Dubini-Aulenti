@@ -33,6 +33,9 @@ public class User implements ObservableViewIO {
     private final int maxLostPongs = 4;
     private int receivedPongsCounts = maxLostPongs;
 
+    /**
+     * Ping counter (for testing)
+     */
     private int counter = 0;
 
     /**
@@ -117,7 +120,6 @@ public class User implements ObservableViewIO {
      */
     public void pongReceived(){
         receivedPongsCounts = maxLostPongs;
-        //System.out.println("PONG RECEIVED IN USER: " + nickname);
     }
 
     @Override
@@ -157,6 +159,5 @@ public class User implements ObservableViewIO {
     }
 
     public int getCounter() { return counter; }
-
     //------------------------------------------------------------------------------------------------------------------
 }

@@ -5,10 +5,9 @@ import it.polimi.ingsw.network.commands.Message;
 public interface UserInput {
 
     /**
-     * Reads the user's inputs from the CLI or the GUI
-     * @return false when the user decides to quit the game
+     * Reads the user's inputs from the View
      */
-    boolean readInput();
+    void readInput();
 
     /**
      * Receives the updates from the Controller or the ClientReceiver (which is also considered a Controller)

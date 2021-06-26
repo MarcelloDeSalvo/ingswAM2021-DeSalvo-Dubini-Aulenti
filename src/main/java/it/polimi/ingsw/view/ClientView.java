@@ -49,7 +49,7 @@ public abstract class ClientView implements View, UserInput {
     }
 
     public void litePlayerBoardsSetUp(List<String> nicknames){
-        this.liteBoards=new HashMap<>();
+        this.liteBoards = new HashMap<>();
         for (String nic:nicknames) {
             liteBoards.put(nic, new LitePlayerBoard(leaderCards, developmentCards));
         }
@@ -118,7 +118,8 @@ public abstract class ClientView implements View, UserInput {
                 break;
 
             case CHAT:
-                printChatMessage(senderNick, deserializedMex.getInfo(), false);
+                ChatMessage chatMessage = gson.fromJson(mex, ChatMessage.class);
+                printChatMessage(chatMessage.getReceiver(), deserializedMex.getInfo(), false);
                 break;
 
             case LOBBY_LIST:

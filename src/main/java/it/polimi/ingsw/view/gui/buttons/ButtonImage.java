@@ -3,12 +3,10 @@ package it.polimi.ingsw.view.gui.buttons;
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.ImageUtil;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class ButtonImage extends JButton {
 
@@ -50,7 +48,7 @@ public class ButtonImage extends JButton {
     public ButtonImage(String path) {
         super();
         try {
-            ImageIcon ico = new ImageIcon(this.getClass().getResource(path));
+            ImageIcon ico = new ImageIcon(ImageUtil.loadImage(path));
             this.setIcon(ico);
             this.setBorderPainted(false);
             this.setContentAreaFilled(false);
@@ -69,12 +67,12 @@ public class ButtonImage extends JButton {
      */
     public void setScaledImage(ButtonImage buttonImage, String path, Dimension scaledDimension){
         try {
-            BufferedImage originalImage = ImageIO.read(this.getClass().getResourceAsStream(path));
+            BufferedImage originalImage = ImageUtil.loadImage(path);
             Image img = originalImage.getScaledInstance(scaledDimension.width, scaledDimension.height, Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(img);
             buttonImage.setIcon(imageIcon);
             this.setPreferredSize(new Dimension(scaledDimension.width, scaledDimension.height));
-        } catch (NullPointerException | IllegalArgumentException | IOException ex) {
+        } catch (NullPointerException | IllegalArgumentException e) {
             System.out.println("Button image not found: " +path);
         }
     }
