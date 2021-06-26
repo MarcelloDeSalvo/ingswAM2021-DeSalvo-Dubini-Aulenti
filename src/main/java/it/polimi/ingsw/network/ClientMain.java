@@ -75,11 +75,7 @@ public class ClientMain {
             clientMain.view.setSinglePlayer(true);
             Controller controller = new Controller(clientMain.view, clientMain.view.getNickname());
             clientMain.view.addObserverController(controller);
-            /*
-            while (true){
-                if (! clientMain.view.readInput())
-                    break;
-            }*/
+
         }
     }
 

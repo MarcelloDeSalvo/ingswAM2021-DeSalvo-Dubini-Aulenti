@@ -147,6 +147,11 @@ public class Controller implements ObserverController {
         turnPhase_Commands(mex, senderNick, command);
     }
 
+    @Override
+    public void exit() {
+        System.out.println("Bye bye!");
+    }
+
     /**
      * This function manages all the commands that can be sent during the set-up phase
      * @param mex is the message received
