@@ -84,12 +84,4 @@ public class LiteHand {
         return null;
     }
 
-    public Integer getLeadersActiveNumber(){
-        int activated=0;
-        for (Integer in:hand) {
-            if (getSpecificLeaderCard(in).getStatus()==Status.ACTIVE)
-                activated++;
-        }
-        return activated;
-    }
 }

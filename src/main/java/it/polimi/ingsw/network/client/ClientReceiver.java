@@ -19,7 +19,7 @@ public class ClientReceiver extends Thread implements ObserverController {
 
     private final Socket socket;
     private final ClientView view;
-    private final ExecutorService executorService;
+    private final ExecutorService commandExecutor;
     private final String ping = new Message.MessageBuilder().setCommand(Command.PONG).build().serialize();
 
     private PrintWriter out;
@@ -28,7 +28,7 @@ public class ClientReceiver extends Thread implements ObserverController {
     public ClientReceiver (Socket socket, ClientView view){
         this.socket = socket;
         this.view = view;
-        this.executorService= Executors.newSingleThreadExecutor();
+        this.commandExecutor = Executors.newSingleThreadExecutor();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ClientReceiver extends Thread implements ObserverController {
                         update(ping,null, null);
                     else {
                         String finalReceivedMex = receivedMex;
-                        executorService.submit(() -> view.readUpdates(finalReceivedMex));
+                        commandExecutor.submit(() -> view.readUpdates(finalReceivedMex));
                     }
                 }
                 else
@@ -58,7 +58,7 @@ public class ClientReceiver extends Thread implements ObserverController {
 
             in.close();
             out.close();
-            executorService.shutdown();
+            commandExecutor.shutdown();
 
         } catch (IOException e) {
             view.onDisconnected();
