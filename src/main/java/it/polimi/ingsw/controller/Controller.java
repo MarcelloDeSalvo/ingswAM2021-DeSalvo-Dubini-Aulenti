@@ -16,6 +16,7 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.network.server.User;
 import it.polimi.ingsw.observers.ObserverController;
+import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.VirtualView;
 
@@ -73,6 +74,10 @@ public class Controller implements ObserverController {
 
         this.view = view;
         gson = new Gson();
+
+        while (!view.isViewReady()){
+          Thread.yield();
+        }
 
         singlePlayerSetUp(nickname);
     }

@@ -370,4 +370,7 @@ public class VirtualView implements View, ServerArea {
     public void setCurrPlayer(String currPlayer) {
         this.currPlayer = currPlayer;
     }
+
+    @Override
+    public boolean isViewReady() { return true; }
 }

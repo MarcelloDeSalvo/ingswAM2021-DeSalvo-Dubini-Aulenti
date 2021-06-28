@@ -38,6 +38,8 @@ public class Gui extends ClientView {
     private JFrame frame;
     private Label infoLabel;
 
+    private boolean ready = false;
+
     private int activatedLeaderId;
 
     public Gui() throws FileNotFoundException{
@@ -82,6 +84,8 @@ public class Gui extends ClientView {
 
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        ready = true;
     }
 
     private void setDefaultFrameSize(){
@@ -164,6 +168,11 @@ public class Gui extends ClientView {
         cardLayout.show(mainPanel, "lobbyRoomPanel");
         setDefaultFrameSize();
         guiStatus = GuiStatus.IDLE;
+    }
+
+    @Override
+    public boolean isViewReady() {
+        return ready;
     }
     //------------------------------------------------------------------------------------------------------------------
 

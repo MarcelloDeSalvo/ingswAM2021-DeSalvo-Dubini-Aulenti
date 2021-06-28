@@ -1022,4 +1022,8 @@ public class Cli extends ClientView {
     //------------------------------------------------------------------------------------------------------------------
 
 
+    @Override
+    public boolean isViewReady() {
+        return true;
+    }
 }

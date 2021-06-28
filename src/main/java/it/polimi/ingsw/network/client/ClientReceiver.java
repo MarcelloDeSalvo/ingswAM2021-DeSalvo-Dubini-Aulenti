@@ -6,7 +6,6 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverController;
 import it.polimi.ingsw.view.ClientView;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
