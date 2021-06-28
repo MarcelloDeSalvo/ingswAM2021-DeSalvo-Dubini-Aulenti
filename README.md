@@ -24,7 +24,7 @@
 Windows cmd not supported (cannot show the ANSI colours)
 
  ###  SWING
-  - Minimum Resolution: 1920x1080
+  - Tested and supported resolution: 1920x1080
 
 ## How to execute the Jar
 There's only one launcher that can start both the server and the clent.
