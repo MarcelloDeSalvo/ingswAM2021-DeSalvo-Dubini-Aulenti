@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.customImages;
 
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.gui.Gui;
-import it.polimi.ingsw.view.gui.customImages.SmartImagePanel;
 import it.polimi.ingsw.view.gui.panels.BackgroundImagePanel;
 
 import java.awt.*;
@@ -11,8 +10,8 @@ import java.awt.event.MouseEvent;
 
 public class RedCrossImage extends SmartImagePanel {
     private int count = 0;
-    private String nick;
-    private int offSet = 0;
+    private final String nick;
+    private int offSet;
 
     public RedCrossImage(Gui gui, String path, Dimension imageDimension, Point absolutePosition, BackgroundImagePanel backGround, String nick, int offSet) throws ImageNotFound {
         super(gui, path, imageDimension, absolutePosition, backGround);

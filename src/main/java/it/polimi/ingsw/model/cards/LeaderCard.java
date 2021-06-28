@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.player.PlayerBoard;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.util.ArrayList;
 
 public class LeaderCard extends Card{

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.resources.ResourceType;
-
 import java.util.ArrayList;
 
 public class InputCheck {
@@ -12,9 +11,7 @@ public class InputCheck {
         return !x.equalsIgnoreCase("DEPOSIT") && !x.equalsIgnoreCase("VAULT");
     }
 
-    public static boolean not_vault(String x){
-        return !x.equalsIgnoreCase("VAULT");
-    }
+    public static boolean not_vault(String x){ return !x.equalsIgnoreCase("VAULT"); }
 
     public static boolean not_deposit(String x){
         return !x.equalsIgnoreCase("DEPOSIT");
