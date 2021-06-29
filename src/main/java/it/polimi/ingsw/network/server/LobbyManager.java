@@ -35,15 +35,6 @@ public class LobbyManager implements ServerArea {
 
         switch (command) {
 
-            case QUIT:
-                UserManager.notifyUsers(connectedPlayers,
-                        new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye!").setNickname(senderNick).build());
-
-                UserManager.removePlayer(connectedPlayers, senderNick);
-
-                System.out.println("# " + senderNick + " has disconnected");
-                break;
-
             case HELLO:
                 UserManager.notifyUsers(connectedPlayers,
                         new Message.MessageBuilder().setCommand(Command.HELLO).

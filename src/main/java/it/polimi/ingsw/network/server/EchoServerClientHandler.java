@@ -11,64 +11,117 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class EchoServerClientHandler implements Runnable {
 
     private boolean logged = false;
-    private final Socket socket;
+    private boolean exit = false;
+
+    private final Gson gson;
+
     private final LobbyManager lobbyManager;
 
     private User user;
+    private final Socket socket;
+    private PrintWriter out;
+    private BufferedReader in;
+
+    private final String askNick = new Message.MessageBuilder().setCommand(Command.REPLY)
+            .setInfo("Welcome to the server, please select a valid nickname: ").build().serialize();
 
     public EchoServerClientHandler(Socket socket, LobbyManager lobbyManager) {
         this.socket = socket;
         this.lobbyManager = lobbyManager;
+        this.gson = new Gson();
     }
 
     public void run() {
+
         try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            Gson gson = new Gson();
+        } catch (IOException e) {
+            System.out.println("Error while opening the socket's streams for " + user.getNickname() + " - " + e.getMessage());
 
-            Message askNick = new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Welcome to the server, please select a valid nickname: ").build();
-            out.println(askNick.serialize());
+        }
 
-            String receivedMex;
+        out.println(askNick);
 
-            while ((receivedMex = in.readLine()) != null) {
+        String receivedMex;
+        while (!exit) {
+            try {
+                if ((receivedMex = in.readLine()) != null)
+                    messageHandler(receivedMex);
 
-                Message nickMex = gson.fromJson(receivedMex, Message.class);
-                Command command = nickMex.getCommand();
-                String nickname = nickMex.getInfo();
+            } catch (IOException e) {
+                String nick = logged ? user.getNickname() : "IP " + socket.getInetAddress().toString();
+                System.out.println("! "+nick+": "+  e.getMessage());
 
-                switch (command){
-                    case PONG:
-                        user.pongReceived();
-                        System.out.println(user.getNickname()+" PONG RECEIVED "+ user.getCounter());
-                        break;
+                if (!logged)
+                    exit = true;
+                else if (!user.isConnected())
+                    exit = true;
 
-                    case LOGIN:
-                        if (logged)
-                            out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Incorrect command, you are already logged in the server!").build().serialize());
-                        else
-                            authenticationPhase(out, nickname);
-                        break;
-
-                    default:
-                        if (user == null) break;
-                        user.pongReceived();
-                        user.notifyServerAreas(command, receivedMex);
-
+                try{
+                    Thread.sleep(1000);
+                }catch (InterruptedException i){
+                    System.out.println(i.getMessage());
                 }
-
             }
+        }
 
-        }catch ( IOException e){
-            e.printStackTrace();
-            if (!logged)
-                System.out.println("# The user logged out before entering a valid nickname -> " + "IP: " + socket.getInetAddress());
+        if (!logged)
+            System.out.println("# IP: " + socket.getInetAddress() + " logged out before entering a valid nickname");
+        else
+            System.out.println("# " +user.getNickname() + " has disconnected");
+
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        }catch (IOException e){
+            System.out.println("Error while closing the socket's streams: " + e.getMessage());
+
+        }
+
+    }
+
+    /**
+     * Deserializes and manages the login and quit message. <br>
+     * It also responds to the Pongs and forwards the other messages to the other server areas
+     * @param receivedMex the received message
+     */
+    private void messageHandler(String receivedMex){
+        Message nickMex = gson.fromJson(receivedMex, Message.class);
+        Command command = nickMex.getCommand();
+        String nickname = nickMex.getInfo();
+
+        switch (command) {
+            case PONG:
+                user.pongReceived();
+                System.out.println(user.getNickname() + " PONG RECEIVED " + user.getCounter());
+                break;
+
+            case LOGIN:
+                if (logged)
+                    out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Incorrect command, you are already logged in the server!").build().serialize());
+                else
+                    authenticationPhase(out, nickname);
+                break;
+
+            case QUIT:
+                out.println(new Message.MessageBuilder().setCommand(Command.REPLY).setInfo("Bye bye!").build().serialize());
+                if (logged)
+                    user.disconnect();
+                exit = true;
+                break;
+
+            default:
+                if (user == null) break;
+                user.pongReceived();
+                user.notifyServerAreas(command, receivedMex);
         }
     }
 

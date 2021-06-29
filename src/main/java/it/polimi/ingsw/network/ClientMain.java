@@ -7,14 +7,9 @@ import it.polimi.ingsw.view.ClientView;
 import it.polimi.ingsw.view.cli.Cli;
 import it.polimi.ingsw.view.cli.Color;
 import it.polimi.ingsw.view.gui.Gui;
-
 import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -24,59 +19,49 @@ import java.util.stream.Collectors;
 public class ClientMain {
     private String hostName;
     private int portNumber;
-    private ClientView view;
     private String viewMode;
+
+    private ClientView view;
     private boolean singlePlayer = false;
 
     private final List<String> myParam = new ArrayList<>(Arrays.asList("-SERVER", "-PORT", "-VIEW", "--SOLO"));
 
     /**
-     * Creates a new Client Main and tries to read its configuration file and the parameters passed by the user
+     * Creates a new Client Main. <br>
+     * Tries to read its configuration file or the parameters passed by the user
      * @param args the arguments passed through the command line
      */
     public static void main(String[] args){
         ClientMain clientMain = null;
 
-        if (args.length<=1){
+        if (args.length>1)
+            clientMain = new ClientMain();
+        else {  //reads the configuration from the file
             try {
-                //reads the configuration from the file
                 String jsonPath = "/ConfigurationFiles/ClientConfig.json";
                 Gson gson = new Gson();
                 Reader reader = new InputStreamReader(ClientMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
                 clientMain = gson.fromJson(reader, ClientMain.class);
 
             }catch (Exception e){
-                e.printStackTrace();
-                System.out.println("There was an issue with starting the Client.");
-                System.exit(1);
+                System.err.println("There was an issue with starting the Client: " + e.getMessage());
+                System.exit(-1);
             }
-
-        }else{
-            clientMain = new ClientMain();
         }
 
         clientMain.commandLineParametersCheck(args);
 
-        System.out.println("Hostname: " + clientMain.getHostName());
-        System.out.println("Port: " + clientMain.getPortNumber());
-        System.out.println("View: " + clientMain.getMode());
+        try {
+            clientMain.view = clientMain.viewSelector();
+        }catch (FileNotFoundException | NullPointerException e){
+            System.err.println("View Not Found, please restart");
+            System.exit(-1);
+        }
 
         if (!clientMain.singlePlayer)
             clientMain.connect();
-        else{
-            try {
-                clientMain.view = clientMain.viewSelector();
-            }catch (FileNotFoundException e){
-                System.out.println("View Not Found, please restart");
-                System.exit(-1);
-            }
-
-            clientMain.view.setNickname("Player");
-            clientMain.view.setSinglePlayer(true);
-            Controller controller = new Controller(clientMain.view, clientMain.view.getNickname());
-            clientMain.view.addObserverController(controller);
-
-        }
+        else
+           clientMain.singlePlayer();
     }
 
     /**
@@ -177,38 +162,39 @@ public class ClientMain {
             }
 
         }
+
+        System.out.println("Hostname: " + hostName);
+        System.out.println("Port: " + portNumber);
+        System.out.println("View: " + viewMode);
     }
 
     /**
-     * Creates a new Socket and two threads: one listens to the socket (Receiver) and the other listens to the user inputs (CLI/GUI)
+     * Creates a ClientReceiver that connects the client to the socket and listens to the streams<br>
+     *
      */
     public void connect(){
+        ClientReceiver clientReceiver = null;
+
         try {
-            Socket echoSocket = new Socket(hostName, portNumber);
-            view = viewSelector();
+            clientReceiver = new ClientReceiver(view, hostName, portNumber);
 
-            ClientReceiver clientReceiver = new ClientReceiver(echoSocket, view);
-
-            view.addObserverController(clientReceiver);
-
-            clientReceiver.start();
-
-            clientReceiver.join();
-
-            echoSocket.close();
-
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host " + hostName);
-            System.exit(1);
-
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to " + hostName);
-            System.exit(1);
-
-        } catch (InterruptedException e) {
-            System.err.println("Thread InterruptedException error " + hostName);
-
+        }catch (Exception e){
+            System.err.println(e.getMessage());
+            System.exit(-1);
         }
+
+        view.addObserverController(clientReceiver);
+        clientReceiver.start();
+    }
+
+    /**
+     * Starts the single player mode
+     */
+    public void singlePlayer(){
+        view.setNickname("Player");
+        view.setSinglePlayer(true);
+        Controller controller = new Controller(view, view.getNickname());
+        view.addObserverController(controller);
     }
 
     /**

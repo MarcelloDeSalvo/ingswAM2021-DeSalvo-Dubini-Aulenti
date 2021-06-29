@@ -72,19 +72,18 @@ public class User implements ObservableViewIO {
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    if (receivedPongsCounts >0) {
+                    if (!isConnected()){
+                        this.cancel();
+
+                    }else if (receivedPongsCounts >0) {
                         userSend(ping);
                         System.out.println(nickname + " Ping sent: " + counter);
                         receivedPongsCounts--;
                         counter++;
 
-                    } else {
-                        connected = false;
+                    }else {
                         System.out.println("# "+ nickname + " connection timed out!");
-
-                        for (ObserverViewIO obs:serverAreas) {
-                            obs.onDisconnect(getThis());
-                        }
+                        disconnect();
 
                         userSend(inactivity);
                         this.cancel();
@@ -93,7 +92,7 @@ public class User implements ObservableViewIO {
             };
 
             int initialDelay = 100;
-            timer.scheduleAtFixedRate(task,initialDelay, timerTaskDelta);
+            timer.scheduleAtFixedRate(task, initialDelay, timerTaskDelta);
         }
     }
 
@@ -120,6 +119,17 @@ public class User implements ObservableViewIO {
      */
     public void pongReceived(){
         receivedPongsCounts = maxLostPongs;
+    }
+
+    /**
+     * Disconnects the client from all the serverAreas
+     */
+    public void disconnect(){
+        connected = false;
+
+        for (ObserverViewIO obs:serverAreas) {
+            obs.onDisconnect(getThis());
+        }
     }
 
     @Override
