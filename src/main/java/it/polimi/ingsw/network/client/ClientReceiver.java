@@ -2,7 +2,6 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.observers.ObserverController;
@@ -12,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
