@@ -80,7 +80,7 @@ public class User implements ObservableViewIO {
 
                     } else {
                         connected = false;
-                        System.out.println(nickname + " disconnected!");
+                        System.out.println("# "+ nickname + " connection timed out!");
 
                         for (ObserverViewIO obs:serverAreas) {
                             obs.onDisconnect(getThis());

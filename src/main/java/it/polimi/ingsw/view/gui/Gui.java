@@ -156,15 +156,6 @@ public class Gui extends ClientView {
         JOptionPane.showMessageDialog(frame, "Someone disconnected from the game, you are now in the lobby",
                 "Disconnected from the game", JOptionPane.INFORMATION_MESSAGE);
 
-        /*
-        JOptionPane jOptionPane = new JOptionPane("Someone disconnected from the game, you are now in the lobby",
-                JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
-
-        JDialog jDialog = jOptionPane.createDialog("User disconnection");
-        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);*/
-
-
         cardLayout.show(mainPanel, "lobbyRoomPanel");
         setDefaultFrameSize();
         guiStatus = GuiStatus.IDLE;
@@ -240,13 +231,6 @@ public class Gui extends ClientView {
         ImageIcon icon = new ImageIcon();
         icon.setImage(ImageUtil.loadImage("/images/others/lorenzoCircle.png"));
 
-        /*JOptionPane jOptionPane = new JOptionPane(mex,
-                JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
-
-        JDialog jDialog = jOptionPane.createDialog("HELP");
-        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);
-        */
         JOptionPane.showMessageDialog(frame, mex, "HELP", JOptionPane.INFORMATION_MESSAGE, icon);
 
         infoLabel.setText("Your Turn!");
@@ -667,16 +651,6 @@ public class Gui extends ClientView {
         else if(actionID == 6)
             text = "LORENZO's position has been incremented of 2 FAITH POINTS. \nThe Action Tokens have been shuffled!   ";
 
-
-        /*JOptionPane jOptionPane = new JOptionPane(text, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
-        JDialog jDialog = jOptionPane.createDialog("Lorenzo Action");
-        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);*/
-
-       //String finalText = text;
-        /*new Thread(() ->JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
-        .start()*/
-
         JOptionPane.showMessageDialog(frame, text, "LORENZO ACTION", JOptionPane.INFORMATION_MESSAGE, icon);
     }
 
@@ -769,13 +743,6 @@ public class Gui extends ClientView {
         }
 
         JOptionPane.showMessageDialog(frame, scoreboard,"SCOREBOARD", JOptionPane.INFORMATION_MESSAGE, icon);
-
-        /*
-        JOptionPane jOptionPane = new JOptionPane(scoreboard, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, icon);
-
-        JDialog jDialog = jOptionPane.createDialog("SCORE BOARD AND WINNERS");
-        jDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        jDialog.setVisible(true);*/
 
         setDefaultFrameSize();
 
