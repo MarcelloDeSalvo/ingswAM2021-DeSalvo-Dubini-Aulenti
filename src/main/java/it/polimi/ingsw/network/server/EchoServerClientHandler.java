@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.commands.Command;
 import it.polimi.ingsw.network.commands.Message;
 import it.polimi.ingsw.network.UserManager;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -49,14 +48,16 @@ public class EchoServerClientHandler implements Runnable {
         out.println(askNick);
 
         String receivedMex;
+        String error = "";
         while (!exit) {
             try {
                 if ((receivedMex = in.readLine()) != null)
                     messageHandler(receivedMex);
+                else
+                    throw new IOException("connection lost");
 
             } catch (IOException e) {
-                String nick = logged ? user.getNickname() : "IP " + socket.getInetAddress().toString();
-                System.out.println("! "+nick+": "+  e.getMessage());
+                error = e.getMessage();
 
                 if (!logged)
                     exit = true;
@@ -71,10 +72,15 @@ public class EchoServerClientHandler implements Runnable {
             }
         }
 
+        String nick = logged ? user.getNickname() : "IP " + socket.getInetAddress().toString();
+
+        if (!error.equals(""))
+            System.out.println("! "+nick+": "+  error);
+
         if (!logged)
-            System.out.println("# IP: " + socket.getInetAddress() + " logged out before entering a valid nickname");
+            System.out.println("# IP: " + nick + " logged out before entering a valid nickname");
         else
-            System.out.println("# " +user.getNickname() + " has disconnected");
+            System.out.println("# " + nick + " has disconnected");
 
         try {
             in.close();
