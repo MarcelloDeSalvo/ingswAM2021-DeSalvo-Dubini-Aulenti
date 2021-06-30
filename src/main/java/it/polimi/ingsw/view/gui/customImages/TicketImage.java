@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class TicketImage extends SmartImagePanel {
 
-    private ArrayList<String> playerThatGotTheTicket;
+    private final ArrayList<String> playerThatGotTheTicket;
 
     public TicketImage(Gui gui, String path, Dimension imageDimension,
                        Point absolutePosition, BackgroundImagePanel backGround,

@@ -3,7 +3,6 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LiteMarket {
@@ -22,6 +21,9 @@ public class LiteMarket {
         this.vacant=marblesMarket.get(rows*columns);
     }
 
+    /**
+     * Updates the market after a row or column selection
+     */
     public void liteMarketUpdate(String rowOrColumn, int selected){
 
         ResourceContainer vacantCopy=new ResourceContainer(vacant.getResourceType(),1);
@@ -38,15 +40,6 @@ public class LiteMarket {
             System.arraycopy(market[selected - 1], 1, market[selected - 1], 0, rows - 1);
             market[selected-1][rows-1]=vacantCopy;
         }
-    }
-
-
-    public List<ResourceContainer> getMarketArray(){
-        ArrayList<ResourceContainer> myMarket=new ArrayList<>();
-        for(int i=0; i<columns;i++){
-            myMarket.addAll(Arrays.asList(market[i]).subList(0, rows));
-        }
-        return myMarket;
     }
 
     public List<ResourceContainer> getGuiMarketArray(){

@@ -27,7 +27,9 @@ public class LiteHand {
             ld.setStatus(Status.HAND);
     }
 
-
+    /**
+     * Removes the leader with input id from LiteHand
+     */
     public void discardFromHand(Integer id) throws NullPointerException, IllegalArgumentException{
         hand.remove(id);
     }
@@ -36,6 +38,9 @@ public class LiteHand {
          leaderCards.get(id-1).setStatus(Status.ACTIVE);
     }
 
+    /**
+     * Adds the leader with the input id to the LiteHand
+     */
     public void addLeader(int id){
         hand.add(id);
     }
@@ -67,14 +72,9 @@ public class LiteHand {
         return leaderCards;
     }
 
-    public LeaderCard getSpecificLeaderCard (int requestedID) {
-        for (LeaderCard lc: leaderCards) {
-            if(lc.getId() == requestedID)
-                return lc;
-        }
-        return null;
-    }
-
+    /**
+     * Returns the status of the leader with requestedID
+     */
     public Status getStatusFromSpecificLeaderCard (int requestedID) {
         for (LeaderCard lc: leaderCards) {
             if(lc.getId() == requestedID)

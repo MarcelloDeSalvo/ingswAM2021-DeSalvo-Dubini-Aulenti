@@ -219,12 +219,6 @@ public class ClientMain {
     }
 
     //GETTERS-------------------------------------------------------------------------------------------------
-    public String getHostName() {
-        return hostName;
-    }
-    public int getPortNumber() {
-        return portNumber;
-    }
     public String getMode() {
         return viewMode;
     }

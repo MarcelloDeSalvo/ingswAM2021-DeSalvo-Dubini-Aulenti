@@ -10,7 +10,6 @@ public interface Requirement {
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     Colour getColour();
     int getLevel();
-    int getDevelopmentCardNumber();
     ResourceContainer getResourceRequirement();
     //------------------------------------------------------------------------------------------------------------------
 

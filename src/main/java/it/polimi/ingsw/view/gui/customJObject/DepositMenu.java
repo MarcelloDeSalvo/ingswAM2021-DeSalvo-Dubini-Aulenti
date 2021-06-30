@@ -23,7 +23,7 @@ public class DepositMenu extends JMenu {
         this.source = source;
 
         int itemSize = gui.getMyLiteDeposit().getDeposits().size();
-        JMenuDeposit item = null;
+        JMenuDeposit item;
 
         for (int i = 0; i<itemSize; i++){
             if (!gui.getMyLiteDeposit().isLeaderType(i)){

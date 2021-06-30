@@ -51,10 +51,8 @@ public abstract class SmartImagePanel extends JComponent {
         imgArea = new Rectangle(imagePosition.x, imagePosition.y, scaledImage.getWidth(), scaledImage.getHeight());
 
         ClickListener clickListener = new ClickListener();
-        //MovementListener movementListener = new MovementListener();
 
         this.addMouseListener(clickListener);
-        //this.addMouseMotionListener(movementListener);
 
         setOpaque(false);
     }
@@ -89,8 +87,6 @@ public abstract class SmartImagePanel extends JComponent {
 
         ClickListener clickListener = new ClickListener();
         this.addMouseListener(clickListener);
-        //MovementListener movementListener = new MovementListener();
-        //this.addMouseMotionListener(movementListener);
 
         setOpaque(false);
     }
@@ -146,17 +142,6 @@ public abstract class SmartImagePanel extends JComponent {
         }
     }
 
-    /*
-    /**
-     * Waits for the mouse to enter the image area
-
-    private class MovementListener extends MouseMotionAdapter {
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-        }
-
-    } */
 
     public Point getImagePosition() {
         return imagePosition;
@@ -177,8 +162,6 @@ public abstract class SmartImagePanel extends JComponent {
     public BufferedImage getBufferedImage() {
         return scaledImage;
     }
-
-    public Rectangle getImgArea() { return imgArea; }
 
     public BackgroundImagePanel getBackGroundPanel() { return backGround; }
 

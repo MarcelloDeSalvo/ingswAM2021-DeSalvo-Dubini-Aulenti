@@ -127,7 +127,7 @@ public class Controller implements ObserverController {
         cheatPhrases = new ArrayList<>();
         cheatPhrases.add("Lorenzo doesn't love you anymore");
         cheatPhrases.add("“People don't cheat by chance, they cheat by choice.“ -LORENZO");
-        cheatPhrases.add("You are a disappointment");
+        cheatPhrases.add("You are a disappointment to the church");
         cheatPhrases.add("How can you look at your sweet grandma in the eyes after this?");
         cheatPhrases.add("Don't worry, nobody saw that! (Except me, of course)");
         cheatPhrases.add("You're lucky the renaissance police isn't available right now.");
@@ -849,7 +849,6 @@ public class Controller implements ObserverController {
         if(currPlayer.canConvert() == ConversionMode.AUTOMATIC) {
             currPlayer.convert(marketOut);
             view.printReply_uni("Conversion done", senderNick);
-            //view.printReply_uni("All blank marbles have been converted to " + currPlayer.getConversionSite().getConversionsAvailable().get(0) + " : " + marketOut.toString(), senderNick);
         }
 
         beginMarketDestinationSelection(senderNick);

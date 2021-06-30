@@ -36,11 +36,6 @@ public class ResourceRequirement implements Requirement{
     }
 
     @Override
-    public int getDevelopmentCardNumber() {
-        return 0;
-    }
-
-    @Override
     public ResourceContainer getResourceRequirement() {
         return resourceContainer;
     }

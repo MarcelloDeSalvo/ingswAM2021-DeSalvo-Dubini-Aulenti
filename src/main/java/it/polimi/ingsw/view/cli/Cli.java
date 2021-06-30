@@ -317,7 +317,6 @@ public class Cli extends ClientView {
         ResourceContainer container = new ResourceContainer(resType, 1);
         sendContainer = new SendContainer(Command.SETUP_CONTAINER, container, destination, destinationID, this.getNickname());
 
-        //System.out.println(sendContainer);
         send(sendContainer);
 
         return true;
@@ -735,7 +734,7 @@ public class Cli extends ClientView {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
-        getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+        getLiteFaithPath().reset(nicknames);
 
         this.setInGame(true);
         printOrder();

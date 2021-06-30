@@ -338,7 +338,7 @@ public class Gui extends ClientView {
         mainPanel.add(gamePanel, "gamePanel");
         cardLayout.show(mainPanel, "gamePanel");
 
-        gamePanel.getNotifyLabel().setText("THE GAME HAS BEEN STARTED!");
+        gamePanel.getNotifyLabel().setText("The game has started, have fun!");
         infoLabel.setText("");
     }
 
@@ -347,7 +347,7 @@ public class Gui extends ClientView {
         setLiteCardGrid(new LiteCardGrid(cardGridIDs,getDevelopmentCards()));
         litePlayerBoardsSetUp(nicknames);
         setLiteMarket(new LiteMarket(marketSetUp));
-        getLiteFaithPath().reset(nicknames); // Should i be creating a new one each time through parsing?
+        getLiteFaithPath().reset(nicknames);
 
         for (String nick: nicknames) {
             if(!nick.equals(this.getNickname())){

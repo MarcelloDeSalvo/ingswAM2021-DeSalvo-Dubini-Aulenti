@@ -27,11 +27,6 @@ public class DevelopmentRequirement implements Requirement {
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
     @Override
-    public int getDevelopmentCardNumber() {
-        return number;
-    }
-
-    @Override
     public Colour getColour() {
         return colour;
     }

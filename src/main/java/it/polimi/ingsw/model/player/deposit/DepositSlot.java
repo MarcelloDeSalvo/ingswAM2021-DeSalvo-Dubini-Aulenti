@@ -128,7 +128,7 @@ public abstract class DepositSlot implements DepositSubject {
      * Switches two deposit's resources if they can store different ResourceType
      * @param destination it's the deposit that will switch the resources with This
      */
-    public boolean switchTo(DepositSlot destination){  //works only between defaults deposits
+    public boolean switchTo(DepositSlot destination){  //works only between default deposits
         int myQty = this.getResourceQty();
         int hisQty = destination.getResourceQty();
         ResourceType myResType = this.getDepositResourceType();

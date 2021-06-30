@@ -32,7 +32,7 @@ public class ProductionPanel extends JPanel {
         developmentSlotButtons(printOnly);
     }
 
-    private class DevProdSlot extends JPanel{
+    private static class DevProdSlot extends JPanel{
         private int x_offset;
         private int y_offset;
         private int layer_offset;
@@ -193,8 +193,6 @@ public class ProductionPanel extends JPanel {
     }
 
     public ArrayList<DevProdSlot> getProdSlot() { return prodSlot; }
-
-    public int getBuyCardIdBuffer() { return buyCardIdBuffer; }
 
     public void setBuyCardIdBuffer(int buyCardIdBuffer) { this.buyCardIdBuffer = buyCardIdBuffer; }
 }

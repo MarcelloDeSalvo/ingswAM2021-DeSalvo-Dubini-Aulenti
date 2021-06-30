@@ -31,16 +31,10 @@ public class RedCrossImage extends SmartImagePanel {
 
     @Override
     public void onMouseClicked(MouseEvent e, Graphics2D graphics2D) {
-
     }
 
     @Override
     public void onHighlight(Graphics2D graphics2D) {
-        /*
-        graphics2D.setFont(new Font("Rubik", Font.PLAIN, 20));
-        graphics2D.setColor(Color.GREEN);
-        graphics2D.drawString(nick, getImagePosition().x,getImagePosition().y + offSet);
-        getBackGroundPanel().repaint();*/
     }
 
     public void increasePos(){

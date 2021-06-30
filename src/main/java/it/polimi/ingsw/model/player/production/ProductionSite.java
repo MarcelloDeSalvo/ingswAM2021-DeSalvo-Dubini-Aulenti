@@ -92,16 +92,7 @@ public class ProductionSite implements ProductionSubject {
 
             if(!Util.arraylistToMap(ps.getProductionOutput(), bufferOutputMap))
                 return false;
-
-            //System.out.println("production input: " + ps.getProductionInput());
-
-            //System.out.println("production output: " + ps.getProductionOutput());
         }
-
-        //System.out.println("Buffer input map: " + bufferInputMap);
-
-        //System.out.println("Buffer output map: " + bufferOutputMap);
-
         return true;
     }
 
