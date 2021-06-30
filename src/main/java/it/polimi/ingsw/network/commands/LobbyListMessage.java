@@ -6,7 +6,7 @@ import java.util.List;
 public class LobbyListMessage extends Message{
     private final List<LobbyInfo> lobbyInfos;
 
-    public class LobbyInfo {
+    public static class LobbyInfo {
         private final String lobbyName;
         private final String owner ;
 

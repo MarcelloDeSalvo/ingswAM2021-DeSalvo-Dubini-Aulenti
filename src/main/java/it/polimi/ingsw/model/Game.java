@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-
 import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.cards.Status;
@@ -12,7 +11,6 @@ import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.observers.ObservableModel;
 import it.polimi.ingsw.observers.ObserverModel;
 import it.polimi.ingsw.view.VirtualView;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -432,6 +430,7 @@ public class Game implements ObserverEndGame, Game_TokensAccess, ObservableModel
         for (Player p:maxPointPlayers) {
             resourceTotal.add(p.getPlayerBoard().resourceQuantityTotal());
         }
+
         int max=resourceTotal.stream().max(Integer::compare).get();
         for (Player p:maxPointPlayers) {
             if(p.getPlayerBoard().resourceQuantityTotal()==max)

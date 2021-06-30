@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.exceptions.ResourceTypeAlreadyStored;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.util.HashSet;
 
 
@@ -76,7 +75,7 @@ public class DefaultDeposit extends DepositSlot {
         getNotAvailableResourceType().add(inputType);
 
         getDepositListener().notifyDepositChanges(getId(), inputContainer, true);
-        //getHashSetData();
+
         return true;
     }
 
@@ -124,11 +123,10 @@ public class DefaultDeposit extends DepositSlot {
     }
 
     @Override
-    public boolean transferTo(DepositSlot destination, int quantityThatIWantToSwitch) {
+    public void transferTo(DepositSlot destination, int quantityThatIWantToSwitch) {
         remakeTypeAvailableIfEmpty();
 
         super.transferTo(destination, quantityThatIWantToSwitch);
-        return true;
     }
 
 
@@ -146,9 +144,6 @@ public class DefaultDeposit extends DepositSlot {
         if(allResources> destination.getMaxDim())
             throw new DepositSlotMaxDimExceeded("They don't have enough available space");
 
-        //if(isTheResourceTypeAlreadyTaken(destination.getDepositResourceType()))   Pensare a come farlo bene tra due default
-            //throw new ResourceTypeAlreadyStored("Another deposit is already storing the same resource type");
-
         return true;
     }
 
@@ -164,13 +159,10 @@ public class DefaultDeposit extends DepositSlot {
      * @return true if it is
      */
     private boolean isTheResourceTypeAlreadyTaken(ResourceType inputResType){
-        //getHashSetData(); // -------------> Da rimuovere, solo per testing
         if(inputResType == this.getDepositResourceType() && !this.isEmpty())
             return false;
 
         return getNotAvailableResourceType().contains(inputResType);
-
-
     }
 
     /**
@@ -180,24 +172,14 @@ public class DefaultDeposit extends DepositSlot {
     private void remakeTypeAvailableIfEmpty(){
         if(this.isEmpty())
             getNotAvailableResourceType().remove(this.getDepositResourceType());
-        //getHashSetData(); testing only
-
     }
     //------------------------------------------------------------------------------------------------------------------
 
 
     //GETTER AND SETTER-------------------------------------------------------------------------------------------------
-    public void getHashSetData(){
-        for (ResourceType rs: notAvailableResourceType) {
-            System.out.print(rs.toString()+" ");
-        }
-        System.out.println();
-    }
-
     public HashSet<ResourceType> getNotAvailableResourceType() {
         return notAvailableResourceType;
     }
-
     //------------------------------------------------------------------------------------------------------------------
 
 
@@ -220,7 +202,6 @@ public class DefaultDeposit extends DepositSlot {
 
         return stringBuilder.toString();
     }
-
     //------------------------------------------------------------------------------------------------------------------
 }
 

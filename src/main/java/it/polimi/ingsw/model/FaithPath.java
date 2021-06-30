@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
-
 import it.polimi.ingsw.observers.gameListeners.FaithPathListener;
 import it.polimi.ingsw.observers.gameListeners.FaithPathSubject;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.util.ArrayList;
 
 public class FaithPath implements ObservableEndGame, FaithPathSubject {
@@ -61,8 +59,6 @@ public class FaithPath implements ObservableEndGame, FaithPathSubject {
             playersFavourList.add(new PlayerFavour());
             positions.add(0);
         }
-
-        this.nicknames = nicknames;
     }
 
     /**

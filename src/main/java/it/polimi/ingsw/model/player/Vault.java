@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.VaultListener;
 import it.polimi.ingsw.observers.gameListeners.VaultSubject;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

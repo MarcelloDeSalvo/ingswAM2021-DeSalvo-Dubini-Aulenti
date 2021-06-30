@@ -105,15 +105,13 @@ public abstract class DepositSlot implements DepositSubject {
      * Transfer a desired quantity from one deposit to another one
      * Sets the target deposit's ResourceType equal as this ResourceType
      * @param destination is the deposit where the user wants the resources to be placed
-     * @return true
      */
-    public boolean transferTo(DepositSlot destination, int quantityThatIWantToTransfer){
+    public void transferTo(DepositSlot destination, int quantityThatIWantToTransfer){
         ResourceContainer send = new ResourceContainer(this.getDepositResourceType(), quantityThatIWantToTransfer);
         this.removeFromDepositSlot(send);
         destination.addToDepositSlot(send);
 
         destination.setDepositResourceType(this.getDepositResourceType());
-        return true;
     }
 
     /**

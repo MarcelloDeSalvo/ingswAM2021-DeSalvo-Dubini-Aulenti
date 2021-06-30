@@ -2,9 +2,11 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 
-//PlayerFavour (Support class)------------------------------------------------------------------------------------------
+/**
+ * Support class for the Faith Path
+ */
 public class PlayerFavour {
-    private ArrayList<Integer> Favours;
+    private final ArrayList<Integer> Favours;
 
     public PlayerFavour() {
         Favours = new ArrayList<>();

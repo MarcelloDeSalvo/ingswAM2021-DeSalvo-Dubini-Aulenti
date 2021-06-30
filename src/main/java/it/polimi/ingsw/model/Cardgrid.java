@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.exceptions.InvalidRowNumber;
 import it.polimi.ingsw.observers.gameListeners.CardGridListener;
 import it.polimi.ingsw.observers.gameListeners.CardGridSubject;
 import it.polimi.ingsw.view.cli.Color;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -88,11 +87,9 @@ public class Cardgrid implements CardGridSubject {
      * Removes a card of a specific colour from the top of a deck in the cardGrid starting with the cards with the lowest level
      */
     public void removeAmountOfDevelopmentCardWithColour(int amount, Colour desiredColour){
-        int l= 0;
         for(int i = 0; i < amount; i++) {
             for (int level = 1; level < 4; level++) {
                 if (removeDevelopmentCard(desiredColour, level)){
-                    l = level;
                     break;
                 }
             }
@@ -106,7 +103,7 @@ public class Cardgrid implements CardGridSubject {
     public boolean removeDevelopmentCard(int rowNumber, int columnNumber) throws InvalidColumnNumber, InvalidRowNumber {
         if(rowNumber<=0|| rowNumber>3)
             throw new InvalidRowNumber ("Selected row isn't valid");
-        if(columnNumber<=0|| rowNumber>4)
+        if(columnNumber<=0|| columnNumber>4)
             throw new InvalidColumnNumber ("Selected column isn't valid");
 
             if (!deckGrid[columnNumber-1][rowNumber-1].getDeck().isEmpty() && deckGrid[columnNumber-1][rowNumber-1].getDeck()!=null) {

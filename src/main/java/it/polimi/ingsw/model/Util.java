@@ -5,11 +5,8 @@ import it.polimi.ingsw.model.cards.DevelopmentCard;
 import it.polimi.ingsw.model.parser.DevelopmentCardParser;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 
 public class Util {
 
@@ -18,8 +15,10 @@ public class Util {
     /**
      * Converts a list into a map <br>
      * It can also be used to add a list to a non empty map
+     * @throws NullPointerException if some elements inside the list are null
      */
-    public static boolean arraylistToMap (ArrayList<ResourceContainer> list, HashMap<ResourceType, ResourceContainer> map){
+    public static boolean arraylistToMap (List<ResourceContainer> list, HashMap<ResourceType, ResourceContainer> map) throws NullPointerException {
+
         Iterator<ResourceContainer> iterator= list.iterator();
         ResourceContainer current;
         while(iterator.hasNext()){
@@ -35,12 +34,14 @@ public class Util {
 
     /**
      * Converts a list to a Map
-     * @return a Map containing the converted list
+     * @return a Map containing the converted list, null if the list could not be converted
      */
-    public static HashMap<ResourceType, ResourceContainer> arraylistToMap (ArrayList<ResourceContainer> list) {
+    public static HashMap<ResourceType, ResourceContainer> arraylistToMap (List<ResourceContainer> list) {
+
         HashMap<ResourceType, ResourceContainer> map = new HashMap<>();
         if (arraylistToMap(list, map))
             return map;
+
         return null;
     }
     //------------------------------------------------------------------------------------------------------------------
@@ -51,8 +52,9 @@ public class Util {
      * Checks if a specific ResourceType is present in the HashMap
      * @param type is the key that will be used to check in the HashMap
      * @return true if present, false otherwise
+     * @throws NullPointerException if type is null
      */
-    public static <E,T> boolean isPresent(E type, HashMap<E, T> map){
+    public static <E,T> boolean isPresent(E type, HashMap<E, T> map) throws NullPointerException{
         return map.containsKey(type);
     }
     //------------------------------------------------------------------------------------------------------------------

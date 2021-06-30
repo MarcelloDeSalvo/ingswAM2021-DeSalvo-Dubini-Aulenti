@@ -367,17 +367,11 @@ public abstract class ClientView implements View, UserInput {
 
 
     //GETTER AND SETTER METHODS FOR LITE MODEL--------------------------------------------------------------------------
-    public String getNickname() {
-        return nickname;
-    }
+    public String getNickname() { return nickname; }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public List<LeaderCard> getLeaderCards() {
-        return leaderCards;
-    }
+    public List<LeaderCard> getLeaderCards() { return leaderCards; }
 
     public List<DevelopmentCard> getDevelopmentCards() { return developmentCards; }
 
@@ -385,13 +379,9 @@ public abstract class ClientView implements View, UserInput {
 
     public LiteHand getMyHand() { return liteBoards.get(nickname).getLiteHand();}
 
-    public LiteVault getMyLiteVault() {
-        return liteBoards.get(nickname).getLiteVault();
-    }
+    public LiteVault getMyLiteVault() { return liteBoards.get(nickname).getLiteVault(); }
 
-    public LiteDeposit getMyLiteDeposit() {
-        return  liteBoards.get(nickname).getLiteDeposit();
-    }
+    public LiteDeposit getMyLiteDeposit() { return  liteBoards.get(nickname).getLiteDeposit(); }
 
     public LiteHand getSomeonesHand(String nickname){ return liteBoards.get(nickname).getLiteHand();}
 

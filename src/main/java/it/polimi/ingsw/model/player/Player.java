@@ -19,7 +19,6 @@ import it.polimi.ingsw.observers.gameListeners.DepositListener;
 import it.polimi.ingsw.observers.gameListeners.ProductionListener;
 import it.polimi.ingsw.observers.gameListeners.VaultListener;
 import it.polimi.ingsw.view.VirtualView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,10 +81,9 @@ public class Player implements ObservableModel, VaultListener, DepositListener, 
      * Discards a leaderCard from a Player's hand
      * @param leaderCard is the discarded leaderCard
      * @return true if it can be discarded
-     * @throws NullPointerException
-     * @throws IndexOutOfBoundsException
+     * @throws NullPointerException if leaderCard is null
      */
-    public boolean discardFromHand(LeaderCard leaderCard) throws NullPointerException, IllegalArgumentException{
+    public boolean discardFromHand(LeaderCard leaderCard) throws NullPointerException {
         return leaderCard != null && hand.remove(leaderCard);
     }
 
@@ -93,10 +91,9 @@ public class Player implements ObservableModel, VaultListener, DepositListener, 
      * Discards a leaderCard from a Player's hand <br>
      * @param id is the LeaderCard id
      * @return true if it can be removed
-     * @throws NullPointerException
-     * @throws IndexOutOfBoundsException
+     * @throws NullPointerException if the leader card associated with the id is null
      */
-    public boolean discardFromHand(int id) throws NullPointerException, IndexOutOfBoundsException{
+    public boolean discardFromHand(int id) throws NullPointerException {
         if (id > 0) {
             LeaderCard leaderCardToRemove = null;
 
@@ -118,20 +115,6 @@ public class Player implements ObservableModel, VaultListener, DepositListener, 
 
         return false;
     }
-
-
-    /**
-     * @return All the leaders' id in the player's hand
-     */
-    public ArrayList<Integer> leaderListToInt () {
-        ArrayList<Integer> leaderListInt = new ArrayList<>();
-
-        for (LeaderCard leader : hand)
-            leaderListInt.add(leader.getId());
-
-        return leaderListInt;
-    }
-
 
     /**
      * Activates a leader if his requirements are met

@@ -28,15 +28,11 @@ public class ConversionSite {
     //CONVERSION MANAGEMENT---------------------------------------------------------------------------------------------
     /**
      * This method adds a conversion  to the list of the ones available.
-     * @return false if the argument is null, true otherwise.
      */
-    public boolean addConversion (ResourceContainer inputConversion){
+    public void addConversion (ResourceContainer inputConversion){
         if(inputConversion != null){
             conversionsAvailable.add(inputConversion);
-            return true;
         }
-        else
-            return false;
     }
 
     /**

@@ -3,7 +3,6 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Util;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-
 import java.util.HashMap;
 
 public class DiscountSite {

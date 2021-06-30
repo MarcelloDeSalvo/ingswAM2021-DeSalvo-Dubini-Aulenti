@@ -12,7 +12,6 @@ public class ResourceRequirement implements Requirement{
     }
 
 
-
     /**
      * Checks if the player has enough resources to satisfy the requirement
      * @return true if he has enough resources, false if he doesn't

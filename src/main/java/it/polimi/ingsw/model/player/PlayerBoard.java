@@ -13,7 +13,6 @@ import it.polimi.ingsw.model.player.production.ProductionSite;
 import it.polimi.ingsw.model.player.production.ProductionSlot;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -295,12 +294,13 @@ public class PlayerBoard implements ObservableEndGame, PlayerBoard_AbilityAccess
 
     /**
      * Uses the current quantity of the requested ArrayList of resources (sum of deposit and vault)
-     * @return true if the user has enough resources
+     * @return true if the user has enough resources, false if he doesn't
      **/
-    public boolean hasEnoughResources(ArrayList<ResourceContainer> requested){
+    public boolean hasEnoughResources(ArrayList<ResourceContainer> requested) {
         HashMap<ResourceType, ResourceContainer> resourceMap = Util.arraylistToMap(requested);
-
-        return hasEnoughResources(resourceMap);
+        if (resourceMap != null)
+            return hasEnoughResources(resourceMap);
+        return false;
     }
 
     /**

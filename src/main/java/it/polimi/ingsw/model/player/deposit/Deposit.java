@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.model.resources.ResourceType;
 import it.polimi.ingsw.observers.gameListeners.DepositListener;
 import it.polimi.ingsw.observers.gameListeners.DepositSubject;
-import it.polimi.ingsw.view.VirtualView;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -69,23 +68,23 @@ public class Deposit implements DepositSubject {
      * @param selected is the one selected by the user
      * @param selectedQty is the resource quantity that the user wants to move
      * @param destination is the deposit where the user wants the resources to be placed
-     * @return true if transfer or switch deposit ends without exceptions
      * @throws DepositSlotMaxDimExceeded if in the destination deposit there's not enough space to insert the transferred resources
      * @throws DifferentResourceType if the selected slot has some ResourceType restrictions
      * @throws NotEnoughResources if the user wants to move a quantity that's greater than the selected deposit's max dimension
      * @throws ResourceTypeAlreadyStored if another default deposit is already storing the same resource type
      */
-    public boolean moveTo(DepositSlot selected, int selectedQty, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
+    public void moveTo(DepositSlot selected, int selectedQty, DepositSlot destination) throws DepositSlotMaxDimExceeded, DifferentResourceType, NotEnoughResources, ResourceTypeAlreadyStored{
 
         if(!selected.isTheSameType(destination))
             if(selected.getResourceQty()==selectedQty)
-                if (canSwitchDeposit(selected, destination))
-                    return switchToDeposit(selected, destination);
+                if (canSwitchDeposit(selected, destination)) {
+                    switchToDeposit(selected, destination);
+                    return;
+                }
 
-        if(selected.canTransferTo(destination, selectedQty))
-            return selected.transferTo(destination,selectedQty);
-
-        return false;
+        if(selected.canTransferTo(destination, selectedQty)) {
+            selected.transferTo(destination, selectedQty);
+        }
     }
 
     /**
@@ -131,11 +130,9 @@ public class Deposit implements DepositSubject {
      * Switch resources from one deposit to another (destination)
      * @param selected is the one selected by the user
      * @param destination is the deposit that will switch resources with the selected one
-     * @return true
      */
-    public boolean switchToDeposit(DepositSlot selected, DepositSlot destination){
+    public void switchToDeposit(DepositSlot selected, DepositSlot destination){
         selected.switchTo(destination);
-        return true;
     }
 
     /**

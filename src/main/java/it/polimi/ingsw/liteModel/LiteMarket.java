@@ -3,6 +3,7 @@ package it.polimi.ingsw.liteModel;
 import it.polimi.ingsw.model.resources.ResourceContainer;
 import it.polimi.ingsw.view.cli.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LiteMarket {
@@ -43,9 +44,7 @@ public class LiteMarket {
     public List<ResourceContainer> getMarketArray(){
         ArrayList<ResourceContainer> myMarket=new ArrayList<>();
         for(int i=0; i<columns;i++){
-            for(int j=0;j<rows;j++){
-                myMarket.add(market[i][j]);
-            }
+            myMarket.addAll(Arrays.asList(market[i]).subList(0, rows));
         }
         return myMarket;
     }

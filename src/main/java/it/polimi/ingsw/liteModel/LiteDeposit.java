@@ -18,10 +18,10 @@ public class LiteDeposit {
         this.deposits = new ArrayList<>();
 
         for(int i = 0; i<3; i++)
-            deposits.add(new MiniDeposit(i+1));
+            deposits.add(new MiniDeposit(i + 1));
     }
 
-    private class MiniDeposit  {
+    private static class MiniDeposit  {
         private boolean isFull;
         private boolean isEmpty ;
         private final int maxDim;
