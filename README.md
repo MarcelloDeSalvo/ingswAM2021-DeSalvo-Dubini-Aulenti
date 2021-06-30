@@ -35,13 +35,13 @@ The parameters aren't case sensitive and can be inserted without a specific orde
 - Required parameters: -Server 
 - Default Port: 50623
 
->java -jar AM8-1.0-SNAPSHOT-jar-with-dependencies.jar -Server
+>java -jar AM8-MastersLauncher.jar -Server
 
 
 #### Starts the server with a custom port number
 - Required parameters: -Server, -Port n 
 
->java -jar AM8-1.0-SNAPSHOT-jar-with-dependencies.jar -Server -Port 1234
+>java -jar AM8-MastersLauncher.jar -Server -Port 1234
 
 ### Client
 #### Starts the client after reading the default client-congifuration file
@@ -50,14 +50,14 @@ The parameters aren't case sensitive and can be inserted without a specific orde
 - Default ip-address: 127.0.0.1
 - Default view: CLI
 
->java -jar AM8-1.0-SNAPSHOT-jar-with-dependencies.jar -Client
+>java -jar AM8-MastersLauncher.jar -Client
 
 #### Starts the client with custom parameters
 - Required parameters: -Client, -Port n, -Server ip, -View 'CLI/GUI'
 
->java -jar AM8-1.0-SNAPSHOT-jar-with-dependencies.jar -Client -Port 1234 -Server 8.8.8.8 -View Gui
+>java -jar AM8-MastersLauncher.jar -Client -Port 1234 -Server 8.8.8.8 -View Gui
 
 #### Starts the client in Offline-Mode
 - Required parameters: -Client, --Solo, -View 'CLI/GUI'
 
->java -jar AM8-1.0-SNAPSHOT-jar-with-dependencies.jar -Client --Solo -View cli
+>java -jar AM8-MastersLauncher.jar -Client --Solo -View cli
