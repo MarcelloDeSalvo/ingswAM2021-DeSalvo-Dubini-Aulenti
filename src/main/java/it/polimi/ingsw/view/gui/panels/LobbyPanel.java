@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui.panels;
 import it.polimi.ingsw.network.commands.*;
 import it.polimi.ingsw.view.gui.buttons.ButtonImage;
 import it.polimi.ingsw.view.gui.Gui;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
@@ -17,7 +16,7 @@ public class LobbyPanel extends BackgroundImagePanel {
     /**
      * Creates the panel used to display the current lobbies
      */
-    public LobbyPanel(Gui gui,List<LobbyListMessage.LobbyInfo> lobbyInfos ) {
+    public LobbyPanel(Gui gui, List<LobbyListMessage.LobbyInfo> lobbyInfos ) {
         super("/images/backgrounds/lobbyBackground.png", -688, 5, false);
 
         this.gui = gui;

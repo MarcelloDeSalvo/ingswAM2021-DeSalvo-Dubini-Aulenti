@@ -2,28 +2,27 @@ package it.polimi.ingsw.view.gui.panels;
 
 import it.polimi.ingsw.model.exceptions.ImageNotFound;
 import it.polimi.ingsw.view.ImageUtil;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class BackgroundImagePanel extends JPanel {
 
     private final Image backGroundImg;
-    private final int x;
-    private final int y;
+    private final int xB;
+    private final int yB;
     private Graphics2D graphics2D;
     private Point pivot;
 
-    private int width = 0;
-    private int height = 0;
+    private int widthB = 0;
+    private int heightB = 0;
 
-    public BackgroundImagePanel(String path, int x, int y, boolean absolutePosition) throws ImageNotFound {
-        this.x = x;
-        this.y = y;
+    public BackgroundImagePanel(String path, int xB, int yB, boolean absolutePosition) throws ImageNotFound {
+        this.xB = xB;
+        this.yB = yB;
 
         pivot = new Point();
-        pivot.x = x;
-        pivot.y = y;
+        pivot.x = xB;
+        pivot.y = yB;
 
         backGroundImg = ImageUtil.loadImage(path);
 
@@ -34,8 +33,8 @@ public class BackgroundImagePanel extends JPanel {
     }
 
     public BackgroundImagePanel(String path, boolean absolutePosition) throws ImageNotFound {
-        this.x = 0;
-        this.y = 0;
+        this.xB = 0;
+        this.yB = 0;
 
         backGroundImg = ImageUtil.loadImage(path);
 
@@ -54,10 +53,10 @@ public class BackgroundImagePanel extends JPanel {
         super.paintComponent(g);
         graphics2D = (Graphics2D) g.create();
 
-        if(width == 0 || height == 0)
-            graphics2D.drawImage(backGroundImg, x, y, this);
+        if(widthB == 0 || heightB == 0)
+            graphics2D.drawImage(backGroundImg, xB, yB, this);
         else
-            graphics2D.drawImage(backGroundImg, x, y, width, height, this);
+            graphics2D.drawImage(backGroundImg, xB, yB, widthB, heightB, this);
     }
 
     public Graphics2D getGraphics2D(){
@@ -69,10 +68,10 @@ public class BackgroundImagePanel extends JPanel {
     }
 
     public void setWidth(int width) {
-        this.width = width;
+        this.widthB = width;
     }
 
     public void setHeight(int height) {
-        this.height = height;
+        this.heightB = height;
     }
 }

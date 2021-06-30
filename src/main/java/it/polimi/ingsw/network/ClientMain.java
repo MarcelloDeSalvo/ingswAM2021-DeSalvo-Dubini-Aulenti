@@ -12,19 +12,39 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-
 import java.util.stream.Collectors;
 
-
-public class ClientMain {
+class ClientInfo{
     private String hostName;
     private int portNumber;
     private String viewMode;
 
+    public String getHostName() { return hostName; }
+    public int getPortNumber() { return portNumber; }
+    public String getViewMode() { return viewMode; }
+
+    public void setHostName(String hostName) { this.hostName = hostName; }
+    public void setPortNumber(int portNumber) { this.portNumber = portNumber; }
+    public void setViewMode(String viewMode) { this.viewMode = viewMode; }
+}
+
+public class ClientMain {
+
+    private final ClientInfo clientInfo;
     private ClientView view;
-    private boolean singlePlayer = false;
+    private boolean singlePlayer;
 
     private final List<String> myParam = new ArrayList<>(Arrays.asList("-SERVER", "-PORT", "-VIEW", "--SOLO"));
+
+    public ClientMain(ClientInfo clientInfo) {
+        this.clientInfo = clientInfo;
+        singlePlayer = false;
+    }
+
+    public ClientMain() {
+        clientInfo = new ClientInfo();
+        singlePlayer = false;
+    }
 
     /**
      * Creates a new Client Main. <br>
@@ -41,7 +61,8 @@ public class ClientMain {
                 String jsonPath = "/ConfigurationFiles/ClientConfig.json";
                 Gson gson = new Gson();
                 Reader reader = new InputStreamReader(ClientMain.class.getResourceAsStream(jsonPath), StandardCharsets.UTF_8);
-                clientMain = gson.fromJson(reader, ClientMain.class);
+                ClientInfo clientInfo = gson.fromJson(reader, ClientInfo.class);
+                clientMain = new ClientMain(clientInfo);
 
             }catch (Exception e){
                 System.err.println("There was an issue with starting the Client: " + e.getMessage());
@@ -110,7 +131,7 @@ public class ClientMain {
                         System.err.println("Server param error");
                         System.exit(1);
                     }
-                    hostName = options.get(s).get(0);
+                    clientInfo.setHostName(options.get(s).get(0));
                     break;
 
                 case "-PORT":
@@ -120,7 +141,7 @@ public class ClientMain {
                     }
 
                     try {
-                        portNumber = Integer.parseInt(options.get(s).get(0));
+                        clientInfo.setPortNumber(Integer.parseInt(options.get(s).get(0)));
                     }catch (NumberFormatException e){
                         System.err.println("The port is not a string");
                         System.exit(1);
@@ -139,7 +160,7 @@ public class ClientMain {
                         System.exit(1);
                     }
 
-                    viewMode = options.get(s).get(0);
+                    clientInfo.setViewMode(options.get(s).get(0));
                     break;
 
                 case "--SOLO":
@@ -163,9 +184,9 @@ public class ClientMain {
 
         }
 
-        System.out.println("Hostname: " + hostName);
-        System.out.println("Port: " + portNumber);
-        System.out.println("View: " + viewMode);
+        System.out.println("Hostname: " + clientInfo.getHostName());
+        System.out.println("Port: " + clientInfo.getPortNumber());
+        System.out.println("View: " + clientInfo.getViewMode());
     }
 
     /**
@@ -176,7 +197,7 @@ public class ClientMain {
         ClientReceiver clientReceiver = null;
 
         try {
-            clientReceiver = new ClientReceiver(view, hostName, portNumber);
+            clientReceiver = new ClientReceiver(view, clientInfo.getHostName(), clientInfo.getPortNumber());
 
         }catch (Exception e){
             System.err.println(e.getMessage());
@@ -203,7 +224,7 @@ public class ClientMain {
      * @throws FileNotFoundException if the view cannot read his configuration files
      */
     ClientView viewSelector() throws FileNotFoundException {
-        switch (this.viewMode.toUpperCase()){
+        switch (clientInfo.getViewMode().toUpperCase()){
             case "CLI":
                 Cli cli = new Cli();
                 System.out.println('\n'+"|°-___--_["+ Color.ANSI_CYAN.escape()+" CLI MODE "+Color.ANSI_RESET.escape()+"]_--___-°|"+'\n');
@@ -217,10 +238,4 @@ public class ClientMain {
                 return null;
         }
     }
-
-    //GETTERS-------------------------------------------------------------------------------------------------
-    public String getMode() {
-        return viewMode;
-    }
-
 }

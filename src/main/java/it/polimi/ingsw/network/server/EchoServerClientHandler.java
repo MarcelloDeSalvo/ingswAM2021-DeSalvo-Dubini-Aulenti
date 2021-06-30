@@ -26,7 +26,7 @@ public class EchoServerClientHandler implements Runnable {
     private BufferedReader in;
 
     private final String askNick = new Message.MessageBuilder().setCommand(Command.REPLY)
-            .setInfo("Welcome to the server, please select a valid nickname: ").build().serialize();
+            .setInfo("Welcome to the server, please select a valid nickname by typing >LOGIN 'nickname': ").build().serialize();
 
     public EchoServerClientHandler(Socket socket, LobbyManager lobbyManager) {
         this.socket = socket;
@@ -174,7 +174,7 @@ public class EchoServerClientHandler implements Runnable {
         UserManager.addPlayer(lobbyManager.getConnectedPlayers(), nickname, user);
         lobbyManager.sendLobbyList(nickname);
 
-        System.out.println("# " + nickname + " has logged into the server \n");
+        System.out.println("\n# " + nickname + " has logged into the server \n");
 
         logged = true;
     }
