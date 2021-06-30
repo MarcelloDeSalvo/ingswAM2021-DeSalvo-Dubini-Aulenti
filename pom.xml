@@ -93,6 +93,7 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <version>3.3.0</version>
         <configuration>
+          <finalName>AM8-MastersLauncher</finalName>
           <archive>
             <manifest>
               <mainClass>it.polimi.ingsw.Launcher</mainClass>
@@ -101,6 +102,7 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
         <executions>
           <execution>
