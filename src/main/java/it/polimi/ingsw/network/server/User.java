@@ -77,7 +77,7 @@ public class User implements ObservableViewIO {
 
                     }else if (receivedPongsCounts >0) {
                         userSend(ping);
-                        System.out.println(nickname + " Ping sent: " + counter);
+                        //System.out.println(nickname + " Ping sent: " + counter);
                         receivedPongsCounts--;
                         counter++;
 

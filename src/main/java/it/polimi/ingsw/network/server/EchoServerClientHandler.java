@@ -106,7 +106,7 @@ public class EchoServerClientHandler implements Runnable {
         switch (command) {
             case PONG:
                 user.pongReceived();
-                System.out.println(user.getNickname() + " PONG RECEIVED " + user.getCounter());
+                //System.out.println(user.getNickname() + " PONG RECEIVED " + user.getCounter());
                 break;
 
             case LOGIN:
