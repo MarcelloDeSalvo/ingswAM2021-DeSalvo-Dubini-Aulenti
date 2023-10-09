@@ -3,7 +3,8 @@
 This project consists in a JAVA implementation of the board game "Masters of renaissance". As required, the server implements the MVC pattern with a single virtual view,controller and model for each game that the server handles (Multigame FA). On the other side of the connection, the client implements a view (cli/gui) and a light version of the model (LiteModel). <br>
 For a better showcase of the program we implemented a "CHEAT" command accessible during your turn through the specific button in Gui, and through typing "Cheat" in Cli. In particular, the cheat command gives the player 2 faithpoints and puts 25 of each Resource inside his vault. <br>
 Both the server and client are contained in a single jar. Instructions on how to run them or on how to run the game offline (Solo FA) will follow later on in the read.me
-
+![Login](https://i.imgur.com/8TaL4ZX.png)
+![Board](https://i.imgur.com/vpMjtBP.png)
 
 ## Functionalities
 - Complete rules
